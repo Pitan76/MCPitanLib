@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.v1;
 
-import ml.pkom.mcpitanlibarch.api.event.v0.event.RecipeManagerEvent;
+import net.pitan76.mcpitanlib.api.event.v0.event.RecipeManagerEvent;
 
 import java.util.ArrayList;
 import java.util.List;

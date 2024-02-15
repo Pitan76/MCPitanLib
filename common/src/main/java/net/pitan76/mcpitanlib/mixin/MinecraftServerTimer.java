@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import ml.pkom.mcpitanlibarch.api.timer.MinecraftServerTimerAccess;
-import ml.pkom.mcpitanlibarch.api.timer.TimerItem;
+import net.pitan76.mcpitanlib.api.timer.MinecraftServerTimerAccess;
+import net.pitan76.mcpitanlib.api.timer.TimerItem;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

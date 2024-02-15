@@ -22,7 +22,7 @@
     "environment": "*",
     "entrypoints": {
       "init": [
-        "ml.pkom.mcpitanlibarch.quilt.MCPitanLibarchQuilt"
+        "net.pitan76.mcpitanlib.quilt.MCPitanLibarchQuilt"
       ]
     },
     "custom": {
@@ -47,7 +47,7 @@
       }
     ]
   },
-  "accessWidener": "mcpitanlibarch.accesswidener",
+  "accessWidener": "mcpitanlib.accesswidener",
   "mixins": [
     "mcpitanlibarch.mixins.json",
     "mcpitanlibarch-common.mixins.json"

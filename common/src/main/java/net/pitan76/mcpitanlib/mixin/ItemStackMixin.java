@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import ml.pkom.mcpitanlibarch.api.event.v0.event.ItemStackActionEvent;
+import net.pitan76.mcpitanlib.api.event.v0.event.ItemStackActionEvent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
