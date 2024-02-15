@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.v2;
 
-import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 
 import java.util.ArrayList;

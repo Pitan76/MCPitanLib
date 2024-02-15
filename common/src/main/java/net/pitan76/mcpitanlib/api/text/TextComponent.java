@@ -1,9 +1,8 @@
 package net.pitan76.mcpitanlib.api.text;
 
-import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class TextComponent {
