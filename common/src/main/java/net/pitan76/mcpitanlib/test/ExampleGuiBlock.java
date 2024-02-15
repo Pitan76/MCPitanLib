@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.test;
 
-import net.pitan76.mcpitanlib.api.block.ExtendBlock;
-import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
-import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.block.ExtendBlock;
+import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 public class ExampleGuiBlock extends ExtendBlock {
 

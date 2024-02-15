@@ -2,8 +2,6 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.item.ItemStack;
 
-import java.util.Objects;
-
 public class ItemStackUtil {
     public static ItemStack copy(ItemStack stack) {
         return stack.copy();

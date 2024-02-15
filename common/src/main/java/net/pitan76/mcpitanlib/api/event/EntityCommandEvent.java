@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.event;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.pitan76.mcpitanlib.api.command.argument.EntityCommand;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
+import net.pitan76.mcpitanlib.api.command.argument.EntityCommand;
 
 public class EntityCommandEvent extends RequiredCommandEvent {
     public Entity getValue() {

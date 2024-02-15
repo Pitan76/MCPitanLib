@@ -1,17 +1,6 @@
 package net.pitan76.mcpitanlib.api.registry;
 
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.pitan76.mcpitanlib.MCPitanLib;
-import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
-import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
-import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
-import net.pitan76.mcpitanlib.api.util.BlockUtil;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
-import net.pitan76.mcpitanlib.core.registry.FuelRegistry;
-import net.pitan76.mcpitanlib.core.registry.MCPLRegistry;
-import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
@@ -23,7 +12,18 @@ import net.minecraft.particle.ParticleType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.MCPitanLib;
+import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
+import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
+import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.util.BlockUtil;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.core.registry.FuelRegistry;
+import net.pitan76.mcpitanlib.core.registry.MCPLRegistry;
+import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 
 import java.util.function.Supplier;
 

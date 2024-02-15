@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.test;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
-import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
 
 public class ExampleScreenHandler extends SimpleScreenHandler {
 

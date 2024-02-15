@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util.event;
 
+import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.event.block.BlockBreakEvent;
 import net.pitan76.mcpitanlib.api.event.block.BlockPlacedEvent;
 import net.pitan76.mcpitanlib.api.event.block.StateReplacedEvent;
-import net.minecraft.block.Block;
 
 public class BlockEventGenerator {
     public static void onPlaced(Block block, BlockPlacedEvent e) {

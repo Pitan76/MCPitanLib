@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.test;
 
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.client.SimpleHandledScreen;
 import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawBackgroundArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawMouseoverTooltipArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 public class ExampleScreen extends SimpleHandledScreen {
 
