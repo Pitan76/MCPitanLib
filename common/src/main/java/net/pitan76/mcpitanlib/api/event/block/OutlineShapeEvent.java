@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
+import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class OutlineShapeEvent extends BaseEvent {
     public BlockState state;

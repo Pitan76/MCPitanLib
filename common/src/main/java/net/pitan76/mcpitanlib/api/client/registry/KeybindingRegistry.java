@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.event.v0.ClientTickEventRegistry;
 import net.pitan76.mcpitanlib.api.network.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.util.Identifier;
 
 public class KeybindingRegistry {
     public static void register(KeyBinding keyBinding) {

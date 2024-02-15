@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.entity;
 
-import net.pitan76.mcpitanlib.api.nbt.NbtTag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.nbt.NbtTag;
 
 public class ExtendEntity extends Entity {
     public ExtendEntity(EntityType<?> type, World world) {

@@ -1,9 +1,5 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
-import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
-import net.pitan76.mcpitanlib.api.client.gui.widget.RedrawableTexturedButtonWidget;
-import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
-import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -16,6 +12,10 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
+import net.pitan76.mcpitanlib.api.client.gui.widget.RedrawableTexturedButtonWidget;
+import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
+import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import org.jetbrains.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)

@@ -1,8 +1,5 @@
 package net.pitan76.mcpitanlib.api.client;
 
-import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
-import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
-import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -15,6 +12,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
+import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
+import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 
 public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
