@@ -1,6 +1,9 @@
 package net.pitan76.mcpitanlib.api.tile;
 
+import net.minecraft.block.Block;
+import net.pitan76.mcpitanlib.api.block.ExtendBlockEntityProvider;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.event.tile.TileTickEvent;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
 import net.pitan76.mcpitanlib.api.world.ExtendWorld;
 import net.minecraft.block.BlockState;

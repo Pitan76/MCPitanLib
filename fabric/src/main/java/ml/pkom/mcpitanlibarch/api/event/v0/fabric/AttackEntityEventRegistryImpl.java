@@ -1,9 +1,9 @@
 package ml.pkom.mcpitanlibarch.api.event.v0.fabric;
 
 import me.shedaniel.architectury.event.EventResult;
-import ml.pkom.mcpitanlibarch.api.event.v0.AttackEntityEventRegistry.AttackEntity;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.util.ActionResult;
+import net.pitan76.mcpitanlib.api.event.v0.AttackEntityEventRegistry.AttackEntity;
 
 public class AttackEntityEventRegistryImpl {
     public static void register(AttackEntity attackEntity) {

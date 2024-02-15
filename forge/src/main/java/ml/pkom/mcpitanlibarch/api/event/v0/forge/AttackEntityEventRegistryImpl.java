@@ -1,9 +1,9 @@
 package ml.pkom.mcpitanlibarch.api.event.v0.forge;
 
 import me.shedaniel.architectury.event.EventResult;
-import ml.pkom.mcpitanlibarch.api.event.v0.AttackEntityEventRegistry.AttackEntity;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.pitan76.mcpitanlib.api.event.v0.AttackEntityEventRegistry.AttackEntity;
 
 import java.util.ArrayList;
 import java.util.List;

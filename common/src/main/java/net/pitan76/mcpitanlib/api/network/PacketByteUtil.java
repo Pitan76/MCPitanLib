@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.network;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.item.ItemStack;
-import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtTagSizeTracker;
@@ -11,6 +10,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.HashMap;
 import java.util.Map;
