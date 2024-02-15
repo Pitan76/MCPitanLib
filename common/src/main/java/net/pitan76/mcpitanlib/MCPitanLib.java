@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MCPitanLib {
-    public static final String MOD_ID = "mcpitanlibarch";
+    public static final String MOD_ID = "mcpitanlib";
 
     private static final File configFile = new File(PlatformUtil.getConfigFolder().toFile(), "mcpitanlib/blacklist.json");
     private static final File oldConfigFile = new File(PlatformUtil.getConfigFolder().toFile(), "mcpitanlibarch/blacklist.json");

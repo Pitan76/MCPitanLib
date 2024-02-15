@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
-import net.pitan76.mcpitanlib.api.client.widget.CompatibleTexturedButtonWidget;
-import net.pitan76.mcpitanlib.api.client.widget.RedrawableTexturedButtonWidget;
+import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
+import net.pitan76.mcpitanlib.api.client.gui.widget.RedrawableTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.fabricmc.api.EnvType;

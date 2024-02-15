@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.api.client.widget;
+package net.pitan76.mcpitanlib.api.client.gui.widget;
 
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.minecraft.client.gui.widget.ButtonWidget;

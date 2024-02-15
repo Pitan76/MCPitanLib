@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.api.client.widget;
+package net.pitan76.mcpitanlib.api.client.gui.widget;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
