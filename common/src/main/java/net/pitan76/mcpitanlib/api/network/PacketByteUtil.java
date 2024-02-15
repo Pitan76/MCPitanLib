@@ -5,7 +5,7 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtTagSizeTracker;
+import net.minecraft.nbt.NbtSizeTracker;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -250,7 +250,7 @@ public class PacketByteUtil {
     }
 
     public static NbtElement readUnlimitedNbt(PacketByteBuf buf) {
-        return buf.readNbt(NbtTagSizeTracker.ofUnlimitedBytes());
+        return buf.readNbt(NbtSizeTracker.ofUnlimitedBytes());
     }
 }
 
