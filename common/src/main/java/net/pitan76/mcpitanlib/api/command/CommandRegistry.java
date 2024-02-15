@@ -3,10 +3,10 @@ package net.pitan76.mcpitanlib.api.command;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import me.shedaniel.architectury.event.events.CommandRegistrationEvent;
-import net.pitan76.mcpitanlib.api.command.argument.*;
-import net.pitan76.mcpitanlib.api.event.*;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.pitan76.mcpitanlib.api.command.argument.*;
+import net.pitan76.mcpitanlib.api.event.*;
 
 import java.util.Map;
 

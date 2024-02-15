@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class EntityUtil {
     public static World getWorld(Entity entity) {

@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ExperienceOrbEntity;
@@ -21,6 +20,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;

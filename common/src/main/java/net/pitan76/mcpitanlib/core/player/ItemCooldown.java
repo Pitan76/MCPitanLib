@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.core.player;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
 import net.minecraft.item.Item;
+import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class ItemCooldown {
     public final Player player;

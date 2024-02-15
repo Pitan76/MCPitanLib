@@ -1,8 +1,5 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import net.pitan76.mcpitanlib.api.event.item.*;
-import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
-import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +11,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.item.*;
+import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

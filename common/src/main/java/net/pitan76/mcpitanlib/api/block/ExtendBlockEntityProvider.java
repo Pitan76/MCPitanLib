@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
-import net.pitan76.mcpitanlib.api.tile.ExtendBlockEntityTicker;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.tile.ExtendBlockEntityTicker;
 import org.jetbrains.annotations.Nullable;
 
 public interface ExtendBlockEntityProvider extends BlockEntityProvider {

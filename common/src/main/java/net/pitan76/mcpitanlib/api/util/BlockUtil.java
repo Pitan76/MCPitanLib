@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
-import net.pitan76.mcpitanlib.api.tag.MineableToolTags;
-import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.tag.MineableToolTags;
+import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.v1.BlockUtilV1;
 import net.pitan76.mcpitanlib.api.util.v2.BlockUtilV2;
 

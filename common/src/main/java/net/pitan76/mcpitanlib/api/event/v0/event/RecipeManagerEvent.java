@@ -2,12 +2,12 @@ package net.pitan76.mcpitanlib.api.event.v0.event;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
-import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
+import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
 
 import java.util.Map;
 

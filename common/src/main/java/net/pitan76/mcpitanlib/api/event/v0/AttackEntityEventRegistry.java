@@ -2,12 +2,12 @@ package net.pitan76.mcpitanlib.api.event.v0;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import me.shedaniel.architectury.event.EventResult;
-import net.pitan76.mcpitanlib.api.entity.Player;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 public class AttackEntityEventRegistry {

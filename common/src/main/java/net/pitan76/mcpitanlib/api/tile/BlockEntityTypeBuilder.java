@@ -1,13 +1,10 @@
 package net.pitan76.mcpitanlib.api.tile;
 
 import com.mojang.datafixers.types.Type;
-import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;

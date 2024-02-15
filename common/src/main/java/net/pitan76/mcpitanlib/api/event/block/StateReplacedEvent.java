@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class StateReplacedEvent extends BaseEvent {
 

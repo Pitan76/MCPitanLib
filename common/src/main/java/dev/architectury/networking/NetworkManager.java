@@ -1,6 +1,5 @@
 package dev.architectury.networking;
 
-import me.shedaniel.architectury.networking.NetworkManager.NetworkReceiver;
 import me.shedaniel.architectury.networking.transformers.PacketSink;
 import me.shedaniel.architectury.networking.transformers.PacketTransformer;
 import me.shedaniel.architectury.utils.Env;

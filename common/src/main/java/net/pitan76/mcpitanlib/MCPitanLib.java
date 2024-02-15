@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib;
 
+import net.minecraft.util.Identifier;
 import net.pitan76.easyapi.config.Config;
 import net.pitan76.easyapi.config.JsonConfig;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.util.PlatformUtil;
 import net.pitan76.mcpitanlib.debug.DebugTool;
-import net.minecraft.util.Identifier;
 
 import java.io.File;
 import java.util.ArrayList;

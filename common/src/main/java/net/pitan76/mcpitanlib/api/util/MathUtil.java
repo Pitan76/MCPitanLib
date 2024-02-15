@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
+
 import java.util.Random;
 
 public class MathUtil {
