@@ -9,7 +9,8 @@
     "ItemUsageContextMixin",
     "MinecraftServerTimer",
     "RecipeManagerMixin",
-    "ServerWorldTimer"
+    "ServerWorldTimer",
+    "RecipeMixin"
   ],
   "client": [
   ],
