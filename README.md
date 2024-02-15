@@ -12,8 +12,8 @@ MCPitanLibはライブラリです。 1つのjarで複数のMCバージョンを
 - [Architectury API (CurseForge)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
 
 ### ダウンロード
-[CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
-[Modrinth](https://modrinth.com/mod/mcpitanlibarch)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
+- [Modrinth](https://modrinth.com/mod/mcpitanlibarch)
 
 ### 使い方
 `build.gradle`に以下のように記述してください。
@@ -38,6 +38,7 @@ dependencies {
 
 `gradle.properties`に以下のように記述してください。
 ```properties
+# Example: mcpitanlib_version=+1.18.2:2.0.1
 mcpitanlib_version=x.x.x
 ```
 
@@ -58,8 +59,8 @@ I am creating it for my own use, so I don't expect others to use it much. <br />
 - [Architectury API (CurseForge)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
 
 ### Download
-[CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
-[Modrinth](https://modrinth.com/mod/mcpitanlibarch)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
+- [Modrinth](https://modrinth.com/mod/mcpitanlibarch)
 
 ### How to use
 Write as follows in `build.gradle`.
@@ -84,7 +85,7 @@ dependencies {
 
 Write as follows in `gradle.properties`.
 ```properties
-# Example: mcpitanlib_version=+1.18.2:1.9.5
+# Example: mcpitanlib_version=+1.18.2:2.0.1
 mcpitanlib_version=+x.x.x:x.x.x
 ```
 
