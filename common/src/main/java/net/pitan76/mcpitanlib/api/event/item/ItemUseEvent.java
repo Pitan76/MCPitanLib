@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
-import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class ItemUseEvent extends BaseEvent {
 

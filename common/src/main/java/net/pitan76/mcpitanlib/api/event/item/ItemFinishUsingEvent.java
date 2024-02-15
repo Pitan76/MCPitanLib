@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class ItemFinishUsingEvent extends BaseEvent {
     public ItemStack stack;

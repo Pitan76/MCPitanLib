@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
-import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,6 +9,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class BlockUseEvent extends BaseEvent {
     public BlockState state;

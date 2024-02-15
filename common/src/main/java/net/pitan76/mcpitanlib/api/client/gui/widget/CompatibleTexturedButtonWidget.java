@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.client.gui.widget;
 
-import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
 

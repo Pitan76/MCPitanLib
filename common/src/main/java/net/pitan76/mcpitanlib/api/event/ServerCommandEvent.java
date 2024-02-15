@@ -4,12 +4,12 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.context.StringRange;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.pitan76.mcpitanlib.api.entity.Player;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
 

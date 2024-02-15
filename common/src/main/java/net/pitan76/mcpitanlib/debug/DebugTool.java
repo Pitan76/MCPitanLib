@@ -3,7 +3,8 @@ package net.pitan76.mcpitanlib.debug;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 
-import static net.pitan76.mcpitanlib.MCPitanLib.*;
+import static net.pitan76.mcpitanlib.MCPitanLib.id;
+import static net.pitan76.mcpitanlib.MCPitanLib.registry;
 
 /**
  * A tool for debugging.

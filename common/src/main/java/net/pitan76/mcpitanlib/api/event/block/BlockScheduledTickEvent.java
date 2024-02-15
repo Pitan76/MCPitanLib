@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class BlockScheduledTickEvent extends BaseEvent {
     public BlockState state;
