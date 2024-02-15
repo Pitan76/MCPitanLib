@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.pitan76.mcpitanlib.api.entity.Player;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class DamageSourceUtil {
     public static DamageSource thrownProjectile(Entity projectile, Entity attacker, Entity source) {

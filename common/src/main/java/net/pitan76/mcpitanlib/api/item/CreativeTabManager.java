@@ -3,8 +3,8 @@ package net.pitan76.mcpitanlib.api.item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.minecraft.util.collection.DefaultedList;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
 
 import java.util.ArrayList;
 import java.util.List;

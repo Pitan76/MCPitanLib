@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
-import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
+import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
+import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 
 public class EquipMaterialUtil {
     public static ToolMaterial createToolMaterial(int durability, float miningSpeedMultiplier, float attackDamage, int miningLevel, int enchantability, Ingredient repairIngredient) {

@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 import java.util.Random;
 

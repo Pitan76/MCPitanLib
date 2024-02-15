@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.fabric;
 
-import net.pitan76.mcpitanlib.MCPitanLib;
 import net.fabricmc.api.ModInitializer;
+import net.pitan76.mcpitanlib.MCPitanLib;
 
 public class MCPitanLibFabric implements ModInitializer {
     @Override

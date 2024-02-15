@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import dev.architectury.registry.CreativeTabRegistry;
-import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

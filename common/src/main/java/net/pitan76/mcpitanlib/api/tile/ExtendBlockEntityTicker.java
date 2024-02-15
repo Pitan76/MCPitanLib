@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.tile;
 
-import net.pitan76.mcpitanlib.api.event.tile.TileTickEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.tile.TileTickEvent;
 
 public interface ExtendBlockEntityTicker<T extends BlockEntity> extends BlockEntityTicker<T> {
     @Override

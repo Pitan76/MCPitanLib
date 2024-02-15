@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.api.tag;
 
-import net.pitan76.mcpitanlib.api.util.EntityTypeUtil;
-import net.pitan76.mcpitanlib.api.util.FluidUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
@@ -10,6 +8,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;
+import net.pitan76.mcpitanlib.api.util.EntityTypeUtil;
+import net.pitan76.mcpitanlib.api.util.FluidUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 
 public class TagKey<T> {

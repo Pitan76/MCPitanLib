@@ -1,8 +1,11 @@
 package net.pitan76.mcpitanlib.api.recipe;
 
-import net.pitan76.mcpitanlib.api.util.RecipeUtil;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class CompatibleRecipeEntry {

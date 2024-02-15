@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import net.pitan76.mcpitanlib.api.event.item.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;

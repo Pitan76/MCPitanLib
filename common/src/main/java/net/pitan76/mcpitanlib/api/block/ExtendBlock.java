@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import net.pitan76.mcpitanlib.api.event.block.*;
-import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -20,12 +18,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-
-import java.util.Random;
-
-import net.minecraft.world.WorldView;
+import net.pitan76.mcpitanlib.api.event.block.*;
+import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Random;
 
 public class ExtendBlock extends Block {
     public ExtendBlock(Settings settings) {

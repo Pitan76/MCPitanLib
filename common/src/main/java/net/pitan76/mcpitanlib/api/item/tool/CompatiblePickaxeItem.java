@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ToolMaterial;
+import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 
 public class CompatiblePickaxeItem extends PickaxeItem implements ExtendItemProvider {
     public CompatiblePickaxeItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatibleItemSettings settings) {
