@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "quilt_loader" : {
-    "group": "ml.pkom",
-    "id": "mcpitanlibarch",
+    "group": "net.pitan76",
+    "id": "mcpitanlib",
     "version": "${version}",
     "metadata" : {
       "name": "MCPitanLib",
@@ -12,8 +12,8 @@
       ],
       "contact": {
         "homepage": "https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch",
-        "sources": "https://github.com/Pitan76/mcpitanlibarch",
-        "issues": "https://github.com/Pitan76/mcpitanlibarch/issue"
+        "sources": "https://github.com/Pitan76/MCPitanLib",
+        "issues": "https://github.com/Pitan76/MCPitanLib/issue"
       },
       "license": "MIT",
       "icon": "icon.png"
@@ -22,7 +22,7 @@
     "environment": "*",
     "entrypoints": {
       "init": [
-        "net.pitan76.mcpitanlib.quilt.MCPitanLibarchQuilt"
+        "net.pitan76.mcpitanlib.quilt.MCPitanLibQuilt"
       ]
     },
     "custom": {
@@ -49,7 +49,7 @@
   },
   "accessWidener": "mcpitanlib.accesswidener",
   "mixins": [
-    "mcpitanlibarch.mixins.json",
-    "mcpitanlibarch-common.mixins.json"
+    "mcpitanlib.mixins.json",
+    "mcpitanlib-common.mixins.json"
   ]
 }
