@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
 
 public class TextUtil {
     public static MutableText literal(String string) {
