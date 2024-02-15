@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.v2;
 
-import ml.pkom.mcpitanlibarch.api.tag.TagKey;
+import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;

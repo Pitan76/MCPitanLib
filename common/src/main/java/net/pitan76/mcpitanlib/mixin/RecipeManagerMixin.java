@@ -3,7 +3,7 @@ package net.pitan76.mcpitanlib.mixin;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import net.pitan76.mcpitanlib.api.event.v1.RecipeManagerRegistry;
-import ml.pkom.mcpitanlibarch.api.event.v0.event.RecipeManagerEvent;
+import net.pitan76.mcpitanlib.api.event.v0.event.RecipeManagerEvent;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;

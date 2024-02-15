@@ -11,7 +11,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/mcpitanlibarch.accesswidener")
+    accessWidenerPath = file("src/main/resources/mcpitanlib.accesswidener")
 }
 
 publishing {
