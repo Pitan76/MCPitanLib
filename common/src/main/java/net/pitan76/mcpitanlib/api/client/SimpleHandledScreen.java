@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 
 public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
