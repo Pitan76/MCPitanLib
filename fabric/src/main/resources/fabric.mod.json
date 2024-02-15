@@ -33,7 +33,7 @@
     "mcpitanlib.mixins.json",
     "mcpitanlib-common.mixins.json"
   ],
-  "accessWidener" : "mcpitanlib.accesswidener",
+  "accessWidener": "mcpitanlib.accesswidener",
   "depends": {
     "fabricloader": "*",
     "minecraft": ">=1.16"
