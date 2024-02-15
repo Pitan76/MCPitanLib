@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import ml.pkom.mcpitanlibarch.api.recipe.CompatibleRecipeEntry;
-import ml.pkom.mcpitanlibarch.api.util.RecipeUtil;
+import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
+import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;

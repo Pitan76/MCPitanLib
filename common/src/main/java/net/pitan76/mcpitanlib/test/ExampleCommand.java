@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.test;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import ml.pkom.mcpitanlibarch.api.command.CommandSettings;
-import ml.pkom.mcpitanlibarch.api.command.LiteralCommand;
-import ml.pkom.mcpitanlibarch.api.command.argument.IntegerCommand;
-import ml.pkom.mcpitanlibarch.api.event.IntegerCommandEvent;
-import ml.pkom.mcpitanlibarch.api.event.ServerCommandEvent;
+import net.pitan76.mcpitanlib.api.command.CommandSettings;
+import net.pitan76.mcpitanlib.api.command.LiteralCommand;
+import net.pitan76.mcpitanlib.api.command.argument.IntegerCommand;
+import net.pitan76.mcpitanlib.api.event.IntegerCommandEvent;
+import net.pitan76.mcpitanlib.api.event.ServerCommandEvent;
 import net.minecraft.item.ItemStack;
 
 public class ExampleCommand extends LiteralCommand {

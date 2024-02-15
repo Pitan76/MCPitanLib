@@ -13,8 +13,8 @@ loom {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
-        mixinConfig "mcpitanlibarch-common.mixins.json"
-        mixinConfig "mcpitanlibarch.mixins.json"
+        mixinConfig "mcpitanlib-common.mixins.json"
+        mixinConfig "mcpitanlib.mixins.json"
     }
 }
 

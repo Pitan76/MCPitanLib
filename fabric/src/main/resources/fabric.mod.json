@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "mcpitanlibarch",
+  "id": "mcpitanlib",
   "version": "${version}",
   "name": "MCPitanLib",
   "description": "Pitan's Minecraft Mod Library",
@@ -20,16 +20,20 @@
       "net.pitan76.mcpitanlib.fabric.MCPitanLibFabric"
     ]
   },
+  "provides": [
+    "mcpitanlibarch",
+    "mcpitanlib-impl"
+  ],
   "custom": {
     "modmenu": {
       "badges": ["library"]
     }
   },
   "mixins": [
-    "mcpitanlibarch.mixins.json",
-    "mcpitanlibarch-common.mixins.json"
+    "mcpitanlib.mixins.json",
+    "mcpitanlib-common.mixins.json"
   ],
-  "accessWidener" : "mcpitanlibarch.accesswidener",
+  "accessWidener" : "mcpitanlib.accesswidener",
   "depends": {
     "minecraft": ">1.19.4",
     "fabricloader": "*",

@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib;
 
-import ml.pkom.easyapi.config.Config;
-import ml.pkom.easyapi.config.JsonConfig;
-import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
-import ml.pkom.mcpitanlibarch.api.util.PlatformUtil;
+import net.pitan76.easyapi.config.Config;
+import net.pitan76.easyapi.config.JsonConfig;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
+import net.pitan76.mcpitanlib.api.util.PlatformUtil;
 import net.pitan76.mcpitanlib.debug.DebugTool;
 import net.minecraft.util.Identifier;
 
@@ -25,7 +25,7 @@ public class MCPitanLib {
     public static List<String> blockBlackList = new ArrayList<>();
 
     // MCPitanLibのアイテム、ブロック、タイルエンティティの登録
-    public static ArchRegistry registry = ArchRegistry.createRegistry(MOD_ID);
+    public static CompatRegistry registry = CompatRegistry.createRegistry(MOD_ID);
 
     /**
      * MCPitanLibの初期化
