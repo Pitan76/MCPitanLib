@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import ml.pkom.mcpitanlibarch.api.event.item.*;
-import ml.pkom.mcpitanlibarch.api.item.ExtendItemProvider;
-import ml.pkom.mcpitanlibarch.api.item.ExtendItemProvider.Options;
+import net.pitan76.mcpitanlib.api.event.item.*;
+import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
