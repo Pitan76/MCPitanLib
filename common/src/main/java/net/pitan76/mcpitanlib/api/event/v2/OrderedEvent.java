@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OrderedEvent<T> extends AbstractEvent<T> {
 
@@ -107,7 +108,7 @@ public class OrderedEvent<T> extends AbstractEvent<T> {
      */
     @Override
     public List<T> getListenersAsList() {
-        return listeners.keySet().stream().toList();
+        return new ArrayList<>(listeners.keySet());
     }
 
     /**
