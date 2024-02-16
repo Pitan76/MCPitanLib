@@ -54,7 +54,7 @@ public class BlockMixin {
             int maxPriority = BlockEventRegistry.ON_BREAK.getMaxPriority();
             for (int p = maxPriority; p >= 0; p--) {
                 for (BlockBreakTask listener : BlockEventRegistry.ON_BREAK.getListenersAsList(p)) {
-                    listener.onBreak(new BlockBreakEvent(world, pos, newState, player));
+                    newState = listener.onBreak(new BlockBreakEvent(world, pos, newState, player)).state;
                 }
             }
             if (newState != state) {
