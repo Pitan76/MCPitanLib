@@ -32,15 +32,29 @@ public class CompatRegistry {
     private final MCPLRegistry mcplr;
     private final MCPLRegistry1_20 mcplr1_20;
 
+    /**
+     * @deprecated Use {@link #createRegistry(String)} instead
+     */
     public CompatRegistry(String MOD_ID) {
         mcplr = new MCPLRegistry(MOD_ID);
         mcplr1_20 = new MCPLRegistry1_20(mcplr);
     }
 
+    /**
+     * Create a new CompatRegistry
+     * @param MOD_ID The mod id
+     * @return The new CompatRegistry
+     */
     public static CompatRegistry createRegistry(String MOD_ID) {
         return new CompatRegistry(MOD_ID);
     }
 
+    /**
+     * Register an item
+     * @param id The item id
+     * @param supplier The item supplier
+     * @return The registry result
+     */
     public RegistryResult<Item> registerItem(Identifier id, Supplier<Item> supplier) {
         if (MCPitanLib.isItemBlackListed(id)) supplier = () -> ItemUtil.of(CompatibleItemSettings.of());
         RegistrySupplier<Item> registrySupplier = mcplr.registryItem(id, supplier);
