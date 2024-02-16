@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Block.class)
 public class BlockMixin {
@@ -39,22 +38,19 @@ public class BlockMixin {
     }
 
     @Inject(method = "onBreak", at = @At("HEAD"), cancellable = true)
-    private void inject_onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player, CallbackInfoReturnable<BlockState> cir) {
+    private void inject_onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player, CallbackInfo ci) {
         if (!BlockEventRegistry.onBreakListeners.isEmpty()) {
-            BlockState newState = state;
             for (BlockBreakTask l : BlockEventRegistry.onBreakListeners) {
-                newState = l.onBreak(new BlockBreakEvent(world, pos, state, player)).getState();
+                l.onBreak(new BlockBreakEvent(world, pos, state, player));
             }
-            if (newState != state)
-                cir.setReturnValue(newState);
         }
 
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
             BlockBreakResult returnValue = provider.onBreak(new BlockBreakEvent(world, pos, state, player), options);
-            if (options.cancel && returnValue != null)
-                cir.setReturnValue(returnValue.getState());
+            if (options.cancel)
+                ci.cancel();
         }
     }
 }
