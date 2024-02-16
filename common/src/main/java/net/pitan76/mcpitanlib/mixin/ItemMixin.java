@@ -30,7 +30,7 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
             TypedActionResult<ItemStack> returnValue = provider.onRightClick(new ItemUseEvent(world, user, hand), options);
-            if (options.cancel)
+            if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
     }
@@ -42,7 +42,7 @@ public class ItemMixin {
             ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
             Options options = new Options();
             ActionResult returnValue = provider.onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()), options);
-            if (options.cancel)
+            if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
     }
@@ -53,8 +53,7 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
             ActionResult returnValue = provider.onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand), options);
-
-            if (options.cancel)
+            if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
     }
@@ -65,7 +64,7 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
             ItemStack returnValue = provider.onFinishUsing(new ItemFinishUsingEvent(stack, world, user), options);
-            if (options.cancel)
+            if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
     }

@@ -1,9 +1,10 @@
 package net.pitan76.mcpitanlib.api.item;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
@@ -18,15 +19,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ExtendItem extends Item {
-    public ExtendItem(Settings settings) {
-        super(settings);
+public class ExtendBlockItem extends BlockItem {
+    public ExtendBlockItem(Block block, Settings settings) {
+        super(block, settings);
     }
 
-    public ExtendItem(CompatibleItemSettings settings) {
-        super(settings.build());
+    public ExtendBlockItem(Block block, CompatibleItemSettings settings) {
+        super(block, settings.build());
     }
 
+
+
+    // ExtendItem
     @Deprecated
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {

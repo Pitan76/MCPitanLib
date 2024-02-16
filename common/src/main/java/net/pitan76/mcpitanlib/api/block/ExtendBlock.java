@@ -34,6 +34,26 @@ public class ExtendBlock extends Block {
         super(settings.build());
     }
 
+    /**
+     * get collision voxel shape
+     * @param event CollisionShapeEvent
+     * @return VoxelShape
+     */
+    public VoxelShape getCollisionShape(CollisionShapeEvent event) {
+        return super.getCollisionShape(event.state, event.world, event.pos, event.context);
+    }
+
+    @Deprecated
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return getCollisionShape(new CollisionShapeEvent(state, world, pos, context));
+    }
+
+    /**
+     * get outline voxel shape
+     * @param event OutlineShapeEvent
+     * @return VoxelShape
+     */
     public VoxelShape getOutlineShape(OutlineShapeEvent event) {
         return super.getOutlineShape(event.state, event.world, event.pos, event.context);
     }
@@ -44,6 +64,10 @@ public class ExtendBlock extends Block {
         return getOutlineShape(new OutlineShapeEvent(state, world, pos, context));
     }
 
+    /**
+     * block scheduled tick event
+     * @param event BlockScheduledTickEvent
+     */
     public void scheduledTick(BlockScheduledTickEvent event) {
         super.scheduledTick(event.state, event.world, event.pos, event.random);
     }
@@ -69,6 +93,7 @@ public class ExtendBlock extends Block {
         return super.onUse(event.state, event.world, event.pos, event.player.getPlayerEntity(), event.hand, event.hit);
     }
 
+    @Deprecated
     @Nullable
     @Override
     public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
@@ -77,11 +102,20 @@ public class ExtendBlock extends Block {
         );
     }
 
+    /**
+     * screen handler create event
+     * @param event ScreenHandlerCreateEvent
+     * @return ScreenHandler
+     */
     @Nullable
     public ScreenHandler createScreenHandler(ScreenHandlerCreateEvent event) {
         return null;
     }
 
+    /**
+     * get screen title
+     * @return Text
+     */
     @Nullable
     public Text getScreenTitle() {
         return TextUtil.literal("");
@@ -93,6 +127,10 @@ public class ExtendBlock extends Block {
         onPlaced(new BlockPlacedEvent(world, pos, state, placer, itemStack));
     }
 
+    /**
+     * block placed event
+     * @param event BlockPlacedEvent
+     */
     public void onPlaced(BlockPlacedEvent event) {
         super.onPlaced(event.world, event.pos, event.state, event.placer, event.stack);
     }
@@ -103,6 +141,11 @@ public class ExtendBlock extends Block {
         return onBreak(new BlockBreakEvent(world, pos, state, player)).state;
     }
 
+    /**
+     * block break event
+     * @param event BlockBreakEvent
+     * @return BlockBreakResult
+     */
     public BlockBreakResult onBreak(BlockBreakEvent event) {
         BlockState state = super.onBreak(event.world, event.pos, event.state, event.getPlayerEntity());
         return new BlockBreakResult(state);
@@ -114,6 +157,11 @@ public class ExtendBlock extends Block {
         return getPickStack(new PickStackEvent(world, pos, state));
     }
 
+    /**
+     * block pick stack event
+     * @param event PickStackEvent
+     * @return ItemStack
+     */
     public ItemStack getPickStack(PickStackEvent event) {
         return super.getPickStack(event.worldView, event.pos, event.state);
     }
@@ -124,6 +172,10 @@ public class ExtendBlock extends Block {
         onStateReplaced(new StateReplacedEvent(state, world, pos, newState, moved));
     }
 
+    /**
+     * block state replaced event
+     * @param event StateReplacedEvent
+     */
     public void onStateReplaced(StateReplacedEvent event) {
         super.onStateReplaced(event.state, event.world, event.pos, event.newState, event.moved);
     }

@@ -50,7 +50,7 @@ public interface ExtendItemProvider {
 
     /**
      * item has recipe remainder
-     * @param dummy Dummy
+     * @param options Options
      * @return boolean
      */
     default boolean hasRecipeRemainder(Options options) {
@@ -63,7 +63,7 @@ public interface ExtendItemProvider {
      * @param event ItemAppendTooltipEvent
      */
     default void appendTooltip(ItemAppendTooltipEvent event, Options options) {
-        options.cancel = true;
+        options.cancel = false;
     }
 
     public static class Options {
