@@ -46,13 +46,13 @@ public class BlockMixin {
     }
 
     @Inject(method = "onBreak", at = @At("HEAD"), cancellable = true)
-    private void inject_onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player, CallbackInfoReturnable<BlockState> cir) {
+    private void inject_onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player, CallbackInfo ci) {
         // イベントを呼び出す
         if (!BlockEventRegistry.ON_BREAK.isEmpty()) {
             int maxPriority = BlockEventRegistry.ON_BREAK.getMaxPriority();
             for (int p = maxPriority; p >= 0; p--) {
                 for (BlockBreakTask listener : BlockEventRegistry.ON_BREAK.getListenersAsList(p)) {
-                    listener.onBreak(new BlockBreakEvent(world, pos, newState, player));
+                    listener.onBreak(new BlockBreakEvent(world, pos, state, player));
                 }
             }
         }
