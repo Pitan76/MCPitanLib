@@ -3,20 +3,24 @@ package net.pitan76.mcpitanlib.api.event.v1;
 import net.pitan76.mcpitanlib.api.event.v1.listener.BlockBreakTask;
 import net.pitan76.mcpitanlib.api.event.v1.listener.BlockPlacedTask;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Deprecated
 public class BlockEventRegistry {
-    public static List<BlockPlacedTask> onPlacedListeners = new ArrayList<>();
-    public static List<BlockBreakTask> onBreakListeners = new ArrayList<>();
-
+    @Deprecated
     public static void register(BlockPlacedTask listener) {
-        if (onPlacedListeners.contains(listener)) return;
-        onPlacedListeners.add(listener);
+        net.pitan76.mcpitanlib.api.event.v2.BlockEventRegistry.ON_PLACED.register(listener);
     }
 
+    @Deprecated
     public static void register(BlockBreakTask listener) {
-        if (onBreakListeners.contains(listener)) return;
-        onBreakListeners.add(listener);
+        net.pitan76.mcpitanlib.api.event.v2.BlockEventRegistry.ON_BREAK.register(listener);
+    }
+
+    public static void registerPlacedListener(BlockPlacedTask listener) {
+        net.pitan76.mcpitanlib.api.event.v2.BlockEventRegistry.ON_PLACED.register(listener);
+
+    }
+
+    public static void registerBreakListener(BlockBreakTask listener) {
+        net.pitan76.mcpitanlib.api.event.v2.BlockEventRegistry.ON_BREAK.register(listener);
     }
 }
