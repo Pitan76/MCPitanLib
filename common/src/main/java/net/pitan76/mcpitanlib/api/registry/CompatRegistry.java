@@ -35,6 +35,7 @@ public class CompatRegistry {
     /**
      * @deprecated Use {@link #createRegistry(String)} instead
      */
+    @Deprecated
     public CompatRegistry(String MOD_ID) {
         mcplr = new MCPLRegistry(MOD_ID);
         mcplr1_20 = new MCPLRegistry1_20(mcplr);
