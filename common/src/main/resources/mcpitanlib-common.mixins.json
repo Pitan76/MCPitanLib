@@ -4,13 +4,15 @@
   "package": "net.pitan76.mcpitanlib.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractBlockMixin",
+    "BlockMixin",
     "ItemMixin",
     "ItemStackMixin",
     "ItemUsageContextMixin",
     "MinecraftServerTimer",
     "RecipeManagerMixin",
-    "ServerWorldTimer",
-    "RecipeMixin"
+    "RecipeMixin",
+    "ServerWorldTimer"
   ],
   "client": [
   ],
