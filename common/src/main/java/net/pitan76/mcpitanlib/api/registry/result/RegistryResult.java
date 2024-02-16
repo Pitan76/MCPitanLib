@@ -3,6 +3,16 @@ package net.pitan76.mcpitanlib.api.registry.result;
 import me.shedaniel.architectury.registry.RegistrySupplier;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The result of a registry
+ * @param <T> The type of the registry
+ *
+ * <pre>{@code
+ * RegistryResult<Item> ITEM = registry.registerItem(new Identifier("mcpitanlib", "example"), ExampleItem::new);
+ * ITEM.getOrNull(); => The item (Item.class) or null
+ * ITEM.get(); => The item (Item.class)
+ * }</pre>
+ */
 public class RegistryResult<T> {
     public RegistrySupplier<T> supplier;
 
