@@ -6,7 +6,7 @@ public class CompatibleArmorItem extends ArmorItem implements ExtendItemProvider
     public final ArmorEquipmentType type;
 
     public CompatibleArmorItem(CompatibleArmorMaterial material, ArmorEquipmentType type, CompatibleItemSettings settings) {
-        super(material, type.getType(), settings.build());
+        super(material, type.getSlot(), settings.build());
         this.type = type;
     }
 
@@ -16,15 +16,6 @@ public class CompatibleArmorItem extends ArmorItem implements ExtendItemProvider
      */
     public ArmorEquipmentType getArmorEquipmentType() {
         return type;
-    }
-
-    /**
-     * @deprecated Use {@link #getArmorEquipmentType()} instead
-     */
-    @Deprecated
-    @Override
-    public Type getType() {
-        return super.getType();
     }
 
     /**
