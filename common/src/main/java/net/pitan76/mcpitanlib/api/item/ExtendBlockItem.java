@@ -70,7 +70,7 @@ public class ExtendBlockItem extends BlockItem {
 
     @Deprecated
     @Override
-    public void onCraft(ItemStack stack, World world) {
+    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         onCraft(new CraftEvent(stack, world));
     }
 
@@ -133,6 +133,6 @@ public class ExtendBlockItem extends BlockItem {
      * @param event CraftEvent
      */
     public void onCraft(CraftEvent event) {
-        super.onCraft(event.stack, event.world);
+        super.onCraft(event.stack, event.world, null);
     }
 }
