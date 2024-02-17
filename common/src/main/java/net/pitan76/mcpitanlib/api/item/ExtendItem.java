@@ -67,7 +67,7 @@ public class ExtendItem extends Item {
     @Deprecated
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-        onCraft(new CraftEvent(stack, world));
+        onCraft(new CraftEvent(stack, world, player));
     }
 
     /**
