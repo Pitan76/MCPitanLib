@@ -1,30 +1,24 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
-import dev.architectury.registry.client.particle.ParticleProviderRegistry;
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
-import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.registry.menu.MenuRegistry;
+import me.shedaniel.architectury.registry.BlockEntityRenderers;
+import me.shedaniel.architectury.registry.ParticleProviderRegistry;
+import me.shedaniel.architectury.registry.RenderTypes;
+import me.shedaniel.architectury.registry.entity.EntityRenderers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
-import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.EntityModelLoader;
-import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.entity.Entity;
@@ -40,6 +34,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
@@ -56,8 +51,8 @@ public class CompatRegistryClient {
         ParticleProviderRegistry.register(type, factory);
     }
 
-    public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
+    public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ArchRegistryClient.DeferredParticleProvider<T> provider) {
+        ParticleProviderRegistry.register(type, spriteSet -> provider.create(new ArchRegistryClient.ExtendedSpriteSet() {
             @Override
             public SpriteAtlasTexture getAtlas() {
                 return spriteSet.getAtlas();
@@ -80,8 +75,8 @@ public class CompatRegistryClient {
         }));
     }
 
-    public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererFactory<T> provider) {
-        EntityRendererRegistry.register(type, provider);
+    public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, Function<EntityRenderDispatcher, EntityRenderer<T>> factory) {
+        EntityRenderers.register((EntityType<T>) type.get(), factory);
     }
 
     @FunctionalInterface
@@ -111,69 +106,32 @@ public class CompatRegistryClient {
         // ～1.19.2
     }
 
-    public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.getRenderDispatcher(), ctx.getRenderManager(), null, null, ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
-        )));
+    public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, ArchRegistryClient.BlockEntityRendererFactory<T> provider) {
+        BlockEntityRenderers.registerRenderer(type, dispatcher -> provider.create(new ArchRegistryClient.BlockEntityRendererFactory.Context(dispatcher)));
     }
 
     @FunctionalInterface
     public interface BlockEntityRendererFactory<T extends BlockEntity> {
-        BlockEntityRenderer<T> create(Context ctx);
+        BlockEntityRenderer<T> create(BlockEntityRendererFactory.Context ctx);
 
         class Context {
             private final BlockEntityRenderDispatcher renderDispatcher;
-            private final BlockRenderManager renderManager;
-            private final ItemRenderer itemRenderer;
-            private final EntityRenderDispatcher entityRenderDispatcher;
-            private final EntityModelLoader layerRenderDispatcher;
-            private final TextRenderer textRenderer;
 
-            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, EntityModelLoader layerRenderDispatcher, TextRenderer textRenderer) {
+            public Context(BlockEntityRenderDispatcher renderDispatcher) {
                 this.renderDispatcher = renderDispatcher;
-                this.renderManager = renderManager;
-                this.itemRenderer = itemRenderer;
-                this.entityRenderDispatcher = entityRenderDispatcher;
-                this.layerRenderDispatcher = layerRenderDispatcher;
-                this.textRenderer = textRenderer;
             }
 
             public BlockEntityRenderDispatcher getRenderDispatcher() {
                 return this.renderDispatcher;
             }
-
-            public BlockRenderManager getRenderManager() {
-                return this.renderManager;
-            }
-
-            public EntityRenderDispatcher getEntityRenderDispatcher() {
-                return this.entityRenderDispatcher;
-            }
-
-            public ItemRenderer getItemRenderer() {
-                return this.itemRenderer;
-            }
-
-            public EntityModelLoader getLayerRenderDispatcher() {
-                return this.layerRenderDispatcher;
-            }
-
-            public ModelPart getLayerModelPart(EntityModelLayer modelLayer) {
-                return this.layerRenderDispatcher.getModelPart(modelLayer);
-            }
-
-            public TextRenderer getTextRenderer() {
-                return this.textRenderer;
-            }
         }
     }
 
-
     public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
-        RenderTypeRegistry.register(layer, block);
+        RenderTypes.register(layer, block);
     }
 
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
-        RenderTypeRegistry.register(layer, fluid);
+        RenderTypes.register(layer, fluid);
     }
 }
