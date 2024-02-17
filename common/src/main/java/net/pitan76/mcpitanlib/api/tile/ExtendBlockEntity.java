@@ -10,17 +10,17 @@ import net.pitan76.mcpitanlib.api.world.ExtendWorld;
 public class ExtendBlockEntity extends CompatBlockEntity {
     public ExtendWorld world;
 
-    public ExtendBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public ExtendBlockEntity(BlockEntityType<?> type) {
+        super(type);
     }
 
     public ExtendBlockEntity(BlockEntityType<?> type, TileCreateEvent event) {
-        this(type, event.getBlockPos(), event.getBlockState());
+        this(type);
     }
 
     @Override
-    public void setWorld(World world) {
-        super.setWorld(world);
+    public void setLocation(World world, BlockPos pos) {
+        super.setLocation(world, pos);
         this.world = new ExtendWorld(world);
     }
 }
