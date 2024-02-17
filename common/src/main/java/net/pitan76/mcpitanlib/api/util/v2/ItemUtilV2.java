@@ -70,4 +70,24 @@ public class ItemUtilV2 {
     public static List<Item> getItems(String id, List<Item> items) {
         return getItems(new Identifier(id), items);
     }
+
+    /**
+     * Check if the item is in the tag.
+     * @param item Item to check.
+     * @param identifier Identifier of the tag.
+     * @return True if the item is in the tag.
+     */
+    public static boolean isItemInTag(Item item, Identifier identifier) {
+        return ItemUtil.isIn(item, (TagKey<Item>) TagKey.create(TagKey.Type.ITEM, identifier));
+    }
+
+    /**
+     * Check if the item is in the tag.
+     * @param item Item to check.
+     * @param id String of the tag.
+     * @return True if the item is in the tag.
+     */
+    public static boolean isItemInTag(Item item, String id) {
+        return isItemInTag(item, new Identifier(id));
+    }
 }
