@@ -197,4 +197,24 @@ public class BlockUtil {
     public static List<Block> getBlocks(String id, List<Block> blocks) {
         return BlockUtilV2.getBlocks(id, blocks);
     }
+
+    /**
+     * Check if the block is in the tag.
+     * @param block Block to check.
+     * @param identifier Identifier of the tag.
+     * @return If the block is in the tag.
+     */
+    public static boolean isBlockInTag(Block block, Identifier identifier) {
+        return BlockUtilV2.isBlockInTag(block, identifier);
+    }
+
+    /**
+     * Check if the block is in the tag.
+     * @param block Block to check.
+     * @param id String of the tag.
+     * @return If the block is in the tag.
+     */
+    public static boolean isBlockInTag(Block block, String id) {
+        return BlockUtilV2.isBlockInTag(block, id);
+    }
 }

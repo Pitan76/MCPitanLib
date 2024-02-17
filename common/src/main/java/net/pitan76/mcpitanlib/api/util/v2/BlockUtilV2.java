@@ -91,4 +91,24 @@ public class BlockUtilV2 {
     public static List<Block> getBlocks(String id, List<Block> blocks) {
         return getBlocks(new Identifier(id), blocks);
     }
+
+    /**
+     * Check if the block is in the tag.
+     * @param block Block to check.
+     * @param identifier Identifier of the tag.
+     * @return If the block is in the tag.
+     */
+    public static boolean isBlockInTag(Block block, Identifier identifier) {
+        return BlockUtil.isIn(block, (TagKey<Block>) TagKey.create(TagKey.Type.BLOCK, identifier));
+    }
+
+    /**
+     * Check if the block is in the tag.
+     * @param block Block to check.
+     * @param id String of the tag.
+     * @return If the block is in the tag.
+     */
+    public static boolean isBlockInTag(Block block, String id) {
+        return isBlockInTag(block, new Identifier(id));
+    }
 }
