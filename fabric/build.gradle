@@ -90,3 +90,15 @@ publishing {
         // Add repositories to publish to here.
     }
 }
+
+tasks.runClient.doFirst {
+    def from = new File("../common/src/main/resources/mcpitanlib.accesswidener")
+    def to = new File("src/main/resources/mcpitanlib.accesswidener")
+    to.bytes = from.bytes
+}
+
+tasks.remapJar.doFirst {
+    if (file("src/main/resources/mcpitanlib.accesswidener").exists()) {
+        delete file("src/main/resources/mcpitanlib.accesswidener")
+    }
+}
