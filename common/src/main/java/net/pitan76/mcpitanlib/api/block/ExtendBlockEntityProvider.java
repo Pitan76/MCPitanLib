@@ -12,11 +12,26 @@ import net.pitan76.mcpitanlib.api.tile.ExtendBlockEntityTicker;
 import org.jetbrains.annotations.Nullable;
 
 public interface ExtendBlockEntityProvider extends BlockEntityProvider {
+
+    /**
+     * @deprecated Use {@link #createBlockEntity(TileCreateEvent)} instead.
+     */
+    @Deprecated
     @Nullable
     default BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return createBlockEntity(new TileCreateEvent(pos, state));
     }
 
+    /**
+     * create instance of BlockEntity
+     * @param event TileCreateEvent
+     * @return BlockEntity
+     *
+     * <pre>{@code
+     * public BlockEntity createBlockEntity(TileCreateEvent e) {
+     *    return new ExampleBlockEntity(e); // ExampleBlockEntity extends CompatBlockEntity
+     * }</pre>
+     */
     @Nullable
     default BlockEntity createBlockEntity(TileCreateEvent event) {
         if (getBlockEntityType() == null) return null;

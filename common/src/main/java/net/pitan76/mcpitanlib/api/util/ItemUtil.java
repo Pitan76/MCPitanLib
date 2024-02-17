@@ -212,4 +212,24 @@ public class ItemUtil {
     public static List<Item> getItems(String id, List<Item> items) {
         return ItemUtilV2.getItems(id, items);
     }
+
+    /**
+     * Check if the item is in the tag.
+     * @param item Item to check.
+     * @param identifier Identifier of the tag.
+     * @return If the item is in the tag.
+     */
+    public static boolean isItemInTag(Item item, Identifier identifier) {
+        return ItemUtilV2.isItemInTag(item, identifier);
+    }
+
+    /**
+     * Check if the item is in the tag.
+     * @param item Item to check.
+     * @param id String of the tag.
+     * @return If the item is in the tag.
+     */
+    public static boolean isItemInTag(Item item, String id) {
+        return ItemUtilV2.isItemInTag(item, id);
+    }
 }
