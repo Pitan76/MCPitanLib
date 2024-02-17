@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.mixin;
+package net.pitan76.mcpitanlib.fabric.mixin;
 
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
