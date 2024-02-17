@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;

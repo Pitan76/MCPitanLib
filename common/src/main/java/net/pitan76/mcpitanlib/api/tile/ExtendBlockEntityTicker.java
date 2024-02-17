@@ -9,9 +9,9 @@ import net.pitan76.mcpitanlib.api.event.tile.TileTickEvent;
 
 public interface ExtendBlockEntityTicker<T extends BlockEntity> extends BlockEntityTicker<T> {
     @Override
-    default void tick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
-        tick(new TileTickEvent(world, pos, state, blockEntity));
+    default void tick(World world, BlockPos pos, BlockState state, T blockEntity) {
+        tick(new TileTickEvent<>(world, pos, state, blockEntity));
     }
 
-    void tick(TileTickEvent event);
+    void tick(TileTickEvent<T> event);
 }

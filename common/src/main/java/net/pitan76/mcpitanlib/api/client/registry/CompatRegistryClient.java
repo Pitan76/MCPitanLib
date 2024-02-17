@@ -42,9 +42,8 @@ import net.minecraft.util.math.random.Random;
 import java.util.List;
 import java.util.function.Supplier;
 
-@Deprecated
 @Environment(EnvType.CLIENT)
-public class ArchRegistryClient {
+public class CompatRegistryClient {
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
         MenuRegistry.registerScreenFactory(type, factory::create);
     }
@@ -120,7 +119,7 @@ public class ArchRegistryClient {
 
     @FunctionalInterface
     public interface BlockEntityRendererFactory<T extends BlockEntity> {
-        BlockEntityRenderer<T> create(BlockEntityRendererFactory.Context ctx);
+        BlockEntityRenderer<T> create(Context ctx);
 
         class Context {
             private final BlockEntityRenderDispatcher renderDispatcher;
