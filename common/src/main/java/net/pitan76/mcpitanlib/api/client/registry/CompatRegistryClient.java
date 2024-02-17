@@ -37,9 +37,9 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.random.Random;
 
 import java.util.List;
+import java.util.Random;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
@@ -113,7 +113,7 @@ public class CompatRegistryClient {
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
         BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
+                ctx.getRenderDispatcher(), ctx.getRenderManager(), null, null, ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
 
