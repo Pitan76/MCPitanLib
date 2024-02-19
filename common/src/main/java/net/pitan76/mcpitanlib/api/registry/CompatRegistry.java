@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;
@@ -29,8 +30,11 @@ import java.util.function.Supplier;
 
 public class CompatRegistry {
 
-    private final MCPLRegistry mcplr;
-    private final MCPLRegistry1_20 mcplr1_20;
+    protected final MCPLRegistry mcplr;
+    protected final MCPLRegistry1_20 mcplr1_20;
+    protected final WorldGenRegistry worldGenRegistry;
+
+    protected String MOD_ID;
 
     /**
      * @deprecated Use {@link #createRegistry(String)} instead
@@ -38,7 +42,9 @@ public class CompatRegistry {
     @Deprecated
     public CompatRegistry(String MOD_ID) {
         mcplr = new MCPLRegistry(MOD_ID);
-        mcplr1_20 = new MCPLRegistry1_20(mcplr);
+        mcplr1_20 = new MCPLRegistry1_20(mcplr, MOD_ID);
+        worldGenRegistry = new WorldGenRegistry(MOD_ID);
+        this.MOD_ID = MOD_ID;
     }
 
     /**
@@ -112,6 +118,10 @@ public class CompatRegistry {
 
     public RegistryResult<ItemGroup> registerItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
         return new RegistryResult<>(null);
+    }
+
+    public RegistryResult<ItemGroup> registerItemGroup(Identifier id, CreativeTabBuilder builder) {
+        return new RegistryResult<>(mcplr1_20.registryItemGroup(id, builder));
     }
 
     public static void registerFuel(int time, ItemConvertible... item) {
