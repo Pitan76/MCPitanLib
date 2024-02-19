@@ -3,9 +3,10 @@ package net.pitan76.mcpitanlib.api.registry;
 import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.BuiltinRegistries;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.PlacedFeature;
@@ -22,8 +23,8 @@ public class WorldGenRegistry {
     @Deprecated
     public WorldGenRegistry(String MOD_ID) {
         this.MOD_ID = MOD_ID;
-        CONFIGURED_FEATURE = DeferredRegister.create(MOD_ID, RegistryKeys.CONFIGURED_FEATURE);
-        PLACED_FEATURE = DeferredRegister.create(MOD_ID, RegistryKeys.PLACED_FEATURE);
+        //CONFIGURED_FEATURE = DeferredRegister.create(MOD_ID, BuiltinRegistries.CONFIGURED_FEATURE);
+        //PLACED_FEATURE = DeferredRegister.create(MOD_ID, BuiltinRegistries.PLACED_FEATURE);
     }
 
     /**
@@ -46,8 +47,9 @@ public class WorldGenRegistry {
      * @return The result of the registration
      */
     public RegistryResult<ConfiguredFeature<?, ?>> registerFeature(Identifier id, Supplier<ConfiguredFeature<?, ?>> supplier) {
-        RegistrySupplier<ConfiguredFeature<?, ?>> feature = CONFIGURED_FEATURE.register(id, supplier);
-        return new RegistryResult<>(feature);
+        ConfiguredFeature<?, ?> feature = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, id, supplier.get());
+        //CONFIGURED_FEATURE.register(id, supplier);
+        return new RegistryResult<>(null);
     }
 
     /**
@@ -57,8 +59,9 @@ public class WorldGenRegistry {
      * @return The result of the registration
      */
     public RegistryResult<PlacedFeature> registerPlacedFeature(Identifier id, Supplier<PlacedFeature> supplier) {
-        RegistrySupplier<PlacedFeature> feature = PLACED_FEATURE.register(id, supplier);
-        return new RegistryResult<>(feature);
+        PlacedFeature feature = Registry.register(BuiltinRegistries.PLACED_FEATURE, id, supplier.get());
+        //RegistrySupplier<PlacedFeature> feature = PLACED_FEATURE.register(id, supplier);
+        return new RegistryResult<>(null);
     }
 
     /**
