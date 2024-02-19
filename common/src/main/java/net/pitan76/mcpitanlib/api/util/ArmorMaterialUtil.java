@@ -11,42 +11,42 @@ public class ArmorMaterialUtil {
             @Override
             public int getDurability(ArmorEquipmentType type) {
                 switch (type.getSlot()) {
-                    case HEAD -> {
+                    case HEAD:
                         return durability[0];
-                    }
-                    case CHEST -> {
+                    
+                    case CHEST:
                         return durability[1];
-                    }
-                    case LEGS -> {
+                    
+                    case LEGS:
                         return durability[2];
-                    }
-                    case FEET -> {
+
+                    case FEET:
                         return durability[3];
-                    }
-                    default -> {
+
+                    default:
                         return 0;
-                    }
+
                 }
             }
 
             @Override
             public int getProtection(ArmorEquipmentType type) {
                 switch (type.getSlot()) {
-                    case HEAD -> {
+                    case HEAD:
                         return protectionAmounts[0];
-                    }
-                    case CHEST -> {
+
+                    case CHEST:
                         return protectionAmounts[1];
-                    }
-                    case LEGS -> {
+
+                    case LEGS:
                         return protectionAmounts[2];
-                    }
-                    case FEET -> {
+
+                    case FEET:
                         return protectionAmounts[3];
-                    }
-                    default -> {
+
+                    default:
                         return 0;
-                    }
+
                 }
             }
 
