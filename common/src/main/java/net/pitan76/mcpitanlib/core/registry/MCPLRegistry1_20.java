@@ -11,8 +11,8 @@ import java.util.function.Supplier;
 
 @Deprecated
 public class MCPLRegistry1_20 {
-    @Deprecated
-    public static final Map<Identifier, RegistrySupplier<ItemGroup>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new HashMap<>();
+    //@Deprecated
+    //public static final Map<Identifier, RegistrySupplier<ItemGroup>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new HashMap<>();
 
     private final MCPLRegistry mcplr;
 

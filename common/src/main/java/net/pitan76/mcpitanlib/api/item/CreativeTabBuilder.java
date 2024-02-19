@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class CreativeTabBuilder {
+    @Deprecated
+    public static final Map<Identifier, ItemGroup> itemGroupMap = new HashMap<>();
+
     private final Identifier identifier;
     private Text displayName = null;
     private Supplier<ItemStack> iconSupplier = null;
@@ -75,12 +78,14 @@ public class CreativeTabBuilder {
      * @return ItemGroup
      */
     public ItemGroup build() {
+        if (itemGroupMap.containsKey(identifier)) return itemGroupMap.get(identifier);
         ItemGroup itemGroup = CreativeTabs.create(identifier, iconSupplier);
         if (displayName != null) itemGroup.setName(displayName.getString());
         if (noRenderedName) itemGroup.setName("");
         if (noScrollbar) itemGroup.setNoScrollbar();
         if (special) itemGroup.isSpecial();
         if (texture != null) itemGroup.setTexture(texture);
+        itemGroupMap.put(identifier, itemGroup);
         return itemGroup;
     }
 

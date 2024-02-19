@@ -23,7 +23,8 @@ public class OreRegistry {
      * @return Identifier of feature
      */
     public static Identifier registerStoneOre(WorldGenRegistry registry, Block block, int size, int height, int count) {
-        Identifier identifier = BlockUtil.toID(block).withSuffixedPath("_ore_feature");
+        Identifier blockId = BlockUtil.toID(block);
+        Identifier identifier = new Identifier(blockId.getNamespace(), blockId.getPath() + "_ore_feature");
         RegistryResult<ConfiguredFeature<?, ?>> configuredFuture = registry.registerFeature(identifier,
                 () -> FeatureConfigUtil.createConfiguredFeature(
                         FeatureConfigUtil.createStoneOreFeatureConfig(block.getDefaultState(), size)
@@ -36,7 +37,7 @@ public class OreRegistry {
                 )
         );
 
-        WorldGenRegistry.addProperties(GenerationStep.Feature.UNDERGROUND_DECORATION, placedFeature);
+        WorldGenRegistry.addProperties(GenerationStep.Feature.UNDERGROUND_ORES, placedFeature);
         return identifier;
     }
 }
