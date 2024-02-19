@@ -28,7 +28,7 @@ public class ExtendSettings extends Item.Settings {
 
     @Deprecated
     public ExtendSettings addGroup(Supplier<ItemGroup> itemGroup, Identifier identifier) {
-        //CreativeTabManager.addItem(itemGroup, identifier);
+        CreativeTabManager.addItem(itemGroup, identifier);
         return this;
     }
 }
