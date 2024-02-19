@@ -8,10 +8,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class CreativeTabBuilder {
-
     private final Identifier identifier;
     private Text displayName = null;
     private Supplier<ItemStack> iconSupplier = null;
@@ -35,11 +36,21 @@ public class CreativeTabBuilder {
         return this;
     }
 
+    /**
+     * Set icon
+     * @param iconSupplier Icon supplier
+     * @return CreativeTabBuilder
+     */
     public CreativeTabBuilder setIcon(Supplier<ItemStack> iconSupplier) {
         this.iconSupplier = iconSupplier;
         return this;
     }
 
+    /**
+     * Set icon (Already registered item only)
+     * @param item Item
+     * @return CreativeTabBuilder
+     */
     public CreativeTabBuilder setIcon(Item item) {
         return setIcon(() -> new ItemStack(item));
     }
@@ -60,6 +71,10 @@ public class CreativeTabBuilder {
         this.texture = texture;
     }
 
+    /**
+     * Build ItemGroup (If loader is forge, not recommended)
+     * @return ItemGroup
+     */
     public ItemGroup build() {
         return CreativeTabRegistry.create((builder -> {
             if (displayName != null) builder.displayName(displayName);
@@ -71,5 +86,9 @@ public class CreativeTabBuilder {
             if (special) builder.special();
             if (texture != null) builder.texture(texture);
         }));
+    }
+
+    public Identifier getIdentifier() {
+        return identifier;
     }
 }
