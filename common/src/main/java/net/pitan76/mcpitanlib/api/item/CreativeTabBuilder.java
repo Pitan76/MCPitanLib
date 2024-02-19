@@ -7,10 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class CreativeTabBuilder {
-
     private final Identifier identifier;
     private Text displayName = null;
     private Supplier<ItemStack> iconSupplier = null;
@@ -34,11 +35,21 @@ public class CreativeTabBuilder {
         return this;
     }
 
+    /**
+     * Set icon
+     * @param iconSupplier Icon supplier
+     * @return CreativeTabBuilder
+     */
     public CreativeTabBuilder setIcon(Supplier<ItemStack> iconSupplier) {
         this.iconSupplier = iconSupplier;
         return this;
     }
 
+    /**
+     * Set icon (Already registered item only)
+     * @param item Item
+     * @return CreativeTabBuilder
+     */
     public CreativeTabBuilder setIcon(Item item) {
         return setIcon(() -> new ItemStack(item));
     }
@@ -59,6 +70,10 @@ public class CreativeTabBuilder {
         this.texture = texture;
     }
 
+    /**
+     * Build ItemGroup (If loader is forge, not recommended)
+     * @return ItemGroup
+     */
     public ItemGroup build() {
         ItemGroup itemGroup = CreativeTabs.create(identifier, iconSupplier);
         if (displayName != null) itemGroup.setName(displayName.getString());
@@ -67,5 +82,9 @@ public class CreativeTabBuilder {
         if (special) itemGroup.isSpecial();
         if (texture != null) itemGroup.setTexture(texture);
         return itemGroup;
+    }
+
+    public Identifier getIdentifier() {
+        return identifier;
     }
 }

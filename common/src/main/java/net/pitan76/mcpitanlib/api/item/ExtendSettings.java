@@ -6,6 +6,9 @@ import net.minecraft.util.Identifier;
 
 import java.util.function.Supplier;
 
+/**
+ * Use {@link CompatibleItemSettings} instead.
+ */
 public class ExtendSettings extends Item.Settings {
 
     // ～1.19.2
@@ -23,6 +26,7 @@ public class ExtendSettings extends Item.Settings {
         return addGroup(itemGroup);
     }
 
+    @Deprecated
     public ExtendSettings addGroup(Supplier<ItemGroup> itemGroup, Identifier identifier) {
         addGroup(itemGroup.get());
         return this;
