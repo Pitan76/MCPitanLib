@@ -4,26 +4,52 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
 public interface CompatibleToolMaterial extends ToolMaterial {
+
+    int getCompatMiningLevel();
+
+    float getCompatAttackDamage();
+
+    float getCompatMiningSpeedMultiplier();
+
+    Ingredient getCompatRepairIngredient();
+
+    int getCompatDurability();
+
+    int getCompatEnchantability();
+
     @Deprecated
     @Override
     default int getMiningLevel() {
         return getCompatMiningLevel();
     }
 
-    int getCompatMiningLevel();
-
+    @Deprecated
     @Override
-    float getAttackDamage();
+    default float getAttackDamage() {
+        return getCompatAttackDamage();
+    }
 
+    @Deprecated
     @Override
-    float getMiningSpeedMultiplier();
+    default float getMiningSpeedMultiplier() {
+        return getCompatMiningSpeedMultiplier();
+    }
 
+    @Deprecated
     @Override
-    Ingredient getRepairIngredient();
+    default Ingredient getRepairIngredient() {
+        return getCompatRepairIngredient();
+    }
 
+    @Deprecated
     @Override
-    int getDurability();
+    default int getDurability() {
+        return getCompatDurability();
+    }
 
+    @Deprecated
     @Override
-    int getEnchantability();
+    default int getEnchantability() {
+        return getCompatEnchantability();
+    }
 }
