@@ -132,6 +132,8 @@ public class CompatRegistry {
         // 1.16 Register
         mcplr.allRegister1_16();
 
+        mcplr1_20.register();
+
         // ItemGroup
         CreativeTabManager.allRegister();
     }
