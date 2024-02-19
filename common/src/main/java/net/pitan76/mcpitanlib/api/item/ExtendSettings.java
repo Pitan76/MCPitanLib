@@ -6,6 +6,9 @@ import net.minecraft.util.Identifier;
 
 import java.util.function.Supplier;
 
+/**
+ * Use {@link CompatibleItemSettings} instead.
+ */
 public class ExtendSettings extends Item.Settings {
 
     // ～1.19.2
@@ -18,12 +21,14 @@ public class ExtendSettings extends Item.Settings {
     // identifier: Item ID
     @Deprecated
     public ExtendSettings addGroup(ItemGroup itemGroup, Identifier identifier) {
+        this.arch$tab(itemGroup);
         CreativeTabManager.addItem(itemGroup, identifier);
         return this;
     }
 
+    @Deprecated
     public ExtendSettings addGroup(Supplier<ItemGroup> itemGroup, Identifier identifier) {
-        CreativeTabManager.addItem(itemGroup, identifier);
+        //CreativeTabManager.addItem(itemGroup, identifier);
         return this;
     }
 }
