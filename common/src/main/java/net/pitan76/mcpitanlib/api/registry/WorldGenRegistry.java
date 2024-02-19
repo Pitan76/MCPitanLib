@@ -67,7 +67,7 @@ public class WorldGenRegistry {
      * @param feature The feature to replace
      */
     public static void replaceProperties(GenerationStep.Feature decoration, RegistrySupplier<PlacedFeature> feature) {
-        BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, feature));
+        BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature.getOrNull())));
     }
 
     public static void replaceProperties(GenerationStep.Feature decoration, RegistryResult<PlacedFeature> feature) {
@@ -89,7 +89,7 @@ public class WorldGenRegistry {
      * @param feature The feature to add
      */
     public static void addProperties(GenerationStep.Feature decoration, RegistrySupplier<PlacedFeature> feature) {
-        BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, feature));
+        BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature.getOrNull())));
     }
 
     public static void addProperties(GenerationStep.Feature decoration, RegistryResult<PlacedFeature> feature) {
