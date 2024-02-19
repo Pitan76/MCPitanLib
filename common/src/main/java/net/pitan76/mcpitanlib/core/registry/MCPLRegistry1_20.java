@@ -23,6 +23,10 @@ public class MCPLRegistry1_20 {
         //ITEM_GROUP = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROUP);
     }
 
+    public void register() {
+        ITEM_GROUP.register();
+    }
+
     public RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
         return null;
     }

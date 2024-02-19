@@ -18,7 +18,6 @@ public class CompatibleItemSettings {
     }
 
     // ～1.19.2
-    @Deprecated
     public CompatibleItemSettings addGroup(ItemGroup itemGroup) {
         settings.addGroup(itemGroup);
         return this;
@@ -26,13 +25,11 @@ public class CompatibleItemSettings {
 
     // 1.19.3～
     // identifier: Item ID
-    @Deprecated
     public CompatibleItemSettings addGroup(ItemGroup itemGroup, Identifier identifier) {
         settings.addGroup(itemGroup, identifier);
         return this;
     }
 
-    @Deprecated
     public CompatibleItemSettings addGroup(Supplier<ItemGroup> itemGroup, Identifier identifier) {
         settings.addGroup(itemGroup, identifier);
         return this;
