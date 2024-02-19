@@ -24,7 +24,7 @@ public class MCPLRegistry1_20 {
     }
 
     public void register() {
-        ITEM_GROUP.register();
+        //ITEM_GROUP.register();
     }
 
     public RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
