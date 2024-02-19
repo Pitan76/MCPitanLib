@@ -2,11 +2,10 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.structure.rule.RuleTest;
-import net.minecraft.structure.rule.TagMatchRuleTest;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.OreConfiguredFeatures;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 
 import java.util.ArrayList;
@@ -75,7 +74,7 @@ public class FeatureConfigUtil {
      * @return The new OreFeatureConfig
      */
     public static OreFeatureConfig createStoneOreFeatureConfig(BlockState state, int size) {
-        RuleTest ruleTest = new TagMatchRuleTest(BlockTags.BASE_STONE_OVERWORLD);
+        RuleTest ruleTest = OreConfiguredFeatures.STONE_ORE_REPLACEABLES;
         return createOreFeatureConfig(ruleTest, state, size);
     }
 }

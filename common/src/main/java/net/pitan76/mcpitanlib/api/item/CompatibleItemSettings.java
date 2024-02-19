@@ -77,8 +77,8 @@ public class CompatibleItemSettings {
 
     public ExtendSettings build() {
         if (itemGroupId != null) {
-            RegistrySupplier<ItemGroup> itemGroup = MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(itemGroupId);
-            settings.arch$tab(itemGroup);
+            if (CreativeTabBuilder.itemGroupMap.containsKey(itemGroupId))
+                settings.addGroup(CreativeTabBuilder.itemGroupMap.get(itemGroupId));
         }
         return settings;
     }
