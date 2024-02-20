@@ -15,6 +15,9 @@ public class CreativeTabBuilder {
     @Deprecated
     public static final Map<Identifier, ItemGroup> itemGroupMap = new HashMap<>();
 
+    @Deprecated
+    public static final Map<Identifier, CreativeTabBuilder> itemGroupBuilderMap = new HashMap<>();
+
     private final Identifier identifier;
     private Text displayName = null;
     private Supplier<ItemStack> iconSupplier = null;
@@ -27,6 +30,7 @@ public class CreativeTabBuilder {
     // Recommend: create(identifier)
     public CreativeTabBuilder(Identifier identifier) {
         this.identifier = identifier;
+        itemGroupBuilderMap.put(identifier, this);
     }
 
     public static CreativeTabBuilder create(Identifier identifier) {

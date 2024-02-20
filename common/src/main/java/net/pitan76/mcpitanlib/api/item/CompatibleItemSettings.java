@@ -72,6 +72,11 @@ public class CompatibleItemSettings {
 
     public ExtendSettings build() {
         if (itemGroupId != null) {
+            if (CreativeTabBuilder.itemGroupBuilderMap.containsKey(itemGroupId)) {
+                CreativeTabBuilder itemGroupBuilder = CreativeTabBuilder.itemGroupBuilderMap.get(itemGroupId);
+                itemGroupBuilder.build();
+                CreativeTabBuilder.itemGroupBuilderMap.remove(itemGroupId);
+            }
             if (CreativeTabBuilder.itemGroupMap.containsKey(itemGroupId))
                 settings.addGroup(CreativeTabBuilder.itemGroupMap.get(itemGroupId));
         }
