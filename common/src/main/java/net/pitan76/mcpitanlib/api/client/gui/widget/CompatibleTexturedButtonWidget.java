@@ -48,8 +48,8 @@ public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
         int i = v;
         if (!this.isNarratable()) {
             i = v + hoveredVOffset * 2;
-        } else if (this.isHovered() || this.isFocused()) {
-            i = v + hoveredVOffset;
+        } else if (this.isHovered()) {
+            i += hoveredVOffset;
         }
         context.drawTexture(texture, this.getX(), this.getY(), u, i, this.width, this.height, textureWidth, textureHeight);
     }
