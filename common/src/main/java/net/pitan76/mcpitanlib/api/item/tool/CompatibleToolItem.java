@@ -2,8 +2,8 @@ package net.pitan76.mcpitanlib.api.item.tool;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -12,13 +12,14 @@ import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 
-public class CompatibleAxeItem extends AxeItem implements ExtendItemProvider {
-    public CompatibleAxeItem(CompatibleToolMaterial material, float attackDamage, float attackSpeed, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+public class CompatibleToolItem extends ToolItem implements ExtendItemProvider {
+    @Deprecated
+    protected CompatibleToolItem(ToolMaterial material, Settings settings) {
+        super(material, settings);
     }
 
-    public CompatibleAxeItem(float attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+    public CompatibleToolItem(CompatibleToolMaterial material, CompatibleItemSettings settings) {
+        this(material, settings.build());
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {

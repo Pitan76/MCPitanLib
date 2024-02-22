@@ -66,6 +66,26 @@ public interface ExtendItemProvider {
         options.cancel = false;
     }
 
+    /**
+     * post hit event
+     * @param event PostHitEvent
+     * @return boolean
+     */
+    default boolean postHit(PostHitEvent event, Options options) {
+        options.cancel = false;
+        return false;
+    }
+
+    /**
+     * post mine event
+     * @param event PostMineEvent
+     * @return boolean
+     */
+    default boolean postMine(PostMineEvent event, Options options) {
+        options.cancel = false;
+        return false;
+    }
+
     public static class Options {
         public boolean cancel = true;
     }

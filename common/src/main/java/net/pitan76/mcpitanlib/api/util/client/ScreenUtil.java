@@ -93,20 +93,12 @@ public class ScreenUtil {
         }
     }
 
-    public static class TextFieldUtil {
-        public static void setFocused(TextFieldWidget widget, boolean focused) {
-            widget.setFocused(focused);
-        }
-
-        public static void render(TextFieldWidget widget, RenderArgs args) {
-            widget.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
-        }
+    public static class TextFieldUtil extends net.pitan76.mcpitanlib.api.util.client.widget.TextFieldUtil {
+        // Nothing
     }
 
-    public static class ClickableWidgetUtil {
-        public static void render(ClickableWidget widget, RenderArgs args) {
-            widget.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
-        }
+    public static class ClickableWidgetUtil extends net.pitan76.mcpitanlib.api.util.client.widget.ClickableWidgetUtil {
+        // Nothing
     }
 
     public static class RendererUtil {

@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,6 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.core.Dummy;
@@ -68,6 +70,18 @@ public class ExtendItem extends Item {
     @Override
     public void onCraft(ItemStack stack, World world) {
         onCraft(new CraftEvent(stack, world));
+    }
+
+    @Deprecated
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        return postHit(new PostHitEvent(stack, target, attacker));
+    }
+
+    @Deprecated
+    @Override
+    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        return postMine(new PostMineEvent(stack, world, state, pos, miner));
     }
 
     /**
@@ -130,5 +144,23 @@ public class ExtendItem extends Item {
      */
     public void onCraft(CraftEvent event) {
         super.onCraft(event.stack, event.world);
+    }
+
+    /**
+     * post hit event
+     * @param event PostHitEvent
+     * @return boolean
+     */
+    public boolean postHit(PostHitEvent event) {
+        return super.postHit(event.stack, event.target, event.attacker);
+    }
+
+    /**
+     * post mine event
+     * @param event PostMineEvent
+     * @return boolean
+     */
+    public boolean postMine(PostMineEvent event) {
+        return super.postMine(event.stack, event.world, event.state, event.pos, event.miner);
     }
 }

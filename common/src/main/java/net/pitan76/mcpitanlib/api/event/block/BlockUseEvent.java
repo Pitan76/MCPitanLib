@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class BlockUseEvent extends BaseEvent {
     public BlockState state;
@@ -84,7 +85,7 @@ public class BlockUseEvent extends BaseEvent {
      * @return true if the block has a block entity
      */
     public boolean hasBlockEntity() {
-        return world.getBlockEntity(pos) != null;
+        return WorldUtil.hasBlockEntity(world, pos);
     }
 
     /**
@@ -92,6 +93,6 @@ public class BlockUseEvent extends BaseEvent {
      * @return the block entity of the block
      */
     public BlockEntity getBlockEntity() {
-        return world.getBlockEntity(pos);
+        return WorldUtil.getBlockEntity(world, pos);
     }
 }
