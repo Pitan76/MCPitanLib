@@ -6,6 +6,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
@@ -24,6 +25,7 @@ import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
+import java.util.List;
 
 public class ExtendBlock extends Block {
     public ExtendBlock(Settings settings) {
@@ -178,5 +180,20 @@ public class ExtendBlock extends Block {
      */
     public void onStateReplaced(StateReplacedEvent event) {
         super.onStateReplaced(event.state, event.world, event.pos, event.newState, event.moved);
+    }
+
+    @Deprecated
+    @Override
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+        return getDroppedStacks(new DroppedStacksArgs(state, builder));
+    }
+
+    /**
+     * block dropped stacks event
+     * @param args DroppedStacksArgs
+     * @return List<ItemStack>
+     */
+    public List<ItemStack> getDroppedStacks(DroppedStacksArgs args) {
+        return super.getDroppedStacks(args.state, args.builder);
     }
 }
