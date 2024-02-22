@@ -1,12 +1,10 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 
 import java.util.function.Supplier;
 
