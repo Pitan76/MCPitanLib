@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.tile;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
