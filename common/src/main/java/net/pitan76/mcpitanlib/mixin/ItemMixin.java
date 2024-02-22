@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.mixin;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,6 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
@@ -91,4 +93,25 @@ public class ItemMixin {
         }
     }
 
+    @Inject(method = "postHit", at = @At("HEAD"), cancellable = true)
+    private void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker, CallbackInfoReturnable<Boolean> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            boolean returnValue = provider.postHit(new PostHitEvent(stack, target, attacker), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "postMine", at = @At("HEAD"), cancellable = true)
+    private void postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            boolean returnValue = provider.postMine(new PostMineEvent(stack, world, state, pos, miner), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
 }

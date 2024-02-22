@@ -25,4 +25,32 @@ public class ScreenHandlerCreateEvent extends BaseEvent {
         this.inventory = inventory;
         this.player = new Player(player);
     }
+
+    public BlockState getState() {
+        return state;
+    }
+
+    public BlockPos getPos() {
+        return pos;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public int getSyncId() {
+        return syncId;
+    }
+
+    public PlayerInventory getInventory() {
+        return inventory;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean isClient() {
+        return world.isClient;
+    }
 }

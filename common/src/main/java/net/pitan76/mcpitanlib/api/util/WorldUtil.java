@@ -1,11 +1,14 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ChunkTicketType;
@@ -147,5 +150,29 @@ public class WorldUtil {
 
     public static int getDimensionHeight(World world) {
         return world.getDimension().getLogicalHeight();
+    }
+
+    public static BlockEntity getBlockEntity(World world, BlockPos pos) {
+        return world.getBlockEntity(pos);
+    }
+
+    public static boolean hasBlockEntity(World world, BlockPos pos) {
+        return getBlockEntity(world, pos) != null;
+    }
+
+    public static BlockState getBlockState(World world, BlockPos pos) {
+        return world.getBlockState(pos);
+    }
+
+    public static FluidState getFluidState(World world, BlockPos pos) {
+        return world.getFluidState(pos);
+    }
+
+    public static boolean hasFluidState(World world, BlockPos pos) {
+        return ! getFluidState(world, pos).isEmpty();
+    }
+
+    public static boolean isAir(World world, BlockPos pos) {
+        return getBlockState(world, pos).isAir();
     }
 }

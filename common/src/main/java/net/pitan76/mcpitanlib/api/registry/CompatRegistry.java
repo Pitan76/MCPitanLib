@@ -48,12 +48,20 @@ public class CompatRegistry {
     }
 
     /**
+     * create(new CompatRegistry)'s alias
+     * @see #create(String)
+     */
+    public static CompatRegistry createRegistry(String MOD_ID) {
+        return new CompatRegistry(MOD_ID);
+    }
+
+    /**
      * Create a new CompatRegistry
      * @param MOD_ID The mod id
      * @return The new CompatRegistry
      */
-    public static CompatRegistry createRegistry(String MOD_ID) {
-        return new CompatRegistry(MOD_ID);
+    public static CompatRegistry create(String MOD_ID) {
+        return createRegistry(MOD_ID);
     }
 
     /**
@@ -122,6 +130,10 @@ public class CompatRegistry {
 
     public RegistryResult<ItemGroup> registerItemGroup(Identifier id, CreativeTabBuilder builder) {
         return new RegistryResult<>(mcplr1_20.registryItemGroup(id, builder));
+    }
+
+    public RegistryResult<ItemGroup> registerItemGroup(CreativeTabBuilder builder) {
+        return registerItemGroup(builder.getIdentifier(), builder);
     }
 
     public static void registerFuel(int time, ItemConvertible... item) {

@@ -10,7 +10,7 @@ public class Config implements IConfig {
     /**
      * 任意ファイルを読み込み、Mapへ変換
      * 
-     * @param file
+     * @param file ファイル
      */
     public Config(File file) {
         load(file);
@@ -19,7 +19,7 @@ public class Config implements IConfig {
     /**
      * 任意ファイルを読み込み、Mapへ変換
      * 
-     * @param file
+     * @param file ファイル名
      */
     public Config(String file) {
         this(new File(file));
@@ -30,7 +30,7 @@ public class Config implements IConfig {
     /**
      * Configの変換
      * 
-     * @param config
+     * @param config Config
      */
     public Config(Config config) {
         configMap = config.configMap;
@@ -89,7 +89,7 @@ public class Config implements IConfig {
     }
 
     /**
-     * マップのキーから値(数値)を取得
+     * マップのキーから値(整数)を取得
      * "."でパスを区切る
      * 
      * @param key キー
@@ -109,6 +109,13 @@ public class Config implements IConfig {
         return (Integer) obj;
     }
 
+    /**
+     * マップのキーから値(数値)を取得
+     * "."でパスを区切る
+     *
+     * @param key キー
+     * @return 取得した値
+     */
     public double getDouble(String key) {
         return (Double) get(key);
     }
@@ -159,7 +166,7 @@ public class Config implements IConfig {
     }
 
     /**
-     * マップのキーから値(数値)を取得、存在しない場合はデフォルト値を返す
+     * マップのキーから値(整数)を取得、存在しない場合はデフォルト値を返す
      * "."でパスを区切る
      *
      * @param key キー
@@ -264,7 +271,7 @@ public class Config implements IConfig {
     }
 
     /**
-     * マップのキーに値(数値)をセット
+     * マップのキーに値(整数)をセット
      * "."でパスを区切る
      * 失敗するとfalseを返す
      * 
@@ -276,6 +283,15 @@ public class Config implements IConfig {
         return set(key, value);
     }
 
+    /**
+     * マップのキーに値(数値)をセット
+     * "."でパスを区切る
+     * 失敗するとfalseを返す
+     *
+     * @param key キー
+     * @param value 値
+     * @return 真偽値
+     */
     public boolean setDouble(String key, double value) {
         return set(key, value);
     }

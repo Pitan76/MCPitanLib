@@ -37,4 +37,8 @@ public class DamageSourceUtil {
     public static DamageSource mobProjectile(Entity projectile, LivingEntity attacker) {
         return DamageSource.mobProjectile(projectile, attacker);
     }
+
+    public static DamageSource fall(Entity source) {
+        return DamageSource.FALL;
+    }
 }
