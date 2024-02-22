@@ -7,6 +7,7 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class StateReplacedEvent extends BaseEvent {
 
@@ -61,7 +62,7 @@ public class StateReplacedEvent extends BaseEvent {
      * @return BlockEntity
      */
     public boolean hasBlockEntity() {
-        return world.getBlockEntity(pos) != null;
+        return WorldUtil.hasBlockEntity(world, pos);
     }
 
     /**
@@ -69,14 +70,14 @@ public class StateReplacedEvent extends BaseEvent {
      * @return BlockEntity
      */
     public BlockEntity getBlockEntity() {
-        return world.getBlockEntity(pos);
+        return WorldUtil.getBlockEntity(world, pos);
     }
 
     /**
      * spawn the drops in the container
      */
     public void spawnDropsInContainer() {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntity = getBlockEntity();
         if (blockEntity instanceof Inventory) {
             Inventory inventory = (Inventory) blockEntity;
             ItemScatterer.spawn(world, pos, inventory);
