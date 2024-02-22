@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
+import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -13,15 +14,19 @@ import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
+import net.pitan76.mcpitanlib.api.util.BlockUtil;
+
+import java.util.List;
+import java.util.Set;
 
 public class CompatibleMiningToolItem extends MiningToolItem implements ExtendItemProvider {
     @Deprecated
-    protected CompatibleMiningToolItem(float attackDamage, float attackSpeed, ToolMaterial material, net.minecraft.tag.TagKey<Block> effectiveBlocks, Settings settings) {
+    protected CompatibleMiningToolItem(float attackDamage, float attackSpeed, ToolMaterial material, Set<Block> effectiveBlocks, Settings settings) {
         super(attackDamage, attackSpeed, material, effectiveBlocks, settings);
     }
 
     public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, TagKey<Block> tagKey, CompatibleItemSettings settings) {
-        this(attackDamage, attackSpeed, material, tagKey.getTagKey(), settings.build());
+        this(attackDamage, attackSpeed, material, Sets.newHashSet(BlockUtil.getBlocks(tagKey)), settings.build());
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
