@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.core.registry;
 
 import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.RegistryKeys;
