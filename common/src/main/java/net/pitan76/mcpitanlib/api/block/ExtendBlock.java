@@ -24,8 +24,8 @@ import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
 import java.util.List;
+import java.util.Random;
 
 public class ExtendBlock extends Block {
     public ExtendBlock(Settings settings) {
