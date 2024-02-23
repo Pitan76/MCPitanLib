@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
@@ -10,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemUseOnBlockEvent extends BaseEvent {
@@ -80,5 +83,17 @@ public class ItemUseOnBlockEvent extends BaseEvent {
 
     public ActionResult consume() {
         return ActionResult.CONSUME;
+    }
+
+    public BlockEntity getBlockEntity() {
+        return WorldUtil.getBlockEntity(world, blockPos);
+    }
+
+    public boolean hasBlockEntity() {
+        return WorldUtil.hasBlockEntity(world, blockPos);
+    }
+
+    public BlockState getBlockState() {
+        return WorldUtil.getBlockState(world, blockPos);
     }
 }
