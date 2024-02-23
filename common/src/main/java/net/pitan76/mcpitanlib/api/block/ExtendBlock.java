@@ -11,6 +11,7 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.StateManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -195,5 +196,33 @@ public class ExtendBlock extends Block {
      */
     public List<ItemStack> getDroppedStacks(DroppedStacksArgs args) {
         return super.getDroppedStacks(args.state, args.builder);
+    }
+
+    @Deprecated
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        neighborUpdate(new NeighborUpdateEvent(state, world, pos, sourceBlock, sourcePos, notify));
+    }
+
+    /**
+     * block neighbor update event
+     * @param event NeighborUpdateEvent
+     */
+    public void neighborUpdate(NeighborUpdateEvent event) {
+        super.neighborUpdate(event.state, event.world, event.pos, event.sourceBlock, event.sourcePos, event.notify);
+    }
+
+    @Deprecated
+    @Override
+    public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        appendProperties(new AppendPropertiesArgs(builder));
+    }
+
+    /**
+     * append properties event
+     * @param args AppendPropertiesArgs
+     */
+    public void appendProperties(AppendPropertiesArgs args) {
+        super.appendProperties(args.builder);
     }
 }

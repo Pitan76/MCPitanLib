@@ -174,4 +174,44 @@ public class WorldUtil {
     public static boolean isAir(World world, BlockPos pos) {
         return getBlockState(world, pos).isAir();
     }
+
+    public static void setBlockState(World world, BlockPos pos, BlockState state, int flags) {
+        world.setBlockState(pos, state, flags);
+    }
+
+    public static void setBlockState(World world, BlockPos pos, BlockState state) {
+        setBlockState(world, pos, state, 3);
+    }
+
+    public static void setBlockState(World world, BlockPos pos, Block block, int flags) {
+        setBlockState(world, pos, block.getDefaultState(), flags);
+    }
+
+    public static void setBlockState(World world, BlockPos pos, Block block) {
+        setBlockState(world, pos, block, 3);
+    }
+
+    public static void breakBlock(World world, BlockPos pos, boolean drop) {
+        world.breakBlock(pos, drop);
+    }
+
+    public static void breakBlock(World world, BlockPos pos) {
+        breakBlock(world, pos, true);
+    }
+
+    public static void breakBlock(World world, BlockPos pos, boolean drop, @Nullable Player player) {
+        world.breakBlock(pos, drop, player.getPlayerEntity());
+    }
+
+    public static void breakBlock(World world, BlockPos pos, @Nullable Player player) {
+        breakBlock(world, pos, true, player);
+    }
+
+    public static void removeBlockEntity(World world, BlockPos pos) {
+        world.removeBlockEntity(pos);
+    }
+
+    public static void removeBlock(World world, BlockPos pos, boolean move) {
+        world.removeBlock(pos, move);
+    }
 }
