@@ -37,4 +37,24 @@ public class ItemAppendTooltipEvent extends BaseEvent {
     public TooltipContext getContext() {
         return context;
     }
+
+    public void addTooltip(Text text) {
+        tooltip.add(text);
+    }
+
+    public void addTooltip(List<Text> texts) {
+        tooltip.addAll(texts);
+    }
+
+    public boolean removeTooltip(Text text) {
+        return tooltip.remove(text);
+    }
+
+    public boolean isCreative() {
+        return context.isAdvanced();
+    }
+
+    public boolean isAdvanced() {
+        return context.isAdvanced();
+    }
 }
