@@ -42,13 +42,12 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(new RenderArgs(new DrawObjectDM(context), mouseX, mouseY, delta));
+    public void renderBackground(DrawContext context) {
+        renderBackground(new RenderArgs(new DrawObjectDM(context), 0, 0, 0));
     }
 
-
     public void renderBackground(RenderArgs args) {
-        super.renderBackground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        super.renderBackground(args.drawObjectDM.getContext());
     }
 
     public void render(RenderArgs args) {
