@@ -2,17 +2,18 @@ package net.pitan76.mcpitanlib.api.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
+import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 
 public abstract class SimpleScreen extends Screen {
 
@@ -35,23 +36,22 @@ public abstract class SimpleScreen extends Screen {
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, int u, int v, int width, int height) {
-        //ScreenUtil.setBackground(GUI);
-        //super.drawTexture(matrices, x, y, u, v, width, height);
-        drawObjectDM.getContext().drawTexture(texture, x, y, u, v, width, height);
+        ScreenUtil.setBackground(texture);
+        drawTexture(drawObjectDM.getStack(), x, y, u, v, width, height);
     }
 
     @Deprecated
     @Override
-    public void renderBackground(DrawContext context) {
-        renderBackground(new RenderArgs(new DrawObjectDM(context), 0, 0, 0));
+    public void renderBackground(MatrixStack matrices) {
+        renderBackground(new RenderArgs(new DrawObjectDM(matrices), 0, 0, 0));
     }
 
     public void renderBackground(RenderArgs args) {
-        super.renderBackground(args.drawObjectDM.getContext());
+        super.renderBackground(args.drawObjectDM.getStack());
     }
 
     public void render(RenderArgs args) {
-        super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        super.render(args.drawObjectDM.getStack(), args.mouseX, args.mouseY, args.delta);
     }
 
     public void resizeOverride(MinecraftClient client, int width, int height) {
@@ -104,8 +104,8 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
+    public void render(MatrixStack stack, int mouseX, int mouseY, float delta) {
+        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
         render(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
 
