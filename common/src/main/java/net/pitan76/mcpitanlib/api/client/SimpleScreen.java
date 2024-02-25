@@ -4,8 +4,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -26,9 +26,11 @@ public abstract class SimpleScreen extends Screen {
         fixScreen();
     }
 
-    public <T extends Element & Drawable & Selectable> T addDrawableChild_compatibility(T drawableElement) {
-        return super.addDrawableChild(drawableElement);
-        // addButton
+    public <T extends Element & Drawable> T addDrawableChild_compatibility(T drawableElement) {
+        if (drawableElement instanceof ClickableWidget)
+            return (T) super.addButton((ClickableWidget) drawableElement);
+        else
+            return super.addChild(drawableElement);
     }
 
     public CompatibleTexturedButtonWidget addDrawableCTBW(CompatibleTexturedButtonWidget widget) {
