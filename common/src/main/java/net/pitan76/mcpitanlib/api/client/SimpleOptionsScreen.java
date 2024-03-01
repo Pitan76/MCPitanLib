@@ -21,7 +21,7 @@ public class SimpleOptionsScreen extends SimpleScreen {
     }
 
     @Override
-    public void close() {
-        client.setScreen(this.parent);
+    public void onClose() {
+        client.openScreen(parent);
     }
 }
