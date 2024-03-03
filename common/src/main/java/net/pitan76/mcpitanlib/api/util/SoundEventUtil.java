@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,14 @@ public class SoundEventUtil {
     }
 
     public static SoundEvent getSoundEvent(Identifier id) {
-        return SoundEvent.of(id);
+        return new SoundEvent(id);
     }
 
     public static List<SoundEvent> getAllSoundEvents() {
-        return Registries.SOUND_EVENT.stream().collect(Collectors.toList());
+        return Registry.SOUND_EVENT.stream().collect(Collectors.toList());
     }
 
     public static List<Identifier> getAllSoundEventIds() {
-        return new ArrayList<>(Registries.SOUND_EVENT.getIds());
+        return new ArrayList<>(Registry.SOUND_EVENT.getIds());
     }
 }
