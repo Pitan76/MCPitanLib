@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
+import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 
 public abstract class SimpleScreen extends Screen {
 
@@ -117,8 +118,8 @@ public abstract class SimpleScreen extends Screen {
         return super.keyPressed(args.keyCode, args.scanCode, args.modifiers);
     }
 
-    public void renderBackgroundTexture(DrawObjectDM drawObjectDM) {
-        super.renderBackgroundTexture(drawObjectDM.getContext());
+    public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
+        super.renderBackgroundTexture(args.getDrawObjectDM().getContext());
     }
 
     @Deprecated
@@ -136,6 +137,6 @@ public abstract class SimpleScreen extends Screen {
     @Deprecated
     @Override
     public void renderBackgroundTexture(DrawContext context) {
-        this.renderBackgroundTexture(new DrawObjectDM(context));
+        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context), 0));
     }
 }
