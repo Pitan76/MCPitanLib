@@ -14,6 +14,7 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
+import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 
 public abstract class SimpleScreen extends Screen {
 
@@ -119,8 +120,8 @@ public abstract class SimpleScreen extends Screen {
         return super.keyPressed(args.keyCode, args.scanCode, args.modifiers);
     }
 
-    public void renderBackgroundTexture(DrawObjectDM drawObjectDM) {
-        super.renderBackgroundTexture(drawObjectDM.getContext());
+    public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
+        super.renderBackgroundTexture(args.getvOffset());
     }
 
     @Deprecated
@@ -137,7 +138,7 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public void renderBackgroundTexture(DrawContext context) {
-        this.renderBackgroundTexture(new DrawObjectDM(context));
+    public void renderBackgroundTexture(int vOffset) {
+        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(null, vOffset));
     }
 }
