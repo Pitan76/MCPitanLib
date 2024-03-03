@@ -19,7 +19,7 @@ public class BlockUtil {
      * @return Block of the Identifier.
      */
     public static Block block(Identifier id) {
-        return Registries.BLOCK.get(id);
+        return BlockUtilV1.block(id);
     }
 
     /**
