@@ -1,11 +1,10 @@
 package net.pitan76.mcpitanlib.api.event;
 
 import com.mojang.brigadier.arguments.DoubleArgumentType;
-import com.mojang.brigadier.arguments.FloatArgumentType;
-import net.pitan76.mcpitanlib.api.command.argument.FloatCommand;
+import net.pitan76.mcpitanlib.api.command.argument.DoubleCommand;
 
 public class DoubleCommandEvent extends RequiredCommandEvent {
     public Double getValue() {
-        return DoubleArgumentType.getDouble(context, ((FloatCommand) getCommand()).getArgumentName());
+        return DoubleArgumentType.getDouble(context, ((DoubleCommand) getCommand()).getArgumentName());
     }
 }
