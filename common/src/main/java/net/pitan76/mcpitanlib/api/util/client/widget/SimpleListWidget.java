@@ -18,12 +18,12 @@ import java.util.Optional;
 public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetEntry> {
 
     public SimpleListWidget(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
-        this(client, width, bottom - top, top, itemHeight);
+        super(client, width, height, top, bottom, itemHeight);
+        this.centerListVertically = false;
     }
 
     public SimpleListWidget(MinecraftClient client, int width, int height, int y, int itemHeight) {
-        super(client, width, height, y, itemHeight);
-        this.centerListVertically = false;
+        this(client, width, height, y, y + height, itemHeight);
     }
 
     public void add(ClickableWidget widget) {
