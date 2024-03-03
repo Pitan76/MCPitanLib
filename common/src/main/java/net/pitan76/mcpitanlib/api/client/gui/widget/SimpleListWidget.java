@@ -5,7 +5,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -87,12 +86,6 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
         @Deprecated
         @Override
         public List<? extends Element> children() {
-            return ImmutableList.of(widget);
-        }
-
-        @Deprecated
-        @Override
-        public List<? extends Selectable> selectableChildren() {
             return ImmutableList.of(widget);
         }
 
