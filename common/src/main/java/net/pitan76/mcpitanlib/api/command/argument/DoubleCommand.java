@@ -4,7 +4,7 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import net.pitan76.mcpitanlib.api.event.DoubleCommandEvent;
 import net.pitan76.mcpitanlib.api.event.ServerCommandEvent;
 
-public abstract class DoubleCommand extends RequiredCommand<Float> {
+public abstract class DoubleCommand extends RequiredCommand<Double> {
     @Override
     public DoubleArgumentType getArgumentType() {
         return DoubleArgumentType.doubleArg();
