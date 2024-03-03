@@ -181,6 +181,10 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
         return super.keyPressed(args.keyCode, args.scanCode, args.modifiers);
     }
 
+    public void renderBackgroundTexture(DrawObjectDM drawObjectDM) {
+        super.renderBackgroundTexture(drawObjectDM.getContext());
+    }
+
     @Deprecated
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
@@ -191,5 +195,11 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         return this.keyPressed(new KeyEventArgs(keyCode, scanCode, modifiers));
+    }
+
+    @Deprecated
+    @Override
+    public void renderBackgroundTexture(DrawContext context) {
+        this.renderBackgroundTexture(new DrawObjectDM(context));
     }
 }
