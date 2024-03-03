@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.api.util.client.widget;
+package net.pitan76.mcpitanlib.api.client.gui.widget;
 
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
