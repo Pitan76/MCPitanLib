@@ -16,6 +16,7 @@ import java.util.function.Function;
 public class SimpleSliderWidget extends SliderWidget {
     protected final Function<Double, Text> textGetter;
     protected final Consumer<Double> changeCallback;
+    public SimpleListWidget listWidget = null;
 
     public SimpleSliderWidget(int x, int y, int width, int height, Text text, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
         super(x, y, width, height, text, defaultValue);
@@ -37,6 +38,7 @@ public class SimpleSliderWidget extends SliderWidget {
 
     public SimpleSliderWidget(SimpleListWidget listWidget, int width, Text text, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
         this(listWidget.getWidth() / 2 - 155, 0, width, 20, text, defaultValue, valueTextGetter, changeCallback);
+        this.listWidget = listWidget;
     }
 
     public SimpleSliderWidget(SimpleListWidget listWidget, int width, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
