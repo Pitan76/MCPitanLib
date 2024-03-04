@@ -150,7 +150,7 @@ public abstract class SimpleScreen extends Screen {
     }
 
     public void closeOverride() {
-        super.close();
+        super.onClose();
     }
 
     public void removedOverride() {
@@ -158,7 +158,7 @@ public abstract class SimpleScreen extends Screen {
     }
 
     @Override
-    public void close() {
+    public void onClose() {
         closeOverride();
     }
 

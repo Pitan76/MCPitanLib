@@ -5,7 +5,7 @@ import net.minecraft.client.gui.screen.Screen;
 
 public class ClientUtil {
     public static void setScreen(Screen screen) {
-        MinecraftClient.getInstance().setScreen(screen);
+        MinecraftClient.getInstance().openScreen(screen);
     }
 
     public static Screen getScreen() {

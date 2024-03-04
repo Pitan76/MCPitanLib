@@ -212,7 +212,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public void closeOverride() {
-        super.close();
+        super.onClose();
     }
 
     public void removedOverride() {
@@ -220,7 +220,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     @Override
-    public void close() {
+    public void onClose() {
         closeOverride();
     }
 
