@@ -67,10 +67,12 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
         return Optional.empty();
     }
 
+    /*
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.render(new RenderArgs(new DrawObjectDM(context), mouseX, mouseY, delta));
     }
+    */
 
     public void render(RenderArgs args) {
         super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
