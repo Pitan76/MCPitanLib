@@ -59,19 +59,19 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+    archiveClassifier.set "dev-shadow"
 }
 
 remapJar {
     inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveClassifier = null
+    archiveClassifier.set null
 
     atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
 }
 
 jar {
-    archiveClassifier = "dev"
+    archiveClassifier.set "dev"
 }
 
 sourcesJar {
