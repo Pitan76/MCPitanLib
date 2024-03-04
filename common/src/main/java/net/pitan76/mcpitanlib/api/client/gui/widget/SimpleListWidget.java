@@ -92,6 +92,12 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
         @Override
         public void render(DrawContext matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             widget.setY(y);
+            if (widget instanceof SimpleSliderWidget) {
+                SimpleSliderWidget slider = (SimpleSliderWidget) widget;
+                if (y + slider.getHeight() > slider.listWidget.getHeight())
+                    return;
+
+            }
             widget.render(matrices, mouseX, mouseY, tickDelta);
         }
 
