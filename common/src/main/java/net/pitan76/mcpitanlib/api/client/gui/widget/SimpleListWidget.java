@@ -8,6 +8,8 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
+import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -62,6 +64,15 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.render(new RenderArgs(new DrawObjectDM(matrices), mouseX, mouseY, delta));
+    }
+
+    public void render(RenderArgs args) {
+        super.render(args.drawObjectDM.getStack(), args.mouseX, args.mouseY, args.delta);
     }
 
     @Environment(EnvType.CLIENT)
