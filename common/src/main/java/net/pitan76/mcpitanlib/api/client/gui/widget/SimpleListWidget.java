@@ -96,7 +96,7 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
             widget.setY(y);
             if (widget instanceof SimpleSliderWidget) {
                 SimpleSliderWidget slider = (SimpleSliderWidget) widget;
-                if (y + slider.getHeight() > slider.listWidget.getY() + slider.listWidget.getHeight())
+                if (y >= slider.listWidget.getY() + slider.listWidget.getHeight())
                     return;
 
             }
