@@ -148,4 +148,22 @@ public abstract class SimpleScreen extends Screen {
     public void renderBackgroundTexture(int vOffset) {
         this.renderBackgroundTexture(new RenderBackgroundTextureArgs(null, vOffset));
     }
+
+    public void closeOverride() {
+        super.close();
+    }
+
+    public void removedOverride() {
+        super.removed();
+    }
+
+    @Override
+    public void close() {
+        closeOverride();
+    }
+
+    @Override
+    public void removed() {
+        removedOverride();
+    }
 }

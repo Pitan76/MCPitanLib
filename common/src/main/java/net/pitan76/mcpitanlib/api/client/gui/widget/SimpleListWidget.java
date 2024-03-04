@@ -24,7 +24,7 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
     }
 
     public SimpleListWidget(MinecraftClient client, int width, int height, int y, int itemHeight) {
-        this(client, width, height, y, y + height, itemHeight);
+        this(client, width, height, y, height - y, itemHeight);
     }
 
     public void add(ClickableWidget widget) {
@@ -66,6 +66,7 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
         return Optional.empty();
     }
 
+    @Deprecated
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.render(new RenderArgs(new DrawObjectDM(matrices), mouseX, mouseY, delta));
@@ -91,12 +92,6 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
         @Override
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             widget.y = y;
-            if (widget instanceof SimpleSliderWidget) {
-                SimpleSliderWidget slider = (SimpleSliderWidget) widget;
-                if (y >= slider.listWidget.top + slider.listWidget.getHeight())
-                    return;
-
-            }
             widget.render(matrices, mouseX, mouseY, tickDelta);
         }
 
