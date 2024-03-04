@@ -35,6 +35,10 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
         // addButton
     }
 
+    public <T extends Element & Selectable> T addSelectableChild_compatibility(T selectableElement) {
+        return super.addSelectableChild(selectableElement);
+    }
+
     public CompatibleTexturedButtonWidget addDrawableCTBW(CompatibleTexturedButtonWidget widget) {
         return addDrawableChild_compatibility(widget);
     }

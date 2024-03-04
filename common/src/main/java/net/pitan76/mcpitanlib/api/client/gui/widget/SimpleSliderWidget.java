@@ -2,8 +2,11 @@ package net.pitan76.mcpitanlib.api.client.gui.widget;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
+import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
+import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.function.Consumer;
@@ -38,6 +41,15 @@ public class SimpleSliderWidget extends SliderWidget {
 
     public SimpleSliderWidget(SimpleListWidget listWidget, int width, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
         this(listWidget, width, TextUtil.empty(), defaultValue, valueTextGetter, changeCallback);
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.render(new RenderArgs(new DrawObjectDM(context), mouseX, mouseY, delta));
+    }
+
+    public void render(RenderArgs args) {
+        super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
     
     public void setValue(double value) {
