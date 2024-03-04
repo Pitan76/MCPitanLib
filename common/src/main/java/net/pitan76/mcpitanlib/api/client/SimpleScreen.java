@@ -34,8 +34,11 @@ public abstract class SimpleScreen extends Screen {
             return super.addChild(drawableElement);
     }
 
-    public <T extends Element & Selectable> T addSelectableChild_compatibility(T selectableElement) {
-        return super.addSelectableChild(selectableElement);
+    public <T extends Element> T addSelectableChild_compatibility(T selectableElement) {
+        if (selectableElement instanceof ClickableWidget)
+            return (T) super.addButton((ClickableWidget) selectableElement);
+        else
+            return super.addChild(selectableElement);
     }
 
     public CompatibleTexturedButtonWidget addDrawableCTBW(CompatibleTexturedButtonWidget widget) {
