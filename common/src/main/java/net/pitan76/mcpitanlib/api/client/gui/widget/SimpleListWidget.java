@@ -9,6 +9,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
+import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +25,7 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
     }
 
     public SimpleListWidget(MinecraftClient client, int width, int height, int y, int itemHeight) {
-        this(client, width, height, y, y + height, itemHeight);
+        this(client, width, height, y, height - y, itemHeight);
     }
 
     public void add(ClickableWidget widget) {
