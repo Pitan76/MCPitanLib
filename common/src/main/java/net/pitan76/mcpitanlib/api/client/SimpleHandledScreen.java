@@ -203,4 +203,22 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     public void renderBackgroundTexture(DrawContext context) {
         this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context), 0));
     }
+
+    public void closeOverride() {
+        super.close();
+    }
+
+    public void removedOverride() {
+        super.removed();
+    }
+
+    @Override
+    public void close() {
+        closeOverride();
+    }
+
+    @Override
+    public void removed() {
+        removedOverride();
+    }
 }

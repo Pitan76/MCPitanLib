@@ -9,7 +9,6 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
-import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import org.jetbrains.annotations.Nullable;
 
@@ -94,12 +93,6 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
         @Override
         public void render(DrawContext matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             widget.setY(y);
-            if (widget instanceof SimpleSliderWidget) {
-                SimpleSliderWidget slider = (SimpleSliderWidget) widget;
-                if (y >= slider.listWidget.getY() + slider.listWidget.getHeight())
-                    return;
-
-            }
             widget.render(matrices, mouseX, mouseY, tickDelta);
         }
 
