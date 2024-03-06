@@ -25,10 +25,15 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     public TextRenderer textRenderer;
     public ItemRenderer itemRenderer;
 
+    public Text title;
+    public MinecraftClient client;
+
     public SimpleHandledScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         fixScreen();
         this.handler = handler;
+        this.title = title;
+
     }
 
     public <T extends Element & Drawable & Selectable> T addDrawableChild_compatibility(T drawableElement) {
@@ -119,6 +124,10 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
         this.itemRenderer = super.itemRenderer;
         this.width = super.width;
         this.height = super.height;
+        if (super.client == null)
+            this.client = MinecraftClient.getInstance();
+        else
+            this.client = super.client;
     }
 
     public void setX(int x) {
