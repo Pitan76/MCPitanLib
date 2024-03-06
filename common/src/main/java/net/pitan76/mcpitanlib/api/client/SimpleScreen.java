@@ -22,9 +22,13 @@ public abstract class SimpleScreen extends Screen {
     public TextRenderer textRenderer;
     public ItemRenderer itemRenderer;
 
+    public Text title;
+    public MinecraftClient client;
+
     public SimpleScreen(Text title) {
         super(title);
         fixScreen();
+        this.title = title;
     }
 
     public <T extends Element & Drawable> T addDrawableChild_compatibility(T drawableElement) {
@@ -91,6 +95,10 @@ public abstract class SimpleScreen extends Screen {
         this.itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         this.width = super.width;
         this.height = super.height;
+        if (super.client == null)
+            this.client = MinecraftClient.getInstance();
+        else
+            this.client = super.client;
     }
 
     public void setTextRenderer(TextRenderer textRenderer) {
