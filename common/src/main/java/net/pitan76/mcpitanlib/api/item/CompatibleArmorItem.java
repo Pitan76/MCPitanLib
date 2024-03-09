@@ -6,7 +6,7 @@ public class CompatibleArmorItem extends ArmorItem implements ExtendItemProvider
     public final ArmorEquipmentType type;
 
     public CompatibleArmorItem(CompatibleArmorMaterial material, ArmorEquipmentType type, CompatibleItemSettings settings) {
-        super(material, type.getSlot(), settings.build());
+        super(material.build(), type.getSlot(), settings.build());
         this.type = type;
     }
 
