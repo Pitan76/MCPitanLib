@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractBlock.class)
 public class AbstractBlockMixin {
     @Inject(method = "getCollisionShape", at = @At("HEAD"), cancellable = true)
-    private void inject_getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    private void mcpitanlib$inject_getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -38,7 +38,7 @@ public class AbstractBlockMixin {
     }
 
     @Inject(method = "getOutlineShape", at = @At("HEAD"), cancellable = true)
-    private void inject_getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    private void mcpitanlib$inject_getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -49,7 +49,7 @@ public class AbstractBlockMixin {
     }
 
     @Inject(method = "scheduledTick", at = @At("HEAD"), cancellable = true)
-    private void inject_scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+    private void mcpitanlib$inject_scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -60,7 +60,7 @@ public class AbstractBlockMixin {
     }
 
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    private void inject_onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
+    private void mcpitanlib$inject_onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -71,7 +71,7 @@ public class AbstractBlockMixin {
     }
 
     @Inject(method = "createScreenHandlerFactory", at = @At("HEAD"), cancellable = true)
-    private void inject_createScreenHandlerFactory(BlockState state, World world, BlockPos pos, CallbackInfoReturnable<NamedScreenHandlerFactory> cir) {
+    private void mcpitanlib$inject_createScreenHandlerFactory(BlockState state, World world, BlockPos pos, CallbackInfoReturnable<NamedScreenHandlerFactory> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -83,7 +83,7 @@ public class AbstractBlockMixin {
     }
 
     @Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
-    private void inject_onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
+    private void mcpitanlib$inject_onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
