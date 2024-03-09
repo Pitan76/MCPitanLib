@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class BlockMixin {
 
     @Inject(method = "onPlaced", at = @At("HEAD"), cancellable = true)
-    private void inject_onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack, CallbackInfo ci) {
+    private void mcpitanlib$onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack, CallbackInfo ci) {
         // イベントを呼び出す
         if (!BlockEventRegistry.ON_PLACED.isEmpty()) {
             int maxPriority = BlockEventRegistry.ON_PLACED.getMaxPriority();
@@ -46,7 +46,7 @@ public class BlockMixin {
     }
 
     @Inject(method = "onBreak", at = @At("HEAD"), cancellable = true)
-    private void inject_onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player, CallbackInfo ci) {
+    private void mcpitanlib$onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player, CallbackInfo ci) {
         // イベントを呼び出す
         if (!BlockEventRegistry.ON_BREAK.isEmpty()) {
             int maxPriority = BlockEventRegistry.ON_BREAK.getMaxPriority();

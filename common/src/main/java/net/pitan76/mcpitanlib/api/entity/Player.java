@@ -251,7 +251,11 @@ public class Player {
     }
 
     public void playSound(SoundEvent event, SoundCategory category, float volume, float pitch) {
-        getEntity().playSound(event, category, volume, pitch);
+        playSound(event, volume, pitch);
+    }
+
+    public void playSound(SoundEvent event, float volume, float pitch) {
+        getEntity().playSound(event, volume, pitch);
     }
 
     public ItemCooldown itemCooldown = new ItemCooldown(this);
