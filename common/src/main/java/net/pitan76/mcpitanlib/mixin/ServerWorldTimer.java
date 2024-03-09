@@ -16,23 +16,23 @@ import java.util.function.Supplier;
 @Mixin(ServerWorld.class)
 public class ServerWorldTimer implements ServerWorldTimerAccess {
     @Unique
-    private final List<TimerItem> timerItems = new ArrayList<>();
+    private final List<TimerItem> mcpitanlib$timerItems = new ArrayList<>();
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void onTick(CallbackInfo ci) {
-        if (timerItems.isEmpty()) return;
-        List<TimerItem> items = new ArrayList<>(timerItems);
+        if (mcpitanlib$timerItems.isEmpty()) return;
+        List<TimerItem> items = new ArrayList<>(mcpitanlib$timerItems);
 
         for (TimerItem item : items) {
             if (--item.ticksUntilSomething == 0L) {
                 if (item.executeSupplier.get())
-                    timerItems.remove(item);
+                    mcpitanlib$timerItems.remove(item);
             }
         }
     }
 
     @Override
-    public void addTimer(long ticksUntilSomething, Supplier<Boolean> executeSupplier) {
-        timerItems.add(new TimerItem(ticksUntilSomething, executeSupplier));
+    public void mcpitanlib$addTimer(long ticksUntilSomething, Supplier<Boolean> executeSupplier) {
+        mcpitanlib$timerItems.add(new TimerItem(ticksUntilSomething, executeSupplier));
     }
 }

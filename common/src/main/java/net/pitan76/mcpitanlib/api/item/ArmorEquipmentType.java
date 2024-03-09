@@ -11,6 +11,9 @@ public class ArmorEquipmentType {
     public static ArmorEquipmentType LEGS = new ArmorEquipmentType(EquipmentSlot.LEGS, ArmorItem.Type.LEGGINGS);
     public static ArmorEquipmentType FEET = new ArmorEquipmentType(EquipmentSlot.FEET, ArmorItem.Type.BOOTS);
 
+    // New type for animals from 1.20.5
+    public static ArmorEquipmentType BODY = new ArmorEquipmentType(EquipmentSlot.BODY, ArmorItem.Type.BODY);
+
     protected final EquipmentSlot slot;
     protected final ArmorItem.Type type;
 
