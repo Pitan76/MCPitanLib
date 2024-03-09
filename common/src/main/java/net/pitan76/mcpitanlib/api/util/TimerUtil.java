@@ -9,10 +9,10 @@ import java.util.function.Supplier;
 
 public class TimerUtil {
     public static void addTimer(ServerWorld world, long ticksUntilSomething, Supplier<Boolean> supplier) {
-        ((ServerWorldTimerAccess) world).addTimer(ticksUntilSomething, supplier);
+        ((ServerWorldTimerAccess) world).mcpitanlib$addTimer(ticksUntilSomething, supplier);
     }
 
     public static void addTimer(MinecraftServer server, long ticksUntilSomething, Supplier<Boolean> supplier) {
-        ((MinecraftServerTimerAccess) server).addTimer(ticksUntilSomething, supplier);
+        ((MinecraftServerTimerAccess) server).mcpitanlib$addTimer(ticksUntilSomething, supplier);
     }
 }
