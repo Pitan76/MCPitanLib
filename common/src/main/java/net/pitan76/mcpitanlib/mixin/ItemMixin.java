@@ -27,7 +27,7 @@ import java.util.List;
 @Mixin(Item.class)
 public class ItemMixin {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
+    private void mcpitanlib$use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -38,7 +38,7 @@ public class ItemMixin {
     }
 
     @Inject(method = "useOnBlock", at = @At("HEAD"), cancellable = true)
-    private void useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
+    private void mcpitanlib$useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
@@ -50,7 +50,7 @@ public class ItemMixin {
     }
 
     @Inject(method = "useOnEntity", at = @At("HEAD"), cancellable = true)
-    private void useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+    private void mcpitanlib$useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -61,7 +61,7 @@ public class ItemMixin {
     }
 
     @Inject(method = "finishUsing", at = @At("HEAD"), cancellable = true)
-    private void finishUsing(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
+    private void mcpitanlib$finishUsing(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -72,7 +72,7 @@ public class ItemMixin {
     }
 
     @Inject(method = "hasRecipeRemainder", at = @At("HEAD"), cancellable = true)
-    private void hasRecipeRemainder(CallbackInfoReturnable<Boolean> cir) {
+    private void mcpitanlib$hasRecipeRemainder(CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -83,7 +83,7 @@ public class ItemMixin {
     }
 
     @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
-    private void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
+    private void mcpitanlib$appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -94,7 +94,7 @@ public class ItemMixin {
     }
 
     @Inject(method = "postHit", at = @At("HEAD"), cancellable = true)
-    private void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker, CallbackInfoReturnable<Boolean> cir) {
+    private void mcpitanlib$postHit(ItemStack stack, LivingEntity target, LivingEntity attacker, CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -105,7 +105,7 @@ public class ItemMixin {
     }
 
     @Inject(method = "postMine", at = @At("HEAD"), cancellable = true)
-    private void postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
+    private void mcpitanlib$postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
