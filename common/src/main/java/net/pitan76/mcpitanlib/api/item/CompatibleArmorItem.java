@@ -8,10 +8,7 @@ import java.util.Map;
 
 public class CompatibleArmorItem extends ArmorItem implements ExtendItemProvider {
     public final ArmorEquipmentType type;
-
-    @Deprecated
-    public static final Map<CompatibleArmorMaterial, RegistryEntry<ArmorMaterial>> CACHE = new java.util.HashMap<>();
-
+    
     public CompatibleArmorItem(CompatibleArmorMaterial material, ArmorEquipmentType type, CompatibleItemSettings settings) {
         super(material.build(), type.getType(), settings.build());
         this.type = type;
