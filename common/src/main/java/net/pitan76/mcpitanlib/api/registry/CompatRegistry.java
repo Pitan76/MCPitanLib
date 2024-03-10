@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.registry;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.component.DataComponentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -134,6 +135,10 @@ public class CompatRegistry {
 
     public RegistryResult<ItemGroup> registerItemGroup(CreativeTabBuilder builder) {
         return registerItemGroup(builder.getIdentifier(), builder);
+    }
+
+    public RegistryResult<DataComponentType<?>> registerDataComponentType(Identifier id, Supplier<DataComponentType<?>> supplier) {
+        return new RegistryResult<>(null);
     }
 
     public static void registerFuel(int time, ItemConvertible... item) {
