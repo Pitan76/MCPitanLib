@@ -37,13 +37,13 @@ public interface CompatibleArmorMaterial {
     default ArmorMaterial build() {
         return new ArmorMaterial() {
             @Override
-            public int getDurability(ArmorItem.Type type) {
-                return CompatibleArmorMaterial.this.getDurability(ArmorEquipmentType.of(type));
+            public int getDurability(EquipmentSlot slot) {
+                return CompatibleArmorMaterial.this.getDurability(ArmorEquipmentType.of(slot));
             }
 
             @Override
-            public int getProtection(ArmorItem.Type type) {
-                return CompatibleArmorMaterial.this.getProtection(ArmorEquipmentType.of(type));
+            public int getProtectionAmount(EquipmentSlot slot) {
+                return CompatibleArmorMaterial.this.getProtection(ArmorEquipmentType.of(slot));
             }
 
             @Override
