@@ -12,7 +12,7 @@ public class ArmorEquipmentType {
     public static ArmorEquipmentType FEET = new ArmorEquipmentType(EquipmentSlot.FEET);
 
     // New type for animals from 1.20.5
-    public static ArmorEquipmentType BODY = new ArmorEquipmentType(null, null);
+    public static ArmorEquipmentType BODY = new ArmorEquipmentType(null);
 
     protected final EquipmentSlot slot;
 
