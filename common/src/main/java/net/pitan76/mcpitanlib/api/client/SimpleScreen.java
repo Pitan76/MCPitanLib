@@ -132,7 +132,7 @@ public abstract class SimpleScreen extends Screen {
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
-        super.renderBackgroundTexture(args.getDrawObjectDM().getContext());
+        Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), 0, 0, this.width, this.height);
     }
 
     @Deprecated
@@ -149,7 +149,7 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public void renderBackgroundTexture(DrawContext context) {
+    public void renderDarkening(DrawContext context) {
         this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context), 0));
     }
 

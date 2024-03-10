@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 public class PersistentStateUtil {
     public static <T extends PersistentState> T getOrCreate(PersistentStateManager manager, String id, Supplier<T> supplier, Function<NbtCompound, T> function) {
-        PersistentState.Type<T> type = new PersistentState.Type<>(supplier, function, DataFixTypes.LEVEL);
+        PersistentState.Type<T> type = new PersistentState.Type<>(supplier, (nbtCompound, wrapperLookup) -> function.apply(nbtCompound), DataFixTypes.LEVEL);
         return manager.getOrCreate(type, id);
     }
 

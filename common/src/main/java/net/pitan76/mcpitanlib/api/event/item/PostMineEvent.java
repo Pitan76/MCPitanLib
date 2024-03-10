@@ -70,8 +70,6 @@ public class PostMineEvent extends BaseEvent {
      * @param slot the slot to damage
      */
     public void damageStack(int amount, EquipmentSlot slot) {
-        stack.damage(amount, miner, (entity) -> {
-            entity.sendEquipmentBreakStatus(slot);
-        });
+        stack.damage(amount, miner, slot);
     }
 }

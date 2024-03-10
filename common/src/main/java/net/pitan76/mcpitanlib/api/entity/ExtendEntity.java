@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -11,6 +12,12 @@ import net.pitan76.mcpitanlib.api.nbt.NbtTag;
 public class ExtendEntity extends Entity {
     public ExtendEntity(EntityType<?> type, World world) {
         super(type, world);
+    }
+
+    @Deprecated
+    @Override
+    public void initDataTracker(DataTracker.Builder builder) {
+        initDataTracker();
     }
 
     public void initDataTracker() {

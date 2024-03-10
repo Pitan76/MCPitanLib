@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 
@@ -57,47 +58,11 @@ public class EquipMaterialUtil {
     }
 
     public static CompatibleArmorMaterial createArmorMaterial(int[] durability, int[] protection, int enchantability, SoundEvent equipSound, Ingredient repairIngredient, String name, float toughness, float knockbackResistance) {
+        return ArmorMaterialUtil.create(name, durability, protection, enchantability, equipSound, toughness, knockbackResistance, repairIngredient);
+    }
 
-        return new CompatibleArmorMaterial() {
-            @Override
-            public int getDurability(ArmorEquipmentType type) {
-                return durability[toInt(type)];
-            }
-
-            @Override
-            public int getProtection(ArmorEquipmentType type) {
-                return protection[toInt(type)];
-            }
-
-            @Override
-            public int getEnchantability() {
-                return enchantability;
-            }
-
-            @Override
-            public SoundEvent getEquipSound() {
-                return equipSound;
-            }
-
-            @Override
-            public Ingredient getRepairIngredient() {
-                return repairIngredient;
-            }
-
-            @Override
-            public String getName() {
-                return name;
-            }
-
-            @Override
-            public float getToughness() {
-                return toughness;
-            }
-
-            @Override
-            public float getKnockbackResistance() {
-                return knockbackResistance;
-            }
-        };
+    @Deprecated
+    public static CompatibleArmorMaterial createArmorMaterial(int[] durability, int[] protection, int enchantability, SoundEvent equipSound, Ingredient repairIngredient, Identifier id, float toughness, float knockbackResistance) {
+        return ArmorMaterialUtil.create(id, durability, protection, enchantability, equipSound, toughness, knockbackResistance, repairIngredient);
     }
 }

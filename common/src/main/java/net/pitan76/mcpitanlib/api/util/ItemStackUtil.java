@@ -19,6 +19,6 @@ public class ItemStackUtil {
 
     public static boolean areNbtEqual(ItemStack left, ItemStack right) {
         // 1.20.5からはComponentを比較し、それ以前はNBTを比較する
-        return Objects.equals(left.getNbt(), right.getNbt());
+        return Objects.equals(left.getComponents(), right.getComponents());
     }
 }

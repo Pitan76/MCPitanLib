@@ -10,6 +10,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.Map;
 import java.util.UUID;
@@ -69,7 +70,7 @@ public class PacketByteUtil {
         }
         if (obj instanceof ItemStack) {
             ItemStack stack = (ItemStack) obj;
-            buf.writeItemStack(stack);
+            buf.encodeAsJson(ItemStack.CODEC, stack);
         }
         if (obj instanceof Identifier) {
             Identifier identifier = (Identifier) obj;
@@ -85,7 +86,7 @@ public class PacketByteUtil {
         }
         if (obj instanceof Text) {
             Text text = (Text) obj;
-            buf.writeText(text);
+            buf.writeString(text.getString());
         }
         if (obj instanceof BlockPos) {
             BlockPos pos = (BlockPos) obj;
@@ -106,11 +107,12 @@ public class PacketByteUtil {
     }
 
     public static PacketByteBuf writeItemStack(PacketByteBuf buf, ItemStack stack) {
-        return buf.writeItemStack(stack);
+        buf.encodeAsJson(ItemStack.CODEC, stack);
+        return buf;
     }
 
     public static ItemStack readItemStack(PacketByteBuf buf) {
-        return buf.readItemStack();
+        return buf.decodeAsJson(ItemStack.CODEC);
     }
 
     public static PacketByteBuf writeIdentifier(PacketByteBuf buf, Identifier identifier) {
@@ -122,11 +124,11 @@ public class PacketByteUtil {
     }
 
     public static PacketByteBuf writeText(PacketByteBuf buf, Text text) {
-        return buf.writeText(text);
+        return buf.writeString(text.getString());
     }
 
     public static Text readText(PacketByteBuf buf) {
-        return buf.readText();
+        return TextUtil.literal(buf.readString());
     }
 
     public static PacketByteBuf writeBlockPos(PacketByteBuf buf, BlockPos pos) {

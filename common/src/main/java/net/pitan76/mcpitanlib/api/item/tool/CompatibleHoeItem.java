@@ -14,11 +14,11 @@ import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 
 public class CompatibleHoeItem extends HoeItem implements ExtendItemProvider {
     public CompatibleHoeItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+        super(material, settings.build());
     }
 
     public CompatibleHoeItem(int attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+        super(material, settings.build());
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {

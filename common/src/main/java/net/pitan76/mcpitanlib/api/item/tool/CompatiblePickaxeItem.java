@@ -14,11 +14,11 @@ import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 
 public class CompatiblePickaxeItem extends PickaxeItem implements ExtendItemProvider {
     public CompatiblePickaxeItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+        super(material, settings.build());
     }
 
     public CompatiblePickaxeItem(int attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+        super(material, settings.build());
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {

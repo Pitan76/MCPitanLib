@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.entity.player.PlayerInventory;
@@ -192,7 +193,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
-        super.renderBackgroundTexture(args.getDrawObjectDM().getContext());
+        Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), 0, 0, this.width, this.height);
     }
 
     @Deprecated
@@ -209,7 +210,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     @Deprecated
     @Override
-    public void renderBackgroundTexture(DrawContext context) {
+    public void renderDarkening(DrawContext context) {
         this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context), 0));
     }
 

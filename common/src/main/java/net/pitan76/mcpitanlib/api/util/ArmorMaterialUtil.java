@@ -14,6 +14,7 @@ public class ArmorMaterialUtil {
         return create(new Identifier(name), durability, protectionAmount, enchantability, equipSound, toughness, knockbackResistance, repairIngredient);
     }
 
+    @Deprecated
     public static CompatibleArmorMaterial create(Identifier id, int[] durability, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Ingredient repairIngredient) {
         return new CompatibleArmorMaterial() {
             @Override
@@ -90,6 +91,7 @@ public class ArmorMaterialUtil {
         };
     }
 
+    @Deprecated
     public static CompatibleArmorMaterial create(Identifier id, int durability, int protectionAmount, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Ingredient repairIngredient) {
         return new CompatibleArmorMaterial() {
             @Override

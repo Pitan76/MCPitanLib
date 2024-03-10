@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.api.nbt;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtType;
@@ -36,7 +38,7 @@ public class NbtTag extends NbtCompound {
      * @return boolean
      */
     public static boolean hasNbt(ItemStack stack) {
-        return stack.hasNbt();
+        return !stack.getComponents().isEmpty();
     }
 
     /**
@@ -45,7 +47,7 @@ public class NbtTag extends NbtCompound {
      * @return NbtTag
      */
     public static NbtTag getNbt(ItemStack stack) {
-        return from(stack.getNbt());
+        return from(stack.get(DataComponentTypes.CUSTOM_DATA).copyNbt());
     }
 
     /**
@@ -54,7 +56,7 @@ public class NbtTag extends NbtCompound {
      * @param nbt NbtTag
      */
     public static void setNbt(ItemStack stack, NbtTag nbt) {
-        stack.setNbt(nbt);
+        stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
     }
 
     public boolean contains(String key) {

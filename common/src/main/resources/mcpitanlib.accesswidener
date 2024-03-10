@@ -14,6 +14,8 @@ accessible    field    net/minecraft/item/ItemGroups    SPAWN_EGGS    Lnet/minec
 accessible    field    net/minecraft/item/ItemGroups    OPERATOR    Lnet/minecraft/registry/RegistryKey;
 accessible    field    net/minecraft/item/ItemGroups    INVENTORY    Lnet/minecraft/registry/RegistryKey;
 
+accessible    method    net/minecraft/block/AbstractBlock    onStateReplaced    (Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Z)V
+
 accessible    class    net/minecraft/screen/ScreenHandlerType$Factory
 accessible    method   net/minecraft/screen/ScreenHandlerType <init> (Lnet/minecraft/screen/ScreenHandlerType$Factory;Lnet/minecraft/resource/featuretoggle/FeatureSet;)V
 extendable    method   net/minecraft/screen/ScreenHandlerType <init> (Lnet/minecraft/screen/ScreenHandlerType$Factory;Lnet/minecraft/resource/featuretoggle/FeatureSet;)V

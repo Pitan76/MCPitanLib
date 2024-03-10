@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
@@ -36,23 +37,27 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
         return UpdatePacketType.NONE;
     }
 
+    private RegistryWrapper.WrapperLookup wrapperLookupCache;
+
     public void writeNbtOverride(NbtCompound nbt) {
-        super.writeNbt(nbt);
+        super.writeNbt(nbt, wrapperLookupCache);
     }
 
     public void readNbtOverride(NbtCompound nbt) {
-        super.readNbt(nbt);
+        super.readNbt(nbt, wrapperLookupCache);
     }
 
     @Deprecated
     @Override
-    public void writeNbt(NbtCompound nbt) {
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        wrapperLookupCache = registryLookup;
         writeNbtOverride(nbt);
     }
 
     @Deprecated
     @Override
-    public void readNbt(NbtCompound nbt) {
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        wrapperLookupCache = registryLookup;
         readNbtOverride(nbt);
     }
 }

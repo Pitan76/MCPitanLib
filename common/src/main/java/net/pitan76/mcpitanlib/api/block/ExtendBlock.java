@@ -84,8 +84,8 @@ public class ExtendBlock extends Block {
 
     @Override
     @Deprecated
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        return onRightClick(new BlockUseEvent(state, world, pos, player, hand, hit));
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        return onRightClick(new BlockUseEvent(state, world, pos, player, player.getActiveHand(), hit));
     }
 
     /**
@@ -94,7 +94,7 @@ public class ExtendBlock extends Block {
      * @return BlockUseEvent
      */
     public ActionResult onRightClick(BlockUseEvent event) {
-        return super.onUse(event.state, event.world, event.pos, event.player.getPlayerEntity(), event.hand, event.hit);
+        return super.onUse(event.state, event.world, event.pos, event.player.getPlayerEntity(), event.hit);
     }
 
     @Deprecated

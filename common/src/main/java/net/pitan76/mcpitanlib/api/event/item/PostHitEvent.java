@@ -34,8 +34,6 @@ public class PostHitEvent extends BaseEvent {
      * @param slot the slot to damage
      */
     public void damageStack(int amount, EquipmentSlot slot) {
-        stack.damage(amount, attacker, (entity) -> {
-            entity.sendEquipmentBreakStatus(slot);
-        });
+        stack.damage(amount, attacker, slot);
     }
 }
