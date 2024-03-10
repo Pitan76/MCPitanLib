@@ -57,47 +57,6 @@ public class EquipMaterialUtil {
     }
 
     public static CompatibleArmorMaterial createArmorMaterial(int[] durability, int[] protection, int enchantability, SoundEvent equipSound, Ingredient repairIngredient, String name, float toughness, float knockbackResistance) {
-
-        return new CompatibleArmorMaterial() {
-            @Override
-            public int getDurability(ArmorEquipmentType type) {
-                return durability[toInt(type)];
-            }
-
-            @Override
-            public int getProtection(ArmorEquipmentType type) {
-                return protection[toInt(type)];
-            }
-
-            @Override
-            public int getEnchantability() {
-                return enchantability;
-            }
-
-            @Override
-            public SoundEvent getEquipSound() {
-                return equipSound;
-            }
-
-            @Override
-            public Ingredient getRepairIngredient() {
-                return repairIngredient;
-            }
-
-            @Override
-            public String getName() {
-                return name;
-            }
-
-            @Override
-            public float getToughness() {
-                return toughness;
-            }
-
-            @Override
-            public float getKnockbackResistance() {
-                return knockbackResistance;
-            }
-        };
+        return ArmorMaterialUtil.create(name, durability, protection, enchantability, equipSound, toughness, knockbackResistance, repairIngredient);
     }
 }
