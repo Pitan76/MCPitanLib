@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 
@@ -30,7 +28,12 @@ public class CustomDataUtil {
      * @param nbt NBT
      */
     public static void setNbt(ItemStack stack, NbtCompound nbt) {
-        stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
+        NbtCompound components = NbtUtil.create();
+        if (hasNbt(stack)) {
+            components = stack.getNbt().getCompound("components");
+        }
+        components.put("minecraft:custom_data", nbt);
+        stack.getNbt().put("components", components);
     }
     
     /**
@@ -39,7 +42,8 @@ public class CustomDataUtil {
      * @return NBTが存在するかどうか
      */
     public static boolean hasNbt(ItemStack stack) {
-        return stack.contains(DataComponentTypes.CUSTOM_DATA);
+        return stack.getNbt().contains("components") &&
+                stack.getNbt().getCompound("components").contains("minecraft:custom_data");
     }
     
     /**
@@ -48,7 +52,14 @@ public class CustomDataUtil {
      * @return NBT
      */
     public static NbtCompound getNbt(ItemStack stack) {
-        return stack.get(DataComponentTypes.CUSTOM_DATA).copyNbt();
+        NbtCompound customData = NbtUtil.create();
+        if (stack.getNbt().contains("components")) {
+            NbtCompound components = stack.getNbt().getCompound("components");
+            if (components.contains("minecraft:custom_data")) {
+                customData = components.getCompound("minecraft:custom_data").copy();
+            }
+        }
+        return customData;
     }
     
     /**
