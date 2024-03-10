@@ -26,6 +26,7 @@ import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.mcpitanlib.core.registry.FuelRegistry;
 import net.pitan76.mcpitanlib.core.registry.MCPLRegistry;
 import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
+import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_21;
 
 import java.util.function.Supplier;
 
@@ -33,6 +34,7 @@ public class CompatRegistry {
 
     protected final MCPLRegistry mcplr;
     protected final MCPLRegistry1_20 mcplr1_20;
+    protected final MCPLRegistry1_21 mcplr1_21;
     protected final WorldGenRegistry worldGenRegistry;
 
     protected String MOD_ID;
@@ -44,6 +46,7 @@ public class CompatRegistry {
     public CompatRegistry(String MOD_ID) {
         mcplr = new MCPLRegistry(MOD_ID);
         mcplr1_20 = new MCPLRegistry1_20(mcplr, MOD_ID);
+        mcplr1_21 = new MCPLRegistry1_21(mcplr, MOD_ID);
         worldGenRegistry = new WorldGenRegistry(MOD_ID);
         this.MOD_ID = MOD_ID;
     }
@@ -138,7 +141,7 @@ public class CompatRegistry {
     }
 
     public RegistryResult<DataComponentType<?>> registerDataComponentType(Identifier id, Supplier<DataComponentType<?>> supplier) {
-        return new RegistryResult<>(null);
+        return new RegistryResult<>(mcplr1_21.registryDataComponentType(id, supplier));
     }
 
     public static void registerFuel(int time, ItemConvertible... item) {
@@ -150,6 +153,7 @@ public class CompatRegistry {
         mcplr.allRegister1_16();
 
         mcplr1_20.register();
+        mcplr1_21.register();
 
         // ItemGroup
         CreativeTabManager.allRegister();
@@ -163,5 +167,10 @@ public class CompatRegistry {
     @Deprecated
     public MCPLRegistry1_20 getMcplr1_20() {
         return mcplr1_20;
+    }
+
+    @Deprecated
+    public MCPLRegistry1_21 getMcplr1_21() {
+        return mcplr1_21;
     }
 }
