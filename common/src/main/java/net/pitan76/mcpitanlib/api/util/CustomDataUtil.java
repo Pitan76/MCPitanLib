@@ -19,7 +19,7 @@ public class CustomDataUtil {
             return NbtUtil.create();
         }
 
-        return getNbt(stack);
+        return getTag(stack);
     }
 
     /**
@@ -30,10 +30,10 @@ public class CustomDataUtil {
     public static void setNbt(ItemStack stack, NbtCompound nbt) {
         NbtCompound components = NbtUtil.create();
         if (hasNbt(stack)) {
-            components = stack.getNbt().getCompound("components");
+            components = stack.getTag().getCompound("components");
         }
         components.put("minecraft:custom_data", nbt);
-        stack.getNbt().put("components", components);
+        stack.getTag().put("components", components);
     }
     
     /**
@@ -42,8 +42,8 @@ public class CustomDataUtil {
      * @return NBTが存在するかどうか
      */
     public static boolean hasNbt(ItemStack stack) {
-        return stack.getNbt().contains("components") &&
-                stack.getNbt().getCompound("components").contains("minecraft:custom_data");
+        return stack.getTag().contains("components") &&
+                stack.getTag().getCompound("components").contains("minecraft:custom_data");
     }
     
     /**
@@ -51,10 +51,10 @@ public class CustomDataUtil {
      * @param stack ItemStack
      * @return NBT
      */
-    public static NbtCompound getNbt(ItemStack stack) {
+    public static NbtCompound getTag(ItemStack stack) {
         NbtCompound customData = NbtUtil.create();
-        if (stack.getNbt().contains("components")) {
-            NbtCompound components = stack.getNbt().getCompound("components");
+        if (stack.getTag().contains("components")) {
+            NbtCompound components = stack.getTag().getCompound("components");
             if (components.contains("minecraft:custom_data")) {
                 customData = components.getCompound("minecraft:custom_data").copy();
             }
@@ -81,7 +81,7 @@ public class CustomDataUtil {
      * @return 値
      */
     public static NbtCompound get(ItemStack stack, String key) {
-        NbtCompound nbt = getNbt(stack);
+        NbtCompound nbt = getTag(stack);
         return nbt.getCompound(key);
     }
     
@@ -91,7 +91,7 @@ public class CustomDataUtil {
      * @param key キー
      */
     public static void remove(ItemStack stack, String key) {
-        NbtCompound nbt = getNbt(stack);
+        NbtCompound nbt = getTag(stack);
         nbt.remove(key);
         setNbt(stack, nbt);
     }
@@ -103,7 +103,7 @@ public class CustomDataUtil {
      * @return 値が存在するかどうか
      */
     public static boolean has(ItemStack stack, String key) {
-        NbtCompound nbt = getNbt(stack);
+        NbtCompound nbt = getTag(stack);
         return nbt.contains(key);
     }
     
@@ -115,7 +115,7 @@ public class CustomDataUtil {
      * @param <T> 値
      */
     public static <T> T get(ItemStack stack, String key, Class<T> clazz) {
-        NbtCompound nbt = getNbt(stack);
+        NbtCompound nbt = getTag(stack);
         return NbtUtil.get(nbt, key, clazz);
     }
     
@@ -137,7 +137,7 @@ public class CustomDataUtil {
      * @return キーの一覧
      */
     public static Set<String> getKeys(ItemStack stack) {
-        NbtCompound nbt = getNbt(stack);
+        NbtCompound nbt = getTag(stack);
         return NbtUtil.getKeys(nbt);
     }
 }
