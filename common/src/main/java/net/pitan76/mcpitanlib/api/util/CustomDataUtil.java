@@ -140,4 +140,24 @@ public class CustomDataUtil {
         NbtCompound nbt = getTag(stack);
         return NbtUtil.getKeys(nbt);
     }
+
+    /**
+     * set(stack, key, value) のエイリアス
+     * @param stack ItemStack
+     * @param key キー
+     * @param value 値
+     */
+    public static <T> void put(ItemStack stack, String key, T value) {
+        set(stack, key, value);
+    }
+
+    /**
+     * has(stack, key) のエイリアス
+     * @param stack ItemStack
+     * @param key キー
+     * @return 値が存在するかどうか
+     */
+    public static boolean contains(ItemStack stack, String key) {
+        return has(stack, key);
+    }
 }
