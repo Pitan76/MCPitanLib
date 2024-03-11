@@ -191,27 +191,27 @@ public class WorldUtil {
         setBlockState(world, pos, block, 3);
     }
 
-    public static void breakBlock(World world, BlockPos pos, boolean drop) {
-        world.breakBlock(pos, drop);
+    public static boolean breakBlock(World world, BlockPos pos, boolean drop) {
+        return world.breakBlock(pos, drop);
     }
 
-    public static void breakBlock(World world, BlockPos pos) {
-        breakBlock(world, pos, true);
+    public static boolean breakBlock(World world, BlockPos pos) {
+        return breakBlock(world, pos, true);
     }
 
-    public static void breakBlock(World world, BlockPos pos, boolean drop, @Nullable Player player) {
-        world.breakBlock(pos, drop, player.getPlayerEntity());
+    public static boolean breakBlock(World world, BlockPos pos, boolean drop, @Nullable Player player) {
+        return world.breakBlock(pos, drop, player.getPlayerEntity());
     }
 
-    public static void breakBlock(World world, BlockPos pos, @Nullable Player player) {
-        breakBlock(world, pos, true, player);
+    public static boolean breakBlock(World world, BlockPos pos, @Nullable Player player) {
+        return breakBlock(world, pos, true, player);
     }
 
     public static void removeBlockEntity(World world, BlockPos pos) {
         world.removeBlockEntity(pos);
     }
 
-    public static void removeBlock(World world, BlockPos pos, boolean move) {
-        world.removeBlock(pos, move);
+    public static boolean removeBlock(World world, BlockPos pos, boolean move) {
+        return world.removeBlock(pos, move);
     }
 }
