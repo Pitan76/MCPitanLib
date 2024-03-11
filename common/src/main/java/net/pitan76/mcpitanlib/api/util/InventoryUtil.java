@@ -1,7 +1,10 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.world.World;
 
 public class InventoryUtil {
     public static boolean insertItem(ItemStack insertStack, DefaultedList<ItemStack> inventory) {
@@ -37,6 +40,18 @@ public class InventoryUtil {
         if (first.getCount() + second.getCount() > first.getMaxCount()) {
             return false;
         }
-        return ItemStackUtil.areNbtEqual(first, second);
+        return ItemStackUtil.areNbtOrComponentEqual(first, second);
+    }
+
+    public static NbtCompound writeNbt(World world, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
+        return writeNbt(world, nbt, true, stacks);
+    }
+
+    public static NbtCompound writeNbt(World world, NbtCompound nbt, boolean setIfEmpty, DefaultedList<ItemStack> stacks) {
+        return Inventories.writeNbt(nbt, stacks, setIfEmpty, world.getRegistryManager());
+    }
+
+    public static void readNbt(World world, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
+        Inventories.readNbt(nbt, stacks, world.getRegistryManager());
     }
 }
