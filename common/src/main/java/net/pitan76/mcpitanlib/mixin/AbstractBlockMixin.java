@@ -60,11 +60,11 @@ public class AbstractBlockMixin {
     }
 
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
+    private void mcpitanlib$inject_onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, hand, hit), options);
+            ActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, player.getActiveHand(), hit), options);
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
