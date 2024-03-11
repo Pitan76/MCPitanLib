@@ -48,10 +48,10 @@ public class InventoryUtil {
     }
 
     public static NbtCompound writeNbt(World world, NbtCompound nbt, boolean setIfEmpty, DefaultedList<ItemStack> stacks) {
-        return Inventories.writeNbt(nbt, stacks, setIfEmpty, world.getRegistryManager());
+        return Inventories.writeNbt(nbt, stacks, setIfEmpty);
     }
 
     public static void readNbt(World world, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
-        Inventories.readNbt(nbt, stacks, world.getRegistryManager());
+        Inventories.readNbt(nbt, stacks);
     }
 }
