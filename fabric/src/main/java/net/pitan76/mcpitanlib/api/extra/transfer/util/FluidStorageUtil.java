@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.extra.transfer.util;
 
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
@@ -14,11 +13,11 @@ public class FluidStorageUtil {
     }
 
     public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
-        storage.readNbt(nbt, world.getRegistryManager());
+        storage.readNbt(nbt);
     }
 
     public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
-        storage.writeNbt(nbt, world.getRegistryManager());
+        storage.writeNbt(nbt);
     }
 
     public static long getAmount(SingleFluidStorage storage) {
