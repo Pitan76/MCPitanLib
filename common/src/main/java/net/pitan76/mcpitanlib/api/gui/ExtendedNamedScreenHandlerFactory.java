@@ -9,6 +9,7 @@ import net.minecraft.screen.ScreenHandlerFactory;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider {
 
     private final Text name;
