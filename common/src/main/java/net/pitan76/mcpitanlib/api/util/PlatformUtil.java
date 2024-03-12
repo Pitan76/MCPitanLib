@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import me.shedaniel.architectury.injectables.annotations.ExpectPlatform;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import me.shedaniel.architectury.platform.Platform;
 import me.shedaniel.architectury.utils.Env;
 import net.fabricmc.api.EnvType;
