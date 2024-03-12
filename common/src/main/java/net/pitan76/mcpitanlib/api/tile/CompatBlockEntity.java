@@ -60,4 +60,6 @@ public class CompatBlockEntity extends BlockEntity {
         wrapperLookupCache = registryLookup;
         readNbtOverride(nbt);
     }
+
+
 }
