@@ -55,4 +55,6 @@ public class CompatBlockEntity extends BlockEntity {
     public void readNbt(NbtCompound nbt) {
         readNbtOverride(nbt);
     }
+
+
 }
