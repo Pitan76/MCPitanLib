@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import dev.architectury.registry.menu.ExtendedMenuProvider;
+import me.shedaniel.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
