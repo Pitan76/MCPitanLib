@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import me.shedaniel.architectury.injectables.annotations.ExpectPlatform;
 import me.shedaniel.architectury.platform.Platform;
 import me.shedaniel.architectury.utils.Env;
 import net.fabricmc.api.EnvType;
@@ -20,18 +21,22 @@ public class PlatformUtil {
         return Platform.isForge();
     }
 
+    @ExpectPlatform
     public static boolean isModLoaded(String id) {
         return Platform.isModLoaded(id);
     }
 
+    @ExpectPlatform
     public static boolean isClient() {
         return Platform.getEnvironment() == Env.CLIENT;
     }
 
+    @ExpectPlatform
     public static boolean isServer() {
         return Platform.getEnvironment() == Env.SERVER;
     }
 
+    @ExpectPlatform
     public static Path getConfigFolder() {
         return Platform.getConfigFolder();
     }

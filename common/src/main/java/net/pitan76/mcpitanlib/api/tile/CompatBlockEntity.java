@@ -53,4 +53,6 @@ public class CompatBlockEntity extends BlockEntity {
     public void fromTag(BlockState state, NbtCompound nbt) {
         readNbtOverride(nbt);
     }
+
+
 }
