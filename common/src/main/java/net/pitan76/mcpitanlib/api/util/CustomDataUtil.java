@@ -42,6 +42,8 @@ public class CustomDataUtil {
      * @return NBTが存在するかどうか
      */
     public static boolean hasNbt(ItemStack stack) {
+        if (stack.getNbt() == null) return false;
+
         return stack.getTag().contains("components") &&
                 stack.getTag().getCompound("components").contains("minecraft:custom_data");
     }
@@ -53,6 +55,9 @@ public class CustomDataUtil {
      */
     public static NbtCompound getNbt(ItemStack stack) {
         NbtCompound customData = NbtUtil.create();
+        if (!hasNbt(stack))
+            return customData;
+
         if (stack.getTag().contains("components")) {
             NbtCompound components = stack.getTag().getCompound("components");
             if (components.contains("minecraft:custom_data")) {
