@@ -48,6 +48,9 @@ public class CustomDataUtil {
      * @return NBT
      */
     public static NbtCompound getNbt(ItemStack stack) {
+        if (stack.get(DataComponentTypes.CUSTOM_DATA) == null)
+            return NbtUtil.create();
+
         return stack.get(DataComponentTypes.CUSTOM_DATA).copyNbt();
     }
     
