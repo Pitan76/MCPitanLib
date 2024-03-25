@@ -95,6 +95,9 @@ public class CustomDataUtil {
      * @return 値が存在するかどうか
      */
     public static boolean has(ItemStack stack, String key) {
+        if (!hasNbt(stack))
+            return false;
+
         NbtCompound nbt = getNbt(stack);
         return nbt.contains(key);
     }
