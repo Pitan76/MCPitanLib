@@ -19,7 +19,7 @@ public class CustomDataUtil {
             return NbtUtil.create();
         }
 
-        return getTag(stack);
+        return getNbt(stack);
     }
 
     /**
@@ -42,7 +42,7 @@ public class CustomDataUtil {
      * @return NBTが存在するかどうか
      */
     public static boolean hasNbt(ItemStack stack) {
-        if (stack.getNbt() == null) return false;
+        if (stack.getTag() == null) return false;
 
         return stack.getTag().contains("components") &&
                 stack.getTag().getCompound("components").contains("minecraft:custom_data");
@@ -86,7 +86,7 @@ public class CustomDataUtil {
      * @return 値
      */
     public static NbtCompound get(ItemStack stack, String key) {
-        NbtCompound nbt = getTag(stack);
+        NbtCompound nbt = getNbt(stack);
         return nbt.getCompound(key);
     }
     
@@ -96,7 +96,7 @@ public class CustomDataUtil {
      * @param key キー
      */
     public static void remove(ItemStack stack, String key) {
-        NbtCompound nbt = getTag(stack);
+        NbtCompound nbt = getNbt(stack);
         nbt.remove(key);
         setNbt(stack, nbt);
     }
@@ -111,7 +111,7 @@ public class CustomDataUtil {
         if (!hasNbt(stack))
             return false;
 
-        NbtCompound nbt = getTag(stack);
+        NbtCompound nbt = getNbt(stack);
         return nbt.contains(key);
     }
     
@@ -123,7 +123,7 @@ public class CustomDataUtil {
      * @param <T> 値
      */
     public static <T> T get(ItemStack stack, String key, Class<T> clazz) {
-        NbtCompound nbt = getTag(stack);
+        NbtCompound nbt = getNbt(stack);
         return NbtUtil.get(nbt, key, clazz);
     }
     
@@ -145,7 +145,7 @@ public class CustomDataUtil {
      * @return キーの一覧
      */
     public static Set<String> getKeys(ItemStack stack) {
-        NbtCompound nbt = getTag(stack);
+        NbtCompound nbt = getNbt(stack);
         return NbtUtil.getKeys(nbt);
     }
 
