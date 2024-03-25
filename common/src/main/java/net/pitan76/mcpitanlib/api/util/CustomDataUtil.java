@@ -51,7 +51,7 @@ public class CustomDataUtil {
      * @param stack ItemStack
      * @return NBT
      */
-    public static NbtCompound getTag(ItemStack stack) {
+    public static NbtCompound getNbt(ItemStack stack) {
         NbtCompound customData = NbtUtil.create();
         if (stack.getTag().contains("components")) {
             NbtCompound components = stack.getTag().getCompound("components");
@@ -103,6 +103,9 @@ public class CustomDataUtil {
      * @return 値が存在するかどうか
      */
     public static boolean has(ItemStack stack, String key) {
+        if (!hasNbt(stack))
+            return false;
+
         NbtCompound nbt = getTag(stack);
         return nbt.contains(key);
     }
