@@ -7,17 +7,29 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 
+@SuppressWarnings("removal")
 public class FluidStorageUtil {
     public static SingleFluidStorage withFixedCapacity(long capacity, Runnable onChange) {
-        return SingleFluidStorage.withFixedCapacity(capacity, onChange);
+        return new SingleFluidStorage() {
+
+            @Override
+            protected long getCapacity(FluidVariant fluidVariant) {
+                return capacity;
+            }
+
+            @Override
+            protected void markDirty() {
+                onChange.run();
+            }
+        };
     }
 
     public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
-        storage.readNbt(nbt);
+        storage.fluidVariant.getNbt().copyFrom(nbt);
     }
 
     public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
-        storage.writeNbt(nbt);
+        nbt.copyFrom(storage.fluidVariant.getNbt());
     }
 
     public static long getAmount(SingleFluidStorage storage) {
