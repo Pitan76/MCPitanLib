@@ -39,6 +39,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.client.render.EntityModelLayerContext;
 
 import java.util.List;
 import java.util.Random;
@@ -113,8 +114,8 @@ public class CompatRegistryClient {
         // ～1.19.2
     }
 
-    public static void registerEntityModelLayer(EntityModelLayer layer, Supplier<TexturedModelData> modelData) {
-        EntityModelLayerRegistry.register(layer, modelData);
+    public static void registerEntityModelLayer(EntityModelLayer layer, EntityModelLayerContext context) {
+        EntityModelLayerRegistry.register(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
