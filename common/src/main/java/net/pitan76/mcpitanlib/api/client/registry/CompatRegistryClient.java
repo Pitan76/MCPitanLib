@@ -83,6 +83,10 @@ public class CompatRegistryClient {
         }));
     }
 
+    public static void registerEntityModelLayer(EntityModelLayer layer, EntityModelLayerContext context) {
+        EntityModelLayerRegistry.register(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
+    }
+
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererFactory<T> provider) {
         EntityRendererRegistry.register(type, provider);
     }
