@@ -12,6 +12,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.render.RenderLayer;
@@ -106,8 +108,14 @@ public class CompatRegistryClient {
         // ～1.19.2
     }
 
-    public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, ArchRegistryClient.BlockEntityRendererFactory<T> provider) {
-        BlockEntityRenderers.registerRenderer(type, dispatcher -> provider.create(new ArchRegistryClient.BlockEntityRendererFactory.Context(dispatcher)));
+    public static void registerEntityModelLayer(EntityModelLayer layer, Supplier<TexturedModelData> modelData) {
+        EntityModelLayerRegistry.register(layer, modelData);
+    }
+
+    public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
+        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+                ctx.getRenderDispatcher(), ctx.getRenderManager(), null, null, ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
+        )));
     }
 
     @FunctionalInterface
