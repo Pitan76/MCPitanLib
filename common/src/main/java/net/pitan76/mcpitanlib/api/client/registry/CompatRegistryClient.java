@@ -128,6 +128,10 @@ public class CompatRegistryClient {
         )));
     }
 
+    public static void registerEntityModelLayer(EntityModelLayer layer, EntityModelLayerContext context) {
+        EntityModelLayerRegistry.register(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
+    }
+
     @FunctionalInterface
     public interface BlockEntityRendererFactory<T extends BlockEntity> {
         BlockEntityRenderer<T> create(Context ctx);
