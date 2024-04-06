@@ -118,18 +118,10 @@ public class CompatRegistryClient {
         // ～1.19.2
     }
 
-    public static void registerEntityModelLayer(EntityModelLayer layer, EntityModelLayerContext context) {
-        EntityModelLayerRegistry.register(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
-    }
-
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
         BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
                 ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
-    }
-
-    public static void registerEntityModelLayer(EntityModelLayer layer, EntityModelLayerContext context) {
-        EntityModelLayerRegistry.register(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
     }
 
     @FunctionalInterface
