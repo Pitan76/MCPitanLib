@@ -1,14 +1,11 @@
 package net.pitan76.mcpitanlib.api.client.render;
 
-import net.minecraft.client.model.ModelData;
 
 public class EntityModelLayerContext {
-    private final ModelData data;
     private final int width;
     private final int height;
 
-    public EntityModelLayerContext(ModelData data, int width, int height) {
-        this.data = data;
+    public EntityModelLayerContext(int width, int height) {
         this.width = width;
         this.height = height;
     }
@@ -19,9 +16,5 @@ public class EntityModelLayerContext {
 
     public int getWidth() {
         return width;
-    }
-
-    public ModelData getData() {
-        return data;
     }
 }
