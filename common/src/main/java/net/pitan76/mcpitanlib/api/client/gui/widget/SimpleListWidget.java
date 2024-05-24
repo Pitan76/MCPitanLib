@@ -45,8 +45,8 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
     }
 
     @Override
-    protected int getScrollbarPositionX() {
-        return super.getScrollbarPositionX() + 32;
+    protected int getScrollbarX() {
+        return super.getScrollbarX() + 32;
     }
 
     @Nullable

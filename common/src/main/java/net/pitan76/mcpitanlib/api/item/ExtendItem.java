@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -62,8 +62,8 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        appendTooltip(new ItemAppendTooltipEvent(stack, world, tooltip, context));
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context));
     }
 
     @Deprecated
@@ -135,7 +135,7 @@ public class ExtendItem extends Item {
      * @param event ItemAppendTooltipEvent
      */
     public void appendTooltip(ItemAppendTooltipEvent event) {
-        super.appendTooltip(event.stack, event.world, event.tooltip, event.context);
+        super.appendTooltip(event.stack, event.context, event.tooltip, event.type);
     }
 
     /**

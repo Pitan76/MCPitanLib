@@ -132,7 +132,8 @@ public abstract class SimpleScreen extends Screen {
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
-        Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), 0, 0, this.width, this.height);
+        if (getBackgroundTexture() != null)
+            Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), 0, 0, 0, 0, this.width, this.height);
     }
 
     @Deprecated
@@ -169,5 +170,9 @@ public abstract class SimpleScreen extends Screen {
     @Override
     public void removed() {
         removedOverride();
+    }
+
+    public Identifier getBackgroundTexture() {
+        return null;
     }
 }

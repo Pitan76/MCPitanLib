@@ -12,8 +12,14 @@ import net.minecraft.world.World;
 public class ExtendEntityType<T extends Entity> extends EntityType<T> {
     private final Boolean alwaysUpdateVelocity;
 
+    @Deprecated
+    public ExtendEntityType(EntityFactory<T> factory, SpawnGroup spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> canSpawnBlocks, EntityDimensions entityDimensions, float spawnBoxScale, int maxTrackDistance, int trackTickInterval, Boolean alwaysUpdateVelocity) {
+        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, spawnBoxScale, maxTrackDistance, trackTickInterval, FeatureFlags.DEFAULT_ENABLED_FEATURES);
+        this.alwaysUpdateVelocity = alwaysUpdateVelocity;
+    }
+
     public ExtendEntityType(EntityFactory<T> factory, SpawnGroup spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> canSpawnBlocks, EntityDimensions entityDimensions, int maxTrackDistance, int trackTickInterval, Boolean alwaysUpdateVelocity) {
-        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, maxTrackDistance, trackTickInterval, FeatureFlags.DEFAULT_ENABLED_FEATURES);
+        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, 5, maxTrackDistance, trackTickInterval, FeatureFlags.DEFAULT_ENABLED_FEATURES);
         this.alwaysUpdateVelocity = alwaysUpdateVelocity;
     }
 

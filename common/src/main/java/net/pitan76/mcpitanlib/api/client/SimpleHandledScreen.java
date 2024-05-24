@@ -27,7 +27,6 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     public Text title;
     public MinecraftClient client;
-
     public SimpleHandledScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         fixScreen();
@@ -193,7 +192,8 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
-        Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), 0, 0, this.width, this.height);
+        if (getBackgroundTexture() != null)
+            Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), x, y, 0, 0, this.width, this.height);
     }
 
     @Deprecated
@@ -230,5 +230,9 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     @Override
     public void removed() {
         removedOverride();
+    }
+
+    public Identifier getBackgroundTexture() {
+        return null;
     }
 }

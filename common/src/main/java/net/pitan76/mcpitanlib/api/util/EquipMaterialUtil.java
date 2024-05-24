@@ -1,11 +1,14 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
+import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolMaterial;
 
 public class EquipMaterialUtil {
     public static ToolMaterial createToolMaterial(int durability, float miningSpeedMultiplier, float attackDamage, int miningLevel, int enchantability, Ingredient repairIngredient) {
@@ -26,8 +29,8 @@ public class EquipMaterialUtil {
             }
 
             @Override
-            public int getMiningLevel() {
-                return miningLevel;
+            public TagKey<Block> getInverseTag() {
+                return CompatibleToolMaterial.level2inverseTag(miningLevel);
             }
 
             @Override

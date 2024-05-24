@@ -25,11 +25,23 @@ public class CompatibleMiningToolItem extends MiningToolItem implements ExtendIt
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
-        return super.isSuitableFor(state);
+        return super.isCorrectForDrops(getDefaultStack(), state);
+    }
+
+    @Deprecated
+    @Override
+    public boolean isCorrectForDrops(ItemStack stack, BlockState state) {
+        return overrideIsSuitableFor(state);
     }
 
     public float overrideGetMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-        return super.getMiningSpeedMultiplier(stack, state);
+        return 1.0F;
+    }
+
+    @Deprecated
+    @Override
+    public float getMiningSpeed(ItemStack stack, BlockState state) {
+        return overrideGetMiningSpeedMultiplier(stack, state) * super.getMiningSpeed(stack, state);
     }
 
     /**
@@ -48,18 +60,6 @@ public class CompatibleMiningToolItem extends MiningToolItem implements ExtendIt
      */
     public boolean postMine(PostMineEvent event) {
         return super.postMine(event.stack, event.world, event.state, event.pos, event.miner);
-    }
-
-    @Deprecated
-    @Override
-    public boolean isSuitableFor(BlockState state) {
-        return overrideIsSuitableFor(state);
-    }
-
-    @Deprecated
-    @Override
-    public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-        return overrideGetMiningSpeedMultiplier(stack, state);
     }
 
     @Deprecated

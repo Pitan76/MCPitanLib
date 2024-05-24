@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.mixin;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -83,11 +83,11 @@ public class ItemMixin {
     }
 
     @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
+    private void mcpitanlib$appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type, CallbackInfo ci) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            provider.appendTooltip(new ItemAppendTooltipEvent(stack, world, tooltip, context), options);
+            provider.appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context), options);
             if (options.cancel)
                 ci.cancel();
         }

@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.item.FoodComponent;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
@@ -53,7 +53,10 @@ public class CompatibleItemSettings {
     }
 
     public CompatibleItemSettings maxDamageIfAbsent(int maxDamage) {
-        settings.maxDamageIfAbsent(maxDamage);
+        try {
+            settings.maxDamage(maxDamage);
+        } catch (Exception ignored) {}
+
         return this;
     }
 

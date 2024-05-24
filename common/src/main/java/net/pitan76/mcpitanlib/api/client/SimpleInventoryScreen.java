@@ -18,6 +18,11 @@ public abstract class SimpleInventoryScreen extends SimpleHandledScreen {
     public abstract Identifier getTexture();
 
     @Override
+    public Identifier getBackgroundTexture() {
+        return getTexture();
+    }
+
+    @Override
     public void drawBackgroundOverride(DrawBackgroundArgs args) {
         RenderUtil.setShaderToPositionTexProgram();
         RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

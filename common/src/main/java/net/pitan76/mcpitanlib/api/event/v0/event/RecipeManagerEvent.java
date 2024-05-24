@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.event.v0.event;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.RecipeType;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
@@ -17,23 +16,26 @@ public class RecipeManagerEvent {
     public Profiler profiler;
 
     @Deprecated
-    public Map<RecipeType<?>, ImmutableMap.Builder<Identifier, RecipeEntry<?>>> map;
+    public ImmutableMap.Builder<Identifier, RecipeEntry<?>> builder;
 
-    public RecipeManagerEvent(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, Map<RecipeType<?>, ImmutableMap.Builder<Identifier, RecipeEntry<?>>> map2) {
+    public RecipeManagerEvent(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, ImmutableMap.Builder<Identifier, RecipeEntry<?>> builder) {
         this.jsonMap = map;
         this.resourceManager = resourceManager;
         this.profiler = profiler;
-        this.map = map2;
+        this.builder = builder;
     }
 
     public Map<Identifier, JsonElement> getJsonMap() {
         return jsonMap;
     }
 
+    /*
     @Deprecated
     public Map<RecipeType<?>, ImmutableMap.Builder<Identifier, RecipeEntry<?>>> getMap() {
         return map;
     }
+
+     */
 
     public Profiler getProfiler() {
         return profiler;
@@ -44,10 +46,10 @@ public class RecipeManagerEvent {
     }
 
     public void putCompatibleRecipeEntry(Identifier id, CompatibleRecipeEntry entry) {
-        map.get(entry.getType()).put(entry.getId(), entry.getRecipeEntry());
+        putCompatibleRecipeEntry(entry);
     }
 
     public void putCompatibleRecipeEntry(CompatibleRecipeEntry entry) {
-        map.get(entry.getType()).put(entry.getId(), entry.getRecipeEntry());
+        builder.put(entry.getId(), entry.getRecipeEntry());
     }
 }

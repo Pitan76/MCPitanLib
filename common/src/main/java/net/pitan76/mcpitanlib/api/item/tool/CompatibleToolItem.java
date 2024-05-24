@@ -23,23 +23,23 @@ public class CompatibleToolItem extends ToolItem implements ExtendItemProvider {
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
-        return super.isSuitableFor(state);
+        return super.isCorrectForDrops(getDefaultStack(), state);
     }
 
     @Deprecated
     @Override
-    public boolean isSuitableFor(BlockState state) {
+    public boolean isCorrectForDrops(ItemStack stack, BlockState state) {
         return overrideIsSuitableFor(state);
     }
 
     public float overrideGetMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-        return super.getMiningSpeedMultiplier(stack, state);
+        return 1.0F;
     }
 
     @Deprecated
     @Override
-    public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-        return overrideGetMiningSpeedMultiplier(stack, state);
+    public float getMiningSpeed(ItemStack stack, BlockState state) {
+        return overrideGetMiningSpeedMultiplier(stack, state) * super.getMiningSpeed(stack, state);
     }
 
     @Deprecated

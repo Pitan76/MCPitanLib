@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
@@ -13,12 +14,15 @@ public class ItemAppendTooltipEvent extends BaseEvent {
     public ItemStack stack;
     public World world;
     public List<Text> tooltip;
-    public TooltipContext context;
 
-    public ItemAppendTooltipEvent(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public TooltipType type;
+    public Item.TooltipContext context;
+
+    public ItemAppendTooltipEvent(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipType type, Item.TooltipContext context) {
         this.stack = stack;
         this.world = world;
         this.tooltip = tooltip;
+        this.type = type;
         this.context = context;
     }
 
@@ -34,7 +38,7 @@ public class ItemAppendTooltipEvent extends BaseEvent {
         return tooltip;
     }
 
-    public TooltipContext getContext() {
+    public Item.TooltipContext getContext() {
         return context;
     }
 
@@ -51,10 +55,10 @@ public class ItemAppendTooltipEvent extends BaseEvent {
     }
 
     public boolean isCreative() {
-        return context.isAdvanced();
+        return type.isCreative();
     }
 
     public boolean isAdvanced() {
-        return context.isAdvanced();
+        return type.isAdvanced();
     }
 }
