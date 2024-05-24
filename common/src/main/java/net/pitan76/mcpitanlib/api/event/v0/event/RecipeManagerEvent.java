@@ -1,8 +1,9 @@
 package net.pitan76.mcpitanlib.api.event.v0.event;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Multimap;
 import com.google.gson.JsonElement;
 import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
@@ -16,26 +17,32 @@ public class RecipeManagerEvent {
     public Profiler profiler;
 
     @Deprecated
-    public ImmutableMap.Builder<Identifier, RecipeEntry<?>> builder;
+    public Map<Identifier, RecipeEntry<?>> recipesById;
 
-    public RecipeManagerEvent(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, ImmutableMap.Builder<Identifier, RecipeEntry<?>> builder) {
+    @Deprecated
+    public Multimap<RecipeType<?>, RecipeEntry<?>> recipesByType;
+
+    public RecipeManagerEvent(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, Map<Identifier, RecipeEntry<?>> recipesById, Multimap<RecipeType<?>, RecipeEntry<?>> recipesByType) {
         this.jsonMap = map;
         this.resourceManager = resourceManager;
         this.profiler = profiler;
-        this.builder = builder;
+        this.recipesById = recipesById;
+        this.recipesByType = recipesByType;
     }
 
     public Map<Identifier, JsonElement> getJsonMap() {
         return jsonMap;
     }
 
-    /*
     @Deprecated
-    public Map<RecipeType<?>, ImmutableMap.Builder<Identifier, RecipeEntry<?>>> getMap() {
-        return map;
+    public Map<Identifier, RecipeEntry<?>> getRecipesById() {
+        return recipesById;
     }
 
-     */
+    @Deprecated
+    public Multimap<RecipeType<?>, RecipeEntry<?>> getRecipesByType() {
+        return recipesByType;
+    }
 
     public Profiler getProfiler() {
         return profiler;
@@ -50,6 +57,7 @@ public class RecipeManagerEvent {
     }
 
     public void putCompatibleRecipeEntry(CompatibleRecipeEntry entry) {
-        builder.put(entry.getId(), entry.getRecipeEntry());
+        recipesById.put(entry.getId(), entry.getRecipeEntry());
+        recipesByType.put(entry.getType(), entry.getRecipeEntry());
     }
 }
