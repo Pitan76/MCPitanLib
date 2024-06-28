@@ -225,4 +225,12 @@ public class ExtendBlock extends Block {
     public void appendProperties(AppendPropertiesArgs args) {
         super.appendProperties(args.builder);
     }
+
+    /**
+     * Compatible for getDefaultState()
+     * @return default block state
+     */
+    public BlockState getNewDefaultState() {
+        return super.getDefaultState();
+    }
 }
