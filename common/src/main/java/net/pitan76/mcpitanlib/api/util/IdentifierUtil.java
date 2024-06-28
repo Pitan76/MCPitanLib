@@ -8,6 +8,6 @@ public class IdentifierUtil {
     }
 
     public static Identifier id(String namespace, String path) {
-        return Identifier.of(namespace, path);
+        return new Identifier(namespace, path);
     }
 }
