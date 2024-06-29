@@ -11,6 +11,7 @@ import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 public class CompatibleShovelItem extends ShovelItem implements ExtendItemProvider {
     public CompatibleShovelItem(CompatibleToolMaterial material, float attackDamage, float attackSpeed, CompatibleItemSettings settings) {
@@ -55,6 +56,7 @@ public class CompatibleShovelItem extends ShovelItem implements ExtendItemProvid
 
     /**
      * post hit event
+     *
      * @param event PostHitEvent
      * @return boolean
      */
@@ -64,6 +66,7 @@ public class CompatibleShovelItem extends ShovelItem implements ExtendItemProvid
 
     /**
      * post mine event
+     *
      * @param event PostMineEvent
      * @return boolean
      */
@@ -72,7 +75,7 @@ public class CompatibleShovelItem extends ShovelItem implements ExtendItemProvid
     }
 
     // -1.20.6
-    public boolean isDamageable() {
-        return true;
+    public boolean isDamageableOnDefault() {
+        return ItemStackUtil.getMaxDamage(this) > 0;
     }
 }

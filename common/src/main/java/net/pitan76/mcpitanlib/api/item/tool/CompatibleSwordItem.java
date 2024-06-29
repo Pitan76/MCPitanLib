@@ -11,6 +11,7 @@ import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 public class CompatibleSwordItem extends SwordItem implements ExtendItemProvider {
     public CompatibleSwordItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatibleItemSettings settings) {
@@ -72,7 +73,7 @@ public class CompatibleSwordItem extends SwordItem implements ExtendItemProvider
     }
 
     // -1.20.6
-    public boolean isDamageable() {
-        return true;
+    public boolean isDamageableOnDefault() {
+        return ItemStackUtil.getMaxDamage(this) > 0;
     }
 }

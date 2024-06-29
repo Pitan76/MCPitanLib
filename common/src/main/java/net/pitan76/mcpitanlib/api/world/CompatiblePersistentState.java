@@ -20,8 +20,8 @@ public abstract class CompatiblePersistentState extends PersistentState {
     @Deprecated
     @Override
     public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        return writeNbt(nbt);
+        return writeNbtOverride(nbt);
     }
 
-    public abstract NbtCompound writeNbt(NbtCompound tag);
+    public abstract NbtCompound writeNbtOverride(NbtCompound tag);
 }

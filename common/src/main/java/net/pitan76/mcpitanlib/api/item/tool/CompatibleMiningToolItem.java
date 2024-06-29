@@ -13,6 +13,7 @@ import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 public class CompatibleMiningToolItem extends MiningToolItem implements ExtendItemProvider {
     @Deprecated
@@ -75,7 +76,7 @@ public class CompatibleMiningToolItem extends MiningToolItem implements ExtendIt
     }
 
     // -1.20.6
-    public boolean isDamageable() {
-        return true;
+    public boolean isDamageableOnDefault() {
+        return ItemStackUtil.getMaxDamage(this) > 0;
     }
 }

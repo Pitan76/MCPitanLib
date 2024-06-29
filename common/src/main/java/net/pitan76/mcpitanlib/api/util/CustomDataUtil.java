@@ -155,4 +155,13 @@ public class CustomDataUtil {
     public static boolean contains(ItemStack stack, String key) {
         return has(stack, key);
     }
+
+    /**
+     * 1.20.3以前下位互換のための修正用
+     * @param stack ItemStack
+     * @param keys 移植するキー
+     */
+    public static void fix_oldNbt(ItemStack stack, String[] keys) {
+
+    }
 }
