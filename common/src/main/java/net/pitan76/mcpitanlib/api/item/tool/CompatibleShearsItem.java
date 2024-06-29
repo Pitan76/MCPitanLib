@@ -72,6 +72,6 @@ public class CompatibleShearsItem extends ShearsItem implements ExtendItemProvid
 
     // -1.20.6
     public boolean isDamageable() {
-        return true;
+        return super.isDamageable();
     }
 }
