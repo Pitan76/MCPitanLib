@@ -74,8 +74,13 @@ public class CompatibleMiningToolItem extends MiningToolItem implements ExtendIt
         return postMine(new PostMineEvent(stack, world, state, pos, miner));
     }
 
-    // -1.20.6
+    @Deprecated
     public boolean isDamageable() {
+        return isDamageableOnDefault();
+    }
+
+    // -1.20.6
+    public boolean isDamageableOnDefault() {
         return super.isDamageable();
     }
 }

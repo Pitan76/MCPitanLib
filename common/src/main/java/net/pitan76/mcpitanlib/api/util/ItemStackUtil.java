@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
@@ -51,5 +52,41 @@ public class ItemStackUtil {
      */
     public static ItemStack fromNbt(World world, NbtCompound nbt) {
         return ItemStack.fromNbt(nbt);
+    }
+
+    public static ItemStack getDefaultStack(Item item) {
+        return item.getDefaultStack();
+    }
+
+    public static int getMaxDamage(ItemStack stack) {
+        return stack.getMaxDamage();
+    }
+
+    public static int getMaxDamage(Item item) {
+        return getMaxDamage(getDefaultStack(item));
+    }
+
+    public static int getDamage(ItemStack stack) {
+        return stack.getDamage();
+    }
+
+    public static void setDamage(ItemStack stack, int damage) {
+        stack.setDamage(damage);
+    }
+
+    public static int getCount(ItemStack stack) {
+        return stack.getCount();
+    }
+
+    public static void setCount(ItemStack stack, int count) {
+        stack.setCount(count);
+    }
+
+    public static void decrementCount(ItemStack stack, int count) {
+        stack.decrement(count);
+    }
+
+    public static void incrementCount(ItemStack stack, int count) {
+        stack.increment(count);
     }
 }

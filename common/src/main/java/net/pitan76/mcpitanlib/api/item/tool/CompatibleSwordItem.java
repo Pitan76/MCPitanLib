@@ -71,8 +71,13 @@ public class CompatibleSwordItem extends SwordItem implements ExtendItemProvider
         return super.postMine(event.stack, event.world, event.state, event.pos, event.miner);
     }
 
-    // -1.20.6
+    @Deprecated
     public boolean isDamageable() {
+        return isDamageableOnDefault();
+    }
+
+    // -1.20.6
+    public boolean isDamageableOnDefault() {
         return super.isDamageable();
     }
 }
