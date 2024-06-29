@@ -1,10 +1,9 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -15,31 +14,32 @@ import java.util.List;
 
 public class RecipeUtil {
     public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, CompatibilityCraftingRecipeCategory category, ItemStack output, DefaultedList<Ingredient> input) {
-        return new ShapelessRecipe(id, group, CraftingRecipeCategory.valueOf(category.name()), output, input);
+        return createShapelessRecipe(id, group, output, input);
     }
 
     public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> input) {
-        return createShapelessRecipe(id, group, CompatibilityCraftingRecipeCategory.MISC, output, input);
+        return new ShapelessRecipe(id, group, output, input);
     }
 
     public static <C extends Inventory> ItemStack craft_2(Recipe<C> recipe, C inventory, World world) {
-        return recipe.craft(inventory, world.getRegistryManager());
+        return recipe.craft(inventory);
     }
 
     public static <C extends Inventory> ItemStack getOutput_2(Recipe<C> recipe, World world) {
-        return recipe.getOutput(world.getRegistryManager());
+        return recipe.getOutput();
     }
 
     public static ItemStack craft(Recipe<?> recipe, Inventory inventory, World world) {
-        if (inventory instanceof RecipeInputInventory) {
-            Recipe<RecipeInputInventory> inputRecipe = (Recipe<RecipeInputInventory>) recipe;
-            return inputRecipe.craft((RecipeInputInventory) inventory, world.getRegistryManager());
+        if (inventory instanceof CraftingInventory) {
+            Recipe<CraftingInventory> inputRecipe = (Recipe<CraftingInventory>) recipe;
+            return inputRecipe.craft((CraftingInventory) inventory);
         }
+
         return ItemStack.EMPTY;
     }
 
     public static ItemStack getOutput(Recipe<?> recipe, World world) {
-        return recipe.getOutput(world.getRegistryManager());
+        return recipe.getOutput();
     }
 
     public static List<Recipe<?>> getAllRecipes(World world) {
