@@ -13,7 +13,7 @@ public abstract class CompatiblePersistentState extends PersistentState {
     }
 
     public CompatiblePersistentState() {
-        this("mcpitanlibarch_" + count);
+        this("mcpitanlib_" + count);
         count++;
     }
 
@@ -25,5 +25,5 @@ public abstract class CompatiblePersistentState extends PersistentState {
         readNbt(tag);
     }
 
-    public abstract NbtCompound writeNbt(NbtCompound tag);
+    public abstract NbtCompound writeNbtOverride(NbtCompound tag);
 }
