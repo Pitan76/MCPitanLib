@@ -24,4 +24,12 @@ public abstract class CompatiblePersistentState extends PersistentState {
     public void fromTag(NbtCompound tag) {
         readNbt(tag);
     }
+
+    @Deprecated
+    @Override
+    public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        return writeNbt(nbt);
+    }
+
+    public abstract NbtCompound writeNbt(NbtCompound tag);
 }

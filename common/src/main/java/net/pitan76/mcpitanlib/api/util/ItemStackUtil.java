@@ -1,6 +1,8 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.world.World;
 
 import java.util.Objects;
 
@@ -41,5 +43,15 @@ public class ItemStackUtil {
      */
     public static boolean hasNbtOrComponent(ItemStack stack) {
         return stack.hasTag();
+    }
+
+    /**
+     * NBTからItemStackを取得する
+     * @param world World
+     * @param nbt NbtCompound
+     * @return ItemStack
+     */
+    public static ItemStack fromNbt(World world, NbtCompound nbt) {
+        return ItemStack.fromNbt(world.getRegistryManager(), nbt).orElse(ItemStack.EMPTY);
     }
 }

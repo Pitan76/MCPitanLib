@@ -78,4 +78,9 @@ public class CompatibleMiningToolItem extends MiningToolItem implements ExtendIt
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         return postMine(new PostMineEvent(stack, world, state, pos, miner));
     }
+
+    // -1.20.6
+    public boolean isDamageable() {
+        return true;
+    }
 }
