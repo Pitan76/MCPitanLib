@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.v0.event;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonElement;
 import net.minecraft.recipe.RecipeEntry;
@@ -17,12 +19,12 @@ public class RecipeManagerEvent {
     public Profiler profiler;
 
     @Deprecated
-    public Map<Identifier, RecipeEntry<?>> recipesById;
+    public ImmutableMap.Builder<Identifier, RecipeEntry<?>> recipesById;
 
     @Deprecated
-    public Multimap<RecipeType<?>, RecipeEntry<?>> recipesByType;
+    public ImmutableMultimap.Builder<RecipeType<?>, RecipeEntry<?>> recipesByType;
 
-    public RecipeManagerEvent(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, Map<Identifier, RecipeEntry<?>> recipesById, Multimap<RecipeType<?>, RecipeEntry<?>> recipesByType) {
+    public RecipeManagerEvent(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, ImmutableMap.Builder<Identifier, RecipeEntry<?>> recipesById, ImmutableMultimap.Builder<RecipeType<?>, RecipeEntry<?>> recipesByType) {
         this.jsonMap = map;
         this.resourceManager = resourceManager;
         this.profiler = profiler;
@@ -35,12 +37,12 @@ public class RecipeManagerEvent {
     }
 
     @Deprecated
-    public Map<Identifier, RecipeEntry<?>> getRecipesById() {
+    public ImmutableMap.Builder<Identifier, RecipeEntry<?>> getRecipesById() {
         return recipesById;
     }
 
     @Deprecated
-    public Multimap<RecipeType<?>, RecipeEntry<?>> getRecipesByType() {
+    public ImmutableMultimap.Builder<RecipeType<?>, RecipeEntry<?>> getRecipesByType() {
         return recipesByType;
     }
 
