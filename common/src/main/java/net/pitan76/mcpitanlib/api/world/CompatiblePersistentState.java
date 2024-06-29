@@ -16,5 +16,11 @@ public abstract class CompatiblePersistentState extends PersistentState {
     // 1.16
     public abstract void readNbt(NbtCompound tag);
 
-    public abstract NbtCompound writeNbt(NbtCompound tag);
+    @Deprecated
+    @Override
+    public NbtCompound writeNbt(NbtCompound nbt) {
+        return writeNbtOverride(nbt);
+    }
+
+    public abstract NbtCompound writeNbtOverride(NbtCompound tag);
 }
