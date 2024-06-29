@@ -178,9 +178,9 @@ public class CustomDataUtil {
         NbtCompound customData = getOrCreateNbt(stack);
 
         for (String key : keys) {
-            if (stack.getNbt().contains(key)) {
-                customData.put(key, stack.getNbt().get(key));
-                stack.getNbt().remove(key);
+            if (stack.getTag().contains(key)) {
+                customData.put(key, stack.getTag().get(key));
+                stack.getTag().remove(key);
             }
         }
 
