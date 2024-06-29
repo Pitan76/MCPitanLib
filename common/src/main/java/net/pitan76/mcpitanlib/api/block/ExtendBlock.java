@@ -234,4 +234,12 @@ public class ExtendBlock extends Block {
     public BlockState getNewDefaultState() {
         return super.getDefaultState();
     }
+
+    /**
+     * Compatible for setDefaultState()
+     * @param state BlockState
+     */
+    public void setNewDefaultState(BlockState state) {
+        super.setDefaultState(state);
+    }
 }
