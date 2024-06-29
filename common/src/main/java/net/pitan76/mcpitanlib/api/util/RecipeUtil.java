@@ -2,10 +2,9 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.ShapelessRecipe;
+import net.minecraft.recipe.*;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.recipe.input.RecipeInput;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -16,24 +15,45 @@ import java.util.List;
 
 public class RecipeUtil {
     public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, CompatibilityCraftingRecipeCategory category, ItemStack output, DefaultedList<Ingredient> input) {
-        return createShapelessRecipe(id, group, output, input);
+        return new ShapelessRecipe(group, CraftingRecipeCategory.valueOf(category.name()), output, input);
     }
 
     public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> input) {
-        return new ShapelessRecipe(id, group, output, input);
+        return createShapelessRecipe(id, group, CompatibilityCraftingRecipeCategory.MISC, output, input);
     }
 
-    public static <C extends Inventory> ItemStack craft(Recipe<C> recipe, C inventory, World world) {
-        return recipe.craft(inventory);
+    public static <C extends Inventory> ItemStack craft_2(Recipe<C> recipe, C inventory, World world) {
+        return recipe.craft(inventory, world.getRegistryManager());
     }
 
-    public static <C extends Inventory> ItemStack getOutput(Recipe<C> recipe, World world) {
-        return recipe.getOutput();
+    public static <C extends Inventory> ItemStack getOutput_2(Recipe<C> recipe, World world) {
+        return recipe.getResult(world.getRegistryManager());
+    }
+
+    public static ItemStack craft(Recipe<?> recipe, Inventory inventory, World world) {
+        if (inventory instanceof RecipeInput) {
+            Recipe<RecipeInput> inputRecipe = (Recipe<RecipeInput>) recipe;
+            return inputRecipe.craft((RecipeInput) inventory, world.getRegistryManager());
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public static ItemStack getOutput(Recipe<?> recipe, World world) {
+        return recipe.getResult(world.getRegistryManager());
     }
 
     public static List<Recipe<?>> getAllRecipes(World world) {
-        Collection<Recipe<?>> recipes = world.getRecipeManager().values();
-        return new ArrayList<>(recipes);
+        Collection<RecipeEntry<?>> recipes = world.getRecipeManager().values();
+        List<Recipe<?>> outRecipes = new ArrayList<>();
+        for (Object recipeEntryObj : recipes) {
+            if (recipeEntryObj instanceof RecipeEntry) {
+                RecipeEntry<?> recipeEntry = (RecipeEntry<?>) recipeEntryObj;
+                if (recipeEntry.value() instanceof Recipe) {
+                    outRecipes.add(recipeEntry.value());
+                }
+            }
+        }
+        return outRecipes;
     }
 
     public static RecipeType<?> getType(Recipe<?> recipe) {
@@ -41,7 +61,7 @@ public class RecipeUtil {
     }
 
     public static Identifier getId(Recipe<?> recipe) {
-        return new Identifier(recipe.getClass().hashCode() + "");
+        return IdentifierUtil.id(recipe.getClass().hashCode() + "");
     }
 
     public enum CompatibilityCraftingRecipeCategory {
