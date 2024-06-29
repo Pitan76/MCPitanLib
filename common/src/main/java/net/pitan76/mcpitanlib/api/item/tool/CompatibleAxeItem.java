@@ -73,6 +73,6 @@ public class CompatibleAxeItem extends AxeItem implements ExtendItemProvider {
 
     // -1.20.6
     public boolean isDamageable() {
-        return true;
+        return super.isDamageable();
     }
 }
