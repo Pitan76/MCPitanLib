@@ -43,6 +43,6 @@ public class ItemTooltipContext {
     }
 
     public boolean isCreative() {
-        return tooltipContext.isCreative();
+        return !tooltipContext.isAdvanced();
     }
 }
