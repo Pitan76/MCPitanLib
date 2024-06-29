@@ -4,6 +4,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.recipe.input.RecipeInput;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -21,11 +22,23 @@ public class RecipeUtil {
         return createShapelessRecipe(id, group, CompatibilityCraftingRecipeCategory.MISC, output, input);
     }
 
-    public static <C extends Inventory> ItemStack craft(Recipe<C> recipe, C inventory, World world) {
+    public static <C extends Inventory> ItemStack craft_2(Recipe<C> recipe, C inventory, World world) {
         return recipe.craft(inventory, world.getRegistryManager());
     }
 
-    public static <C extends Inventory> ItemStack getOutput(Recipe<C> recipe, World world) {
+    public static <C extends Inventory> ItemStack getOutput_2(Recipe<C> recipe, World world) {
+        return recipe.getResult(world.getRegistryManager());
+    }
+
+    public static ItemStack craft(Recipe<?> recipe, Inventory inventory, World world) {
+        if (inventory instanceof RecipeInput) {
+            Recipe<RecipeInput> inputRecipe = (Recipe<RecipeInput>) recipe;
+            return inputRecipe.craft((RecipeInput) inventory, world.getRegistryManager());
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public static ItemStack getOutput(Recipe<?> recipe, World world) {
         return recipe.getResult(world.getRegistryManager());
     }
 
@@ -48,7 +61,7 @@ public class RecipeUtil {
     }
 
     public static Identifier getId(Recipe<?> recipe) {
-        return new Identifier(recipe.getClass().hashCode() + "");
+        return IdentifierUtil.id(recipe.getClass().hashCode() + "");
     }
 
     public enum CompatibilityCraftingRecipeCategory {
