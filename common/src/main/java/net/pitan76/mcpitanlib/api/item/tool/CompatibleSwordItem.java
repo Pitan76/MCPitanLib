@@ -73,6 +73,6 @@ public class CompatibleSwordItem extends SwordItem implements ExtendItemProvider
 
     // -1.20.6
     public boolean isDamageable() {
-        return true;
+        return super.isDamageable();
     }
 }

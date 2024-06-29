@@ -81,6 +81,6 @@ public class CompatibleMiningToolItem extends MiningToolItem implements ExtendIt
 
     // -1.20.6
     public boolean isDamageable() {
-        return true;
+        return super.isDamageable();
     }
 }
