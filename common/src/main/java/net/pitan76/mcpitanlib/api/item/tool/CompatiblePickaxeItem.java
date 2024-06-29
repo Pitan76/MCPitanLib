@@ -73,6 +73,6 @@ public class CompatiblePickaxeItem extends PickaxeItem implements ExtendItemProv
 
     // -1.20.6
     public boolean isDamageable() {
-        return true;
+        return super.isDamageable();
     }
 }
