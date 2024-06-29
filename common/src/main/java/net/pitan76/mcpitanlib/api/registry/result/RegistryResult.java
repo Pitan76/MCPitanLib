@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
  * @param <T> The type of the registry
  *
  * <pre>{@code
- * RegistryResult<Item> ITEM = registry.registerItem(new Identifier("mcpitanlib", "example"), ExampleItem::new);
+ * RegistryResult<Item> ITEM = registry.registerItem(IdentifierUtil.id("mcpitanlib", "example"), ExampleItem::new);
  * ITEM.getOrNull(); => The item (Item.class) or null
  * ITEM.get(); => The item (Item.class)
  * }</pre>

@@ -8,10 +8,10 @@ import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 
 public class ArmorMaterialUtil {
     public static CompatibleArmorMaterial create(String name, int[] durability, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Ingredient repairIngredient) {
-        return create(new Identifier(name), durability, protectionAmounts, enchantability, equipSound, toughness, knockbackResistance, repairIngredient);
+        return create(IdentifierUtil.id(name), durability, protectionAmounts, enchantability, equipSound, toughness, knockbackResistance, repairIngredient);
     }
     public static CompatibleArmorMaterial create(String name, int durability, int protectionAmount, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Ingredient repairIngredient) {
-        return create(new Identifier(name), durability, protectionAmount, enchantability, equipSound, toughness, knockbackResistance, repairIngredient);
+        return create(IdentifierUtil.id(name), durability, protectionAmount, enchantability, equipSound, toughness, knockbackResistance, repairIngredient);
     }
 
     @Deprecated

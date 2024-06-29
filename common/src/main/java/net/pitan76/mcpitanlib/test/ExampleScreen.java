@@ -9,10 +9,11 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawBackgroundArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawMouseoverTooltipArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 
 public class ExampleScreen extends SimpleHandledScreen {
 
-    public static Identifier GUI = new Identifier("textures/gui/container/blast_furnace.png");
+    public static Identifier GUI = IdentifierUtil.id("textures/gui/container/blast_furnace.png");
 
     public ExampleScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

@@ -277,7 +277,7 @@ public class Player {
     }
 
     public void teleport(double x, double y, double z) {
-        getEntity().teleport(x, y, z);
+        getEntity().teleport(x, y, z, false);
     }
 
     public ItemStack getMainHandStack() {

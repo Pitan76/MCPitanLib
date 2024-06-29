@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util.v2;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class ItemUtilV2 {
      * @return List of items in the tag.
      */
     public static List<Item> getItems(String id) {
-        return getItems(new Identifier(id));
+        return getItems(IdentifierUtil.id(id));
     }
 
     /**
@@ -68,7 +69,7 @@ public class ItemUtilV2 {
      * @return List of items in the tag.
      */
     public static List<Item> getItems(String id, List<Item> items) {
-        return getItems(new Identifier(id), items);
+        return getItems(IdentifierUtil.id(id), items);
     }
 
     /**
@@ -88,6 +89,6 @@ public class ItemUtilV2 {
      * @return True if the item is in the tag.
      */
     public static boolean isItemInTag(Item item, String id) {
-        return isItemInTag(item, new Identifier(id));
+        return isItemInTag(item, IdentifierUtil.id(id));
     }
 }

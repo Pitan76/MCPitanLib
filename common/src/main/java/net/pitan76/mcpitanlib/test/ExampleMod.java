@@ -14,6 +14,7 @@ import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +30,7 @@ public class ExampleMod {
     }
 
     public static Identifier id(String id) {
-        return new Identifier(MOD_ID, id);
+        return IdentifierUtil.id(MOD_ID, id);
     }
 
     // en: Create a CompatRegistry instance. , ja: CompatRegistryインスタンスを作成します。

@@ -11,6 +11,6 @@ public class IngredientUtil {
     }
 
     public static Ingredient fromTagByString(String id) {
-        return fromTagByIdentifier(new Identifier(id));
+        return fromTagByIdentifier(IdentifierUtil.id(id));
     }
 }

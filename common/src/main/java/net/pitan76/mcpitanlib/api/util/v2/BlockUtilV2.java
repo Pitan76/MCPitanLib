@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,7 @@ public class BlockUtilV2 {
      * @return List of blocks in the tag.
      */
     public static List<Block> getBlocks(String id) {
-        return getBlocks(new Identifier(id));
+        return getBlocks(IdentifierUtil.id(id));
     }
 
     /**
@@ -89,7 +90,7 @@ public class BlockUtilV2 {
      */
 
     public static List<Block> getBlocks(String id, List<Block> blocks) {
-        return getBlocks(new Identifier(id), blocks);
+        return getBlocks(IdentifierUtil.id(id), blocks);
     }
 
     /**
@@ -109,6 +110,6 @@ public class BlockUtilV2 {
      * @return If the block is in the tag.
      */
     public static boolean isBlockInTag(Block block, String id) {
-        return isBlockInTag(block, new Identifier(id));
+        return isBlockInTag(block, IdentifierUtil.id(id));
     }
 }

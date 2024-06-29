@@ -2,7 +2,7 @@ package net.pitan76.mcpitanlib.core.registry;
 
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.component.DataComponentType;
+import net.minecraft.component.ComponentType;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 @Deprecated
 public class MCPLRegistry1_21 {
 
-    public final DeferredRegister<DataComponentType<?>> DATA_COMPONENT_TYPE;
+    public final DeferredRegister<ComponentType<?>> DATA_COMPONENT_TYPE;
 
     private final MCPLRegistry mcplr;
 
@@ -24,7 +24,7 @@ public class MCPLRegistry1_21 {
         DATA_COMPONENT_TYPE.register();
     }
 
-    public RegistrySupplier<DataComponentType<?>> registryDataComponentType(Identifier id, Supplier<DataComponentType<?>> supplier) {
+    public RegistrySupplier<ComponentType<?>> registryDataComponentType(Identifier id, Supplier<ComponentType<?>> supplier) {
         return DATA_COMPONENT_TYPE.register(id, supplier);
     }
 }
