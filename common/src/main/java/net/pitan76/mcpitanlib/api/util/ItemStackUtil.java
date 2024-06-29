@@ -50,6 +50,6 @@ public class ItemStackUtil {
      * @return ItemStack
      */
     public static ItemStack fromNbt(World world, NbtCompound nbt) {
-        return ItemStack.fromNbt(world.getRegistryManager(), nbt).orElse(ItemStack.EMPTY);
+        return ItemStack.fromNbt(nbt);
     }
 }
