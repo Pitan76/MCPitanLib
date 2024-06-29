@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 
 public class CompatItems {
-    public Item SHORT_GRASS = Items.SHORT_GRASS;
+    public Item SHORT_GRASS = Items.GRASS;
     public Item TALL_GRASS = Items.TALL_GRASS;
     public Item TURTLE_SCUTE = Items.SCUTE;
 
