@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RecipeUtil {
     public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, CompatibilityCraftingRecipeCategory category, ItemStack output, DefaultedList<Ingredient> input) {
-        return new ShapelessRecipe(group, CraftingRecipeCategory.valueOf(category.name()), output, input);
+        return new ShapelessRecipe(id, group, CraftingRecipeCategory.valueOf(category.name()), output, input);
     }
 
     public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> input) {
@@ -27,7 +27,7 @@ public class RecipeUtil {
     }
 
     public static <C extends Inventory> ItemStack getOutput_2(Recipe<C> recipe, World world) {
-        return recipe.getResult(world.getRegistryManager());
+        return recipe.getOutput(world.getRegistryManager());
     }
 
     public static ItemStack craft(Recipe<?> recipe, Inventory inventory, World world) {
@@ -39,21 +39,12 @@ public class RecipeUtil {
     }
 
     public static ItemStack getOutput(Recipe<?> recipe, World world) {
-        return recipe.getResult(world.getRegistryManager());
+        return recipe.getOutput(world.getRegistryManager());
     }
 
     public static List<Recipe<?>> getAllRecipes(World world) {
-        Collection<RecipeEntry<?>> recipes = world.getRecipeManager().values();
-        List<Recipe<?>> outRecipes = new ArrayList<>();
-        for (Object recipeEntryObj : recipes) {
-            if (recipeEntryObj instanceof RecipeEntry) {
-                RecipeEntry<?> recipeEntry = (RecipeEntry<?>) recipeEntryObj;
-                if (recipeEntry.value() instanceof Recipe) {
-                    outRecipes.add(recipeEntry.value());
-                }
-            }
-        }
-        return outRecipes;
+        Collection<Recipe<?>> recipes = world.getRecipeManager().values();
+        return new ArrayList<>(recipes);
     }
 
     public static RecipeType<?> getType(Recipe<?> recipe) {
