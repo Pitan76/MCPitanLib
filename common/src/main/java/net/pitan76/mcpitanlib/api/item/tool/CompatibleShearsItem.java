@@ -10,6 +10,7 @@ import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 public class CompatibleShearsItem extends ShearsItem implements ExtendItemProvider {
     public CompatibleShearsItem(Settings settings) {
@@ -71,7 +72,7 @@ public class CompatibleShearsItem extends ShearsItem implements ExtendItemProvid
     }
 
     // -1.20.6
-    public boolean isDamageable() {
-        return true;
+    public boolean isDamageableOnDefault() {
+        return ItemStackUtil.getMaxDamage(this) > 0;
     }
 }

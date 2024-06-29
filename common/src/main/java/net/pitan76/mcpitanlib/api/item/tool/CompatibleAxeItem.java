@@ -11,6 +11,7 @@ import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 public class CompatibleAxeItem extends AxeItem implements ExtendItemProvider {
     public CompatibleAxeItem(CompatibleToolMaterial material, float attackDamage, float attackSpeed, CompatibleItemSettings settings) {
@@ -72,7 +73,7 @@ public class CompatibleAxeItem extends AxeItem implements ExtendItemProvider {
     }
 
     // -1.20.6
-    public boolean isDamageable() {
-        return true;
+    public boolean isDamageableOnDefault() {
+        return ItemStackUtil.getMaxDamage(this) > 0;
     }
 }
