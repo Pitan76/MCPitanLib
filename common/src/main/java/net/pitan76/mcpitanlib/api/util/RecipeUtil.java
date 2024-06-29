@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.input.RecipeInput;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -31,9 +31,9 @@ public class RecipeUtil {
     }
 
     public static ItemStack craft(Recipe<?> recipe, Inventory inventory, World world) {
-        if (inventory instanceof RecipeInput) {
-            Recipe<RecipeInput> inputRecipe = (Recipe<RecipeInput>) recipe;
-            return inputRecipe.craft((RecipeInput) inventory, world.getRegistryManager());
+        if (inventory instanceof RecipeInputInventory) {
+            Recipe<RecipeInputInventory> inputRecipe = (Recipe<RecipeInputInventory>) recipe;
+            return inputRecipe.craft((RecipeInputInventory) inventory, world.getRegistryManager());
         }
         return ItemStack.EMPTY;
     }
