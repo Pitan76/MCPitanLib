@@ -175,6 +175,15 @@ public class CustomDataUtil {
      * @param keys 移植するキー
      */
     public static void fix_oldNbt(ItemStack stack, String[] keys) {
+        NbtCompound customData = getOrCreateNbt(stack);
 
+        for (String key : keys) {
+            if (stack.getNbt().contains(key)) {
+                customData.put(key, stack.getNbt().get(key));
+                stack.getNbt().remove(key);
+            }
+        }
+
+        setNbt(stack, customData);
     }
 }
