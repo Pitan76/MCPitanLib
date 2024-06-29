@@ -10,6 +10,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -162,5 +163,10 @@ public class ExtendItem extends Item {
      */
     public boolean postMine(PostMineEvent event) {
         return super.postMine(event.stack, event.world, event.state, event.pos, event.miner);
+    }
+
+    // -1.20.6
+    public Rarity getRarity(ItemStack stack) {
+        return Rarity.COMMON;
     }
 }

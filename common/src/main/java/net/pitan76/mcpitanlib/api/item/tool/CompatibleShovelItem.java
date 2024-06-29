@@ -70,4 +70,9 @@ public class CompatibleShovelItem extends ShovelItem implements ExtendItemProvid
     public boolean postMine(PostMineEvent event) {
         return super.postMine(event.stack, event.world, event.state, event.pos, event.miner);
     }
+
+    // -1.20.6
+    public boolean isDamageable() {
+        return true;
+    }
 }
