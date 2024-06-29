@@ -23,10 +23,6 @@ import java.util.Map;
 
 @Mixin(RecipeManager.class)
 public class RecipeManagerMixin {
-    @Shadow private Map<Identifier, RecipeEntry<?>> recipesById;
-
-    @Shadow private Multimap<RecipeType<?>, RecipeEntry<?>> recipesByType;
-
     @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", locals = LocalCapture.CAPTURE_FAILHARD,
             at = @At(value = "TAIL"))
     private void mcpitanlib$invokeApply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, ImmutableMultimap.Builder<RecipeType<?>, RecipeEntry<?>> builder, ImmutableMap.Builder<Identifier, RecipeEntry<?>> builder2, CallbackInfo ci) {
