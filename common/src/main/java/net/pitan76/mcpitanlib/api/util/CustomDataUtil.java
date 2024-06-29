@@ -58,6 +58,24 @@ public class CustomDataUtil {
         if (!hasNbt(stack))
             return customData;
 
+        // 以前のNBTとの互換性
+        for (String key : stack.getNbt().getKeys()) {
+            if (key.equals("components")) continue;
+            if (key.startsWith("minecraft:")) continue;
+            if (
+                    key.equals("Damage") || key.equals("Unbreakable") || key.equals("HideFlags") ||
+                    key.equals("Enchantments") || key.equals("StoredEnchantments") || key.equals("RepairCost") ||
+                    key.equals("display") || key.equals("AttributeModifiers") || key.equals("CustomModelData") ||
+                    key.equals("custom_potion_effects") || key.equals("Potion") || key.equals("CustomPotionColor") ||
+                    key.equals("Trim") || key.equals("BlockEntityTag") || key.equals("EntityTag") ||
+                    key.equals("CanPlaceOn") || key.equals("CanDestroy") || key.equals("effects")
+            ) continue;
+
+
+            customData.put(key, stack.getNbt().get(key));
+            stack.getNbt().remove(key);
+        }
+
         if (stack.getNbt().contains("components")) {
             NbtCompound components = stack.getNbt().getCompound("components");
             if (components.contains("minecraft:custom_data")) {
