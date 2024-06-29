@@ -22,11 +22,25 @@ public class RecipeUtil {
         return createShapelessRecipe(id, group, CompatibilityCraftingRecipeCategory.MISC, output, input);
     }
 
-    public static <C extends RecipeInput> ItemStack craft(Recipe<C> recipe, C inventory, World world) {
+    @Deprecated
+    public static <C extends RecipeInput> ItemStack craft_2(Recipe<C> recipe, C inventory, World world) {
         return recipe.craft(inventory, world.getRegistryManager());
     }
 
-    public static <C extends RecipeInput> ItemStack getOutput(Recipe<C> recipe, World world) {
+    @Deprecated
+    public static <C extends RecipeInput> ItemStack getOutput_2(Recipe<C> recipe, World world) {
+        return recipe.getResult(world.getRegistryManager());
+    }
+
+    public static ItemStack craft(Recipe<?> recipe, Inventory inventory, World world) {
+        if (inventory instanceof RecipeInput) {
+            Recipe<RecipeInput> inputRecipe = (Recipe<RecipeInput>) recipe;
+            return inputRecipe.craft((RecipeInput) inventory, world.getRegistryManager());
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public static ItemStack getOutput(Recipe<?> recipe, World world) {
         return recipe.getResult(world.getRegistryManager());
     }
 
