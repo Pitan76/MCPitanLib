@@ -23,9 +23,6 @@ import java.util.Map;
 
 @Mixin(RecipeManager.class)
 public class RecipeManagerMixin {
-    @Shadow private Map<Identifier, RecipeEntry<?>> recipesById;
-
-    @Shadow private Multimap<RecipeType<?>, RecipeEntry<?>> recipesByType;
 
     @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", locals = LocalCapture.CAPTURE_FAILHARD,
             at = @At(value = "TAIL"))
