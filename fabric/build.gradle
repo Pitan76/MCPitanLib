@@ -35,6 +35,8 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     include("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}")
+
+    include("net.pitan76:compatdatapacks76-fabric:${rootProject.compatdatapacks76_version}")
 }
 
 processResources {
