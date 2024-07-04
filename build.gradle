@@ -17,6 +17,7 @@ subprojects {
     repositories {
         maven { url "https://maven.pitan76.net/" }
         maven { url "https://maven.neoforged.net/releases/" }
+        maven { url "https://maven.shedaniel.me/" }
     }
 
     dependencies {
