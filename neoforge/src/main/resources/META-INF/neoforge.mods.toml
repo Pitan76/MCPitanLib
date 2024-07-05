@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/Pitan76/MCPitanLib/issue"
+
+[[mods]]
+modId = "mcpitanlib"
+version = "${version}"
+displayName = "MCPitanLib"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch"
+logoFile = "icon.png"
+authors = "Pitan"
+description = '''
+Pitan's Minecraft Mod Library
+'''
+
+[[dependencies.mcpitanlib]]
+modId = "neoforge"
+type = "required"
+versionRange = "[20,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.mcpitanlib]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.20,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "mcpitanlib-common.mixins.json"
+
+[[mixins]]
+config = "mcpitanlib.mixins.json"
