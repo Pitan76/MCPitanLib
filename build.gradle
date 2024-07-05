@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
 }
 
 architectury {
@@ -27,7 +27,7 @@ subprojects {
         //mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}:v2"
         mappings loom.layered() {
             it.mappings("net.fabricmc:yarn:${rootProject.yarn_mappings}:v2")
-            it.mappings file("../mappings/yarnpatch.tiny")
+            it.mappings("dev.architectury:yarn-mappings-patch-neoforge:1.20.6+build.4")
         }
 
         // https://mvnrepository.com/artifact/org.yaml/snakeyaml
@@ -64,7 +64,7 @@ allprojects {
 
     tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 21
     }
 
     java {
