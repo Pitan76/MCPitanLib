@@ -63,7 +63,7 @@ public class ItemStackUtil {
      * @return ItemStack
      */
     public static ItemStack fromNbt(NbtRWArgs args) {
-        return ItemStack.fromNbt(args.getWrapperLookup(), args.getNbt()).orElse(ItemStack.EMPTY);
+        return ItemStack.fromNbt(args.getNbt());
     }
 
     public static ItemStack getDefaultStack(Item item) {
