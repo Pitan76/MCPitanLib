@@ -68,7 +68,6 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
     @Deprecated
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
-    public void writeNbt(NbtCompound nbt) {
         // deprecated
         writeNbtOverride(nbt);
         // ----
@@ -80,7 +79,6 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
     @Deprecated
     @Override
     public void fromTag(BlockState state, NbtCompound nbt) {
-    public void readNbt(NbtCompound nbt) {
         // deprecated
         readNbtOverride(nbt);
         // ----
