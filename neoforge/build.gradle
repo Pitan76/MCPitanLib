@@ -43,7 +43,6 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
     compileOnly("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
 
-    shadowCommon("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
     compileOnly("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
 }
 
