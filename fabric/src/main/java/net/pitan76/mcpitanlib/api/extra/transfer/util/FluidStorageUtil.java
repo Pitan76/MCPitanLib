@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 
 @SuppressWarnings("removal")
 public class FluidStorageUtil {
@@ -24,10 +25,26 @@ public class FluidStorageUtil {
         };
     }
 
+    public static void readNbt(SingleFluidStorage storage, NbtRWArgs args) {
+        storage.readNbt(args.getNbt(), args.getWrapperLookup());
+    }
+
+    public static void writeNbt(SingleFluidStorage storage, NbtRWArgs args) {
+        storage.writeNbt(args.getNbt(), args.getWrapperLookup());
+    }
+
+    /**
+     * @deprecated Use {@link #readNbt(SingleFluidStorage, NbtRWArgs)} instead
+     */
+    @Deprecated
     public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
         storage.fluidVariant.getNbt().copyFrom(nbt);
     }
 
+    /**
+     * @deprecated Use {@link #writeNbt(SingleFluidStorage, NbtRWArgs)} instead
+     */
+    @Deprecated
     public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
         nbt.copyFrom(storage.fluidVariant.getNbt());
     }
