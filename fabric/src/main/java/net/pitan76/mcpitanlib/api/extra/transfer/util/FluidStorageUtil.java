@@ -25,11 +25,11 @@ public class FluidStorageUtil {
     }
 
     public static void readNbt(SingleFluidStorage storage, NbtRWArgs args) {
-        storage.readNbt(args.getNbt());
+        storage.fluidVariant.getNbt().copyFrom(args.nbt);
     }
 
     public static void writeNbt(SingleFluidStorage storage, NbtRWArgs args) {
-        storage.writeNbt(args.getNbt());
+        args.nbt.copyFrom(storage.fluidVariant.getNbt());
     }
 
     /**
