@@ -45,7 +45,7 @@ public class InventoryUtil {
     }
 
     public static NbtCompound writeNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
-        return Inventories.writeNbt(args.nbt, stacks, setIfEmpty, args.getWrapperLookup());
+        return Inventories.writeNbt(args.nbt, stacks, setIfEmpty);
     }
 
     public static NbtCompound writeNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks) {
@@ -53,7 +53,7 @@ public class InventoryUtil {
     }
 
     public static void readNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks) {
-        Inventories.readNbt(args.nbt, stacks, args.getWrapperLookup());
+        Inventories.readNbt(args.nbt, stacks);
     }
 
     // deprecated
