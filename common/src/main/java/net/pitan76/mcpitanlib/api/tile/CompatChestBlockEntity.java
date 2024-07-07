@@ -10,6 +10,8 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,27 +39,58 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
         return UpdatePacketType.NONE;
     }
 
-    private RegistryWrapper.WrapperLookup wrapperLookupCache;
+    public void writeNbt(WriteNbtArgs args) {
 
+    }
+
+    public void readNbt(ReadNbtArgs args) {
+
+    }
+
+
+    // deprecated
+
+    /**
+     * @deprecated Use {@link #writeNbt(WriteNbtArgs)} instead
+     */
+    @Deprecated
     public void writeNbtOverride(NbtCompound nbt) {
         super.writeNbt(nbt, wrapperLookupCache);
     }
 
+    /**
+     * @deprecated Use {@link #readNbt(ReadNbtArgs)} instead
+     */
+    @Deprecated
     public void readNbtOverride(NbtCompound nbt) {
         super.readNbt(nbt, wrapperLookupCache);
     }
 
     @Deprecated
+    private RegistryWrapper.WrapperLookup wrapperLookupCache;
+
+    // ----
+
+    @Deprecated
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        // deprecated
         wrapperLookupCache = registryLookup;
         writeNbtOverride(nbt);
+        // ----
+
+        writeNbt(new WriteNbtArgs(nbt, registryLookup));
     }
 
     @Deprecated
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        // deprecated
         wrapperLookupCache = registryLookup;
         readNbtOverride(nbt);
+        // ----
+
+        readNbt(new ReadNbtArgs(nbt, registryLookup));
     }
+
 }

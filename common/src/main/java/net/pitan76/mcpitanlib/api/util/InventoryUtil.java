@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 
 public class InventoryUtil {
     public static boolean insertItem(ItemStack insertStack, DefaultedList<ItemStack> inventory) {
@@ -43,15 +44,41 @@ public class InventoryUtil {
         return ItemStackUtil.areNbtOrComponentEqual(first, second);
     }
 
+    public static NbtCompound writeNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
+        return Inventories.writeNbt(args.nbt, stacks, setIfEmpty, args.getWrapperLookup());
+    }
+
+    public static NbtCompound writeNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks) {
+        return writeNbt(args, stacks, true);
+    }
+
+    public static void readNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks) {
+        Inventories.readNbt(args.nbt, stacks, args.getWrapperLookup());
+    }
+
+    // deprecated
+    /**
+     * @deprecated Use {@link #writeNbt(NbtRWArgs, DefaultedList)} instead
+     */
+    @Deprecated
     public static NbtCompound writeNbt(World world, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
         return writeNbt(world, nbt, true, stacks);
     }
 
+    /**
+     * @deprecated Use {@link #writeNbt(NbtRWArgs, DefaultedList, boolean)} instead
+     */
+    @Deprecated
     public static NbtCompound writeNbt(World world, NbtCompound nbt, boolean setIfEmpty, DefaultedList<ItemStack> stacks) {
         return Inventories.writeNbt(nbt, stacks, setIfEmpty, world.getRegistryManager());
     }
 
+    /**
+     * @deprecated Use {@link #readNbt(NbtRWArgs, DefaultedList)} instead
+     */
+    @Deprecated
     public static void readNbt(World world, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
         Inventories.readNbt(nbt, stacks, world.getRegistryManager());
     }
+    // ----
 }
