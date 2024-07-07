@@ -7,6 +7,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
 
 public class CompatChestBlockEntity extends ChestBlockEntity {
@@ -34,24 +36,55 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
         return UpdatePacketType.NONE;
     }
 
+    public void writeNbt(WriteNbtArgs args) {
+
+    }
+
+    public void readNbt(ReadNbtArgs args) {
+
+    }
+
+
+    // deprecated
+
+    /**
+     * @deprecated Use {@link #writeNbt(WriteNbtArgs)} instead
+     */
+    @Deprecated
     public void writeNbtOverride(NbtCompound nbt) {
         super.writeNbt(nbt);
     }
 
+    /**
+     * @deprecated Use {@link #readNbt(ReadNbtArgs)} instead
+     */
+    @Deprecated
     public void readNbtOverride(NbtCompound nbt) {
         super.fromTag(getCachedState(), nbt);
     }
 
+    // ----
+
     @Deprecated
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
+    public void writeNbt(NbtCompound nbt) {
+        // deprecated
         writeNbtOverride(nbt);
+        // ----
+
+        writeNbt(new WriteNbtArgs(nbt));
         return nbt;
     }
 
     @Deprecated
     @Override
     public void fromTag(BlockState state, NbtCompound nbt) {
+    public void readNbt(NbtCompound nbt) {
+        // deprecated
         readNbtOverride(nbt);
+        // ----
+
+        readNbt(new ReadNbtArgs(nbt));
     }
 }

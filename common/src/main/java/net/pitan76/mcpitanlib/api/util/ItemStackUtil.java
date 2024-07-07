@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 
 import java.util.Objects;
 
@@ -54,6 +55,15 @@ public class ItemStackUtil {
      */
     public static ItemStack fromNbt(World world, NbtCompound nbt) {
         return ItemStack.fromNbt(nbt);
+    }
+
+    /**
+     * NBTからItemStackを取得する
+     * @param args NbtRWArgs
+     * @return ItemStack
+     */
+    public static ItemStack fromNbt(NbtRWArgs args) {
+        return ItemStack.fromNbt(args.getWrapperLookup(), args.getNbt()).orElse(ItemStack.EMPTY);
     }
 
     public static ItemStack getDefaultStack(Item item) {
