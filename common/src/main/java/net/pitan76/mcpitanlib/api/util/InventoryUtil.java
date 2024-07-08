@@ -44,8 +44,16 @@ public class InventoryUtil {
         return ItemStackUtil.areNbtOrComponentEqual(first, second);
     }
 
+    public static NbtCompound writeNbt(NbtRWArgs args, NbtCompound nbt, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
+        return Inventories.writeNbt(nbt, stacks, setIfEmpty);
+    }
+
+    public static void readNbt(NbtRWArgs args, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
+        Inventories.readNbt(nbt, stacks);
+    }
+
     public static NbtCompound writeNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
-        return Inventories.writeNbt(args.nbt, stacks, setIfEmpty);
+        return Inventories.writeNbt(args.getNbt(), stacks, setIfEmpty);
     }
 
     public static NbtCompound writeNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks) {
@@ -53,7 +61,7 @@ public class InventoryUtil {
     }
 
     public static void readNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks) {
-        Inventories.readNbt(args.nbt, stacks);
+        Inventories.readNbt(args.getNbt(), stacks);
     }
 
     // deprecated
