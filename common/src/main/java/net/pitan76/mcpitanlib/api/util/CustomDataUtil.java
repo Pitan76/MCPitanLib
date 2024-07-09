@@ -33,9 +33,9 @@ public class CustomDataUtil {
             components = stack.getTag().getCompound("components");
         }
         components.put("minecraft:custom_data", nbt);
-        stack.getTag().put("components", components);
+        stack.getOrCreateTag().put("components", components);
     }
-    
+
     /**
      * NBTが存在するかどうかを取得する。
      * @param stack ItemStack
@@ -47,7 +47,7 @@ public class CustomDataUtil {
         return stack.getTag().contains("components") &&
                 stack.getTag().getCompound("components").contains("minecraft:custom_data");
     }
-    
+
     /**
      * NBTを取得する。
      * @param stack ItemStack
@@ -66,7 +66,7 @@ public class CustomDataUtil {
         }
         return customData;
     }
-    
+
     /**
      * 値を設定する。
      * @param stack ItemStack
@@ -78,7 +78,7 @@ public class CustomDataUtil {
         NbtUtil.put(nbt, key, value);
         setNbt(stack, nbt);
     }
-    
+
     /**
      * 値を取得する。
      * @param stack ItemStack
@@ -89,7 +89,7 @@ public class CustomDataUtil {
         NbtCompound nbt = getNbt(stack);
         return nbt.getCompound(key);
     }
-    
+
     /**
      * 値を削除する。
      * @param stack ItemStack
@@ -100,7 +100,7 @@ public class CustomDataUtil {
         nbt.remove(key);
         setNbt(stack, nbt);
     }
-    
+
     /**
      * 値が存在するかどうかを取得する。
      * @param stack ItemStack
@@ -114,7 +114,7 @@ public class CustomDataUtil {
         NbtCompound nbt = getNbt(stack);
         return nbt.contains(key);
     }
-    
+
     /**
      * 指定した型の値を取得する
      * @param stack ItemStack
@@ -126,7 +126,7 @@ public class CustomDataUtil {
         NbtCompound nbt = getNbt(stack);
         return NbtUtil.get(nbt, key, clazz);
     }
-    
+
     /**
      * 値を設定する。
      * @param stack ItemStack
@@ -138,7 +138,7 @@ public class CustomDataUtil {
         NbtUtil.set(nbt, key, value);
         setNbt(stack, nbt);
     }
-    
+
     /**
      * キーの一覧を取得する。
      * @param stack ItemStack
