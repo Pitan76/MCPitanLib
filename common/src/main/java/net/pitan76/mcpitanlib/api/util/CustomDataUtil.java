@@ -33,7 +33,7 @@ public class CustomDataUtil {
             components = stack.getNbt().getCompound("components");
         }
         components.put("minecraft:custom_data", nbt);
-        stack.getNbt().put("components", components);
+        stack.getOrCreateNbt().put("components", components);
     }
     
     /**
