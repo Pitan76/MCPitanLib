@@ -17,6 +17,8 @@ import static dev.architectury.impl.NetworkAggregator.C2S_TYPE;
 
 public class ClientNetworking {
     public static void send(Identifier identifier, PacketByteBuf buf) {
+        if (!C2S_TYPE.containsKey(identifier))
+            C2S_TYPE.put(identifier, new CustomPayload.Id<>(identifier));
         CustomPayload payload = new NetworkAggregator.BufCustomPacketPayload(C2S_TYPE.get(identifier), ByteBufUtil.getBytes(buf));
         NetworkManager.sendToServer(payload);
     }

@@ -17,11 +17,15 @@ import static dev.architectury.impl.NetworkAggregator.S2C_TYPE;
 
 public class ServerNetworking {
     public static void send(ServerPlayerEntity player, Identifier identifier, PacketByteBuf buf) {
+        if (!S2C_TYPE.containsKey(identifier))
+            S2C_TYPE.put(identifier, new CustomPayload.Id<>(identifier));
         CustomPayload payload = new NetworkAggregator.BufCustomPacketPayload(S2C_TYPE.get(identifier), ByteBufUtil.getBytes(buf));
         NetworkManager.sendToPlayer(player, payload);
     }
 
     public static void send(Iterable<ServerPlayerEntity> players, Identifier identifier, PacketByteBuf buf) {
+        if (!S2C_TYPE.containsKey(identifier))
+            S2C_TYPE.put(identifier, new CustomPayload.Id<>(identifier));
         CustomPayload payload = new NetworkAggregator.BufCustomPacketPayload(S2C_TYPE.get(identifier), ByteBufUtil.getBytes(buf));
         NetworkManager.sendToPlayers(players, payload);
     }
