@@ -1,8 +1,18 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.collection.DefaultedList;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
+import net.pitan76.mcpitanlib.api.util.inventory.args.CanInsertArgs;
+import net.pitan76.mcpitanlib.midohra.nbt.NbtList;
+
+import java.util.List;
 
 public class CompatInventory extends SimpleInventory {
     public CompatInventory(int size) {
@@ -41,5 +51,99 @@ public class CompatInventory extends SimpleInventory {
     @Override
     public ItemStack removeItem(Item item, int count) {
         return super.removeItem(item, count);
+    }
+
+    @Deprecated
+    @Override
+    public void onOpen(PlayerEntity player) {
+        onOpen(new Player(player));
+    }
+
+    @Deprecated
+    @Override
+    public void onClose(PlayerEntity player) {
+        onClose(new Player(player));
+    }
+
+    @Deprecated
+    @Override
+    public net.minecraft.nbt.NbtList toNbtList(RegistryWrapper.WrapperLookup registries) {
+        return toNbtList(new CompatRegistryLookup(registries)).toMinecraft();
+    }
+
+    @Deprecated
+    @Override
+    public void readNbtList(net.minecraft.nbt.NbtList list, RegistryWrapper.WrapperLookup registries) {
+        readNbtList(NbtList.of(list), new CompatRegistryLookup(registries));
+    }
+
+    @Deprecated
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        return canPlayerUse(new Player(player));
+    }
+
+    @Deprecated
+    @Override
+    public boolean canInsert(ItemStack stack) {
+        return canInsert(new CanInsertArgs(stack));
+    }
+
+    public void onOpen(Player player) {
+        super.onOpen(player.getEntity());
+    }
+
+    public void onClose(Player player) {
+        super.onClose(player.getEntity());
+    }
+
+    public NbtList toNbtList(CompatRegistryLookup registries) {
+        return NbtList.of(super.toNbtList(registries.getRegistryLookup()));
+    }
+
+    public void readNbtList(NbtList list, CompatRegistryLookup registries) {
+        super.readNbtList(list.toMinecraft(), registries.getRegistryLookup());
+    }
+
+    public boolean canPlayerUse(Player player) {
+        return true;
+    }
+
+    public boolean canInsert(CanInsertArgs args) {
+        return super.canInsert(args.getMcStack());
+    }
+
+    @Deprecated
+    @Override
+    public List<ItemStack> clearToList() {
+        return callClearToList();
+    }
+
+    public List<ItemStack> callClearToList() {
+        return super.clearToList();
+    }
+
+    @Deprecated
+    @Override
+    public DefaultedList<ItemStack> getHeldStacks() {
+        return callGetHeldStacks();
+    }
+
+    public DefaultedList<ItemStack> callGetHeldStacks() {
+        return super.getHeldStacks();
+    }
+
+    public ItemStackList callGetHeldStacksAsItemStackList() {
+        return ItemStackList.of(callGetHeldStacks());
+    }
+
+    @Deprecated
+    @Override
+    public ItemStack getStack(int slot) {
+        return callGetStack(slot);
+    }
+
+    public ItemStack callGetStack(int slot) {
+        return super.getStack(slot);
     }
 }

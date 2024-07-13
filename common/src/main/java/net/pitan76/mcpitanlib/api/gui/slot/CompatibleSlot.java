@@ -1,8 +1,10 @@
 package net.pitan76.mcpitanlib.api.gui.slot;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
+import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class CompatibleSlot extends Slot {
     public CompatibleSlot(Inventory inventory, int index, int x, int y) {
@@ -75,5 +77,23 @@ public class CompatibleSlot extends Slot {
 
     public void callMarkDirty() {
         super.markDirty();
+    }
+
+    @Override
+    public boolean canInsert(ItemStack stack) {
+        return canInsert(net.pitan76.mcpitanlib.midohra.item.ItemStack.of(stack));
+    }
+
+    @Override
+    public boolean canTakeItems(PlayerEntity playerEntity) {
+        return canTakeItems(new Player(playerEntity));
+    }
+
+    public boolean canInsert(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return super.canInsert(stack.toMinecraft());
+    }
+
+    public boolean canTakeItems(Player player) {
+        return super.canTakeItems(player.getEntity());
     }
 }

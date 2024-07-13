@@ -23,7 +23,7 @@ public class ItemStackList extends DefaultedList<ItemStack> {
     }
 
     public static ItemStackList ofSize(int size) {
-        return new ItemStackList(Lists.newArrayListWithCapacity(size), ItemStackUtil.empty());
+        return ofSize(size, ItemStackUtil.empty());
     }
 
     public static ItemStackList ofSize(int size, ItemStack defaultStack) {
@@ -60,5 +60,14 @@ public class ItemStackList extends DefaultedList<ItemStack> {
 
     public DefaultedList<ItemStack> defaultedList() {
         return this;
+    }
+
+    public static ItemStackList of(DefaultedList<ItemStack> defaultedList) {
+        ItemStackList stacks = ItemStackList.ofSize(defaultedList.size());
+        for (int i = 0; i < defaultedList.size(); i++) {
+            stacks.set(i , defaultedList.get(i));
+        }
+
+        return stacks;
     }
 }
