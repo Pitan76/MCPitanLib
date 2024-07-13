@@ -1,8 +1,11 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 
@@ -100,5 +103,13 @@ public class ItemStackUtil {
 
     public static void incrementCount(ItemStack stack, int count) {
         stack.increment(count);
+    }
+
+    public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity, Runnable breakCallback) {
+        stack.damage(amount, entity.getRandom(), entity, breakCallback);
+    }
+
+    public static void damage(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
+        stack.damage(amount, entity, slot);
     }
 }
