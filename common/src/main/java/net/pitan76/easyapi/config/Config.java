@@ -37,6 +37,9 @@ public class Config implements IConfig {
     };
 
     public boolean has(String key) {
+        if (configMap == null)
+            return false;
+
         return configMap.containsKey(key);
     }
 

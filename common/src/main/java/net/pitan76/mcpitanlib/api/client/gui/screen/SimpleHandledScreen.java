@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.api.client;
+package net.pitan76.mcpitanlib.api.client.gui.screen;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.entity.player.PlayerInventory;
@@ -20,23 +21,31 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
-@Deprecated
-public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
+public abstract class SimpleHandledScreen<S extends ScreenHandler> extends HandledScreen<S> {
 
     public int width, height, backgroundWidth, backgroundHeight, x, y;
-    public ScreenHandler handler;
+    public S handler;
     public TextRenderer textRenderer;
     public ItemRenderer itemRenderer;
 
     public Text title;
     public MinecraftClient client;
-
-    public SimpleHandledScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public SimpleHandledScreen(S handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         fixScreen();
         this.handler = handler;
         this.title = title;
 
+    }
+
+    @Deprecated
+    @Override
+    public S getScreenHandler() {
+        return getScreenHandlerOverride();
+    }
+
+    public S getScreenHandlerOverride() {
+        return super.getScreenHandler();
     }
 
     public <T extends Element & Drawable & Selectable> T addDrawableChild_compatibility(T drawableElement) {
@@ -200,10 +209,8 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
-        if (getBackgroundTexture() == null) {
-            super.renderBackgroundTexture(args.drawObjectDM.getContext());
-            return;
-        }
+        if (getBackgroundTexture() != null)
+            Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), x, y, 0, 0, this.width, this.height);
 
         RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, width, height);
@@ -223,7 +230,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     @Deprecated
     @Override
-    public void renderBackgroundTexture(DrawContext context) {
+    public void renderDarkening(DrawContext context) {
         this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context), 0));
     }
 
