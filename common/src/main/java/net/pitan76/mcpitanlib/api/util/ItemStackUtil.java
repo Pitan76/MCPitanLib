@@ -115,6 +115,6 @@ public class ItemStackUtil {
     }
 
     public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity) {
-        stack.damage(amount, entity.getServerWorld(), entity, (item) -> entity.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
+        stack.damage(amount, entity, (entity2) -> entity2.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
     }
 }
