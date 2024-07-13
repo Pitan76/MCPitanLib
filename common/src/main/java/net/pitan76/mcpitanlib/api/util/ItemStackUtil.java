@@ -104,7 +104,7 @@ public class ItemStackUtil {
     }
 
     public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity, Runnable breakCallback) {
-        stack.damage(amount, entity.getRandom(), entity, breakCallback);
+        stack.damage(amount, entity.getServerWorld(), entity, (item) -> breakCallback.run());
     }
 
     public static void damage(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
