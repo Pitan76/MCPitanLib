@@ -9,6 +9,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
@@ -80,6 +81,11 @@ public class CompatRegistryV2 {
 
     public RegistryResult<ScreenHandlerType<?>> registerScreenHandlerType(CompatIdentifier id, Supplier<ScreenHandlerType<?>> supplier) {
         return cr1.registerScreenHandlerType(id.toMinecraft(), supplier);
+    }
+
+    public <T extends ScreenHandler> Supplier<ScreenHandlerType<T>> registerScreenHandlerTypeSavingGenerics(CompatIdentifier id, Supplier<ScreenHandlerType<T>> supplier) {
+        RegistryResult<ScreenHandlerType<?>> result =  cr1.registerScreenHandlerType(id.toMinecraft(), supplier::get);
+        return () -> (ScreenHandlerType<T>) result.getOrNull();
     }
 
     public RegistryResult<BlockEntityType<?>> registerBlockEntityType(CompatIdentifier id, Supplier<BlockEntityType<?>> supplier) {
