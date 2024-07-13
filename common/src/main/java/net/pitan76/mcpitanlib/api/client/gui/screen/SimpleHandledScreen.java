@@ -1,13 +1,14 @@
-package net.pitan76.mcpitanlib.api.client;
+package net.pitan76.mcpitanlib.api.client.gui.screen;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -16,24 +17,20 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
-import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
-import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
-@Deprecated
-public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
+public abstract class SimpleHandledScreen<S extends ScreenHandler> extends HandledScreen<S> {
 
     public int width, height, backgroundWidth, backgroundHeight, x, y;
-    public ScreenHandler handler;
+    public S handler;
     public TextRenderer textRenderer;
     public ItemRenderer itemRenderer;
 
     public Text title;
     public MinecraftClient client;
-
-    public SimpleHandledScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public SimpleHandledScreen(S handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         fixScreen();
         this.handler = handler;
@@ -41,18 +38,23 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     }
 
-    public <T extends Element & Drawable> T addDrawableChild_compatibility(T drawableElement) {
-        if (drawableElement instanceof ClickableWidget)
-            return (T) super.addButton((ClickableWidget) drawableElement);
-        else
-            return super.addChild(drawableElement);
+    @Deprecated
+    @Override
+    public S getScreenHandler() {
+        return getScreenHandlerOverride();
     }
 
-    public <T extends Element> T addSelectableChild_compatibility(T selectableElement) {
-        if (selectableElement instanceof ClickableWidget)
-            return (T) super.addButton((ClickableWidget) selectableElement);
-        else
-            return super.addChild(selectableElement);
+    public S getScreenHandlerOverride() {
+        return super.getScreenHandler();
+    }
+
+    public <T extends Element & Drawable & Selectable> T addDrawableChild_compatibility(T drawableElement) {
+        return super.addDrawableChild(drawableElement);
+        // addButton
+    }
+
+    public <T extends Element & Selectable> T addSelectableChild_compatibility(T selectableElement) {
+        return super.addSelectableChild(selectableElement);
     }
 
     public CompatibleTexturedButtonWidget addDrawableCTBW(CompatibleTexturedButtonWidget widget) {
@@ -61,8 +63,8 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     @Deprecated
     @Override
-    protected void drawBackground(MatrixStack stack, float delta, int mouseX, int mouseY) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
         drawBackgroundOverride(new DrawBackgroundArgs(drawObjectDM, delta, mouseX, mouseY));
     }
 
@@ -70,18 +72,19 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     @Deprecated
     @Override
-    protected void drawForeground(MatrixStack stack, int mouseX, int mouseY) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
         drawForegroundOverride(new DrawForegroundArgs(drawObjectDM, mouseX, mouseY));
     }
 
     protected void drawForegroundOverride(DrawForegroundArgs args) {
-        super.drawForeground(args.drawObjectDM.getStack(), args.mouseX, args.mouseY);
+        super.drawForeground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, int u, int v, int width, int height) {
-        ScreenUtil.setBackground(texture);
-        drawTexture(drawObjectDM.getStack(), x, y, u, v, width, height);
+        //ScreenUtil.setBackground(GUI);
+        //super.drawTexture(matrices, x, y, u, v, width, height);
+        drawObjectDM.getContext().drawTexture(texture, x, y, u, v, width, height);
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, CompatIdentifier texture, int x, int y, int u, int v, int width, int height) {
@@ -90,21 +93,20 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     @Deprecated
     public void callRenderBackground(DrawObjectDM drawObjectDM) {
-        super.renderBackground(drawObjectDM.getStack());
         callRenderBackground(new RenderArgs(drawObjectDM, 0, 0, 0));
     }
 
 
     public void callRenderBackground(RenderArgs args) {
-        super.renderBackground(args.drawObjectDM.getStack());
+        super.renderBackground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
     public void callDrawMouseoverTooltip(DrawMouseoverTooltipArgs args) {
-        super.drawMouseoverTooltip(args.drawObjectDM.getStack(), args.mouseX, args.mouseY);
+        super.drawMouseoverTooltip(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
     }
 
     public void renderOverride(RenderArgs args) {
-        super.render(args.drawObjectDM.getStack(), args.mouseX, args.mouseY, args.delta);
+        super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
     public void resizeOverride(MinecraftClient client, int width, int height) {
@@ -135,7 +137,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
         this.x = super.x; //(this.width - this.backgroundWidth) / 2;
         this.y = super.y; //(this.height - this.backgroundHeight) / 2;
         this.textRenderer = super.textRenderer;
-        this.itemRenderer = super.itemRenderer;
+        this.itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         this.width = super.width;
         this.height = super.height;
         if (super.client == null)
@@ -161,7 +163,6 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     public void setItemRenderer(ItemRenderer itemRenderer) {
         this.itemRenderer = itemRenderer;
-        super.itemRenderer = itemRenderer;
     }
 
     public void setWidth(int width) {
@@ -194,8 +195,8 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     @Deprecated
     @Override
-    public void render(MatrixStack stack, int mouseX, int mouseY, float delta) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
         renderOverride(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
 
@@ -208,16 +209,11 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
-        if (getBackgroundTexture() == null) {
-            super.renderBackgroundTexture(args.getvOffset());
-            return;
-        }
+        if (getBackgroundTexture() != null)
+            Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), x, y, 0, 0, this.width, this.height);
 
-        RenderUtil.setShaderToPositionTexProgram();
-        RenderUtil.setShaderTexture(0, getBackgroundTexture());
         RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
-        callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, this.width, this.height);
+        callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, width, height);
     }
 
     @Deprecated
@@ -234,12 +230,12 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     @Deprecated
     @Override
-    public void renderBackgroundTexture(int vOffset) {
-        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(null, vOffset));
+    public void renderDarkening(DrawContext context) {
+        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context), 0));
     }
 
     public void closeOverride() {
-        super.onClose();
+        super.close();
     }
 
     public void removedOverride() {
@@ -247,7 +243,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         closeOverride();
     }
 

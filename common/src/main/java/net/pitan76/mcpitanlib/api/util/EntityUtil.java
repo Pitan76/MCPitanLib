@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -146,5 +147,9 @@ public class EntityUtil {
 
     public static void setVehicle(Entity entity, Entity vehicle) {
         entity.startRiding(vehicle, true);
+    }
+
+    public static void applyRotation(Entity entity, BlockRotation rotation) {
+        entity.applyRotation(rotation);
     }
 }

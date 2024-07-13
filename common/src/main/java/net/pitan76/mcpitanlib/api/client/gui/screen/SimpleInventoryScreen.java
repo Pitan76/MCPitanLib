@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.api.client;
+package net.pitan76.mcpitanlib.api.client.gui.screen;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -9,14 +9,18 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawMouseoverToolt
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
-@Deprecated
-public abstract class SimpleInventoryScreen extends SimpleHandledScreen {
+public abstract class SimpleInventoryScreen<S extends ScreenHandler> extends SimpleHandledScreen<S> {
 
-    public SimpleInventoryScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public SimpleInventoryScreen(S handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     public abstract Identifier getTexture();
+
+    @Override
+    public Identifier getBackgroundTexture() {
+        return getTexture();
+    }
 
     @Override
     public void drawBackgroundOverride(DrawBackgroundArgs args) {
