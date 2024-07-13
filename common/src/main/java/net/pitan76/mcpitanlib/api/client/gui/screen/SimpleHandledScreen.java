@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.api.client;
+package net.pitan76.mcpitanlib.api.client.gui.screen;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -21,22 +21,31 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
-@Deprecated
-public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
+public abstract class SimpleHandledScreen<S extends ScreenHandler> extends HandledScreen<S> {
 
     public int width, height, backgroundWidth, backgroundHeight, x, y;
-    public ScreenHandler handler;
+    public S handler;
     public TextRenderer textRenderer;
     public ItemRenderer itemRenderer;
 
     public Text title;
     public MinecraftClient client;
-    public SimpleHandledScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public SimpleHandledScreen(S handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         fixScreen();
         this.handler = handler;
         this.title = title;
 
+    }
+
+    @Deprecated
+    @Override
+    public S getScreenHandler() {
+        return getScreenHandlerOverride();
+    }
+
+    public S getScreenHandlerOverride() {
+        return super.getScreenHandler();
     }
 
     public <T extends Element & Drawable & Selectable> T addDrawableChild_compatibility(T drawableElement) {
