@@ -110,9 +110,10 @@ public class ItemStackUtil {
     }
 
     public static void damage(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
-        if (entity instanceof ServerPlayerEntity entity1)
-            damage(stack, amount, entity1, () -> {
+        if (entity instanceof ServerPlayerEntity) {
+            damage(stack, amount, (ServerPlayerEntity) entity, () -> {
 
             });
+        }
     }
 }
