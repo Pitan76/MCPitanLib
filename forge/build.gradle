@@ -29,7 +29,7 @@ configurations {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+    //modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
@@ -37,8 +37,8 @@ dependencies {
     shadowCommon 'org.yaml:snakeyaml:2.0'
     compileOnly 'org.yaml:snakeyaml:2.0'
 
-    modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
-    compileOnly("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
+    //modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
+    //compileOnly("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
     shadowCommon("net.pitan76:compatdatapacks76-forge:${rootProject.compatdatapacks76_version}")
     compileOnly("net.pitan76:compatdatapacks76-forge:${rootProject.compatdatapacks76_version}")
