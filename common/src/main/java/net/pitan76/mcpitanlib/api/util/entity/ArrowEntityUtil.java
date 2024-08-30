@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ArrowEntityUtil {
     public static ArrowEntity create(World world, double x, double y, double z, ItemStack stack, @Nullable ItemStack shotFrom) {
-        return new ArrowEntity(world, x, y, z, stack, shotFrom);
+        return new ArrowEntity(world, x, y, z, stack);
     }
 
     public static ArrowEntity create(World world, double x, double y, double z, ItemStack stack) {
