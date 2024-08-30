@@ -1,12 +1,17 @@
 package net.pitan76.mcpitanlib.api.block;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.shape.VoxelShape;
 import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
+import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+
+import java.util.List;
 
 public interface ExtendBlockProvider {
 
@@ -97,6 +102,51 @@ public interface ExtendBlockProvider {
      * @param options Options
      */
     default void onStateReplaced(StateReplacedEvent event, Options options) {
+        options.cancel = false;
+    }
+
+    /**
+     * get pick stack
+     * @param event PickStackEvent
+     * @param options Options
+     * @return ItemStack
+     */
+    default ItemStack getPickStack(PickStackEvent event, Options options) {
+        options.cancel = false;
+        return null;
+    }
+
+    /**
+     * get placement state
+     * @param args PlacementStateArgs
+     * @param options Options
+     */
+    default BlockState getPlacementState(PlacementStateArgs args, Options options) {
+        options.cancel = false;
+        return null;
+    }
+
+    /**
+     * append properties
+     * @param args AppendPropertiesArgs
+     * @param options Options
+     */
+    default void appendProperties(AppendPropertiesArgs args, Options options) {
+        options.cancel = false;
+    }
+
+    /**
+     * get dropped stacks
+     * @param args DroppedStacksArgs
+     * @param options Options
+     * @return List<ItemStack>
+     */
+    default List<ItemStack> getDroppedStacks(DroppedStacksArgs args, Options options) {
+        options.cancel = false;
+        return null;
+    }
+
+    default void appendTooltip(ItemAppendTooltipEvent event, Options options) {
         options.cancel = false;
     }
 
