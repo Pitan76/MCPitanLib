@@ -3,23 +3,18 @@ package net.pitan76.mcpitanlib.api.enchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.BuiltinRegistries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.util.EnchantmentUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
 public class CompatEnchantment {
-    private final RegistryKey<Enchantment> registryKey;
+    private final Enchantment enchantment;
 
     @Deprecated
-    public CompatEnchantment(RegistryKey<Enchantment> registryKey) {
-        this.registryKey = registryKey;
+    public CompatEnchantment(Enchantment enchantment) {
+        this.enchantment = enchantment;
     }
 
     public CompatEnchantment of(Identifier identifier) {
@@ -27,12 +22,7 @@ public class CompatEnchantment {
     }
 
     public Identifier getId() {
-        return registryKey.getRegistry();
-    }
-
-    @Deprecated
-    public RegistryKey<Enchantment> getRegistryKey() {
-        return registryKey;
+        return Registry.ENCHANTMENT.getId(enchantment);
     }
 
     public String toString() {
@@ -46,23 +36,11 @@ public class CompatEnchantment {
         return false;
     }
 
-    protected RegistryEntry<Enchantment> getEntry(@Nullable World world) {
-        Optional<RegistryEntry.Reference<Enchantment>> optionalEntry;
-        if (world == null) {
-            optionalEntry = BuiltinRegistries.createWrapperLookup().createRegistryLookup()
-                    .getOptionalEntry(RegistryKeys.ENCHANTMENT, registryKey);
-        } else {
-            optionalEntry = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(registryKey);
-        }
-
-        return optionalEntry.orElseThrow();
-    }
-
     public Enchantment getEnchantment(@Nullable World world) {
-        return getEntry(world).value();
+        return enchantment;
     }
 
     public int getLevel(ItemStack stack, @Nullable World world) {
-        return EnchantmentHelper.getLevel(getEntry(world), stack);
+        return EnchantmentHelper.getLevel(enchantment, stack);
     }
 }
