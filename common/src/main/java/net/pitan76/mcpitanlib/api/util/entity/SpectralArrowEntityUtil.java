@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SpectralArrowEntityUtil {
     public static SpectralArrowEntity create(World world, double x, double y, double z, ItemStack stack, @Nullable ItemStack shotFrom) {
-        return new SpectralArrowEntity(world, x, y, z, stack);
+        return new SpectralArrowEntity(world, x, y, z);
     }
 
     public static SpectralArrowEntity create(World world, double x, double y, double z, ItemStack stack) {
