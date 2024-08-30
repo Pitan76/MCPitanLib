@@ -32,7 +32,7 @@ public class EntityUtil {
     }
 
     public static void discard(Entity entity) {
-        entity.discard();
+        entity.remove();
     }
 
     public static void kill(Entity entity) {

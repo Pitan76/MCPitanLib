@@ -70,8 +70,7 @@ public class CompatEntity extends Entity {
         readNbt(new ReadNbtArgs(nbt));
     }
 
-    @Override
     public World getWorld() {
-        return super.getWorld();
+        return super.world;
     }
 }

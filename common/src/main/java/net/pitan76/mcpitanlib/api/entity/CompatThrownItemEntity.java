@@ -140,8 +140,7 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity {
         readNbt(new ReadNbtArgs(nbt));
     }
 
-    @Override
     public World getWorld() {
-        return super.getWorld();
+        return world;
     }
 }
