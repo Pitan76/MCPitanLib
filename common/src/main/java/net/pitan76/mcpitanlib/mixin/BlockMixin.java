@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class BlockMixin {
     }
 
     @Inject(method = "getPickStack", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$getPickStack(WorldView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
+    private void mcpitanlib$getPickStack(BlockView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
         // ExtendBlockProviderを実装している場合
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
