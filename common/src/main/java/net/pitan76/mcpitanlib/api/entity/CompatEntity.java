@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -18,8 +17,8 @@ public class CompatEntity extends Entity {
 
     @Deprecated
     @Override
-    public void initDataTracker(DataTracker.Builder builder) {
-        initDataTracker(new InitDataTrackerArgs(builder));
+    public void initDataTracker() {
+        initDataTracker(new InitDataTrackerArgs());
     }
 
     public void initDataTracker(InitDataTrackerArgs args) {
