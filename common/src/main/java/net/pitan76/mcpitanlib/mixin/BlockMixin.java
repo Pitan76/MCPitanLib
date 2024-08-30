@@ -2,15 +2,15 @@ package net.pitan76.mcpitanlib.mixin;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.state.StateManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider;
@@ -112,12 +112,12 @@ public class BlockMixin {
     }
 
     @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type, CallbackInfo ci) {
+    private void mcpitanlib$appendTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
         // ExtendBlockProviderを実装している場合
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
-            provider.appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context), options);
+            provider.appendTooltip(new ItemAppendTooltipEvent(stack, world, tooltip, context), options);
             if (options.cancel)
                 ci.cancel();
         }
