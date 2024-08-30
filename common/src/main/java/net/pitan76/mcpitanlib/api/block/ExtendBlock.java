@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -261,8 +262,8 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-        appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context));
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext context) {
+        appendTooltip(new ItemAppendTooltipEvent(stack, world, tooltip, context));
     }
 
     /**
@@ -270,6 +271,6 @@ public class ExtendBlock extends Block {
      * @param event ItemAppendTooltipEvent
      */
     public void appendTooltip(ItemAppendTooltipEvent event) {
-        super.appendTooltip(event.stack, event.context, event.tooltip, event.type);
+        super.appendTooltip(event.stack, event.blockView, event.tooltip, event.context);
     }
 }
