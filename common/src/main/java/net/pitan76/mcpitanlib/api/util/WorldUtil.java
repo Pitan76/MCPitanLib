@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
@@ -213,5 +214,9 @@ public class WorldUtil {
 
     public static boolean removeBlock(World world, BlockPos pos, boolean move) {
         return world.removeBlock(pos, move);
+    }
+
+    public static void addParticle(World world, ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+        world.addParticle(parameters, x, y, z, velocityX, velocityY, velocityZ);
     }
 }

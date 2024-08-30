@@ -56,4 +56,8 @@ public class ItemUseEvent extends BaseEvent {
     public TypedActionResult<ItemStack> consume() {
         return TypedActionResult.consume(stack);
     }
+
+    public boolean isSneaking() {
+        return user.isSneaking();
+    }
 }
