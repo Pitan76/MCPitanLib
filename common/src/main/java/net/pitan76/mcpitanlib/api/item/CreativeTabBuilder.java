@@ -6,6 +6,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
@@ -28,6 +29,10 @@ public class CreativeTabBuilder {
 
     public static CreativeTabBuilder create(Identifier identifier) {
         return new CreativeTabBuilder(identifier);
+    }
+
+    public static CreativeTabBuilder create(CompatIdentifier identifier) {
+        return create(identifier.toMinecraft());
     }
 
     public CreativeTabBuilder setDisplayName(Text text) {
