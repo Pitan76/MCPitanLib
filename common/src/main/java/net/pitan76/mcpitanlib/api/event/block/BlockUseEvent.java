@@ -95,4 +95,8 @@ public class BlockUseEvent extends BaseEvent {
     public BlockEntity getBlockEntity() {
         return WorldUtil.getBlockEntity(world, pos);
     }
+
+    public boolean isSneaking() {
+        return player.isSneaking();
+    }
 }
