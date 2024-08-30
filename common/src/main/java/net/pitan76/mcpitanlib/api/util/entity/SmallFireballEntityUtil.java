@@ -4,15 +4,14 @@ import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.pitan76.mcpitanlib.api.util.math.Vec3dUtil;
 
 public class SmallFireballEntityUtil {
     public static SmallFireballEntity create(World world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
-        return new SmallFireballEntity(world, x, y, z, Vec3dUtil.create(velocityX, velocityY, velocityZ));
+        return new SmallFireballEntity(world, x, y, z, velocityX, velocityY, velocityZ);
     }
 
     public static SmallFireballEntity create(World world, double x, double y, double z, Vec3d velocity) {
-        return new SmallFireballEntity(world, x, y, z, velocity);
+        return create(world, x, y, z, velocity.x, velocity.y, velocity.z);
     }
 
     public static void setVelocity(SmallFireballEntity entity, double x, double y, double z, float velocity, float divergence) {
