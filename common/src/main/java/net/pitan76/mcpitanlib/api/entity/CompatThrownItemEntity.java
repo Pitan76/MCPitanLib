@@ -2,12 +2,10 @@ package net.pitan76.mcpitanlib.api.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
@@ -93,12 +91,12 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity {
 
     @Deprecated
     @Override
-    public void initDataTracker(DataTracker.Builder builder) {
-        initDataTracker(new InitDataTrackerArgs(builder));
+    public void initDataTracker() {
+        initDataTracker(new InitDataTrackerArgs());
     }
 
     public void initDataTracker(InitDataTrackerArgs args) {
-        super.initDataTracker(args.getBuilder());
+        super.initDataTracker();
     }
 
     public void readCustomDataFromNbt(ReadNbtArgs nbt) {
