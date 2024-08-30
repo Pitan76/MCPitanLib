@@ -8,15 +8,15 @@ public class Vec3iUtil {
     }
 
     public static Vec3i add(Vec3i a, Vec3i b) {
-        return a.add(b);
+        return new Vec3i(a.getX() + b.getX(), a.getY() + b.getY(), a.getZ() + b.getZ());
     }
 
     public static Vec3i subtract(Vec3i a, Vec3i b) {
-        return a.subtract(b);
+        return new Vec3i(a.getX() - b.getX(), a.getY() - b.getY(), a.getZ() - b.getZ());
     }
 
     public static Vec3i multiply(Vec3i a, int b) {
-        return a.multiply(b);
+        return new Vec3i(a.getX() * b, a.getY() * b, a.getZ() * b);
     }
 
     public static Vec3i cross(Vec3i a, Vec3i b) {
@@ -24,10 +24,10 @@ public class Vec3iUtil {
     }
 
     public static Vec3i add(Vec3i a, int x, int y, int z) {
-        return a.add(x, y, z);
+        return new Vec3i(a.getX() + x, a.getY() + y, a.getZ() + z);
     }
 
     public static Vec3i subtract(Vec3i a, int x, int y, int z) {
-        return a.add(-x, -y, -z);
+        return new Vec3i(a.getX() - x, a.getY() - y, a.getZ() - z);
     }
 }
