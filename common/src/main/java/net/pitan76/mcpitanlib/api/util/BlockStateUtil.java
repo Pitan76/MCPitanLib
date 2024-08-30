@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Property;
 
 public class BlockStateUtil {
     public static Block getBlock(BlockState state) {
@@ -28,5 +29,9 @@ public class BlockStateUtil {
 
     public static StateManager<Block, BlockState> getStateManager(Block block) {
         return block.getStateManager();
+    }
+
+    public static <T extends Comparable<T>, V extends T> BlockState with(BlockState state, Property<T> property, V value) {
+        return state.with(property, value);
     }
 }

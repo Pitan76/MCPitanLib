@@ -30,4 +30,12 @@ public class EntityUtil {
     public static boolean damageWithPlayerAttack(Entity target, float damageAmount, Entity source, Player attacker) {
         return target.damage(DamageSourceUtil.playerAttack(attacker, source), damageAmount);
     }
+
+    public static void discard(Entity entity) {
+        entity.discard();
+    }
+
+    public static void kill(Entity entity) {
+        entity.kill();
+    }
 }

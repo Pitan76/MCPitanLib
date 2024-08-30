@@ -5,6 +5,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -22,6 +24,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
+import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -240,5 +243,34 @@ public class ExtendBlock extends Block {
      */
     public void setNewDefaultState(BlockState state) {
         super.setDefaultState(state);
+    }
+
+    @Deprecated
+    @Override
+    public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getPlacementState(new PlacementStateArgs(ctx, this));
+    }
+
+    /**
+     * get placement state
+     * @param args PlacementStateArgs
+     * @return BlockState
+     */
+    public @Nullable BlockState getPlacementState(PlacementStateArgs args) {
+        return super.getPlacementState(args.ctx);
+    }
+
+    @Deprecated
+    @Override
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
+        appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context));
+    }
+
+    /**
+     * append tooltip to item
+     * @param event ItemAppendTooltipEvent
+     */
+    public void appendTooltip(ItemAppendTooltipEvent event) {
+        super.appendTooltip(event.stack, event.context, event.tooltip, event.type);
     }
 }

@@ -135,4 +135,8 @@ public class CompatRegistryClient {
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
         RenderTypes.register(layer, fluid);
     }
+
+    public static void registerCutoutBlock(Block block) {
+        registerRenderTypeBlock(RenderLayer.getCutout(), block);
+    }
 }

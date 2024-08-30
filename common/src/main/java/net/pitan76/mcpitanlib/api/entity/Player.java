@@ -21,6 +21,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
@@ -286,5 +287,9 @@ public class Player {
 
     public ItemStack getOffHandStack() {
         return getStackInHand(Hand.OFF_HAND);
+    }
+
+    public Direction getHorizontalFacing() {
+        return getEntity().getHorizontalFacing();
     }
 }

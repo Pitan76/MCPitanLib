@@ -4,6 +4,8 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.world.ServerWorld;
@@ -24,6 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Random;
+
+import java.util.List;
 
 @Mixin(AbstractBlock.class)
 public class AbstractBlockMixin {
@@ -91,6 +95,17 @@ public class AbstractBlockMixin {
             provider.onStateReplaced(new StateReplacedEvent(state, world, pos, newState, moved), options);
             if (options.cancel)
                 ci.cancel();
+        }
+    }
+
+    @Inject(method = "getDroppedStacks", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder, CallbackInfoReturnable<List<ItemStack>> cir) {
+        if (this instanceof ExtendBlockProvider) {
+            ExtendBlockProvider provider = (ExtendBlockProvider) this;
+            Options options = new Options();
+            List<ItemStack> returnValue = provider.getDroppedStacks(new DroppedStacksArgs(state, builder), options);
+            if (options.cancel && returnValue != null)
+                cir.setReturnValue(returnValue);
         }
     }
 }
