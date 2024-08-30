@@ -3,17 +3,11 @@ package net.pitan76.mcpitanlib.api.enchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.BuiltinRegistries;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.util.EnchantmentUtil;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public class CompatEnchantment {
     private final Enchantment enchantment;
@@ -28,7 +22,7 @@ public class CompatEnchantment {
     }
 
     public Identifier getId() {
-        return Registries.ENCHANTMENT.getId(enchantment);
+        return Registry.ENCHANTMENT.getId(enchantment);
     }
 
     public String toString() {

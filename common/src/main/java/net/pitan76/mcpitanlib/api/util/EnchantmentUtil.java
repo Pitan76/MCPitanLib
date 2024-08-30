@@ -2,8 +2,8 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class EnchantmentUtil {
     public static CompatEnchantment getEnchantment(Identifier identifier) {
-        return new CompatEnchantment(Registries.ENCHANTMENT.get(identifier));
+        return new CompatEnchantment(Registry.ENCHANTMENT.get(identifier));
     }
 
     public static Identifier getId(CompatEnchantment enchantment) {
