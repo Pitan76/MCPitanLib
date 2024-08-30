@@ -57,7 +57,7 @@ public class PlacementStateArgs extends BaseEvent {
     }
 
     public Direction getHorizontalPlayerFacing() {
-        return ctx.getHorizontalPlayerFacing();
+        return ctx.getPlayerFacing();
     }
 
     public float getPlayerYaw() {

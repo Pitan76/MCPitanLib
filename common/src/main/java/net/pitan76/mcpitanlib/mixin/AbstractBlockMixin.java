@@ -99,7 +99,7 @@ public class AbstractBlockMixin {
     }
 
     @Inject(method = "getDroppedStacks", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder, CallbackInfoReturnable<List<ItemStack>> cir) {
+    private void mcpitanlib$inject_getDroppedStacks(BlockState state, LootContext.Builder builder, CallbackInfoReturnable<List<ItemStack>> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
