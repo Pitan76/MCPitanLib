@@ -28,12 +28,17 @@ public class CompatRegistryV2 {
     }
 
     /**
-     * Create a new CompatRegistry
+     * Create a new CompatRegistryV2
      * @param MOD_ID The mod id
-     * @return The new CompatRegistry
+     * @return The new CompatRegistryV2
      */
-    public static CompatRegistry create(String MOD_ID) {
-        return CompatRegistry.create(MOD_ID);
+    public static CompatRegistryV2 create(String MOD_ID) {
+        CompatRegistry cr1 = CompatRegistry.create(MOD_ID);
+        return new CompatRegistryV2(cr1);
+    }
+
+    public static CompatRegistryV2 create(CompatRegistry compatRegistry) {
+        return new CompatRegistryV2(compatRegistry);
     }
 
     /**
