@@ -48,7 +48,7 @@ public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvide
 
     @Deprecated
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return getOutlineShape(new OutlineShapeEvent(state, world, pos, context));
     }
 
