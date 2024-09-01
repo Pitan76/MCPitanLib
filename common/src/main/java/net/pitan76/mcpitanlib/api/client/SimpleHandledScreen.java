@@ -230,4 +230,33 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     public void removed() {
         removedOverride();
     }
+
+    public Identifier getBackgroundTexture() {
+        return null;
+    }
+
+    public void setTitleX(int x) {
+        this.titleX = x;
+    }
+
+    public void setTitleY(int y) {
+        this.titleY = y;
+    }
+
+    public void setTitlePos(int x, int y) {
+        setTitleX(x);
+        setTitleY(y);
+    }
+
+    public void setTitleXCenter() {
+        setTitleX(width / 2 - textRenderer.getWidth(title) / 2);
+    }
+
+    public int getTitleX() {
+        return titleX;
+    }
+
+    public int getTitleY() {
+        return titleY;
+    }
 }
