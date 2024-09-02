@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
@@ -273,5 +274,16 @@ public class ExtendBlock extends Block {
      */
     public void appendTooltip(ItemAppendTooltipEvent event) {
         super.appendTooltip(event.stack, event.blockView, event.tooltip, event.context);
+    }
+
+    @Deprecated
+    @Override
+    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
+        return canPathfindThrough(new CanPathfindThroughArgs(state, world, pos, type));
+    }
+
+    @SuppressWarnings("removal")
+    public boolean canPathfindThrough(CanPathfindThroughArgs args) {
+        return super.canPathfindThrough(args.state, args.getBlockView(), args.getPos(), args.type);
     }
 }
