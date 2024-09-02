@@ -35,7 +35,7 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     shadowCommon 'org.yaml:snakeyaml:2.0'
-    include 'org.yaml:snakeyaml:2.0'
+    compileOnly 'org.yaml:snakeyaml:2.0'
 
     include("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
