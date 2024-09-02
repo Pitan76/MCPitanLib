@@ -281,7 +281,6 @@ public class ExtendBlock extends Block {
         return canPathfindThrough(new CanPathfindThroughArgs(state, world, pos, type));
     }
 
-    @SuppressWarnings("removal")
     public boolean canPathfindThrough(CanPathfindThroughArgs args) {
         return super.canPathfindThrough(args.state, args.getBlockView(), args.getPos(), args.type);
     }
