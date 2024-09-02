@@ -150,6 +150,11 @@ public interface ExtendBlockProvider {
         options.cancel = false;
     }
 
+    default Boolean canPathfindThrough(CanPathfindThroughArgs args, Options options) {
+        options.cancel = false;
+        return null;
+    }
+
     public static class Options {
         public boolean cancel = true;
     }
