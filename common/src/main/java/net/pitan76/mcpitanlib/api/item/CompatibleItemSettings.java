@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 import java.util.function.Supplier;
 
@@ -81,5 +82,13 @@ public class CompatibleItemSettings {
                 settings.addGroup(CreativeTabBuilder.itemGroupMap.get(itemGroupId));
         }
         return settings;
+    }
+
+    public CompatibleItemSettings addGroup(ItemGroup itemGroup, CompatIdentifier identifier) {
+        return addGroup(itemGroup, identifier.toMinecraft());
+    }
+
+    public CompatibleItemSettings addGroup(Supplier<ItemGroup> itemGroup, CompatIdentifier identifier) {
+        return addGroup(itemGroup, identifier.toMinecraft());
     }
 }
