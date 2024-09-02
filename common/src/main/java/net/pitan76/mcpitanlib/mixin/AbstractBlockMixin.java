@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.mixin;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameterSet;
@@ -106,4 +107,16 @@ public class AbstractBlockMixin {
                 cir.setReturnValue(returnValue);
         }
     }
+
+    @Inject(method = "canPathfindThrough", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_canPathfindThrough(BlockState state, NavigationType type, CallbackInfoReturnable<Boolean> cir) {
+        if (this instanceof ExtendBlockProvider) {
+            ExtendBlockProvider provider = (ExtendBlockProvider) this;
+            Options options = new Options();
+            Boolean returnValue = provider.canPathfindThrough(new CanPathfindThroughArgs(state, type), options);
+            if (options.cancel && returnValue != null)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
 }

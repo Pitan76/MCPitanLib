@@ -46,7 +46,8 @@ public class CompatEnchantment {
         return false;
     }
 
-    protected RegistryEntry<Enchantment> getEntry(@Nullable World world) {
+    @Deprecated
+    public RegistryEntry<Enchantment> getEntry(@Nullable World world) {
         Optional<RegistryEntry.Reference<Enchantment>> optionalEntry;
         if (world == null) {
             optionalEntry = BuiltinRegistries.createWrapperLookup().createRegistryLookup()

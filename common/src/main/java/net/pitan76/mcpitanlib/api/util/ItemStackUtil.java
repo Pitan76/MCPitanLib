@@ -114,4 +114,20 @@ public class ItemStackUtil {
     public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity) {
         stack.damage(amount, entity.getServerWorld(), entity, (item) -> entity.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
     }
+
+    public static ItemStack empty() {
+        return ItemStack.EMPTY;
+    }
+
+    public static ItemStack create(Item item) {
+        return new ItemStack(item);
+    }
+
+    public static ItemStack create(Item item, int count) {
+        return new ItemStack(item, count);
+    }
+
+    public static boolean isEmpty(ItemStack stack) {
+        return stack.isEmpty();
+    }
 }

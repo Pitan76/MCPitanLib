@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
@@ -89,4 +90,8 @@ public class InventoryUtil {
         Inventories.readNbt(nbt, stacks, world.getRegistryManager());
     }
     // ----
+
+    public static SimpleInventory createSimpleInventory(int size) {
+        return new SimpleInventory(size);
+    }
 }

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
@@ -17,7 +18,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -274,5 +274,15 @@ public class ExtendBlock extends Block {
      */
     public void appendTooltip(ItemAppendTooltipEvent event) {
         super.appendTooltip(event.stack, event.context, event.tooltip, event.type);
+    }
+
+    @Deprecated
+    @Override
+    public boolean canPathfindThrough(BlockState state, NavigationType type) {
+        return canPathfindThrough(new CanPathfindThroughArgs(state, type));
+    }
+
+    public boolean canPathfindThrough(CanPathfindThroughArgs args) {
+        return super.canPathfindThrough(args.state, args.type);
     }
 }
