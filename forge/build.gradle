@@ -35,12 +35,11 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     shadowCommon 'org.yaml:snakeyaml:2.0'
-    compileOnly 'org.yaml:snakeyaml:2.0'
+    include 'org.yaml:snakeyaml:2.0'
 
-    modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
-    compileOnly("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
+    include ("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
-    compileOnly("net.pitan76:compatdatapacks76-forge:${rootProject.compatdatapacks76_version}")
+    include ("net.pitan76:compatdatapacks76-forge:${rootProject.compatdatapacks76_version}")
 }
 
 processResources {
