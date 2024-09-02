@@ -53,12 +53,10 @@ public class CanPathfindThroughArgs extends BaseEvent {
         return FluidStateUtil.isLava(getFluidState());
     }
 
-    @Deprecated(forRemoval = true)
     public BlockPos getPos() {
         return pos;
     }
 
-    @Deprecated(forRemoval = true)
     public BlockView getBlockView() {
         return blockView;
     }
