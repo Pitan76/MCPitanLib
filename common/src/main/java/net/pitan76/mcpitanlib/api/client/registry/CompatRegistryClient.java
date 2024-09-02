@@ -40,6 +40,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
+import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.render.EntityModelLayerContext;
 
 import java.util.List;
@@ -48,6 +49,10 @@ import java.util.function.Supplier;
 @Environment(EnvType.CLIENT)
 public class CompatRegistryClient {
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
+        registerScreen(MCPitanLib.MOD_ID, type, factory);
+    }
+
+    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
         MenuRegistry.registerScreenFactory(type, factory::create);
     }
 
