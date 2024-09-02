@@ -37,6 +37,7 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
+    shadowCommon 'org.yaml:snakeyaml:2.0'
     include 'org.yaml:snakeyaml:2.0'
 
     include("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")

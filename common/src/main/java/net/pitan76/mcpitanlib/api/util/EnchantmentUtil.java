@@ -50,8 +50,8 @@ public class EnchantmentUtil {
         return enchantments;
     }
 
-    public static void hasEnchantment(ItemStack stack) {
-        EnchantmentHelper.hasEnchantments(stack);
+    public static boolean hasEnchantment(ItemStack stack) {
+        return EnchantmentHelper.hasEnchantments(stack);
     }
 
     public static Map<CompatEnchantment, Integer> getEnchantment(ItemStack stack, @Nullable World world) {
