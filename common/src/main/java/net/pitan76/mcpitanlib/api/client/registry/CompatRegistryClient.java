@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.particle.ParticleProviderRegistry;
@@ -53,7 +52,6 @@ public class CompatRegistryClient {
         registerScreen(MCPitanLib.MOD_ID, type, factory);
     }
 
-    @ExpectPlatform
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
         MenuRegistry.registerScreenFactory(type, factory::create);
     }
