@@ -17,6 +17,14 @@ public class SoundEventUtil {
         return SoundEvent.of(id);
     }
 
+    public static CompatIdentifier getCompatId(SoundEvent soundEvent) {
+        return CompatIdentifier.fromMinecraft(getId(soundEvent));
+    }
+
+    public static SoundEvent getSoundEvent(CompatIdentifier id) {
+        return getSoundEvent(id.toMinecraft());
+    }
+
     public static List<SoundEvent> getAllSoundEvents() {
         return Registries.SOUND_EVENT.stream().collect(Collectors.toList());
     }
