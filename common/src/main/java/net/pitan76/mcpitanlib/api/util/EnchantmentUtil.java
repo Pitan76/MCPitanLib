@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -73,5 +74,9 @@ public class EnchantmentUtil {
         });
 
         EnchantmentHelper.set(stack, builder.build());
+    }
+
+    public static void removeEnchantment(ItemStack stack) {
+        stack.remove(DataComponentTypes.ENCHANTMENTS);
     }
 }

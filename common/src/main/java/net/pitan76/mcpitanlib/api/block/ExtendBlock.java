@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,6 +26,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
@@ -284,5 +286,25 @@ public class ExtendBlock extends Block {
 
     public boolean canPathfindThrough(CanPathfindThroughArgs args) {
         return super.canPathfindThrough(args.state, args.type);
+    }
+
+    @Deprecated
+    @Override
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        onEntityCollision(new EntityCollisionEvent(state, world, pos, entity));
+    }
+
+    public void onEntityCollision(EntityCollisionEvent e) {
+        super.onEntityCollision(e.state, e.world, e.pos, e.entity);
+    }
+
+    @Deprecated
+    @Override
+    public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
+        onBlockBreakStart(new BlockBreakStartEvent(state, world, pos, new Player(player)));
+    }
+
+    public void onBlockBreakStart(BlockBreakStartEvent e) {
+        super.onBlockBreakStart(e.state, e.world, e.pos, e.player.getPlayerEntity());
     }
 }

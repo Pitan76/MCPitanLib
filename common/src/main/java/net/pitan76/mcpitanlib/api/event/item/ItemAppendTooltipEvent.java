@@ -6,6 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.util.RegistryLookupUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -60,5 +62,9 @@ public class ItemAppendTooltipEvent extends BaseEvent {
 
     public boolean isAdvanced() {
         return type.isAdvanced();
+    }
+
+    public CompatRegistryLookup getRegistryLookup() {
+        return RegistryLookupUtil.getRegistryLookup(this);
     }
 }
