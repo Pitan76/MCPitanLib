@@ -20,7 +20,8 @@ public class BlockEntityUtil {
         if (world == null)
             return NbtUtil.create();
 
-        return blockEntity.createNbt();
+        NbtCompound nbt = NbtUtil.create();
+        return blockEntity.writeNbt(nbt);
     }
 
     public static NbtCompound getBlockEntityNbt(BlockEntity blockEntity) {

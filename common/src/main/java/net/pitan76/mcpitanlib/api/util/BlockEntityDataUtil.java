@@ -10,16 +10,16 @@ public class BlockEntityDataUtil {
     public static NbtCompound getBlockEntityNbt(ItemStack stack) {
         if (!hasBlockEntityNbt(stack)) return NbtUtil.create();
 
-        return stack.getSubNbt("BlockEntityTag");
+        return stack.getSubTag("BlockEntityTag");
     }
 
     public static void setBlockEntityNbt(ItemStack stack, NbtCompound nbt) {
-        stack.setSubNbt("BlockEntityTag", nbt);
+        stack.putSubTag("BlockEntityTag", nbt);
     }
 
     public static boolean hasBlockEntityNbt(ItemStack stack) {
-        if (!stack.hasNbt()) return false;
-        if (!NbtUtil.has(stack.getNbt(), "BlockEntityTag")) return false;
+        if (!stack.hasTag()) return false;
+        if (!NbtUtil.has(stack.getTag(), "BlockEntityTag")) return false;
 
         return true;
     }
@@ -36,6 +36,6 @@ public class BlockEntityDataUtil {
     }
 
     public static void removeBlockEntityNbt(ItemStack stack) {
-        stack.removeSubNbt("BlockEntityTag");
+        stack.removeSubTag("BlockEntityTag");
     }
 }

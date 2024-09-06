@@ -24,7 +24,7 @@ public class ServerNetworking {
 
     public static void send(Player player, CompatIdentifier id, PacketByteBuf buf) {
         Optional<ServerPlayerEntity> optional = player.getServerPlayer();
-        if (optional.isEmpty()) return;
+        if (!optional.isPresent()) return;
 
         send(optional.get(), id, buf);
     }

@@ -71,15 +71,15 @@ public class EnchantmentUtil {
     }
 
     public static void removeEnchantment(ItemStack stack) {
-        if (!stack.hasNbt()) return;
-        NbtCompound nbt = stack.getNbt();
+        if (!stack.hasTag()) return;
+        NbtCompound nbt = stack.getTag();
         if (nbt.contains("enchantments"))
-            stack.removeSubNbt("enchantments");
+            stack.removeSubTag("enchantments");
         if (nbt.contains("stored_enchantments"))
-            stack.removeSubNbt("stored_enchantments");
+            stack.removeSubTag("stored_enchantments");
         if (nbt.contains("Enchantments"))
-            stack.removeSubNbt("Enchantments");
+            stack.removeSubTag("Enchantments");
         if (nbt.contains("StoredEnchantments"))
-            stack.removeSubNbt("StoredEnchantments");
+            stack.removeSubTag("StoredEnchantments");
     }
 }
