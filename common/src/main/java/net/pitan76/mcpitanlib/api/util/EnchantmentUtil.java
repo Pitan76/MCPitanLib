@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -67,5 +68,18 @@ public class EnchantmentUtil {
         enchantments.forEach((key, value) -> enchantmentMap.put(key.getEnchantment(world), value));
 
         EnchantmentHelper.set(enchantmentMap, stack);
+    }
+
+    public static void removeEnchantment(ItemStack stack) {
+        if (!stack.hasNbt()) return;
+        NbtCompound nbt = stack.getNbt();
+        if (nbt.contains("enchantments"))
+            stack.removeSubNbt("enchantments");
+        if (nbt.contains("stored_enchantments"))
+            stack.removeSubNbt("stored_enchantments");
+        if (nbt.contains("Enchantments"))
+            stack.removeSubNbt("Enchantments");
+        if (nbt.contains("StoredEnchantments"))
+            stack.removeSubNbt("StoredEnchantments");
     }
 }

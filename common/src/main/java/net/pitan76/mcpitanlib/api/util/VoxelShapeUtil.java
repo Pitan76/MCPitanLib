@@ -32,4 +32,7 @@ public class VoxelShapeUtil {
         return VoxelShapes.fullCube();
     }
 
+    public static VoxelShape blockCuboid(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+        return VoxelShapes.cuboid(minX / 16.0, minY / 16.0, minZ / 16.0, maxX / 16.0, maxY / 16.0, maxZ / 16.0);
+    }
 }

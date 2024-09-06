@@ -61,4 +61,18 @@ public class PickStackEvent {
             return worldView.getBlockEntity(pos);
         return null;
     }
+
+    public boolean isClient() {
+        if (blockView != null)
+            return getBlockEntity().getWorld().isClient();
+        if (worldView != null)
+            return worldView.isClient();
+
+        try {
+            net.minecraft.client.MinecraftClient.getInstance();
+            return true;
+        } catch (Error e) {
+            return false;
+        }
+    }
 }

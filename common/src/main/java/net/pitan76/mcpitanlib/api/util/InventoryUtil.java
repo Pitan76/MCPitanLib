@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 
 public class InventoryUtil {
     public static boolean insertItem(ItemStack insertStack, DefaultedList<ItemStack> inventory) {
@@ -63,6 +64,18 @@ public class InventoryUtil {
 
     public static void readNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks) {
         Inventories.readNbt(args.getNbt(), stacks);
+    }
+
+    public static void readNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
+        Inventories.readNbt(nbt, stacks);
+    }
+
+    public static NbtCompound writeNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
+        return Inventories.writeNbt(nbt, stacks, setIfEmpty);
+    }
+
+    public static NbtCompound writeNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
+        return writeNbt(registryLookup, nbt, stacks, true);
     }
 
     // deprecated
