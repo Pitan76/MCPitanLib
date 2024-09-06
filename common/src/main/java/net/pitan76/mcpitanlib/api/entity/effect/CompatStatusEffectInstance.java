@@ -44,7 +44,7 @@ public class CompatStatusEffectInstance {
     
     public CompatStatusEffectInstance(CompatStatusEffect effect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, @Nullable StatusEffectInstance hiddenEffect) {
         StatusEffect statusEffect = effect.getStatusEffect(null);
-        this.instance = new StatusEffectInstance(statusEffect, duration, amplifier, ambient, showParticles, showIcon, hiddenEffect, statusEffect.getFactorCalculationDataSupplier());
+        this.instance = new StatusEffectInstance(statusEffect, duration, amplifier, ambient, showParticles, showIcon, hiddenEffect);
     }
 
     public int getDuration() {
