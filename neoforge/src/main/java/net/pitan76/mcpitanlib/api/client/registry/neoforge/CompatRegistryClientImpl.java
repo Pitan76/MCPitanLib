@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.registry.neoforge;
 
 import dev.architectury.platform.hooks.EventBusesHooks;
-import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
 import net.minecraft.screen.ScreenHandler;

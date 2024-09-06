@@ -23,8 +23,8 @@ public class ServerNetworking {
             CustomPayload.Id type = new CustomPayload.Id<>(identifier);
             S2C_TYPE.put(identifier, type);
 
-            if (!NetworkAggregator.S2C_CODECS.containsKey(type))
-                NetworkAggregator.registerS2CType(type, BufCustomPacketPayload.streamCodec(type), List.of());
+            //if (!NetworkAggregator.S2C_CODECS.containsKey(type))
+            //    NetworkAggregator.registerS2CType(type, BufCustomPacketPayload.streamCodec(type), List.of());
         }
 
         CustomPayload payload = new BufCustomPacketPayload(S2C_TYPE.get(identifier), ByteBufUtil.getBytes(buf));
@@ -36,8 +36,8 @@ public class ServerNetworking {
             CustomPayload.Id<BufCustomPacketPayload> type = new CustomPayload.Id<>(identifier);
             S2C_TYPE.put(identifier, type);
 
-            if (!NetworkAggregator.S2C_CODECS.containsKey(type))
-                NetworkAggregator.registerS2CType(type, BufCustomPacketPayload.streamCodec(type), List.of());
+            //if (!NetworkAggregator.S2C_CODECS.containsKey(type))
+            //    NetworkAggregator.registerS2CType(type, BufCustomPacketPayload.streamCodec(type), List.of());
         }
         CustomPayload payload = new BufCustomPacketPayload(S2C_TYPE.get(identifier), ByteBufUtil.getBytes(buf));
         NetworkManager.sendToPlayers(players, payload);
