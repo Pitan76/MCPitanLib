@@ -19,15 +19,19 @@ import net.minecraft.stat.Stat;
 import net.minecraft.stat.StatType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
+import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
 
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -172,6 +176,14 @@ public class Player {
         return getAbilities().creativeMode;
     }
 
+    public boolean isFlying() {
+        return getAbilities().flying;
+    }
+
+    public boolean isInvulnerable() {
+        return getAbilities().invulnerable;
+    }
+
     public World getWorld() {
         return getEntity().world;
     }
@@ -277,6 +289,14 @@ public class Player {
         getEntity().incrementStat(type.getOrCreateStat(object));
     }
 
+    public void incrementStat(Identifier id) {
+        getEntity().incrementStat(id);
+    }
+
+    public void incrementStat(CompatIdentifier id) {
+        getEntity().incrementStat(id.toMinecraft());
+    }
+
     public void teleport(double x, double y, double z) {
         getEntity().teleport(x, y, z);
     }
@@ -291,5 +311,32 @@ public class Player {
 
     public Direction getHorizontalFacing() {
         return getEntity().getHorizontalFacing();
+    }
+
+    public void eatFood(World world, ItemStack stack, CompatFoodComponent foodComponentBuilder) {
+        getEntity().eatFood(world, stack);
+    }
+
+    public double getX() {
+        return getEntity().getX();
+    }
+
+    public double getY() {
+        return getEntity().getY();
+    }
+
+    public double getZ() {
+        return getEntity().getZ();
+    }
+
+    public boolean isServerPlayer() {
+        return getEntity() instanceof ServerPlayerEntity;
+    }
+
+    public Optional<ServerPlayerEntity> getServerPlayer() {
+        if (isServerPlayer())
+            return Optional.of((ServerPlayerEntity) getEntity());
+
+        return Optional.empty();
     }
 }

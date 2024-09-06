@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -130,6 +131,14 @@ public class ItemStackUtil {
     }
 
     public static ItemStack create(Item item, int count) {
+        return new ItemStack(item, count);
+    }
+
+    public static ItemStack create(ItemConvertible item) {
+        return new ItemStack(item);
+    }
+
+    public static ItemStack create(ItemConvertible item, int count) {
         return new ItemStack(item, count);
     }
 

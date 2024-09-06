@@ -220,4 +220,8 @@ public class WorldUtil {
     public static void addParticle(World world, ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
         world.addParticle(parameters, x, y, z, velocityX, velocityY, velocityZ);
     }
+
+    public static boolean canSetBlock(World world, BlockPos pos) {
+        return world.canSetBlock(pos);
+    }
 }

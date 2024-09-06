@@ -14,6 +14,8 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
+import net.pitan76.mcpitanlib.api.client.render.handledscreen.KeyEventArgs;
+import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 
 public abstract class SimpleScreen extends Screen {
