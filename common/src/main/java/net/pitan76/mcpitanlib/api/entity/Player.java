@@ -267,7 +267,7 @@ public class Player {
         if (isServerPlayerEntity()) {
             Optional<ServerPlayerEntity> player = getServerPlayer();
             if (player.isPresent()) {
-                player.get().playSoundToPlayer(event, category, volume, pitch);
+                player.get().playSound(event, category, volume, pitch);
                 return;
             }
         }
