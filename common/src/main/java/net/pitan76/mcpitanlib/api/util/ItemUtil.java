@@ -91,6 +91,33 @@ public class ItemUtil {
     }
 
     /**
+     * Get CompatIdentifier from Item.
+     * @param item Item to get CompatIdentifier.
+     * @return CompatIdentifier of the Item.
+     */
+    public static CompatIdentifier toCompatID(Item item) {
+        return CompatIdentifier.fromMinecraft(toID(item));
+    }
+
+    /**
+     * Get item from CompatIdentifier.
+     * @param identifier CompatIdentifier of the item.
+     * @return Item of the CompatIdentifier.
+     */
+    public static Item fromId(CompatIdentifier identifier) {
+        return fromId(identifier.toMinecraft());
+    }
+
+    /**
+     * Check if the item is existed.
+     * @param identifier CompatIdentifier of the item.
+     * @return If the item is existed.
+     */
+    public static boolean isExist(CompatIdentifier identifier) {
+        return isExist(identifier.toMinecraft());
+    }
+
+    /**
      * Create BlockItem from Block and Item.Settings.
      * @param block Block to create BlockItem.
      * @param settings Item.Settings to create BlockItem.

@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.event.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Hand;
@@ -14,6 +15,7 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 import org.jetbrains.annotations.Nullable;
 
@@ -102,5 +104,9 @@ public class PlacementStateArgs extends BaseEvent {
             return null;
 
         return BlockStateUtil.with(BlockStateUtil.getDefaultState(block), property, value);
+    }
+
+    public BlockEntity getBlockEntity() {
+        return WorldUtil.getBlockEntity(getWorld(), getPos());
     }
 }

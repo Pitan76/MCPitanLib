@@ -1,11 +1,13 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class BlockPlacedEvent extends BaseEvent {
 
@@ -45,5 +47,9 @@ public class BlockPlacedEvent extends BaseEvent {
 
     public boolean isClient() {
         return world.isClient();
+    }
+
+    public BlockEntity getBlockEntity() {
+        return WorldUtil.getBlockEntity(getWorld(), getPos());
     }
 }
