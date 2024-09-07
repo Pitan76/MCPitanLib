@@ -97,6 +97,33 @@ public class BlockUtil {
     }
 
     /**
+     * Get CompatIdentifier from block.
+     * @param block Block to get CompatIdentifier.
+     * @return CompatIdentifier of the block.
+     */
+    public static CompatIdentifier toCompatID(Block block) {
+        return CompatIdentifier.fromMinecraft(toID(block));
+    }
+
+    /**
+     * Get block from CompatIdentifier.
+     * @param identifier CompatIdentifier of the block.
+     * @return Block of the CompatIdentifier.
+     */
+    public static Block fromId(CompatIdentifier identifier) {
+        return fromId(identifier.toMinecraft());
+    }
+
+    /**
+     * Check if the block is existed.
+     * @param identifier CompatIdentifier of the block.
+     * @return If the block is existed.
+     */
+    public static boolean isExist(CompatIdentifier identifier) {
+        return isExist(identifier.toMinecraft());
+    }
+
+    /**
      * Get all blocks.
      * @return List of all blocks.
      */
