@@ -264,10 +264,26 @@ public class Player {
     }
 
     public void playSound(SoundEvent event, SoundCategory category, float volume, float pitch) {
+        if (isServerPlayerEntity()) {
+            Optional<ServerPlayerEntity> player = getServerPlayer();
+            if (player.isPresent()) {
+                player.get().playSoundToPlayer(event, category, volume, pitch);
+                return;
+            }
+        }
+
         playSound(event, volume, pitch);
     }
 
     public void playSound(SoundEvent event, float volume, float pitch) {
+        if (isServerPlayerEntity()) {
+            Optional<ServerPlayerEntity> player = getServerPlayer();
+            if (player.isPresent()) {
+                player.get().playSound(event, volume, pitch);
+                return;
+            }
+        }
+
         getEntity().playSound(event, volume, pitch);
     }
 

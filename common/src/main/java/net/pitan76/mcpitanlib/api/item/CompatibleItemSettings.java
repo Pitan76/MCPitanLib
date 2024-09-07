@@ -58,6 +58,7 @@ public class CompatibleItemSettings {
         return this;
     }
 
+    @Deprecated
     public CompatibleItemSettings food(FoodComponent foodComponent) {
         settings.food(foodComponent);
         return this;
@@ -87,5 +88,9 @@ public class CompatibleItemSettings {
 
     public CompatibleItemSettings addGroup(Supplier<ItemGroup> itemGroup, CompatIdentifier identifier) {
         return addGroup(itemGroup, identifier.toMinecraft());
+    }
+
+    public CompatibleItemSettings food(CompatFoodComponent foodComponent) {
+        return food(foodComponent.build());
     }
 }

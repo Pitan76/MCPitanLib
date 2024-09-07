@@ -1,10 +1,12 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class BlockScheduledTickEvent extends BaseEvent {
     public BlockState state;
@@ -34,5 +36,9 @@ public class BlockScheduledTickEvent extends BaseEvent {
     @Deprecated
     public Random getRandom() {
         return random;
+    }
+
+    public BlockEntity getBlockEntity() {
+        return WorldUtil.getBlockEntity(getWorld(), getPos());
     }
 }
