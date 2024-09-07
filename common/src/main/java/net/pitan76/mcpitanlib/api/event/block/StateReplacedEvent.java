@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.event.block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
@@ -77,17 +76,20 @@ public class StateReplacedEvent extends BaseEvent {
      * spawn the drops in the container
      */
     public void spawnDropsInContainer() {
-        BlockEntity blockEntity = getBlockEntity();
-        if (blockEntity instanceof Inventory) {
-            Inventory inventory = (Inventory) blockEntity;
-            ItemScatterer.spawn(world, pos, inventory);
-        }
+        if (isSameState() || !hasInventory()) return;
+
+        ItemScattererUtil.spawn(getWorld(), getPos(), getBlockEntity());
+        updateComparators();
+    }
+
+    public boolean hasInventory() {
+        return getBlockEntity() instanceof Inventory;
     }
 
     /**
      * update the comparators
      */
     public void updateComparators() {
-        world.updateComparators(pos, state.getBlock());
+        WorldUtil.updateComparators(getWorld(), getPos(), getState().getBlock());
     }
 }

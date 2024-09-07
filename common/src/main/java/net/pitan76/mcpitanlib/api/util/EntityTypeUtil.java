@@ -13,6 +13,22 @@ public class EntityTypeUtil {
         return Registries.ENTITY_TYPE.get(identifier);
     }
 
+    public static boolean isExist(Identifier identifier) {
+        return Registries.ENTITY_TYPE.containsId(identifier);
+    }
+
+    public static CompatIdentifier toCompatID(EntityType<?> entityType) {
+        return CompatIdentifier.fromMinecraft(toID(entityType));
+    }
+
+    public static EntityType<?> fromId(CompatIdentifier identifier) {
+        return fromId(identifier.toMinecraft());
+    }
+
+    public static boolean isExist(CompatIdentifier identifier) {
+        return isExist(identifier.toMinecraft());
+    }
+
     public static int getRawId(EntityType<?> type) {
         return Registries.ENTITY_TYPE.getRawId(type);
     }

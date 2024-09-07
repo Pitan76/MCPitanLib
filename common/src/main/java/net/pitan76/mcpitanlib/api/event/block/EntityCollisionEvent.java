@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -79,5 +80,9 @@ public class EntityCollisionEvent extends BaseEvent {
     public Optional<PlayerEntity> getPlayerEntity() {
         if (!hasPlayerEntity()) return Optional.empty();
         return Optional.of((PlayerEntity) entity);
+    }
+
+    public BlockEntity getBlockEntity() {
+        return WorldUtil.getBlockEntity(getWorld(), getBlockPos());
     }
 }
