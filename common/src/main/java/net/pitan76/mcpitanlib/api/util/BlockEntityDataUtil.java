@@ -35,6 +35,7 @@ public class BlockEntityDataUtil {
     public static void writeCompatBlockEntityNbtToStack(ItemStack stack, CompatBlockEntity blockEntity) {
         NbtCompound nbt = getBlockEntityNbt(stack);
         blockEntity.writeNbt(new WriteNbtArgs(nbt));
+        NbtUtil.set(nbt, "id", BlockEntityTypeUtil.toID(blockEntity.getType()).toString());
         setBlockEntityNbt(stack, nbt);
     }
 
