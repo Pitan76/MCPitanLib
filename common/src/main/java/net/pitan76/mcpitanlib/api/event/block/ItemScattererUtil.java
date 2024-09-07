@@ -8,6 +8,7 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class ItemScattererUtil {
     public static void spawn(World world, BlockPos pos, BlockEntity blockEntity) {
@@ -33,6 +34,11 @@ public class ItemScattererUtil {
     }
 
     public static void onStateReplaced(BlockState state, BlockState newState, World world, BlockPos pos) {
-        ItemScatterer.onStateReplaced(state, newState, world, pos);
+        if (state.isOf(newState.getBlock())) return;
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof Inventory) {
+            spawn(world, pos, (Inventory) blockEntity);
+            WorldUtil.updateComparators(world, pos, state.getBlock());
+        }
     }
 }
