@@ -349,13 +349,14 @@ public class NbtUtil {
     }
 
     public static void putItemStack(NbtCompound nbt, String key, ItemStack stack, CompatRegistryLookup registryLookup) {
-        NbtElement stackNbt = stack.encode(registryLookup.getRegistryLookup());
+        NbtCompound stackNbt = create();
+        stack.writeNbt(stackNbt);
         put(nbt, key, stackNbt);
     }
 
     public static Optional<ItemStack> getItemStack(NbtCompound nbt, String key, CompatRegistryLookup registryLookup) {
-        NbtElement stackNbt = get(nbt, key);
-        return ItemStack.fromNbt(registryLookup.getRegistryLookup(), stackNbt);
+        NbtCompound stackNbt = get(nbt, key);
+        return Optional.ofNullable(ItemStack.fromNbt(stackNbt));
     }
 
     public static void putSimpleItemStack(NbtCompound nbt, String key, ItemStack stack) {
