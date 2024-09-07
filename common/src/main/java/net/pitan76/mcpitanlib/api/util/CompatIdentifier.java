@@ -84,6 +84,10 @@ public class CompatIdentifier {
         } else if (obj != null && this.getClass() == obj.getClass()) {
             CompatIdentifier identifier = (CompatIdentifier)obj;
             return this.namespace.equals(identifier.namespace) && this.path.equals(identifier.path);
+        } else if (obj instanceof Identifier) {
+            return this.toString().equals(obj.toString());
+        } else if (obj instanceof String) {
+            return this.toString().equals(obj);
         } else {
             return false;
         }

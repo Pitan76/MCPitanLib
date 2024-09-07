@@ -28,6 +28,7 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class WorldUtil {
     public static boolean hasSkyLight(World world) {
@@ -100,9 +101,20 @@ public class WorldUtil {
         return new BlockPos(world.getLevelProperties().getSpawnX(), world.getLevelProperties().getSpawnY(), world.getLevelProperties().getSpawnZ());
     }
 
+    public static Optional<MinecraftServer> getServer(World world) {
+        if (isClient(world)) return Optional.empty();
+        return Optional.ofNullable(world.getServer());
+    }
+
     public static World getWorld(World world, Identifier worldId) {
-        if (isClient(world)) return null;
-        return getWorld(world.getServer(), worldId);
+        Optional<MinecraftServer> server = getServer(world);
+        if (!server.isPresent()) return null;
+
+        return getWorld(server.get(), worldId);
+    }
+
+    public static Optional<World> getWorld(World world, CompatIdentifier worldId) {
+        return Optional.ofNullable(getWorld(world, worldId.toMinecraft()));
     }
 
     public static World getOverworld(MinecraftServer server) {
@@ -121,8 +133,16 @@ public class WorldUtil {
         return server.getWorld(RegistryKey.of(Registry.WORLD_KEY, worldId));
     }
 
+    public static World getWorld(MinecraftServer server, CompatIdentifier worldId) {
+        return getWorld(server, worldId.toMinecraft());
+    }
+
     public static Identifier getWorldId(World world) {
         return world.getRegistryKey().getValue();
+    }
+
+    public static CompatIdentifier getCompatWorldId(World world) {
+        return CompatIdentifier.fromMinecraft(getWorldId(world));
     }
 
     public static boolean equals(World world, World world2) {
@@ -223,5 +243,9 @@ public class WorldUtil {
 
     public static boolean canSetBlock(World world, BlockPos pos) {
         return world.canSetBlock(pos);
+    }
+
+    public static void updateComparators(World world, BlockPos pos, Block block) {
+        world.updateComparators(pos, block);
     }
 }

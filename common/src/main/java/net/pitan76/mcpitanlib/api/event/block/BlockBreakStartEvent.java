@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -52,5 +53,9 @@ public class BlockBreakStartEvent extends BaseEvent {
 
     public ItemStack getPlayerOffHandStack() {
         return player.getOffHandStack();
+    }
+
+    public BlockEntity getBlockEntity() {
+        return WorldUtil.getBlockEntity(getWorld(), getPos());
     }
 }
