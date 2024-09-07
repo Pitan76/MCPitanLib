@@ -14,7 +14,7 @@ public class EntityTypeUtil {
     }
 
     public static boolean isExist(Identifier identifier) {
-        return Registries.ENTITY_TYPE.containsId(identifier);
+        return Registry.ENTITY_TYPE.containsId(identifier);
     }
 
     public static CompatIdentifier toCompatID(EntityType<?> entityType) {

@@ -14,7 +14,7 @@ public class BlockEntityTypeUtil {
     }
 
     public static boolean isExist(Identifier identifier) {
-        return Registries.BLOCK_ENTITY_TYPE.containsId(identifier);
+        return Registry.BLOCK_ENTITY_TYPE.containsId(identifier);
     }
 
     public static CompatIdentifier toCompatID(BlockEntityType<?> entityType) {
