@@ -22,4 +22,8 @@ public class PersistentStateUtil {
     public static PersistentStateManager getManagerFromWorld(ServerWorld world) {
         return world.getPersistentStateManager();
     }
+
+    public static void markDirty(PersistentState state) {
+        state.markDirty();
+    }
 }
