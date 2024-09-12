@@ -7,7 +7,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.profiler.Profiler;
-import net.minecraftforge.client.event.RenderHighlightEvent;
+import net.minecraftforge.client.event.DrawSelectionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
@@ -21,7 +21,7 @@ public class WorldRenderRegistryImpl {
     public static List<BeforeBlockOutlineListener> beforeBlockOutlineListeners = new ArrayList<>();
 
     @SubscribeEvent
-    public static void renderOutlineEvent(RenderHighlightEvent event) {
+    public static void renderOutlineEvent(DrawSelectionEvent event) {
         for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
             listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
                 @Override
@@ -36,12 +36,12 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public float tickDelta() {
-                    return event.getPartialTick();
+                    return event.getPartialTicks();
                 }
 
                 @Override
                 public long limitTime() {
-                    return (long) event.getPartialTick();
+                    return (long) event.getPartialTicks();
                 }
 
                 @Override
