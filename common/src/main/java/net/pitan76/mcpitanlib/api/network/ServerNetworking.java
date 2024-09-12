@@ -1,24 +1,20 @@
 package net.pitan76.mcpitanlib.api.network;
 
-import dev.architectury.impl.NetworkAggregator;
 import dev.architectury.networking.NetworkManager;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.core.network.BufPayload;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import static dev.architectury.impl.NetworkAggregator.S2C_TYPE;
-
-import static dev.architectury.impl.NetworkAggregator.BufCustomPacketPayload;
 
 public class ServerNetworking {
     public static void send(ServerPlayerEntity player, Identifier identifier, PacketByteBuf buf) {
+        registerS2CPayloadType(identifier);
+        /*
         if (!S2C_TYPE.containsKey(identifier)) {
             CustomPayload.Id type = new CustomPayload.Id<>(identifier);
             S2C_TYPE.put(identifier, type);
@@ -26,20 +22,25 @@ public class ServerNetworking {
             //if (!NetworkAggregator.S2C_CODECS.containsKey(type))
             //    NetworkAggregator.registerS2CType(type, BufCustomPacketPayload.streamCodec(type), List.of());
         }
+         */
 
-        CustomPayload payload = new BufCustomPacketPayload(S2C_TYPE.get(identifier), ByteBufUtil.getBytes(buf));
+        BufPayload payload = new BufPayload(buf, identifier);
         NetworkManager.sendToPlayer(player, payload);
     }
 
     public static void send(Iterable<ServerPlayerEntity> players, Identifier identifier, PacketByteBuf buf) {
-        if (!S2C_TYPE.containsKey(identifier)) {
+        registerS2CPayloadType(identifier);
+        /*if (!S2C_TYPE.containsKey(identifier)) {
             CustomPayload.Id<BufCustomPacketPayload> type = new CustomPayload.Id<>(identifier);
             S2C_TYPE.put(identifier, type);
 
             //if (!NetworkAggregator.S2C_CODECS.containsKey(type))
             //    NetworkAggregator.registerS2CType(type, BufCustomPacketPayload.streamCodec(type), List.of());
         }
-        CustomPayload payload = new BufCustomPacketPayload(S2C_TYPE.get(identifier), ByteBufUtil.getBytes(buf));
+
+         */
+
+        BufPayload payload = new BufPayload(buf, identifier);
         NetworkManager.sendToPlayers(players, payload);
     }
 
@@ -48,17 +49,29 @@ public class ServerNetworking {
     }
 
     public static void registerReceiver(Identifier identifier, ServerNetworkHandler handler) {
-        CustomPayload.Id<NetworkAggregator.BufCustomPacketPayload> type = new CustomPayload.Id<>(identifier);
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, type, BufCustomPacketPayload.streamCodec(type), List.of(),
-                (value, context) -> {
-                    RegistryByteBuf buf = new RegistryByteBuf(Unpooled.wrappedBuffer(value.payload()), context.registryAccess());
+        BufPayload.Id<BufPayload> id = BufPayload.id(identifier);
+        NetworkManager.registerReceiver(NetworkManager.Side.C2S, id, BufPayload.getCodec(id), List.of(),
+                (payload, context) -> {
+                    PacketByteBuf buf = new PacketByteBuf(Unpooled.wrappedBuffer(payload.getData()));
+
                     ServerPlayerEntity player = null;
                     if (context.getPlayer() instanceof ServerPlayerEntity)
                         player = (ServerPlayerEntity) context.getPlayer();
 
                     handler.receive(context.getPlayer().getServer(), player, buf);
                     buf.release();
-        });
+                });
+    }
+
+    private static final List<Identifier> registeredList = new ArrayList<>();
+
+    public static void registerS2CPayloadType(Identifier identifier) {
+        if (registeredList.contains(identifier)) return;
+
+        BufPayload.Id<BufPayload> id = BufPayload.id(identifier);
+        NetworkManager.registerS2CPayloadType(id, BufPayload.getCodec(id));
+
+        registeredList.add(identifier);
     }
 
     @FunctionalInterface
