@@ -72,24 +72,19 @@ public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvide
         return ExtendBlockProvider.super.getOutlineShape(event, options);
     }
 
-    @Deprecated
-    @Override
-    public MapCodec<? extends StairsBlock> getCodec() {
-        return getCompatCodec().getCodec();
-    }
-
     public CompatMapCodec<? extends StairsBlock> getCompatCodec() {
-        return CompatMapCodec.of(super.getCodec());
+        return CompatMapCodec.of();
     }
 
     @Deprecated
     @Override
-    public boolean canPathfindThrough(BlockState state, NavigationType type) {
-        return canPathfindThrough(new CanPathfindThroughArgs(state, type));
+    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
+        return canPathfindThrough(new CanPathfindThroughArgs(state, world, pos, type));
     }
 
+    @SuppressWarnings("removal")
     public boolean canPathfindThrough(CanPathfindThroughArgs args) {
-        return super.canPathfindThrough(args.state, args.type);
+        return super.canPathfindThrough(args.state, args.getBlockView(), args.getPos(), args.type);
     }
 
     @Override

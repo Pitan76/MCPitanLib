@@ -322,13 +322,7 @@ public class ExtendBlock extends Block {
         super.onBlockBreakStart(e.state, e.world, e.pos, e.player.getPlayerEntity());
     }
 
-    @Deprecated
-    @Override
-    protected MapCodec<? extends Block> getCodec() {
-        return getCompatCodec().getCodec();
-    }
-
     public CompatMapCodec<? extends Block> getCompatCodec() {
-        return CompatMapCodec.of(super.getCodec());
+        return CompatMapCodec.of();
     }
 }
