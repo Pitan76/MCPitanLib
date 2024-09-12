@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PillarBlock;
@@ -52,13 +51,7 @@ public class CompatPillarBlock extends PillarBlock implements ExtendBlockProvide
         return ExtendBlockProvider.super.getPlacementState(args, options);
     }
 
-    @Deprecated
-    @Override
-    public MapCodec<? extends PillarBlock> getCodec() {
-        return getCompatCodec().getCodec();
-    }
-
     public CompatMapCodec<? extends PillarBlock> getCompatCodec() {
-        return CompatMapCodec.of(super.getCodec());
+        return CompatMapCodec.of();
     }
 }
