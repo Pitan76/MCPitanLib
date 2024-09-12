@@ -5,13 +5,13 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraftforge.client.event.RenderHighlightEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContext;
-import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +93,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Frustum frustum() {
-                    return event.getLevelRenderer().getFrustum();
+                    return null;
                 }
             }, event.getTarget()));
         }
