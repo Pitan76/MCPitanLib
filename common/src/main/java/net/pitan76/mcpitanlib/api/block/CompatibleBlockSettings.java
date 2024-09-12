@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.block;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,10 +12,16 @@ import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
 public class CompatibleBlockSettings {
+    public static final Codec<CompatibleBlockSettings> CODEC = Codec.unit(CompatibleBlockSettings::of);
+
     private final AbstractBlock.Settings settings;
 
     public CompatibleBlockSettings() {
         this.settings = AbstractBlock.Settings.create();
+    }
+
+    public static CompatibleBlockSettings of() {
+        return new CompatibleBlockSettings();
     }
 
     private static CompatibleBlockSettings copyCompatibleMaterial(CompatibleMaterial material, CompatibleBlockSettings settings) {

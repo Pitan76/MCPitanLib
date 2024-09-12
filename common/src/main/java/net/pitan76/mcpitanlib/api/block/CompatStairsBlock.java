@@ -1,17 +1,18 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.StairsBlock;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.block.*;
+import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
+import net.pitan76.mcpitanlib.api.event.block.CanPathfindThroughArgs;
 import net.pitan76.mcpitanlib.api.event.block.OutlineShapeEvent;
 import net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs;
+import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 
 public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvider {
     public CompatStairsBlock(BlockState baseBlockState, Settings settings) {
@@ -69,5 +70,30 @@ public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvide
     @Override
     public VoxelShape getOutlineShape(OutlineShapeEvent event, Options options) {
         return ExtendBlockProvider.super.getOutlineShape(event, options);
+    }
+
+    @Deprecated
+    @Override
+    public MapCodec<? extends StairsBlock> getCodec() {
+        return getCompatCodec().getCodec();
+    }
+
+    public CompatMapCodec<? extends StairsBlock> getCompatCodec() {
+        return CompatMapCodec.of(super.getCodec());
+    }
+
+    @Deprecated
+    @Override
+    public boolean canPathfindThrough(BlockState state, NavigationType type) {
+        return canPathfindThrough(new CanPathfindThroughArgs(state, type));
+    }
+
+    public boolean canPathfindThrough(CanPathfindThroughArgs args) {
+        return super.canPathfindThrough(args.state, args.type);
+    }
+
+    @Override
+    public Boolean canPathfindThrough(CanPathfindThroughArgs args, Options options) {
+        return ExtendBlockProvider.super.canPathfindThrough(args, options);
     }
 }
