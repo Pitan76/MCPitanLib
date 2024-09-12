@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.api.client.event.neoforge;
+package net.pitan76.mcpitanlib.api.client.event.forge;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
@@ -6,8 +6,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.profiler.Profiler;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.RenderHighlightEvent;
+import net.minecraftforge.client.event.RenderHighlightEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContext;
