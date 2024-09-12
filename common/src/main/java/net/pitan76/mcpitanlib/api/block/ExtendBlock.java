@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -30,18 +31,30 @@ import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
 
 public class ExtendBlock extends Block {
+    public CompatibleBlockSettings compatSettings;
+
     public ExtendBlock(Settings settings) {
         super(settings);
     }
 
     public ExtendBlock(CompatibleBlockSettings settings) {
         super(settings.build());
+        this.compatSettings = settings;
+    }
+
+    /**
+     * get compatible block settings
+     * @return CompatibleBlockSettings
+     */
+    public CompatibleBlockSettings getCompatSettings() {
+        return compatSettings;
     }
 
     /**
@@ -307,5 +320,15 @@ public class ExtendBlock extends Block {
 
     public void onBlockBreakStart(BlockBreakStartEvent e) {
         super.onBlockBreakStart(e.state, e.world, e.pos, e.player.getPlayerEntity());
+    }
+
+    @Deprecated
+    @Override
+    protected MapCodec<? extends Block> getCodec() {
+        return getCompatCodec().getCodec();
+    }
+
+    public CompatMapCodec<? extends Block> getCompatCodec() {
+        return CompatMapCodec.of(super.getCodec());
     }
 }
