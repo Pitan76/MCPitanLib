@@ -27,12 +27,12 @@ public class WorldRenderRegistryImpl {
 
             @Override
             public float tickDelta() {
-                return worldRenderContext.tickCounter().getTickDelta(true);
+                return worldRenderContext.tickDelta();
             }
 
             @Override
             public long limitTime() {
-                return (long) worldRenderContext.tickCounter().getLastDuration();
+                return worldRenderContext.limitTime();
             }
 
             @Override
