@@ -33,7 +33,7 @@ public class ServerNetworking {
 
     public static void registerReceiver(Identifier identifier, ServerNetworkHandler handler) {
         BufPayload.Id<BufPayload> id = BufPayload.id(identifier);
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, id, BufPayload.getCodec(id), List.of(),
+        NetworkManager.registerReceiver(NetworkManager.Side.C2S, id, BufPayload.getCodec(id),
                 (payload, context) -> {
                     PacketByteBuf buf = new PacketByteBuf(Unpooled.wrappedBuffer(payload.getData()));
 
