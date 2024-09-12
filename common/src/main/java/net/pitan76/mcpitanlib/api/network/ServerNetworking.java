@@ -15,15 +15,6 @@ import java.util.List;
 public class ServerNetworking {
     public static void send(ServerPlayerEntity player, Identifier identifier, PacketByteBuf buf) {
         registerS2CPayloadType(identifier);
-        /*
-        if (!S2C_TYPE.containsKey(identifier)) {
-            CustomPayload.Id type = new CustomPayload.Id<>(identifier);
-            S2C_TYPE.put(identifier, type);
-
-            //if (!NetworkAggregator.S2C_CODECS.containsKey(type))
-            //    NetworkAggregator.registerS2CType(type, BufCustomPacketPayload.streamCodec(type), List.of());
-        }
-         */
 
         BufPayload payload = new BufPayload(buf, identifier);
         NetworkManager.sendToPlayer(player, payload);
@@ -31,15 +22,6 @@ public class ServerNetworking {
 
     public static void send(Iterable<ServerPlayerEntity> players, Identifier identifier, PacketByteBuf buf) {
         registerS2CPayloadType(identifier);
-        /*if (!S2C_TYPE.containsKey(identifier)) {
-            CustomPayload.Id<BufCustomPacketPayload> type = new CustomPayload.Id<>(identifier);
-            S2C_TYPE.put(identifier, type);
-
-            //if (!NetworkAggregator.S2C_CODECS.containsKey(type))
-            //    NetworkAggregator.registerS2CType(type, BufCustomPacketPayload.streamCodec(type), List.of());
-        }
-
-         */
 
         BufPayload payload = new BufPayload(buf, identifier);
         NetworkManager.sendToPlayers(players, payload);
