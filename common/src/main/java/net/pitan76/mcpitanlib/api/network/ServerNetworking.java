@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.network;
 
+import dev.architectury.impl.NetworkAggregator;
 import dev.architectury.networking.NetworkManager;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketByteBuf;
@@ -67,11 +68,12 @@ public class ServerNetworking {
 
     public static void registerS2CPayloadType(Identifier identifier) {
         if (registeredList.contains(identifier)) return;
+        registeredList.add(identifier);
+
+        if (NetworkAggregator.S2C_CODECS.containsKey(identifier)) return;
 
         BufPayload.Id<BufPayload> id = BufPayload.id(identifier);
         NetworkManager.registerS2CPayloadType(id, BufPayload.getCodec(id));
-
-        registeredList.add(identifier);
     }
 
     @FunctionalInterface
