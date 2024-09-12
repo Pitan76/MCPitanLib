@@ -1,7 +1,10 @@
 package net.pitan76.mcpitanlib.api.entity;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerAbilities;
@@ -12,6 +15,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -27,6 +31,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
@@ -287,6 +292,14 @@ public class Player {
         getEntity().playSound(event, volume, pitch);
     }
 
+    public void playSound(CompatSoundEvent event, SoundCategory category, float volume, float pitch) {
+        playSound(event.getSoundEvent(), category, volume, pitch);
+    }
+
+    public void playSound(CompatSoundEvent event, float volume, float pitch) {
+        playSound(event.getSoundEvent(), volume, pitch);
+    }
+
     public ItemCooldown itemCooldown = new ItemCooldown(this);
 
     public ItemCooldown getItemCooldown() {
@@ -355,4 +368,38 @@ public class Player {
 
         return Optional.empty();
     }
+
+    @Environment(EnvType.CLIENT)
+    public Optional<ClientPlayerEntity> getClientPlayer() {
+        if (getEntity() instanceof ClientPlayerEntity)
+            return Optional.of((ClientPlayerEntity) getEntity());
+
+        return Optional.empty();
+    }
+
+    public void setVelocity(double x, double y, double z) {
+        getEntity().setVelocity(x, y, z);
+    }
+
+    public void setVelocity(Vec3d velocity) {
+        getEntity().setVelocity(velocity);
+    }
+
+    public Vec3d getVelocity() {
+        return getEntity().getVelocity();
+    }
+
+    public Optional<ServerPlayNetworkHandler> getNetworkHandler() {
+        Optional<ServerPlayerEntity> player = getServerPlayer();
+        return player.map(sp -> sp.networkHandler);
+    }
+
+    public boolean hasNetworkHandler() {
+        return getNetworkHandler().isPresent();
+    }
+
+    public boolean isSpectator() {
+        return getEntity().isSpectator();
+    }
+
 }

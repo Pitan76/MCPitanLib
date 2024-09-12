@@ -394,4 +394,8 @@ public class NbtUtil {
 
         return Optional.of(stack);
     }
+
+    public static NbtList createNbtList() {
+        return new NbtList();
+    }
 }
