@@ -7,7 +7,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.profiler.Profiler;
-import net.minecraftforge.client.event.DrawSelectionEvent;
+import net.minecraftforge.client.event.DrawHighlightEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
@@ -21,17 +21,17 @@ public class WorldRenderRegistryImpl {
     public static List<BeforeBlockOutlineListener> beforeBlockOutlineListeners = new ArrayList<>();
 
     @SubscribeEvent
-    public static void renderOutlineEvent(DrawSelectionEvent event) {
+    public static void renderOutlineEvent(DrawHighlightEvent event) {
         for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
             listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
                 @Override
                 public WorldRenderer worldRenderer() {
-                    return event.getLevelRenderer();
+                    return event.getContext();
                 }
 
                 @Override
                 public MatrixStack matrixStack() {
-                    return event.getPoseStack();
+                    return event.getMatrix();
                 }
 
                 @Override
@@ -51,7 +51,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Camera camera() {
-                    return event.getCamera();
+                    return event.getInfo();
                 }
 
                 @Override
@@ -83,12 +83,12 @@ public class WorldRenderRegistryImpl {
                 @Deprecated
                 @Override
                 public boolean advancedTranslucency() {
-                    return event.getLevelRenderer().isTerrainRenderComplete();
+                    return event.getContext().isTerrainRenderComplete();
                 }
 
                 @Override
                 public VertexConsumerProvider consumers() {
-                    return event.getMultiBufferSource();
+                    return event.getBuffers();
                 }
 
                 @Override
