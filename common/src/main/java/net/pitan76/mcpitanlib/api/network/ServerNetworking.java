@@ -30,4 +30,8 @@ public class ServerNetworking {
     public interface ServerNetworkHandler {
         void receive(MinecraftServer server, ServerPlayerEntity player, PacketByteBuf buf);
     }
+
+    public static void registerS2CPayloadType(Identifier identifier) {
+        // ignore
+    }
 }
