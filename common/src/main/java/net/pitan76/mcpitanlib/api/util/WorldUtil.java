@@ -24,6 +24,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -90,6 +91,14 @@ public class WorldUtil {
     public static void playSound(World world, @Nullable Player player, BlockPos pos, SoundEvent sound, SoundCategory category, float volume, float pitch) {
         PlayerEntity entity = player == null ? null : player.getEntity();
         world.playSound(entity, pos, sound, category, volume, pitch);
+    }
+
+    public static void playSound(World world, @Nullable Player player, BlockPos pos, CompatSoundEvent sound, SoundCategory category, float volume, float pitch) {
+        playSound(world, player, pos, sound.getSoundEvent(), category, volume, pitch);
+    }
+
+    public static void playSound(World world, double x, double y, double z, CompatSoundEvent sound, SoundCategory category, float volume, float pitch, boolean useDistance) {
+        world.playSound(x, y, z, sound.getSoundEvent(), category, volume, pitch, useDistance);
     }
 
     public static void sendEntityStatus(World world, Entity entity, byte status) {
@@ -221,6 +230,9 @@ public class WorldUtil {
     }
 
     public static boolean breakBlock(World world, BlockPos pos, boolean drop, @Nullable Player player) {
+        if (player == null)
+            return world.breakBlock(pos, drop, null);
+
         return world.breakBlock(pos, drop, player.getPlayerEntity());
     }
 

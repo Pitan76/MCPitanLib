@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 
@@ -34,5 +35,9 @@ public class VoxelShapeUtil {
 
     public static VoxelShape blockCuboid(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         return VoxelShapes.cuboid(minX / 16.0, minY / 16.0, minZ / 16.0, maxX / 16.0, maxY / 16.0, maxZ / 16.0);
+    }
+
+    public static Box getBoundingBox(VoxelShape shape) {
+        return shape.getBoundingBox();
     }
 }

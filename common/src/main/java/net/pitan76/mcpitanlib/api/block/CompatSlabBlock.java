@@ -3,19 +3,22 @@ package net.pitan76.mcpitanlib.api.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.PillarBlock;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
+import net.pitan76.mcpitanlib.api.event.block.CanPathfindThroughArgs;
 import net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 
-public class CompatPillarBlock extends PillarBlock implements ExtendBlockProvider {
-    public CompatPillarBlock(Settings settings) {
+public class CompatSlabBlock extends SlabBlock implements ExtendBlockProvider {
+    public CompatSlabBlock(Settings settings) {
         super(settings);
     }
 
-    public CompatPillarBlock(CompatibleBlockSettings settings) {
+    public CompatSlabBlock(CompatibleBlockSettings settings) {
         this(settings.build());
     }
 
@@ -54,11 +57,26 @@ public class CompatPillarBlock extends PillarBlock implements ExtendBlockProvide
 
     @Deprecated
     @Override
-    public MapCodec<? extends PillarBlock> getCodec() {
+    public MapCodec<? extends SlabBlock> getCodec() {
         return getCompatCodec().getCodec();
     }
 
-    public CompatMapCodec<? extends PillarBlock> getCompatCodec() {
+    public CompatMapCodec<? extends SlabBlock> getCompatCodec() {
         return CompatMapCodec.of(super.getCodec());
+    }
+
+    @Deprecated
+    @Override
+    public boolean canPathfindThrough(BlockState state, NavigationType type) {
+        return canPathfindThrough(new CanPathfindThroughArgs(state, type));
+    }
+
+    public boolean canPathfindThrough(CanPathfindThroughArgs args) {
+        return super.canPathfindThrough(args.state, args.type);
+    }
+
+    @Override
+    public Boolean canPathfindThrough(CanPathfindThroughArgs args, Options options) {
+        return ExtendBlockProvider.super.canPathfindThrough(args, options);
     }
 }
