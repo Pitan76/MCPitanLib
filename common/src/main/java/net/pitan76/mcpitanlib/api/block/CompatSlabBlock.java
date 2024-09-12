@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.event.block.CanPathfindThroughArgs;
 import net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs;
@@ -55,24 +55,19 @@ public class CompatSlabBlock extends SlabBlock implements ExtendBlockProvider {
         return ExtendBlockProvider.super.getPlacementState(args, options);
     }
 
-    @Deprecated
-    @Override
-    public MapCodec<? extends SlabBlock> getCodec() {
-        return getCompatCodec().getCodec();
-    }
-
     public CompatMapCodec<? extends SlabBlock> getCompatCodec() {
-        return CompatMapCodec.of(super.getCodec());
+        return CompatMapCodec.of();
     }
 
     @Deprecated
     @Override
-    public boolean canPathfindThrough(BlockState state, NavigationType type) {
-        return canPathfindThrough(new CanPathfindThroughArgs(state, type));
+    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
+        return canPathfindThrough(new CanPathfindThroughArgs(state, world, pos, type));
     }
 
+    @SuppressWarnings("removal")
     public boolean canPathfindThrough(CanPathfindThroughArgs args) {
-        return super.canPathfindThrough(args.state, args.type);
+        return super.canPathfindThrough(args.state, args.getBlockView(), args.getPos(), args.type);
     }
 
     @Override
