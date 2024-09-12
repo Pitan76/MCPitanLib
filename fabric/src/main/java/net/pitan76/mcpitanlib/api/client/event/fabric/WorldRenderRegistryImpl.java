@@ -4,12 +4,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.profiler.Profiler;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContext;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
 
 public class WorldRenderRegistryImpl {
     public static void registerWorldRenderBeforeBlockOutline(BeforeBlockOutlineListener listener) {
