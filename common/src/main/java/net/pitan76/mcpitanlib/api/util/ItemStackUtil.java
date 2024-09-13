@@ -145,4 +145,19 @@ public class ItemStackUtil {
     public static boolean isEmpty(ItemStack stack) {
         return stack.isEmpty();
     }
+
+    public static boolean isEnchantable(ItemStack stack) {
+        return stack.isEnchantable();
+    }
+
+    public static boolean isDamageable(ItemStack stack) {
+        return stack.isDamageable();
+    }
+
+    public static boolean isBreak(ItemStack stack) {
+        if (isDamageable(stack))
+            return getDamage(stack) >= getMaxDamage(stack);
+
+        return false;
+    }
 }

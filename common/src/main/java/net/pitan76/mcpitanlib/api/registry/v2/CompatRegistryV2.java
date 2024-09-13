@@ -14,6 +14,8 @@ import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
+import net.pitan76.mcpitanlib.api.sound.RegistryResultCompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 import java.util.function.Supplier;
@@ -89,6 +91,14 @@ public class CompatRegistryV2 {
 
     public RegistryResult<SoundEvent> registerSoundEvent(CompatIdentifier id, float distanceToTravel) {
         return cr1.registerSoundEvent(id.toMinecraft(), distanceToTravel);
+    }
+
+    public CompatSoundEvent registerCompatSoundEvent(CompatIdentifier id) {
+        return RegistryResultCompatSoundEvent.of(registerSoundEvent(id));
+    }
+
+    public CompatSoundEvent registerCompatSoundEvent(CompatIdentifier id, float distanceToTravel) {
+        return RegistryResultCompatSoundEvent.of(registerSoundEvent(id, distanceToTravel));
     }
 
     public RegistryResult<Fluid> registerFluid(CompatIdentifier id, Supplier<Fluid> supplier) {

@@ -31,6 +31,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
@@ -292,12 +293,12 @@ public class Player {
         getEntity().playSound(event, volume, pitch);
     }
 
-    public void playSound(CompatSoundEvent event, SoundCategory category, float volume, float pitch) {
-        playSound(event.getSoundEvent(), category, volume, pitch);
+    public void playSound(CompatSoundEvent event, CompatSoundCategory category, float volume, float pitch) {
+        playSound(event.get(), category.get(), volume, pitch);
     }
 
     public void playSound(CompatSoundEvent event, float volume, float pitch) {
-        playSound(event.getSoundEvent(), volume, pitch);
+        playSound(event.get(), volume, pitch);
     }
 
     public ItemCooldown itemCooldown = new ItemCooldown(this);
@@ -402,4 +403,22 @@ public class Player {
         return getEntity().isSpectator();
     }
 
+    /**
+     * Returns the current {@link ItemStack} in the {@link Player}'s hand, or offhand if the
+     * main hand is empty.
+     *
+     * @return {@code ItemStack} that the {@link Player} is holding. Can be {@link null}.
+     */
+    public Optional<ItemStack> getCurrentHandItem() {
+        boolean playerIsHoldingInMainHand = !getMainHandStack().isEmpty();
+        if (playerIsHoldingInMainHand)
+            return Optional.ofNullable(getMainHandStack());
+
+        boolean playerIsHoldingInOffHand = !getOffHandStack().isEmpty();
+
+        if (playerIsHoldingInOffHand)
+            return Optional.ofNullable(getOffHandStack());
+
+        return Optional.empty();
+    }
 }

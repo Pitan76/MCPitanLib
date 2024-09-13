@@ -169,4 +169,40 @@ public class ExtendItem extends Item {
     public Rarity getRarity(ItemStack stack) {
         return Rarity.COMMON;
     }
+
+    @Deprecated
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return isEnchantable(new EnchantableArgs(stack));
+    }
+
+    public boolean isEnchantable(EnchantableArgs args) {
+        return super.isEnchantable(args.stack);
+    }
+
+    @Deprecated
+    @Override
+    public int getEnchantability() {
+        return getEnchantability(new EnchantabilityArgs());
+    }
+
+    public int getEnchantability(EnchantabilityArgs args) {
+        return super.getEnchantability();
+    }
+
+    public int getItemBarColor(ItemBarColorArgs args) {
+        return 0;
+    }
+
+    public boolean isItemBarVisible(ItemBarVisibleArgs args) {
+        return false;
+    }
+
+    public int getItemBarStep(ItemBarStepArgs args) {
+        return 0;
+    }
+
+    public float getBonusAttackDamage(BonusAttackDamageArgs args) {
+        return 0;
+    }
 }

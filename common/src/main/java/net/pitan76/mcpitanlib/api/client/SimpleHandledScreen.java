@@ -16,7 +16,9 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
+import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
@@ -77,6 +79,10 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     public void callDrawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, int u, int v, int width, int height) {
         ScreenUtil.setBackground(texture);
         drawTexture(drawObjectDM.getStack(), x, y, u, v, width, height);
+    }
+
+    public void callDrawTexture(DrawObjectDM drawObjectDM, CompatIdentifier texture, int x, int y, int u, int v, int width, int height) {
+        callDrawTexture(drawObjectDM, texture.toMinecraft(), x, y, u, v, width, height);
     }
 
     @Deprecated
@@ -199,7 +205,16 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
-        super.renderBackgroundTexture(args.getvOffset());
+        if (getBackgroundTexture() == null) {
+            super.renderBackgroundTexture(args.getvOffset());
+            return;
+        }
+
+        RenderUtil.setShaderToPositionTexProgram();
+        RenderUtil.setShaderTexture(0, getBackgroundTexture());
+        RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+        callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, this.width, this.height);
     }
 
     @Deprecated
@@ -239,6 +254,10 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public Identifier getBackgroundTexture() {
+        return getCompatBackgroundTexture().toMinecraft();
+    }
+
+    public CompatIdentifier getCompatBackgroundTexture() {
         return null;
     }
 

@@ -11,6 +11,8 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.resource.ResourceManager;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
+import java.util.Optional;
+
 public class ClientUtil {
     public static void setScreen(Screen screen) {
         getClient().openScreen(screen);
@@ -54,5 +56,10 @@ public class ClientUtil {
 
     public static GameRenderer getGameRenderer() {
         return getClient().gameRenderer;
+    }
+
+    public static Optional<Long> getTime() {
+        if (getClient().world == null) return Optional.empty();
+        return Optional.of(getClient().world.getTime());
     }
 }

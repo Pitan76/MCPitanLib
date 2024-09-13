@@ -9,6 +9,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
@@ -95,5 +97,13 @@ public class ItemUseOnBlockEvent extends BaseEvent {
 
     public BlockState getBlockState() {
         return WorldUtil.getBlockState(world, blockPos);
+    }
+
+    public Vec3d getPos() {
+        return hit.getPos();
+    }
+
+    public Direction getSide() {
+        return hit.getSide();
     }
 }
