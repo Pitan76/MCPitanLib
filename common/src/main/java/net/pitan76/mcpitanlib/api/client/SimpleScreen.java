@@ -16,6 +16,7 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.KeyEventArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
 public abstract class SimpleScreen extends Screen {
 
@@ -143,9 +144,8 @@ public abstract class SimpleScreen extends Screen {
             return;
         }
 
-        args.drawObjectDM.getContext().setShaderColor(0.25F, 0.25F, 0.25F, 1.0F);
-        args.drawObjectDM.getContext().drawTexture(getBackgroundTexture(), 0, 0, 0, 0.0F, 0.0F, this.width, this.height, 32, 32);
-        args.drawObjectDM.getContext().setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, width, height);
     }
 
     @Deprecated
