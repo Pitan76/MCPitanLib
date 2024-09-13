@@ -6,8 +6,11 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.profiler.Profiler;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RenderHighlightEvent;
+import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContext;
@@ -16,14 +19,18 @@ import org.joml.Matrix4f;
 import java.util.ArrayList;
 import java.util.List;
 
+@Mod.EventBusSubscriber(modid = MCPitanLib.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class WorldRenderRegistryImpl {
 
     public static List<BeforeBlockOutlineListener> beforeBlockOutlineListeners = new ArrayList<>();
 
     @SubscribeEvent
     public static void renderOutlineEvent(RenderHighlightEvent event) {
+        if (MinecraftClient.getInstance().world != null && MinecraftClient.getInstance().world.getTime() % 20 == 0)
+            System.out.println("renderOutlineEvent");
+
         for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
-            listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
+            boolean eventContinue = listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
                 @Override
                 public WorldRenderer worldRenderer() {
                     return event.getLevelRenderer();
@@ -96,6 +103,11 @@ public class WorldRenderRegistryImpl {
                     return event.getLevelRenderer().getFrustum();
                 }
             }, event.getTarget()));
+
+            if (!eventContinue) {
+                event.setResult(RenderHighlightEvent.Result.DENY);
+                break;
+            }
         }
     }
 
@@ -103,3 +115,4 @@ public class WorldRenderRegistryImpl {
         beforeBlockOutlineListeners.add(listener);
     }
 }
+
