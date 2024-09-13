@@ -8,7 +8,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.profiler.Profiler;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderHighlightEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
@@ -19,16 +19,13 @@ import org.joml.Matrix4f;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = MCPitanLib.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = MCPitanLib.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class WorldRenderRegistryImpl {
 
     public static List<BeforeBlockOutlineListener> beforeBlockOutlineListeners = new ArrayList<>();
 
     @SubscribeEvent
-    public static void renderOutlineEvent(RenderHighlightEvent event) {
-        if (MinecraftClient.getInstance().world != null && MinecraftClient.getInstance().world.getTime() % 20 == 0)
-            System.out.println("renderOutlineEvent");
-
+    public static void renderOutlineEventBlock(RenderHighlightEvent.Block event) {
         for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
             boolean eventContinue = listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
                 @Override
@@ -105,9 +102,88 @@ public class WorldRenderRegistryImpl {
             }, event.getTarget()));
 
             if (!eventContinue) {
-                event.setResult(RenderHighlightEvent.Result.DENY);
+                event.setCanceled(true);
                 break;
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void renderOutlineEvent(RenderHighlightEvent.Entity event) {
+        for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
+            listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
+                @Override
+                public WorldRenderer worldRenderer() {
+                    return event.getLevelRenderer();
+                }
+
+                @Override
+                public MatrixStack matrixStack() {
+                    return event.getPoseStack();
+                }
+
+                @Override
+                public float tickDelta() {
+                    return event.getDeltaTracker().getTickDelta(true);
+                }
+
+                @Override
+                public long limitTime() {
+                    return (long) event.getDeltaTracker().getTickDelta(false);
+                }
+
+                @Override
+                public boolean blockOutlines() {
+                    return event.getTarget().getType() == HitResult.Type.BLOCK;
+                }
+
+                @Override
+                public Camera camera() {
+                    return event.getCamera();
+                }
+
+                @Override
+                public GameRenderer gameRenderer() {
+                    return MinecraftClient.getInstance().gameRenderer;
+                }
+
+                @Override
+                public LightmapTextureManager lightmapTextureManager() {
+                    return MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager();
+                }
+
+                @Deprecated
+                @Override
+                public Matrix4f projectionMatrix() {
+                    return null;
+                }
+
+                @Override
+                public ClientWorld world() {
+                    return MinecraftClient.getInstance().world;
+                }
+
+                @Override
+                public Profiler profiler() {
+                    return MinecraftClient.getInstance().getProfiler();
+                }
+
+                @Deprecated
+                @Override
+                public boolean advancedTranslucency() {
+                    return event.getLevelRenderer().isTerrainRenderComplete();
+                }
+
+                @Override
+                public VertexConsumerProvider consumers() {
+                    return event.getMultiBufferSource();
+                }
+
+                @Override
+                public Frustum frustum() {
+                    return event.getLevelRenderer().getFrustum();
+                }
+            }, event.getTarget()));
         }
     }
 
