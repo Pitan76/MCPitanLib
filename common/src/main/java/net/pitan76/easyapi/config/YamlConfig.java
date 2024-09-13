@@ -5,6 +5,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class YamlConfig extends Config {
@@ -57,12 +58,18 @@ public class YamlConfig extends Config {
      */
     @SuppressWarnings("unchecked")
     public boolean load(File file) {
+        if (!file.exists()) {
+            configMap = new LinkedHashMap<>();
+            return false;
+        }
+
         try {
             String configData = FileControl.fileReadContents(file);
             Yaml yaml = new Yaml();
             configMap = (Map<String, Object>) yaml.load(configData);
             return true;
         } catch (Exception e) {
+            configMap = new LinkedHashMap<>();
             return false;
         }
     }

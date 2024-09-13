@@ -10,6 +10,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -110,6 +111,83 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
             boolean returnValue = provider.postMine(new PostMineEvent(stack, world, state, pos, miner), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "onCraft", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$onCraft(ItemStack stack, World world, PlayerEntity player, CallbackInfo ci) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            provider.onCraft(new CraftEvent(stack, world, player), options);
+            if (options.cancel)
+                ci.cancel();
+        }
+    }
+
+    @Inject(method = "getRarity", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getRarity(ItemStack stack, CallbackInfoReturnable<Rarity> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            Rarity returnValue = provider.getRarity(stack, options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "isEnchantable", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$isEnchantable(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            boolean returnValue = provider.isEnchantable(new EnchantableArgs(stack), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getEnchantability", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getEnchantability(CallbackInfoReturnable<Integer> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            int returnValue = provider.getEnchantability(new EnchantabilityArgs(), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getItemBarColor", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getItemBarColor(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            int returnValue = provider.getItemBarColor(new ItemBarColorArgs(stack), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "isItemBarVisible", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$isItemBarVisible(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            boolean returnValue = provider.isItemBarVisible(new ItemBarVisibleArgs(stack), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getItemBarStep", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getItemBarStep(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            int returnValue = provider.getItemBarStep(new ItemBarStepArgs(stack), options);
             if (options.cancel)
                 cir.setReturnValue(returnValue);
         }

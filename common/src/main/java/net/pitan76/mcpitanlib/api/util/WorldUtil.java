@@ -24,6 +24,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -93,12 +94,12 @@ public class WorldUtil {
         world.playSound(entity, pos, sound, category, volume, pitch);
     }
 
-    public static void playSound(World world, @Nullable Player player, BlockPos pos, CompatSoundEvent sound, SoundCategory category, float volume, float pitch) {
-        playSound(world, player, pos, sound.getSoundEvent(), category, volume, pitch);
+    public static void playSound(World world, @Nullable Player player, BlockPos pos, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch) {
+        playSound(world, player, pos, sound.get(), category.get(), volume, pitch);
     }
 
-    public static void playSound(World world, double x, double y, double z, CompatSoundEvent sound, SoundCategory category, float volume, float pitch, boolean useDistance) {
-        world.playSound(x, y, z, sound.getSoundEvent(), category, volume, pitch, useDistance);
+    public static void playSound(World world, double x, double y, double z, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch, boolean useDistance) {
+        world.playSound(x, y, z, sound.get(), category.get(), volume, pitch, useDistance);
     }
 
     public static void sendEntityStatus(World world, Entity entity, byte status) {
