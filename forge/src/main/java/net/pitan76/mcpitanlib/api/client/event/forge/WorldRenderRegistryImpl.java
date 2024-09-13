@@ -8,7 +8,7 @@ import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.DrawHighlightEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.pitan76.mcpitanlib.MCPitanLib;
@@ -32,12 +32,12 @@ public class WorldRenderRegistryImpl {
             boolean eventContinue = listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
                 @Override
                 public WorldRenderer getWorldRenderer() {
-                    return event.getLevelRenderer();
+                    return event.getContext();
                 }
 
                 @Override
                 public MatrixStack getMatrixStack() {
-                    return event.getPoseStack();
+                    return event.getMatrix();
                 }
 
                 @Override
@@ -47,7 +47,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Camera getCamera() {
-                    return event.getCamera();
+                    return event.getInfo();
                 }
 
                 @Override
@@ -79,12 +79,12 @@ public class WorldRenderRegistryImpl {
                 @Deprecated
                 @Override
                 public boolean isAdvancedTranslucency() {
-                    return event.getLevelRenderer().isTerrainRenderComplete();
+                    return getWorldRenderer().isTerrainRenderComplete();
                 }
 
                 @Override
                 public VertexConsumerProvider getConsumers() {
-                    return event.getMultiBufferSource();
+                    return event.getBuffers();
                 }
 
                 @Override
@@ -101,29 +101,27 @@ public class WorldRenderRegistryImpl {
     }
 
     @SubscribeEvent
-    public static void registerWorldRenderAfterLevel(RenderLevelStageEvent event) {
-        if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) return;
-
+    public static void registerWorldRenderAfterLevel(RenderWorldLastEvent event) {
         for (WorldRenderContextListener listener : worldRenderAfterLevelListeners) {
             listener.renderer(new WorldRenderContext() {
                 @Override
                 public WorldRenderer getWorldRenderer() {
-                    return event.getLevelRenderer();
+                    return event.getContext();
                 }
 
                 @Override
                 public MatrixStack getMatrixStack() {
-                    return event.getPoseStack();
+                    return event.getMatrixStack();
                 }
 
                 @Override
                 public float getTickDelta() {
-                    return event.getPartialTick();
+                    return event.getPartialTicks();
                 }
 
                 @Override
                 public Camera getCamera() {
-                    return event.getCamera();
+                    return getGameRenderer().getCamera();
                 }
 
                 @Override
@@ -133,7 +131,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public LightmapTextureManager getLightmapTextureManager() {
-                    return MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager();
+                    return getGameRenderer().getLightmapTextureManager();
                 }
 
                 @Deprecated
@@ -155,7 +153,7 @@ public class WorldRenderRegistryImpl {
                 @Deprecated
                 @Override
                 public boolean isAdvancedTranslucency() {
-                    return event.getLevelRenderer().isTerrainRenderComplete();
+                    return getWorldRenderer().isTerrainRenderComplete();
                 }
 
                 @Override
