@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;

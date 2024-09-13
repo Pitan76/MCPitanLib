@@ -1,12 +1,15 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class IngredientUtil {
@@ -30,5 +33,17 @@ public class IngredientUtil {
             } catch (Exception ignored) {}
         }
         return items;
+    }
+
+    public IntList getMatchingStacksIds(Ingredient ingredient) {
+        return ingredient.getMatchingItemIds();
+    }
+
+    public List<ItemStack> getMatchingStacksAsList(Ingredient ingredient) {
+        return new ArrayList<>(Arrays.asList(getMatchingStacks(ingredient)));
+    }
+
+    public ItemStack[] getMatchingStacks(Ingredient ingredient) {
+        return ingredient.getMatchingStacks();
     }
 }
