@@ -1,6 +1,8 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.enums.BlockHalf;
+import net.minecraft.block.enums.StairShape;
 import net.minecraft.state.property.*;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.Direction;
@@ -97,6 +99,18 @@ public class PropertyUtil {
 
     public static DirectionProperty horizontalFacing() {
         return Properties.HORIZONTAL_FACING;
+    }
+
+    public static EnumProperty<Direction.Axis> axis() {
+        return Properties.AXIS;
+    }
+
+    public static EnumProperty<BlockHalf> blockHalf() {
+        return Properties.BLOCK_HALF;
+    }
+
+    public static EnumProperty<StairShape> stairShape() {
+        return Properties.STAIR_SHAPE;
     }
 
     public static BooleanProperty lit() {

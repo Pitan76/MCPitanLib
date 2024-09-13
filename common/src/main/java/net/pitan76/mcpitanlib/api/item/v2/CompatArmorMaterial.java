@@ -10,7 +10,7 @@ public interface CompatArmorMaterial extends CompatibleArmorMaterial {
 
     @Override
     default SoundEvent getEquipSound() {
-        return getEquipCompatSound().getSoundEvent();
+        return getEquipCompatSound().get();
     }
 
     CompatSoundEvent getEquipCompatSound();

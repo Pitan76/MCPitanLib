@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.api.item;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -168,5 +170,59 @@ public class ExtendItem extends Item {
     // -1.20.6
     public Rarity getRarity(ItemStack stack) {
         return Rarity.COMMON;
+    }
+
+    @Deprecated
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return isEnchantable(new EnchantableArgs(stack));
+    }
+
+    public boolean isEnchantable(EnchantableArgs args) {
+        return super.isEnchantable(args.stack);
+    }
+
+    @Deprecated
+    @Override
+    public int getEnchantability() {
+        return getEnchantability(new EnchantabilityArgs());
+    }
+
+    public int getEnchantability(EnchantabilityArgs args) {
+        return super.getEnchantability();
+    }
+
+    @Deprecated
+    @Override
+    public int getItemBarColor(ItemStack stack) {
+        return getItemBarColor(new ItemBarColorArgs(stack));
+    }
+
+    public int getItemBarColor(ItemBarColorArgs args) {
+        return super.getItemBarColor(args.stack);
+    }
+
+    @Deprecated
+    @Override
+    public boolean isItemBarVisible(ItemStack stack) {
+        return isItemBarVisible(new ItemBarVisibleArgs(stack));
+    }
+
+    public boolean isItemBarVisible(ItemBarVisibleArgs args) {
+        return super.isItemBarVisible(args.stack);
+    }
+
+    @Deprecated
+    @Override
+    public int getItemBarStep(ItemStack stack) {
+        return getItemBarStep(new ItemBarStepArgs(stack));
+    }
+
+    public int getItemBarStep(ItemBarStepArgs args) {
+        return super.getItemBarStep(args.stack);
+    }
+
+    public float getBonusAttackDamage(BonusAttackDamageArgs args) {
+        return 0;
     }
 }

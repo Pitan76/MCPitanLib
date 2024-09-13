@@ -4,9 +4,12 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.pitan76.mcpitanlib.api.block.CompatStairsBlock;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class CompatMapCodec<T> {
@@ -50,5 +53,12 @@ public class CompatMapCodec<T> {
 
     public static <B extends ExtendBlock> CompatMapCodec<B> createCodecOfExtendBlock(Function<CompatibleBlockSettings, B> blockFromSettings) {
         return of(RecordCodecBuilder.mapCodec((instance) -> instance.group(createCompatSettingsCodec()).apply(instance, blockFromSettings)));
+    }
+
+    public static <B extends CompatStairsBlock> CompatMapCodec<B> createCodecOfCompatStairsBlock(BiFunction<BlockState, CompatibleBlockSettings, B> createFunction) {
+        return of(RecordCodecBuilder.mapCodec((instance) -> instance.group(
+                BlockState.CODEC.fieldOf("base_state").forGetter(CompatStairsBlock::getBaseBlockState),
+                CompatibleBlockSettings.CODEC.fieldOf("properties").forGetter(CompatStairsBlock::getCompatSettings)
+        ).apply(instance, createFunction)));
     }
 }
