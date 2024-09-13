@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.client.event.listener;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -12,9 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
-import net.pitan76.mcpitanlib.api.util.VoxelShapeUtil;
 
-import java.util.Objects;
 import java.util.Optional;
 
 public class BeforeBlockOutlineEvent {
@@ -35,7 +32,7 @@ public class BeforeBlockOutlineEvent {
     }
 
     public WorldRenderer getWorldRenderer() {
-        return context.worldRenderer();
+        return context.getWorldRenderer();
     }
 
     public Optional<BlockState> getBlockState() {
@@ -43,7 +40,7 @@ public class BeforeBlockOutlineEvent {
     }
 
     public World getWorld() {
-        return context.world();
+        return context.getWorld();
     }
 
     public Optional<BlockPos> getBlockPos() {
@@ -59,50 +56,38 @@ public class BeforeBlockOutlineEvent {
     }
 
     public Camera getCamera() {
-        return context.camera();
+        return context.getCamera();
     }
 
     public Optional<VoxelShape> getOutlineShape() {
-        return getBlockState().map(blockState -> blockState.getOutlineShape(getWorld(),
-                getBlockPos().orElse(null)));
+        return context.getOutlineShape();
     }
 
     public MatrixStack getMatrixStack() {
-        return context.matrixStack();
+        return context.getMatrixStack();
     }
 
     public void push() {
-        getMatrixStack().push();
+        context.push();
     }
 
     public void translate(double x, double y, double z) {
-        getMatrixStack().translate(x, y, z);
+        context.translate(x, y, z);
     }
 
     public void pop() {
-        getMatrixStack().pop();
+        context.pop();
     }
 
     public Optional<VertexConsumer> getVertexConsumer() {
-        if (context.consumers() == null)
-            return Optional.empty();
-
-        return Optional.of(Objects.requireNonNull(context.consumers()).getBuffer(RenderLayer.getLines()));
+        return context.getVertexConsumer();
     }
 
     public void drawBox(float red, float green, float blue, float alpha) {
-        Optional<VoxelShape> outlineShape = getOutlineShape();
-        if (!outlineShape.isPresent()) return;
-
-        drawBox(VoxelShapeUtil.getBoundingBox(outlineShape.get()), red, green, blue, alpha);
+        context.drawBox(red, green, blue, alpha);
     }
 
     public void drawBox(Box box, float red, float green, float blue, float alpha) {
-        Optional<VertexConsumer> vertexConsumer = getVertexConsumer();
-
-        if (!vertexConsumer.isPresent())
-            return;
-
-        WorldRenderer.drawBox(getMatrixStack(), vertexConsumer.get(), box, red, green, blue, alpha);
+        context.drawBox(box, red, green, blue, alpha);
     }
 }
