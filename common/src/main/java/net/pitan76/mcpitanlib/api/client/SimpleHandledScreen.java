@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
@@ -72,6 +73,10 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
         //ScreenUtil.setBackground(GUI);
         //super.drawTexture(matrices, x, y, u, v, width, height);
         drawObjectDM.getContext().drawTexture(texture, x, y, u, v, width, height);
+    }
+
+    public void callDrawTexture(DrawObjectDM drawObjectDM, CompatIdentifier texture, int x, int y, int u, int v, int width, int height) {
+        callDrawTexture(drawObjectDM, texture.toMinecraft(), x, y, u, v, width, height);
     }
 
     @Deprecated
@@ -233,6 +238,10 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public Identifier getBackgroundTexture() {
+        return getCompatBackgroundTexture().toMinecraft();
+    }
+
+    public CompatIdentifier getCompatBackgroundTexture() {
         return null;
     }
 

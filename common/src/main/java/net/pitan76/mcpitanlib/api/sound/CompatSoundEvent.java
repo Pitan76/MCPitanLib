@@ -2,11 +2,12 @@ package net.pitan76.mcpitanlib.api.sound;
 
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
+import org.jetbrains.annotations.Nullable;
 
 public class CompatSoundEvent {
-    public SoundEvent soundEvent;
-    public RegistryEntry.Reference<SoundEvent> reference;
-    public RegistryEntry<SoundEvent> entry;
+    private SoundEvent soundEvent;
+    private RegistryEntry.Reference<SoundEvent> reference;
+    private RegistryEntry<SoundEvent> entry;
 
     public CompatSoundEvent(SoundEvent soundEvent) {
         this.soundEvent = soundEvent;
@@ -24,7 +25,7 @@ public class CompatSoundEvent {
         return new CompatSoundEvent(soundEvent);
     }
 
-    public SoundEvent getSoundEvent() {
+    public SoundEvent get() {
         if (soundEvent == null) {
             if (reference != null) {
                 soundEvent = reference.value();
@@ -34,5 +35,17 @@ public class CompatSoundEvent {
         }
 
         return soundEvent;
+    }
+
+    @Nullable
+    @Deprecated
+    public RegistryEntry.Reference<SoundEvent> getReference() {
+        return reference;
+    }
+
+    @Nullable
+    @Deprecated
+    public RegistryEntry<SoundEvent> getEntry() {
+        return entry;
     }
 }

@@ -210,6 +210,81 @@ public class Config implements IConfig {
     }
 
     /**
+     * マップのキーから値を取得、存在しない場合はデフォルト値を保存して返す
+     * "."でパスを区切る
+     *
+     * @param key キー
+     * @param defaultValue デフォルト値
+     * @return 取得した値
+     */
+    public Object getOrCreate(String key, Object defaultValue) {
+        if (has(key)) return get(key);
+
+        set(key, defaultValue);
+        return defaultValue;
+    }
+
+    /**
+     * マップのキーから値(文字列)を取得、存在しない場合はデフォルト値を保存して返す
+     * "."でパスを区切る
+     *
+     * @param key キー
+     * @param defaultValue デフォルト値
+     * @return 取得した値
+     */
+    public String getStringOrCreate(String key, String defaultValue) {
+        if (has(key)) return getString(key);
+
+        setString(key, defaultValue);
+        return defaultValue;
+    }
+
+    /**
+     * マップのキーから値(整数)を取得、存在しない場合はデフォルト値を保存して返す
+     * "."でパスを区切る
+     *
+     * @param key キー
+     * @param defaultValue デフォルト値
+     * @return 取得した値
+     */
+    public int getIntOrCreate(String key, int defaultValue) {
+        if (has(key)) return getInt(key);
+
+        setInt(key, defaultValue);
+        return defaultValue;
+    }
+
+    /**
+     * マップのキーから値(数値)を取得、存在しない場合はデフォルト値を保存して返す
+     * "."でパスを区切る
+     *
+     * @param key キー
+     * @param defaultValue デフォルト値
+     * @return 取得した値
+     */
+    public double getDoubleOrCreate(String key, double defaultValue) {
+        if (has(key)) return getDouble(key);
+
+        setDouble(key, defaultValue);
+        return defaultValue;
+    }
+
+    /**
+     * マップのキーから値(真偽値)を取得、存在しない場合はデフォルト値を保存して返す
+     * "."でパスを区切る
+     *
+     * @param key キー
+     * @param defaultValue デフォルト値
+     * @return 取得した値
+     */
+    public boolean getBooleanOrCreate(String key, boolean defaultValue) {
+        if (has(key)) return getBoolean(key);
+
+        setBoolean(key, defaultValue);
+        return defaultValue;
+    }
+
+    /**
      * マップのキーに値をセット
      * "."でパスを区切る
      * 失敗するとfalseを返す

@@ -5,15 +5,22 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
+import net.minecraft.block.enums.SlabType;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.event.block.CanPathfindThroughArgs;
 import net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 
 public class CompatSlabBlock extends SlabBlock implements ExtendBlockProvider {
+
+    public static final EnumProperty<SlabType> TYPE = SlabBlock.TYPE;
+    public static final BooleanProperty WATERLOGGED = SlabBlock.WATERLOGGED;
+
     public CompatSlabBlock(Settings settings) {
         super(settings);
     }

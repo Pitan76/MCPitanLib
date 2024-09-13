@@ -1,6 +1,8 @@
 package net.pitan76.mcpitanlib.mixin;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -110,6 +112,83 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
             boolean returnValue = provider.postMine(new PostMineEvent(stack, world, state, pos, miner), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "onCraft", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$onCraft(ItemStack stack, World world, CallbackInfo ci) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            provider.onCraft(new CraftEvent(stack, world), options);
+            if (options.cancel)
+                ci.cancel();
+        }
+    }
+
+    @Inject(method = "isEnchantable", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$isEnchantable(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            boolean returnValue = provider.isEnchantable(new EnchantableArgs(stack), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getEnchantability", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getEnchantability(CallbackInfoReturnable<Integer> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            int returnValue = provider.getEnchantability(new EnchantabilityArgs(), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getItemBarColor", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getItemBarColor(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            int returnValue = provider.getItemBarColor(new ItemBarColorArgs(stack), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "isItemBarVisible", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$isItemBarVisible(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            boolean returnValue = provider.isItemBarVisible(new ItemBarVisibleArgs(stack), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getItemBarStep", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getItemBarStep(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            int returnValue = provider.getItemBarStep(new ItemBarStepArgs(stack), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getBonusAttackDamage", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getBonusAttackDamage(Entity target, float baseAttackDamage, DamageSource damageSource, CallbackInfoReturnable<Float> cir) {
+        if (this instanceof ExtendItemProvider) {
+            ExtendItemProvider provider = (ExtendItemProvider) this;
+            Options options = new Options();
+            float returnValue = provider.getBonusAttackDamage(new BonusAttackDamageArgs(target, baseAttackDamage, damageSource), options);
             if (options.cancel)
                 cir.setReturnValue(returnValue);
         }
