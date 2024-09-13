@@ -26,9 +26,6 @@ public class WorldRenderRegistryImpl {
 
     @SubscribeEvent
     public static void renderOutlineEvent(RenderHighlightEvent event) {
-        if (MinecraftClient.getInstance().world != null && MinecraftClient.getInstance().world.getTime() % 20 == 0)
-            System.out.println("renderOutlineEvent");
-
         for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
             boolean eventContinue = listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
                 @Override
