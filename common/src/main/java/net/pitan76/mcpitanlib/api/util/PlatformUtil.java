@@ -5,6 +5,7 @@ import dev.architectury.platform.Platform;
 import dev.architectury.utils.Env;
 import net.fabricmc.api.EnvType;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Collection;
 
@@ -47,6 +48,18 @@ public class PlatformUtil {
 
     public static Path getModsFolder() {
         return Platform.getModsFolder();
+    }
+
+    public static File getConfigFolderAsFile() {
+        return getConfigFolder().toFile();
+    }
+
+    public static File getGameFolderAsFile() {
+        return getGameFolder().toFile();
+    }
+
+    public static File getModsFolderAsFile() {
+        return getModsFolder().toFile();
     }
 
     public static Collection<String> getModIds() {

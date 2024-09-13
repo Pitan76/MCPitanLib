@@ -46,6 +46,11 @@ public class JsonConfig extends Config {
      * @return 成功→true / 失敗→false
      */
     public boolean load(File file) {
+        if (!file.exists()) {
+            configMap = new LinkedHashMap<>();
+            return false;
+        }
+
         try {
             String configData = FileControl.fileReadContents(file);
             Gson gson = new Gson();
@@ -54,6 +59,7 @@ public class JsonConfig extends Config {
             configMap = gson.fromJson(configData, jsonMap);
             return true;
         } catch (Exception e) {
+            configMap = new LinkedHashMap<>();
             return false;
         }
     }

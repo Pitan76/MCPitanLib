@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.item;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.pitan76.mcpitanlib.api.event.item.*;
 
@@ -84,6 +85,49 @@ public interface ExtendItemProvider {
     default boolean postMine(PostMineEvent event, Options options) {
         options.cancel = false;
         return false;
+    }
+
+    /**
+     * on craft event
+     * @param event CraftEvent
+     */
+    default void onCraft(CraftEvent event, Options options) {
+        options.cancel = false;
+    }
+
+    default Rarity getRarity(ItemStack stack, Options options) {
+        options.cancel = false;
+        return null;
+    }
+
+    default boolean isEnchantable(EnchantableArgs args, Options options) {
+        options.cancel = false;
+        return false;
+    }
+
+    default int getEnchantability(EnchantabilityArgs args, Options options) {
+        options.cancel = false;
+        return 0;
+    }
+
+    default int getItemBarColor(ItemBarColorArgs args, Options options) {
+        options.cancel = false;
+        return 0;
+    }
+
+    default boolean isItemBarVisible(ItemBarVisibleArgs args, Options options) {
+        options.cancel = false;
+        return false;
+    }
+
+    default int getItemBarStep(ItemBarStepArgs args, Options options) {
+        options.cancel = false;
+        return 0;
+    }
+
+    default float getBonusAttackDamage(BonusAttackDamageArgs args, Options options) {
+        options.cancel = false;
+        return 0;
     }
 
     public static class Options {

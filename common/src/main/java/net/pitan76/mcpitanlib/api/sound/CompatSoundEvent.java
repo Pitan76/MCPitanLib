@@ -13,7 +13,7 @@ public class CompatSoundEvent {
         return new CompatSoundEvent(soundEvent);
     }
 
-    public SoundEvent getSoundEvent() {
+    public SoundEvent get() {
         return soundEvent;
     }
 }
