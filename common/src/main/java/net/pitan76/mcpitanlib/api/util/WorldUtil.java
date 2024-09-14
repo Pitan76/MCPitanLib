@@ -26,10 +26,10 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
+import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class WorldUtil {
     public static boolean hasSkyLight(World world) {
@@ -115,34 +115,34 @@ public class WorldUtil {
         return Optional.ofNullable(world.getServer());
     }
 
-    public static World getWorld(World world, Identifier worldId) {
+    public static ServerWorld getWorld(World world, Identifier worldId) {
         Optional<MinecraftServer> server = getServer(world);
         if (!server.isPresent()) return null;
 
         return getWorld(server.get(), worldId);
     }
 
-    public static Optional<World> getWorld(World world, CompatIdentifier worldId) {
+    public static Optional<ServerWorld> getWorld(World world, CompatIdentifier worldId) {
         return Optional.ofNullable(getWorld(world, worldId.toMinecraft()));
     }
 
-    public static World getOverworld(MinecraftServer server) {
+    public static ServerWorld getOverworld(MinecraftServer server) {
         return server.getWorld(World.OVERWORLD);
     }
 
-    public static World getNether(MinecraftServer server) {
+    public static ServerWorld getNether(MinecraftServer server) {
         return server.getWorld(World.NETHER);
     }
 
-    public static World getEnd(MinecraftServer server) {
+    public static ServerWorld getEnd(MinecraftServer server) {
         return server.getWorld(World.END);
     }
 
-    public static World getWorld(MinecraftServer server, Identifier worldId) {
+    public static ServerWorld getWorld(MinecraftServer server, Identifier worldId) {
         return server.getWorld(RegistryKey.of(Registry.WORLD_KEY, worldId));
     }
 
-    public static World getWorld(MinecraftServer server, CompatIdentifier worldId) {
+    public static ServerWorld getWorld(MinecraftServer server, CompatIdentifier worldId) {
         return getWorld(server, worldId.toMinecraft());
     }
 
@@ -259,5 +259,26 @@ public class WorldUtil {
 
     public static void updateComparators(World world, BlockPos pos, Block block) {
         world.updateComparators(pos, block);
+    }
+
+    public static List<Player> getPlayers(World world) {
+        List<Player> players = new ArrayList<>();
+        for (PlayerEntity player : world.getPlayers()) {
+            players.add(new Player(player));
+        }
+
+        return players;
+    }
+
+    public static Player getPlayer(World world, UUID uuid) {
+        return new Player(world.getPlayerByUuid(uuid));
+    }
+
+    public static CompatRandom getRandom(World world) {
+        return new CompatRandom(world.getRandom());
+    }
+
+    public static long getTime(World world) {
+        return world.getTime();
     }
 }

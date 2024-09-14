@@ -2,16 +2,16 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.math.random.Random;
+import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 
 public class MathUtil {
 
-    public static Random createRandom(long seed) {
-        return Random.create(seed);
+    public static CompatRandom createRandom(long seed) {
+        return CompatRandom.of(seed);
     }
 
-    public static Random createRandom() {
-        return Random.create();
+    public static CompatRandom createRandom() {
+        return CompatRandom.of();
     }
 
     @Deprecated

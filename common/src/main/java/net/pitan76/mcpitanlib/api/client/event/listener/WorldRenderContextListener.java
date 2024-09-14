@@ -6,5 +6,5 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 @FunctionalInterface
 public interface WorldRenderContextListener {
-    void renderer(WorldRenderContext context);
+    void render(WorldRenderContext context);
 }
