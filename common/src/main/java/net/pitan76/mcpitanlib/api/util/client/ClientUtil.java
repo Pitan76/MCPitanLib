@@ -1,16 +1,23 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
+import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Mouse;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.texture.TextureManager;
+import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.profiler.Profiler;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
+import java.io.File;
 import java.util.Optional;
 
 public class ClientUtil {
@@ -61,5 +68,37 @@ public class ClientUtil {
     public static Optional<Long> getTime() {
         if (getClient().world == null) return Optional.empty();
         return Optional.of(getClient().world.getTime());
+    }
+
+    public static long getRenderTime() {
+        return getClient().getRenderTime();
+    }
+
+    public static HitResult getTarget() {
+        return getClient().crosshairTarget;
+    }
+
+    public static WorldRenderer getWorldRenderer() {
+        return getClient().worldRenderer;
+    }
+
+    public static File getRunDirectory() {
+        return getClient().runDirectory;
+    }
+
+    public static Profiler getProfiler() {
+        return getClient().getProfiler();
+    }
+
+    public static GameProfile getGameProfile() {
+        return getClient().getGameProfile();
+    }
+
+    public static Window getWindow() {
+        return getClient().getWindow();
+    }
+
+    public static Mouse getMouse() {
+        return getClient().mouse;
     }
 }

@@ -1,17 +1,17 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.random.Random;
+import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import org.joml.Quaternionf;
 
 public class MathUtil {
 
-    public static Random createRandom(long seed) {
-        return Random.create(seed);
+    public static CompatRandom createRandom(long seed) {
+        return CompatRandom.of(seed);
     }
 
-    public static Random createRandom() {
-        return Random.create();
+    public static CompatRandom createRandom() {
+        return CompatRandom.of();
     }
 
     @Deprecated

@@ -80,7 +80,7 @@ public class WorldRenderRegistryImpl {
 
     public static void registerWorldRenderAfterLevel(WorldRenderContextListener listener) {
         WorldRenderEvents.END.register((context -> {
-            listener.renderer(new WorldRenderContext() {
+            listener.render(new WorldRenderContext() {
                 @Override
                 public WorldRenderer getWorldRenderer() {
                     return context.worldRenderer();
