@@ -105,7 +105,7 @@ public class WorldRenderRegistryImpl {
         if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) return;
 
         for (WorldRenderContextListener listener : worldRenderAfterLevelListeners) {
-            listener.renderer(new WorldRenderContext() {
+            listener.render(new WorldRenderContext() {
                 @Override
                 public WorldRenderer getWorldRenderer() {
                     return event.getLevelRenderer();
