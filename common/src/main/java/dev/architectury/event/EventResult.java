@@ -1,5 +1,7 @@
 package dev.architectury.event;
 
+import net.minecraft.util.ActionResult;
+
 public class EventResult {
     public static me.shedaniel.architectury.event.EventResult pass() {
         return me.shedaniel.architectury.event.EventResult.pass();
@@ -19,5 +21,17 @@ public class EventResult {
 
     public static me.shedaniel.architectury.event.EventResult interruptFalse() {
         return me.shedaniel.architectury.event.EventResult.interruptFalse();
+    }
+
+    public static ActionResult toActionResult(me.shedaniel.architectury.event.EventResult result) {
+        if (result == interruptFalse()) {
+            return ActionResult.FAIL;
+        } else if (result == pass()) {
+            return ActionResult.PASS;
+        } else if (result == interruptTrue()) {
+            return ActionResult.SUCCESS;
+        } else {
+            return ActionResult.CONSUME;
+        }
     }
 }

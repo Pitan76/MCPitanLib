@@ -103,7 +103,7 @@ public class WorldRenderRegistryImpl {
     @SubscribeEvent
     public static void registerWorldRenderAfterLevel(RenderWorldLastEvent event) {
         for (WorldRenderContextListener listener : worldRenderAfterLevelListeners) {
-            listener.renderer(new WorldRenderContext() {
+            listener.render(new WorldRenderContext() {
                 @Override
                 public WorldRenderer getWorldRenderer() {
                     return event.getContext();

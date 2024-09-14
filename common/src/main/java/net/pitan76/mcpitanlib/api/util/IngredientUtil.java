@@ -35,11 +35,11 @@ public class IngredientUtil {
         return items;
     }
 
-    public IntList getMatchingStacksIds(Ingredient ingredient) {
+    public static IntList getMatchingStacksIds(Ingredient ingredient) {
         return ingredient.getMatchingItemIds();
     }
 
-    public List<ItemStack> getMatchingStacksAsList(Ingredient ingredient) {
+    public static List<ItemStack> getMatchingStacksAsList(Ingredient ingredient) {
         List<ItemStack> stacks = new ArrayList<>();
 
         for (Item item : getItems(ingredient)) {
@@ -49,7 +49,7 @@ public class IngredientUtil {
         return stacks;
     }
 
-    public ItemStack[] getMatchingStacks(Ingredient ingredient) {
+    public static ItemStack[] getMatchingStacks(Ingredient ingredient) {
         return getMatchingStacksAsList(ingredient).toArray(new ItemStack[0]);
     }
 }

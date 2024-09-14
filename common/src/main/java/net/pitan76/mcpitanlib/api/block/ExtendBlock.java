@@ -90,7 +90,7 @@ public class ExtendBlock extends Block {
      * @param event BlockScheduledTickEvent
      */
     public void scheduledTick(BlockScheduledTickEvent event) {
-        super.scheduledTick(event.state, event.world, event.pos, event.random);
+        super.scheduledTick(event.state, event.world, event.pos, event.random.getJavaRandom());
     }
 
     @Override
