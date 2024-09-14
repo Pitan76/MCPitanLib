@@ -41,7 +41,7 @@ public class LivingHurtEvent {
     }
 
     public boolean isDirect() {
-        return damageSource.isDirect();
+        return !damageSource.isIndirect();
     }
 
     public boolean isPlayerAttacker() {
@@ -65,7 +65,15 @@ public class LivingHurtEvent {
     }
 
     public ItemStack getWeaponStack() {
-        return getAttacker().getWeaponStack();
+        if (isPlayerAttacker())
+            return getPlayerAttacker().getMainHandStack();
+
+        if (getAttacker() instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity) getAttacker();
+            return livingEntity.getMainHandStack();
+        }
+
+        return ItemStack.EMPTY;
     }
 
     public Item getWeaponItem() {

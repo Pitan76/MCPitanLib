@@ -29,7 +29,7 @@ public class MouseUtil {
     }
 
     public static void tick() {
-        getMouse().tick();
+        getMouse().updateMouse();
     }
 
     public static boolean wasLeftButtonClicked() {
