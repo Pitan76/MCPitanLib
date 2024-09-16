@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.command.argument;
 
 import net.minecraft.command.argument.ItemStackArgumentType;
-import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.pitan76.mcpitanlib.api.event.ItemCommandEvent;
 import net.pitan76.mcpitanlib.api.event.ServerCommandEvent;
 
-public abstract class ItemCommand extends RequiredCommand<Entity> {
+public abstract class ItemCommand extends RequiredCommand<Item> {
     @Override
     public ItemStackArgumentType getArgumentType() {
         return ItemStackArgumentType.itemStack();

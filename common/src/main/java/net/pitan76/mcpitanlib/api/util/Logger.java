@@ -48,6 +48,11 @@ public class Logger {
         LoggerUtil.debug(logger, message);
     }
 
+    public void infoIfDev(String message) {
+        if (!PlatformUtil.isDevelopmentEnvironment()) return;
+        LoggerUtil.debug(logger, message);
+    }
+
     public void trace(String message) {
         LoggerUtil.trace(logger, message);
     }
