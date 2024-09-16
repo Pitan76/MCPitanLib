@@ -41,7 +41,7 @@ public class CommandManagerUtil {
     }
 
     public static CommandResult execute(ServerCommandSource source, String command) {
-        CommandDispatcher<ServerCommandSource> dispatcher = source.getServer().getCommandManager().getDispatcher();
+        CommandDispatcher<ServerCommandSource> dispatcher = source.getMinecraftServer().getCommandManager().getDispatcher();
 
         if (command.startsWith("/")) {
             command = command.substring(1);

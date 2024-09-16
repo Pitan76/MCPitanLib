@@ -1,20 +1,19 @@
 package net.pitan76.mcpitanlib.api.nbt;
 
-import net.minecraft.nbt.NbtElement;
-
 public class NbtTypeBytes {
-    public static final byte END = NbtElement.END_TYPE;
-    public static final byte BYTE = NbtElement.BYTE_TYPE;
-    public static final byte SHORT = NbtElement.SHORT_TYPE;
-    public static final byte INT = NbtElement.INT_TYPE;
-    public static final byte LONG = NbtElement.LONG_TYPE;
-    public static final byte FLOAT = NbtElement.FLOAT_TYPE;
-    public static final byte DOUBLE = NbtElement.DOUBLE_TYPE;
-    public static final byte BYTE_ARRAY = NbtElement.BYTE_ARRAY_TYPE;
-    public static final byte STRING = NbtElement.STRING_TYPE;
-    public static final byte LIST = NbtElement.LIST_TYPE;
-    public static final byte COMPOUND = NbtElement.COMPOUND_TYPE;
-    public static final byte INT_ARRAY = NbtElement.INT_ARRAY_TYPE;
-    public static final byte LONG_ARRAY = NbtElement.LONG_ARRAY_TYPE;
-    public static final byte NUMBER = NbtElement.NUMBER_TYPE;
+    public static final byte END = 0;
+    public static final byte BYTE = 1;
+    public static final byte SHORT = 2;
+    public static final byte INT = 3;
+    public static final byte LONG = 4;
+    public static final byte FLOAT = 5;
+    public static final byte DOUBLE = 6;
+    public static final byte BYTE_ARRAY = 7;
+    public static final byte STRING = 8;
+    public static final byte LIST = 9;
+    public static final byte COMPOUND = 10;
+    public static final byte INT_ARRAY = 11;
+    public static final byte LONG_ARRAY = 12;
+
+    public static final byte NUMBER = 99;
 }

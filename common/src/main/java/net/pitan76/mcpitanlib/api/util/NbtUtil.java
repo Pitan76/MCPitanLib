@@ -203,7 +203,7 @@ public class NbtUtil {
      * @return NbtList
      */
     public static NbtList getNbtCompoundList(NbtCompound nbt, String key) {
-        return nbt.getList(key, NbtElement.COMPOUND_TYPE);
+        return nbt.getList(key, 10);
     }
 
     /**
