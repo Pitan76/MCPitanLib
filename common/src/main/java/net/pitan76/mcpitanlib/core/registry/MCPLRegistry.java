@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.core.registry;
 
-import dev.architectury.registry.registries.Registrar;
 import me.shedaniel.architectury.registry.DeferredRegister;
 import me.shedaniel.architectury.registry.RegistrySupplier;
 import net.minecraft.block.Block;
@@ -41,8 +40,8 @@ public class MCPLRegistry {
         SOUND_EVENT = DeferredRegister.create(MOD_ID, Registry.SOUND_EVENT_KEY);
         FLUID = DeferredRegister.create(MOD_ID, Registry.FLUID_KEY);
         PARTICLE_TYPE = DeferredRegister.create(MOD_ID, Registry.PARTICLE_TYPE_KEY);
-        ENCHANTMENT = DeferredRegister.create(MOD_ID, Registry.ENCHANTMENT);
-        STATUS_EFFECT = DeferredRegister.create(MOD_ID, Registry.STATUS_EFFECT);
+        ENCHANTMENT = DeferredRegister.create(MOD_ID, Registry.ENCHANTMENT_KEY);
+        STATUS_EFFECT = DeferredRegister.create(MOD_ID, Registry.MOB_EFFECT_KEY);
     }
 
     public RegistrySupplier<Item> registryItem(Identifier id, Supplier<Item> supplier) {
