@@ -2,7 +2,9 @@ package net.pitan76.mcpitanlib.api.registry.v2;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -10,6 +12,8 @@ import net.minecraft.particle.ParticleType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
+import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
+import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
@@ -107,6 +111,14 @@ public class CompatRegistryV2 {
 
     public RegistryResult<ParticleType<?>> registerParticleType(CompatIdentifier id, Supplier<ParticleType<?>> supplier) {
         return cr1.registerParticleType(id.toMinecraft(), supplier);
+    }
+
+    public RegistryResult<Enchantment> registerEnchantment(CompatIdentifier id, Supplier<CompatEnchantment> supplier) {
+        return cr1.registerEnchantment(id.toMinecraft(), () -> supplier.get().getEnchantment(null));
+    }
+
+    public RegistryResult<StatusEffect> registryStatusEffect(CompatIdentifier id, Supplier<CompatStatusEffect> supplier) {
+        return cr1.registerStatusEffect(id.toMinecraft(), () -> supplier.get().getStatusEffect(null));
     }
 
     public RegistryResult<ItemGroup> registerItemGroup(CompatIdentifier id, Supplier<ItemGroup> supplier) {

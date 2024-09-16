@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,6 +30,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
+import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
@@ -37,9 +40,7 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
 
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 /*
@@ -420,5 +421,59 @@ public class Player {
             return Optional.ofNullable(getOffHandStack());
 
         return Optional.empty();
+    }
+
+    public void addStatusEffect(CompatStatusEffectInstance effect) {
+        getEntity().addStatusEffect(effect.getInstance());
+    }
+
+    public void removeStatusEffect(CompatStatusEffect effect) {
+        getEntity().removeStatusEffect(effect.getStatusEffect(getWorld()));
+    }
+
+    public List<CompatStatusEffectInstance> getStatusEffects() {
+        List<CompatStatusEffectInstance> compatEffects = new ArrayList<>();
+
+        for (StatusEffectInstance effect : getEntity().getStatusEffects()) {
+            compatEffects.add(new CompatStatusEffectInstance(effect));
+        }
+
+        return compatEffects;
+    }
+
+    public void addExperience(int experience) {
+        getEntity().addExperience(experience);
+    }
+
+    public int getExperienceLevel() {
+        return getEntity().experienceLevel;
+    }
+
+    public void addExperienceLevels(int levels) {
+        getEntity().addExperienceLevels(levels);
+    }
+
+    public void setExperienceLevel(int level) {
+        getEntity().experienceLevel = level;
+    }
+
+    public void addScore(int score) {
+        getEntity().addScore(score);
+    }
+
+    public int getScore() {
+        return getEntity().getScore();
+    }
+
+    public void setScore(int score) {
+        getEntity().setScore(score);
+    }
+
+    public int getTotalExperience() {
+        return getEntity().totalExperience;
+    }
+
+    public void setTotalExperience(int experience) {
+        getEntity().totalExperience = experience;
     }
 }
