@@ -4,7 +4,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 
 public class CompatBlockSoundGroup {
-    public static final CompatBlockSoundGroup INTENTIONALLY_EMPTY = of(BlockSoundGroup.INTENTIONALLY_EMPTY);
+    public static final CompatBlockSoundGroup INTENTIONALLY_EMPTY = of(BlockSoundGroup.STONE);
     public static final CompatBlockSoundGroup WOOD = of(BlockSoundGroup.WOOD);
     public static final CompatBlockSoundGroup GRAVEL = of(BlockSoundGroup.GRAVEL);
     public static final CompatBlockSoundGroup GRASS = of(BlockSoundGroup.GRASS);
@@ -60,14 +60,14 @@ public class CompatBlockSoundGroup {
     public static final CompatBlockSoundGroup MEDIUM_AMETHYST_BUD = of(BlockSoundGroup.MEDIUM_AMETHYST_BUD);
     public static final CompatBlockSoundGroup LARGE_AMETHYST_BUD = of(BlockSoundGroup.LARGE_AMETHYST_BUD);
     public static final CompatBlockSoundGroup TUFF = of(BlockSoundGroup.TUFF);
-    public static final CompatBlockSoundGroup TUFF_BRICKS = of(BlockSoundGroup.TUFF_BRICKS);
-    public static final CompatBlockSoundGroup POLISHED_TUFF = of(BlockSoundGroup.POLISHED_TUFF);
+    public static final CompatBlockSoundGroup TUFF_BRICKS = of(BlockSoundGroup.STONE);
+    public static final CompatBlockSoundGroup POLISHED_TUFF = of(BlockSoundGroup.STONE);
     public static final CompatBlockSoundGroup CALCITE = of(BlockSoundGroup.CALCITE);
     public static final CompatBlockSoundGroup DRIPSTONE_BLOCK = of(BlockSoundGroup.DRIPSTONE_BLOCK);
     public static final CompatBlockSoundGroup POINTED_DRIPSTONE = of(BlockSoundGroup.POINTED_DRIPSTONE);
     public static final CompatBlockSoundGroup COPPER = of(BlockSoundGroup.COPPER);
-    public static final CompatBlockSoundGroup COPPER_BULB = of(BlockSoundGroup.COPPER_BULB);
-    public static final CompatBlockSoundGroup COPPER_GRATE = of(BlockSoundGroup.COPPER_GRATE);
+    public static final CompatBlockSoundGroup COPPER_BULB = of(BlockSoundGroup.STONE);
+    public static final CompatBlockSoundGroup COPPER_GRATE = of(BlockSoundGroup.STONE);
     public static final CompatBlockSoundGroup CAVE_VINES = of(BlockSoundGroup.CAVE_VINES);
     public static final CompatBlockSoundGroup SPORE_BLOSSOM = of(BlockSoundGroup.SPORE_BLOSSOM);
     public static final CompatBlockSoundGroup AZALEA = of(BlockSoundGroup.AZALEA);
@@ -111,9 +111,9 @@ public class CompatBlockSoundGroup {
     public static final CompatBlockSoundGroup SUSPICIOUS_GRAVEL = of(BlockSoundGroup.SUSPICIOUS_GRAVEL);
     public static final CompatBlockSoundGroup DECORATED_POT = of(BlockSoundGroup.DECORATED_POT);
     public static final CompatBlockSoundGroup DECORATED_POT_SHATTER = of(BlockSoundGroup.DECORATED_POT_SHATTER);
-    public static final CompatBlockSoundGroup TRIAL_SPAWNER = of(BlockSoundGroup.TRIAL_SPAWNER);
-    public static final CompatBlockSoundGroup SPONGE = of(BlockSoundGroup.SPONGE);
-    public static final CompatBlockSoundGroup WET_SPONGE = of(BlockSoundGroup.WET_SPONGE);
+    public static final CompatBlockSoundGroup TRIAL_SPAWNER = of(BlockSoundGroup.STONE);
+    public static final CompatBlockSoundGroup SPONGE = of(BlockSoundGroup.GRASS);
+    public static final CompatBlockSoundGroup WET_SPONGE = of(BlockSoundGroup.WET_GRASS);
     public static final CompatBlockSoundGroup VAULT = of(BlockSoundGroup.STONE);
     public static final CompatBlockSoundGroup HEAVY_CORE = of(BlockSoundGroup.STONE);
     public static final CompatBlockSoundGroup COBWEB = of(BlockSoundGroup.STONE);
