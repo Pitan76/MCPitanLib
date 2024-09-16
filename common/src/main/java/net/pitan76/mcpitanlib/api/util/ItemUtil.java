@@ -221,6 +221,14 @@ public class ItemUtil {
         return ItemUtilV2.getItems(identifier, items);
     }
 
+    public static List<Item> getItems(CompatIdentifier identifier) {
+        return getItems(identifier.toMinecraft());
+    }
+
+    public static List<Item> getItems(CompatIdentifier identifier, List<Item> items) {
+        return getItems(identifier.toMinecraft(), items);
+    }
+
     /**
      * Get all items in the tag.
      * @param id String of the tag.
@@ -248,6 +256,10 @@ public class ItemUtil {
      */
     public static boolean isItemInTag(Item item, Identifier identifier) {
         return ItemUtilV2.isItemInTag(item, identifier);
+    }
+
+    public static boolean isItemInTag(Item item, CompatIdentifier identifier) {
+        return isItemInTag(item, identifier.toMinecraft());
     }
 
     /**

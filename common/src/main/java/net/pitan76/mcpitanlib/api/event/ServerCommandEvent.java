@@ -10,6 +10,8 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
 
@@ -63,5 +65,21 @@ public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
 
     public void sendFailure(Text message) {
         context.getSource().sendError(message);
+    }
+
+    public void sendSuccess(Text message) {
+        sendSuccess(message, false);
+    }
+
+    public void sendSuccess(String message, boolean broadcastToOps) {
+        sendSuccess(TextUtil.literal(message), broadcastToOps);
+    }
+
+    public void sendSuccess(String message) {
+        sendSuccess(TextUtil.literal(message));
+    }
+
+    public boolean isClient() {
+        return WorldUtil.isClient(getWorld());
     }
 }
