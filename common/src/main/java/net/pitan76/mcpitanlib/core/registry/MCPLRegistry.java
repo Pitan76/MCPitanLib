@@ -1,10 +1,13 @@
 package net.pitan76.mcpitanlib.core.registry;
 
+import dev.architectury.registry.registries.Registrar;
 import me.shedaniel.architectury.registry.DeferredRegister;
 import me.shedaniel.architectury.registry.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleType;
@@ -26,6 +29,8 @@ public class MCPLRegistry {
     public DeferredRegister<SoundEvent> SOUND_EVENT;
     public DeferredRegister<Fluid> FLUID;
     public DeferredRegister<ParticleType<?>> PARTICLE_TYPE;
+    public DeferredRegister<Enchantment> ENCHANTMENT;
+    public DeferredRegister<StatusEffect> STATUS_EFFECT;
 
     public MCPLRegistry(String MOD_ID) {
         ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_KEY);
@@ -36,6 +41,8 @@ public class MCPLRegistry {
         SOUND_EVENT = DeferredRegister.create(MOD_ID, Registry.SOUND_EVENT_KEY);
         FLUID = DeferredRegister.create(MOD_ID, Registry.FLUID_KEY);
         PARTICLE_TYPE = DeferredRegister.create(MOD_ID, Registry.PARTICLE_TYPE_KEY);
+        ENCHANTMENT = DeferredRegister.create(MOD_ID, Registry.ENCHANTMENT);
+        STATUS_EFFECT = DeferredRegister.create(MOD_ID, Registry.STATUS_EFFECT);
     }
 
     public RegistrySupplier<Item> registryItem(Identifier id, Supplier<Item> supplier) {
@@ -70,6 +77,14 @@ public class MCPLRegistry {
         return PARTICLE_TYPE.register(id, supplier);
     }
 
+    public RegistrySupplier<Enchantment> registryEnchantment(Identifier id, Supplier<Enchantment> supplier) {
+        return ENCHANTMENT.register(id, supplier);
+    }
+
+    public RegistrySupplier<StatusEffect> registryStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
+        return STATUS_EFFECT.register(id, supplier);
+    }
+
     public void allRegister1_16() {
         BLOCKS.register();
         ITEMS.register();
@@ -79,5 +94,7 @@ public class MCPLRegistry {
         SOUND_EVENT.register();
         FLUID.register();
         PARTICLE_TYPE.register();
+        ENCHANTMENT.register();
+        STATUS_EFFECT.register();
     }
 }
