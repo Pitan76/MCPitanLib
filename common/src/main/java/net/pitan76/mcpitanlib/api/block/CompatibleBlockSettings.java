@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.block;
 import net.minecraft.block.*;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.DyeColor;
+import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
@@ -172,6 +173,10 @@ public class CompatibleBlockSettings {
     public CompatibleBlockSettings sounds(BlockSoundGroup blockSoundGroup) {
         settings.sounds(blockSoundGroup);
         return this;
+    }
+
+    public CompatibleBlockSettings sounds(CompatBlockSoundGroup blockSoundGroup) {
+        return sounds(blockSoundGroup.get());
     }
 
     public CompatibleBlockSettings luminance(ToIntFunction<BlockState> luminance) {
