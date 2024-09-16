@@ -106,7 +106,7 @@ public class NbtUtil {
             return (T) nbt.getCompound(key);
         }
         if (clazz == NbtList.class) {
-            return (T) nbt.getList(key, 9);
+            return (T) nbt.get(key);
         }
         if (clazz == Byte.class) {
             return (T) Byte.valueOf(nbt.getByte(key));
@@ -187,7 +187,23 @@ public class NbtUtil {
      * @return NbtList
      */
     public static NbtList getList(NbtCompound nbt, String key) {
-        return nbt.getList(key, 9);
+        return (NbtList) nbt.get(key);
+    }
+
+    /**
+     * NbtListを取得する。
+     * @return NbtList
+     */
+    public static NbtList getList(NbtCompound nbt, String key, int type) {
+        return nbt.getList(key, type);
+    }
+
+    /**
+     * NbtCompoundのリストを取得する。
+     * @return NbtList
+     */
+    public static NbtList getNbtCompoundList(NbtCompound nbt, String key) {
+        return nbt.getList(key, NbtElement.COMPOUND_TYPE);
     }
 
     /**
@@ -396,5 +412,59 @@ public class NbtUtil {
 
     public static NbtList createNbtList() {
         return new NbtList();
+    }
+
+    public static int getIntOrDefault(NbtCompound nbt, String key, int defaultValue) {
+        if (has(nbt, key))
+            return getInt(nbt, key);
+        return defaultValue;
+    }
+
+    public static String getStringOrDefault(NbtCompound nbt, String key, String defaultValue) {
+        if (has(nbt, key))
+            return getString(nbt, key);
+        return defaultValue;
+    }
+
+    public static boolean getBooleanOrDefault(NbtCompound nbt, String key, boolean defaultValue) {
+        if (has(nbt, key))
+            return getBoolean(nbt, key);
+        return defaultValue;
+    }
+
+    public static float getFloatOrDefault(NbtCompound nbt, String key, float defaultValue) {
+        if (has(nbt, key))
+            return getFloat(nbt, key);
+        return defaultValue;
+    }
+
+    public static double getDoubleOrDefault(NbtCompound nbt, String key, double defaultValue) {
+        if (has(nbt, key))
+            return getDouble(nbt, key);
+        return defaultValue;
+    }
+
+    public static long getLongOrDefault(NbtCompound nbt, String key, long defaultValue) {
+        if (has(nbt, key))
+            return getLong(nbt, key);
+        return defaultValue;
+    }
+
+    public static byte getByteOrDefault(NbtCompound nbt, String key, byte defaultValue) {
+        if (has(nbt, key))
+            return getByte(nbt, key);
+        return defaultValue;
+    }
+
+    public static short getShortOrDefault(NbtCompound nbt, String key, short defaultValue) {
+        if (has(nbt, key))
+            return getShort(nbt, key);
+        return defaultValue;
+    }
+
+    public static UUID getUuidOrDefault(NbtCompound nbt, String key, UUID defaultValue) {
+        if (has(nbt, key))
+            return getUuid(nbt, key);
+        return defaultValue;
     }
 }

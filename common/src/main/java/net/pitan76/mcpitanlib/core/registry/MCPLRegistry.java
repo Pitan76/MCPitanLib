@@ -6,7 +6,9 @@ import dev.architectury.registry.registries.RegistrarManager;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleType;
@@ -30,6 +32,8 @@ public class MCPLRegistry {
     public Registrar<SoundEvent> SOUND_EVENT;
     public Registrar<Fluid> FLUID;
     public Registrar<ParticleType<?>> PARTICLE_TYPE;
+    public Registrar<Enchantment> ENCHANTMENT;
+    public Registrar<StatusEffect> STATUS_EFFECT;
 
     public MCPLRegistry(String MOD_ID) {
         REGISTRIES = Suppliers.memoize(() -> RegistrarManager.get(MOD_ID));
@@ -42,6 +46,8 @@ public class MCPLRegistry {
         SOUND_EVENT = REGISTRIES.get().get(RegistryKeys.SOUND_EVENT);
         FLUID = REGISTRIES.get().get(RegistryKeys.FLUID);
         PARTICLE_TYPE = REGISTRIES.get().get(RegistryKeys.PARTICLE_TYPE);
+        ENCHANTMENT = REGISTRIES.get().get(RegistryKeys.ENCHANTMENT);
+        STATUS_EFFECT = REGISTRIES.get().get(RegistryKeys.STATUS_EFFECT);
     }
 
     public RegistrySupplier<Item> registryItem(Identifier id, Supplier<Item> supplier) {
@@ -74,6 +80,14 @@ public class MCPLRegistry {
 
     public RegistrySupplier<ParticleType<?>> registryParticleType(Identifier id, Supplier<ParticleType<?>> supplier) {
         return PARTICLE_TYPE.register(id, supplier);
+    }
+
+    public RegistrySupplier<Enchantment> registryEnchantment(Identifier id, Supplier<Enchantment> supplier) {
+        return ENCHANTMENT.register(id, supplier);
+    }
+
+    public RegistrySupplier<StatusEffect> registryStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
+        return STATUS_EFFECT.register(id, supplier);
     }
 
     public void allRegister1_16() {

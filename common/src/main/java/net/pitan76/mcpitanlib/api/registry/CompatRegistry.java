@@ -4,7 +4,9 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.ComponentType;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -126,6 +128,14 @@ public class CompatRegistry {
 
     public RegistryResult<ParticleType<?>> registerParticleType(Identifier id, Supplier<ParticleType<?>> supplier) {
         return new RegistryResult<>(mcplr.registryParticleType(id, supplier));
+    }
+
+    public RegistryResult<Enchantment> registerEnchantment(Identifier id, Supplier<Enchantment> supplier) {
+        return new RegistryResult<>(mcplr.registryEnchantment(id, supplier));
+    }
+
+    public RegistryResult<StatusEffect> registerStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
+        return new RegistryResult<>(mcplr.registryStatusEffect(id, supplier));
     }
 
     public RegistryResult<ItemGroup> registerItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
