@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.PlayerManager;
 import net.minecraft.world.World;
 
 public class ServerUtil {
@@ -46,5 +47,9 @@ public class ServerUtil {
 
     public static boolean isSingleplayer(MinecraftServer server) {
         return server.isSingleplayer();
+    }
+
+    public static PlayerManager getPlayerManager(MinecraftServer server) {
+        return server.getPlayerManager();
     }
 }

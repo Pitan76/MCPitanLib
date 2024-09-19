@@ -20,6 +20,8 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
+import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
 public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
@@ -271,7 +273,10 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public void setTitleXCenter() {
-        setTitleX(width / 2 - textRenderer.getWidth(title) / 2);
+        if (textRenderer == null)
+            textRenderer = ClientUtil.getTextRenderer();
+
+        setTitleX(backgroundWidth / 2 - textRenderer.getWidth(title) / 2);
     }
 
     public int getTitleX() {
