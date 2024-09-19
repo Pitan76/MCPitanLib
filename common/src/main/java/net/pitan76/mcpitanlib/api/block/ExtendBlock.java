@@ -349,14 +349,8 @@ public class ExtendBlock extends Block {
         return super.getStateForNeighborUpdate(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos);
     }
 
-    @Deprecated
-    @Override
-    protected ImmutableMap<BlockState, VoxelShape> getShapesForStates(Function<BlockState, VoxelShape> stateToShape) {
-        return getShapesForStates(new ShapesForStatesArgs(stateToShape));
-    }
-
     public ImmutableMap<BlockState, VoxelShape> getShapesForStates(ShapesForStatesArgs args) {
-        return super.getShapesForStates(args.stateToShape);
+        return this.stateManager.getStates().stream().collect(ImmutableMap.toImmutableMap(Function.identity(), args.stateToShape));
     }
 
     public StateManager<Block, BlockState> callGetStateManager() {

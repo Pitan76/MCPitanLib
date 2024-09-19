@@ -37,11 +37,11 @@ public class WorldViewUtil {
     }
 
     public static int getBottomY(WorldView world) {
-        return world.getBottomY();
+        return 0;
     }
 
     public static int getTopY(WorldView world) {
-        return world.getTopY();
+        return world.getHeight();
     }
 
     public static boolean isChunkLoaded(WorldView world, BlockPos pos) {
