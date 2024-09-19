@@ -476,4 +476,28 @@ public class Player {
     public void setTotalExperience(int experience) {
         getEntity().totalExperience = experience;
     }
+
+    public boolean isFallFlying() {
+        return getEntity().isFallFlying();
+    }
+
+    public boolean isSwimming() {
+        return getEntity().isSwimming();
+    }
+
+    public void startFallFlying() {
+        getEntity().startFallFlying();
+    }
+
+    public void stopFallFlying() {
+        getEntity().stopFallFlying();
+    }
+
+    public int getFallFlyingTicks() {
+        return getEntity().getFallFlyingTicks();
+    }
+
+    public boolean checkFallFlying() {
+        return getEntity().checkFallFlying();
+    }
 }

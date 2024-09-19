@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -57,5 +58,9 @@ public class BlockEntityUtil {
 
     public static void markDirty(BlockEntity blockEntity) {
         blockEntity.markDirty();
+    }
+
+    public static BlockEntityType<?> getType(BlockEntity blockEntity) {
+        return blockEntity.getType();
     }
 }
