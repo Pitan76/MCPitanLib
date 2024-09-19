@@ -148,4 +148,8 @@ public class PropertyUtil {
     public static BooleanProperty occupied() {
         return Properties.OCCUPIED;
     }
+
+    public static boolean contains(BlockState state, Property<?> property) {
+        return state.contains(property);
+    }
 }
