@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.block;
 
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -8,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
@@ -21,12 +23,15 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
+import net.pitan76.mcpitanlib.api.event.block.StateForNeighborUpdateArgs;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
@@ -34,6 +39,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 public class ExtendBlock extends Block {
     public CompatibleBlockSettings compatSettings;
@@ -322,5 +328,39 @@ public class ExtendBlock extends Block {
 
     public CompatMapCodec<? extends Block> getCompatCodec() {
         return CompatMapCodec.of();
+    }
+
+    @Deprecated
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        return getFluidState(new FluidStateArgs(state));
+    }
+
+    public FluidState getFluidState(FluidStateArgs args) {
+        return super.getFluidState(args.getState());
+    }
+
+    @Deprecated
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(state, direction, neighborState, world, pos, neighborPos));
+    }
+
+    public BlockState getStateForNeighborUpdate(StateForNeighborUpdateArgs args) {
+        return super.getStateForNeighborUpdate(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos);
+    }
+
+    @Deprecated
+    @Override
+    protected ImmutableMap<BlockState, VoxelShape> getShapesForStates(Function<BlockState, VoxelShape> stateToShape) {
+        return getShapesForStates(new ShapesForStatesArgs(stateToShape));
+    }
+
+    public ImmutableMap<BlockState, VoxelShape> getShapesForStates(ShapesForStatesArgs args) {
+        return super.getShapesForStates(args.stateToShape);
+    }
+
+    public StateManager<Block, BlockState> callGetStateManager() {
+        return super.getStateManager();
     }
 }

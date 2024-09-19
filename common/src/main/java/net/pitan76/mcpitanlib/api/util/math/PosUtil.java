@@ -24,4 +24,12 @@ public class PosUtil {
     public static double getSquaredDistance(BlockPos pos1, double x, double y, double z) {
         return pos1.getSquaredDistance(x, y, z);
     }
+
+    public static Iterable<BlockPos> iterate(BlockPos start, BlockPos end) {
+        return BlockPos.iterate(start, end);
+    }
+
+    public static BlockPos[] getNeighborPoses(BlockPos pos) {
+        return new BlockPos[]{pos.north(), pos.south(), pos.east(), pos.west(), pos.up(), pos.down()};
+    }
 }

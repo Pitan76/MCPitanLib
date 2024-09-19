@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.PlayerManager;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
@@ -81,5 +82,49 @@ public class PlayerManagerUtil {
      */
     public static Player getPlayerByName(World world, String name) {
         return PlayerUtil.getPlayerByName(world, name);
+    }
+
+    public static PlayerManager getPlayerManager(MinecraftServer server) {
+        return ServerUtil.getPlayerManager(server);
+    }
+
+    public static PlayerManager getPlayerManager(World world) {
+        return getPlayerManager(world.getServer());
+    }
+
+    public static boolean hasPlayerByUUID(PlayerManager playerManager, UUID uuid) {
+        return playerManager.getPlayer(uuid) != null;
+    }
+
+    public static boolean hasPlayerByName(PlayerManager playerManager, String name) {
+        return playerManager.getPlayer(name) != null;
+    }
+
+    public static boolean hasPlayerByIP(PlayerManager playerManager, String ip) {
+        return !playerManager.getPlayersByIp(ip).isEmpty();
+    }
+
+    public static boolean hasPlayerByUUID(MinecraftServer server, UUID uuid) {
+        return hasPlayerByUUID(getPlayerManager(server), uuid);
+    }
+
+    public static boolean hasPlayerByName(MinecraftServer server, String name) {
+        return hasPlayerByName(getPlayerManager(server), name);
+    }
+
+    public static boolean hasPlayerByIP(MinecraftServer server, String ip) {
+        return hasPlayerByIP(getPlayerManager(server), ip);
+    }
+
+    public static boolean hasPlayerByUUID(World world, UUID uuid) {
+        return hasPlayerByUUID(getPlayerManager(world), uuid);
+    }
+
+    public static boolean hasPlayerByName(World world, String name) {
+        return hasPlayerByName(getPlayerManager(world), name);
+    }
+
+    public static boolean hasPlayerByIP(World world, String ip) {
+        return hasPlayerByIP(getPlayerManager(world), ip);
     }
 }
