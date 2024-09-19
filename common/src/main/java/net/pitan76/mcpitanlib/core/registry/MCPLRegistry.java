@@ -32,7 +32,6 @@ public class MCPLRegistry {
     public Registrar<SoundEvent> SOUND_EVENT;
     public Registrar<Fluid> FLUID;
     public Registrar<ParticleType<?>> PARTICLE_TYPE;
-    public Registrar<Enchantment> ENCHANTMENT;
     public Registrar<StatusEffect> STATUS_EFFECT;
 
     public MCPLRegistry(String MOD_ID) {
@@ -46,7 +45,6 @@ public class MCPLRegistry {
         SOUND_EVENT = REGISTRIES.get().get(RegistryKeys.SOUND_EVENT);
         FLUID = REGISTRIES.get().get(RegistryKeys.FLUID);
         PARTICLE_TYPE = REGISTRIES.get().get(RegistryKeys.PARTICLE_TYPE);
-        ENCHANTMENT = REGISTRIES.get().get(RegistryKeys.ENCHANTMENT);
         STATUS_EFFECT = REGISTRIES.get().get(RegistryKeys.STATUS_EFFECT);
     }
 
@@ -83,7 +81,8 @@ public class MCPLRegistry {
     }
 
     public RegistrySupplier<Enchantment> registryEnchantment(Identifier id, Supplier<Enchantment> supplier) {
-        return ENCHANTMENT.register(id, supplier);
+        return null;
+        //return ENCHANTMENT.register(id, supplier);
     }
 
     public RegistrySupplier<StatusEffect> registryStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
