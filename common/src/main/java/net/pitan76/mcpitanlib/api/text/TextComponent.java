@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.text;
 
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
@@ -76,5 +77,16 @@ public class TextComponent {
 
     public TextComponent copy() {
         return new TextComponent(getText());
+    }
+
+    public Style getStyle() {
+        return text.getStyle();
+    }
+
+    public TextComponent setStyle(Style style) {
+        if (text instanceof MutableText)
+            TextUtil.setStyle((MutableText) text, style);
+
+        return this;
     }
 }
