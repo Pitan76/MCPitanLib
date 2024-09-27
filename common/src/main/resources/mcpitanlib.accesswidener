@@ -21,3 +21,5 @@ accessible    method   net/minecraft/screen/ScreenHandlerType <init> (Lnet/minec
 extendable    method   net/minecraft/screen/ScreenHandlerType <init> (Lnet/minecraft/screen/ScreenHandlerType$Factory;Lnet/minecraft/resource/featuretoggle/FeatureSet;)V
 
 accessible    class    net/minecraft/datafixer/fix/ItemStackComponentizationFix$StackData
+
+accessible    method    net/minecraft/util/Identifier    <init>    (Ljava/lang/String;Ljava/lang/String;)V

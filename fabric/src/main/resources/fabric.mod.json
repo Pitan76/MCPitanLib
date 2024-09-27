@@ -27,6 +27,9 @@
   "custom": {
     "modmenu": {
       "badges": ["library"]
+    },
+    "loom:injected_interfaces": {
+      "net/minecraft/class_1799": ["net/pitan76/mcpitanlib/fabric/injection/ItemStackInjection"]
     }
   },
   "mixins": [
