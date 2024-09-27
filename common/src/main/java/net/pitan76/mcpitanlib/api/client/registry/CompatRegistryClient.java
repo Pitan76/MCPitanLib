@@ -41,6 +41,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.render.EntityModelLayerContext;
+import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -191,5 +192,11 @@ public class CompatRegistryClient {
 
     public static void registerCutoutBlock(Block block) {
         registerRenderTypeBlock(RenderLayer.getCutout(), block);
+    }
+
+    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
+        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+                ctx.getRenderDispatcher(), ctx.getRenderManager(), ClientUtil.getItemRenderer(), ClientUtil.getClient().getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
+        )));
     }
 }

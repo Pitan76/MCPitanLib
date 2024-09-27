@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -106,5 +107,17 @@ public class InventoryUtil {
 
     public static SimpleInventory createSimpleInventory(int size) {
         return new SimpleInventory(size);
+    }
+
+    public static void copyToInv(DefaultedList<ItemStack> from, Inventory to) {
+        for (int i = 0; i < from.size(); i++) {
+            to.setStack(i, from.get(i));
+        }
+    }
+
+    public static void copyToList(Inventory from, DefaultedList<ItemStack> to) {
+        for (int i = 0; i < from.size(); i++) {
+            to.set(i, from.getStack(i));
+        }
     }
 }
