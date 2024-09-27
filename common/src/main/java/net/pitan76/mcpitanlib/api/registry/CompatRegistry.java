@@ -173,4 +173,8 @@ public class CompatRegistry {
     public MCPLRegistry1_20 getMcplr1_20() {
         return mcplr1_20;
     }
+
+    public String getNamespace() {
+        return MOD_ID;
+    }
 }
