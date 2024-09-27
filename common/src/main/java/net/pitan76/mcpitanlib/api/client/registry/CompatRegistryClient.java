@@ -192,4 +192,10 @@ public class CompatRegistryClient {
     public static void registerCutoutBlock(Block block) {
         registerRenderTypeBlock(RenderLayer.getCutout(), block);
     }
+
+    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
+        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
+        )));
+    }
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.pitan76.mcpitanlib.api.client.render.block.entity.event.BlockEntityRenderEvent;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 
+@Deprecated
 public interface CompatBlockEntityRenderer<T extends CompatBlockEntity> extends BlockEntityRenderer<T> {
     void render(BlockEntityRenderEvent<T> event);
 

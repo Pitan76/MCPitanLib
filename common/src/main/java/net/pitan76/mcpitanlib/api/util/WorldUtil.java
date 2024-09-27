@@ -17,7 +17,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
@@ -30,6 +32,7 @@ import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class WorldUtil {
     public static boolean hasSkyLight(World world) {
@@ -206,20 +209,20 @@ public class WorldUtil {
         return getBlockState(world, pos).isAir();
     }
 
-    public static void setBlockState(World world, BlockPos pos, BlockState state, int flags) {
-        world.setBlockState(pos, state, flags);
+    public static boolean setBlockState(World world, BlockPos pos, BlockState state, int flags) {
+        return world.setBlockState(pos, state, flags);
     }
 
-    public static void setBlockState(World world, BlockPos pos, BlockState state) {
-        setBlockState(world, pos, state, 3);
+    public static boolean setBlockState(World world, BlockPos pos, BlockState state) {
+        return setBlockState(world, pos, state, 3);
     }
 
-    public static void setBlockState(World world, BlockPos pos, Block block, int flags) {
-        setBlockState(world, pos, block.getDefaultState(), flags);
+    public static boolean setBlockState(World world, BlockPos pos, Block block, int flags) {
+        return setBlockState(world, pos, block.getDefaultState(), flags);
     }
 
-    public static void setBlockState(World world, BlockPos pos, Block block) {
-        setBlockState(world, pos, block, 3);
+    public static boolean setBlockState(World world, BlockPos pos, Block block) {
+        return setBlockState(world, pos, block, 3);
     }
 
     public static boolean breakBlock(World world, BlockPos pos, boolean drop) {
@@ -280,5 +283,13 @@ public class WorldUtil {
 
     public static long getTime(World world) {
         return world.getTime();
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByType(World world, TypeFilter<Entity, T> filter, Box box, Predicate<? super T> predicate) {
+        return world.getEntitiesByType(filter, box, predicate);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByClass(World world, Class<T> entityClass, Box box, Predicate<? super T> predicate) {
+        return world.getEntitiesByClass(entityClass, box, predicate);
     }
 }
