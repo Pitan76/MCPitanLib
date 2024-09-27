@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.CompatEntity;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
@@ -31,5 +32,9 @@ public class RegistryLookupUtil {
 
     public static CompatRegistryLookup getRegistryLookup(NbtRWArgs args) {
         return args.getRegistryLookup();
+    }
+
+    public static CompatRegistryLookup getRegistryLookup(World world) {
+        return new CompatRegistryLookup(world.getRegistryManager());
     }
 }

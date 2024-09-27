@@ -231,4 +231,24 @@ public class ExtendItem extends Item {
     public float getBonusAttackDamage(BonusAttackDamageArgs args) {
         return super.getBonusAttackDamage(args.target, args.baseAttackDamage, args.damageSource);
     }
+
+    @Deprecated
+    @Override
+    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+        return canRepair(new CanRepairArgs(stack, ingredient));
+    }
+
+    public boolean canRepair(CanRepairArgs args) {
+        return super.canRepair(args.stack, args.ingredient);
+    }
+
+    @Deprecated
+    @Override
+    public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
+        return canMine(new CanMineArgs(state, world, pos, miner));
+    }
+
+    public boolean canMine(CanMineArgs args) {
+        return super.canMine(args.state, args.world, args.pos, args.miner.getEntity());
+    }
 }

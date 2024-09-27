@@ -46,4 +46,8 @@ public class IngredientUtil {
     public static ItemStack[] getMatchingStacks(Ingredient ingredient) {
         return ingredient.getMatchingStacks();
     }
+
+    public static Ingredient empty() {
+        return Ingredient.EMPTY;
+    }
 }
