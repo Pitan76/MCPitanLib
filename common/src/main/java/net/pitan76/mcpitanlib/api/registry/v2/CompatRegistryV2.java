@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
+import net.pitan76.mcpitanlib.api.registry.FuelRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.sound.RegistryResultCompatSoundEvent;
@@ -131,6 +132,10 @@ public class CompatRegistryV2 {
 
     public RegistryResult<ItemGroup> registerItemGroup(CreativeTabBuilder builder) {
         return cr1.registerItemGroup(builder.getIdentifier(), builder);
+    }
+
+    public void registerFuel(Supplier<Item> itemSupplier, int time) {
+        FuelRegistry.register(itemSupplier::get, time, cr1.getNamespace());
     }
 
     public void allRegister() {

@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.util.Identifier;
 
+import java.util.Objects;
+
 /**
  * This is the Identifier class unique to MCPitanLib.
  * It is different from Minecraft's Identifier class.
@@ -103,6 +105,23 @@ public class CompatIdentifier {
 
     public static boolean equals(CompatIdentifier id1, CompatIdentifier id2) {
         return id1.namespace.equals(id2.namespace) && id1.path.equals(id2.path);
+    }
+
+    public static boolean equals(CompatIdentifier id1, Identifier id2) {
+        return id1.toString().equals(id2.toString());
+    }
+
+    public static boolean equals(Identifier id1, CompatIdentifier id2) {
+        return id1.toString().equals(id2.toString());
+    }
+
+    public static boolean equals(Identifier id1, Identifier id2) {
+        return id1.toString().equals(id2.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * this.namespace.hashCode() + this.path.hashCode();
     }
 
     // ----

@@ -501,4 +501,8 @@ public class Player {
     public boolean checkFallFlying() {
         return getEntity().checkFallFlying();
     }
+
+    public void setStackInHand(Hand hand, ItemStack stack) {
+        getEntity().setStackInHand(hand, stack);
+    }
 }

@@ -6,6 +6,7 @@ import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
 import net.pitan76.mcpitanlib.api.event.container.factory.ExtraDataArgs;
 
+@Deprecated
 public interface ExtendedScreenHandlerFactory extends ExtendedMenuProvider {
     @Override
     default Text getDisplayName() {
