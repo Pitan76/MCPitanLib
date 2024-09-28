@@ -19,9 +19,13 @@ public class FuelRegistry {
 
     @Deprecated
     public static void allRegister(String namespace) {
+        if (!FUEL_MAP.containsKey(namespace)) return;
+
         Map<Supplier<ItemConvertible>, Integer> map = FUEL_MAP.get(namespace);
         for (Map.Entry<Supplier<ItemConvertible>, Integer> entry : map.entrySet()) {
             net.pitan76.mcpitanlib.core.registry.FuelRegistry.register(entry.getValue(), entry.getKey().get());
         }
+
+        FUEL_MAP.remove(namespace);
     }
 }
