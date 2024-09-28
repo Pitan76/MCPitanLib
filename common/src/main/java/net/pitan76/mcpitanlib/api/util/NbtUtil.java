@@ -467,4 +467,12 @@ public class NbtUtil {
             return getUuid(nbt, key);
         return defaultValue;
     }
+
+    public static NbtElement getElement(NbtCompound nbt, String key) {
+        return nbt.get(key);
+    }
+
+    public static void putElement(NbtCompound nbt, String key, NbtElement element) {
+        nbt.put(key, element);
+    }
 }
