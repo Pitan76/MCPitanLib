@@ -140,5 +140,6 @@ public class CompatRegistryV2 {
 
     public void allRegister() {
         cr1.allRegister();
+        FuelRegistry.allRegister(cr1.getNamespace());
     }
 }

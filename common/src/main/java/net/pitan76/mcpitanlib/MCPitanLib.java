@@ -1,3 +1,10 @@
+/*
+Copyright (C) 2022-2024 Pitan
+
+MCPitanLib is under the MIT license. For more information, please refer to the LICENSE file at the root of the repository.
+MCPitanLibはMITライセンスです。ライセンスについてはリポジトリ直下のLICENSEファイルを参照してください。
+ */
+
 package net.pitan76.mcpitanlib;
 
 import net.minecraft.util.Identifier;
