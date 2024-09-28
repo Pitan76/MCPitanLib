@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +18,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.ChunkPos;
@@ -285,11 +285,21 @@ public class WorldUtil {
         return world.getTime();
     }
 
-    public static <T extends Entity> List<T> getEntitiesByType(World world, TypeFilter<Entity, T> filter, Box box, Predicate<? super T> predicate) {
+    public static <T extends Entity> List<T> getEntitiesByType(World world, EntityType<T> filter, Box box, Predicate<? super T> predicate) {
         return world.getEntitiesByType(filter, box, predicate);
     }
 
     public static <T extends Entity> List<T> getEntitiesByClass(World world, Class<T> entityClass, Box box, Predicate<? super T> predicate) {
         return world.getEntitiesByClass(entityClass, box, predicate);
+    }
+
+    public static void spawnParticles(World world, ParticleEffect parameters, double x, double y, double z, int count, double velocityX, double velocityY, double velocityZ, double speed) {
+        if (!isServer(world)) return;
+
+        ((ServerWorld) world).spawnParticles(parameters, x, y, z, count, velocityX, velocityY, velocityZ, speed);
+    }
+
+    public static void updateListeners(World world, BlockPos pos, BlockState oldState, BlockState newState, int flags) {
+        world.updateListeners(pos, oldState, newState, flags);
     }
 }
