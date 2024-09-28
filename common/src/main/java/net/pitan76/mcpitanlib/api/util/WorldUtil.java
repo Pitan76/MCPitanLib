@@ -286,11 +286,21 @@ public class WorldUtil {
         return world.getTime();
     }
 
-    public static <T extends Entity> List<T> getEntitiesByType(World world, EntityType<T> type, Box box, Predicate<? super T> predicate) {
-        return world.getEntitiesByType(type, box, predicate);
+    public static <T extends Entity> List<T> getEntitiesByType(World world, EntityType<T> filter, Box box, Predicate<? super T> predicate) {
+        return world.getEntitiesByType(filter, box, predicate);
     }
 
     public static <T extends Entity> List<T> getEntitiesByClass(World world, Class<T> entityClass, Box box, Predicate<? super T> predicate) {
         return world.getEntitiesByClass(entityClass, box, predicate);
+    }
+
+    public static void spawnParticles(World world, ParticleEffect parameters, double x, double y, double z, int count, double velocityX, double velocityY, double velocityZ, double speed) {
+        if (!isServer(world)) return;
+
+        ((ServerWorld) world).spawnParticles(parameters, x, y, z, count, velocityX, velocityY, velocityZ, speed);
+    }
+
+    public static void updateListeners(World world, BlockPos pos, BlockState oldState, BlockState newState, int flags) {
+        world.updateListeners(pos, oldState, newState, flags);
     }
 }

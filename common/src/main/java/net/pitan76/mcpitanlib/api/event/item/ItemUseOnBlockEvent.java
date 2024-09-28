@@ -39,6 +39,10 @@ public class ItemUseOnBlockEvent extends BaseEvent {
         this.blockPos = hit.getBlockPos();
     }
 
+    public ItemUseOnBlockEvent(Player player, Hand hand, BlockHitResult hit) {
+        this(player.getWorld(), player.getEntity(), hand, player.getStackInHand(hand), hit);
+    }
+
     public ItemUsageContext toIUC() {
         return new ItemUsageContext(player.getPlayerEntity(), hand, hit);
     }
