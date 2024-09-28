@@ -9,10 +9,6 @@ public class CompatRegistryLookup {
 
     private RegistryWrapper.WrapperLookup registryLookup;
 
-    public CompatRegistryLookup() {
-
-    }
-
     @Deprecated
     public CompatRegistryLookup(RegistryWrapper.WrapperLookup registryLookup) {
         this.registryLookup = registryLookup;
