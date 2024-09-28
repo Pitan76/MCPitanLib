@@ -22,6 +22,13 @@ public class ItemUseOnEntityEvent extends BaseEvent {
         this.entity = entity;
     }
 
+    public ItemUseOnEntityEvent(ItemStack stack, Player user, LivingEntity entity, Hand hand) {
+        this.stack = stack;
+        this.user = user;
+        this.hand = hand;
+        this.entity = entity;
+    }
+
     public ItemStack getStack() {
         return stack;
     }
