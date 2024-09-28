@@ -54,7 +54,7 @@ public class CompatBlocks {
 
     public static final Block COAL_ORE = Blocks.COAL_ORE;
     public static final Block IRON_ORE = Blocks.IRON_ORE;
-    public static final Block COPPER_ORE = Blocks.COPPER_ORE;
+    public static final Block COPPER_ORE = Blocks.IRON_ORE;
     public static final Block GOLD_ORE = Blocks.GOLD_ORE;
     public static final Block DIAMOND_ORE = Blocks.DIAMOND_ORE;
     public static final Block REDSTONE_ORE = Blocks.REDSTONE_ORE;
@@ -64,7 +64,7 @@ public class CompatBlocks {
 
     public static final Block COAL_BLOCK = Blocks.COAL_BLOCK;
     public static final Block IRON_BLOCK = Blocks.IRON_BLOCK;
-    public static final Block COPPER_BLOCK = Blocks.COPPER_BLOCK;
+    public static final Block COPPER_BLOCK = Blocks.IRON_BLOCK;
     public static final Block GOLD_BLOCK = Blocks.GOLD_BLOCK;
     public static final Block DIAMOND_BLOCK = Blocks.DIAMOND_BLOCK;
     public static final Block REDSTONE_BLOCK = Blocks.REDSTONE_BLOCK;
