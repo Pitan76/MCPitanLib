@@ -20,6 +20,9 @@ public class CompatRegistryLookup {
 
     @Deprecated
     public RegistryWrapper.WrapperLookup getRegistryLookup() {
+        if (registryLookup == null)
+            return BuiltinRegistries.createWrapperLookup();
+
         return registryLookup;
     }
 
