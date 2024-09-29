@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.neoforge;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.event.neoforge.WorldRenderRegistryImpl;
 import net.pitan76.mcpitanlib.api.util.PlatformUtil;
@@ -13,9 +14,10 @@ public class MCPitanLibNeoForge {
         IEventBus bus = modContainer.getEventBus();
 
         if (PlatformUtil.isClient()) {
-            bus.addListener(WorldRenderRegistryImpl::renderOutlineEventBlock);
-            bus.addListener(WorldRenderRegistryImpl::renderOutlineEvent);
-            bus.addListener(WorldRenderRegistryImpl::renderLevelStageEvent);
+            IEventBus nfBus = NeoForge.EVENT_BUS;
+            nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEventBlock);
+            nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEvent);
+            nfBus.addListener(WorldRenderRegistryImpl::renderLevelStageEvent);
         }
 
         MCPitanLib.init();
