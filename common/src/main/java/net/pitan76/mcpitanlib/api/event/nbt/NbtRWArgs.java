@@ -36,6 +36,9 @@ public class NbtRWArgs {
 
     @Deprecated
     public RegistryWrapper.WrapperLookup getWrapperLookup() {
+        if (registryLookup == null)
+            registryLookup = new CompatRegistryLookup();
+
         return registryLookup.getRegistryLookup();
     }
 }
