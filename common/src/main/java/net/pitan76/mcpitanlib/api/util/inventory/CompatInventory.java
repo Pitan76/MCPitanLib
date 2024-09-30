@@ -4,7 +4,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
@@ -67,14 +66,14 @@ public class CompatInventory extends SimpleInventory {
 
     @Deprecated
     @Override
-    public net.minecraft.nbt.NbtList toNbtList(RegistryWrapper.WrapperLookup registries) {
-        return toNbtList(new CompatRegistryLookup(registries)).toMinecraft();
+    public net.minecraft.nbt.NbtList toNbtList() {
+        return toNbtList(new CompatRegistryLookup()).toMinecraft();
     }
 
     @Deprecated
     @Override
-    public void readNbtList(net.minecraft.nbt.NbtList list, RegistryWrapper.WrapperLookup registries) {
-        readNbtList(NbtList.of(list), new CompatRegistryLookup(registries));
+    public void readNbtList(net.minecraft.nbt.NbtList list) {
+        readNbtList(NbtList.of(list), new CompatRegistryLookup());
     }
 
     @Deprecated
@@ -98,11 +97,11 @@ public class CompatInventory extends SimpleInventory {
     }
 
     public NbtList toNbtList(CompatRegistryLookup registries) {
-        return NbtList.of(super.toNbtList(registries.getRegistryLookup()));
+        return NbtList.of(super.toNbtList());
     }
 
     public void readNbtList(NbtList list, CompatRegistryLookup registries) {
-        super.readNbtList(list.toMinecraft(), registries.getRegistryLookup());
+        super.readNbtList(list.toMinecraft());
     }
 
     public boolean canPlayerUse(Player player) {
