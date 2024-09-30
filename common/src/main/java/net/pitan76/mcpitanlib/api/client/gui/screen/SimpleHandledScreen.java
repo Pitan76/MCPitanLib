@@ -1,13 +1,15 @@
 package net.pitan76.mcpitanlib.api.client.gui.screen;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -18,7 +20,7 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
-import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
+import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 
 public abstract class SimpleHandledScreen<S extends ScreenHandler> extends HandledScreen<S> {
 
@@ -62,8 +64,8 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
+    protected void drawBackground(MatrixStack stack, float delta, int mouseX, int mouseY) {
+        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
         drawBackgroundOverride(new DrawBackgroundArgs(drawObjectDM, delta, mouseX, mouseY));
     }
 
@@ -71,19 +73,18 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
+    protected void drawForeground(MatrixStack stack, int mouseX, int mouseY) {
+        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
         drawForegroundOverride(new DrawForegroundArgs(drawObjectDM, mouseX, mouseY));
     }
 
     protected void drawForegroundOverride(DrawForegroundArgs args) {
-        super.drawForeground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
+        super.drawForeground(args.drawObjectDM.getStack(), args.mouseX, args.mouseY);
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, int u, int v, int width, int height) {
-        //ScreenUtil.setBackground(GUI);
-        //super.drawTexture(matrices, x, y, u, v, width, height);
-        drawObjectDM.getContext().drawTexture(texture, x, y, u, v, width, height);
+        ScreenUtil.setBackground(texture);
+        drawTexture(drawObjectDM.getStack(), x, y, u, v, width, height);
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, CompatIdentifier texture, int x, int y, int u, int v, int width, int height) {
@@ -92,20 +93,21 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     public void callRenderBackground(DrawObjectDM drawObjectDM) {
+        super.renderBackground(drawObjectDM.getStack());
         callRenderBackground(new RenderArgs(drawObjectDM, 0, 0, 0));
     }
 
 
     public void callRenderBackground(RenderArgs args) {
-        super.renderBackground(args.drawObjectDM.getContext());
+        super.renderBackground(args.drawObjectDM.getStack());
     }
 
     public void callDrawMouseoverTooltip(DrawMouseoverTooltipArgs args) {
-        super.drawMouseoverTooltip(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
+        super.drawMouseoverTooltip(args.drawObjectDM.getStack(), args.mouseX, args.mouseY);
     }
 
     public void renderOverride(RenderArgs args) {
-        super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        super.render(args.drawObjectDM.getStack(), args.mouseX, args.mouseY, args.delta);
     }
 
     public void resizeOverride(MinecraftClient client, int width, int height) {
@@ -136,7 +138,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
         this.x = super.x; //(this.width - this.backgroundWidth) / 2;
         this.y = super.y; //(this.height - this.backgroundHeight) / 2;
         this.textRenderer = super.textRenderer;
-        this.itemRenderer = MinecraftClient.getInstance().getItemRenderer();
+        this.itemRenderer = super.itemRenderer;
         this.width = super.width;
         this.height = super.height;
         if (super.client == null)
@@ -162,6 +164,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     public void setItemRenderer(ItemRenderer itemRenderer) {
         this.itemRenderer = itemRenderer;
+        super.itemRenderer = itemRenderer;
     }
 
     public void setWidth(int width) {
@@ -194,8 +197,8 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
+    public void render(MatrixStack stack, int mouseX, int mouseY, float delta) {
+        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
         renderOverride(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
 
@@ -209,12 +212,15 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
         if (getBackgroundTexture() == null) {
-            super.renderBackgroundTexture(args.drawObjectDM.getContext());
+            super.renderBackgroundTexture(args.getvOffset());
             return;
         }
 
-        RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, width, height);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        RenderSystem.setShaderTexture(0, getBackgroundTexture());
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+        callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, this.width, this.height);
     }
 
     @Deprecated
@@ -231,8 +237,8 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    public void renderBackgroundTexture(DrawContext context) {
-        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context), 0));
+    public void renderBackgroundTexture(int vOffset) {
+        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(null, vOffset));
     }
 
     public void closeOverride() {
