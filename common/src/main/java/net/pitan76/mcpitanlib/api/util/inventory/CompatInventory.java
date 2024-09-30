@@ -122,14 +122,13 @@ public class CompatInventory extends SimpleInventory {
         return super.clearToList();
     }
 
-    @Deprecated
-    @Override
-    public DefaultedList<ItemStack> getHeldStacks() {
-        return callGetHeldStacks();
-    }
-
     public DefaultedList<ItemStack> callGetHeldStacks() {
-        return super.getHeldStacks();
+        ItemStackList list = ItemStackList.ofSize(size());
+        for (int i = 0; i < size(); i++) {
+            list.add(callGetStack(i));
+        }
+
+        return list;
     }
 
     public ItemStackList callGetHeldStacksAsItemStackList() {
