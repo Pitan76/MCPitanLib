@@ -1,13 +1,11 @@
 package net.pitan76.mcpitanlib.api.client.gui.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
@@ -20,6 +18,7 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
+import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 
 public abstract class SimpleHandledScreen<S extends ScreenHandler> extends HandledScreen<S> {
@@ -49,13 +48,18 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
         return super.getScreenHandler();
     }
 
-    public <T extends Element & Drawable & Selectable> T addDrawableChild_compatibility(T drawableElement) {
-        return super.addDrawableChild(drawableElement);
-        // addButton
+    public <T extends Element & Drawable> T addDrawableChild_compatibility(T drawableElement) {
+        if (drawableElement instanceof ClickableWidget)
+            return (T) super.addButton((ClickableWidget) drawableElement);
+        else
+            return super.addChild(drawableElement);
     }
 
-    public <T extends Element & Selectable> T addSelectableChild_compatibility(T selectableElement) {
-        return super.addSelectableChild(selectableElement);
+    public <T extends Element> T addSelectableChild_compatibility(T selectableElement) {
+        if (selectableElement instanceof ClickableWidget)
+            return (T) super.addButton((ClickableWidget) selectableElement);
+        else
+            return super.addChild(selectableElement);
     }
 
     public CompatibleTexturedButtonWidget addDrawableCTBW(CompatibleTexturedButtonWidget widget) {
@@ -216,9 +220,9 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
             return;
         }
 
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-        RenderSystem.setShaderTexture(0, getBackgroundTexture());
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderUtil.setShaderToPositionTexProgram();
+        RenderUtil.setShaderTexture(0, getBackgroundTexture());
+        RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, this.width, this.height);
     }
@@ -242,7 +246,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     public void closeOverride() {
-        super.close();
+        super.onClose();
     }
 
     public void removedOverride() {
@@ -250,7 +254,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     @Override
-    public void close() {
+    public void onClose() {
         closeOverride();
     }
 
