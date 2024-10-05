@@ -17,8 +17,8 @@ assignees: PTOM76
 **If the bug caused a crash, you can skip this section and only include the crash log.**
 
 - **Minecraft Version**: <!-- e.g., 1.20.1 -->
-- **ModLoader**: <!-- e.g., Forge, Fabric, Quilt -->
-- **MCPitanLib Version**: <!-- e.g., 0.1.2 -->
+- **ModLoader**: <!-- e.g., Forge, Fabric, NeoForge -->
+- **MCPitanLib Version**: <!-- e.g., 2.4.9 -->
 
 ## Steps to Reproduce
 1. <!-- Step-by-step instructions to reproduce the issue. -->
