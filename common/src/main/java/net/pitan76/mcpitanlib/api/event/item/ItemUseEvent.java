@@ -60,4 +60,8 @@ public class ItemUseEvent extends BaseEvent {
     public boolean isSneaking() {
         return user.isSneaking();
     }
+
+    public TypedActionResult<ItemStack> success() {
+        return success(stack);
+    }
 }
