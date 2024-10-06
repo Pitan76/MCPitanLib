@@ -3,7 +3,7 @@ package net.pitan76.mcpitanlib.test;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
@@ -12,55 +12,70 @@ import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
-import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
+import net.pitan76.mcpitanlib.api.simple.item.SimpleGuiItem;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
-import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
+import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
+import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.pitan76.mcpitanlib.guilib.GuiRegistry;
 
-public class ExampleMod {
+public class ExampleMod extends CommonModInitializer {
     public static final String MOD_ID = "examplemod";
     public static final String MOD_NAME = "ExampleMod";
 
-    public static Logger LOGGER = LogManager.getLogger();
-    public static void log(Level level, String message){
-        LOGGER.log(level, "[" + MOD_NAME + "] " + message);
-    }
+    public static ExampleMod INSTANCE;
+    public static CompatRegistryV2 registry;
 
-    public static Identifier id(String id) {
-        return IdentifierUtil.id(MOD_ID, id);
-    }
-
-    // en: Create a CompatRegistry instance. , ja: CompatRegistryインスタンスを作成します。
-    public static CompatRegistry registry = CompatRegistry.createRegistry(MOD_ID);
-
-    public static RegistryResult<ScreenHandlerType<?>> EXAMPLE_SCREENHANDLER;
+    public static SupplierResult<ScreenHandlerType<ExampleScreenHandler>> EXAMPLE_SCREENHANDLER;
+    public static SupplierResult<ScreenHandlerType<ExampleContainerGui>> EXAMPLE_CONTAINER_GUI;
 
     public static RegistryResult<Item> EXAMPLE_ITEM;
     public static RegistryResult<Block> EXAMPLE_BLOCK;
     public static RegistryResult<Item> EXAMPLE_BLOCK_ITEM;
     public static RegistryResult<Item> EXAMPLE_GUI_ITEM;
+    public static RegistryResult<Item> EXAMPLE_CONTAINER_GUI_ITEM;
     public static RegistryResult<Block> EXAMPLE_GUI_BLOCK;
     public static RegistryResult<Item> EXAMPLE_GUI_BLOCK_ITEM;
 
-    public static void init() {
-        // en: Register all items, blocks, and others. , ja: 全てのアイテム、ブロック、その他を登録します。
-        EXAMPLE_SCREENHANDLER = registry.registerScreenHandlerType(id("example_gui"), () -> new SimpleScreenHandlerTypeBuilder<>(ExampleScreenHandler::new).build());
-        EXAMPLE_ITEM = registry.registerItem(id("example_item"), () -> new ExtendItem(new CompatibleItemSettings().addGroup(() -> DefaultItemGroups.INGREDIENTS, id("example_item"))));
-        EXAMPLE_BLOCK = registry.registerBlock(id("example_block"), () -> new ExtendBlock(CompatibleBlockSettings.of(CompatibleMaterial.STONE)));
-        EXAMPLE_BLOCK_ITEM = registry.registerItem(id("example_block"), () -> ItemUtil.ofBlock(EXAMPLE_BLOCK.supplier.get(), new CompatibleItemSettings().addGroup(() -> DefaultItemGroups.INGREDIENTS, id("example_block"))));
+    public void init() {
+        INSTANCE = this;
+        registry = super.registry;
 
-        EXAMPLE_GUI_ITEM = registry.registerItem(id("example_gui_item"), () -> new ExampleGuiItem(new CompatibleItemSettings().addGroup(() -> DefaultItemGroups.INGREDIENTS, id("example_gui_item"))));
+        // en: Register all items, blocks and others. , ja: 全てのアイテム、ブロック、その他を登録します。
+        EXAMPLE_SCREENHANDLER = registry.registerScreenHandlerType(compatId("example_gui"), new SimpleScreenHandlerTypeBuilder<>(ExampleScreenHandler::new));
+        EXAMPLE_CONTAINER_GUI = GuiRegistry.register(registry, compatId("example_container_gui"), new SimpleScreenHandlerTypeBuilder<>(ExampleContainerGui::new));
 
-        EXAMPLE_GUI_BLOCK = registry.registerBlock(id("example_gui_block"), () -> new ExampleGuiBlock(CompatibleBlockSettings.of(CompatibleMaterial.STONE).build()));
-        EXAMPLE_GUI_BLOCK_ITEM = registry.registerItem(id("example_gui_block"), () -> ItemUtil.ofBlock(EXAMPLE_GUI_BLOCK.supplier.get(), new CompatibleItemSettings().addGroup(() -> DefaultItemGroups.INGREDIENTS, id("example_gui_block"))));
+        EXAMPLE_ITEM = registry.registerItem(compatId("example_item"), () -> new ExtendItem(new CompatibleItemSettings().addGroup(DefaultItemGroups.INGREDIENTS, compatId("example_item"))));
+        EXAMPLE_BLOCK = registry.registerBlock(compatId("example_block"), () -> new ExtendBlock(CompatibleBlockSettings.of(CompatibleMaterial.STONE)));
+        EXAMPLE_BLOCK_ITEM = registry.registerItem(compatId("example_block"), () -> ItemUtil.ofBlock(EXAMPLE_BLOCK.supplier.get(), new CompatibleItemSettings().addGroup(DefaultItemGroups.INGREDIENTS, compatId("example_block"))));
 
-        // en: Register all registered creative tabs and others , ja: 登録された全てのクリエイティブタブやその他を登録します
-        registry.allRegister();
+        EXAMPLE_GUI_ITEM = registry.registerItem(compatId("example_gui_item"), () -> new ExampleGuiItem(new CompatibleItemSettings().addGroup(DefaultItemGroups.INGREDIENTS, compatId("example_gui_item"))));
+
+        EXAMPLE_GUI_BLOCK = registry.registerBlock(compatId("example_gui_block"), () -> new ExampleGuiBlock(CompatibleBlockSettings.of(CompatibleMaterial.STONE).build()));
+        EXAMPLE_GUI_BLOCK_ITEM = registry.registerItem(compatId("example_gui_block"), () -> ItemUtil.ofBlock(EXAMPLE_GUI_BLOCK.supplier.get(), new CompatibleItemSettings().addGroup(() -> DefaultItemGroups.INGREDIENTS, compatId("example_gui_block"))));
+
+        EXAMPLE_CONTAINER_GUI_ITEM = registry.registerItem(compatId("example_container_gui_item"),
+                () -> new SimpleGuiItem(CompatibleItemSettings.of()
+                        .addGroup(DefaultItemGroups.INGREDIENTS, compatId("example_container_gui_item")),
+                        ExampleContainerGui::new)
+        );
 
         // en: Register the command , ja: コマンドを登録します
         CommandRegistry.register("mpla", new ExampleCommand());
+    }
+
+    public static CompatIdentifier _id(String id) {
+        return CompatIdentifier.of(MOD_ID, id);
+    }
+
+    @Override
+    public String getId() {
+        return MOD_ID;
+    }
+
+    @Override
+    public String getName() {
+        return MOD_NAME;
     }
 }

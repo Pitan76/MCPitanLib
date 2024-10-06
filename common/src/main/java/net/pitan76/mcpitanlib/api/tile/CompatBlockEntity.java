@@ -13,6 +13,7 @@ import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class CompatBlockEntity extends BlockEntity {
@@ -91,6 +92,13 @@ public class CompatBlockEntity extends BlockEntity {
         // ----
 
         readNbt(new ReadNbtArgs(nbt, registryLookup));
+    }
+
+    public boolean isClient() {
+        if (getWorld() == null)
+            return false;
+
+        return WorldUtil.isClient(getWorld());
     }
 
 }

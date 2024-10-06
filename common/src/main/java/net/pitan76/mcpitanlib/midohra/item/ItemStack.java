@@ -105,4 +105,9 @@ public class ItemStack {
             return new ItemStack(stack);
         }
     }
+
+    @Override
+    public String toString() {
+        return stack.toString();
+    }
 }

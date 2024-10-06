@@ -16,6 +16,18 @@ public class CreateMenuEvent {
         this.player = player;
     }
 
+    public CreateMenuEvent(int syncId, PlayerInventory playerInventory) {
+        this.syncId = syncId;
+        this.playerInventory = playerInventory;
+        this.player = playerInventory.player;
+    }
+
+    public CreateMenuEvent(int syncId, Player player) {
+        this.syncId = syncId;
+        this.playerInventory = player.getInv();
+        this.player = player.getEntity();
+    }
+
     public int getSyncId() {
         return syncId;
     }

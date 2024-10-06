@@ -14,6 +14,9 @@ import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.PlatformUtil;
 import net.pitan76.mcpitanlib.debug.DebugTool;
+import net.pitan76.mcpitanlib.guilib.MPLGuiLib;
+import net.pitan76.mcpitanlib.test.ExampleMod;
+import net.pitan76.mcpitanlib.test.ExampleModClient;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,14 +43,16 @@ public class MCPitanLib {
      */
     public static void init() {
         configInit();
+        new MPLGuiLib().init();
 
         if (PlatformUtil.isDevelopmentEnvironment() || (config.has("debugMode") && config.getBoolean("debugMode"))) {
             System.out.println("MCPitanLib: Debug Mode");
             DebugTool.register();
             registry.allRegister();
-            /*
-            ExampleMod.init();
-            */
+
+            new ExampleMod();
+            if (PlatformUtil.isClient())
+                ExampleModClient.init();
         }
     }
 

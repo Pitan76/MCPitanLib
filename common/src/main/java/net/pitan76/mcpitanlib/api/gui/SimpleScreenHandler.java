@@ -9,6 +9,10 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
+import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
+import net.pitan76.mcpitanlib.api.util.SlotUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -18,6 +22,13 @@ public class SimpleScreenHandler extends ScreenHandler {
     protected SimpleScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId) {
         super(type, syncId);
     }
+
+    protected SimpleScreenHandler(@Nullable ScreenHandlerType<?> type, CreateMenuEvent e) {
+        this(type, e.getSyncId());
+    }
+
+    public boolean hasMainInventory = false;
+    public boolean hasHotbar = false;
 
     @Deprecated
     @Override
@@ -73,6 +84,7 @@ public class SimpleScreenHandler extends ScreenHandler {
      * @param y start y
      */
     protected List<Slot> addPlayerMainInventorySlots(PlayerInventory inventory, int x, int y) {
+        hasMainInventory = true;
         return this.addSlots(inventory, 9, x, y, DEFAULT_SLOT_SIZE, 9, 3);
     }
 
@@ -83,6 +95,7 @@ public class SimpleScreenHandler extends ScreenHandler {
      * @param y start y
      */
     protected List<Slot> addPlayerHotbarSlots(PlayerInventory inventory, int x, int y) {
+        hasHotbar = true;
         return this.addSlotsX(inventory, 0, x, y, DEFAULT_SLOT_SIZE, 9);
     }
 
@@ -163,30 +176,37 @@ public class SimpleScreenHandler extends ScreenHandler {
     }
 
     public ItemStack quickMoveOverride(Player player, int index) {
-        ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
-        if (slot.hasStack()) {
-            ItemStack itemStack2 = slot.getStack();
+        ItemStack itemStack = ItemStackUtil.empty();
+        Slot slot = ScreenHandlerUtil.getSlot(this, index);
+        int size = ScreenHandlerUtil.getSlots(this).size();
+
+        if (SlotUtil.hasStack(slot)) {
+            ItemStack itemStack2 = SlotUtil.getStack(slot);
             itemStack = itemStack2.copy();
-            if (index < 9) {
-                if (!this.insertItem(itemStack2, 9, 36, true)) {
-                    return ItemStack.EMPTY;
+
+            if (hasMainInventory && hasHotbar) {
+                if (index > 35) {
+                    if (!this.callInsertItem(itemStack2, 0, 9, false)) {
+                        if (!this.callInsertItem(itemStack2, 9, 36, true)) {
+                            return ItemStackUtil.empty();
+                        }
+                    }
+                } else if (size > 36 && !this.callInsertItem(itemStack2, 36, size, false)) {
+                    return ItemStackUtil.empty();
                 }
-            } else if (!this.insertItem(itemStack2, 0, 9, false)) {
-                return ItemStack.EMPTY;
             }
 
             if (itemStack2.isEmpty()) {
-                slot.setStack(ItemStack.EMPTY);
+                SlotUtil.setStack(slot, ItemStackUtil.empty());
             } else {
-                slot.markDirty();
+                SlotUtil.markDirty(slot);
             }
 
             if (itemStack2.getCount() == itemStack.getCount()) {
-                return ItemStack.EMPTY;
+                return ItemStackUtil.empty();
             }
 
-            slot.onTakeItem(player.getEntity(), itemStack2);
+            SlotUtil.onTakeItem(slot, player, itemStack2);
         }
 
         return itemStack;

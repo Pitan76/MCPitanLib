@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.test;
 
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
+import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 
 public class ExampleScreenHandler extends SimpleScreenHandler {
 
-    public ExampleScreenHandler(int i, PlayerInventory playerInventory) {
-        super(ExampleMod.EXAMPLE_SCREENHANDLER.getOrNull(), i);
+    public ExampleScreenHandler(CreateMenuEvent e) {
+        super(ExampleMod.EXAMPLE_SCREENHANDLER.get(), e);
 
     }
 
