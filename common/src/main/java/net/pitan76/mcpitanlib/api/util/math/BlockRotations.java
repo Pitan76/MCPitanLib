@@ -14,6 +14,6 @@ public class BlockRotations {
     }
 
     public static BlockRotation random(CompatRandom random) {
-        return BlockRotation.random(random.getMcRandom());
+        return BlockRotation.random(random.getJavaRandom());
     }
 }
