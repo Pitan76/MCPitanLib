@@ -15,11 +15,13 @@ import net.minecraft.sound.SoundEvent;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
+import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.registry.FuelRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.sound.RegistryResultCompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -86,6 +88,10 @@ public class CompatRegistryV2 {
     public <T extends ScreenHandler> Supplier<ScreenHandlerType<T>> registerScreenHandlerTypeSavingGenerics(CompatIdentifier id, Supplier<ScreenHandlerType<T>> supplier) {
         RegistryResult<ScreenHandlerType<?>> result =  cr1.registerScreenHandlerType(id.toMinecraft(), supplier::get);
         return () -> (ScreenHandlerType<T>) result.getOrNull();
+    }
+
+    public <T extends ScreenHandler> SupplierResult<ScreenHandlerType<T>> registerScreenHandlerType(CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {
+        return SupplierResult.of(registerScreenHandlerTypeSavingGenerics(id, builder::build));
     }
 
     public RegistryResult<BlockEntityType<?>> registerBlockEntityType(CompatIdentifier id, Supplier<BlockEntityType<?>> supplier) {
