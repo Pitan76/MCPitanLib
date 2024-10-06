@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.registry.result;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import me.shedaniel.architectury.registry.RegistrySupplier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
