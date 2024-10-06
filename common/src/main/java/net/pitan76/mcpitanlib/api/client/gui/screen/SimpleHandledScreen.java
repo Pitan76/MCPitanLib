@@ -18,8 +18,10 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
+import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 
 public abstract class SimpleHandledScreen<S extends ScreenHandler> extends HandledScreen<S> {
@@ -293,5 +295,21 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     public int getTitleY() {
         return titleY;
+    }
+
+    public void drawText(DrawObjectDM drawObjectDM, Text text, int x, int y, int color) {
+        ScreenUtil.RendererUtil.drawText(textRenderer, drawObjectDM, text, x, y, color);
+    }
+
+    public void drawText(DrawObjectDM drawObjectDM, TextComponent text, int x, int y, int color) {
+        ScreenUtil.RendererUtil.drawText(textRenderer, drawObjectDM, text, x, y, color);
+    }
+
+    public void drawText(DrawObjectDM drawObjectDM, Text text, int x, int y) {
+        ScreenUtil.RendererUtil.drawText(textRenderer, drawObjectDM, text, x, y);
+    }
+
+    public void drawText(DrawObjectDM drawObjectDM, TextComponent text, int x, int y) {
+        ScreenUtil.RendererUtil.drawText(textRenderer, drawObjectDM, text, x, y);
     }
 }

@@ -6,11 +6,11 @@ import net.pitan76.mcpitanlib.api.client.gui.screen.CompatInventoryScreen;
 import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
-public class ExampleScreen extends CompatInventoryScreen<ExampleScreenHandler> {
+public class ExampleContainerGuiScreen extends CompatInventoryScreen<ExampleScreenHandler> {
 
     public static CompatIdentifier GUI = CompatIdentifier.of("textures/gui/container/blast_furnace.png");
 
-    public ExampleScreen(ExampleScreenHandler handler, PlayerInventory inventory, Text title) {
+    public ExampleContainerGuiScreen(ExampleScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
