@@ -6,6 +6,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
@@ -36,6 +37,22 @@ public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
         this.v = v;
         this.hoveredVOffset = hoveredVOffset;
         this.texture = texture;
+    }
+
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, CompatIdentifier texture, ButtonWidget.PressAction pressAction) {
+        this(x, y, width, height, u, v, texture.toMinecraft(), pressAction);
+    }
+
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, CompatIdentifier texture, ButtonWidget.PressAction pressAction) {
+        this(x, y, width, height, u, v, hoveredVOffset, texture.toMinecraft(), pressAction);
+    }
+
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, CompatIdentifier texture, int textureWidth, int textureHeight, ButtonWidget.PressAction pressAction) {
+        this(x, y, width, height, u, v, hoveredVOffset, texture.toMinecraft(), textureWidth, textureHeight, pressAction);
+    }
+
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, CompatIdentifier texture, int textureWidth, int textureHeight, ButtonWidget.PressAction pressAction, Text text) {
+        this(x, y, width, height, u, v, hoveredVOffset, texture.toMinecraft(), textureWidth, textureHeight, pressAction, text);
     }
 
     public void setPos(int x, int y) {

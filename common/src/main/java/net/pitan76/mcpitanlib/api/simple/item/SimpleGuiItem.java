@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.test;
+package net.pitan76.mcpitanlib.api.simple.item;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
@@ -10,11 +10,24 @@ import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.gui.v2.SimpleScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
-import net.pitan76.mcpitanlib.api.util.TextUtil;
 
-public class ExampleGuiItem extends ExtendItem implements SimpleScreenHandlerFactory {
+public class SimpleGuiItem extends ExtendItem implements SimpleScreenHandlerFactory {
 
-    public ExampleGuiItem(CompatibleItemSettings settings) {
+    public ScreenHandlerFactory factory;
+    public Text name;
+
+    public SimpleGuiItem(CompatibleItemSettings settings, ScreenHandlerFactory factory, Text name) {
+        super(settings);
+        this.factory = factory;
+        this.name = name;
+    }
+
+    public SimpleGuiItem(CompatibleItemSettings settings, ScreenHandlerFactory factory) {
+        super(settings);
+        this.factory = factory;
+    }
+
+    public SimpleGuiItem(CompatibleItemSettings settings) {
         super(settings);
     }
 
@@ -28,11 +41,22 @@ public class ExampleGuiItem extends ExtendItem implements SimpleScreenHandlerFac
 
     @Override
     public Text getDisplayName(DisplayNameArgs args) {
-        return TextUtil.literal("Example Title");
+        if (name == null)
+            return getName();
+
+        return name;
     }
 
     @Override
     public ScreenHandler createMenu(CreateMenuEvent e) {
-        return new ExampleScreenHandler(e);
+        if (factory == null)
+            return null;
+
+        return factory.create(e);
+    }
+
+    @FunctionalInterface
+    public interface ScreenHandlerFactory {
+        ScreenHandler create(CreateMenuEvent e);
     }
 }

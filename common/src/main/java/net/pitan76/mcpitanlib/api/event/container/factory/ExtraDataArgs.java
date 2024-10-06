@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.event.container.factory;
 
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 
@@ -38,6 +39,10 @@ public class ExtraDataArgs extends BaseEvent {
 
     public ServerPlayerEntity getPlayer() {
         return player;
+    }
+
+    public Player getCompatPlayer() {
+        return new Player(player);
     }
 
     /**

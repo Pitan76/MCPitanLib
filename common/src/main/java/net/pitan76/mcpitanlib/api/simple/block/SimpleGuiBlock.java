@@ -1,17 +1,15 @@
-package net.pitan76.mcpitanlib.test;
+package net.pitan76.mcpitanlib.api.simple.block;
 
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
-import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.gui.v2.SimpleScreenHandlerFactory;
 
-public class ExampleGuiBlock extends ExtendBlock implements SimpleScreenHandlerFactory {
+public abstract class SimpleGuiBlock extends ExtendBlock implements SimpleScreenHandlerFactory {
 
-    public ExampleGuiBlock(Settings settings) {
+    public SimpleGuiBlock(Settings settings) {
         super(settings);
     }
 
@@ -26,10 +24,5 @@ public class ExampleGuiBlock extends ExtendBlock implements SimpleScreenHandlerF
     @Override
     public Text getDisplayName(DisplayNameArgs args) {
         return getName();
-    }
-
-    @Override
-    public ScreenHandler createMenu(CreateMenuEvent e) {
-        return new ExampleScreenHandler(e);
     }
 }
