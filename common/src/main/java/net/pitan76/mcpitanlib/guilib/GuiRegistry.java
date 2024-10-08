@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
+import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
@@ -37,6 +38,9 @@ public class GuiRegistry {
 
     public static <T extends ScreenHandler> SupplierResult<ScreenHandlerType<T>> register(CompatRegistryV2 registry, CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {
         return registry.registerScreenHandlerType(id, builder);
+    }
 
+    public static <T extends ScreenHandler> SupplierResult<ScreenHandlerType<T>> register(CompatRegistryV2 registry, CompatIdentifier id, ExtendedScreenHandlerTypeBuilder<T> builder) {
+        return registry.registerScreenHandlerType(id, builder);
     }
 }
