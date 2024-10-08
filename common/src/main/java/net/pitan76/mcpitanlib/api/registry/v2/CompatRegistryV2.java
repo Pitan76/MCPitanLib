@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.registry.v2;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
@@ -15,6 +16,7 @@ import net.minecraft.sound.SoundEvent;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
+import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
@@ -24,6 +26,7 @@ import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.sound.RegistryResultCompatSoundEvent;
+import net.pitan76.mcpitanlib.api.tile.BlockEntityTypeBuilder;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 import java.util.function.Supplier;
@@ -94,8 +97,17 @@ public class CompatRegistryV2 {
         return SupplierResult.of(registerScreenHandlerTypeSavingGenerics(id, builder::build));
     }
 
+    public <T extends ScreenHandler> SupplierResult<ScreenHandlerType<T>> registerScreenHandlerType(CompatIdentifier id, ExtendedScreenHandlerTypeBuilder<T> builder) {
+        return SupplierResult.of(registerScreenHandlerTypeSavingGenerics(id, builder::build));
+    }
+
     public RegistryResult<BlockEntityType<?>> registerBlockEntityType(CompatIdentifier id, Supplier<BlockEntityType<?>> supplier) {
         return cr1.registerBlockEntityType(id.toMinecraft(), supplier);
+    }
+
+    public <T extends BlockEntity> SupplierResult<BlockEntityType<T>> registerBlockEntityType(CompatIdentifier id, BlockEntityTypeBuilder<T> builder) {
+        RegistryResult<BlockEntityType<?>> result = cr1.registerBlockEntityType(id.toMinecraft(), builder::build);
+        return SupplierResult.of(() -> (BlockEntityType<T>) result.getOrNull());
     }
 
     public RegistryResult<EntityType<?>> registerEntity(CompatIdentifier id, Supplier<EntityType<?>> supplier) {
