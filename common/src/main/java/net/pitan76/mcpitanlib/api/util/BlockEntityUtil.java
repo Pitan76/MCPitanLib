@@ -77,7 +77,7 @@ public class BlockEntityUtil {
         blockEntity.read(nbt, registryLookup.getRegistryLookup());
     }
 
-    public static void createNbt(BlockEntity blockEntity, CompatRegistryLookup registryLookup) {
-        blockEntity.createNbt(registryLookup.getRegistryLookup());
+    public static NbtCompound createNbt(BlockEntity blockEntity, CompatRegistryLookup registryLookup) {
+        return blockEntity.createNbt(registryLookup.getRegistryLookup());
     }
 }

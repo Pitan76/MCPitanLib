@@ -55,7 +55,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     @Deprecated
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
+        DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         drawBackgroundOverride(new DrawBackgroundArgs(drawObjectDM, delta, mouseX, mouseY));
     }
 
@@ -64,7 +64,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     @Deprecated
     @Override
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
+        DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         drawForegroundOverride(new DrawForegroundArgs(drawObjectDM, mouseX, mouseY));
     }
 
@@ -187,7 +187,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     @Deprecated
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
+        DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         renderOverride(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
 
@@ -222,7 +222,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     @Deprecated
     @Override
     public void renderDarkening(DrawContext context) {
-        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context), 0));
+        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context, this), 0));
     }
 
     public void closeOverride() {
