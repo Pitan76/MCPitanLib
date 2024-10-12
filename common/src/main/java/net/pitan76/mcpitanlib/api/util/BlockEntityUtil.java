@@ -79,6 +79,8 @@ public class BlockEntityUtil {
     }
 
     public static NbtCompound createNbt(BlockEntity blockEntity, CompatRegistryLookup registryLookup) {
-        return BlockEntity.createFromTag(blockEntity.getCachedState(), NbtUtil.create());
+        NbtCompound nbt = NbtUtil.create();
+        writeNbt(blockEntity, nbt, registryLookup);
+        return nbt;
     }
 }
