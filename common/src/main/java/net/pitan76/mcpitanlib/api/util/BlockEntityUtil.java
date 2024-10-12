@@ -7,6 +7,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockEntityUtil {
@@ -62,5 +63,21 @@ public class BlockEntityUtil {
 
     public static BlockEntityType<?> getType(BlockEntity blockEntity) {
         return blockEntity.getType();
+    }
+
+    public static void readNbt(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
+        blockEntity.readNbt(nbt);
+    }
+
+    public static void writeNbt(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
+        blockEntity.writeNbt(nbt);
+    }
+
+    public static void read(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
+        blockEntity.readNbt(nbt);
+    }
+
+    public static void createNbt(BlockEntity blockEntity, CompatRegistryLookup registryLookup) {
+        blockEntity.createNbt();
     }
 }

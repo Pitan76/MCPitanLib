@@ -79,6 +79,10 @@ public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
         sendSuccess(TextUtil.literal(message));
     }
 
+    public void sendFailure(String message) {
+        sendFailure(TextUtil.literal(message));
+    }
+
     public boolean isClient() {
         return WorldUtil.isClient(getWorld());
     }
