@@ -17,3 +17,5 @@ accessible    field    net/minecraft/item/ItemGroups    INVENTORY    Lnet/minecr
 accessible    class    net/minecraft/screen/ScreenHandlerType$Factory
 accessible    method   net/minecraft/screen/ScreenHandlerType <init> (Lnet/minecraft/screen/ScreenHandlerType$Factory;Lnet/minecraft/resource/featuretoggle/FeatureSet;)V
 extendable    method   net/minecraft/screen/ScreenHandlerType <init> (Lnet/minecraft/screen/ScreenHandlerType$Factory;Lnet/minecraft/resource/featuretoggle/FeatureSet;)V
+
+accessible    method    net/minecraft/block/entity/BlockEntity    writeNbt    (Lnet/minecraft/nbt/NbtCompound;)V

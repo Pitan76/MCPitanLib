@@ -8,6 +8,7 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
+import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
 
 import java.util.Map;
 
@@ -48,6 +49,10 @@ public class RecipeManagerEvent {
     }
 
     public void putCompatibleRecipeEntry(CompatibleRecipeEntry entry) {
+        map.get(entry.getType()).put(entry.getId(), entry.getRecipe());
+    }
+
+    public void putCompatibleRecipeEntry(CompatRecipeEntry<?> entry) {
         map.get(entry.getType()).put(entry.getId(), entry.getRecipe());
     }
 }

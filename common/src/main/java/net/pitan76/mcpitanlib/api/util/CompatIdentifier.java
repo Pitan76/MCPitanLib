@@ -142,4 +142,12 @@ public class CompatIdentifier {
     public static CompatIdentifier fromMinecraft(Identifier id) {
         return of(id.toString());
     }
+
+    public static CompatIdentifier empty() {
+        return of("mcpitanlib:empty");
+    }
+
+    public boolean isEmpty() {
+        return this.equals("mcpitanlib:empty");
+    }
 }

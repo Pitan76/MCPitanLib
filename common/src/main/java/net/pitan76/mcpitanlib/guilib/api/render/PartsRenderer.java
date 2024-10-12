@@ -63,10 +63,10 @@ public class PartsRenderer {
     }
 
     public static void drawBurningBar(DrawObjectDM drawObjectDM, int x, int y, int burnTime, int maxBurnTime) {
-        drawBottom2TopProgressBar(drawObjectDM, x, y, 0, 166, 0, 182, 16, 14, burnTime, maxBurnTime, GuiTextures.BASE_FURNACE_BACKGROUND);
+        drawBottom2TopProgressBar(drawObjectDM, x, y, 0, 168, 0, 184, 16, 14, burnTime, maxBurnTime, GuiTextures.BASE_FURNACE_BACKGROUND);
     }
 
     public static void drawHorizontalArrowBar(DrawObjectDM drawObjectDM, int x, int y, double value, double maxValue) {
-        drawLeft2RightProgressBar(drawObjectDM, x, y, 0, 166, 16, 182, 24, 16, value, maxValue, GuiTextures.BASE_FURNACE_BACKGROUND);
+        drawLeft2RightProgressBar(drawObjectDM, x, y, 0, 168, 16, 184, 24, 16, value, maxValue, GuiTextures.BASE_FURNACE_BACKGROUND);
     }
 }
