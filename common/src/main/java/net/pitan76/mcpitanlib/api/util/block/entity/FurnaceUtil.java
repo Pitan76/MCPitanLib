@@ -8,12 +8,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.recipe.MatchGetter;
 import net.pitan76.mcpitanlib.api.recipe.input.CompatRecipeInput;
-import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.recipe.input.SingleStackRecipeInputUtil;
 
 public class FurnaceUtil {
     public static int getDefaultCookTime() {
-        return AbstractFurnaceBlockEntity.field_31294;
+        return 200;
     }
 
     public static boolean canUseAsFuel(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
@@ -25,7 +24,7 @@ public class FurnaceUtil {
     }
 
     public static void tick(World world, BlockPos pos, AbstractFurnaceBlockEntity blockEntity) {
-        AbstractFurnaceBlockEntity.tick(world, pos, WorldUtil.getBlockState(world, pos), blockEntity);
+        blockEntity.tick();
     }
 
     public static int getCookTime(World world, AbstractFurnaceBlockEntity furnace, MatchGetter<Inventory, ? extends AbstractCookingRecipe> matchGetter) {
