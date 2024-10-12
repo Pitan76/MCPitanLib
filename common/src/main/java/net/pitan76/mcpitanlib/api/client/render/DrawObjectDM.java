@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.render;
 
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
@@ -9,16 +10,35 @@ import net.pitan76.mcpitanlib.api.util.client.ScreenUtil.RendererUtil;
 public class DrawObjectDM {
     private MatrixStack stack;
 
+    private Screen screen = null;
+
     public DrawObjectDM(MatrixStack stack) {
         this.stack = stack;
+    }
+
+    public DrawObjectDM(MatrixStack stack, Screen screen) {
+        this(stack);
+        this.screen = screen;
     }
 
     public MatrixStack getStack() {
         return stack;
     }
-    
+
+    public Screen getScreen() {
+        return screen;
+    }
+
     public void setStack(MatrixStack stack) {
         this.stack = stack;
+    }
+
+    public void setScreen(Screen screen) {
+        this.screen = screen;
+    }
+
+    public boolean hasScreen() {
+        return screen != null;
     }
 
     public void drawTexture(CompatIdentifier texture, int x, int y, float u, float v, int width, int height) {
@@ -49,13 +69,11 @@ public class DrawObjectDM {
         RendererUtil.drawBorder(this, x, y, width, height, color);
     }
 
-    public int width, height;
-
     public int getWidth() {
-        return width;
+        return hasScreen() ? screen.width : -1;
     }
 
     public int getHeight() {
-        return height;
+        return hasScreen() ? screen.height : -1;
     }
 }

@@ -67,9 +67,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     @Deprecated
     @Override
     protected void drawBackground(MatrixStack stack, float delta, int mouseX, int mouseY) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
-        drawObjectDM.width = this.width;
-        drawObjectDM.height = this.height;
+        DrawObjectDM drawObjectDM = new DrawObjectDM(stack, this);
         drawBackgroundOverride(new DrawBackgroundArgs(drawObjectDM, delta, mouseX, mouseY));
     }
 
@@ -78,9 +76,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     @Deprecated
     @Override
     protected void drawForeground(MatrixStack stack, int mouseX, int mouseY) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
-        drawObjectDM.width = this.width;
-        drawObjectDM.height = this.height;
+        DrawObjectDM drawObjectDM = new DrawObjectDM(stack, this);
         drawForegroundOverride(new DrawForegroundArgs(drawObjectDM, mouseX, mouseY));
     }
 
@@ -204,7 +200,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     @Deprecated
     @Override
     public void render(MatrixStack stack, int mouseX, int mouseY, float delta) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
+        DrawObjectDM drawObjectDM = new DrawObjectDM(stack, this);
         renderOverride(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
 
@@ -244,7 +240,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     @Deprecated
     @Override
     public void renderBackgroundTexture(int vOffset) {
-        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(null, vOffset));
+        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(null, this), vOffset));
     }
 
     public void closeOverride() {
