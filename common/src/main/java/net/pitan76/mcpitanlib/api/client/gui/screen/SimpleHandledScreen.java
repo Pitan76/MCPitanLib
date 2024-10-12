@@ -71,6 +71,8 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     @Override
     protected void drawBackground(MatrixStack stack, float delta, int mouseX, int mouseY) {
         DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
+        drawObjectDM.width = this.width;
+        drawObjectDM.height = this.height;
         drawBackgroundOverride(new DrawBackgroundArgs(drawObjectDM, delta, mouseX, mouseY));
     }
 
@@ -80,6 +82,8 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     @Override
     protected void drawForeground(MatrixStack stack, int mouseX, int mouseY) {
         DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
+        drawObjectDM.width = this.width;
+        drawObjectDM.height = this.height;
         drawForegroundOverride(new DrawForegroundArgs(drawObjectDM, mouseX, mouseY));
     }
 
