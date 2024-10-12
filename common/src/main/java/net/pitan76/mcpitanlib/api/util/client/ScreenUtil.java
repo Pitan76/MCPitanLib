@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -8,12 +7,9 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix4f;
 import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.client.gui.widget.RedrawableTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
@@ -21,7 +17,6 @@ import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
-import java.util.Collections;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
@@ -185,93 +180,15 @@ public class ScreenUtil {
         }
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, TextRenderer textRenderer, Text text, int x, int y) {
-            drawTooltip(drawObjectDM, textRenderer, Collections.singletonList(text), x, y);
-        }
-
-        public static void drawTooltip(DrawObjectDM drawObjectDM, TextRenderer textRenderer, List<Text> texts, int x, int y) {
-            MatrixStack matrices = drawObjectDM.getStack();
-
-            if (!texts.isEmpty()) {
-                int i = 0;
-                int j = texts.size() == 1 ? -2 : 0;
-
-                int k;
-                for (Text text : texts) {
-                    k = getWidth(text);
-                    if (k > i) {
-                        i = k;
-                    }
-                }
-
-                int l = x + 12;
-                int m = y - 12;
-                k = i;
-                int n = j;
-                if (l + i > drawObjectDM.getWidth()) {
-                    l -= 28 + i;
-                }
-
-                if (m + j + 6 > drawObjectDM.getHeight()) {
-                    m = drawObjectDM.getHeight() - j - 6;
-                }
-
-                matrices.push();
-                ClientUtil.getItemRenderer().zOffset = 400.0F;
-                Tessellator tessellator = Tessellator.getInstance();
-                BufferBuilder bufferBuilder = tessellator.getBuffer();
-                bufferBuilder.begin(7, VertexFormats.POSITION_COLOR);
-                Matrix4f matrix4f = matrices.peek().getModel();
-                fillGradient(matrix4f, bufferBuilder, l - 3, m - 4, l + k + 3, m - 3, 400, -267386864, -267386864);
-                fillGradient(matrix4f, bufferBuilder, l - 3, m + n + 3, l + k + 3, m + n + 4, 400, -267386864, -267386864);
-                fillGradient(matrix4f, bufferBuilder, l - 3, m - 3, l + k + 3, m + n + 3, 400, -267386864, -267386864);
-                fillGradient(matrix4f, bufferBuilder, l - 4, m - 3, l - 3, m + n + 3, 400, -267386864, -267386864);
-                fillGradient(matrix4f, bufferBuilder, l + k + 3, m - 3, l + k + 4, m + n + 3, 400, -267386864, -267386864);
-                fillGradient(matrix4f, bufferBuilder, l - 3, m - 3 + 1, l - 3 + 1, m + n + 3 - 1, 400, 1347420415, 1344798847);
-                fillGradient(matrix4f, bufferBuilder, l + k + 2, m - 3 + 1, l + k + 3, m + n + 3 - 1, 400, 1347420415, 1344798847);
-                fillGradient(matrix4f, bufferBuilder, l - 3, m - 3, l + k + 3, m - 3 + 1, 400, 1347420415, 1347420415);
-                fillGradient(matrix4f, bufferBuilder, l - 3, m + n + 2, l + k + 3, m + n + 3, 400, 1344798847, 1344798847);
-                RenderSystem.enableDepthTest();
-                RenderSystem.disableTexture();
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                BufferRenderer.draw(bufferBuilder);
-                RenderSystem.disableBlend();
-                RenderSystem.enableTexture();
-                VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-                matrices.translate(0.0, 0.0, 400.0);
-
-                int size = texts.size();
-                for(int r = 0; r < size; ++r) {
-                    OrderedText orderedText2 = (OrderedText)texts.get(r);
-                    if (orderedText2 != null) {
-                        textRenderer.draw(orderedText2, (float)k, (float)l, -1, true, matrix4f, immediate, false, 0, 15728880);
-                    }
-
-                    if (r == 0) {
-                        l += 2;
-                    }
-
-                    l += 10;
-                }
-
-                immediate.draw();
-                matrices.pop();
+            if (drawObjectDM.hasScreen()) {
+                drawObjectDM.getScreen().renderTooltip(drawObjectDM.getStack(), text, x, y);
             }
         }
 
-        protected static void fillGradient(Matrix4f matrix, BufferBuilder builder, int startX, int startY, int endX, int endY, int z, int colorStart, int colorEnd) {
-            float f = (float)(colorStart >> 24 & 255) / 255.0F;
-            float g = (float)(colorStart >> 16 & 255) / 255.0F;
-            float h = (float)(colorStart >> 8 & 255) / 255.0F;
-            float i = (float)(colorStart & 255) / 255.0F;
-            float j = (float)(colorEnd >> 24 & 255) / 255.0F;
-            float k = (float)(colorEnd >> 16 & 255) / 255.0F;
-            float l = (float)(colorEnd >> 8 & 255) / 255.0F;
-            float m = (float)(colorEnd & 255) / 255.0F;
-            builder.vertex(matrix, (float)endX, (float)startY, (float)z).color(g, h, i, f).next();
-            builder.vertex(matrix, (float)startX, (float)startY, (float)z).color(g, h, i, f).next();
-            builder.vertex(matrix, (float)startX, (float)endY, (float)z).color(k, l, m, j).next();
-            builder.vertex(matrix, (float)endX, (float)endY, (float)z).color(k, l, m, j).next();
+        public static void drawTooltip(DrawObjectDM drawObjectDM, TextRenderer textRenderer, List<Text> texts, int x, int y) {
+            if (drawObjectDM.hasScreen()) {
+                drawObjectDM.getScreen().renderTooltip(drawObjectDM.getStack(), texts, x, y);
+            }
         }
 
         public static void drawBorder(DrawObjectDM drawObjectDM, int x, int y, int width, int height, int color) {
@@ -279,7 +196,7 @@ public class ScreenUtil {
         }
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, Text text, int x, int y) {
-            drawTooltip(drawObjectDM, Collections.singletonList(text), x, y);
+            drawTooltip(drawObjectDM, getTextRenderer(), text, x, y);
         }
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, TextComponent text, int x, int y) {
