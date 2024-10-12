@@ -49,7 +49,7 @@ subprojects {
         implementation 'org.yaml:snakeyaml:2.0'
     }
 
-    if (name in "fabric,neoforge".split(",")) {
+    if (name in "fabric,forge,neoforge".split(",")) {
         var modLoader = name
 
         if (System.getenv("CURSEFORGE_TOKEN") != null) {
