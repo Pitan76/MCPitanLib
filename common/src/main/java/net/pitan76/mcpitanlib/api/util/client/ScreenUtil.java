@@ -17,6 +17,8 @@ import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 @Environment(EnvType.CLIENT)
 public class ScreenUtil {
     public static void setBackground(Identifier GUI, float f, float g, float h, float i) {
@@ -175,6 +177,30 @@ public class ScreenUtil {
 
         public static int drawText(TextRenderer renderer, DrawObjectDM drawObjectDM, TextComponent text, int x, int y) {
             return drawText(renderer, drawObjectDM, text, x, y, 4210752);
+        }
+
+        public static void drawTooltip(DrawObjectDM drawObjectDM, TextRenderer textRenderer, Text text, int x, int y) {
+            drawObjectDM.getContext().drawTooltip(textRenderer, text, x, y);
+        }
+
+        public static void drawTooltip(DrawObjectDM drawObjectDM, TextRenderer textRenderer, List<Text> texts, int x, int y) {
+            drawObjectDM.getContext().drawTooltip(textRenderer, texts, x, y);
+        }
+
+        public static void drawBorder(DrawObjectDM drawObjectDM, int x, int y, int width, int height, int color) {
+            drawObjectDM.getContext().drawBorder(x, y, width, height, color);
+        }
+
+        public static void drawTooltip(DrawObjectDM drawObjectDM, Text text, int x, int y) {
+            drawObjectDM.getContext().drawTooltip(getTextRenderer(), text, x, y);
+        }
+
+        public static void drawTooltip(DrawObjectDM drawObjectDM, TextComponent text, int x, int y) {
+            drawTooltip(drawObjectDM, text.getText(), x, y);
+        }
+
+        public static void drawTooltip(DrawObjectDM drawObjectDM, List<Text> texts, int x, int y) {
+            drawObjectDM.getContext().drawTooltip(getTextRenderer(), texts, x, y);
         }
     }
 

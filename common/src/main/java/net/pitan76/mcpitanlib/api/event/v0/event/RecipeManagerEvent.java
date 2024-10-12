@@ -2,12 +2,14 @@ package net.pitan76.mcpitanlib.api.event.v0.event;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
+import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
+import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
 
 import java.util.Map;
 
@@ -48,6 +50,10 @@ public class RecipeManagerEvent {
     }
 
     public void putCompatibleRecipeEntry(CompatibleRecipeEntry entry) {
+        map.get(entry.getType()).put(entry.getId(), entry.getRecipeEntry());
+    }
+
+    public <T extends Recipe<?>> void putCompatibleRecipeEntry(CompatRecipeEntry<T> entry) {
         map.get(entry.getType()).put(entry.getId(), entry.getRecipeEntry());
     }
 }
