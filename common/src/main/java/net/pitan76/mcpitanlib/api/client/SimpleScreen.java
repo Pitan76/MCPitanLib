@@ -18,6 +18,7 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.KeyEventArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
 public abstract class SimpleScreen extends Screen {
 
@@ -64,7 +65,7 @@ public abstract class SimpleScreen extends Screen {
     @Deprecated
     @Override
     public void renderBackground(MatrixStack matrices) {
-        renderBackground(new RenderArgs(new DrawObjectDM(matrices), 0, 0, 0));
+        renderBackground(new RenderArgs(new DrawObjectDM(matrices, this), 0, 0, 0));
     }
 
     public void renderBackground(RenderArgs args) {
@@ -130,7 +131,7 @@ public abstract class SimpleScreen extends Screen {
     @Deprecated
     @Override
     public void render(MatrixStack stack, int mouseX, int mouseY, float delta) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(stack);
+        DrawObjectDM drawObjectDM = new DrawObjectDM(stack, this);
         render(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
 
@@ -170,7 +171,7 @@ public abstract class SimpleScreen extends Screen {
     @Deprecated
     @Override
     public void renderBackgroundTexture(int vOffset) {
-        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(null, vOffset));
+        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(null, this), vOffset));
     }
 
     public void closeOverride() {
