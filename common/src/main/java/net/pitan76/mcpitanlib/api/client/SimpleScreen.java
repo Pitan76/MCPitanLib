@@ -59,7 +59,7 @@ public abstract class SimpleScreen extends Screen {
     @Deprecated
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(new RenderArgs(new DrawObjectDM(context), mouseX, mouseY, delta));
+        renderBackground(new RenderArgs(new DrawObjectDM(context, this), mouseX, mouseY, delta));
     }
 
 
@@ -126,7 +126,7 @@ public abstract class SimpleScreen extends Screen {
     @Deprecated
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        DrawObjectDM drawObjectDM = new DrawObjectDM(context);
+        DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         render(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
 
@@ -163,7 +163,7 @@ public abstract class SimpleScreen extends Screen {
     @Deprecated
     @Override
     public void renderBackgroundTexture(DrawContext context) {
-        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context), 0));
+        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context, this), 0));
     }
 
     public void closeOverride() {
