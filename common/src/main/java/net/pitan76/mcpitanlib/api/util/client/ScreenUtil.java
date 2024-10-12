@@ -7,7 +7,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -22,6 +21,7 @@ import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
+import java.util.Collections;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
@@ -185,7 +185,7 @@ public class ScreenUtil {
         }
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, TextRenderer textRenderer, Text text, int x, int y) {
-            drawTooltip(drawObjectDM, textRenderer, List.of(text), x, y);
+            drawTooltip(drawObjectDM, textRenderer, Collections.singletonList(text), x, y);
         }
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, TextRenderer textRenderer, List<Text> texts, int x, int y) {
@@ -216,13 +216,11 @@ public class ScreenUtil {
                 }
 
                 matrices.push();
-                float f = ClientUtil.getItemRenderer().zOffset;
                 ClientUtil.getItemRenderer().zOffset = 400.0F;
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder bufferBuilder = tessellator.getBuffer();
-                RenderSystem.setShader(GameRenderer::getPositionColorShader);
-                bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-                Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+                bufferBuilder.begin(7, VertexFormats.POSITION_COLOR);
+                Matrix4f matrix4f = matrices.peek().getModel();
                 fillGradient(matrix4f, bufferBuilder, l - 3, m - 4, l + k + 3, m - 3, 400, -267386864, -267386864);
                 fillGradient(matrix4f, bufferBuilder, l - 3, m + n + 3, l + k + 3, m + n + 4, 400, -267386864, -267386864);
                 fillGradient(matrix4f, bufferBuilder, l - 3, m - 3, l + k + 3, m + n + 3, 400, -267386864, -267386864);
@@ -241,43 +239,23 @@ public class ScreenUtil {
                 RenderSystem.enableTexture();
                 VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
                 matrices.translate(0.0, 0.0, 400.0);
-                int s = m;
 
-                int t;
-                TooltipComponent tooltipComponent;
-                for (t = 0; t < texts.size(); ++t) {
-                    Text text = texts.get(t);
-                    if (text != null) {
-                        tooltipComponent = TooltipComponent.of(text.asOrderedText());
-                        textRenderer.draw((OrderedText) tooltipComponent, (float) l, (float) s, -1, true, matrix4f, immediate, false, 0, 15728880);
+                int size = texts.size();
+                for(int r = 0; r < size; ++r) {
+                    OrderedText orderedText2 = (OrderedText)texts.get(r);
+                    if (orderedText2 != null) {
+                        textRenderer.draw(orderedText2, (float)k, (float)l, -1, true, matrix4f, immediate, false, 0, 15728880);
                     }
 
-                    if (t == 0) {
-                        s += 2;
+                    if (r == 0) {
+                        l += 2;
                     }
 
-                    s += 10;
+                    l += 10;
                 }
 
                 immediate.draw();
                 matrices.pop();
-                s = m;
-
-                for (t = 0; t < texts.size(); ++t) {
-                    Text text = texts.get(t);
-                    if (text != null) {
-                        tooltipComponent = TooltipComponent.of(text.asOrderedText());
-                        textRenderer.draw((OrderedText) tooltipComponent, (float) l, (float) s, -1, true, matrix4f, immediate, false, 0, 15728880);
-                    }
-
-                    if (t == 0) {
-                        s += 2;
-                    }
-
-                    s += 10;
-                }
-
-                ClientUtil.getItemRenderer().zOffset = f;
             }
         }
 
@@ -301,7 +279,7 @@ public class ScreenUtil {
         }
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, Text text, int x, int y) {
-            drawTooltip(drawObjectDM, List.of(text), x, y);
+            drawTooltip(drawObjectDM, Collections.singletonList(text), x, y);
         }
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, TextComponent text, int x, int y) {

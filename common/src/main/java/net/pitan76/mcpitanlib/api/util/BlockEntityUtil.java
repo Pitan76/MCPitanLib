@@ -67,7 +67,7 @@ public class BlockEntityUtil {
     }
 
     public static void readNbt(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        blockEntity.readNbt(nbt);
+        blockEntity.fromTag(blockEntity.getCachedState(), nbt);
     }
 
     public static void writeNbt(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
@@ -75,10 +75,10 @@ public class BlockEntityUtil {
     }
 
     public static void read(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        blockEntity.readNbt(nbt);
+        blockEntity.fromTag(blockEntity.getCachedState(), nbt);
     }
 
     public static void createNbt(BlockEntity blockEntity, CompatRegistryLookup registryLookup) {
-        blockEntity.createNbt();
+        BlockEntity.createFromTag(blockEntity.getCachedState(), NbtUtil.create());
     }
 }
