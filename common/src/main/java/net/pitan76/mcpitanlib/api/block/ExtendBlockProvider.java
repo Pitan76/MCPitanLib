@@ -4,11 +4,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.shape.VoxelShape;
 import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public interface ExtendBlockProvider {
      * @param options Options
      * @return ActionResult
      */
-    default ActionResult onRightClick(BlockUseEvent event, Options options) {
+    default CompatActionResult onRightClick(BlockUseEvent event, Options options) {
         options.cancel = false;
         return null;
     }

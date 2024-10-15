@@ -14,7 +14,7 @@ import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 
 public class CompatibleSwordItem extends SwordItem implements ExtendItemProvider {
     public CompatibleSwordItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+        super(material.build(), attackDamage, attackSpeed, settings.build());
     }
 
     public CompatibleSwordItem(int attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {

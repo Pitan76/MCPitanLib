@@ -5,11 +5,13 @@ import dev.architectury.event.events.common.InteractionEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.result.EventResult;
-import net.pitan76.mcpitanlib.api.event.result.TypedEventResult;
 import net.pitan76.mcpitanlib.api.event.v0.event.ClickBlockEvent;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public class InteractionEventRegistry {
     @SuppressWarnings("deprecation")
@@ -49,12 +51,25 @@ public class InteractionEventRegistry {
     }
 
     public interface RightClickItem {
-        @SuppressWarnings("deprecation")
         default CompoundEventResult<ItemStack> click(PlayerEntity var1, Hand var2) {
-            return click(new Player(var1), var2).getResult();
+            CompatActionResult result = click(new Player(var1), var2);
+
+            ItemStack stack = result instanceof StackActionResult ? ((StackActionResult) result).getStack() : var1.getStackInHand(var2);
+
+            if (result.equals(CompatActionResult.SUCCESS) || result.equals(CompatActionResult.CONSUME) || result.equals(CompatActionResult.SUCCESS_SERVER)) {
+                return CompoundEventResult.interruptTrue(stack);
+            }
+            if (result.equals(CompatActionResult.FAIL)) {
+                return CompoundEventResult.interruptFalse(stack);
+            }
+            if (result.equals(CompatActionResult.STOP)) {
+                return CompoundEventResult.interrupt(null, stack);
+            }
+            return CompoundEventResult.pass();
+
         }
 
-        TypedEventResult<ItemStack> click(Player player, Hand hand);
+        CompatActionResult click(Player player, Hand hand);
     }
 
     public interface ClientLeftClickAir {
@@ -76,9 +91,9 @@ public class InteractionEventRegistry {
     public interface InteractEntity {
         @SuppressWarnings("deprecation")
         default dev.architectury.event.EventResult interact(PlayerEntity var1, Entity var2, Hand var3) {
-            return interact(new Player(var1), var2, var3).getResult();
+            return interact(new Player(var1), var2, var3).toEventResult().getResult();
         }
 
-        EventResult interact(Player player, Entity entity, Hand hand);
+        CompatActionResult interact(Player player, Entity entity, Hand hand);
     }
 }

@@ -5,6 +5,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,12 +29,20 @@ public class CompatibleRecipeEntry {
         this.category = category;
     }
 
+    public CompatibleRecipeEntry(CompatIdentifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, ShapelessRecipe shapelessRecipe) {
+        this(id.toMinecraft(), group, category, shapelessRecipe);
+    }
+
     public Recipe<?> getRecipe() {
         return recipe;
     }
 
     public Identifier getId() {
         return id;
+    }
+
+    public CompatIdentifier getCompatId() {
+        return CompatIdentifier.fromMinecraft(getId());
     }
 
     public RecipeType<?> getType() {

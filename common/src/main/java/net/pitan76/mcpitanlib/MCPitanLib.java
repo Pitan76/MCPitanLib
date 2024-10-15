@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.pitan76.easyapi.config.Config;
 import net.pitan76.easyapi.config.JsonConfig;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.PlatformUtil;
 import net.pitan76.mcpitanlib.debug.DebugTool;
 import net.pitan76.mcpitanlib.guilib.MPLGuiLib;
@@ -42,7 +43,7 @@ public class MCPitanLib {
      */
     public static void init() {
         configInit();
-        new MPLGuiLib().init();
+        MPLGuiLib.init();
 
         if (PlatformUtil.isDevelopmentEnvironment() || (config.has("debugMode") && config.getBoolean("debugMode"))) {
             System.out.println("MCPitanLib: Debug Mode");
@@ -99,6 +100,10 @@ public class MCPitanLib {
      */
     public static Identifier id(String path) {
         return new Identifier(MOD_ID, path);
+    }
+
+    public static CompatIdentifier compatId(String path) {
+        return CompatIdentifier.fromMinecraft(id(path));
     }
 
     public static boolean isItemBlackListed(Identifier id) {

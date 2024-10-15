@@ -43,7 +43,7 @@ public class BlockEntityTypeBuilder<T extends BlockEntity> {
     }
 
     public BlockEntityType<T> build(Type<?> type) {
-        return BlockEntityType.Builder.<T>create(factory::create, blocks.toArray(new Block[0])).build(type);
+        return BlockEntityTypeBuilder.<T>create(factory, blocks.toArray(new Block[0])).build(type);
     }
 
     @FunctionalInterface

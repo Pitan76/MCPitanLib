@@ -5,7 +5,6 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.profiler.Profiler;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContext;
@@ -54,11 +53,6 @@ public class WorldRenderRegistryImpl {
                     @Override
                     public ClientWorld getWorld() {
                         return worldRenderContext.world();
-                    }
-
-                    @Override
-                    public Profiler getProfiler() {
-                        return worldRenderContext.profiler();
                     }
 
                     @Override
@@ -119,11 +113,6 @@ public class WorldRenderRegistryImpl {
                 @Override
                 public ClientWorld getWorld() {
                     return context.world();
-                }
-
-                @Override
-                public Profiler getProfiler() {
-                    return context.profiler();
                 }
 
                 @Override
