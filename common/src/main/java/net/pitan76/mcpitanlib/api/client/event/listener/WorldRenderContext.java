@@ -12,7 +12,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.shape.VoxelShape;
 import net.pitan76.mcpitanlib.api.util.VoxelShapeUtil;
 import org.jetbrains.annotations.Nullable;
@@ -39,8 +38,6 @@ public interface WorldRenderContext {
     Matrix4f getProjectionMatrix();
 
     ClientWorld getWorld();
-
-    Profiler getProfiler();
 
     @Deprecated
     boolean isAdvancedTranslucency();

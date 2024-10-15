@@ -4,7 +4,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.profiler.Profiler;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderHighlightEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -69,11 +68,6 @@ public class WorldRenderRegistryImpl {
                 @Override
                 public ClientWorld getWorld() {
                     return MinecraftClient.getInstance().world;
-                }
-
-                @Override
-                public Profiler getProfiler() {
-                    return MinecraftClient.getInstance().getProfiler();
                 }
 
                 @Deprecated
@@ -145,11 +139,6 @@ public class WorldRenderRegistryImpl {
                     return MinecraftClient.getInstance().world;
                 }
 
-                @Override
-                public Profiler getProfiler() {
-                    return MinecraftClient.getInstance().getProfiler();
-                }
-
                 @Deprecated
                 @Override
                 public boolean isAdvancedTranslucency() {
@@ -214,11 +203,6 @@ public class WorldRenderRegistryImpl {
                 @Override
                 public ClientWorld getWorld() {
                     return MinecraftClient.getInstance().world;
-                }
-
-                @Override
-                public Profiler getProfiler() {
-                    return MinecraftClient.getInstance().getProfiler();
                 }
 
                 @Deprecated

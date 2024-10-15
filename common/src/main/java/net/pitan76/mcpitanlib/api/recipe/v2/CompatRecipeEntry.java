@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.recipe.v2;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.recipe.*;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,6 +27,10 @@ public class CompatRecipeEntry<T extends Inventory> {
         this.category = category;
     }
 
+    public CompatRecipeEntry(CompatIdentifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, Recipe<T> recipe) {
+        this(id.toMinecraft(), group, category, recipe);
+    }
+
     public boolean isNull() {
         return recipe == null;
     }
@@ -36,6 +41,10 @@ public class CompatRecipeEntry<T extends Inventory> {
 
     public Identifier getId() {
         return id;
+    }
+
+    public CompatIdentifier getCompatId() {
+        return CompatIdentifier.fromMinecraft(getId());
     }
 
     public RecipeType<?> getType() {

@@ -1,9 +1,13 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
+import net.pitan76.mcpitanlib.api.util.IngredientUtil;
 
-public interface CompatibleToolMaterial extends ToolMaterial {
+public interface CompatibleToolMaterial {
 
     int getCompatMiningLevel();
 
@@ -11,45 +15,74 @@ public interface CompatibleToolMaterial extends ToolMaterial {
 
     float getCompatMiningSpeedMultiplier();
 
-    Ingredient getCompatRepairIngredient();
+    default Ingredient getCompatRepairIngredient() {
+        return IngredientUtil.fromTagByIdentifier(getRepairTag().id());
+    }
 
     int getCompatDurability();
 
     int getCompatEnchantability();
 
     @Deprecated
-    @Override
-    default int getMiningLevel() {
-        return getCompatMiningLevel();
-    }
-
-    @Deprecated
-    @Override
     default float getAttackDamage() {
         return getCompatAttackDamage();
     }
 
     @Deprecated
-    @Override
     default float getMiningSpeedMultiplier() {
         return getCompatMiningSpeedMultiplier();
     }
 
     @Deprecated
-    @Override
     default Ingredient getRepairIngredient() {
         return getCompatRepairIngredient();
     }
 
     @Deprecated
-    @Override
     default int getDurability() {
         return getCompatDurability();
     }
 
     @Deprecated
-    @Override
     default int getEnchantability() {
         return getCompatEnchantability();
+    }
+
+    default TagKey<Item> getRepairTag() {
+        return ItemTags.IRON_ORES;
+    }
+
+    default ToolMaterial build() {
+        return new ToolMaterial() {
+            @Override
+            public int getDurability() {
+                return getCompatDurability();
+            }
+
+            @Override
+            public float getMiningSpeedMultiplier() {
+                return getCompatMiningSpeedMultiplier();
+            }
+
+            @Override
+            public float getAttackDamage() {
+                return getCompatAttackDamage();
+            }
+
+            @Override
+            public int getMiningLevel() {
+                return getCompatMiningLevel();
+            }
+
+            @Override
+            public int getEnchantability() {
+                return getCompatEnchantability();
+            }
+
+            @Override
+            public Ingredient getRepairIngredient() {
+                return getCompatRepairIngredient();
+            }
+        };
     }
 }

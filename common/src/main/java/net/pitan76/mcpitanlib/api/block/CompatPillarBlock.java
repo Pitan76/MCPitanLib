@@ -7,13 +7,22 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.Direction;
+import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
+import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 
-public class CompatPillarBlock extends PillarBlock implements ExtendBlockProvider {
+public class CompatPillarBlock extends PillarBlock implements CompatBlockProvider {
 
     public static final EnumProperty<Direction.Axis> AXIS = PillarBlock.AXIS;
+
+    public CompatibleBlockSettings settings;
+
+    @Override
+    public CompatibleBlockSettings getCompatSettings() {
+        return settings;
+    }
 
     public CompatPillarBlock(Settings settings) {
         super(settings);
@@ -21,6 +30,7 @@ public class CompatPillarBlock extends PillarBlock implements ExtendBlockProvide
 
     public CompatPillarBlock(CompatibleBlockSettings settings) {
         this(settings.build());
+        this.settings = settings;
     }
 
     public void appendProperties(AppendPropertiesArgs args) {
@@ -47,13 +57,13 @@ public class CompatPillarBlock extends PillarBlock implements ExtendBlockProvide
     @Deprecated
     @Override
     public void appendProperties(AppendPropertiesArgs args, Options options) {
-        ExtendBlockProvider.super.appendProperties(args, options);
+        CompatBlockProvider.super.appendProperties(args, options);
     }
 
     @Deprecated
     @Override
     public BlockState getPlacementState(PlacementStateArgs args, Options options) {
-        return ExtendBlockProvider.super.getPlacementState(args, options);
+        return CompatBlockProvider.super.getPlacementState(args, options);
     }
 
     public CompatMapCodec<? extends PillarBlock> getCompatCodec() {

@@ -19,7 +19,7 @@ public class CompatibleToolItem extends ToolItem implements ExtendItemProvider {
     }
 
     public CompatibleToolItem(CompatibleToolMaterial material, CompatibleItemSettings settings) {
-        this(material, settings.build());
+        this(material.build(), settings.build());
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
