@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.TypedActionResult;
 import net.pitan76.mcpitanlib.api.event.item.*;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public interface ExtendItemProvider {
 
@@ -14,7 +14,7 @@ public interface ExtendItemProvider {
      * @param event ItemUseEvent
      * @return ActionResultType
      */
-    default TypedActionResult<ItemStack> onRightClick(ItemUseEvent event, Options options) {
+    default StackActionResult onRightClick(ItemUseEvent event, Options options) {
         options.cancel = false;
         return null;
     }
@@ -24,7 +24,7 @@ public interface ExtendItemProvider {
      * @param event ItemUseOnBlockEvent
      * @return ActionResultType
      */
-    default ActionResult onRightClickOnBlock(ItemUseOnBlockEvent event, Options options) {
+    default CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent event, Options options) {
         options.cancel = false;
         return null;
     }
@@ -44,7 +44,7 @@ public interface ExtendItemProvider {
      * @param event ItemUseOnEntityEvent
      * @return ActionResult
      */
-    default ActionResult onRightClickOnEntity(ItemUseOnEntityEvent event, Options options) {
+    default CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent event, Options options) {
         options.cancel = false;
         return null;
     }

@@ -3,10 +3,11 @@ package net.pitan76.mcpitanlib.api.event.item;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public class ItemUseEvent extends BaseEvent {
 
@@ -26,6 +27,10 @@ public class ItemUseEvent extends BaseEvent {
         return stack;
     }
 
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getMidohraStack() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(stack);
+    }
+
     public Hand getHand() {
         return hand;
     }
@@ -33,6 +38,7 @@ public class ItemUseEvent extends BaseEvent {
     public World getWorld() {
         return world;
     }
+
     public Player getUser() {
         return user;
     }
@@ -41,27 +47,45 @@ public class ItemUseEvent extends BaseEvent {
         return world.isClient();
     }
 
-    public TypedActionResult<ItemStack> success(ItemStack stack) {
-        return TypedActionResult.success(stack);
+    public StackActionResult success(ItemStack stack) {
+        if (getStack() != stack)
+            StackActionResult.success(stack);
+
+        return success();
     }
 
-    public TypedActionResult<ItemStack> fail() {
-        return TypedActionResult.fail(stack);
+    public StackActionResult success(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return success(stack.toMinecraft());
     }
 
-    public TypedActionResult<ItemStack> pass() {
-        return TypedActionResult.pass(stack);
+    public StackActionResult success() {
+        return StackActionResult.create(CompatActionResult.SUCCESS);
     }
 
-    public TypedActionResult<ItemStack> consume() {
-        return TypedActionResult.consume(stack);
+    public CompatActionResult fail() {
+        return CompatActionResult.FAIL;
+    }
+
+    public CompatActionResult pass() {
+        return CompatActionResult.PASS;
+    }
+
+    public StackActionResult consume(ItemStack stack) {
+        if (getStack() != stack)
+            StackActionResult.consume(stack);
+
+        return consume();
+    }
+
+    public CompatActionResult consume(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return consume(stack.toMinecraft());
+    }
+
+    public StackActionResult consume() {
+        return StackActionResult.create(CompatActionResult.CONSUME);
     }
 
     public boolean isSneaking() {
         return user.isSneaking();
-    }
-
-    public TypedActionResult<ItemStack> success() {
-        return success(stack);
     }
 }

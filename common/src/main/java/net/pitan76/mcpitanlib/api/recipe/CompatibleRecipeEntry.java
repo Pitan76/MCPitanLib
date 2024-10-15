@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.recipe;
 
 import net.minecraft.recipe.*;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +23,10 @@ public class CompatibleRecipeEntry {
         this.category = category;
     }
 
+    public CompatibleRecipeEntry(CompatIdentifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, ShapelessRecipe shapelessRecipe) {
+        this(id.toMinecraft(), group, category, shapelessRecipe);
+    }
+
     @Deprecated
     public RecipeEntry<?> getRecipeEntry() {
         return entry;
@@ -37,6 +42,10 @@ public class CompatibleRecipeEntry {
 
     public Identifier getId() {
         return entry.id();
+    }
+
+    public CompatIdentifier getCompatId() {
+        return CompatIdentifier.fromMinecraft(getId());
     }
 
     public RecipeType<?> getType() {

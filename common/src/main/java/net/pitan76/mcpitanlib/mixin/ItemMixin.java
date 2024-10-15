@@ -10,13 +10,14 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
+import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,11 +29,11 @@ import java.util.List;
 @Mixin(Item.class)
 public class ItemMixin {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
+    private void mcpitanlib$use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            TypedActionResult<ItemStack> returnValue = provider.onRightClick(new ItemUseEvent(world, user, hand), options);
+            ActionResult returnValue = provider.onRightClick(new ItemUseEvent(world, user, hand), options).toActionResult();
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
@@ -44,7 +45,7 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()), options);
+            ActionResult returnValue = provider.onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()), options).toActionResult();
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
@@ -55,7 +56,7 @@ public class ItemMixin {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand), options);
+            ActionResult returnValue = provider.onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand), options).toActionResult();
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
@@ -127,17 +128,7 @@ public class ItemMixin {
         }
     }
 
-    @Inject(method = "getRarity", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$getRarity(ItemStack stack, CallbackInfoReturnable<Rarity> cir) {
-        if (this instanceof ExtendItemProvider) {
-            ExtendItemProvider provider = (ExtendItemProvider) this;
-            Options options = new Options();
-            Rarity returnValue = provider.getRarity(stack, options);
-            if (options.cancel)
-                cir.setReturnValue(returnValue);
-        }
-    }
-
+    /*
     @Inject(method = "isEnchantable", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$isEnchantable(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof ExtendItemProvider) {
@@ -148,7 +139,9 @@ public class ItemMixin {
                 cir.setReturnValue(returnValue);
         }
     }
+    */
 
+    /*
     @Inject(method = "getEnchantability", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$getEnchantability(CallbackInfoReturnable<Integer> cir) {
         if (this instanceof ExtendItemProvider) {
@@ -159,6 +152,7 @@ public class ItemMixin {
                 cir.setReturnValue(returnValue);
         }
     }
+    */
 
     @Inject(method = "getItemBarColor", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$getItemBarColor(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
@@ -188,6 +182,17 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
             int returnValue = provider.getItemBarStep(new ItemBarStepArgs(stack), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getUseAction", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getUseAction(ItemStack stack, CallbackInfoReturnable<UseAction> cir) {
+        if (this instanceof CompatItemProvider) {
+            CompatItemProvider provider = (CompatItemProvider) this;
+            Options options = new Options();
+            UseAction returnValue = provider.getUseAction(new UseActionArgs(stack), options).getUseAction();
             if (options.cancel)
                 cir.setReturnValue(returnValue);
         }

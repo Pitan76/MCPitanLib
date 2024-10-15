@@ -39,4 +39,8 @@ public class OutlineShapeEvent extends BaseEvent {
     public <T extends Comparable<T>> T getProperty(Property<T> property) {
         return state.get(property);
     }
+
+    public <T extends Comparable<T>> boolean containsProperty(Property<T> property) {
+        return state.contains(property);
+    }
 }

@@ -6,13 +6,23 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.loot.LootTable;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.world.World;
+
+import java.util.Optional;
 
 public class ExtendEntityType<T extends Entity> extends EntityType<T> {
     private final Boolean alwaysUpdateVelocity;
 
-    public ExtendEntityType(EntityFactory<T> factory, SpawnGroup spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> canSpawnBlocks, EntityDimensions entityDimensions, int maxTrackDistance, int trackTickInterval, Boolean alwaysUpdateVelocity) {
+    @Deprecated
+    public ExtendEntityType(EntityFactory<T> factory, SpawnGroup spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> canSpawnBlocks, EntityDimensions entityDimensions, float spawnBoxScale, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<RegistryKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
+        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, maxTrackDistance, trackTickInterval, FeatureFlags.DEFAULT_ENABLED_FEATURES);
+        this.alwaysUpdateVelocity = alwaysUpdateVelocity;
+    }
+
+    public ExtendEntityType(EntityFactory<T> factory, SpawnGroup spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> canSpawnBlocks, EntityDimensions entityDimensions, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<RegistryKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
         super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, maxTrackDistance, trackTickInterval, FeatureFlags.DEFAULT_ENABLED_FEATURES);
         this.alwaysUpdateVelocity = alwaysUpdateVelocity;
     }

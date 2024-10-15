@@ -7,6 +7,8 @@ import net.minecraft.state.property.*;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.Direction;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
+import net.pitan76.mcpitanlib.api.state.property.CompatProperties;
+import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 
 public class PropertyUtil {
     public static BooleanProperty createBooleanProperty(String name) {
@@ -34,7 +36,7 @@ public class PropertyUtil {
     }
 
     public static BlockState with(BlockState state, DirectionProperty property, Direction value) {
-        return state.with(property, value);
+        return property.with(state, value);
     }
 
     public static boolean get(BlockState state, BooleanProperty property) {
@@ -46,15 +48,15 @@ public class PropertyUtil {
     }
 
     public static Direction get(BlockState state, DirectionProperty property) {
-        return state.get(property);
+        return property.get(state);
     }
 
     public static Direction getFacing(BlockState state) {
-        return state.get(facing());
+        return facing().get(state);
     }
 
     public static Direction getHorizontalFacing(BlockState state) {
-        return state.get(horizontalFacing());
+        return horizontalFacing().get(state);
     }
 
     public static int getPower(BlockState state) {
@@ -70,11 +72,11 @@ public class PropertyUtil {
     }
 
     public static void appendFacing(AppendPropertiesArgs args) {
-        args.addProperty(facing());
+        facing().apply(args);
     }
 
     public static void appendHorizontalFacing(AppendPropertiesArgs args) {
-        args.addProperty(horizontalFacing());
+        horizontalFacing().apply(args);
     }
 
     public static void appendPower(AppendPropertiesArgs args) {
@@ -94,11 +96,11 @@ public class PropertyUtil {
     }
 
     public static DirectionProperty facing() {
-        return Properties.FACING;
+        return CompatProperties.FACING;
     }
 
     public static DirectionProperty horizontalFacing() {
-        return Properties.HORIZONTAL_FACING;
+        return CompatProperties.HORIZONTAL_FACING;
     }
 
     public static EnumProperty<Direction.Axis> axis() {
