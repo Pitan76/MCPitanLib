@@ -11,6 +11,7 @@ import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 
 import java.util.List;
@@ -28,17 +29,17 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
-        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()));
+        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit())).toActionResult();
     }
 
     @Deprecated
     @Override
-    public ActionResult onRightClickOnBlock(ItemUseOnBlockEvent event, Options options) {
+    public CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent event, Options options) {
         return ExtendItemProvider.super.onRightClickOnBlock(event, options);
     }
 
-    public ActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
-        return super.useOnBlock(event.toIUC());
+    public CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
+        return CompatActionResult.create(super.useOnBlock(event.toIUC()));
     }
 
     @Deprecated

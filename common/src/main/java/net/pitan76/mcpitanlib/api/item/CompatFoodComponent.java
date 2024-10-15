@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -8,7 +7,6 @@ import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class CompatFoodComponent {
     private int hunger;
@@ -63,11 +61,6 @@ public class CompatFoodComponent {
         FoodComponent.Builder builder = new FoodComponent.Builder();
         builder.nutrition(hunger).saturationModifier(saturation);
         if (alwaysEdible) builder.alwaysEdible();
-        if (snack) builder.snack();
-        //if (meat) builder.meat();
-        for (Pair<StatusEffectInstance, Float> pair : statusEffects) {
-            builder.statusEffect(pair.getFirst(), pair.getSecond());
-        }
         return builder;
     }
 
@@ -75,12 +68,10 @@ public class CompatFoodComponent {
         if (latestComponent != null) return latestComponent;
 
         float eatSeconds = 1.6f;
-        ImmutableList.Builder<FoodComponent.StatusEffectEntry> effects = ImmutableList.builder();
-        effects.addAll(statusEffects.stream().map(pair -> new FoodComponent.StatusEffectEntry(pair.getFirst(), pair.getSecond())).iterator());
         if (snack) eatSeconds = 0.8f;
         if (meat) eatSeconds = 1.6f;
 
-        latestComponent = new FoodComponent(hunger, saturation, alwaysEdible, eatSeconds, Optional.empty(), effects.build());
+        latestComponent = new FoodComponent(hunger, saturation, alwaysEdible);
 
         return latestComponent;
     }

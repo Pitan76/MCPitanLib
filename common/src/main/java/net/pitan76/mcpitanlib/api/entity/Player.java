@@ -344,8 +344,9 @@ public class Player {
         return getEntity().getHorizontalFacing();
     }
 
+    // TODO: 1.21.2
     public void eatFood(World world, ItemStack stack, CompatFoodComponent foodComponentBuilder) {
-        getEntity().eatFood(world, stack, foodComponentBuilder.build());
+        //getEntity().eatFood(world, stack, foodComponentBuilder.build());
     }
 
     public double getX() {
@@ -477,31 +478,44 @@ public class Player {
         getEntity().totalExperience = experience;
     }
 
+    // TODO: 1.21.2
     public boolean isFallFlying() {
-        return getEntity().isFallFlying();
+        return false;
     }
 
     public boolean isSwimming() {
         return getEntity().isSwimming();
     }
 
+    // TODO: 1.21.2
     public void startFallFlying() {
-        getEntity().startFallFlying();
+
     }
 
+    // TODO: 1.21.2
     public void stopFallFlying() {
-        getEntity().stopFallFlying();
+
     }
 
+    // TODO: 1.21.2
     public int getFallFlyingTicks() {
-        return getEntity().getFallFlyingTicks();
+        return 0;
     }
 
+    // TODO: 1.21.2
     public boolean checkFallFlying() {
-        return getEntity().checkFallFlying();
+        return false;
     }
 
     public void setStackInHand(Hand hand, ItemStack stack) {
         getEntity().setStackInHand(hand, stack);
+    }
+
+    public void setStackInHand(Hand hand, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        setStackInHand(hand, stack.toMinecraft());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getMidohraStackInHand(Hand hand) {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStackInHand(hand));
     }
 }

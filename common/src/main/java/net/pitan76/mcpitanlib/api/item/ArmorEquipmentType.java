@@ -1,23 +1,23 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ArmorItem;
+import net.minecraft.item.equipment.EquipmentType;
 import org.jetbrains.annotations.Nullable;
 
 public class ArmorEquipmentType {
 
-    public static ArmorEquipmentType HEAD = new ArmorEquipmentType(EquipmentSlot.HEAD, ArmorItem.Type.HELMET);
-    public static ArmorEquipmentType CHEST = new ArmorEquipmentType(EquipmentSlot.CHEST, ArmorItem.Type.CHESTPLATE);
-    public static ArmorEquipmentType LEGS = new ArmorEquipmentType(EquipmentSlot.LEGS, ArmorItem.Type.LEGGINGS);
-    public static ArmorEquipmentType FEET = new ArmorEquipmentType(EquipmentSlot.FEET, ArmorItem.Type.BOOTS);
+    public static ArmorEquipmentType HEAD = new ArmorEquipmentType(EquipmentSlot.HEAD, EquipmentType.HELMET);
+    public static ArmorEquipmentType CHEST = new ArmorEquipmentType(EquipmentSlot.CHEST, EquipmentType.CHESTPLATE);
+    public static ArmorEquipmentType LEGS = new ArmorEquipmentType(EquipmentSlot.LEGS, EquipmentType.LEGGINGS);
+    public static ArmorEquipmentType FEET = new ArmorEquipmentType(EquipmentSlot.FEET, EquipmentType.BOOTS);
 
     // New type for animals from 1.20.5
-    public static ArmorEquipmentType BODY = new ArmorEquipmentType(EquipmentSlot.BODY, ArmorItem.Type.BODY);
+    public static ArmorEquipmentType BODY = new ArmorEquipmentType(EquipmentSlot.BODY, EquipmentType.BODY);
 
     protected final EquipmentSlot slot;
-    protected final ArmorItem.Type type;
+    protected final EquipmentType type;
 
-    protected ArmorEquipmentType(EquipmentSlot slot, ArmorItem.Type type) {
+    protected ArmorEquipmentType(EquipmentSlot slot, EquipmentType type) {
         this.slot = slot;
         this.type = type;
     }
@@ -28,7 +28,7 @@ public class ArmorEquipmentType {
     }
 
     @Deprecated
-    public ArmorItem.Type getType() {
+    public EquipmentType getType() {
         return type;
     }
 
@@ -54,7 +54,7 @@ public class ArmorEquipmentType {
     }
 
     @Nullable
-    public static ArmorEquipmentType of(ArmorItem.Type type) {
+    public static ArmorEquipmentType of(EquipmentType type) {
         switch (type) {
             case HELMET -> {
                 return HEAD;

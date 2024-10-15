@@ -41,7 +41,7 @@ public class WorldViewUtil {
     }
 
     public static int getTopY(WorldView world) {
-        return world.getTopY();
+        return world.getTopYInclusive();
     }
 
     public static boolean isChunkLoaded(WorldView world, BlockPos pos) {

@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -14,23 +15,23 @@ public class EntityUtil {
     }
 
     public static boolean damage(Entity target, DamageSource damageSource, float amount) {
-        return target.damage(damageSource, amount);
+        return target.damage((ServerWorld) target.getWorld(), damageSource, amount);
     }
 
     public static boolean damageWithThrownProjectile(Entity target, float damageAmount, Entity projectile, Entity attacker) {
-        return target.damage(DamageSourceUtil.thrownProjectile(projectile, attacker), damageAmount);
+        return target.damage((ServerWorld) target.getWorld(), DamageSourceUtil.thrownProjectile(projectile, attacker), damageAmount);
     }
 
     public static boolean damageWithMobProjectile(Entity target, float damageAmount, Entity projectile, LivingEntity attacker) {
-        return target.damage(DamageSourceUtil.mobProjectile(projectile, attacker), damageAmount);
+        return target.damage((ServerWorld) target.getWorld(), DamageSourceUtil.mobProjectile(projectile, attacker), damageAmount);
     }
 
     public static boolean damageWithMobAttack(Entity target, float damageAmount, Entity source, LivingEntity attacker) {
-        return target.damage(DamageSourceUtil.mobAttack(attacker, source), damageAmount);
+        return target.damage((ServerWorld) target.getWorld(), DamageSourceUtil.mobAttack(attacker, source), damageAmount);
     }
 
     public static boolean damageWithPlayerAttack(Entity target, float damageAmount, Entity source, Player attacker) {
-        return target.damage(DamageSourceUtil.playerAttack(attacker, source), damageAmount);
+        return target.damage((ServerWorld) target.getWorld(), DamageSourceUtil.playerAttack(attacker, source), damageAmount);
     }
 
     public static void discard(Entity entity) {
@@ -38,7 +39,10 @@ public class EntityUtil {
     }
 
     public static void kill(Entity entity) {
-        entity.kill();
+        if (entity.getWorld() instanceof ServerWorld)
+            return;
+
+        entity.kill((ServerWorld) entity.getWorld());
     }
 
     public static void setVelocity(Entity entity, double x, double y, double z) {

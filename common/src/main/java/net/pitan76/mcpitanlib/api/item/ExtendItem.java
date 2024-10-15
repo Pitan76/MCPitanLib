@@ -13,13 +13,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.core.Dummy;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -34,15 +33,15 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        return onRightClick(new ItemUseEvent(world, user, hand));
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+        return onRightClick(new ItemUseEvent(world, user, hand)).toActionResult();
     }
 
     @Deprecated
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
-        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()));
+        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit())).toActionResult();
     }
 
     @Deprecated
@@ -54,11 +53,11 @@ public class ExtendItem extends Item {
     @Deprecated
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand));
+        return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand)).toActionResult();
     }
 
     @Deprecated
-    @Override
+    //@Override
     public boolean hasRecipeRemainder() {
         return hasRecipeRemainder(new Dummy());
     }
@@ -93,8 +92,8 @@ public class ExtendItem extends Item {
      * @param event ItemUseEvent
      * @return ActionResultType
      */
-    public TypedActionResult<ItemStack> onRightClick(ItemUseEvent event) {
-        return super.use(event.world, event.user.getPlayerEntity(), event.hand);
+    public CompatActionResult onRightClick(ItemUseEvent event) {
+        return CompatActionResult.create(super.use(event.world, event.user.getPlayerEntity(), event.hand));
     }
 
     /**
@@ -102,8 +101,8 @@ public class ExtendItem extends Item {
      * @param event ItemUseOnBlockEvent
      * @return ActionResultType
      */
-    public ActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
-        return super.useOnBlock(event.toIUC());
+    public CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
+        return CompatActionResult.create(super.useOnBlock(event.toIUC()));
     }
 
     /**
@@ -120,8 +119,8 @@ public class ExtendItem extends Item {
      * @param event ItemUseOnEntityEvent
      * @return ActionResultType
      */
-    public ActionResult onRightClickOnEntity(ItemUseOnEntityEvent event) {
-        return super.useOnEntity(event.stack, event.user.getEntity(), event.entity, event.hand);
+    public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent event) {
+        return CompatActionResult.create(super.useOnEntity(event.stack, event.user.getEntity(), event.entity, event.hand));
     }
 
     /**
@@ -129,8 +128,9 @@ public class ExtendItem extends Item {
      * @param dummy Dummy
      * @return boolean
      */
+    // TODO: Remove this method in 1.21.2
     public boolean hasRecipeRemainder(Dummy dummy) {
-        return super.hasRecipeRemainder();
+        return false;
     }
 
     /**
@@ -172,24 +172,26 @@ public class ExtendItem extends Item {
         return Rarity.COMMON;
     }
 
+    // TODO: 1.21.2
     @Deprecated
-    @Override
+    //@Override
     public boolean isEnchantable(ItemStack stack) {
         return isEnchantable(new EnchantableArgs(stack));
     }
 
     public boolean isEnchantable(EnchantableArgs args) {
-        return super.isEnchantable(args.stack);
+        return false;
     }
 
+    // TODO: 1.21.2
     @Deprecated
-    @Override
+    //@Override
     public int getEnchantability() {
         return getEnchantability(new EnchantabilityArgs());
     }
 
     public int getEnchantability(EnchantabilityArgs args) {
-        return super.getEnchantability();
+        return 0;
     }
 
     @Deprecated
@@ -232,14 +234,15 @@ public class ExtendItem extends Item {
         return super.getBonusAttackDamage(args.target, args.baseAttackDamage, args.damageSource);
     }
 
+    // TODO: 1.21.2
     @Deprecated
-    @Override
+    //@Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
         return canRepair(new CanRepairArgs(stack, ingredient));
     }
 
     public boolean canRepair(CanRepairArgs args) {
-        return super.canRepair(args.stack, args.ingredient);
+        return false;
     }
 
     @Deprecated

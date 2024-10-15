@@ -40,8 +40,6 @@ public interface WorldRenderContext {
 
     ClientWorld getWorld();
 
-    Profiler getProfiler();
-
     @Deprecated
     boolean isAdvancedTranslucency();
 
@@ -123,6 +121,6 @@ public interface WorldRenderContext {
         if (!vertexConsumer.isPresent())
             return;
 
-        WorldRenderer.drawBox(getMatrixStack(), vertexConsumer.get(), box, red, green, blue, alpha);
+        VertexRendering.drawBox(getMatrixStack(), vertexConsumer.get(), box, red, green, blue, alpha);
     }
 }

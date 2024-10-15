@@ -15,11 +15,11 @@ import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 public class CompatibleShovelItem extends ShovelItem implements ExtendItemProvider {
     public CompatibleShovelItem(CompatibleToolMaterial material, float attackDamage, float attackSpeed, CompatibleItemSettings settings) {
-        super(material, settings.build());
+        super(material.build(), attackDamage, attackSpeed, settings.build());
     }
 
     public CompatibleShovelItem(float attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
-        super(material, settings.build());
+        super(material, attackDamage, attackSpeed, settings.build());
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {

@@ -1,48 +1,23 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolMaterial;
+import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 
 public class EquipMaterialUtil {
+    @Deprecated
     public static ToolMaterial createToolMaterial(int durability, float miningSpeedMultiplier, float attackDamage, int miningLevel, int enchantability, Ingredient repairIngredient) {
-        return new ToolMaterial() {
-            @Override
-            public int getDurability() {
-                return durability;
-            }
+        return new ToolMaterial(CompatibleToolMaterial.level2inverseTag(miningLevel), durability, miningSpeedMultiplier, attackDamage, enchantability, ItemTags.IRON_TOOL_MATERIALS);
+    }
 
-            @Override
-            public float getMiningSpeedMultiplier() {
-                return miningSpeedMultiplier;
-            }
-
-            @Override
-            public float getAttackDamage() {
-                return attackDamage;
-            }
-
-            @Override
-            public TagKey<Block> getInverseTag() {
-                return CompatibleToolMaterial.level2inverseTag(miningLevel);
-            }
-
-            @Override
-            public int getEnchantability() {
-                return enchantability;
-            }
-
-            @Override
-            public Ingredient getRepairIngredient() {
-                return repairIngredient;
-            }
-        };
+    public static ToolMaterial createToolMaterial(int durability, float miningSpeedMultiplier, float attackDamage, int miningLevel, int enchantability, RepairIngredientTag ingredientTag) {
+        return new ToolMaterial(CompatibleToolMaterial.level2inverseTag(miningLevel), durability, miningSpeedMultiplier, attackDamage, enchantability, ingredientTag.getTag());
     }
 
     public static int toInt(ArmorEquipmentType type) {

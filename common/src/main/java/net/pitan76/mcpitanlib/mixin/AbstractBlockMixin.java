@@ -6,7 +6,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.world.ServerWorld;
@@ -68,7 +68,7 @@ public class AbstractBlockMixin {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, player.getActiveHand(), hit), options);
+            ActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, player.getActiveHand(), hit), options).toActionResult();
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
@@ -98,7 +98,7 @@ public class AbstractBlockMixin {
     }
 
     @Inject(method = "getDroppedStacks", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder, CallbackInfoReturnable<List<ItemStack>> cir) {
+    private void mcpitanlib$inject_getDroppedStacks(BlockState state, LootWorldContext.Builder builder, CallbackInfoReturnable<List<ItemStack>> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();

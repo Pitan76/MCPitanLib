@@ -1,10 +1,7 @@
 package net.pitan76.mcpitanlib.api.sound;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-
-import java.util.stream.Collectors;
 
 public class CompatSoundEvents {
     public static final CompatSoundEvent ENTITY_ALLAY_AMBIENT_WITH_ITEM = new CompatSoundEvent(SoundEvents.ENTITY_ALLAY_AMBIENT_WITH_ITEM);
@@ -624,7 +621,7 @@ public class CompatSoundEvents {
     public static final CompatSoundEvent ENTITY_GOAT_PREPARE_RAM = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_PREPARE_RAM);
     public static final CompatSoundEvent ENTITY_GOAT_RAM_IMPACT = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_RAM_IMPACT);
     public static final CompatSoundEvent ENTITY_GOAT_HORN_BREAK = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_HORN_BREAK);
-    public static final CompatSoundEvent ITEM_GOAT_HORN_PLAY = new CompatSoundEvent(SoundEvents.ITEM_GOAT_HORN_PLAY);
+    public static final CompatSoundEvent ITEM_GOAT_HORN_PLAY = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_STEP);
     public static final CompatSoundEvent ENTITY_GOAT_SCREAMING_AMBIENT = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_SCREAMING_AMBIENT);
     public static final CompatSoundEvent ENTITY_GOAT_SCREAMING_DEATH = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_SCREAMING_DEATH);
     public static final CompatSoundEvent ENTITY_GOAT_SCREAMING_EAT = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_SCREAMING_EAT);
@@ -633,7 +630,7 @@ public class CompatSoundEvents {
     public static final CompatSoundEvent ENTITY_GOAT_SCREAMING_MILK = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_SCREAMING_MILK);
     public static final CompatSoundEvent ENTITY_GOAT_SCREAMING_PREPARE_RAM = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_SCREAMING_PREPARE_RAM);
     public static final CompatSoundEvent ENTITY_GOAT_SCREAMING_RAM_IMPACT = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_SCREAMING_RAM_IMPACT);
-    public static final CompatSoundEvent ENTITY_GOAT_SCREAMING_HORN_BREAK = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_SCREAMING_HORN_BREAK);
+    public static final CompatSoundEvent ENTITY_GOAT_SCREAMING_HORN_BREAK = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_HORN_BREAK);
     public static final CompatSoundEvent ENTITY_GOAT_STEP = new CompatSoundEvent(SoundEvents.ENTITY_GOAT_STEP);
     public static final CompatSoundEvent BLOCK_GRASS_BREAK = new CompatSoundEvent(SoundEvents.BLOCK_GRASS_BREAK);
     public static final CompatSoundEvent BLOCK_GRASS_FALL = new CompatSoundEvent(SoundEvents.BLOCK_GRASS_FALL);

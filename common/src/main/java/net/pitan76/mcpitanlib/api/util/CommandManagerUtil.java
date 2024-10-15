@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.world.ServerWorld;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.core.command.CommandResult;
 
@@ -75,7 +76,7 @@ public class CommandManagerUtil {
     }
 
     public static ServerCommandSource getCommandSource(Player player) {
-        return player.getEntity().getCommandSource();
+        return player.getEntity().getCommandSource((ServerWorld) player.getWorld());
     }
 
     public static ServerCommandSource withLevel(ServerCommandSource source, int level) {

@@ -7,7 +7,6 @@ import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
@@ -16,6 +15,7 @@ import net.pitan76.mcpitanlib.api.event.entity.EntityHitEvent;
 import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 public abstract class CompatThrownItemEntity extends ThrownItemEntity {
 
@@ -24,11 +24,11 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity {
     }
 
     public CompatThrownItemEntity(EntityType<? extends ThrownItemEntity> entityType, double d, double e, double f, World world) {
-        super(entityType, d, e, f, world);
+        super(entityType, d, e, f, world, ItemStackUtil.empty());
     }
 
     public CompatThrownItemEntity(EntityType<? extends ThrownItemEntity> entityType, LivingEntity livingEntity, World world) {
-        super(entityType, livingEntity, world);
+        super(entityType, livingEntity, world, ItemStackUtil.empty());
     }
 
     public abstract Item getDefaultItemOverride();
