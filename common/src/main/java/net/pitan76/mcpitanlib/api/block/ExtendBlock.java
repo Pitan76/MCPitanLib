@@ -34,6 +34,7 @@ import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.pitan76.mcpitanlib.api.event.block.StateForNeighborUpdateArgs;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 import org.jetbrains.annotations.Nullable;
@@ -108,7 +109,7 @@ public class ExtendBlock extends Block {
     @Override
     @Deprecated
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        return onRightClick(new BlockUseEvent(state, world, pos, player, hand, hit));
+        return onRightClick(new BlockUseEvent(state, world, pos, player, hand, hit)).toActionResult();
     }
 
     /**
@@ -116,8 +117,8 @@ public class ExtendBlock extends Block {
      * @param event ActionResultType
      * @return BlockUseEvent
      */
-    public ActionResult onRightClick(BlockUseEvent event) {
-        return super.onUse(event.state, event.world, event.pos, event.player.getPlayerEntity(), event.hand, event.hit);
+    public CompatActionResult onRightClick(BlockUseEvent event) {
+        return CompatActionResult.create(super.onUse(event.state, event.world, event.pos, event.player.getPlayerEntity(), event.hand, event.hit));
     }
 
     @Deprecated

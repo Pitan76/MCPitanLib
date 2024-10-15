@@ -69,7 +69,7 @@ public class AbstractBlockMixin {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, hand, hit), options);
+            ActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, hand, hit), options).toActionResult();
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }

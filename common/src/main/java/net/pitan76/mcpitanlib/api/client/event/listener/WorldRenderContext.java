@@ -40,8 +40,6 @@ public interface WorldRenderContext {
 
     ClientWorld getWorld();
 
-    Profiler getProfiler();
-
     @Deprecated
     boolean isAdvancedTranslucency();
 

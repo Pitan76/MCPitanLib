@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.pitan76.mcpitanlib.MCPitanLib;
 
 public class EntityTypeBuilder<T extends Entity> {
 
@@ -20,7 +21,7 @@ public class EntityTypeBuilder<T extends Entity> {
     private int maxTrackDistance;
     private int trackTickInterval;
     private Boolean alwaysUpdateVelocity = null;
-
+    private String translationKey = "entity." + MCPitanLib.MOD_ID;
 
     @Deprecated
     // Recommend: create()
@@ -51,7 +52,7 @@ public class EntityTypeBuilder<T extends Entity> {
     }
 
     public EntityType<T> build() {
-        return new ExtendEntityType<>(factory, spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, maxTrackDistance, trackTickInterval, alwaysUpdateVelocity);
+        return new ExtendEntityType<>(factory, spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, maxTrackDistance, trackTickInterval, translationKey, alwaysUpdateVelocity);
     }
 
     public EntityTypeBuilder<T> setSpawnGroup(SpawnGroup spawnGroup) {
@@ -115,5 +116,9 @@ public class EntityTypeBuilder<T extends Entity> {
     public EntityTypeBuilder<T> setAlwaysUpdateVelocity(Boolean alwaysUpdateVelocity) {
         this.alwaysUpdateVelocity = alwaysUpdateVelocity;
         return this;
+    }
+
+    public void setTranslationKey(String translationKey) {
+        this.translationKey = translationKey;
     }
 }

@@ -9,11 +9,13 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 import java.util.function.Supplier;
 
+@Deprecated
 public class CompatibleItemSettings {
-    private final ExtendSettings settings = new ExtendSettings();
+    protected final ExtendSettings settings = new ExtendSettings();
 
     protected Identifier itemGroupId = null;
 
+    @Deprecated
     public static CompatibleItemSettings of() {
         return new CompatibleItemSettings();
     }
@@ -72,7 +74,7 @@ public class CompatibleItemSettings {
         return this;
     }
 
-    public ExtendSettings build() {
+    public Item.Settings build() {
         if (itemGroupId != null) {
             if (CreativeTabBuilder.itemGroupBuilderMap.containsKey(itemGroupId)) {
                 CreativeTabBuilder itemGroupBuilder = CreativeTabBuilder.itemGroupBuilderMap.get(itemGroupId);

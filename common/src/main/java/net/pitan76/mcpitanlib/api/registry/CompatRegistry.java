@@ -15,15 +15,16 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.MCPitanLib;
-import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
+import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
-import net.pitan76.mcpitanlib.api.util.BlockUtil;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
+import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.core.registry.FuelRegistry;
 import net.pitan76.mcpitanlib.core.registry.MCPLRegistry;
 import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
@@ -73,14 +74,14 @@ public class CompatRegistry {
      * @return The registry result
      */
     public RegistryResult<Item> registerItem(Identifier id, Supplier<Item> supplier) {
-        if (MCPitanLib.isItemBlackListed(id)) supplier = () -> ItemUtil.of(CompatibleItemSettings.of());
+        if (MCPitanLib.isItemBlackListed(id)) supplier = () -> ItemUtil.create(CompatibleItemSettings.of(CompatIdentifier.fromMinecraft(id)));
         RegistrySupplier<Item> registrySupplier = mcplr.registryItem(id, supplier);
         CreativeTabManager.register(id);
         return new RegistryResult<>(registrySupplier);
     }
 
     public RegistryResult<Block> registerBlock(Identifier id, Supplier<Block> supplier) {
-        if (MCPitanLib.isBlockBlackListed(id)) supplier = () -> BlockUtil.of(CompatibleBlockSettings.of(CompatibleMaterial.STONE));
+        if (MCPitanLib.isBlockBlackListed(id)) supplier = () -> BlockUtil.create(CompatibleBlockSettings.of(CompatIdentifier.fromMinecraft(id), CompatibleMaterial.STONE));
         return new RegistryResult<>(mcplr.registryBlock(id, supplier));
     }
 
@@ -144,10 +145,6 @@ public class CompatRegistry {
 
     public RegistryResult<ItemGroup> registerItemGroup(CreativeTabBuilder builder) {
         return registerItemGroup(builder.getIdentifier(), builder);
-    }
-
-    public RegistryResult<Object> registerDataComponentType(Identifier id, Supplier<?> supplier) {
-        return new RegistryResult<>(null);
     }
 
     public static void registerFuel(int time, ItemConvertible... item) {
