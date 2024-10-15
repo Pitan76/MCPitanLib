@@ -1,8 +1,11 @@
 package net.pitan76.mcpitanlib.api.event.result;
 
 import me.shedaniel.architectury.event.CompoundEventResult;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public class TypedEventResult<T> {
     protected final CompoundEventResult<T> result;
@@ -32,11 +35,33 @@ public class TypedEventResult<T> {
         return result;
     }
 
+    public ActionResult toActionResult() {
+        return result.asMinecraft().getResult();
+    }
+
+    @Deprecated
     public TypedActionResult<T> toTypedActionResult() {
         return result.asMinecraft();
     }
 
-    public ActionResult toActionResult() {
-        return result.asMinecraft().getResult();
+    public CompatActionResult toCompatActionResult() {
+        return CompatActionResult.of(result.asMinecraft().getResult());
+    }
+
+    public CompatActionResult toCompatActionResult(ItemStack stack) {
+        if (result.object() != stack)
+            return toCompatActionResult();
+
+        if (toActionResult() == ActionResult.SUCCESS)
+            return StackActionResult.success(stack);
+
+        if (toActionResult() == ActionResult.CONSUME)
+            return StackActionResult.consume(stack);
+
+        return toCompatActionResult();
+    }
+
+    public CompatActionResult toCompatActionResult(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return toCompatActionResult(stack.toMinecraft());
     }
 }

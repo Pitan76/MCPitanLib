@@ -16,7 +16,6 @@ import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;
 
-import java.util.List;
 import java.util.Set;
 
 public class CompatibleMiningToolItem extends MiningToolItem implements ExtendItemProvider {
@@ -26,7 +25,7 @@ public class CompatibleMiningToolItem extends MiningToolItem implements ExtendIt
     }
 
     public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, TagKey<Block> tagKey, CompatibleItemSettings settings) {
-        this(attackDamage, attackSpeed, material, Sets.newHashSet(BlockUtil.getBlocks(tagKey)), settings.build());
+        this(attackDamage, attackSpeed, material.build(), Sets.newHashSet(BlockUtil.getBlocks(tagKey)), settings.build());
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {

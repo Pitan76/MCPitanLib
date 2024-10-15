@@ -15,11 +15,11 @@ public class FurnaceUtil {
         return 200;
     }
 
-    public static boolean canUseAsFuel(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
-        return canUseAsFuel(stack.toMinecraft());
+    public static boolean canUseAsFuel(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, World world) {
+        return canUseAsFuel(stack.toMinecraft(), world);
     }
 
-    public static boolean canUseAsFuel(ItemStack stack) {
+    public static boolean canUseAsFuel(ItemStack stack, World world) {
         return AbstractFurnaceBlockEntity.canUseAsFuel(stack);
     }
 

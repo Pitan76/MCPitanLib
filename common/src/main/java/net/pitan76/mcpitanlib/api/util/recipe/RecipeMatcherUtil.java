@@ -23,10 +23,12 @@ public class RecipeMatcherUtil {
         return match(matcher, entry.getRecipe(), output, multiplier);
     }
 
+    @Deprecated
     public static boolean match(RecipeMatcher matcher, Recipe<?> recipe, IntList output) {
         return matcher.match(recipe, output);
     }
 
+    @Deprecated
     public static boolean match(RecipeMatcher matcher, Recipe<?> recipe, IntList output, int multiplier) {
         return matcher.match(recipe, output, multiplier);
     }

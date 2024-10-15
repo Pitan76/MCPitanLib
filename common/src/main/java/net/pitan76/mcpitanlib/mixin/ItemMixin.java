@@ -8,10 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
@@ -32,7 +29,7 @@ public class ItemMixin {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            TypedActionResult<ItemStack> returnValue = provider.onRightClick(new ItemUseEvent(world, user, hand), options);
+            ActionResult returnValue = provider.onRightClick(new ItemUseEvent(world, user, hand), options).toActionResult();
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
@@ -55,7 +52,7 @@ public class ItemMixin {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand), options);
+            ActionResult returnValue = provider.onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand), options).toActionResult();
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
@@ -155,6 +152,17 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
             int returnValue = provider.getEnchantability(new EnchantabilityArgs(), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getUseAction", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getUseAction(ItemStack stack, CallbackInfoReturnable<UseAction> cir) {
+        if (this instanceof CompatItemProvider) {
+            CompatItemProvider provider = (CompatItemProvider) this;
+            Options options = new Options();
+            UseAction returnValue = provider.getUseAction(new UseActionArgs(stack), options).getUseAction();
             if (options.cancel)
                 cir.setReturnValue(returnValue);
         }

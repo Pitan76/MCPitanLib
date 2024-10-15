@@ -9,8 +9,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.result.EventResult;
-import net.pitan76.mcpitanlib.api.event.result.TypedEventResult;
 import net.pitan76.mcpitanlib.api.event.v0.event.ClickBlockEvent;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public class InteractionEventRegistry {
     public static void registerRightClickBlock(RightClickBlock rightClickBlock) {
@@ -49,10 +50,16 @@ public class InteractionEventRegistry {
 
     public interface RightClickItem {
         default TypedActionResult<ItemStack> click(PlayerEntity var1, Hand var2) {
-            return click(new Player(var1), var2).toTypedActionResult();
+            CompatActionResult result = click(new Player(var1), var2);
+            if (result instanceof StackActionResult) {
+                return ((StackActionResult) result).toTypedActionResult();
+            } else {
+                ItemStack stack = var1.getStackInHand(var2);
+                return StackActionResult.create(result, stack).toTypedActionResult();
+            }
         }
 
-        TypedEventResult<ItemStack> click(Player player, Hand hand);
+        CompatActionResult click(Player player, Hand hand);
     }
 
     public interface ClientLeftClickAir {
@@ -76,6 +83,6 @@ public class InteractionEventRegistry {
             return interact(new Player(var1), var2, var3).toActionResult();
         }
 
-        EventResult interact(Player player, Entity entity, Hand hand);
+        CompatActionResult interact(Player player, Entity entity, Hand hand);
     }
 }

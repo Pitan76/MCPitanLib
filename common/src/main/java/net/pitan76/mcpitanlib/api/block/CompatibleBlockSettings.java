@@ -8,12 +8,19 @@ import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
+@Deprecated
 public class CompatibleBlockSettings {
-    private final AbstractBlock.Settings settings;
     private float resistance, hardness = 0.0f;
+
+    protected final AbstractBlock.Settings settings;
 
     public CompatibleBlockSettings() {
         this.settings = AbstractBlock.Settings.of(Material.STONE);
+    }
+
+    @Deprecated
+    public static CompatibleBlockSettings of() {
+        return new CompatibleBlockSettings();
     }
 
     public CompatibleBlockSettings(CompatibleMaterial material, MapColor mapColor) {
@@ -37,10 +44,12 @@ public class CompatibleBlockSettings {
         this.settings = AbstractBlock.Settings.of(material.getMaterial(), mapColor);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings of(CompatibleMaterial material, MapColor mapColor) {
         return new CompatibleBlockSettings(material, mapColor);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings of(CompatibleMaterial material, DyeColor dyeColor) {
         return new CompatibleBlockSettings(material, dyeColor);
     }
@@ -50,10 +59,12 @@ public class CompatibleBlockSettings {
         return new CompatibleBlockSettings(material);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings of(CompatibleMaterial material) {
         return new CompatibleBlockSettings(material);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings of(CompatibleMaterial material, Function<BlockState, MapColor> mapColor) {
         return new CompatibleBlockSettings(material, mapColor);
     }
@@ -62,6 +73,7 @@ public class CompatibleBlockSettings {
         this.settings = AbstractBlock.Settings.copy(block);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings copy(AbstractBlock block) {
         return new CompatibleBlockSettings(block);
     }
@@ -106,6 +118,7 @@ public class CompatibleBlockSettings {
         return this;
     }
 
+    @Deprecated
     public CompatibleBlockSettings dropsLike(Block source) {
         settings.dropsLike(source);
         return this;

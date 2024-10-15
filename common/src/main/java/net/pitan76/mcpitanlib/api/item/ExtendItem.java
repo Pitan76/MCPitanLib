@@ -8,13 +8,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 import net.pitan76.mcpitanlib.core.Dummy;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class ExtendItem extends Item {
+
     public ExtendItem(Settings settings) {
         super(settings);
     }
@@ -33,14 +33,14 @@ public class ExtendItem extends Item {
     @Deprecated
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        return onRightClick(new ItemUseEvent(world, user, hand));
+        return onRightClick(new ItemUseEvent(world, user, hand)).toTypedActionResult();
     }
 
     @Deprecated
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
-        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()));
+        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit())).toActionResult();
     }
 
     @Deprecated
@@ -52,7 +52,12 @@ public class ExtendItem extends Item {
     @Deprecated
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand));
+        return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand)).toActionResult();
+    }
+
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return super.getUseAction(stack);
     }
 
     @Deprecated
@@ -91,8 +96,8 @@ public class ExtendItem extends Item {
      * @param event ItemUseEvent
      * @return ActionResultType
      */
-    public TypedActionResult<ItemStack> onRightClick(ItemUseEvent event) {
-        return super.use(event.world, event.user.getPlayerEntity(), event.hand);
+    public StackActionResult onRightClick(ItemUseEvent event) {
+        return StackActionResult.create(CompatActionResult.create(super.use(event.world, event.user.getPlayerEntity(), event.hand).getResult()), event.stack);
     }
 
     /**
@@ -100,8 +105,8 @@ public class ExtendItem extends Item {
      * @param event ItemUseOnBlockEvent
      * @return ActionResultType
      */
-    public ActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
-        return super.useOnBlock(event.toIUC());
+    public CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
+        return CompatActionResult.create(super.useOnBlock(event.toIUC()));
     }
 
     /**
@@ -118,8 +123,8 @@ public class ExtendItem extends Item {
      * @param event ItemUseOnEntityEvent
      * @return ActionResultType
      */
-    public ActionResult onRightClickOnEntity(ItemUseOnEntityEvent event) {
-        return super.useOnEntity(event.stack, event.user.getEntity(), event.entity, event.hand);
+    public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent event) {
+        return CompatActionResult.create(super.useOnEntity(event.stack, event.user.getEntity(), event.entity, event.hand));
     }
 
     /**
@@ -128,7 +133,7 @@ public class ExtendItem extends Item {
      * @return boolean
      */
     public boolean hasRecipeRemainder(Dummy dummy) {
-        return super.hasRecipeRemainder();
+        return false;
     }
 
     /**
@@ -213,7 +218,7 @@ public class ExtendItem extends Item {
     }
 
     public boolean canRepair(CanRepairArgs args) {
-        return super.canRepair(args.stack, args.ingredient);
+        return false;
     }
 
     @Deprecated

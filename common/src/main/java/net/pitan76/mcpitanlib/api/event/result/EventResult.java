@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.result;
 
 import net.minecraft.util.ActionResult;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 
 public class EventResult {
 
@@ -51,5 +52,9 @@ public class EventResult {
             return ActionResult.PASS;
         }
         return ActionResult.CONSUME;
+    }
+
+    public CompatActionResult toCompatActionResult() {
+        return CompatActionResult.create(toActionResult());
     }
 }

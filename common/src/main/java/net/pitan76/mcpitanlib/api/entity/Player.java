@@ -329,7 +329,7 @@ public class Player {
     }
 
     public void teleport(double x, double y, double z) {
-        getEntity().teleport(x, y, z);
+        getEntity().teleport(x, y, z, false);
     }
 
     public ItemStack getMainHandStack() {
@@ -342,10 +342,6 @@ public class Player {
 
     public Direction getHorizontalFacing() {
         return getEntity().getHorizontalFacing();
-    }
-
-    public void eatFood(World world, ItemStack stack, CompatFoodComponent foodComponentBuilder) {
-        getEntity().eatFood(world, stack);
     }
 
     public double getX() {
@@ -477,32 +473,19 @@ public class Player {
         getEntity().totalExperience = experience;
     }
 
-    public boolean isFallFlying() {
-        return getEntity().isFallFlying();
-    }
-
     public boolean isSwimming() {
         return getEntity().isSwimming();
     }
 
-    public void startFallFlying() {
-        getEntity().startFallFlying();
-    }
-
-    public void stopFallFlying() {
-        getEntity().stopFallFlying();
-    }
-
-    @Deprecated
-    public int getFallFlyingTicks() {
-        return 0;
-    }
-
-    public boolean checkFallFlying() {
-        return getEntity().checkFallFlying();
-    }
-
     public void setStackInHand(Hand hand, ItemStack stack) {
         getEntity().setStackInHand(hand, stack);
+    }
+
+    public void setStackInHand(Hand hand, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        setStackInHand(hand, stack.toMinecraft());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getMidohraStackInHand(Hand hand) {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStackInHand(hand));
     }
 }

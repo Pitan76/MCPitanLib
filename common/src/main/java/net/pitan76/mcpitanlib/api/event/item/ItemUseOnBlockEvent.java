@@ -5,7 +5,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -14,6 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,20 +75,20 @@ public class ItemUseOnBlockEvent extends BaseEvent {
         return stack;
     }
 
-    public ActionResult success() {
-        return ActionResult.SUCCESS;
+    public CompatActionResult success() {
+        return CompatActionResult.SUCCESS;
     }
 
-    public ActionResult fail() {
-        return ActionResult.FAIL;
+    public CompatActionResult fail() {
+        return CompatActionResult.FAIL;
     }
 
-    public ActionResult pass() {
-        return ActionResult.PASS;
+    public CompatActionResult pass() {
+        return CompatActionResult.PASS;
     }
 
-    public ActionResult consume() {
-        return ActionResult.CONSUME;
+    public CompatActionResult consume() {
+        return CompatActionResult.CONSUME;
     }
 
     public BlockEntity getBlockEntity() {
