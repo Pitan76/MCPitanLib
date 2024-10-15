@@ -16,7 +16,7 @@ public class PartsRenderer {
     }
 
     public static void drawBottom2TopProgressBar(DrawObjectDM drawObjectDM, int x, int y, int u1, int v1, int u2, int v2, int width, int height, double value, double maxValue, CompatIdentifier texture) {
-        int percentage = (int) (value / maxValue * 100);
+        int percentage = (maxValue != 0) ? (int) (value / maxValue * 100) : 0;
         drawBottom2TopProgressBar(drawObjectDM, x, y, u1, v1, u2, v2, width, height, percentage, texture);
     }
 
@@ -30,7 +30,7 @@ public class PartsRenderer {
     }
 
     public static void drawTop2BottomProgressBar(DrawObjectDM drawObjectDM, int x, int y, int u1, int v1, int u2, int v2, int width, int height, double value, double maxValue, CompatIdentifier texture) {
-        int percentage = (int) (value / maxValue * 100);
+        int percentage = (maxValue != 0) ? (int) (value / maxValue * 100) : 0;
         drawTop2BottomProgressBar(drawObjectDM, x, y, u1, v1, u2, v2, width, height, percentage, texture);
     }
 
@@ -44,7 +44,7 @@ public class PartsRenderer {
     }
 
     public static void drawLeft2RightProgressBar(DrawObjectDM drawObjectDM, int x, int y, int u1, int v1, int u2, int v2, int width, int height, double value, double maxValue, CompatIdentifier texture) {
-        int percentage = (int) (value / maxValue * 100);
+        int percentage = (maxValue != 0) ? (int) (value / maxValue * 100) : 0;
         drawLeft2RightProgressBar(drawObjectDM, x, y, u1, v1, u2, v2, width, height, percentage, texture);
     }
 
@@ -58,7 +58,7 @@ public class PartsRenderer {
     }
 
     public static void drawRight2LeftProgressBar(DrawObjectDM drawObjectDM, int x, int y, int u1, int v1, int u2, int v2, int width, int height, double value, double maxValue, CompatIdentifier texture) {
-        int percentage = (int) (value / maxValue * 100);
+        int percentage = (maxValue != 0) ? (int) (value / maxValue * 100) : 0;
         drawRight2LeftProgressBar(drawObjectDM, x, y, u1, v1, u2, v2, width, height, percentage, texture);
     }
 

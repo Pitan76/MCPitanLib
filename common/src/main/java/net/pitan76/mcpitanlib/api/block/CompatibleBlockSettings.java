@@ -128,8 +128,8 @@ public class CompatibleBlockSettings {
         return this;
     }
 
+    @Deprecated
     public CompatibleBlockSettings dropsLike(Block source) {
-        settings.dropsLike(source);
         return this;
     }
 

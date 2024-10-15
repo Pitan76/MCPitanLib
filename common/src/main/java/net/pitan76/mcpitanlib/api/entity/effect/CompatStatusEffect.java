@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.entity.effect;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
@@ -48,10 +47,10 @@ public class CompatStatusEffect {
     public RegistryEntry<StatusEffect> getEntry(@Nullable World world) {
         Optional<RegistryEntry.Reference<StatusEffect>> optionalEntry;
         if (world == null) {
-            optionalEntry = BuiltinRegistries.createWrapperLookup().createRegistryLookup()
-                    .getOptionalEntry(RegistryKeys.STATUS_EFFECT, registryKey);
+            optionalEntry = BuiltinRegistries.createWrapperLookup()
+                    .getOptionalEntry(registryKey);
         } else {
-            optionalEntry = world.getRegistryManager().get(RegistryKeys.STATUS_EFFECT).getEntry(registryKey);
+            optionalEntry = world.getRegistryManager().getOptionalEntry(registryKey);
         }
 
         return optionalEntry.orElseThrow();

@@ -365,7 +365,7 @@ public class NbtUtil {
     }
 
     public static void putItemStack(NbtCompound nbt, String key, ItemStack stack, CompatRegistryLookup registryLookup) {
-        NbtElement stackNbt = stack.encode(registryLookup.getRegistryLookup());
+        NbtElement stackNbt = stack.toNbt(registryLookup.getRegistryLookup());
         put(nbt, key, stackNbt);
     }
 

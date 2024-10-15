@@ -57,11 +57,6 @@ public class WorldRenderRegistryImpl {
             }
 
             @Override
-            public Profiler getProfiler() {
-                return worldRenderContext.profiler();
-            }
-
-            @Override
             public boolean isAdvancedTranslucency() {
                 return worldRenderContext.advancedTranslucency();
             }
@@ -119,11 +114,6 @@ public class WorldRenderRegistryImpl {
                 @Override
                 public ClientWorld getWorld() {
                     return context.world();
-                }
-
-                @Override
-                public Profiler getProfiler() {
-                    return context.profiler();
                 }
 
                 @Override

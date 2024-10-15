@@ -1,8 +1,10 @@
 package net.pitan76.mcpitanlib.api.recipe.v2;
 
 import net.minecraft.recipe.*;
-import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,9 +20,13 @@ public class CompatRecipeEntry<T extends Recipe<?>> {
     }
 
     public CompatRecipeEntry(Identifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, T recipe) {
-        this.entry = new RecipeEntry<>(id, recipe);
+        this.entry = new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, id), recipe);
         this.group = group;
         this.category = category;
+    }
+
+    public CompatRecipeEntry(CompatIdentifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, T recipe) {
+        this(id.toMinecraft(), group, category, recipe);
     }
 
     public boolean isNull() {
@@ -37,7 +43,11 @@ public class CompatRecipeEntry<T extends Recipe<?>> {
     }
 
     public Identifier getId() {
-        return entry.id();
+        return entry.id().getValue();
+    }
+
+    public CompatIdentifier getCompatId() {
+        return CompatIdentifier.fromMinecraft(getId());
     }
 
     public RecipeType<?> getType() {

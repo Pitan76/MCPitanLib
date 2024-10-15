@@ -2,10 +2,12 @@ package net.pitan76.mcpitanlib.api.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.nbt.NbtTag;
 
@@ -18,6 +20,11 @@ public class ExtendEntity extends Entity {
     @Override
     public void initDataTracker(DataTracker.Builder builder) {
         initDataTracker();
+    }
+
+    @Override
+    public boolean damage(ServerWorld world, DamageSource source, float amount) {
+        return false;
     }
 
     public void initDataTracker() {

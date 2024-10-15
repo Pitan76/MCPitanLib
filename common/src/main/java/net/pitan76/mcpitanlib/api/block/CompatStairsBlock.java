@@ -8,7 +8,6 @@ import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -17,11 +16,13 @@ import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.event.block.CanPathfindThroughArgs;
 import net.pitan76.mcpitanlib.api.event.block.OutlineShapeEvent;
 import net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs;
+import net.pitan76.mcpitanlib.api.state.property.CompatProperties;
+import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 
 public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvider {
 
-    public static final DirectionProperty FACING = StairsBlock.FACING;
+    public static final DirectionProperty FACING = CompatProperties.HORIZONTAL_FACING;
     public static final EnumProperty<BlockHalf> HALF = StairsBlock.HALF;
     public static final EnumProperty<StairShape> SHAPE = StairsBlock.SHAPE;
     public static final BooleanProperty WATERLOGGED = StairsBlock.WATERLOGGED;

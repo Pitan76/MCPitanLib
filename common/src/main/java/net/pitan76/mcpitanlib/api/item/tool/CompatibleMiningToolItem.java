@@ -18,11 +18,11 @@ import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 public class CompatibleMiningToolItem extends MiningToolItem implements ExtendItemProvider {
     @Deprecated
     protected CompatibleMiningToolItem(float attackDamage, float attackSpeed, ToolMaterial material, net.minecraft.registry.tag.TagKey<Block> effectiveBlocks, Settings settings) {
-        super(material, effectiveBlocks, settings);
+        super(material, effectiveBlocks, attackDamage, attackSpeed, settings);
     }
 
     public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, TagKey<Block> tagKey, CompatibleItemSettings settings) {
-        this(attackDamage, attackSpeed, material, tagKey.getTagKey(), settings.build());
+        this(attackDamage, attackSpeed, material.build(), tagKey.getTagKey(), settings.build());
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {

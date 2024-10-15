@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util.recipe.input;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeMatcher;
+import net.minecraft.recipe.RecipeFinder;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.pitan76.mcpitanlib.api.recipe.input.CompatRecipeInput;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
@@ -40,11 +40,11 @@ public class CraftingRecipeInputUtil {
         return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStack(input, x, y));
     }
 
-    public static RecipeMatcher getRecipeMatcher(CraftingRecipeInput input) {
+    public static RecipeFinder getRecipeMatcher(CraftingRecipeInput input) {
         return input.getRecipeMatcher();
     }
 
-    public static RecipeMatcher getRecipeMatcher(CompatRecipeInput<?> input) {
+    public static RecipeFinder getRecipeMatcher(CompatRecipeInput<?> input) {
         Optional<CraftingRecipeInput> recipeInput = get(input);
         if (!recipeInput.isPresent()) return null;
 

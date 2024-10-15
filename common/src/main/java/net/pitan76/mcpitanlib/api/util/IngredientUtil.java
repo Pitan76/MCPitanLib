@@ -1,10 +1,13 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
@@ -14,7 +17,16 @@ import java.util.List;
 
 public class IngredientUtil {
     public static Ingredient fromTagByIdentifier(Identifier id) {
-        return Ingredient.fromTag(TagKey.of(Registries.ITEM.getKey(), id));
+        List<Item> items = ItemUtil.getItems(id);
+
+        List<RegistryEntry<Item>> entryList = new ArrayList<>();
+        for (Item item : items) {
+            entryList.add(Registries.ITEM.getEntry(item));
+        }
+
+        RegistryEntryList<Item> entryList2 = RegistryEntryList.of(entryList);
+
+        return Ingredient.fromTag(entryList2);
     }
 
     public static Ingredient fromTagByString(String id) {
@@ -27,16 +39,22 @@ public class IngredientUtil {
 
     public static List<Item> getItems(Ingredient ingredient) {
         List<Item> items = new ArrayList<>();
-        for (int rawId : ingredient.getMatchingItemIds()) {
-            try {
-                items.add(ItemUtil.fromIndex(rawId));
-            } catch (Exception ignored) {}
+
+        for (RegistryEntry<Item> entry : ingredient.getMatchingItems()) {
+            items.add(entry.value());
         }
+
         return items;
     }
 
     public static IntList getMatchingStacksIds(Ingredient ingredient) {
-        return ingredient.getMatchingItemIds();
+        IntList ids = new IntArrayList();
+
+        for (Item item : getItems(ingredient)) {
+            ids.add(ItemUtil.getRawId(item));
+        }
+
+        return ids;
     }
 
     public static List<ItemStack> getMatchingStacksAsList(Ingredient ingredient) {
@@ -44,10 +62,15 @@ public class IngredientUtil {
     }
 
     public static ItemStack[] getMatchingStacks(Ingredient ingredient) {
-        return ingredient.getMatchingStacks();
+        List<ItemStack> stacks = new ArrayList<>();
+        for (Item item : getItems(ingredient)) {
+            stacks.add(new ItemStack(item));
+        }
+
+        return stacks.toArray(new ItemStack[0]);
     }
 
     public static Ingredient empty() {
-        return Ingredient.EMPTY;
+        return null;
     }
 }

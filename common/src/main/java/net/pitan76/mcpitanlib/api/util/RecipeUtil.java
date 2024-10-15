@@ -4,7 +4,11 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -36,7 +40,7 @@ public class RecipeUtil {
 
     @Deprecated
     public static <C extends RecipeInput> ItemStack getOutput_2(Recipe<C> recipe, World world) {
-        return recipe.getResult(world.getRegistryManager());
+        return craft_2(recipe, (C) CraftingRecipeInput.EMPTY, world);
     }
 
     public static ItemStack craft(Recipe<?> recipe, Inventory inventory, World world) {
@@ -48,11 +52,17 @@ public class RecipeUtil {
     }
 
     public static ItemStack getOutput(Recipe<?> recipe, World world) {
-        return recipe.getResult(world.getRegistryManager());
+        return recipe.craft(null, world.getRegistryManager());
     }
 
     public static List<Recipe<?>> getAllRecipes(World world) {
-        Collection<RecipeEntry<?>> recipes = getRecipeManager(world).values();
+        RecipeManager iRecipeManager = getRecipeManager(world);
+        if (!(iRecipeManager instanceof ServerRecipeManager))
+            return new ArrayList<>();
+
+        ServerRecipeManager recipeManager = (ServerRecipeManager) iRecipeManager;
+
+        Collection<RecipeEntry<?>> recipes = recipeManager.values();
         List<Recipe<?>> outRecipes = new ArrayList<>();
         for (Object recipeEntryObj : recipes) {
             if (recipeEntryObj instanceof RecipeEntry) {
@@ -73,13 +83,23 @@ public class RecipeUtil {
         return IdentifierUtil.id(recipe.getClass().hashCode() + "");
     }
 
-    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(RecipeManager recipeManager, CompatRecipeType<T> type, CompatRecipeInput<I> input, World world) {
+    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(RecipeManager iRecipeManager, CompatRecipeType<T> type, CompatRecipeInput<I> input, World world) {
+        if (!(iRecipeManager instanceof ServerRecipeManager))
+            return new CompatRecipeEntry<>(null);
+
+        ServerRecipeManager recipeManager = (ServerRecipeManager) iRecipeManager;
+
         Optional<RecipeEntry<T>> recipe = recipeManager.getFirstMatch(type.getType(), input.getInput(), world);
         return recipe.map(CompatRecipeEntry::new).orElseGet(() -> new CompatRecipeEntry<>(null));
     }
 
-    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(RecipeManager recipeManager, CompatRecipeType<T> type, CompatRecipeInput<I> input, World world, CompatIdentifier identifier) {
-        Optional<RecipeEntry<T>> recipe = recipeManager.getFirstMatch(type.getType(), input.getInput(), world, identifier.toMinecraft());
+    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(RecipeManager iRecipeManager, CompatRecipeType<T> type, CompatRecipeInput<I> input, World world, CompatIdentifier identifier) {
+        if (!(iRecipeManager instanceof ServerRecipeManager))
+            return new CompatRecipeEntry<>(null);
+
+        ServerRecipeManager recipeManager = (ServerRecipeManager) iRecipeManager;
+
+        Optional<RecipeEntry<T>> recipe = recipeManager.getFirstMatch(type.getType(), input.getInput(), world, RegistryKey.of(RegistryKeys.RECIPE, identifier.toMinecraft()));
         return recipe.map(CompatRecipeEntry::new).orElseGet(() -> new CompatRecipeEntry<>(null));
     }
 
@@ -99,13 +119,17 @@ public class RecipeUtil {
         return get(getRecipeManager(world), id);
     }
 
-    public Optional<RecipeEntry<?>> get(RecipeManager recipeManager, CompatIdentifier id) {
-        return recipeManager.get(id.toMinecraft());
+    public Optional<RecipeEntry<?>> get(RecipeManager iRecipeManager, CompatIdentifier id) {
+        if (!(iRecipeManager instanceof ServerRecipeManager))
+            return Optional.empty();
+        ServerRecipeManager recipeManager = (ServerRecipeManager) iRecipeManager;
+
+        return recipeManager.get(RegistryKey.of(RegistryKeys.RECIPE, id.toMinecraft()));
     }
 
     public static <I extends RecipeInput, T extends Recipe<I>> MatchGetter<I, T> createCachedMatchGetter(RecipeType<T> type) {
         return (input, world) -> {
-            Optional<RecipeEntry<T>> optional = RecipeManager.createCachedMatchGetter(type).getFirstMatch(input.getInput(), world);
+            Optional<RecipeEntry<T>> optional = ServerRecipeManager.createCachedMatchGetter(type).getFirstMatch(input.getInput(), (ServerWorld) world);
             return optional.map(CompatRecipeEntry::new);
         };
     }
@@ -115,7 +139,15 @@ public class RecipeUtil {
     }
 
     public static DefaultedList<Ingredient> getInputs(Recipe<?> recipe) {
-        return recipe.getIngredients();
+        List<Ingredient> ingredients = recipe.getIngredientPlacement().getIngredients();
+
+        DefaultedList<Ingredient> outIngredients = DefaultedList.ofSize(ingredients.size());
+
+        for (int i = 0; i < ingredients.size(); i++) {
+            outIngredients.set(i, ingredients.get(i));
+        }
+
+        return outIngredients;
     }
 
     public static DefaultedList<Ingredient> getInputs(CompatRecipeEntry<?> recipeEntry) {
@@ -136,11 +168,11 @@ public class RecipeUtil {
     }
 
     public static ItemStack getOutput(Recipe<?> recipe, CompatRegistryLookup registryLookup) {
-        return recipe.getResult(registryLookup.getRegistryLookup());
+        return recipe.craft(null, registryLookup.getRegistryLookup());
     }
 
     public static ItemStack getOutput(CompatRecipeEntry<?> recipeEntry, CompatRegistryLookup registryLookup) {
-        return recipeEntry.getRecipe().getResult(registryLookup.getRegistryLookup());
+        return recipeEntry.getRecipe().craft(null, registryLookup.getRegistryLookup());
     }
 
     public static CompatRecipeType<?> getType(CompatRecipeEntry<?> recipeEntry) {
@@ -148,7 +180,8 @@ public class RecipeUtil {
     }
 
     public static  <I extends RecipeInput, T extends Recipe<I>> ItemStackList getRemainder(CompatRecipeEntry<T> recipeEntry, CompatRecipeInput<I> input) {
-        return ItemStackList.of(recipeEntry.getRecipe().getRemainder(input.getInput()));
+        return ItemStackList.of();
+        //return ItemStackList.of(recipeEntry.getRecipe().getRemainder(input.getInput()));
     }
 
     public enum CompatibilityCraftingRecipeCategory {

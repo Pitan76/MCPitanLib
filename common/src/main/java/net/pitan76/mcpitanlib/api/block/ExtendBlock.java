@@ -14,7 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
@@ -29,14 +29,17 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.block.WireOrientation;
+import net.minecraft.world.tick.ScheduledTickView;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.pitan76.mcpitanlib.api.event.block.StateForNeighborUpdateArgs;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 import org.jetbrains.annotations.Nullable;
 
@@ -110,7 +113,7 @@ public class ExtendBlock extends Block {
     @Override
     @Deprecated
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        return onRightClick(new BlockUseEvent(state, world, pos, player, player.getActiveHand(), hit));
+        return onRightClick(new BlockUseEvent(state, world, pos, player, player.getActiveHand(), hit)).toActionResult();
     }
 
     /**
@@ -118,8 +121,8 @@ public class ExtendBlock extends Block {
      * @param event ActionResultType
      * @return BlockUseEvent
      */
-    public ActionResult onRightClick(BlockUseEvent event) {
-        return super.onUse(event.state, event.world, event.pos, event.player.getPlayerEntity(), event.hit);
+    public CompatActionResult onRightClick(BlockUseEvent event) {
+        return CompatActionResult.create(super.onUse(event.state, event.world, event.pos, event.player.getPlayerEntity(), event.hit));
     }
 
     @Deprecated
@@ -211,7 +214,7 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+    public List<ItemStack> getDroppedStacks(BlockState state, LootWorldContext.Builder builder) {
         return getDroppedStacks(new DroppedStacksArgs(state, builder));
     }
 
@@ -226,8 +229,8 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-        neighborUpdate(new NeighborUpdateEvent(state, world, pos, sourceBlock, sourcePos, notify));
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, WireOrientation wireOrientation, boolean notify) {
+        neighborUpdate(new NeighborUpdateEvent(state, world, pos, sourceBlock, wireOrientation, notify));
     }
 
     /**
@@ -235,7 +238,7 @@ public class ExtendBlock extends Block {
      * @param event NeighborUpdateEvent
      */
     public void neighborUpdate(NeighborUpdateEvent event) {
-        super.neighborUpdate(event.state, event.world, event.pos, event.sourceBlock, event.sourcePos, event.notify);
+        super.neighborUpdate(event.state, event.world, event.pos, event.sourceBlock, event.wireOrientation, event.notify);
     }
 
     @Deprecated
@@ -349,12 +352,12 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(state, direction, neighborState, world, pos, neighborPos));
+    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
+        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(state, direction, neighborState, world, pos, neighborPos, tickView, new CompatRandom(random)));
     }
 
     public BlockState getStateForNeighborUpdate(StateForNeighborUpdateArgs args) {
-        return super.getStateForNeighborUpdate(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos);
+        return super.getStateForNeighborUpdate(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom());
     }
 
     @Deprecated

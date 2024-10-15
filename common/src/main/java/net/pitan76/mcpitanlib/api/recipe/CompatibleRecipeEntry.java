@@ -1,7 +1,10 @@
 package net.pitan76.mcpitanlib.api.recipe;
 
 import net.minecraft.recipe.*;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,9 +20,13 @@ public class CompatibleRecipeEntry {
     }
 
     public CompatibleRecipeEntry(Identifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, ShapelessRecipe shapelessRecipe) {
-        this.entry = new RecipeEntry<>(id, shapelessRecipe);
+        this.entry = new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, id), shapelessRecipe);
         this.group = group;
         this.category = category;
+    }
+
+    public CompatibleRecipeEntry(CompatIdentifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, ShapelessRecipe shapelessRecipe) {
+        this(id.toMinecraft(), group, category, shapelessRecipe);
     }
 
     @Deprecated
@@ -36,7 +43,11 @@ public class CompatibleRecipeEntry {
     }
 
     public Identifier getId() {
-        return entry.id();
+        return entry.id().getValue();
+    }
+
+    public CompatIdentifier getCompatId() {
+        return CompatIdentifier.fromMinecraft(getId());
     }
 
     public RecipeType<?> getType() {

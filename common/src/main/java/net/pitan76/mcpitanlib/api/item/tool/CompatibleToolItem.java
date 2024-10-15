@@ -2,9 +2,8 @@ package net.pitan76.mcpitanlib.api.item.tool;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
-import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
@@ -12,14 +11,18 @@ import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 
-public class CompatibleToolItem extends ToolItem implements ExtendItemProvider {
+public class CompatibleToolItem extends Item implements ExtendItemProvider {
+
+    public CompatibleToolMaterial material;
+
     @Deprecated
-    protected CompatibleToolItem(ToolMaterial material, Settings settings) {
-        super(material, settings);
+    protected CompatibleToolItem(Settings settings) {
+        super(settings);
     }
 
     public CompatibleToolItem(CompatibleToolMaterial material, CompatibleItemSettings settings) {
-        this(material, settings.build());
+        this(material.build().applyToolSettings(settings.build(), null, 0, 0));
+        this.material = material;
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
@@ -39,7 +42,7 @@ public class CompatibleToolItem extends ToolItem implements ExtendItemProvider {
     @Deprecated
     @Override
     public float getMiningSpeed(ItemStack stack, BlockState state) {
-        return overrideGetMiningSpeedMultiplier(stack, state) * super.getMiningSpeed(stack, state);
+        return overrideGetMiningSpeedMultiplier(stack, state) * super.getMiningSpeed(stack, state) * material.getCompatMiningSpeedMultiplier();
     }
 
     @Deprecated

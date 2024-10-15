@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -178,7 +180,7 @@ public class WorldUtil {
     }
 
     public static int getTopY(World world) {
-        return world.getTopY();
+        return world.getTopYInclusive();
     }
 
     public static int getDimensionHeight(World world) {
@@ -257,7 +259,7 @@ public class WorldUtil {
     }
 
     public static boolean canSetBlock(World world, BlockPos pos) {
-        return world.canSetBlock(pos);
+        return world.canPlace(Blocks.STONE.getDefaultState(), pos, ShapeContext.absent());
     }
 
     public static void updateComparators(World world, BlockPos pos, Block block) {

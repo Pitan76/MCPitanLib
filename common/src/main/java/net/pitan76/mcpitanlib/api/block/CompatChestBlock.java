@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class CompatChestBlock extends ChestBlock {
     public CompatChestBlock(Settings settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
-        super(settings, supplier);
+        super(supplier, settings);
     }
 
     /**

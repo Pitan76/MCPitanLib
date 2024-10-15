@@ -50,10 +50,10 @@ public class CompatEnchantment {
     public RegistryEntry<Enchantment> getEntry(@Nullable World world) {
         Optional<RegistryEntry.Reference<Enchantment>> optionalEntry;
         if (world == null) {
-            optionalEntry = BuiltinRegistries.createWrapperLookup().createRegistryLookup()
-                    .getOptionalEntry(RegistryKeys.ENCHANTMENT, registryKey);
+            optionalEntry = BuiltinRegistries.createWrapperLookup()
+                    .getOptionalEntry(registryKey);
         } else {
-            optionalEntry = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(registryKey);
+            optionalEntry = world.getRegistryManager().getOptionalEntry(registryKey);
         }
 
         return optionalEntry.orElseThrow();
