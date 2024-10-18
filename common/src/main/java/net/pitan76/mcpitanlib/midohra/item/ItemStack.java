@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class ItemStack {
     private final net.minecraft.item.ItemStack stack;
+    public static final ItemStack EMPTY = of(ItemStackUtil.empty());
 
     protected ItemStack(net.minecraft.item.ItemStack stack) {
         this.stack = stack;
@@ -18,7 +19,7 @@ public class ItemStack {
 
     public static ItemStack of(net.minecraft.item.ItemStack stack) {
         if (stack == null)
-            return new ItemStack(ItemStackUtil.empty());
+            return EMPTY;
 
         return new ItemStack(stack);
     }
@@ -29,6 +30,10 @@ public class ItemStack {
 
     public static ItemStack of(ItemConvertible item, int count) {
         return new Builder().item(item).count(count).build();
+    }
+
+    public static ItemStack empty() {
+        return EMPTY;
     }
 
     public int getCount() {

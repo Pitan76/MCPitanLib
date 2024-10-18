@@ -12,6 +12,8 @@ public class CompatIdentifier {
     private final String namespace;
     private final String path;
 
+    public static final CompatIdentifier EMPTY = CompatIdentifier.of("mcpitanlib:empty");
+
     /**
      * Creates a new Identifier with the given namespace and path.
      * @param namespace The namespace of the Identifier.
@@ -144,10 +146,14 @@ public class CompatIdentifier {
     }
 
     public static CompatIdentifier empty() {
-        return of("mcpitanlib:empty");
+        return EMPTY;
     }
 
     public boolean isEmpty() {
-        return this.equals("mcpitanlib:empty");
+        return equals(EMPTY);
+    }
+
+    public static boolean isMinecraftNamespace(CompatIdentifier id) {
+        return id.getNamespace().equals("minecraft");
     }
 }

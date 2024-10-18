@@ -12,19 +12,22 @@ import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
+@Deprecated
 public class CompatibleBlockSettings {
     public static final Codec<CompatibleBlockSettings> CODEC = Codec.unit(CompatibleBlockSettings::of);
 
-    private final AbstractBlock.Settings settings;
+    protected final AbstractBlock.Settings settings;
 
     public CompatibleBlockSettings() {
         this.settings = AbstractBlock.Settings.create();
     }
 
+    @Deprecated
     public static CompatibleBlockSettings of() {
         return new CompatibleBlockSettings();
     }
 
+    @Deprecated
     private static CompatibleBlockSettings copyCompatibleMaterial(CompatibleMaterial material, CompatibleBlockSettings settings) {
         settings.mapColor(material.getColor());
         if (material.isLiquid())
@@ -64,18 +67,22 @@ public class CompatibleBlockSettings {
         mapColor(mapColor);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings of(CompatibleMaterial material, MapColor mapColor) {
         return new CompatibleBlockSettings(material, mapColor);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings of(CompatibleMaterial material, DyeColor dyeColor) {
         return new CompatibleBlockSettings(material, dyeColor);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings of(CompatibleMaterial material) {
         return new CompatibleBlockSettings(material);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings of(CompatibleMaterial material, Function<BlockState, MapColor> mapColor) {
         return new CompatibleBlockSettings(material, mapColor);
     }
@@ -84,6 +91,7 @@ public class CompatibleBlockSettings {
         this.settings = AbstractBlock.Settings.copy(block);
     }
 
+    @Deprecated
     public static CompatibleBlockSettings copy(AbstractBlock block) {
         return new CompatibleBlockSettings(block);
     }

@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.block.WireOrientation;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.util.block.BlockHitResultUtil;
 
 public class BlockStateUtil {
@@ -33,6 +34,10 @@ public class BlockStateUtil {
 
     public static BlockSoundGroup getSoundGroup(BlockState state) {
         return state.getSoundGroup();
+    }
+
+    public static CompatBlockSoundGroup getCompatSoundGroup(BlockState state) {
+        return CompatBlockSoundGroup.of(getSoundGroup(state));
     }
 
     public static BlockState getDefaultState(Block block) {

@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.pitan76.easyapi.config.Config;
 import net.pitan76.easyapi.config.JsonConfig;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.PlatformUtil;
 import net.pitan76.mcpitanlib.debug.DebugTool;
@@ -100,6 +101,10 @@ public class MCPitanLib {
      */
     public static Identifier id(String path) {
         return IdentifierUtil.id(MOD_ID, path);
+    }
+
+    public static CompatIdentifier compatId(String path) {
+        return CompatIdentifier.fromMinecraft(id(path));
     }
 
     public static boolean isItemBlackListed(Identifier id) {

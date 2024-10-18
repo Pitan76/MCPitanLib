@@ -9,6 +9,8 @@ import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
+import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 
 import java.util.function.Supplier;
 
@@ -92,7 +94,19 @@ public class CreativeTabBuilder {
         }));
     }
 
+    @SuppressWarnings("deprecation")
+    public ItemGroupWrapper getBuiltWrapper() {
+        if (MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.containsKey(identifier))
+            return ItemGroupWrapper.of(MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(identifier).getOrNull());
+
+        return ItemGroupWrapper.of(build());
+    }
+
     public Identifier getIdentifier() {
         return identifier;
+    }
+
+    public CompatIdentifier getCompatIdentifier() {
+        return CompatIdentifier.fromMinecraft(identifier);
     }
 }

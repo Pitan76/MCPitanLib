@@ -12,6 +12,7 @@ import net.pitan76.mcpitanlib.api.util.v2.ItemUtilV2;
 
 import java.util.List;
 
+@Deprecated
 public class ItemUtil {
 
     /**
