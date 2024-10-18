@@ -23,6 +23,7 @@ import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 import java.util.List;
 
 public class ExtendItem extends Item {
+
     public ExtendItem(Settings settings) {
         super(settings);
     }

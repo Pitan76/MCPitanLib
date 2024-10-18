@@ -11,11 +11,13 @@ import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 
 import java.util.function.Supplier;
 
+@Deprecated
 public class CompatibleItemSettings {
-    private final ExtendSettings settings = new ExtendSettings();
+    protected final ExtendSettings settings = new ExtendSettings();
 
     protected Identifier itemGroupId = null;
 
+    @Deprecated
     public static CompatibleItemSettings of() {
         return new CompatibleItemSettings();
     }
@@ -77,7 +79,7 @@ public class CompatibleItemSettings {
         return this;
     }
 
-    public ExtendSettings build() {
+    public Item.Settings build() {
         if (itemGroupId != null) {
             RegistrySupplier<ItemGroup> itemGroup = MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(itemGroupId);
             settings.arch$tab(itemGroup);
