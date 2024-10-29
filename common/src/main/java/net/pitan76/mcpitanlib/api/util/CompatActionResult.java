@@ -2,7 +2,11 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.util.ActionResult;
 import net.pitan76.mcpitanlib.api.event.result.EventResult;
+import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 
+import java.util.Optional;
+
+// TODO: CompatActionResultを継承してItemStackを持つverも作成する
 public class CompatActionResult {
     public static final CompatActionResult SUCCESS = new CompatActionResult(ActionResult.SUCCESS, EventResult.success());
     public static final CompatActionResult PASS = new CompatActionResult(ActionResult.PASS, EventResult.pass());
@@ -26,6 +30,17 @@ public class CompatActionResult {
 
     public EventResult toEventResult() {
         return eventResult;
+    }
+
+    public Optional<ItemStack> getNewMidohraHandStack() {
+        return getNewHandStack().map(ItemStack::of);
+    }
+
+    public Optional<net.minecraft.item.ItemStack> getNewHandStack() {
+        if (!(actionResult instanceof ActionResult.Success)) return Optional.empty();
+
+        ActionResult.Success success = (ActionResult.Success) actionResult;
+        return Optional.ofNullable(success.getNewHandStack());
     }
 
     public static CompatActionResult of(ActionResult result) {

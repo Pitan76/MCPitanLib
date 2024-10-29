@@ -1,12 +1,14 @@
 package net.pitan76.mcpitanlib.api.tag.item;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IngredientUtil;
+import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 
 public class RepairIngredientTag {
 
@@ -44,5 +46,19 @@ public class RepairIngredientTag {
     @Deprecated
     public Ingredient getIngredient() {
         return IngredientUtil.fromTagByIdentifier(tag.id());
+    }
+
+    public boolean contains(Item item) {
+        if (item == null || tag == null)
+            return false;
+
+        return ItemUtil.isInTag(item, CompatIdentifier.fromMinecraft(tag.id()));
+    }
+
+    public boolean contains(ItemStack stack) {
+        if (stack.isEmpty() || tag == null)
+            return false;
+
+        return getIngredient().test(stack);
     }
 }

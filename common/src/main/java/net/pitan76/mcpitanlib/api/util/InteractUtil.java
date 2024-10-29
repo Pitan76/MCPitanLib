@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -11,6 +12,8 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
+import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
+import net.pitan76.mcpitanlib.api.item.consume.CompatUseAction;
 
 public class InteractUtil {
 
@@ -28,6 +31,14 @@ public class InteractUtil {
 
     public static CompatActionResult useItemOnEntity(Item item, ItemUseOnEntityEvent event) {
         return CompatActionResult.create(item.useOnEntity(event.getStack(), event.getUser().getEntity(), event.getEntity(), event.getHand()));
+    }
+
+    public static CompatUseAction getUseAction(Item item, UseActionArgs args) {
+        return CompatUseAction.of(item.getUseAction(args.stack));
+    }
+
+    public static CompatUseAction getUseAction(Item item, ItemStack stack) {
+        return CompatUseAction.of(item.getUseAction(stack));
     }
 
     public static CompatActionResult useBlock(BlockState state, World world, Player player, BlockHitResult hitResult) {
