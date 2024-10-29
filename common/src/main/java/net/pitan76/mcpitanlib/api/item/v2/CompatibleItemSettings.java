@@ -11,6 +11,7 @@ import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.ExtendSettings;
 import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.CompatRarity;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
@@ -20,6 +21,9 @@ import java.util.function.Supplier;
 public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.CompatibleItemSettings {
     protected CompatIdentifier identifier = null;
     public boolean changedTranslationKey = false;
+    public CompatRarity rarity = CompatRarity.COMMON;
+    public int enchantability = -1;
+    public RepairIngredientTag repairIngredientTag = null;
 
     public CompatibleItemSettings(CompatIdentifier identifier) {
         super();
@@ -84,9 +88,17 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
         return recipeRemainder(recipeRemainder.get());
     }
 
+    @Deprecated
     @Override
     public CompatibleItemSettings rarity(Rarity rarity) {
         super.rarity(rarity);
+        this.rarity = CompatRarity.of(rarity);
+        return this;
+    }
+
+    public CompatibleItemSettings rarity(CompatRarity rarity) {
+        super.rarity(rarity.get());
+        this.rarity = rarity;
         return this;
     }
 
@@ -116,11 +128,13 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
 
     public CompatibleItemSettings enchantable(int enchantability) {
         settings.enchantable(enchantability);
+        this.enchantability = enchantability;
         return this;
     }
 
     public CompatibleItemSettings repairable(RepairIngredientTag tag) {
         settings.repairable(tag.getTag());
+        this.repairIngredientTag = tag;
         return this;
     }
 
