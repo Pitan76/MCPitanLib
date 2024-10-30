@@ -8,7 +8,7 @@ import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.gui.v2.SimpleScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
-import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public class SimpleGuiItem extends CompatItem implements SimpleScreenHandlerFactory {
 
@@ -31,7 +31,7 @@ public class SimpleGuiItem extends CompatItem implements SimpleScreenHandlerFact
     }
 
     @Override
-    public CompatActionResult onRightClick(ItemUseEvent e) {
+    public StackActionResult onRightClick(ItemUseEvent e) {
         if (!e.isClient())
             e.user.openGuiScreen(this);
 

@@ -17,8 +17,9 @@ import net.pitan76.mcpitanlib.api.item.consume.CompatUseAction;
 
 public class InteractUtil {
 
-    public static CompatActionResult useItem(Item item, ItemUseEvent event) {
-        return CompatActionResult.create(item.use(event.getWorld(), event.user.getEntity(), event.getHand()));
+    public static StackActionResult useItem(Item item, ItemUseEvent event) {
+        CompatActionResult result = CompatActionResult.create(item.use(event.getWorld(), event.user.getEntity(), event.getHand()));
+        return StackActionResult.create(result, event.getStack());
     }
 
     public static CompatActionResult useItemOnBlock(Item item, ItemUsageContext context) {
@@ -47,5 +48,9 @@ public class InteractUtil {
 
     public static CompatActionResult useBlock(BlockState state, World world, Player player, Direction dir, BlockPos blockPos) {
         return BlockStateUtil.onUse(state, world, player, dir, blockPos);
+    }
+
+    public static boolean onStoppingUsing(Item item, ItemStack stack, World world, Player player, int remainingUseTicks) {
+        return item.onStoppedUsing(stack, world, player.getEntity(), remainingUseTicks);
     }
 }

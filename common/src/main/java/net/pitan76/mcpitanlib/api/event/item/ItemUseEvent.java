@@ -2,12 +2,12 @@ package net.pitan76.mcpitanlib.api.event.item;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public class ItemUseEvent extends BaseEvent {
 
@@ -47,20 +47,19 @@ public class ItemUseEvent extends BaseEvent {
         return world.isClient();
     }
 
-    public CompatActionResult success(ItemStack stack) {
-        if (getStack() != stack) {
-            CompatActionResult.create(ActionResult.SUCCESS.withNewHandStack(stack));
-        }
+    public StackActionResult success(ItemStack stack) {
+        if (getStack() != stack)
+            StackActionResult.success(stack);
 
         return success();
     }
 
-    public CompatActionResult success(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+    public StackActionResult success(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
         return success(stack.toMinecraft());
     }
 
-    public CompatActionResult success() {
-        return CompatActionResult.SUCCESS;
+    public StackActionResult success() {
+        return StackActionResult.create(CompatActionResult.SUCCESS);
     }
 
     public CompatActionResult fail() {
@@ -71,10 +70,9 @@ public class ItemUseEvent extends BaseEvent {
         return CompatActionResult.PASS;
     }
 
-    public CompatActionResult consume(ItemStack stack) {
-        if (getStack() != stack) {
-            CompatActionResult.create(ActionResult.CONSUME.withNewHandStack(stack));
-        }
+    public StackActionResult consume(ItemStack stack) {
+        if (getStack() != stack)
+            StackActionResult.consume(stack);
 
         return consume();
     }
@@ -83,8 +81,8 @@ public class ItemUseEvent extends BaseEvent {
         return consume(stack.toMinecraft());
     }
 
-    public CompatActionResult consume() {
-        return CompatActionResult.CONSUME;
+    public StackActionResult consume() {
+        return StackActionResult.create(CompatActionResult.CONSUME);
     }
 
     public boolean isSneaking() {
