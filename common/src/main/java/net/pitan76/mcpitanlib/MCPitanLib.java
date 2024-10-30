@@ -44,7 +44,7 @@ public class MCPitanLib {
      */
     public static void init() {
         configInit();
-        new MPLGuiLib().init();
+        MPLGuiLib.init();
 
         if (PlatformUtil.isDevelopmentEnvironment() || (config.has("debugMode") && config.getBoolean("debugMode"))) {
             System.out.println("MCPitanLib: Debug Mode");
