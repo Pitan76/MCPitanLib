@@ -20,7 +20,7 @@ public class CompatibleRecipeEntry {
     }
 
     public CompatibleRecipeEntry(Identifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, ShapelessRecipe shapelessRecipe) {
-        this.entry = new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, id), shapelessRecipe);
+        this.entry = new RecipeEntry<>(id, shapelessRecipe);
         this.group = group;
         this.category = category;
     }
@@ -43,7 +43,7 @@ public class CompatibleRecipeEntry {
     }
 
     public Identifier getId() {
-        return entry.id().getValue();
+        return entry.id();
     }
 
     public CompatIdentifier getCompatId() {

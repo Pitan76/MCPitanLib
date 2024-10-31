@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.world.block.WireOrientation;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.util.block.BlockHitResultUtil;
@@ -53,9 +52,7 @@ public class BlockStateUtil {
     }
 
     public static void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        WireOrientation wireOrientation = WireOrientation.of(pos.up() == fromPos ? Direction.UP : Direction.DOWN, pos.north() == fromPos ? Direction.NORTH : Direction.SOUTH, pos.east() == fromPos ? WireOrientation.SideBias.RIGHT : WireOrientation.SideBias.LEFT);
-
-        state.neighborUpdate(world, pos, block, wireOrientation, notify);
+        state.neighborUpdate(world, pos, block, fromPos, notify);
     }
 
     public static void updateNeighbors(BlockState state, WorldAccess world, BlockPos pos, int flags) {
@@ -79,7 +76,7 @@ public class BlockStateUtil {
     }
 
     public static CompatActionResult onUseWithItem(BlockState state, ItemStack stack, World world, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        return CompatActionResult.create(state.onUseWithItem(stack, world, player, hand, hit));
+        return CompatActionResult.create(state.onUseWithItem(stack, world, player, hand, hit).toActionResult());
     }
 
     public static CompatActionResult onUseWithItem_actionResult(BlockState state, ItemStack stack, World world, PlayerEntity player, Hand hand, BlockHitResult hit) {

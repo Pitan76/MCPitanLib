@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.item;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.item.consume.UseAction;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,9 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Rarity;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
@@ -36,8 +33,8 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        return onRightClick(new ItemUseEvent(world, user, hand)).toActionResult();
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        return onRightClick(new ItemUseEvent(world, user, hand)).toTypedActionResult();
     }
 
     @Deprecated
@@ -101,7 +98,7 @@ public class ExtendItem extends Item {
      * @return ActionResultType
      */
     public StackActionResult onRightClick(ItemUseEvent event) {
-        return StackActionResult.create(CompatActionResult.create(super.use(event.world, event.user.getPlayerEntity(), event.hand)), event.stack);
+        return StackActionResult.create(CompatActionResult.create(super.use(event.world, event.user.getPlayerEntity(), event.hand).getResult()), event.stack);
     }
 
     /**

@@ -4,6 +4,7 @@ import dev.architectury.event.CompoundEventResult;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public class TypedEventResult<T> {
     protected final dev.architectury.event.CompoundEventResult<T> result;
@@ -45,11 +46,11 @@ public class TypedEventResult<T> {
         if (result.object() != stack)
             return toCompatActionResult();
 
-        if (toActionResult() instanceof ActionResult.Success) {
-            ActionResult.Success success = (ActionResult.Success) toActionResult();
+        if (toActionResult() == ActionResult.SUCCESS)
+            return StackActionResult.success(stack);
 
-            return CompatActionResult.create(success.withNewHandStack(stack));
-        }
+        if (toActionResult() == ActionResult.CONSUME)
+            return StackActionResult.consume(stack);
 
         return toCompatActionResult();
     }

@@ -109,31 +109,29 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     }
 
     public CompatibleItemSettings useItemPrefixedTranslationKey() {
-        settings.useItemPrefixedTranslationKey();
         changedTranslationKey = true;
         return this;
     }
 
     public CompatibleItemSettings useBlockPrefixedTranslationKey() {
-        settings.useBlockPrefixedTranslationKey();
         changedTranslationKey = true;
         return this;
     }
 
+    public String translationKey = null;
+
     public CompatibleItemSettings translationKey(String translationKey) {
-        settings.translationKey(translationKey);
         changedTranslationKey = true;
+        this.translationKey = translationKey;
         return this;
     }
 
     public CompatibleItemSettings enchantable(int enchantability) {
-        settings.enchantable(enchantability);
         this.enchantability = enchantability;
         return this;
     }
 
     public CompatibleItemSettings repairable(RepairIngredientTag tag) {
-        settings.repairable(tag.getTag());
         this.repairIngredientTag = tag;
         return this;
     }
@@ -141,11 +139,6 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     @Override
     public ExtendSettings build() {
         super.build();
-
-        if (identifier != null) {
-            settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier.toMinecraft()));
-        }
-
         return settings;
     }
 

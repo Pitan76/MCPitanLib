@@ -6,14 +6,13 @@ import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 
 import java.util.Optional;
 
-// TODO: CompatActionResultを継承してItemStackを持つverも作成する
 public class CompatActionResult {
     public static final CompatActionResult SUCCESS = new CompatActionResult(ActionResult.SUCCESS, EventResult.success());
     public static final CompatActionResult PASS = new CompatActionResult(ActionResult.PASS, EventResult.pass());
     public static final CompatActionResult FAIL = new CompatActionResult(ActionResult.FAIL, EventResult.fail());
     public static final CompatActionResult CONSUME = new CompatActionResult(ActionResult.CONSUME, EventResult.success());
-    public static final CompatActionResult PASS_TO_DEFAULT_BLOCK_ACTION = new CompatActionResult(ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION, EventResult.pass());
-    public static final CompatActionResult SUCCESS_SERVER = new CompatActionResult(ActionResult.SUCCESS_SERVER, EventResult.success());
+    public static final CompatActionResult PASS_TO_DEFAULT_BLOCK_ACTION = new CompatActionResult(ActionResult.PASS, EventResult.pass());
+    public static final CompatActionResult SUCCESS_SERVER = new CompatActionResult(ActionResult.SUCCESS, EventResult.success());
     public static final CompatActionResult STOP = new CompatActionResult(ActionResult.FAIL, EventResult.stop());
 
     private final ActionResult actionResult;
@@ -37,10 +36,7 @@ public class CompatActionResult {
     }
 
     public Optional<net.minecraft.item.ItemStack> getNewHandStack() {
-        if (!(actionResult instanceof ActionResult.Success)) return Optional.empty();
-
-        ActionResult.Success success = (ActionResult.Success) actionResult;
-        return Optional.ofNullable(success.getNewHandStack());
+        return Optional.empty();
     }
 
     public static CompatActionResult of(ActionResult result) {
@@ -55,12 +51,6 @@ public class CompatActionResult {
 
         if (result == ActionResult.CONSUME)
             return CONSUME;
-
-        if (result == ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION)
-            return PASS_TO_DEFAULT_BLOCK_ACTION;
-
-        if (result == ActionResult.SUCCESS_SERVER)
-            return SUCCESS_SERVER;
 
         return PASS;
     }

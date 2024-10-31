@@ -22,11 +22,6 @@ public class ExtendEntity extends Entity {
         initDataTracker();
     }
 
-    @Override
-    public boolean damage(ServerWorld world, DamageSource source, float amount) {
-        return false;
-    }
-
     public void initDataTracker() {
     }
 

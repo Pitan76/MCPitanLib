@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item.consume;
 
-import net.minecraft.item.consume.UseAction;
+import net.minecraft.util.UseAction;
 import net.pitan76.mcpitanlib.api.util.CompatStringIdentifiable;
 
 public class CompatUseAction implements CompatStringIdentifiable {
@@ -26,16 +26,16 @@ public class CompatUseAction implements CompatStringIdentifiable {
     }
 
     @Deprecated
-    public UseAction get() {
+    public UseAction getUseAction() {
         return useAction;
     }
 
     public int getId() {
-        return useAction.getId();
+        return -1;
     }
 
     public String getName() {
-        return useAction.asString();
+        return useAction.name();
     }
 
     @Override

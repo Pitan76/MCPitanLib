@@ -14,7 +14,7 @@ public class ItemCooldown {
     public boolean isCoolingDown(Item item) {
         for (ItemStack stack : player.getMain()) {
             if (stack.getItem() == item) {
-                return player.getItemCooldownManager().isCoolingDown(stack);
+                return player.getItemCooldownManager().isCoolingDown(item);
             }
         }
 
@@ -24,7 +24,7 @@ public class ItemCooldown {
     public void set(Item item, int duration) {
         for (ItemStack stack : player.getMain()) {
             if (stack.getItem() == item) {
-                player.getItemCooldownManager().set(stack, duration);
+                player.getItemCooldownManager().set(item, duration);
             }
         }
     }

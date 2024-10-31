@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.TypedActionResult;
 import net.pitan76.mcpitanlib.api.event.result.EventResult;
 
 import java.util.Optional;
@@ -9,6 +10,7 @@ import java.util.Optional;
 public class StackActionResult extends CompatActionResult {
     private final ItemStack stack;
     private final CompatActionResult compatActionResult;
+    private boolean isNewStack = false;
 
     public StackActionResult(ActionResult actionResult, EventResult eventResult, ItemStack stack) {
         this(new CompatActionResult(actionResult, eventResult), stack);
@@ -18,6 +20,10 @@ public class StackActionResult extends CompatActionResult {
         super(null, null);
         compatActionResult = actionResult;
         this.stack = stack;
+    }
+
+    public void setNewStack(boolean b) {
+        isNewStack = b;
     }
 
     @Override
@@ -34,13 +40,13 @@ public class StackActionResult extends CompatActionResult {
     @Override
     public Optional<ItemStack> getNewHandStack() {
         if (hasNewStack())
-            return compatActionResult.getNewHandStack();
+            return Optional.ofNullable(getStack());
 
         return Optional.empty();
     }
 
     public boolean hasNewStack() {
-        return compatActionResult.getNewHandStack().isPresent();
+        return isNewStack;
     }
 
     public boolean hasStack() {
@@ -52,9 +58,6 @@ public class StackActionResult extends CompatActionResult {
     }
 
     public static StackActionResult create(CompatActionResult compatActionResult, ItemStack stack) {
-        if (compatActionResult.getNewHandStack().isPresent())
-            return new StackActionResult(compatActionResult, compatActionResult.getNewHandStack().get());
-
         return new StackActionResult(compatActionResult, stack);
     }
 
@@ -70,19 +73,35 @@ public class StackActionResult extends CompatActionResult {
         return new StackActionResult(actionResult, null, stack);
     }
 
+    public static StackActionResult create(TypedActionResult<ItemStack> result) {
+        StackActionResult actionResult = create(CompatActionResult.create(result.getResult()), result.getValue());
+        actionResult.setNewStack(true);
+        return actionResult;
+    }
+
     public static StackActionResult success(ItemStack stack) {
-        CompatActionResult compatActionResult = CompatActionResult.create(ActionResult.SUCCESS.withNewHandStack(stack));
-        return create(compatActionResult, stack);
+        CompatActionResult compatActionResult = CompatActionResult.create(ActionResult.SUCCESS);
+        StackActionResult actionResult = create(compatActionResult, stack);
+        actionResult.setNewStack(true);
+        return actionResult;
     }
 
     public static StackActionResult successServer(ItemStack stack) {
-        CompatActionResult compatActionResult = CompatActionResult.create(ActionResult.SUCCESS_SERVER.withNewHandStack(stack));
-        return create(compatActionResult, stack);
+        CompatActionResult compatActionResult = CompatActionResult.create(ActionResult.SUCCESS);
+        StackActionResult actionResult = create(compatActionResult, stack);
+        actionResult.setNewStack(true);
+        return actionResult;
     }
 
     public static StackActionResult consume(ItemStack stack) {
-        CompatActionResult compatActionResult = CompatActionResult.create(ActionResult.CONSUME.withNewHandStack(stack));
-        return create(compatActionResult, stack);
+        CompatActionResult compatActionResult = CompatActionResult.create(ActionResult.CONSUME);
+        StackActionResult actionResult = create(compatActionResult, stack);
+        actionResult.setNewStack(true);
+        return actionResult;
+    }
+
+    public TypedActionResult<ItemStack> toTypedActionResult() {
+        return new TypedActionResult<>(toActionResult(), getStack());
     }
 
     public ItemStack getStack() {

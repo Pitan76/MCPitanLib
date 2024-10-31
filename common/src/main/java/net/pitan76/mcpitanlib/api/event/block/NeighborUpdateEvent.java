@@ -5,7 +5,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.block.WireOrientation;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import org.jetbrains.annotations.Nullable;
@@ -19,9 +18,6 @@ public class NeighborUpdateEvent extends BaseEvent {
     @Nullable
     public BlockPos sourcePos;
 
-    @Nullable
-    public WireOrientation wireOrientation;
-
     public boolean notify;
 
     public NeighborUpdateEvent(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable BlockPos sourcePos, boolean notify) {
@@ -33,9 +29,8 @@ public class NeighborUpdateEvent extends BaseEvent {
         this.notify = notify;
     }
 
-    public NeighborUpdateEvent(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
-        this(state, world, pos, sourceBlock, (BlockPos) null, notify);
-        this.wireOrientation = wireOrientation;
+    public NeighborUpdateEvent(BlockState state, World world, BlockPos pos, Block sourceBlock, boolean notify) {
+        this(state, world, pos, sourceBlock, null, notify);
     }
 
     public BlockState getState() {
@@ -72,10 +67,5 @@ public class NeighborUpdateEvent extends BaseEvent {
 
     public boolean hasBlockEntity() {
         return WorldUtil.hasBlockEntity(world, pos);
-    }
-
-    @Deprecated
-    public @Nullable WireOrientation getWireOrientation() {
-        return wireOrientation;
     }
 }

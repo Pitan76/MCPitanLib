@@ -65,11 +65,6 @@ public class WorldRenderRegistryImpl {
                     return MinecraftClient.getInstance().world;
                 }
 
-                @Override
-                public Profiler getProfiler() {
-                    return MinecraftClient.getInstance().getProfiler();
-                }
-
                 @Deprecated
                 @Override
                 public boolean isAdvancedTranslucency() {
@@ -138,11 +133,6 @@ public class WorldRenderRegistryImpl {
                     return MinecraftClient.getInstance().world;
                 }
 
-                @Override
-                public Profiler getProfiler() {
-                    return MinecraftClient.getInstance().getProfiler();
-                }
-
                 @Deprecated
                 @Override
                 public boolean isAdvancedTranslucency() {
@@ -206,11 +196,6 @@ public class WorldRenderRegistryImpl {
                 @Override
                 public ClientWorld getWorld() {
                     return MinecraftClient.getInstance().world;
-                }
-
-                @Override
-                public Profiler getProfiler() {
-                    return MinecraftClient.getInstance().getProfiler();
                 }
 
                 @Deprecated

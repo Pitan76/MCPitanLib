@@ -30,6 +30,11 @@ public interface CompatibleToolMaterial {
         return level2inverseTag(getCompatMiningLevel());
     }
 
+    @Deprecated
+    default TagKey<Block> _getInverseTag() {
+        return getInverseTag();
+    }
+
     public static TagKey<Block> level2inverseTag(int level) {
         switch (level) {
             case 1:
@@ -76,10 +81,40 @@ public interface CompatibleToolMaterial {
     }
 
     default TagKey<Item> getRepairTag() {
-        return ItemTags.IRON_TOOL_MATERIALS;
+        return ItemTags.IRON_ORES;
     }
 
     default ToolMaterial build() {
-        return new ToolMaterial(getInverseTag(), getCompatDurability(), getCompatMiningSpeedMultiplier(), getCompatAttackDamage(), getCompatEnchantability(), getRepairTag());
+        return new ToolMaterial() {
+            @Override
+            public int getDurability() {
+                return getCompatDurability();
+            }
+
+            @Override
+            public float getMiningSpeedMultiplier() {
+                return getCompatMiningSpeedMultiplier();
+            }
+
+            @Override
+            public float getAttackDamage() {
+                return getCompatAttackDamage();
+            }
+
+            @Override
+            public TagKey<Block> getInverseTag() {
+                return _getInverseTag();
+            }
+
+            @Override
+            public int getEnchantability() {
+                return getCompatEnchantability();
+            }
+
+            @Override
+            public Ingredient getRepairIngredient() {
+                return getCompatRepairIngredient();
+            }
+        };
     }
 }

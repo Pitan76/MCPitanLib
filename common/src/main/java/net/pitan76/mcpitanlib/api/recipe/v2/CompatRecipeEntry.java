@@ -1,8 +1,6 @@
 package net.pitan76.mcpitanlib.api.recipe.v2;
 
 import net.minecraft.recipe.*;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
@@ -20,7 +18,7 @@ public class CompatRecipeEntry<T extends Recipe<?>> {
     }
 
     public CompatRecipeEntry(Identifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, T recipe) {
-        this.entry = new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, id), recipe);
+        this.entry = new RecipeEntry<>(id, recipe);
         this.group = group;
         this.category = category;
     }
@@ -43,7 +41,7 @@ public class CompatRecipeEntry<T extends Recipe<?>> {
     }
 
     public Identifier getId() {
-        return entry.id().getValue();
+        return entry.id();
     }
 
     public CompatIdentifier getCompatId() {

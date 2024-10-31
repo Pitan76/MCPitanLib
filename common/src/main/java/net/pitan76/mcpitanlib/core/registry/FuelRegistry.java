@@ -10,18 +10,16 @@ public class FuelRegistry {
 
     }
 
-    // TODO: 1.21.2
     public static void register(int time, ItemConvertible... item) {
-        //dev.architectury.registry.fuel.FuelRegistry.register(time, item);
+        dev.architectury.registry.fuel.FuelRegistry.register(time, item);
     }
 
-    // TODO: 1.21.2
+    @Deprecated
     public static int get(ItemStack stack) {
-        return 0;
-        //return dev.architectury.registry.fuel.FuelRegistry.get(stack);
+        return dev.architectury.registry.fuel.FuelRegistry.get(stack);
     }
 
     public static int get(World world, ItemStack stack) {
-        return world.getFuelRegistry().getFuelTicks(stack);
+        return dev.architectury.registry.fuel.FuelRegistry.get(stack);
     }
 }

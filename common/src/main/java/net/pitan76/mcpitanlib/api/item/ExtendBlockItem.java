@@ -10,9 +10,11 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 import net.pitan76.mcpitanlib.core.Dummy;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 
@@ -32,8 +34,8 @@ public class ExtendBlockItem extends BlockItem {
     // ExtendItem
     @Deprecated
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        return onRightClick(new ItemUseEvent(world, user, hand)).toActionResult();
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        return onRightClick(new ItemUseEvent(world, user, hand)).toTypedActionResult();
     }
 
     @Deprecated
@@ -80,8 +82,8 @@ public class ExtendBlockItem extends BlockItem {
      * @param event ItemUseEvent
      * @return ActionResultType
      */
-    public CompatActionResult onRightClick(ItemUseEvent event) {
-        return CompatActionResult.create(super.use(event.world, event.user.getPlayerEntity(), event.hand));
+    public StackActionResult onRightClick(ItemUseEvent event) {
+        return StackActionResult.create(super.use(event.world, event.user.getPlayerEntity(), event.hand));
     }
 
     /**

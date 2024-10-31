@@ -180,7 +180,7 @@ public class WorldUtil {
     }
 
     public static int getTopY(World world) {
-        return world.getTopYInclusive();
+        return world.getTopY();
     }
 
     public static int getDimensionHeight(World world) {

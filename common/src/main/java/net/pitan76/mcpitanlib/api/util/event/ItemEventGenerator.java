@@ -6,6 +6,6 @@ import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 
 public class ItemEventGenerator {
     public static CompatActionResult onRightClick(Item item, ItemUseEvent e) {
-        return CompatActionResult.create(item.use(e.world, e.user.getPlayerEntity(), e.hand));
+        return CompatActionResult.create(item.use(e.world, e.user.getPlayerEntity(), e.hand).getResult());
     }
 }

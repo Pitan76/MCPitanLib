@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.item.v2;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.consume.UseAction;
 import net.minecraft.util.Rarity;
+import net.minecraft.util.UseAction;
 import net.pitan76.mcpitanlib.api.event.item.CanRepairArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantabilityArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantableArgs;
@@ -34,7 +34,7 @@ public class CompatItem extends ExtendItem {
     @Deprecated
     @Override
     public UseAction getUseAction(ItemStack stack) {
-        return getUseAction(new UseActionArgs(stack)).get();
+        return getUseAction(new UseActionArgs(stack)).getUseAction();
     }
 
     public CompatUseAction getUseAction(UseActionArgs args) {
@@ -65,5 +65,13 @@ public class CompatItem extends ExtendItem {
     public boolean canRepair(CanRepairArgs args) {
         RepairIngredientTag tag = settings.repairIngredientTag;
         return tag != null && tag.contains(args.stack);
+    }
+
+    @Override
+    protected String getOrCreateTranslationKey() {
+        if (settings.changedTranslationKey)
+            return settings.translationKey;
+
+        return super.getOrCreateTranslationKey();
     }
 }

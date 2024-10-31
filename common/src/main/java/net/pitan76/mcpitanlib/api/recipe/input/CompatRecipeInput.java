@@ -23,7 +23,7 @@ public class CompatRecipeInput<I extends RecipeInput> {
     }
 
     public int getSize() {
-        return input.size();
+        return input.getSize();
     }
 
     public boolean isEmpty() {

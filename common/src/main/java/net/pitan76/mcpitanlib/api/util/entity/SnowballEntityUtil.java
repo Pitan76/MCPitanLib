@@ -7,11 +7,13 @@ import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 public class SnowballEntityUtil {
     public static SnowballEntity create(World world, double x, double y, double z) {
-        return new SnowballEntity(world, x, y, z, ItemStackUtil.empty());
+        return new SnowballEntity(world, x, y, z);
     }
 
     public static SnowballEntity create(World world, double x, double y, double z, ItemStack stack) {
-        return new SnowballEntity(world, x, y, z, stack);
+        SnowballEntity entity = create(world, x, y, z);
+        entity.setItem(stack);
+        return entity;
     }
 
     public static void setVelocity(SnowballEntity entity, double x, double y, double z, float velocity, float divergence) {

@@ -8,7 +8,6 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -85,7 +84,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, int u, int v, int width, int height) {
-        drawObjectDM.getContext().drawTexture(RenderLayer::getGuiTextured, texture, x, y, u, v, width, height, 256, 256);
+        drawObjectDM.getContext().drawTexture(texture, x, y, u, v, width, height, 256, 256);
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, CompatIdentifier texture, int x, int y, int u, int v, int width, int height) {

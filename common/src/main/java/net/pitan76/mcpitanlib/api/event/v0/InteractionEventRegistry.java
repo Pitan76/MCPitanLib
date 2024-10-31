@@ -1,22 +1,25 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
+import dev.architectury.event.CompoundEventResult;
 import dev.architectury.event.events.common.InteractionEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.result.EventResult;
+import net.pitan76.mcpitanlib.api.event.result.TypedEventResult;
 import net.pitan76.mcpitanlib.api.event.v0.event.ClickBlockEvent;
-import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 
 public class InteractionEventRegistry {
+    @SuppressWarnings("deprecation")
     public static void registerRightClickBlock(RightClickBlock rightClickBlock) {
-        InteractionEvent.RIGHT_CLICK_BLOCK.register((player, hand, pos, direction) -> rightClickBlock.click(new ClickBlockEvent(player, hand, pos, direction)).toActionResult());
+        InteractionEvent.RIGHT_CLICK_BLOCK.register((player, hand, pos, direction) -> rightClickBlock.click(new ClickBlockEvent(player, hand, pos, direction)).getResult());
     }
 
+    @SuppressWarnings("deprecation")
     public static void registerLeftClickBlock(LeftClickBlock leftClickBlock) {
-        InteractionEvent.LEFT_CLICK_BLOCK.register((player, hand, pos, direction) -> leftClickBlock.click(new ClickBlockEvent(player, hand, pos, direction)).toActionResult());
+        InteractionEvent.LEFT_CLICK_BLOCK.register((player, hand, pos, direction) -> leftClickBlock.click(new ClickBlockEvent(player, hand, pos, direction)).getResult());
     }
 
     public static void registerRightClickItem(RightClickItem rightClickItem) {
@@ -46,11 +49,12 @@ public class InteractionEventRegistry {
     }
 
     public interface RightClickItem {
-        default ActionResult click(PlayerEntity var1, Hand var2) {
-            return click(new Player(var1), var2).toActionResult();
+        @SuppressWarnings("deprecation")
+        default CompoundEventResult<ItemStack> click(PlayerEntity var1, Hand var2) {
+            return click(new Player(var1), var2).getResult();
         }
 
-        CompatActionResult click(Player player, Hand hand);
+        TypedEventResult<ItemStack> click(Player player, Hand hand);
     }
 
     public interface ClientLeftClickAir {
@@ -72,9 +76,9 @@ public class InteractionEventRegistry {
     public interface InteractEntity {
         @SuppressWarnings("deprecation")
         default dev.architectury.event.EventResult interact(PlayerEntity var1, Entity var2, Hand var3) {
-            return interact(new Player(var1), var2, var3).toEventResult().getResult();
+            return interact(new Player(var1), var2, var3).getResult();
         }
 
-        CompatActionResult interact(Player player, Entity entity, Hand hand);
+        EventResult interact(Player player, Entity entity, Hand hand);
     }
 }

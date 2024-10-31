@@ -255,11 +255,6 @@ public class CompatibleBlockSettings extends net.pitan76.mcpitanlib.api.block.Co
 
     public AbstractBlock.Settings build() {
         super.build();
-
-        if (identifier != null) {
-            settings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier.toMinecraft()));
-        }
-
         return settings;
     }
 
