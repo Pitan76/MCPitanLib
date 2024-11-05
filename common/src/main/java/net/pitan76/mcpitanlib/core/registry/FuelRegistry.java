@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.core.registry;
 
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
-import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.world.World;
 
 public class FuelRegistry {
