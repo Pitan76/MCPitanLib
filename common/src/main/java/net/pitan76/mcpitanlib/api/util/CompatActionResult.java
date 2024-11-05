@@ -6,7 +6,6 @@ import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 
 import java.util.Optional;
 
-// TODO: CompatActionResultを継承してItemStackを持つverも作成する
 public class CompatActionResult {
     public static final CompatActionResult SUCCESS = new CompatActionResult(ActionResult.SUCCESS, EventResult.success());
     public static final CompatActionResult PASS = new CompatActionResult(ActionResult.PASS, EventResult.pass());

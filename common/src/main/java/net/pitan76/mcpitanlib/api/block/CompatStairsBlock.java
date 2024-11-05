@@ -9,6 +9,8 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
+import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
+import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -20,7 +22,7 @@ import net.pitan76.mcpitanlib.api.state.property.CompatProperties;
 import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 
-public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvider {
+public class CompatStairsBlock extends StairsBlock implements CompatBlockProvider {
 
     public static final DirectionProperty FACING = CompatProperties.HORIZONTAL_FACING;
     public static final EnumProperty<BlockHalf> HALF = StairsBlock.HALF;
@@ -29,6 +31,15 @@ public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvide
 
     public CompatibleBlockSettings compatSettings;
 
+    /**
+     * get compatible block settings
+     * @return CompatibleBlockSettings
+     */
+    @Override
+    public CompatibleBlockSettings getCompatSettings() {
+        return compatSettings;
+    }
+
     public CompatStairsBlock(BlockState baseBlockState, Settings settings) {
         super(baseBlockState, settings);
     }
@@ -36,14 +47,6 @@ public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvide
     public CompatStairsBlock(BlockState baseBlockState, CompatibleBlockSettings settings) {
         this(baseBlockState, settings.build());
         this.compatSettings = settings;
-    }
-
-    /**
-     * get compatible block settings
-     * @return CompatibleBlockSettings
-     */
-    public CompatibleBlockSettings getCompatSettings() {
-        return compatSettings;
     }
 
     public VoxelShape getOutlineShape(OutlineShapeEvent event) {
@@ -80,19 +83,19 @@ public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvide
     @Deprecated
     @Override
     public void appendProperties(AppendPropertiesArgs args, Options options) {
-        ExtendBlockProvider.super.appendProperties(args, options);
+        CompatBlockProvider.super.appendProperties(args, options);
     }
 
     @Deprecated
     @Override
     public BlockState getPlacementState(PlacementStateArgs args, Options options) {
-        return ExtendBlockProvider.super.getPlacementState(args, options);
+        return CompatBlockProvider.super.getPlacementState(args, options);
     }
 
     @Deprecated
     @Override
     public VoxelShape getOutlineShape(OutlineShapeEvent event, Options options) {
-        return ExtendBlockProvider.super.getOutlineShape(event, options);
+        return CompatBlockProvider.super.getOutlineShape(event, options);
     }
 
     @Deprecated
@@ -117,7 +120,7 @@ public class CompatStairsBlock extends StairsBlock implements ExtendBlockProvide
 
     @Override
     public Boolean canPathfindThrough(CanPathfindThroughArgs args, Options options) {
-        return ExtendBlockProvider.super.canPathfindThrough(args, options);
+        return CompatBlockProvider.super.canPathfindThrough(args, options);
     }
 
     public BlockState getBaseBlockState() {

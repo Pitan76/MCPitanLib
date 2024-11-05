@@ -12,6 +12,7 @@ import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
 import net.pitan76.mcpitanlib.api.item.consume.CompatUseAction;
 import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
+import net.pitan76.mcpitanlib.core.Dummy;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
 public class CompatItem extends ExtendItem {
@@ -65,5 +66,10 @@ public class CompatItem extends ExtendItem {
     public boolean canRepair(CanRepairArgs args) {
         RepairIngredientTag tag = settings.repairIngredientTag;
         return tag != null && tag.contains(args.stack);
+    }
+
+    @Override
+    public boolean hasRecipeRemainder(Dummy dummy) {
+        return settings.recipeRemainder != null;
     }
 }

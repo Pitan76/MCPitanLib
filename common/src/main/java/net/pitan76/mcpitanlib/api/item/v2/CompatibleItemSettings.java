@@ -24,6 +24,7 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     public CompatRarity rarity = CompatRarity.COMMON;
     public int enchantability = -1;
     public RepairIngredientTag repairIngredientTag = null;
+    public Item recipeRemainder = null;
 
     public CompatibleItemSettings(CompatIdentifier identifier) {
         super();
@@ -81,6 +82,7 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     @Override
     public CompatibleItemSettings recipeRemainder(Item recipeRemainder) {
         super.recipeRemainder(recipeRemainder);
+        this.recipeRemainder = recipeRemainder;
         return this;
     }
 

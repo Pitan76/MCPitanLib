@@ -136,7 +136,6 @@ public class ExtendItem extends Item {
      * @param dummy Dummy
      * @return boolean
      */
-    // TODO: Remove this method in 1.21.2
     public boolean hasRecipeRemainder(Dummy dummy) {
         return false;
     }

@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Rarity;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public interface ExtendItemProvider {
 
@@ -13,7 +14,7 @@ public interface ExtendItemProvider {
      * @param event ItemUseEvent
      * @return ActionResultType
      */
-    default CompatActionResult onRightClick(ItemUseEvent event, Options options) {
+    default StackActionResult onRightClick(ItemUseEvent event, Options options) {
         options.cancel = false;
         return null;
     }

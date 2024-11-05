@@ -2,7 +2,7 @@ package net.pitan76.mcpitanlib.test;
 
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;

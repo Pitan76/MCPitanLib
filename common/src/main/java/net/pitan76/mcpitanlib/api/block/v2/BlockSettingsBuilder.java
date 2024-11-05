@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.block.v2;
 
+import net.minecraft.block.AbstractBlock;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -23,6 +24,10 @@ public class BlockSettingsBuilder {
     public ToIntFunction<BlockState> luminance;
 
     public BlockSettingsBuilder(CompatIdentifier id) {
+        this.id = id;
+    }
+
+    public BlockSettingsBuilder() {
 
     }
 
@@ -78,6 +83,15 @@ public class BlockSettingsBuilder {
     }
 
     public CompatibleBlockSettings build() {
+        return build(id);
+    }
+
+    public AbstractBlock.Settings _build() {
+        return build().build();
+    }
+
+    public CompatibleBlockSettings build(CompatIdentifier id) {
+
         CompatibleBlockSettings settings = CompatibleBlockSettings.of(id);
         if (material != null)
             settings = CompatibleBlockSettings.of(id, material);
@@ -93,5 +107,9 @@ public class BlockSettingsBuilder {
         if (luminance != null) settings.luminance((state) -> luminance.applyAsInt(BlockState.of(state)));
 
         return settings.strength(hardness, resistance).sounds(blockSoundGroup);
+    }
+
+    public AbstractBlock.Settings _build(CompatIdentifier id) {
+        return build(id).build();
     }
 }

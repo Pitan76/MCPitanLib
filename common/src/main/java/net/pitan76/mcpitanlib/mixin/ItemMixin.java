@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.mixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.item.consume.UseAction;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,6 +18,8 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
+import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -194,6 +197,17 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
             float returnValue = provider.getBonusAttackDamage(new BonusAttackDamageArgs(target, baseAttackDamage, damageSource), options);
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
+        }
+    }
+
+    @Inject(method = "getUseAction", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getUseAction(ItemStack stack, CallbackInfoReturnable<UseAction> cir) {
+        if (this instanceof CompatItemProvider) {
+            CompatItemProvider provider = (CompatItemProvider) this;
+            Options options = new Options();
+            UseAction returnValue = provider.getUseAction(new UseActionArgs(stack), options).get();
             if (options.cancel)
                 cir.setReturnValue(returnValue);
         }

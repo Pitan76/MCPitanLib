@@ -13,12 +13,14 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.StackActionResult;
 import net.pitan76.mcpitanlib.core.Dummy;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 
 import java.util.List;
 
-public class ExtendBlockItem extends BlockItem {
+public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
+
     public ExtendBlockItem(Block block, Settings settings) {
         super(block, settings);
     }
@@ -26,8 +28,6 @@ public class ExtendBlockItem extends BlockItem {
     public ExtendBlockItem(Block block, CompatibleItemSettings settings) {
         super(block, settings.build());
     }
-
-
 
     // ExtendItem
     @Deprecated
@@ -80,8 +80,8 @@ public class ExtendBlockItem extends BlockItem {
      * @param event ItemUseEvent
      * @return ActionResultType
      */
-    public CompatActionResult onRightClick(ItemUseEvent event) {
-        return CompatActionResult.create(super.use(event.world, event.user.getPlayerEntity(), event.hand));
+    public StackActionResult onRightClick(ItemUseEvent event) {
+        return StackActionResult.create(CompatActionResult.create(super.use(event.world, event.user.getPlayerEntity(), event.hand)), event.stack);
     }
 
     /**

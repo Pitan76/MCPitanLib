@@ -6,13 +6,21 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.util.math.BlockPos;
+import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
+import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 
 import java.util.function.Supplier;
 
-public class CompatChestBlock extends ChestBlock {
+public class CompatChestBlock extends ChestBlock implements CompatBlockProvider {
     public CompatChestBlock(Settings settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
         super(supplier, settings);
+    }
+
+    public CompatibleBlockSettings compatSettings;
+
+    public CompatChestBlock(CompatibleBlockSettings settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
+        this(settings.build(), supplier);
     }
 
     /**
@@ -29,5 +37,10 @@ public class CompatChestBlock extends ChestBlock {
      */
     public BlockEntity createBlockEntity(TileCreateEvent event) {
         return super.createBlockEntity(event.getBlockPos(), event.getBlockState());
+    }
+
+    @Override
+    public CompatibleBlockSettings getCompatSettings() {
+        return compatSettings;
     }
 }
