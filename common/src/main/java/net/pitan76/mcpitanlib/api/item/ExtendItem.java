@@ -62,7 +62,7 @@ public class ExtendItem extends Item {
     }
 
     @Deprecated
-    //@Override
+    @Override
     public boolean hasRecipeRemainder() {
         return hasRecipeRemainder(new Dummy());
     }
@@ -176,9 +176,8 @@ public class ExtendItem extends Item {
         return Rarity.COMMON;
     }
 
-    // TODO: 1.21.2
     @Deprecated
-    //@Override
+    @Override
     public boolean isEnchantable(ItemStack stack) {
         return isEnchantable(new EnchantableArgs(stack));
     }
@@ -187,9 +186,8 @@ public class ExtendItem extends Item {
         return false;
     }
 
-    // TODO: 1.21.2
     @Deprecated
-    //@Override
+    @Override
     public int getEnchantability() {
         return getEnchantability(new EnchantabilityArgs());
     }
@@ -238,15 +236,14 @@ public class ExtendItem extends Item {
         return super.getBonusAttackDamage(args.target, args.baseAttackDamage, args.damageSource);
     }
 
-    // TODO: 1.21.2
     @Deprecated
-    //@Override
+    @Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
         return canRepair(new CanRepairArgs(stack, ingredient));
     }
 
     public boolean canRepair(CanRepairArgs args) {
-        return false;
+        return super.canRepair(args.stack, args.ingredient);
     }
 
     @Deprecated

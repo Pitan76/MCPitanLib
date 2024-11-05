@@ -56,9 +56,7 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
         return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand)).toActionResult();
     }
 
-    // TODO: Remove this method
     @Deprecated
-    //@Override
     public boolean hasRecipeRemainder() {
         return hasRecipeRemainder(new Dummy());
     }

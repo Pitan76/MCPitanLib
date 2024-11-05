@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.mixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.item.consume.UseAction;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,6 +12,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
@@ -207,7 +207,7 @@ public class ItemMixin {
         if (this instanceof CompatItemProvider) {
             CompatItemProvider provider = (CompatItemProvider) this;
             Options options = new Options();
-            UseAction returnValue = provider.getUseAction(new UseActionArgs(stack), options).get();
+            UseAction returnValue = provider.getUseAction(new UseActionArgs(stack), options).getUseAction();
             if (options.cancel)
                 cir.setReturnValue(returnValue);
         }
