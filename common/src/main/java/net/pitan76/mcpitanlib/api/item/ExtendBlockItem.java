@@ -20,7 +20,8 @@ import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 
 import java.util.List;
 
-public class ExtendBlockItem extends BlockItem {
+public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
+
     public ExtendBlockItem(Block block, Settings settings) {
         super(block, settings);
     }
@@ -28,8 +29,6 @@ public class ExtendBlockItem extends BlockItem {
     public ExtendBlockItem(Block block, CompatibleItemSettings settings) {
         super(block, settings.build());
     }
-
-
 
     // ExtendItem
     @Deprecated
