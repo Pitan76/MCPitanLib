@@ -344,11 +344,6 @@ public class Player {
         return getEntity().getHorizontalFacing();
     }
 
-    // TODO: 1.21.2
-    public void eatFood(World world, ItemStack stack, CompatFoodComponent foodComponentBuilder) {
-        //getEntity().eatFood(world, stack, foodComponentBuilder.build());
-    }
-
     public double getX() {
         return getEntity().getX();
     }
@@ -478,33 +473,8 @@ public class Player {
         getEntity().totalExperience = experience;
     }
 
-    // TODO: 1.21.2
-    public boolean isFallFlying() {
-        return false;
-    }
-
     public boolean isSwimming() {
         return getEntity().isSwimming();
-    }
-
-    // TODO: 1.21.2
-    public void startFallFlying() {
-
-    }
-
-    // TODO: 1.21.2
-    public void stopFallFlying() {
-
-    }
-
-    // TODO: 1.21.2
-    public int getFallFlyingTicks() {
-        return 0;
-    }
-
-    // TODO: 1.21.2
-    public boolean checkFallFlying() {
-        return false;
     }
 
     public void setStackInHand(Hand hand, ItemStack stack) {

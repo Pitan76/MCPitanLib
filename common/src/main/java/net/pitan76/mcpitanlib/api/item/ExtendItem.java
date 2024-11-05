@@ -179,9 +179,7 @@ public class ExtendItem extends Item {
         return Rarity.COMMON;
     }
 
-    // TODO: 1.21.2
     @Deprecated
-    //@Override
     public boolean isEnchantable(ItemStack stack) {
         return isEnchantable(new EnchantableArgs(stack));
     }
@@ -190,9 +188,7 @@ public class ExtendItem extends Item {
         return false;
     }
 
-    // TODO: 1.21.2
     @Deprecated
-    //@Override
     public int getEnchantability() {
         return getEnchantability(new EnchantabilityArgs());
     }
@@ -241,7 +237,6 @@ public class ExtendItem extends Item {
         return super.getBonusAttackDamage(args.target, args.baseAttackDamage, args.damageSource);
     }
 
-    // TODO: 1.21.2
     @Deprecated
     //@Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {

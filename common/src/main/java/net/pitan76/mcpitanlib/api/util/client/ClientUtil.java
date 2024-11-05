@@ -86,7 +86,6 @@ public class ClientUtil {
         return getClient().runDirectory;
     }
 
-    // TODO: 1.21.2
     public static Profiler getProfiler() {
         return null;
     }
