@@ -9,16 +9,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 
-public class CompatibleShovelItem extends ShovelItem implements ExtendItemProvider {
+public class CompatibleShovelItem extends ShovelItem implements CompatItemProvider {
+
+    public CompatibleItemSettings settings;
+
     public CompatibleShovelItem(CompatibleToolMaterial material, float attackDamage, float attackSpeed, CompatibleItemSettings settings) {
         super(material.build(), attackDamage, attackSpeed, settings.build());
     }
 
     public CompatibleShovelItem(float attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
         super(material, attackDamage, attackSpeed, settings.build());
+    }
+
+    @Override
+    public CompatibleItemSettings getCompatSettings() {
+        return settings;
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
