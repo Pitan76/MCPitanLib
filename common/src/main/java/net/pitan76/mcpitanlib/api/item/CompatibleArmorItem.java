@@ -15,7 +15,6 @@ public class CompatibleArmorItem extends ArmorItem implements CompatItemProvider
     @Deprecated
     public static final Map<CompatibleArmorMaterial, RegistryEntry<ArmorMaterial>> CACHE = new java.util.HashMap<>();
 
-
     public CompatibleItemSettings settings;
 
     public CompatibleArmorItem(CompatibleArmorMaterial material, ArmorEquipmentType type, CompatibleItemSettings settings) {
