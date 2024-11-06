@@ -10,21 +10,29 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
+public class ExtendBlockItem extends BlockItem implements CompatItemProvider {
+
+    public CompatibleItemSettings settings;
+
+    @Deprecated
     public ExtendBlockItem(Block block, Settings settings) {
         super(block, settings);
     }
 
     public ExtendBlockItem(Block block, CompatibleItemSettings settings) {
         this(block, settings.build());
+        this.settings = settings;
+    }
+
+    @Override
+    public CompatibleItemSettings getCompatSettings() {
+        return settings;
     }
 
     @Deprecated
@@ -37,7 +45,7 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
     @Deprecated
     @Override
     public CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent event, Options options) {
-        return ExtendItemProvider.super.onRightClickOnBlock(event, options);
+        return CompatItemProvider.super.onRightClickOnBlock(event, options);
     }
 
     public CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
@@ -53,7 +61,7 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
     @Deprecated
     @Override
     public void appendTooltip(ItemAppendTooltipEvent event, Options options) {
-        ExtendItemProvider.super.appendTooltip(event, options);
+        CompatItemProvider.super.appendTooltip(event, options);
     }
 
     public void appendTooltip(ItemAppendTooltipEvent event) {

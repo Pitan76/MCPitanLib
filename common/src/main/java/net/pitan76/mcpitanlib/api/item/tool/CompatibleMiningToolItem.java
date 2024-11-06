@@ -10,11 +10,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 
-public class CompatibleMiningToolItem extends MiningToolItem implements ExtendItemProvider {
+public class CompatibleMiningToolItem extends MiningToolItem implements CompatItemProvider {
+
+    public CompatibleItemSettings settings;
+
     @Deprecated
     protected CompatibleMiningToolItem(float attackDamage, float attackSpeed, ToolMaterial material, net.minecraft.registry.tag.TagKey<Block> effectiveBlocks, Settings settings) {
         super(attackDamage, attackSpeed, material, effectiveBlocks, settings);
@@ -22,6 +25,12 @@ public class CompatibleMiningToolItem extends MiningToolItem implements ExtendIt
 
     public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, TagKey<Block> tagKey, CompatibleItemSettings settings) {
         this(attackDamage, attackSpeed, material.build(), tagKey.getTagKey(), settings.build());
+        this.settings = settings;
+    }
+
+    @Override
+    public CompatibleItemSettings getCompatSettings() {
+        return settings;
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
