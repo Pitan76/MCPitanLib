@@ -8,16 +8,26 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 
-public class CompatibleShearsItem extends ShearsItem implements ExtendItemProvider {
+public class CompatibleShearsItem extends ShearsItem implements CompatItemProvider {
+
+    public CompatibleItemSettings settings;
+
+    @Deprecated
     public CompatibleShearsItem(Settings settings) {
         super(settings);
     }
 
     public CompatibleShearsItem(CompatibleItemSettings settings) {
         this(settings.build());
+        this.settings = settings;
+    }
+
+    @Override
+    public CompatibleItemSettings getCompatSettings() {
+        return settings;
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
