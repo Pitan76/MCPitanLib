@@ -8,12 +8,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 
-public class CompatibleToolItem extends Item implements ExtendItemProvider {
+public class CompatibleToolItem extends Item implements CompatItemProvider {
 
     public CompatibleToolMaterial material;
+
+    public CompatibleItemSettings settings;
 
     @Deprecated
     protected CompatibleToolItem(Settings settings) {
@@ -22,7 +24,12 @@ public class CompatibleToolItem extends Item implements ExtendItemProvider {
 
     public CompatibleToolItem(CompatibleToolMaterial material, CompatibleItemSettings settings) {
         this(material.build().applyToolSettings(settings.build(), null, 0, 0));
-        this.material = material;
+        this.settings = settings;
+    }
+
+    @Override
+    public CompatibleItemSettings getCompatSettings() {
+        return settings;
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
