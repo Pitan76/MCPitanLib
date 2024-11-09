@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.midohra.block;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockWrapper {
     private final net.minecraft.block.Block block;
@@ -46,42 +47,43 @@ public class BlockWrapper {
     }
 
     public boolean isEmpty() {
-        return block == null;
+        return get() == null;
     }
 
+    @Nullable
     public net.minecraft.block.Block get() {
         return block;
     }
 
     public net.minecraft.block.Block gerOrDefault(net.minecraft.block.Block defaultItem) {
-        return isEmpty() ? defaultItem : block;
+        return isEmpty() ? defaultItem : get();
     }
 
     public CompatIdentifier getId() {
         if (isEmpty())
             return CompatIdentifier.empty();
 
-        return BlockUtil.toId(block);
+        return BlockUtil.toId(get());
     }
 
     public String getName() {
         if (isEmpty()) return "";
-        return BlockUtil.getNameAsString(block);
+        return BlockUtil.getNameAsString(get());
     }
 
     public String getTranslationKey() {
         if (isEmpty()) return "";
-        return BlockUtil.getTranslationKey(block);
+        return BlockUtil.getTranslationKey(get());
     }
 
     public ItemWrapper asItem() {
         if (isEmpty())
             return ItemWrapper.of();
 
-        return ItemWrapper.of(BlockUtil.toItem(block));
+        return ItemWrapper.of(BlockUtil.toItem(get()));
     }
 
     public BlockState getDefaultState() {
-        return BlockState.of(block);
+        return BlockState.of(get());
     }
 }
