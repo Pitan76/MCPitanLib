@@ -97,9 +97,9 @@ public class BlockSettingsBuilder {
             settings = CompatibleBlockSettings.of(id, material);
 
         if (mapColor != null) {
-            settings = settings.mapColor(mapColor.get());
+            settings = settings.mapColor(mapColor.getColor());
         } else if (dyeColor != null) {
-            settings = settings.mapColor(dyeColor.get().getMapColor());
+            settings = settings.mapColor(dyeColor.getColor().getMapColor());
         }
 
         if (requiresTool) settings.requiresTool();
