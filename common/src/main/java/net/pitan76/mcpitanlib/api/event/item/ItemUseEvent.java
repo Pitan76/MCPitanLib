@@ -62,12 +62,20 @@ public class ItemUseEvent extends BaseEvent {
         return StackActionResult.create(CompatActionResult.SUCCESS);
     }
 
-    public CompatActionResult fail() {
-        return CompatActionResult.FAIL;
+    public StackActionResult fail() {
+        return StackActionResult.fail();
     }
 
-    public CompatActionResult pass() {
-        return CompatActionResult.PASS;
+    public StackActionResult fail(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return StackActionResult.fail(stack.toMinecraft());
+    }
+
+    public StackActionResult pass() {
+        return StackActionResult.pass();
+    }
+
+    public StackActionResult pass(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return StackActionResult.pass(stack.toMinecraft());
     }
 
     public StackActionResult consume(ItemStack stack) {

@@ -4,6 +4,7 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
+import org.jetbrains.annotations.Nullable;
 
 public class ItemWrapper {
     private final net.minecraft.item.Item item;
@@ -47,41 +48,42 @@ public class ItemWrapper {
     }
 
     public boolean isEmpty() {
-        return item == null;
+        return get() == null;
     }
 
     public boolean isAir() {
-        return isEmpty() || item == net.minecraft.item.Items.AIR;
+        return isEmpty() || get() == net.minecraft.item.Items.AIR;
     }
 
+    @Nullable
     public net.minecraft.item.Item get() {
         return item;
     }
 
     public net.minecraft.item.Item gerOrDefault(net.minecraft.item.Item defaultItem) {
-        return isEmpty() ? defaultItem : item;
+        return isEmpty() ? defaultItem : get();
     }
 
     public CompatIdentifier getId() {
         if (isEmpty())
             return CompatIdentifier.empty();
 
-        return ItemUtil.toId(item);
+        return ItemUtil.toId(get());
     }
 
     public String getName() {
         if (isEmpty()) return "";
-        return ItemUtil.getNameAsString(item);
+        return ItemUtil.getNameAsString(get());
     }
 
     public String getTranslationKey() {
         if (isEmpty()) return "";
-        return ItemUtil.getTranslationKey(item);
+        return ItemUtil.getTranslationKey(get());
     }
 
     public ItemStack createStack(int count) {
         if (isEmpty()) return ItemStack.EMPTY;
-        return ItemStack.of(ItemStackUtil.create(item, count));
+        return ItemStack.of(ItemStackUtil.create(get(), count));
     }
 
     public ItemStack createStack() {
@@ -89,17 +91,17 @@ public class ItemWrapper {
     }
 
     public boolean isInTag(CompatIdentifier id) {
-        return ItemUtil.isInTag(item, id);
+        return ItemUtil.isInTag(get(), id);
     }
 
     public boolean isBlock() {
-        return !isEmpty() && item instanceof net.minecraft.item.BlockItem;
+        return !isEmpty() && get() instanceof net.minecraft.item.BlockItem;
     }
 
     public BlockWrapper asBlock() {
         if (!isBlock())
             return BlockWrapper.of();
 
-        return BlockWrapper.of(((net.minecraft.item.BlockItem) item).getBlock());
+        return BlockWrapper.of(((net.minecraft.item.BlockItem) get()).getBlock());
     }
 }
