@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
+import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,7 +31,7 @@ public class ItemMixin {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClick(new ItemUseEvent(world, user, hand), options).toActionResult();
+            TypedActionResult<ItemStack> returnValue = provider.onRightClick(new ItemUseEvent(world, user, hand), options).toTypedActionResult();
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
@@ -41,7 +43,7 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()), options);
+            ActionResult returnValue = provider.onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()), options).toActionResult();
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }

@@ -1,20 +1,19 @@
 package net.pitan76.mcpitanlib.api.tag.v2.typed;
 
+import me.shedaniel.architectury.hooks.TagHooks;
 import net.minecraft.entity.EntityType;
-import net.minecraft.tag.TagKey;
+import net.minecraft.tag.Tag;
 import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKey;
 import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKeyType;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
-import java.util.List;
-
 public class EntityTagKey extends CompatTagKey<EntityType<?>> {
     @Deprecated
-    public EntityTagKey(TagKey<EntityType<?>> tagKey) {
+    public EntityTagKey(Tag.Identified<EntityType<?>> tagKey) {
         super(tagKey);
     }
 
     public static EntityTagKey of(CompatIdentifier identifier) {
-        return new EntityTagKey(TagKey.of(CompatTagKeyType.ENTITY_TYPE.getRegistryKey(), identifier.toMinecraft()));
+        return new EntityTagKey(TagHooks.getOptional(identifier.toMinecraft(), CompatTagKeyType.ENTITY_TYPE::getTagGroup));
     }
 }
