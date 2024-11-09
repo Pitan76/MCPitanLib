@@ -59,11 +59,11 @@ public class ItemUseEvent extends BaseEvent {
     }
 
     public StackActionResult success() {
-        return StackActionResult.create(CompatActionResult.SUCCESS);
+        return StackActionResult.create(CompatActionResult.SUCCESS, stack);
     }
 
     public StackActionResult fail() {
-        return StackActionResult.fail();
+        return new StackActionResult(CompatActionResult.FAIL, stack);
     }
 
     public StackActionResult fail(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
@@ -71,7 +71,7 @@ public class ItemUseEvent extends BaseEvent {
     }
 
     public StackActionResult pass() {
-        return StackActionResult.pass();
+        return new StackActionResult(CompatActionResult.PASS, stack);
     }
 
     public StackActionResult pass(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
@@ -90,7 +90,7 @@ public class ItemUseEvent extends BaseEvent {
     }
 
     public StackActionResult consume() {
-        return StackActionResult.create(CompatActionResult.CONSUME);
+        return StackActionResult.create(CompatActionResult.CONSUME, stack);
     }
 
     public boolean isSneaking() {
