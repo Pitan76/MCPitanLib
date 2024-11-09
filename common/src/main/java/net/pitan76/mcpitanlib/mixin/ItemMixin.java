@@ -75,7 +75,6 @@ public class ItemMixin {
         }
     }
 
-    /*
     @Inject(method = "hasRecipeRemainder", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$hasRecipeRemainder(CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof ExtendItemProvider) {
@@ -86,7 +85,6 @@ public class ItemMixin {
                 cir.setReturnValue(returnValue);
         }
     }
-    */
 
     @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type, CallbackInfo ci) {
@@ -132,7 +130,6 @@ public class ItemMixin {
         }
     }
 
-    /*
     @Inject(method = "isEnchantable", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$isEnchantable(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof ExtendItemProvider) {
@@ -143,9 +140,7 @@ public class ItemMixin {
                 cir.setReturnValue(returnValue);
         }
     }
-    */
 
-    /*
     @Inject(method = "getEnchantability", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$getEnchantability(CallbackInfoReturnable<Integer> cir) {
         if (this instanceof ExtendItemProvider) {
@@ -156,7 +151,6 @@ public class ItemMixin {
                 cir.setReturnValue(returnValue);
         }
     }
-    */
 
     @Inject(method = "getItemBarColor", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$getItemBarColor(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
