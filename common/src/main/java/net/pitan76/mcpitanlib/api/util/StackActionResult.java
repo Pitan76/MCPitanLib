@@ -85,6 +85,22 @@ public class StackActionResult extends CompatActionResult {
         return create(compatActionResult, stack);
     }
 
+    public static StackActionResult pass(ItemStack stack) {
+        return create(CompatActionResult.PASS, stack);
+    }
+
+    public static StackActionResult pass() {
+        return create(CompatActionResult.PASS);
+    }
+
+    public static StackActionResult fail(ItemStack stack) {
+        return create(CompatActionResult.FAIL, stack);
+    }
+
+    public static StackActionResult fail() {
+        return create(CompatActionResult.FAIL);
+    }
+
     public ItemStack getStack() {
         return stack;
     }
