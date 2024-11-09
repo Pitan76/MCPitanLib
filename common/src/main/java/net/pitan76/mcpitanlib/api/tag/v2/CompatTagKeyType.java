@@ -5,19 +5,18 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 public class CompatTagKeyType<T> {
-    public static final CompatTagKeyType<Block> BLOCK = of(RegistryKeys.BLOCK);
-    public static final CompatTagKeyType<Item> ITEM = new CompatTagKeyType<>(RegistryKeys.ITEM);
-    public static final CompatTagKeyType<Fluid> FLUID = new CompatTagKeyType<>(RegistryKeys.FLUID);
-    public static final CompatTagKeyType<EntityType<?>> ENTITY_TYPE = new CompatTagKeyType<>(RegistryKeys.ENTITY_TYPE);
-    public static final CompatTagKeyType<BlockEntityType<?>> BLOCK_ENTITY_TYPE = new CompatTagKeyType<>(RegistryKeys.BLOCK_ENTITY_TYPE);
-    public static final CompatTagKeyType<ScreenHandlerType<?>> SCREEN_HANDLER = new CompatTagKeyType<>(RegistryKeys.SCREEN_HANDLER);
+    public static final CompatTagKeyType<Block> BLOCK = of(Registry.BLOCK_KEY);
+    public static final CompatTagKeyType<Item> ITEM = new CompatTagKeyType<>(Registry.ITEM_KEY);
+    public static final CompatTagKeyType<Fluid> FLUID = new CompatTagKeyType<>(Registry.FLUID_KEY);
+    public static final CompatTagKeyType<EntityType<?>> ENTITY_TYPE = new CompatTagKeyType<>(Registry.ENTITY_TYPE_KEY);
+    public static final CompatTagKeyType<BlockEntityType<?>> BLOCK_ENTITY_TYPE = new CompatTagKeyType<>(Registry.BLOCK_ENTITY_TYPE_KEY);
+    public static final CompatTagKeyType<ScreenHandlerType<?>> SCREEN_HANDLER = new CompatTagKeyType<>(Registry.MENU_KEY);
 
     public final CompatIdentifier id;
 
