@@ -6,6 +6,7 @@ import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
+@Deprecated
 public interface CompatArmorMaterial extends CompatibleArmorMaterial {
 
     @Override
