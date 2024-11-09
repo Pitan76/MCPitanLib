@@ -10,6 +10,8 @@ import net.minecraft.util.DyeColor;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.color.CompatDyeColor;
+import net.pitan76.mcpitanlib.api.util.color.CompatMapColor;
 
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
@@ -129,8 +131,23 @@ public class CompatibleBlockSettings extends net.pitan76.mcpitanlib.api.block.Co
         return this;
     }
 
+    public CompatibleBlockSettings mapColor(CompatMapColor color) {
+        super.mapColor(color.getColor());
+        return this;
+    }
+
+    public CompatibleBlockSettings mapColor(CompatDyeColor color) {
+        super.mapColor(color.getColor());
+        return this;
+    }
+
     public CompatibleBlockSettings mapColor(Function<BlockState, MapColor> color) {
         super.mapColor(color);
+        return this;
+    }
+
+    public CompatibleBlockSettings compatMapColor(Function<net.pitan76.mcpitanlib.midohra.block.BlockState, CompatMapColor> color) {
+        super.mapColor(state -> color.apply(net.pitan76.mcpitanlib.midohra.block.BlockState.of(state)).getColor());
         return this;
     }
 
