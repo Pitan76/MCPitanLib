@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.tag.v2.typed;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.tag.TagKey;
 import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKey;
 import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKeyType;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
