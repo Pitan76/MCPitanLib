@@ -31,7 +31,7 @@ public class CompatDyeColor implements CompatStringIdentifiable {
         return new CompatDyeColor(color);
     }
 
-    public DyeColor get() {
+    public DyeColor getColor() {
         return color;
     }
 

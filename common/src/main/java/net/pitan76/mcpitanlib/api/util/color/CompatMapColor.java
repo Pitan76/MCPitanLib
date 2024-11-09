@@ -76,7 +76,7 @@ public class CompatMapColor {
         return new CompatMapColor(color);
     }
 
-    public MapColor get() {
+    public MapColor getColor() {
         return color;
     }
 
