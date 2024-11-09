@@ -32,7 +32,7 @@ public class CompatTagKeyType<T> {
     private RegistryKey<Registry<T>> key;
 
     protected CompatTagKeyType(RegistryKey<Registry<T>> key) {
-        this.id = CompatIdentifier.fromMinecraft(key.getRegistry());
+        this.id = CompatIdentifier.fromMinecraft(key.method_41185());
         this.key = key;
     }
 
