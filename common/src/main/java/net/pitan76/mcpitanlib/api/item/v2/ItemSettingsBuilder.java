@@ -7,6 +7,7 @@ import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
+import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
 public class ItemSettingsBuilder {
 
@@ -18,6 +19,7 @@ public class ItemSettingsBuilder {
     public RepairIngredientTag repairIngredientTag;
     public CompatFoodComponent foodComponent;
     public CompatRarity rarity;
+    public ItemWrapper recipeRemainder;
 
     public ItemGroupWrapper itemGroupWrapper;
     public CreativeTabBuilder itemGroupBuilder;
@@ -52,6 +54,11 @@ public class ItemSettingsBuilder {
 
     public ItemSettingsBuilder maxDamageIfAbsent(int maxDamage) {
         this.maxDamageIfAbsent = maxDamage;
+        return this;
+    }
+
+    public ItemSettingsBuilder recipeRemainder(ItemWrapper recipeRemainder) {
+        this.recipeRemainder = recipeRemainder;
         return this;
     }
 
@@ -102,6 +109,8 @@ public class ItemSettingsBuilder {
 
         if (rarity != null) settings.rarity(rarity);
         if (foodComponent != null) settings.food(foodComponent);
+
+        if (recipeRemainder != null) settings.recipeRemainder(recipeRemainder);
 
         if (enchantability != -1) settings.enchantable(enchantability);
 
