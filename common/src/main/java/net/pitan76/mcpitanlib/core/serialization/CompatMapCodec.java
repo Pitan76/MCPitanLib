@@ -6,8 +6,10 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.pitan76.mcpitanlib.api.block.CompatStairsBlock;
-import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
+import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
+import net.pitan76.mcpitanlib.core.serialization.codecs.CompatBlockMapCodecUtil;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -47,18 +49,28 @@ public class CompatMapCodec<T> {
         return of(RecordCodecBuilder.mapCodec((instance) -> instance.group(createSettingsCodec()).apply(instance, blockFromSettings)));
     }
 
-    public static <B extends ExtendBlock> RecordCodecBuilder<B, CompatibleBlockSettings> createCompatSettingsCodec() {
-        return CompatibleBlockSettings.CODEC.fieldOf("properties").forGetter(ExtendBlock::getCompatSettings);
+    @Deprecated
+    public static <B extends ExtendBlock> RecordCodecBuilder<B, net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings> createCompatSettingsCodec() {
+        return net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings.CODEC.fieldOf("properties").forGetter(ExtendBlock::getCompatSettings);
     }
 
-    public static <B extends ExtendBlock> CompatMapCodec<B> createCodecOfExtendBlock(Function<CompatibleBlockSettings, B> blockFromSettings) {
+    @Deprecated
+    public static <B extends ExtendBlock> CompatMapCodec<B> createCodecOfExtendBlock(Function<net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings, B> blockFromSettings) {
         return of(RecordCodecBuilder.mapCodec((instance) -> instance.group(createCompatSettingsCodec()).apply(instance, blockFromSettings)));
     }
 
-    public static <B extends CompatStairsBlock> CompatMapCodec<B> createCodecOfCompatStairsBlock(BiFunction<BlockState, CompatibleBlockSettings, B> createFunction) {
+    public static <B extends CompatBlock> RecordCodecBuilder<B, CompatibleBlockSettings> createCompatSettingsV2Codec() {
+        return CompatBlockMapCodecUtil.createSettingsCodec();
+    }
+
+    public static <B extends CompatBlock> CompatMapCodec<B> createCodecOfCompatBlock(Function<CompatibleBlockSettings, B> blockFromSettings) {
+        return CompatBlockMapCodecUtil.createCodec(blockFromSettings);
+    }
+
+    public static <B extends CompatStairsBlock> CompatMapCodec<B> createCodecOfCompatStairsBlock(BiFunction<BlockState, net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings, B> createFunction) {
         return of(RecordCodecBuilder.mapCodec((instance) -> instance.group(
                 BlockState.CODEC.fieldOf("base_state").forGetter(CompatStairsBlock::getBaseBlockState),
-                CompatibleBlockSettings.CODEC.fieldOf("properties").forGetter(CompatStairsBlock::getCompatSettings)
+                net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings.CODEC.fieldOf("properties").forGetter(CompatStairsBlock::getCompatSettings)
         ).apply(instance, createFunction)));
     }
 }
