@@ -12,6 +12,7 @@ import net.pitan76.mcpitanlib.api.recipe.CompatRecipeType;
 import net.pitan76.mcpitanlib.api.recipe.MatchGetter;
 import net.pitan76.mcpitanlib.api.recipe.input.CompatRecipeInput;
 import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
+import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeNonEntry;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 
@@ -48,7 +49,7 @@ public class RecipeUtil {
     }
 
     public static ItemStack getOutput(Recipe<?> recipe, World world) {
-        return recipe.getResult(world.getRegistryManager());
+        return getOutput(recipe, RegistryLookupUtil.getRegistryLookup(world));
     }
 
     public static List<Recipe<?>> getAllRecipes(World world) {
@@ -61,6 +62,15 @@ public class RecipeUtil {
                     outRecipes.add(recipeEntry.value());
                 }
             }
+        }
+        return outRecipes;
+    }
+
+    public static List<CompatRecipeNonEntry<?>> getAllCompatRecipeEntry(World world) {
+        List<Recipe<?>> recipes = getAllRecipes(world);
+        List<CompatRecipeNonEntry<?>> outRecipes = new ArrayList<>();
+        for (Recipe<?> recipe : recipes) {
+            outRecipes.add(new CompatRecipeNonEntry<>(recipe));
         }
         return outRecipes;
     }
@@ -140,7 +150,7 @@ public class RecipeUtil {
     }
 
     public static ItemStack getOutput(CompatRecipeEntry<?> recipeEntry, CompatRegistryLookup registryLookup) {
-        return recipeEntry.getRecipe().getResult(registryLookup.getRegistryLookup());
+        return getOutput(recipeEntry.getRecipe(), registryLookup);
     }
 
     public static CompatRecipeType<?> getType(CompatRecipeEntry<?> recipeEntry) {
