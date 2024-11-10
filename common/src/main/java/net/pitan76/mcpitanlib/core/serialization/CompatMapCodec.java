@@ -5,8 +5,10 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.pitan76.mcpitanlib.api.block.CompatStairsBlock;
-import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
+import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
+import net.pitan76.mcpitanlib.core.serialization.codecs.CompatBlockMapCodecUtil;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -42,11 +44,16 @@ public class CompatMapCodec<T> {
         return of();
     }
 
+    @Deprecated
     public static <B extends ExtendBlock> CompatMapCodec<B> createCodecOfExtendBlock(Function<CompatibleBlockSettings, B> blockFromSettings) {
         return of();
     }
 
     public static <B extends CompatStairsBlock> CompatMapCodec<B> createCodecOfCompatStairsBlock(BiFunction<BlockState, CompatibleBlockSettings, B> createFunction) {
         return of();
+    }
+
+    public static <B extends CompatBlock> CompatMapCodec<B> createCodecOfCompatBlock(Function<CompatibleBlockSettings, B> blockFromSettings) {
+        return CompatBlockMapCodecUtil.createCodec(blockFromSettings);
     }
 }
