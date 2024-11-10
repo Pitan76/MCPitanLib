@@ -1,13 +1,16 @@
 package net.pitan76.mcpitanlib.api.item.v2;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.UseAction;
+import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.CanRepairArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantabilityArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantableArgs;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.item.args.RarityArgs;
+import net.pitan76.mcpitanlib.api.item.args.StoppedUsingArgs;
 import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
 import net.pitan76.mcpitanlib.api.item.consume.CompatUseAction;
 import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
@@ -79,5 +82,16 @@ public class CompatItem extends ExtendItem {
             return settings.translationKey;
 
         return super.getOrCreateTranslationKey();
+    }
+
+    @Deprecated
+    @Override
+    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        onStoppedUsing(new StoppedUsingArgs(stack, world, user, remainingUseTicks));
+    }
+
+    public boolean onStoppedUsing(StoppedUsingArgs args) {
+        super.onStoppedUsing(args.stack, args.world, args.user, args.remainingUseTicks);
+        return false;
     }
 }
