@@ -9,6 +9,10 @@ public class CompatRecipeNonEntry<T extends Recipe<?>> extends CompatRecipeEntry
         super(CompatIdentifier.EMPTY, "", RecipeUtil.CompatibilityCraftingRecipeCategory.MISC, recipe);
     }
 
+    public static CompatRecipeNonEntry<?> create(Recipe<?> recipe) {
+        return new CompatRecipeNonEntry<>(recipe);
+    }
+
     @Override
     public T getRecipe() {
         return super.getRecipe();
