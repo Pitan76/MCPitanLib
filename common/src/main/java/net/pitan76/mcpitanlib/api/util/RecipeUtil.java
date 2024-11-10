@@ -16,6 +16,7 @@ import net.pitan76.mcpitanlib.api.recipe.CompatRecipeType;
 import net.pitan76.mcpitanlib.api.recipe.MatchGetter;
 import net.pitan76.mcpitanlib.api.recipe.input.CompatRecipeInput;
 import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
+import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeNonEntry;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 
@@ -52,7 +53,7 @@ public class RecipeUtil {
     }
 
     public static ItemStack getOutput(Recipe<?> recipe, World world) {
-        return recipe.craft(null, world.getRegistryManager());
+        return getOutput(recipe, RegistryLookupUtil.getRegistryLookup(world));
     }
 
     public static List<Recipe<?>> getAllRecipes(World world) {
@@ -71,6 +72,15 @@ public class RecipeUtil {
                     outRecipes.add(recipeEntry.value());
                 }
             }
+        }
+        return outRecipes;
+    }
+
+    public static List<CompatRecipeNonEntry<?>> getAllCompatRecipeEntry(World world) {
+        List<Recipe<?>> recipes = getAllRecipes(world);
+        List<CompatRecipeNonEntry<?>> outRecipes = new ArrayList<>();
+        for (Recipe<?> recipe : recipes) {
+            outRecipes.add(new CompatRecipeNonEntry<>(recipe));
         }
         return outRecipes;
     }
@@ -168,11 +178,31 @@ public class RecipeUtil {
     }
 
     public static ItemStack getOutput(Recipe<?> recipe, CompatRegistryLookup registryLookup) {
+        if (recipe instanceof ShapelessRecipe) {
+            ShapelessRecipe shapelessRecipe = (ShapelessRecipe) recipe;
+            return shapelessRecipe.craft(CraftingRecipeInput.EMPTY, registryLookup.getRegistryLookup());
+        }
+
+        if (recipe instanceof ShapedRecipe) {
+            ShapedRecipe shapedRecipe = (ShapedRecipe) recipe;
+            return shapedRecipe.craft(CraftingRecipeInput.EMPTY, registryLookup.getRegistryLookup());
+        }
+
+        if (recipe instanceof CraftingRecipe) {
+            CraftingRecipe craftingRecipe = (CraftingRecipe) recipe;
+            return craftingRecipe.craft(CraftingRecipeInput.EMPTY, registryLookup.getRegistryLookup());
+        }
+
+        if (recipe instanceof SpecialCraftingRecipe) {
+            SpecialCraftingRecipe specialCraftingRecipe = (SpecialCraftingRecipe) recipe;
+            return specialCraftingRecipe.craft(CraftingRecipeInput.EMPTY, registryLookup.getRegistryLookup());
+        }
+
         return recipe.craft(null, registryLookup.getRegistryLookup());
     }
 
     public static ItemStack getOutput(CompatRecipeEntry<?> recipeEntry, CompatRegistryLookup registryLookup) {
-        return recipeEntry.getRecipe().craft(null, registryLookup.getRegistryLookup());
+        return getOutput(recipeEntry.getRecipe(), registryLookup);
     }
 
     public static CompatRecipeType<?> getType(CompatRecipeEntry<?> recipeEntry) {
