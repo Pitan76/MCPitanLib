@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Property;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.state.property.IProperty;
 
 public class AppendPropertiesArgs extends BaseEvent {
     public StateManager.Builder<Block, BlockState> builder;
@@ -19,5 +20,11 @@ public class AppendPropertiesArgs extends BaseEvent {
 
     public void addProperty(Property<?>... properties) {
         builder.add(properties);
+    }
+
+    public void addProperty(IProperty<?>... properties) {
+        for (IProperty<?> property : properties) {
+            builder.add(property.getProperty());
+        }
     }
 }
