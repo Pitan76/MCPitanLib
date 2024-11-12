@@ -17,4 +17,12 @@ public class TileTickEvent<T extends BlockEntity> {
         this.state = state;
         this.blockEntity = blockEntity;
     }
+
+    public boolean isClient() {
+        return world.isClient();
+    }
+
+    public boolean isServer() {
+        return !isClient();
+    }
 }
