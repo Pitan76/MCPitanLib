@@ -3,11 +3,14 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Property;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -81,5 +84,17 @@ public class BlockStateUtil {
 
     public static CompatActionResult onUseWithItem_actionResult(BlockState state, ItemStack stack, World world, PlayerEntity player, Hand hand, BlockHitResult hit) {
         return onUseWithItem(state, stack, world, player, hand, hit);
+    }
+
+    public static FluidState getFluidState(BlockState state) {
+        return state.getFluidState();
+    }
+
+    public static Fluid getFluid(BlockState state) {
+        return getFluidState(state).getFluid();
+    }
+
+    public static BlockState rotate(BlockState state, BlockRotation rotation) {
+        return state.rotate(rotation);
     }
 }
