@@ -1,9 +1,7 @@
 package net.pitan76.mcpitanlib.api.item.v3;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.ToolMaterials;
-import net.minecraft.registry.tag.TagKey;
 import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 
 public class VanillaCompatToolMaterial implements CompatToolMaterial {
@@ -51,14 +49,7 @@ public class VanillaCompatToolMaterial implements CompatToolMaterial {
 
     @Override
     public int getCompatMiningLevel() {
-        TagKey<Block> tag = material.getInverseTag();
-        if (tag == ToolMaterials.WOOD.getInverseTag()) return 0;
-        if (tag == ToolMaterials.STONE.getInverseTag()) return 1;
-        if (tag == ToolMaterials.IRON.getInverseTag()) return 2;
-        if (tag == ToolMaterials.GOLD.getInverseTag()) return 2;
-        if (tag == ToolMaterials.DIAMOND.getInverseTag()) return 3;
-        if (tag == ToolMaterials.NETHERITE.getInverseTag()) return 4;
-        return -1;
+        return material.getMiningLevel();
     }
 
     @Override
