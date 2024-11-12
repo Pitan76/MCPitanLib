@@ -30,7 +30,7 @@ public class CompatBlock extends ExtendBlock {
 
     @Override
     @Deprecated
-    protected BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(BlockState state) {
         return getRenderType(new RenderTypeArgs(state)).renderType;
     }
 
@@ -40,7 +40,7 @@ public class CompatBlock extends ExtendBlock {
 
     @Override
     @Deprecated
-    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
         return rotate(new RotateArgs(state, rotation));
     }
 
@@ -50,7 +50,7 @@ public class CompatBlock extends ExtendBlock {
 
     @Override
     @Deprecated
-    protected boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+    public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
         return isSideInvisible(new SideInvisibleArgs(state, stateFrom, direction));
     }
 
