@@ -13,8 +13,8 @@ import java.util.function.ToIntFunction;
 public class BlockSettingsBuilder {
 
     public CompatIdentifier id;
-    public float hardness;
-    public float resistance;
+    public float hardness = -1;
+    public float resistance = -1;
     public CompatBlockSoundGroup blockSoundGroup;
     public CompatibleMaterial material;
     public CompatMapColor mapColor;
@@ -106,7 +106,12 @@ public class BlockSettingsBuilder {
         if (dropsNothing) settings.dropsNothing();
         if (luminance != null) settings.luminance((state) -> luminance.applyAsInt(BlockState.of(state)));
 
-        return settings.strength(hardness, resistance).sounds(blockSoundGroup);
+        if (hardness != -1 && resistance != -1) settings.strength(hardness, resistance);
+        else if (hardness != -1) settings.strength(hardness);
+
+        if (blockSoundGroup != null) settings.sounds(blockSoundGroup);
+
+        return settings;
     }
 
     public AbstractBlock.Settings _build(CompatIdentifier id) {
