@@ -186,4 +186,17 @@ public class CustomDataUtil {
 
         setNbt(stack, customData);
     }
+
+    /**
+     * カスタムNBTを削除する
+     * @param stack ItemStack
+     */
+    public static void remove(ItemStack stack) {
+        NbtCompound nbt = stack.getOrCreateNbt();
+        if (nbt.contains("components")) {
+            NbtCompound components = nbt.getCompound("components");
+            components.remove("minecraft:custom_data");
+            nbt.put("components", components);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.tile;
 
 import com.mojang.datafixers.types.Type;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -41,7 +42,8 @@ public class BlockEntityTypeBuilder<T extends BlockEntity> {
     }
 
     public BlockEntityType<T> build(Type<?> type) {
-        return BlockEntityTypeBuilder.<T>create(factory, blocks.toArray(new Block[0])).build(type);
+        return BlockEntityType.Builder.<T>create(factory::create, blocks.toArray(new Block[0])).build(type);
+
     }
 
     @FunctionalInterface

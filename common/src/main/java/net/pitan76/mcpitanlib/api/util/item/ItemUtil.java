@@ -8,6 +8,7 @@ import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -246,5 +247,17 @@ public class ItemUtil {
      */
     public static String getTranslationKey(Item item) {
         return item.getTranslationKey();
+    }
+
+    public static boolean hasRecipeRemainder(Item item) {
+        return !ItemStackUtil.isEmpty(getRecipeRemainderStack(item));
+    }
+
+    public static Item getRecipeRemainder(Item item) {
+        return item.getRecipeRemainder();
+    }
+
+    public static ItemStack getRecipeRemainderStack(Item item) {
+        return ItemStackUtil.create(getRecipeRemainder(item));
     }
 }

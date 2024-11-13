@@ -51,6 +51,10 @@ public class PropertyUtil {
         return property.get(state);
     }
 
+    public static net.pitan76.mcpitanlib.midohra.util.math.Direction getAsMidohra(BlockState state, DirectionProperty property) {
+        return net.pitan76.mcpitanlib.midohra.util.math.Direction.of(property.get(state));
+    }
+
     public static Direction getFacing(BlockState state) {
         return facing().get(state);
     }

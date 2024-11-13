@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.state.property;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.Direction;
+import net.pitan76.mcpitanlib.midohra.block.BlockState;
 
 import java.util.function.Predicate;
 
@@ -28,6 +29,18 @@ public class DirectionProperty implements IProperty<Direction> {
 
     public static DirectionProperty of(String name, Predicate<Direction> filter) {
         return new DirectionProperty(name, filter);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.Direction getAsMidohra(BlockState state) {
+        return net.pitan76.mcpitanlib.midohra.util.math.Direction.of(get(state.toMinecraft()));
+    }
+
+    public BlockState with(BlockState state, net.pitan76.mcpitanlib.midohra.util.math.Direction value) {
+        return BlockState.of(with(state.toMinecraft(), value.toMinecraft()));
+    }
+
+    public BlockState cycle(BlockState state) {
+        return BlockState.of(cycle(state.toMinecraft()));
     }
 
     @Override

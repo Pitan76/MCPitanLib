@@ -3,12 +3,15 @@ package net.pitan76.mcpitanlib.api.util.world;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.dimension.DimensionType;
+
+import java.util.Optional;
 
 public class WorldViewUtil {
 
@@ -26,6 +29,10 @@ public class WorldViewUtil {
 
     public static BlockEntity getBlockEntity(WorldView world, BlockPos pos) {
         return world.getBlockEntity(pos);
+    }
+
+    public static <T extends BlockEntity> Optional<T> getBlockEntity(WorldView world, BlockPos pos, BlockEntityType<T> type) {
+        return world.getBlockEntity(pos, type);
     }
 
     public static FluidState getFluidState(WorldView world, BlockPos pos) {
