@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
+import net.pitan76.mcpitanlib.api.state.property.IProperty;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
@@ -104,6 +105,18 @@ public class PlacementStateArgs extends BaseEvent {
             return null;
 
         return BlockStateUtil.with(BlockStateUtil.getDefaultState(block), property, value);
+    }
+
+    public <T extends Comparable<T>, V extends T> net.pitan76.mcpitanlib.midohra.block.BlockState with(IProperty<T> property, V value) {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(withBlockState(property.getProperty(), value));
+    }
+
+    public BlockState getBlockState() {
+        return BlockStateUtil.getDefaultState(block);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraBlockState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(getBlockState());
     }
 
     public BlockEntity getBlockEntity() {

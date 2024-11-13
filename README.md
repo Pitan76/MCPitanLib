@@ -12,8 +12,8 @@ MCPitanLibはライブラリです。 1つのjarで複数のMCバージョンを
 - [Architectury API (CurseForge)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
 
 ### ダウンロード
-[CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
-[Modrinth](https://modrinth.com/mod/mcpitanlibarch)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
+- [Modrinth](https://modrinth.com/mod/mcpitanlibarch)
 
 ### 使い方
 `build.gradle`に以下のように記述してください。
@@ -38,10 +38,13 @@ dependencies {
 
 `gradle.properties`に以下のように記述してください。
 ```properties
+# Example: mcpitanlib_version=+1.18.2:3.0.4
 mcpitanlib_version=x.x.x
 ```
 
 バージョンは[maven.pitan76.net](https://maven.pitan76.net/net/pitan76/)で確認してください。
+
+MCPitanLibを用いたMOD開発は「common/src/main/java/net/pitan76/mcpitanlib/test/ExampleMod.java」を参考にしてください。
 
 ## English
 MCPitanLib is a library. It is for supporting multiple MC versions with one jar. <br />
@@ -56,8 +59,8 @@ I am creating it for my own use, so I don't expect others to use it much. <br />
 - [Architectury API (CurseForge)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
 
 ### Download
-[CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
-[Modrinth](https://modrinth.com/mod/mcpitanlibarch)
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
+- [Modrinth](https://modrinth.com/mod/mcpitanlibarch)
 
 ### How to use
 Write as follows in `build.gradle`.
@@ -82,8 +85,11 @@ dependencies {
 
 Write as follows in `gradle.properties`.
 ```properties
-# Example: mcpitanlib_version=+1.18.2:1.9.5
+# Example: mcpitanlib_version=+1.18.2:3.0.4
 mcpitanlib_version=+x.x.x:x.x.x
 ```
 
 Please check the version at [maven.pitan76.net](https://maven.pitan76.net/net/pitan76/).
+
+For MOD development using MCPitanLib, refer to "common/src/main/java/net/pitan76/mcpitanlib/test/ExampleMod.java".
+

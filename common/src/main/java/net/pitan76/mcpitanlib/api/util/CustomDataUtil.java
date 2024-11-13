@@ -186,4 +186,12 @@ public class CustomDataUtil {
 
         setNbt(stack, customData);
     }
+
+    /**
+     * カスタムNBTを削除する
+     * @param stack ItemStack
+     */
+    public static void remove(ItemStack stack) {
+        stack.remove(DataComponentTypes.CUSTOM_DATA);
+    }
 }
