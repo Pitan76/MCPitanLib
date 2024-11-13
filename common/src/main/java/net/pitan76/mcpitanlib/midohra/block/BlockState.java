@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.midohra.block;
 
 import net.minecraft.state.property.Property;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
+import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
 
@@ -30,20 +31,20 @@ public class BlockState {
     }
 
     public boolean isEmpty() {
-        return state == null;
+        return toMinecraft() == null;
     }
 
     public boolean isAir() {
-        return isEmpty() || BlockStateUtil.isAir(state);
+        return isEmpty() || BlockStateUtil.isAir(toMinecraft());
     }
 
     public CompatBlockSoundGroup getSoundGroup() {
-        return BlockStateUtil.getCompatSoundGroup(state);
+        return BlockStateUtil.getCompatSoundGroup(toMinecraft());
     }
 
     public BlockWrapper getBlock() {
         if (blockWrapper == null)
-            blockWrapper = BlockWrapper.of(BlockStateUtil.getBlock(state));
+            blockWrapper = BlockWrapper.of(BlockStateUtil.getBlock(toMinecraft()));
 
         return blockWrapper;
     }
@@ -58,34 +59,50 @@ public class BlockState {
     }
 
     public <T extends Comparable<T>, V extends T> BlockState with(Property<T> property, V value) {
-        return of(state.with(property, value));
+        return of(toMinecraft().with(property, value));
     }
 
     public <T extends Comparable<T>, V extends T> BlockState with(IProperty<T> property, V value) {
         return with(property.getProperty(), value);
     }
 
+    public BlockState with(DirectionProperty property, net.pitan76.mcpitanlib.midohra.util.math.Direction value) {
+        return of(property.with(toMinecraft(), value.toMinecraft()));
+    }
+
     public <T extends Comparable<T>> BlockState cycle(Property<T> property) {
-        return of(state.cycle(property));
+        return of(toMinecraft().cycle(property));
     }
 
     public <T extends Comparable<T>> BlockState cycle(IProperty<T> property) {
         return cycle(property.getProperty());
     }
 
+    public BlockState cycle(DirectionProperty property) {
+        return of(property.cycle(toMinecraft()));
+    }
+
     public <T extends Comparable<T>> T get(Property<T> property) {
-        return state.get(property);
+        return toMinecraft().get(property);
     }
 
     public <T extends Comparable<T>> T get(IProperty<T> property) {
         return get(property.getProperty());
     }
 
+    public net.pitan76.mcpitanlib.midohra.util.math.Direction get(DirectionProperty property) {
+        return net.pitan76.mcpitanlib.midohra.util.math.Direction.of(get(property.getProperty()));
+    }
+
     public <T extends Comparable<T>> boolean contains(Property<T> property) {
-        return state.contains(property);
+        return toMinecraft().contains(property);
     }
 
     public <T extends Comparable<T>> boolean contains(IProperty<T> property) {
+        return contains(property.getProperty());
+    }
+
+    public boolean contains(DirectionProperty property) {
         return contains(property.getProperty());
     }
 }

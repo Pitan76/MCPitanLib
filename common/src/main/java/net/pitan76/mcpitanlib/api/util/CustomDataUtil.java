@@ -177,4 +177,12 @@ public class CustomDataUtil {
     public static void fix_oldNbt(ItemStack stack, String[] keys) {
 
     }
+
+    /**
+     * カスタムNBTを削除する
+     * @param stack ItemStack
+     */
+    public static void remove(ItemStack stack) {
+        stack.remove(DataComponentTypes.CUSTOM_DATA);
+    }
 }
