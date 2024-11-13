@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.core.registry;
 
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -23,6 +24,6 @@ public class FuelRegistry {
     }
 
     public static boolean isFuel(World world, ItemStack stack) {
-        return world.getFuelRegistry().isFuel(stack);
+        return AbstractFurnaceBlockEntity.canUseAsFuel(stack);
     }
 }
