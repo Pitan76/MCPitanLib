@@ -192,7 +192,7 @@ public class CustomDataUtil {
      * @param stack ItemStack
      */
     public static void remove(ItemStack stack) {
-        NbtCompound nbt = stack.getOrCreateNbt();
+        NbtCompound nbt = stack.getOrCreateTag();
         if (nbt.contains("components")) {
             NbtCompound components = nbt.getCompound("components");
             components.remove("minecraft:custom_data");

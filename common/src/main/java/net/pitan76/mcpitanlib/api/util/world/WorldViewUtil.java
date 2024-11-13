@@ -32,7 +32,7 @@ public class WorldViewUtil {
     }
 
     public static <T extends BlockEntity> Optional<T> getBlockEntity(WorldView world, BlockPos pos, BlockEntityType<T> type) {
-        return world.getBlockEntity(pos, type);
+        return Optional.ofNullable(type.get(world, pos));
     }
 
     public static FluidState getFluidState(WorldView world, BlockPos pos) {
