@@ -254,10 +254,10 @@ public class ItemUtil {
     }
 
     public static Item getRecipeRemainder(Item item) {
-        return getRecipeRemainderStack(item).getItem();
+        return item.getRecipeRemainder();
     }
 
     public static ItemStack getRecipeRemainderStack(Item item) {
-        return item.getRecipeRemainder();
+        return ItemStackUtil.create(getRecipeRemainder(item));
     }
 }
