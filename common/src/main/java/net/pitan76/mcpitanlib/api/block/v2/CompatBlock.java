@@ -57,4 +57,20 @@ public class CompatBlock extends ExtendBlock {
     public boolean isSideInvisible(SideInvisibleArgs args) {
         return super.isSideInvisible(args.state, args.stateFrom, args.direction);
     }
+
+    /**
+     * Compatible for getDefaultState()
+     * @return default block state
+     */
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getDefaultMidohraState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(getNewDefaultState());
+    }
+
+    /**
+     * Compatible for setDefaultState()
+     * @param state BlockState
+     */
+    public void setDefaultState(net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        setNewDefaultState(state.toMinecraft());
+    }
 }

@@ -17,5 +17,13 @@ public interface IProperty<T extends Comparable<T>> {
         return state.with(getProperty(), value);
     }
 
+    default boolean contains(BlockState state) {
+        return state.contains(getProperty());
+    }
+
+    default BlockState cycle(BlockState state) {
+        return state.cycle(getProperty());
+    }
+
     Property<T> getProperty();
 }

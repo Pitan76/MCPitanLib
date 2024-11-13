@@ -44,12 +44,24 @@ public class ItemStack {
         stack.setCount(count);
     }
 
-    public NbtCompound getNbt() {
+    public NbtCompound getCustomNbt() {
         return CustomDataUtil.getNbt(stack);
     }
 
-    public void setNbt(NbtCompound nbt) {
+    public void setCustomNbt(NbtCompound nbt) {
         CustomDataUtil.setNbt(stack, nbt);
+    }
+
+    public void removeCustomNbt() {
+        CustomDataUtil.remove(stack);
+    }
+
+    public boolean hasCustomNbt() {
+        return CustomDataUtil.hasNbt(stack);
+    }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
     }
 
     public CompatIdentifier getItemId() {
@@ -58,6 +70,10 @@ public class ItemStack {
 
     public ItemStack copy() {
         return new ItemStack(stack.copy());
+    }
+
+    public ItemStack copyWithCount(int count) {
+        return new ItemStack(stack.copyWithCount(count));
     }
 
     public Map<CompatEnchantment, Integer> getEnchantments(@Nullable World world) {
