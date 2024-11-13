@@ -21,4 +21,8 @@ public class FuelRegistry {
     public static int get(World world, ItemStack stack) {
         return world.getFuelRegistry().getFuelTicks(stack);
     }
+
+    public static boolean isFuel(World world, ItemStack stack) {
+        return world.getFuelRegistry().isFuel(stack);
+    }
 }
