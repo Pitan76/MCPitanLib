@@ -90,13 +90,13 @@ public class CompatBlock extends ExtendBlock {
     }
 
     public BlockState getStateForNeighborUpdate(StateForNeighborUpdateArgs args) {
-        return super.getStateForNeighborUpdate(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom());
+        return super.getStateForNeighborUpdate(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos);
     }
 
     @Deprecated
     @Override
     public BlockState getStateForNeighborUpdate(net.pitan76.mcpitanlib.api.event.block.StateForNeighborUpdateArgs args) {
-        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos, args.tickView, args.random));
+        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos));
     }
 
     public VoxelShape getOutlineShape(OutlineShapeEvent e) {
