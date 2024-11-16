@@ -1,0 +1,47 @@
+package net.pitan76.mcpitanlib.midohra.world.tick;
+
+import net.minecraft.block.Block;
+import net.minecraft.fluid.Fluid;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
+import net.pitan76.mcpitanlib.midohra.fluid.FluidWrapper;
+import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+
+public class ScheduledTickView {
+    private final net.minecraft.world.tick.ScheduledTickView scheduledTickView;
+
+    public ScheduledTickView(net.minecraft.world.tick.ScheduledTickView scheduledTickView) {
+        this.scheduledTickView = scheduledTickView;
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView of(net.minecraft.world.tick.ScheduledTickView scheduledTickView) {
+        return new net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView(scheduledTickView);
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView of(net.minecraft.world.World world) {
+        return new net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView(world);
+    }
+
+    public net.minecraft.world.tick.ScheduledTickView toMinecraft() {
+        return get();
+    }
+
+    protected net.minecraft.world.tick.ScheduledTickView get() {
+        return scheduledTickView;
+    }
+
+    public void scheduleBlockTick(BlockPos blockPos, BlockWrapper blockWrapper, int delay) {
+        scheduleBlockTick(blockPos.toMinecraft(), blockWrapper.get(), delay);
+    }
+
+    public void scheduleBlockTick(net.minecraft.util.math.BlockPos blockPos, Block block, int delay) {
+        get().scheduleBlockTick(blockPos, block, delay);
+    }
+
+    public void scheduleFluidTick(BlockPos blockPos, FluidWrapper fluidWrapper, int delay) {
+        scheduleFluidTick(blockPos.toMinecraft(), fluidWrapper.get(), delay);
+    }
+
+    public void scheduleFluidTick(net.minecraft.util.math.BlockPos blockPos, Fluid block, int delay) {
+        get().scheduleFluidTick(blockPos, block, delay);
+    }
+}
