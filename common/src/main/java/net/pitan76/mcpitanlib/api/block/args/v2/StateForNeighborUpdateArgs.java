@@ -6,7 +6,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
@@ -16,10 +15,9 @@ public class StateForNeighborUpdateArgs implements BlockStatePropertyHolder {
     public BlockState state;
     public Direction direction;
     public BlockState neighborState;
-    public WorldView world;
+    public WorldAccess world;
     public BlockPos pos;
     public BlockPos neighborPos;
-    public ScheduledTickView tickView;
     public CompatRandom random;
 
     public StateForNeighborUpdateArgs(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
@@ -29,17 +27,7 @@ public class StateForNeighborUpdateArgs implements BlockStatePropertyHolder {
         this.world = world;
         this.pos = pos;
         this.neighborPos = neighborPos;
-    }
-
-    public StateForNeighborUpdateArgs(BlockState state, Direction direction, BlockState neighborState, WorldView world, BlockPos pos, BlockPos neighborPos, ScheduledTickView tickView, CompatRandom random) {
-        this.state = state;
-        this.direction = direction;
-        this.neighborState = neighborState;
-        this.world = world;
-        this.pos = pos;
-        this.neighborPos = neighborPos;
-        this.tickView = tickView;
-        this.random = random;
+        this.random = new CompatRandom(world.getRandom());
     }
 
     public Direction getDirection() {
@@ -87,7 +75,7 @@ public class StateForNeighborUpdateArgs implements BlockStatePropertyHolder {
     }
 
     public net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView getTickView() {
-        return net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView.of(tickView);
+        return net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView.of(world);
     }
 
     @Override
