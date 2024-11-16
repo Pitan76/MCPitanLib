@@ -4,6 +4,7 @@ import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.WorldView;
@@ -15,6 +16,10 @@ public class FluidUtil {
 
     public static Fluid fromId(Identifier identifier) {
         return Registry.FLUID.get(identifier);
+    }
+
+    public static Fluid fromId(CompatIdentifier identifier) {
+        return fromId(identifier.toMinecraft());
     }
 
     public static int getRawId(Fluid fluid) {
@@ -98,4 +103,7 @@ public class FluidUtil {
     }
 
 
+    public static Item getBucketItem(Fluid fluid) {
+        return fluid.getBucketItem();
+    }
 }
