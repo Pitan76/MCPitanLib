@@ -22,17 +22,17 @@ public class World extends WorldAccess {
         this.world = world;
     }
 
-    @Override
-    public net.minecraft.world.World getWorld() {
-        return world;
-    }
-
     public static World of(net.minecraft.world.World world) {
         return new World(world);
     }
 
+    @Override
+    public net.minecraft.world.World getRaw() {
+        return world;
+    }
+
     public net.minecraft.world.World toMinecraft() {
-        return getWorld();
+        return getRaw();
     }
 
     public void addBlockEntity(BlockEntityWrapper blockEntity) {
@@ -40,51 +40,51 @@ public class World extends WorldAccess {
     }
 
     public void addBlockEntity(BlockEntity blockEntity) {
-        getWorld().addBlockEntity(blockEntity);
+        getRaw().addBlockEntity(blockEntity);
     }
 
     public void removeBlockEntity(BlockPos pos) {
-        getWorld().removeBlockEntity(pos.toMinecraft());
+        getRaw().removeBlockEntity(pos.toMinecraft());
     }
 
     public long getTime() {
-        return WorldUtil.getTime(getWorld());
+        return WorldUtil.getTime(getRaw());
     }
 
     public long getTopY() {
-        return WorldUtil.getTopY(getWorld());
+        return WorldUtil.getTopY(getRaw());
     }
 
     public long getBottomY() {
-        return WorldUtil.getBottomY(getWorld());
+        return WorldUtil.getBottomY(getRaw());
     }
 
     public long getDimensionHeight() {
-        return WorldUtil.getDimensionHeight(getWorld());
+        return WorldUtil.getDimensionHeight(getRaw());
     }
 
     public CompatIdentifier getId() {
-        return WorldUtil.getCompatWorldId(getWorld());
+        return WorldUtil.getCompatWorldId(getRaw());
     }
 
     public FluidState getRawFluidState(BlockPos pos) {
-        return WorldUtil.getFluidState(getWorld(), pos.toMinecraft());
+        return WorldUtil.getFluidState(getRaw(), pos.toMinecraft());
     }
 
     public Player getPlayerByUUID(UUID uuid) {
-        return WorldUtil.getPlayer(getWorld(), uuid);
+        return WorldUtil.getPlayer(getRaw(), uuid);
     }
 
     public List<Player> getPlayers() {
-        return WorldUtil.getPlayers(getWorld());
+        return WorldUtil.getPlayers(getRaw());
     }
 
     public BlockPos getSpawnPos() {
-        return BlockPos.of(WorldUtil.getSpawnPos(getWorld()));
+        return BlockPos.of(WorldUtil.getSpawnPos(getRaw()));
     }
 
     public Optional<World> getWorld(CompatIdentifier id) {
-        Optional<ServerWorld> optional = WorldUtil.getWorld(getWorld(), id);
+        Optional<ServerWorld> optional = WorldUtil.getWorld(getRaw(), id);
         return optional.map(World::of);
     }
 }
