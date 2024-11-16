@@ -133,7 +133,7 @@ public class ChunkPos {
     }
 
     public int getChebyshevDistance(int x, int z) {
-        return getRaw().getChebyshevDistance(x, z);
+        return getChebyshevDistance(of(x, z));
     }
 
     public int getSquaredDistance(ChunkPos pos) {
