@@ -2,30 +2,31 @@ package net.pitan76.mcpitanlib.midohra.world.tick;
 
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.world.WorldAccess;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.fluid.FluidWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 
 public class ScheduledTickView {
-    private final net.minecraft.world.tick.ScheduledTickView scheduledTickView;
+    private final WorldAccess scheduledTickView;
 
-    public ScheduledTickView(net.minecraft.world.tick.ScheduledTickView scheduledTickView) {
+    public ScheduledTickView(WorldAccess scheduledTickView) {
         this.scheduledTickView = scheduledTickView;
     }
 
-    public static net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView of(net.minecraft.world.tick.ScheduledTickView scheduledTickView) {
-        return new net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView(scheduledTickView);
+    public static net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView of(net.minecraft.world.World world) {
+        return of((WorldAccess) world);
     }
 
-    public static net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView of(net.minecraft.world.World world) {
+    public static net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView of(WorldAccess world) {
         return new net.pitan76.mcpitanlib.midohra.world.tick.ScheduledTickView(world);
     }
 
-    public net.minecraft.world.tick.ScheduledTickView toMinecraft() {
+    public WorldAccess toMinecraft() {
         return get();
     }
 
-    protected net.minecraft.world.tick.ScheduledTickView get() {
+    protected WorldAccess get() {
         return scheduledTickView;
     }
 
