@@ -1,11 +1,13 @@
-package net.pitan76.mcpitanlib.midohra.util.math;
+package net.pitan76.mcpitanlib.midohra.util.math.v0;
 
 import net.minecraft.util.math.Vec3i;
+import net.pitan76.mcpitanlib.midohra.util.math.Direction;
 
-public class BlockPos {
+public class BlockPos extends net.minecraft.util.math.BlockPos {
     private final net.minecraft.util.math.BlockPos blockPos;
 
     protected BlockPos(net.minecraft.util.math.BlockPos blockPos) {
+        super(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         this.blockPos = blockPos;
     }
 
@@ -79,5 +81,10 @@ public class BlockPos {
 
     public BlockPos offset(Direction direction) {
         return new BlockPos(blockPos.offset(direction.toMinecraft()));
+    }
+
+    @Override
+    public BlockPos add(Vec3i vec3i) {
+        return new BlockPos(blockPos.add(vec3i));
     }
 }

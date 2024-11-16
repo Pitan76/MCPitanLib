@@ -25,5 +25,9 @@ public interface IProperty<T extends Comparable<T>> {
         return state.cycle(getProperty());
     }
 
+    default String getName() {
+        return getProperty().getName();
+    }
+
     Property<T> getProperty();
 }
