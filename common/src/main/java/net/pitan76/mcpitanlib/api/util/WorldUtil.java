@@ -302,4 +302,48 @@ public class WorldUtil {
     public static void updateListeners(World world, BlockPos pos, BlockState oldState, BlockState newState, int flags) {
         world.updateListeners(pos, oldState, newState, flags);
     }
+
+    public static net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraBlockState(World world, BlockPos pos) {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(getBlockState(world, pos));
+    }
+
+    public static boolean setBlockState(World world, BlockPos pos, net.pitan76.mcpitanlib.midohra.block.BlockState state, int flags) {
+        return setBlockState(world, pos, state.toMinecraft(), flags);
+    }
+
+    public static boolean setBlockState(World world, BlockPos pos, net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        return setBlockState(world, pos, state, 3);
+    }
+
+    public static boolean setBlockState(World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, net.pitan76.mcpitanlib.midohra.block.BlockState state, int flags) {
+        return setBlockState(world, pos.toMinecraft(), state.toMinecraft(), flags);
+    }
+
+    public static boolean setBlockState(World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        return setBlockState(world, pos, state, 3);
+    }
+
+    public static boolean breakBlock(World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, boolean drop) {
+        return breakBlock(world, pos.toMinecraft(), drop);
+    }
+
+    public static boolean breakBlock(World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        return breakBlock(world, pos, true);
+    }
+
+    public static boolean breakBlock(World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, boolean drop, @Nullable Player player) {
+        return breakBlock(world, pos.toMinecraft(), drop, player);
+    }
+
+    public static boolean breakBlock(World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, @Nullable Player player) {
+        return breakBlock(world, pos, true, player);
+    }
+
+    public static void removeBlockEntity(World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        removeBlockEntity(world, pos.toMinecraft());
+    }
+
+    public static boolean removeBlock(World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, boolean move) {
+        return removeBlock(world, pos.toMinecraft(), move);
+    }
 }
