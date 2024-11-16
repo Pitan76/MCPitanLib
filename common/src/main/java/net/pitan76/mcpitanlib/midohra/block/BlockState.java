@@ -53,7 +53,6 @@ public class BlockState {
         return getBlock().getName();
     }
 
-    @Deprecated
     public net.minecraft.block.BlockState toMinecraft() {
         return state;
     }

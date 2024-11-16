@@ -8,6 +8,9 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
+import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 
 public class ItemUseEvent extends BaseEvent {
 
@@ -95,5 +98,13 @@ public class ItemUseEvent extends BaseEvent {
 
     public boolean isSneaking() {
         return user.isSneaking();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(world);
+    }
+
+    public IWorldView getWorldView() {
+        return getMidohraWorld();
     }
 }

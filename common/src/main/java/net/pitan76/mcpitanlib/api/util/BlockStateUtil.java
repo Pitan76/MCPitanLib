@@ -21,6 +21,7 @@ import net.minecraft.world.block.WireOrientation;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.util.block.BlockHitResultUtil;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 
 public class BlockStateUtil {
     public static Block getBlock(BlockState state) {
@@ -99,5 +100,13 @@ public class BlockStateUtil {
 
     public static BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.rotate(rotation);
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraDefaultState(Block block) {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(getDefaultState(block));
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.block.BlockState getDefaultState(BlockWrapper block) {
+        return block.getDefaultState();
     }
 }
