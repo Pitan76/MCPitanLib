@@ -35,7 +35,7 @@ public class ScheduledTickView {
     }
 
     public void scheduleBlockTick(net.minecraft.util.math.BlockPos blockPos, Block block, int delay) {
-        get().createAndScheduleBlockTick(blockPos, block, delay);
+        get().getBlockTickScheduler().schedule(blockPos, block, delay);
     }
 
     public void scheduleFluidTick(BlockPos blockPos, FluidWrapper fluidWrapper, int delay) {
@@ -43,6 +43,6 @@ public class ScheduledTickView {
     }
 
     public void scheduleFluidTick(net.minecraft.util.math.BlockPos blockPos, Fluid block, int delay) {
-        get().createAndScheduleFluidTick(blockPos, block, delay);
+        get().getFluidTickScheduler().schedule(blockPos, block, delay);
     }
 }
