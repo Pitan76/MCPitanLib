@@ -2,9 +2,16 @@ package net.pitan76.mcpitanlib.api.block.v2;
 
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
@@ -13,6 +20,8 @@ import net.pitan76.mcpitanlib.api.block.args.SideInvisibleArgs;
 import net.pitan76.mcpitanlib.api.block.args.v2.OutlineShapeEvent;
 import net.pitan76.mcpitanlib.api.block.args.v2.PlacementStateArgs;
 import net.pitan76.mcpitanlib.api.block.args.v2.StateForNeighborUpdateArgs;
+import net.pitan76.mcpitanlib.api.event.block.CollisionShapeEvent;
+import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,29 +92,49 @@ public class CompatBlock extends ExtendBlock {
         return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.getPlacementState(args.ctx));
     }
 
+    @Override
+    public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
+        return getPlacementState(new PlacementStateArgs(ctx)).toMinecraft();
+    }
+
     @Deprecated
     @Override
     public @Nullable BlockState getPlacementState(net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs args) {
-        return getPlacementState(new PlacementStateArgs(args.ctx)).toMinecraft();
+        return super.getPlacementState(args);
     }
 
-    public BlockState getStateForNeighborUpdate(StateForNeighborUpdateArgs args) {
-        return super.getStateForNeighborUpdate(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom());
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getStateForNeighborUpdate(StateForNeighborUpdateArgs args) {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.getStateForNeighborUpdate(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom()));
+    }
+
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
+        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(state, direction, neighborState, world, pos, neighborPos, tickView, new CompatRandom(random))).toMinecraft();
     }
 
     @Deprecated
     @Override
     public BlockState getStateForNeighborUpdate(net.pitan76.mcpitanlib.api.event.block.StateForNeighborUpdateArgs args) {
-        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos, args.tickView, args.random));
+        return super.getStateForNeighborUpdate((args));
     }
 
     public VoxelShape getOutlineShape(OutlineShapeEvent e) {
         return super.getOutlineShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context);
     }
 
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return getOutlineShape(new OutlineShapeEvent(state, world, pos, context));
+    }
+
     @Deprecated
     @Override
     public VoxelShape getOutlineShape(net.pitan76.mcpitanlib.api.event.block.OutlineShapeEvent e) {
-        return getOutlineShape(new OutlineShapeEvent(e.state, e.world, e.pos, e.context));
+        return super.getOutlineShape(e);
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(CollisionShapeEvent e) {
+        return super.getCollisionShape(e);
     }
 }
