@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.world;
 
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.server.world.ServerWorld;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -86,5 +87,13 @@ public class World extends WorldAccess {
     public Optional<World> getWorld(CompatIdentifier id) {
         Optional<ServerWorld> optional = WorldUtil.getWorld(getRaw(), id);
         return optional.map(World::of);
+    }
+
+    public void spawnEntity(Entity entity) {
+        WorldUtil.spawnEntity(getRaw(), entity);
+    }
+
+    public void spawnStack(net.minecraft.item.ItemStack stack, BlockPos pos) {
+        WorldUtil.spawnStack(getRaw(), pos.toMinecraft(), stack);
     }
 }
