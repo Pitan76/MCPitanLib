@@ -7,10 +7,9 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldView;
+import net.minecraft.world.WorldAccess;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
@@ -20,7 +19,6 @@ import net.pitan76.mcpitanlib.api.block.args.v2.CollisionShapeEvent;
 import net.pitan76.mcpitanlib.api.block.args.v2.OutlineShapeEvent;
 import net.pitan76.mcpitanlib.api.block.args.v2.PlacementStateArgs;
 import net.pitan76.mcpitanlib.api.block.args.v2.StateForNeighborUpdateArgs;
-import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import org.jetbrains.annotations.Nullable;
 
@@ -103,12 +101,12 @@ public class CompatBlock extends ExtendBlock {
     }
 
     public net.pitan76.mcpitanlib.midohra.block.BlockState getStateForNeighborUpdate(StateForNeighborUpdateArgs args) {
-        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.getStateForNeighborUpdate(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom()));
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.getStateForNeighborUpdate(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos));
     }
 
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
-        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(state, direction, neighborState, world, pos, neighborPos, tickView, new CompatRandom(random))).toMinecraft();
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(state, direction, neighborState, world, pos, neighborPos)).toMinecraft();
     }
 
     @Deprecated
