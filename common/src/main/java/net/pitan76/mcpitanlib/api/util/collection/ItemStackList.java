@@ -92,11 +92,11 @@ public class ItemStackList extends DefaultedList<ItemStack> {
     }
 
     public net.pitan76.mcpitanlib.midohra.item.ItemStack getFirstAsMidohra() {
-        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getFirst());
+        return getAsMidohra(0);
     }
 
     public net.pitan76.mcpitanlib.midohra.item.ItemStack getLastAsMidohra() {
-        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getLast());
+        return getAsMidohra(size() - 1);
     }
 
     public boolean add(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {

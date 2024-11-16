@@ -1,53 +1,40 @@
 package net.pitan76.mcpitanlib.midohra.recipe.input;
 
 import net.minecraft.inventory.Inventory;
-import net.minecraft.recipe.input.RecipeInput;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class RecipeInputOrInventory {
-    private final RecipeInput recipeInput;
+    private final Inventory recipeInput;
 
     public static RecipeInputOrInventory NONE = new RecipeInputOrInventory(null);
 
-    protected RecipeInputOrInventory(RecipeInput recipeInput) {
+    protected RecipeInputOrInventory(Inventory recipeInput) {
         this.recipeInput = recipeInput;
     }
 
-    public static RecipeInputOrInventory of(RecipeInput recipeInput) {
+    public static RecipeInputOrInventory of(Inventory recipeInput) {
         return new RecipeInputOrInventory(recipeInput);
     }
 
-    public static RecipeInputOrInventory of(Inventory inventory) {
-        if (inventory instanceof RecipeInput) {
-            return of((RecipeInput) inventory);
-        }
-
-        return NONE;
-    }
-
     @Nullable
-    public RecipeInput getRaw() {
+    public Inventory getRaw() {
         return recipeInput;
     }
 
     @Nullable
-    public RecipeInput toMinecraft() {
+    public Inventory toMinecraft() {
         return getRaw();
     }
 
     @Nullable
-    public RecipeInput getRecipeInput() {
+    public Inventory getRecipeInput() {
         return getRaw();
     }
 
     @Nullable
     public Inventory getInventory() {
-        if (getRaw() instanceof Inventory) {
-            return (Inventory) getRaw();
-        }
-
-        return null;
+        return getRaw();
     }
 
     public boolean isNone() {
@@ -57,7 +44,7 @@ public class RecipeInputOrInventory {
     public int size() {
         if (isNone()) return 0;
 
-        return getRaw().getSize();
+        return getRaw().size();
     }
 
     public boolean isEmpty() {
@@ -69,7 +56,7 @@ public class RecipeInputOrInventory {
     public net.minecraft.item.ItemStack getStack(int slot) {
         if (isNone()) return net.minecraft.item.ItemStack.EMPTY;
 
-        return getRaw().getStackInSlot(slot);
+        return getRaw().getStack(slot);
     }
 
     public ItemStack getMidohraStack(int slot) {
