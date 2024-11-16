@@ -35,7 +35,7 @@ public class Direction {
     }
 
     public Direction getOpposite() {
-        switch (direction) {
+        switch (getRaw()) {
             case UP:
                 return DOWN;
             case DOWN:
@@ -53,44 +53,48 @@ public class Direction {
         }
     }
 
-    public net.minecraft.util.math.Direction toMinecraft() {
+    public net.minecraft.util.math.Direction getRaw() {
         return direction;
     }
 
+    public net.minecraft.util.math.Direction toMinecraft() {
+        return getRaw();
+    }
+
     public boolean isHorizontal() {
-        return direction.getAxis().isHorizontal();
+        return getRaw().getAxis().isHorizontal();
     }
 
     public boolean isVertical() {
-        return direction.getAxis().isVertical();
+        return getRaw().getAxis().isVertical();
     }
 
     public boolean isPositive() {
-        return direction.getDirection() == net.minecraft.util.math.Direction.AxisDirection.POSITIVE;
+        return getRaw().getDirection() == net.minecraft.util.math.Direction.AxisDirection.POSITIVE;
     }
 
     public boolean isNegative() {
-        return direction.getDirection() == net.minecraft.util.math.Direction.AxisDirection.NEGATIVE;
+        return getRaw().getDirection() == net.minecraft.util.math.Direction.AxisDirection.NEGATIVE;
     }
 
     public int getOffsetX() {
-        return direction.getOffsetX();
+        return getRaw().getOffsetX();
     }
 
     public int getOffsetY() {
-        return direction.getOffsetY();
+        return getRaw().getOffsetY();
     }
 
     public int getOffsetZ() {
-        return direction.getOffsetZ();
+        return getRaw().getOffsetZ();
     }
 
     public Direction rotateYClockwise() {
-        return of(direction.rotateYClockwise());
+        return of(getRaw().rotateYClockwise());
     }
 
     public Direction rotateYCounterclockwise() {
-        return of(direction.rotateYCounterclockwise());
+        return of(getRaw().rotateYCounterclockwise());
     }
 
 }

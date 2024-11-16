@@ -4,12 +4,17 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
 import net.pitan76.mcpitanlib.api.block.args.RotateArgs;
 import net.pitan76.mcpitanlib.api.block.args.SideInvisibleArgs;
+import net.pitan76.mcpitanlib.api.block.args.v2.OutlineShapeEvent;
+import net.pitan76.mcpitanlib.api.block.args.v2.PlacementStateArgs;
+import net.pitan76.mcpitanlib.api.block.args.v2.StateForNeighborUpdateArgs;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
+import org.jetbrains.annotations.Nullable;
 
 public class CompatBlock extends ExtendBlock {
 
@@ -72,5 +77,35 @@ public class CompatBlock extends ExtendBlock {
      */
     public void setDefaultState(net.pitan76.mcpitanlib.midohra.block.BlockState state) {
         setNewDefaultState(state.toMinecraft());
+    }
+
+    public @Nullable net.pitan76.mcpitanlib.midohra.block.BlockState getPlacementState(PlacementStateArgs args) {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.getPlacementState(args.ctx));
+    }
+
+    @Deprecated
+    @Override
+    public @Nullable BlockState getPlacementState(net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs args) {
+        return getPlacementState(new PlacementStateArgs(args.ctx)).toMinecraft();
+    }
+
+    public BlockState getStateForNeighborUpdate(StateForNeighborUpdateArgs args) {
+        return super.getStateForNeighborUpdate(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos);
+    }
+
+    @Deprecated
+    @Override
+    public BlockState getStateForNeighborUpdate(net.pitan76.mcpitanlib.api.event.block.StateForNeighborUpdateArgs args) {
+        return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(args.state, args.direction, args.neighborState, args.world, args.pos, args.neighborPos));
+    }
+
+    public VoxelShape getOutlineShape(OutlineShapeEvent e) {
+        return super.getOutlineShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context);
+    }
+
+    @Deprecated
+    @Override
+    public VoxelShape getOutlineShape(net.pitan76.mcpitanlib.api.event.block.OutlineShapeEvent e) {
+        return getOutlineShape(new OutlineShapeEvent(e.state, e.world, e.pos, e.context));
     }
 }

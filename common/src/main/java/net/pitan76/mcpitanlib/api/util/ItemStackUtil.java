@@ -9,6 +9,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
+import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
 import java.util.Objects;
 
@@ -159,5 +160,9 @@ public class ItemStackUtil {
             return getDamage(stack) >= getMaxDamage(stack);
 
         return false;
+    }
+
+    public static ItemWrapper getItemWrapper(ItemStack stack) {
+        return ItemWrapper.of(stack.getItem());
     }
 }

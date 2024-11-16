@@ -15,6 +15,9 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
+import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemUseOnBlockEvent extends BaseEvent {
@@ -109,5 +112,29 @@ public class ItemUseOnBlockEvent extends BaseEvent {
 
     public Direction getSide() {
         return hit.getSide();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(world);
+    }
+
+    public IWorldView getWorldView() {
+        return getMidohraWorld();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(getBlockState());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(getBlockPos());
+    }
+
+    public BlockWrapper getBlockWrapper() {
+        return getMidohraState().getBlock();
+    }
+
+    public BlockEntityWrapper getBlockEntityWrapper() {
+        return BlockEntityWrapper.of(getBlockEntity());
     }
 }

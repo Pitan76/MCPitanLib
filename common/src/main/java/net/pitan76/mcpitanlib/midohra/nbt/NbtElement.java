@@ -34,7 +34,6 @@ public class NbtElement implements ElementConvertible {
         return nbt.toString();
     }
 
-    @Deprecated
     public net.minecraft.nbt.NbtElement toMinecraft() {
         return nbt;
     }
