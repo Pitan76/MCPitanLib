@@ -41,4 +41,16 @@ public class ItemScattererUtil {
             WorldUtil.updateComparators(world, pos, state.getBlock());
         }
     }
+
+    public static void spawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, ItemStack stack) {
+        spawn(world.getRaw(), pos.toMinecraft(), stack);
+    }
+
+    public static void spawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, DefaultedList<ItemStack> stacks) {
+        spawn(world.getRaw(), pos.toMinecraft(), stacks);
+    }
+
+    public static void spawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, Inventory inventory) {
+        spawn(world.getRaw(), pos.toMinecraft(), inventory);
+    }
 }
