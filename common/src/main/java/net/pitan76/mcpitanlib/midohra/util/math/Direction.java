@@ -2,12 +2,12 @@ package net.pitan76.mcpitanlib.midohra.util.math;
 
 public class Direction {
 
-    public static final Direction UP = of(net.minecraft.util.math.Direction.UP);
-    public static final Direction DOWN = of(net.minecraft.util.math.Direction.DOWN);
-    public static final Direction NORTH = of(net.minecraft.util.math.Direction.NORTH);
-    public static final Direction SOUTH = of(net.minecraft.util.math.Direction.SOUTH);
-    public static final Direction EAST = of(net.minecraft.util.math.Direction.EAST);
-    public static final Direction WEST = of(net.minecraft.util.math.Direction.WEST);
+    public static final Direction UP = new Direction(net.minecraft.util.math.Direction.UP);
+    public static final Direction DOWN = new Direction(net.minecraft.util.math.Direction.DOWN);
+    public static final Direction NORTH = new Direction(net.minecraft.util.math.Direction.NORTH);
+    public static final Direction SOUTH = new Direction(net.minecraft.util.math.Direction.SOUTH);
+    public static final Direction EAST = new Direction(net.minecraft.util.math.Direction.EAST);
+    public static final Direction WEST = new Direction(net.minecraft.util.math.Direction.WEST);
 
     private final net.minecraft.util.math.Direction direction;
 
