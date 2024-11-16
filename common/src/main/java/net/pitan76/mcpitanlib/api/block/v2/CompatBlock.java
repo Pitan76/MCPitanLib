@@ -16,10 +16,10 @@ import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
 import net.pitan76.mcpitanlib.api.block.args.RotateArgs;
 import net.pitan76.mcpitanlib.api.block.args.SideInvisibleArgs;
+import net.pitan76.mcpitanlib.api.block.args.v2.CollisionShapeEvent;
 import net.pitan76.mcpitanlib.api.block.args.v2.OutlineShapeEvent;
 import net.pitan76.mcpitanlib.api.block.args.v2.PlacementStateArgs;
 import net.pitan76.mcpitanlib.api.block.args.v2.StateForNeighborUpdateArgs;
-import net.pitan76.mcpitanlib.api.event.block.CollisionShapeEvent;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import org.jetbrains.annotations.Nullable;
@@ -54,11 +54,11 @@ public class CompatBlock extends ExtendBlock {
     @Override
     @Deprecated
     public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return rotate(new RotateArgs(state, rotation));
+        return rotate(new RotateArgs(state, rotation)).toMinecraft();
     }
 
-    public BlockState rotate(RotateArgs args) {
-        return super.rotate(args.state, args.rotation);
+    public net.pitan76.mcpitanlib.midohra.block.BlockState rotate(RotateArgs args) {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.rotate(args.state, args.rotation));
     }
 
     @Override
@@ -132,8 +132,19 @@ public class CompatBlock extends ExtendBlock {
         return super.getOutlineShape(e);
     }
 
-    @Override
     public VoxelShape getCollisionShape(CollisionShapeEvent e) {
+        return super.getCollisionShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context);
+    }
+
+    @Deprecated
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return getCollisionShape(new CollisionShapeEvent(state, world, pos, context));
+    }
+
+    @Deprecated
+    @Override
+    public VoxelShape getCollisionShape(net.pitan76.mcpitanlib.api.event.block.CollisionShapeEvent e) {
         return super.getCollisionShape(e);
     }
 }
