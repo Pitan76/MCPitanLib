@@ -35,4 +35,16 @@ public class ItemScattererUtil {
     public static void onStateReplaced(BlockState state, BlockState newState, World world, BlockPos pos) {
         ItemScatterer.onStateReplaced(state, newState, world, pos);
     }
+
+    public static void spawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, ItemStack stack) {
+        spawn(world.getRaw(), pos.toMinecraft(), stack);
+    }
+
+    public static void spawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, DefaultedList<ItemStack> stacks) {
+        spawn(world.getRaw(), pos.toMinecraft(), stacks);
+    }
+
+    public static void spawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, Inventory inventory) {
+        spawn(world.getRaw(), pos.toMinecraft(), inventory);
+    }
 }
