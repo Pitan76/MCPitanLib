@@ -12,6 +12,9 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
+import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 
 public class BlockUseEvent extends BaseEvent {
     public BlockState state;
@@ -98,5 +101,29 @@ public class BlockUseEvent extends BaseEvent {
 
     public boolean isSneaking() {
         return player.isSneaking();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(world);
+    }
+
+    public IWorldView getWorldView() {
+        return getMidohraWorld();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(state);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(pos);
+    }
+
+    public BlockWrapper getBlockWrapper() {
+        return BlockWrapper.of(state.getBlock());
+    }
+
+    public BlockEntityWrapper getBlockEntityWrapper() {
+        return BlockEntityWrapper.of(getBlockEntity());
     }
 }

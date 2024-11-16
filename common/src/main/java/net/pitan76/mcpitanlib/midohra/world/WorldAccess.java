@@ -18,10 +18,11 @@ import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 
 import java.util.Optional;
 
-public class WorldAccess {
+public class WorldAccess extends WorldView {
     private final net.minecraft.world.WorldAccess world;
 
     protected WorldAccess(net.minecraft.world.WorldAccess world) {
+        super(null);
         this.world = world;
     }
 
@@ -29,16 +30,17 @@ public class WorldAccess {
         return new WorldAccess(world);
     }
 
-    protected net.minecraft.world.WorldAccess getWorld() {
+    @Override
+    protected net.minecraft.world.WorldAccess getRaw() {
         return world;
     }
 
     public net.minecraft.world.WorldAccess toMinecraft() {
-        return getWorld();
+        return getRaw();
     }
 
     public boolean isClient() {
-        return WorldAccessUtil.isClient(getWorld());
+        return WorldAccessUtil.isClient(getRaw());
     }
 
     public boolean isServer() {
@@ -46,62 +48,62 @@ public class WorldAccess {
     }
 
     public CompatRandom getRandom() {
-        return new CompatRandom(getWorld().getRandom());
+        return new CompatRandom(getRaw().getRandom());
     }
 
     public MinecraftServer getServer() {
-        return WorldAccessUtil.getServer(getWorld());
+        return WorldAccessUtil.getServer(getRaw());
     }
 
     public BlockEntityWrapper getBlockEntity(BlockPos pos) {
-        return BlockEntityWrapper.of(WorldAccessUtil.getBlockEntity(getWorld(), pos.toMinecraft()));
+        return BlockEntityWrapper.of(WorldAccessUtil.getBlockEntity(getRaw(), pos.toMinecraft()));
     }
 
     public <T extends BlockEntity> Optional<T> getRawBlockEntity(BlockPos pos, BlockEntityType<T> type) {
-        return WorldAccessUtil.getBlockEntity(getWorld(), pos.toMinecraft(), type);
+        return WorldAccessUtil.getBlockEntity(getRaw(), pos.toMinecraft(), type);
     }
 
     public <T extends BlockEntity> BlockEntityWrapper getBlockEntity(BlockPos pos, BlockEntityType<T> type) {
-        Optional<T> blockEntity = WorldAccessUtil.getBlockEntity(getWorld(), pos.toMinecraft(), type);
+        Optional<T> blockEntity = WorldAccessUtil.getBlockEntity(getRaw(), pos.toMinecraft(), type);
         return blockEntity.map(BlockEntityWrapper::of).orElse(BlockEntityWrapper.of());
     }
 
     public boolean removeBlock(BlockPos pos, boolean move) {
-        return WorldAccessUtil.removeBlock(getWorld(), pos.toMinecraft(), move);
+        return WorldAccessUtil.removeBlock(getRaw(), pos.toMinecraft(), move);
     }
 
     public boolean breakBlock(BlockPos pos, boolean drop) {
-        return WorldAccessUtil.breakBlock(getWorld(), pos.toMinecraft(), drop);
+        return WorldAccessUtil.breakBlock(getRaw(), pos.toMinecraft(), drop);
     }
 
     public boolean breakBlock(BlockPos pos, boolean drop, Entity entity) {
-        return WorldAccessUtil.breakBlock(getWorld(), pos.toMinecraft(), drop, entity);
+        return WorldAccessUtil.breakBlock(getRaw(), pos.toMinecraft(), drop, entity);
     }
 
     public BlockState getBlockState(BlockPos pos) {
-        return BlockState.of(WorldAccessUtil.getBlockState(getWorld(), pos.toMinecraft()));
+        return BlockState.of(WorldAccessUtil.getBlockState(getRaw(), pos.toMinecraft()));
     }
 
     public boolean setBlockState(BlockPos pos, BlockState state, int flags) {
-        return WorldAccessUtil.setBlockState(getWorld(), pos.toMinecraft(), state.toMinecraft(), flags);
+        return WorldAccessUtil.setBlockState(getRaw(), pos.toMinecraft(), state.toMinecraft(), flags);
     }
 
     public boolean setBlockState(BlockPos pos, BlockState state, int flags, int maxUpdateDepth) {
-        return WorldAccessUtil.setBlockState(getWorld(), pos.toMinecraft(), state.toMinecraft(), flags, maxUpdateDepth);
+        return WorldAccessUtil.setBlockState(getRaw(), pos.toMinecraft(), state.toMinecraft(), flags, maxUpdateDepth);
     }
 
     public boolean setBlockState(BlockPos pos, BlockState state) {
-        return WorldAccessUtil.setBlockState(getWorld(), pos.toMinecraft(), state.toMinecraft());
+        return WorldAccessUtil.setBlockState(getRaw(), pos.toMinecraft(), state.toMinecraft());
     }
 
     @Deprecated
     public void playSound(PlayerEntity playerEntity, net.minecraft.util.math.BlockPos pos, SoundEvent sound, SoundCategory category, float volume, float pitch) {
-        getWorld().playSound(playerEntity, pos, sound, category, volume, pitch);
+        getRaw().playSound(playerEntity, pos, sound, category, volume, pitch);
     }
 
     @Deprecated
     public void playSound(PlayerEntity playerEntity, net.minecraft.util.math.BlockPos pos, SoundEvent sound, SoundCategory category) {
-        getWorld().playSound(playerEntity, pos, sound, category);
+        getRaw().playSound(playerEntity, pos, sound, category);
     }
 
     public void playSound(Player player, BlockPos pos, CompatSoundEvent soundEvent, CompatSoundCategory category, float volume, float pitch) {
