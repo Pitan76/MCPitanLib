@@ -130,7 +130,6 @@ public class NbtCompound implements ElementConvertible {
         return NbtElement.of(NbtUtil.getElement(nbt, key));
     }
 
-    @Deprecated
     public net.minecraft.nbt.NbtCompound toMinecraft() {
         return nbt;
     }

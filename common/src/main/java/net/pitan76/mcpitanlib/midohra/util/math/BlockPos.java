@@ -29,7 +29,6 @@ public class BlockPos {
         return blockPos.getZ();
     }
 
-    @Deprecated
     public net.minecraft.util.math.BlockPos toMinecraft() {
         return blockPos;
     }

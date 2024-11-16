@@ -99,7 +99,6 @@ public class NbtList extends AbstractList<NbtElement> implements ElementConverti
         return nbtList.toString();
     }
 
-    @Deprecated
     public net.minecraft.nbt.NbtList toMinecraft() {
         return nbtList;
     }
