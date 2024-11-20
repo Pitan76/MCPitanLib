@@ -17,6 +17,17 @@ public class PosUtil {
         return new BlockPos(pos);
     }
 
+    public static net.pitan76.mcpitanlib.midohra.util.math.BlockPos midohraBlockPos(int x, int y, int z) {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(x, y, z);
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.util.math.BlockPos flooredMidohraBlockPos(double x, double y, double z) {
+        int x1 = (int) Math.floor(x);
+        int y1 = (int) Math.floor(y);
+        int z1 = (int) Math.floor(z);
+        return midohraBlockPos(x1, y1, z1);
+    }
+
     public static double getSquaredDistance(BlockPos pos1, BlockPos pos2) {
         return pos1.getSquaredDistance(pos2);
     }
