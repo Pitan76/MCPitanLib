@@ -15,4 +15,8 @@ public class PlayerInventoryUtil {
     public static void setSelectedSlot(PlayerInventory playerInventory, int slot) {
         playerInventory.selectedSlot = slot;
     }
+
+    public static void dropAllItems(PlayerInventory inv) {
+        inv.dropAll();
+    }
 }
