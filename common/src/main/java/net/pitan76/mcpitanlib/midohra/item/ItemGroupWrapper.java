@@ -50,4 +50,8 @@ public class ItemGroupWrapper {
         if (isEmpty()) return ItemStack.EMPTY;
         return ItemStack.of(itemGroup.getIcon());
     }
+
+    public boolean rawEquals(ItemGroupWrapper other) {
+        return itemGroup == other.itemGroup;
+    }
 }
