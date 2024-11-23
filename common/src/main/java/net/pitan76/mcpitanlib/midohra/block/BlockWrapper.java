@@ -86,4 +86,8 @@ public class BlockWrapper {
     public BlockState getDefaultState() {
         return BlockState.of(get());
     }
+
+    public boolean rawEquals(BlockWrapper block) {
+        return get() == block.get();
+    }
 }

@@ -80,4 +80,8 @@ public class BlockPos {
     public BlockPos offset(Direction direction) {
         return new BlockPos(blockPos.offset(direction.toMinecraft()));
     }
+
+    public ChunkPos toChunkPos() {
+        return ChunkPos.of(this);
+    }
 }

@@ -46,6 +46,10 @@ public class CompatSoundEvent {
     @Nullable
     @Deprecated
     public RegistryEntry<SoundEvent> getEntry() {
+        if (entry == null) {
+            entry = RegistryEntry.of(soundEvent);
+        }
+
         return entry;
     }
 }

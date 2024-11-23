@@ -104,4 +104,8 @@ public class ItemWrapper {
 
         return BlockWrapper.of(((net.minecraft.item.BlockItem) get()).getBlock());
     }
+
+    public boolean rawEquals(ItemWrapper item) {
+        return get() == item.get();
+    }
 }
