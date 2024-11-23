@@ -70,7 +70,7 @@ public class Recipe {
     }
 
     public <T extends Inventory> net.minecraft.item.ItemStack craft(TypedRecipeInputOrInventory<T> input, World world) {
-        return ((net.minecraft.recipe.Recipe<T>)getRaw()).craft(input.getRecipeInput(), world.getRaw().getRegistryManager());
+        return ((net.minecraft.recipe.Recipe<T>)getRaw()).craft(input.getRecipeInput());
     }
 
     public <T extends Inventory> ItemStack craftMidohra(TypedRecipeInputOrInventory<T> input, World world) {
