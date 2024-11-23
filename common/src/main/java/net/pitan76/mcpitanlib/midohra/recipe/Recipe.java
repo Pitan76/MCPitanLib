@@ -1,9 +1,8 @@
 package net.pitan76.mcpitanlib.midohra.recipe;
 
+import net.minecraft.inventory.Inventory;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.input.RecipeInput;
-import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.mcpitanlib.midohra.recipe.input.RecipeInputOrInventory;
 import net.pitan76.mcpitanlib.midohra.recipe.input.TypedRecipeInputOrInventory;
@@ -48,34 +47,34 @@ public class Recipe {
 
     public boolean matches(RecipeInputOrInventory input, World world) {
         if (input instanceof TypedRecipeInputOrInventory) {
-            return matches((TypedRecipeInputOrInventory<? extends RecipeInput>) input, world);
+            return matches(input, world);
         }
 
         return false;
     }
 
-    public net.minecraft.item.ItemStack craft(RecipeInputOrInventory input, CompatRegistryLookup registryLookup) {
+    public net.minecraft.item.ItemStack craft(RecipeInputOrInventory input, World world) {
         if (input instanceof TypedRecipeInputOrInventory) {
-            return craft((TypedRecipeInputOrInventory<? extends RecipeInput>) input, registryLookup);
+            return craft(input, world);
         }
 
         return net.minecraft.item.ItemStack.EMPTY;
     }
 
-    public ItemStack craftMidohra(RecipeInputOrInventory input, CompatRegistryLookup registryLookup) {
-        return ItemStack.of(craft(input, registryLookup));
+    public ItemStack craftMidohra(RecipeInputOrInventory input, World world) {
+        return ItemStack.of(craft(input, world));
     }
 
-    public <T extends RecipeInput> boolean matches(TypedRecipeInputOrInventory<T> input, World world) {
+    public <T extends Inventory> boolean matches(TypedRecipeInputOrInventory<T> input, World world) {
         return ((net.minecraft.recipe.Recipe<T>)getRaw()).matches(input.getRecipeInput(), world.getRaw());
     }
 
-    public <T extends RecipeInput> net.minecraft.item.ItemStack craft(TypedRecipeInputOrInventory<T> input, CompatRegistryLookup registryLookup) {
-        return ((net.minecraft.recipe.Recipe<T>)getRaw()).craft(input.getRecipeInput(), registryLookup.getRegistryLookup());
+    public <T extends Inventory> net.minecraft.item.ItemStack craft(TypedRecipeInputOrInventory<T> input, World world) {
+        return ((net.minecraft.recipe.Recipe<T>)getRaw()).craft(input.getRecipeInput(), world.getRaw().getRegistryManager());
     }
 
-    public <T extends RecipeInput> ItemStack craftMidohra(TypedRecipeInputOrInventory<T> input, CompatRegistryLookup registryLookup) {
-        return ItemStack.of(craft(input, registryLookup));
+    public <T extends Inventory> ItemStack craftMidohra(TypedRecipeInputOrInventory<T> input, World world) {
+        return ItemStack.of(craft(input, world));
     }
 
     public String getGroup() {
@@ -87,6 +86,6 @@ public class Recipe {
     }
 
     public List<Ingredient> getInputs() {
-        return getRaw().getIngredientPlacement().getIngredients();
+        return getRaw().getIngredients();
     }
 }

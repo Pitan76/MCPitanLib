@@ -2,33 +2,21 @@ package net.pitan76.mcpitanlib.midohra.recipe.input;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.recipe.input.CraftingRecipeInput;
 import org.jetbrains.annotations.Nullable;
 
 public class CraftingRecipeInputOrInventory extends RecipeInputOrInventory {
-    private final CraftingRecipeInput recipeInput;
-    private CraftingInventory inventory = null;
+    private final CraftingInventory inventory;
 
-    public static CraftingRecipeInputOrInventory EMPTY = new CraftingRecipeInputOrInventory(CraftingRecipeInput.EMPTY);
+    public static CraftingRecipeInputOrInventory EMPTY = new CraftingRecipeInputOrInventory(null);
 
-    protected CraftingRecipeInputOrInventory(CraftingRecipeInput recipeInput) {
+    protected CraftingRecipeInputOrInventory(@Nullable CraftingInventory inventory) {
         super(null);
-        this.recipeInput = recipeInput;
-    }
-
-    protected CraftingRecipeInputOrInventory(CraftingInventory inventory) {
-        super(null);
-        this.recipeInput = inventory.createRecipeInput();
         this.inventory = inventory;
     }
 
-    public static CraftingRecipeInputOrInventory of(CraftingRecipeInput recipeInput) {
-        return new CraftingRecipeInputOrInventory(recipeInput);
-    }
-
     public static CraftingRecipeInputOrInventory of(Inventory inventory) {
-        if (inventory instanceof CraftingRecipeInput) {
-            return of((CraftingRecipeInput) inventory);
+        if (inventory instanceof CraftingInventory) {
+            return of((CraftingInventory) inventory);
         }
 
         return EMPTY;
@@ -40,28 +28,25 @@ public class CraftingRecipeInputOrInventory extends RecipeInputOrInventory {
 
     @Nullable
     @Override
-    public CraftingRecipeInput getRaw() {
-        return recipeInput;
+    public CraftingInventory getRaw() {
+        return inventory;
     }
 
     @Nullable
     @Override
-    public CraftingRecipeInput toMinecraft() {
+    public CraftingInventory toMinecraft() {
         return getRaw();
     }
 
     @Nullable
     @Override
-    public CraftingRecipeInput getRecipeInput() {
+    public CraftingInventory getRecipeInput() {
         return getRaw();
     }
 
     @Nullable
     @Override
     public Inventory getInventory() {
-        if (inventory != null)
-            return inventory;
-
-        return super.getInventory();
+        return getRaw();
     }
 }
