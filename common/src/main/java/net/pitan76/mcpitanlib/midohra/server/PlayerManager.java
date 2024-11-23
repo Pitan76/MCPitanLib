@@ -53,9 +53,9 @@ public class PlayerManager {
 
     public void broadcast(TextComponent message, boolean overlay) {
         if (overlay)
-            getRaw().broadcast(message.getText(), MessageType.SYSTEM, UUID.randomUUID());
+            getRaw().broadcastChatMessage(message.getText(), MessageType.SYSTEM, UUID.randomUUID());
         else
-            getRaw().broadcast(message.getText(), MessageType.CHAT, UUID.randomUUID());
+            getRaw().broadcastChatMessage(message.getText(), MessageType.CHAT, UUID.randomUUID());
     }
 
     public void broadcast(TextComponent message) {
@@ -64,9 +64,9 @@ public class PlayerManager {
 
     public void broadcast(String message, boolean overlay) {
         if (overlay)
-            getRaw().broadcast(TextUtil.literal(message), MessageType.SYSTEM, UUID.randomUUID());
+            getRaw().broadcastChatMessage(TextUtil.literal(message), MessageType.SYSTEM, UUID.randomUUID());
         else
-            getRaw().broadcast(TextUtil.literal(message), MessageType.CHAT, UUID.randomUUID());
+            getRaw().broadcastChatMessage(TextUtil.literal(message), MessageType.CHAT, UUID.randomUUID());
     }
 
     public void broadcast(String message) {

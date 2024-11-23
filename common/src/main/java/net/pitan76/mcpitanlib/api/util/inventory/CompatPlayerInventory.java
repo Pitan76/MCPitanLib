@@ -28,7 +28,7 @@ public class CompatPlayerInventory {
     }
 
     public void offerOrDrop(ItemStack stack) {
-        inv.offerOrDrop(stack);
+        inv.offerOrDrop(inv.player.world, stack);
     }
 
     public void offerOrDrop(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {

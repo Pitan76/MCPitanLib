@@ -50,11 +50,11 @@ public class ChunkPos {
     }
 
     public int getOffsetX(int offsetX) {
-        return getRaw().getOffsetX(offsetX);
+        return getStartX() + offsetX;
     }
 
     public int getOffsetZ(int offsetZ) {
-        return getRaw().getOffsetZ(offsetZ);
+        return getStartX() + offsetZ;
     }
 
     public int getStartX() {
@@ -74,11 +74,11 @@ public class ChunkPos {
     }
 
     public int getCenterX() {
-        return getRaw().getCenterX();
+        return getStartX() + 8;
     }
 
     public int getCenterZ() {
-        return getRaw().getCenterZ();
+        return getStartZ() + 8;
     }
 
     public int getRegionX() {
@@ -102,11 +102,11 @@ public class ChunkPos {
     }
 
     public BlockPos getCenterAtY(int y) {
-        return BlockPos.of(getRaw().getCenterAtY(y));
+        return BlockPos.of(getCenterX(), y, getCenterZ());
     }
 
     public BlockPos getBlockPos(int offsetX, int y, int offsetZ) {
-        return BlockPos.of(getRaw().getBlockPos(offsetX, y, offsetZ));
+        return BlockPos.of(getOffsetX(offsetX), y, getOffsetZ(offsetZ));
     }
 
     public long toLong() {
@@ -129,7 +129,7 @@ public class ChunkPos {
     }
 
     public int getChebyshevDistance(ChunkPos pos) {
-        return getRaw().getChebyshevDistance(pos.getRaw());
+        return Math.max(Math.abs(getX() - pos.getX()), Math.abs(getZ() - pos.getZ()));
     }
 
     public int getChebyshevDistance(int x, int z) {
