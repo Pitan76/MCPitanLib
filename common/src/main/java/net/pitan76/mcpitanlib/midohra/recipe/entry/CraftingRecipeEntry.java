@@ -4,38 +4,32 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.recipe.CraftingRecipe;
 
 public class CraftingRecipeEntry extends RecipeEntry {
-    private final net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.CraftingRecipe> recipeEntry;
+    private final CraftingRecipe recipe;
 
-    protected CraftingRecipeEntry(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.CraftingRecipe> recipeEntry) {
-        super(null);
-        this.recipeEntry = recipeEntry;
+    protected CraftingRecipeEntry(CraftingRecipe recipe, CompatIdentifier id) {
+        super(null, id);
+        this.recipe = recipe;
     }
 
-    public static CraftingRecipeEntry _of(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.CraftingRecipe> recipeEntry) {
-        return new CraftingRecipeEntry(recipeEntry);
-    }
-
-    public static CraftingRecipeEntry of(net.minecraft.recipe.RecipeEntry<?> recipeEntry) {
-        return _of((net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.CraftingRecipe>) recipeEntry);
+    protected CraftingRecipeEntry(CraftingRecipe recipe) {
+        this(recipe, CompatIdentifier.fromMinecraft(recipe.getRaw().getId()));
     }
 
     public static CraftingRecipeEntry of(net.minecraft.recipe.CraftingRecipe recipe, CompatIdentifier id) {
-        net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.CraftingRecipe> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(id.toMinecraft(), recipe);
-
-        return of(recipeEntry);
+        return of(CraftingRecipe.of(recipe), id);
     }
 
     public static CraftingRecipeEntry of(CraftingRecipe recipe, CompatIdentifier id) {
-        return of(recipe.toMinecraft(), id);
+        return new CraftingRecipeEntry(recipe, id);
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.CraftingRecipe> getRaw() {
-        return recipeEntry;
+    public net.minecraft.recipe.CraftingRecipe getRaw() {
+        return recipe.getRaw();
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.CraftingRecipe> toMinecraft() {
+    public net.minecraft.recipe.CraftingRecipe toMinecraft() {
         return getRaw();
     }
 
@@ -46,6 +40,6 @@ public class CraftingRecipeEntry extends RecipeEntry {
 
     @Override
     public net.minecraft.recipe.CraftingRecipe getRawRecipe() {
-        return getRaw().value();
+        return getRaw();
     }
 }

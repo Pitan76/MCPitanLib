@@ -7,23 +7,24 @@ import net.pitan76.mcpitanlib.midohra.recipe.Recipe;
 import net.pitan76.mcpitanlib.midohra.recipe.RecipeType;
 
 public class RecipeEntry {
-    private final net.minecraft.recipe.RecipeEntry<?> recipeEntry;
+    private final Recipe recipe;
+    private final CompatIdentifier id;
 
-    protected RecipeEntry(net.minecraft.recipe.RecipeEntry<?> recipeEntry) {
-        this.recipeEntry = recipeEntry;
+    protected RecipeEntry(Recipe recipe, CompatIdentifier id) {
+        this.recipe = recipe;
+        this.id = id;
     }
 
-    public static RecipeEntry of(net.minecraft.recipe.RecipeEntry<?> recipeEntry) {
-        return new RecipeEntry(recipeEntry);
+    protected RecipeEntry(Recipe recipe) {
+        this(recipe, CompatIdentifier.fromMinecraft(recipe.getRaw().getId()));
     }
 
     public static RecipeEntry of(net.minecraft.recipe.Recipe<?> recipe, CompatIdentifier id) {
-        net.minecraft.recipe.RecipeEntry<?> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(id.toMinecraft(), recipe);
-        return of(recipeEntry);
+        return of(Recipe.of(recipe), id);
     }
 
     public static RecipeEntry of(Recipe recipe, CompatIdentifier id) {
-        return of(recipe.toMinecraft(), id);
+        return new RecipeEntry(recipe, id);
     }
 
     public static CraftingRecipeEntry of(net.minecraft.recipe.CraftingRecipe recipe, CompatIdentifier id) {
@@ -50,16 +51,19 @@ public class RecipeEntry {
         return ShapelessRecipeEntry.of(recipe, id);
     }
 
-    public net.minecraft.recipe.RecipeEntry<?> getRaw() {
-        return recipeEntry;
+    public net.minecraft.recipe.Recipe<?> getRaw() {
+        return recipe.getRaw();
     }
 
-    public net.minecraft.recipe.RecipeEntry<?> toMinecraft() {
+    public net.minecraft.recipe.Recipe<?> toMinecraft() {
         return getRaw();
     }
 
     public CompatIdentifier getId() {
-        return CompatIdentifier.fromMinecraft(getRaw().id());
+        if (id == null)
+            return CompatIdentifier.fromMinecraft(getRaw().getId());
+
+        return id;
     }
 
     public CompatRecipeEntry<?> toCompatRecipeEntry() {
@@ -67,11 +71,11 @@ public class RecipeEntry {
     }
 
     public net.minecraft.recipe.Recipe<?> getRawRecipe() {
-        return getRaw().value();
+        return getRaw();
     }
 
     public Recipe getRecipe() {
-        return Recipe.of(getRaw().value());
+        return Recipe.of(getRaw());
     }
 
     public RecipeType getRecipeType() {
@@ -79,6 +83,6 @@ public class RecipeEntry {
     }
 
     public net.minecraft.recipe.RecipeType getRawRecipeType() {
-        return getRaw().value().getType();
+        return getRaw().getType();
     }
 }
