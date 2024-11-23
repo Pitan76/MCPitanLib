@@ -4,38 +4,32 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.recipe.ShapelessRecipe;
 
 public class ShapelessRecipeEntry extends RecipeEntry {
-    private final net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> recipeEntry;
+    private final ShapelessRecipe recipe;
 
-    protected ShapelessRecipeEntry(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> recipeEntry) {
-        super(null);
-        this.recipeEntry = recipeEntry;
+    protected ShapelessRecipeEntry(ShapelessRecipe recipe, CompatIdentifier id) {
+        super(null, id);
+        this.recipe = recipe;
     }
 
-    public static ShapelessRecipeEntry _of(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> recipeEntry) {
-        return new ShapelessRecipeEntry(recipeEntry);
-    }
-
-    public static ShapelessRecipeEntry of(net.minecraft.recipe.RecipeEntry<?> recipeEntry) {
-        return _of((net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe>) recipeEntry);
+    protected ShapelessRecipeEntry(ShapelessRecipe recipe) {
+        this(recipe, CompatIdentifier.fromMinecraft(recipe.getRaw().getId()));
     }
 
     public static ShapelessRecipeEntry of(net.minecraft.recipe.ShapelessRecipe recipe, CompatIdentifier id) {
-        net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(id.toMinecraft(), recipe);
-
-        return of(recipeEntry);
+        return of(ShapelessRecipe.of(recipe), id);
     }
 
     public static ShapelessRecipeEntry of(ShapelessRecipe recipe, CompatIdentifier id) {
-        return of(recipe.toMinecraft(), id);
+        return new ShapelessRecipeEntry(recipe, id);
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> getRaw() {
-        return recipeEntry;
+    public net.minecraft.recipe.ShapelessRecipe getRaw() {
+        return recipe.getRaw();
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> toMinecraft() {
+    public net.minecraft.recipe.ShapelessRecipe toMinecraft() {
         return getRaw();
     }
 
@@ -46,6 +40,6 @@ public class ShapelessRecipeEntry extends RecipeEntry {
 
     @Override
     public net.minecraft.recipe.ShapelessRecipe getRawRecipe() {
-        return getRaw().value();
+        return getRaw();
     }
 }
