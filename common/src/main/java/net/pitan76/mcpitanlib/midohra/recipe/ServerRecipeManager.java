@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.recipe;
 
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.recipe.entry.CraftingRecipeEntry;
 import net.pitan76.mcpitanlib.midohra.recipe.entry.RecipeEntry;
 import net.pitan76.mcpitanlib.midohra.recipe.entry.ShapedRecipeEntry;
@@ -27,16 +28,11 @@ public class ServerRecipeManager extends RecipeManager {
     public static ServerRecipeManager of(ServerWorld world) {
         return of(world.getRaw());
     }
-
-    @Deprecated
-    public Collection<net.minecraft.recipe.RecipeEntry<?>> getRawRecipes() {
-        return getRaw().values();
-    }
-
+    
     public Collection<RecipeEntry> getRecipeEntries() {
         List<RecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            recipes.add(RecipeEntry.of(recipe));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            recipes.add(RecipeEntry.of(recipe, CompatIdentifier.fromMinecraft(recipe.getId())));
         }
 
         return recipes;
@@ -44,9 +40,9 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<CraftingRecipeEntry> getCraftingRecipeEntries() {
         List<CraftingRecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            if (recipe.value() instanceof net.minecraft.recipe.CraftingRecipe) {
-                recipes.add(CraftingRecipeEntry.of(recipe));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            if (recipe instanceof net.minecraft.recipe.CraftingRecipe) {
+                recipes.add(CraftingRecipeEntry.of((net.minecraft.recipe.CraftingRecipe) recipe, CompatIdentifier.fromMinecraft(recipe.getId())));
             }
         }
 
@@ -55,9 +51,9 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<ShapelessRecipeEntry> getShapelessRecipeEntries() {
         List<ShapelessRecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            if (recipe.value() instanceof net.minecraft.recipe.ShapelessRecipe) {
-                recipes.add(ShapelessRecipeEntry.of(recipe));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            if (recipe instanceof net.minecraft.recipe.ShapelessRecipe) {
+                recipes.add(ShapelessRecipeEntry.of((net.minecraft.recipe.ShapelessRecipe) recipe, CompatIdentifier.fromMinecraft(recipe.getId())));
             }
         }
 
@@ -66,9 +62,9 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<ShapedRecipeEntry> getShapedRecipeEntries() {
         List<ShapedRecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            if (recipe.value() instanceof net.minecraft.recipe.ShapedRecipe) {
-                recipes.add(ShapedRecipeEntry.of(recipe));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            if (recipe instanceof net.minecraft.recipe.ShapedRecipe) {
+                recipes.add(ShapedRecipeEntry.of((net.minecraft.recipe.ShapedRecipe) recipe, CompatIdentifier.fromMinecraft(recipe.getId())));
             }
         }
 
@@ -77,11 +73,11 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<RecipeEntry> getNormalRecipeEntries() {
         List<RecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            if (recipe.value() instanceof net.minecraft.recipe.ShapelessRecipe) {
-                recipes.add(ShapelessRecipeEntry.of(recipe));
-            } else if (recipe.value() instanceof net.minecraft.recipe.ShapedRecipe) {
-                recipes.add(ShapedRecipeEntry.of(recipe));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            if (recipe instanceof net.minecraft.recipe.ShapelessRecipe) {
+                recipes.add(ShapelessRecipeEntry.of((net.minecraft.recipe.ShapelessRecipe) recipe, CompatIdentifier.fromMinecraft(recipe.getId())));
+            } else if (recipe instanceof net.minecraft.recipe.ShapedRecipe) {
+                recipes.add(ShapedRecipeEntry.of((net.minecraft.recipe.ShapedRecipe) recipe, CompatIdentifier.fromMinecraft(recipe.getId())));
             }
         }
 
@@ -90,8 +86,8 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<Recipe> getRecipes() {
         List<Recipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            recipes.add(Recipe.of(recipe.value()));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            recipes.add(Recipe.of(recipe));
         }
 
         return recipes;
@@ -99,9 +95,9 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<CraftingRecipe> getCraftingRecipes() {
         List<CraftingRecipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            if (recipe.value() instanceof net.minecraft.recipe.CraftingRecipe) {
-                recipes.add(CraftingRecipe.of((net.minecraft.recipe.CraftingRecipe) recipe.value()));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            if (recipe instanceof net.minecraft.recipe.CraftingRecipe) {
+                recipes.add(CraftingRecipe.of((net.minecraft.recipe.CraftingRecipe) recipe));
             }
         }
 
@@ -110,9 +106,9 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<ShapelessRecipe> getShapelessRecipes() {
         List<ShapelessRecipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            if (recipe.value() instanceof net.minecraft.recipe.ShapelessRecipe) {
-                recipes.add(ShapelessRecipe.of((net.minecraft.recipe.ShapelessRecipe) recipe.value()));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            if (recipe instanceof net.minecraft.recipe.ShapelessRecipe) {
+                recipes.add(ShapelessRecipe.of((net.minecraft.recipe.ShapelessRecipe) recipe));
             }
         }
 
@@ -121,9 +117,9 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<ShapedRecipe> getShapedRecipes() {
         List<ShapedRecipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            if (recipe.value() instanceof net.minecraft.recipe.ShapedRecipe) {
-                recipes.add(ShapedRecipe.of((net.minecraft.recipe.ShapedRecipe) recipe.value()));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            if (recipe instanceof net.minecraft.recipe.ShapedRecipe) {
+                recipes.add(ShapedRecipe.of((net.minecraft.recipe.ShapedRecipe) recipe));
             }
         }
 
@@ -132,11 +128,11 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<Recipe> getNormalRecipes() {
         List<Recipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
-            if (recipe.value() instanceof net.minecraft.recipe.ShapelessRecipe) {
-                recipes.add(ShapelessRecipe.of((net.minecraft.recipe.ShapelessRecipe) recipe.value()));
-            } else if (recipe.value() instanceof net.minecraft.recipe.ShapedRecipe) {
-                recipes.add(ShapedRecipe.of((net.minecraft.recipe.ShapedRecipe) recipe.value()));
+        for (net.minecraft.recipe.Recipe<?> recipe : getRaw().values()) {
+            if (recipe instanceof net.minecraft.recipe.ShapelessRecipe) {
+                recipes.add(ShapelessRecipe.of((net.minecraft.recipe.ShapelessRecipe) recipe));
+            } else if (recipe instanceof net.minecraft.recipe.ShapedRecipe) {
+                recipes.add(ShapedRecipe.of((net.minecraft.recipe.ShapedRecipe) recipe));
             }
         }
 

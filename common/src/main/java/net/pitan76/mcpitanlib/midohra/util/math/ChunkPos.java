@@ -137,11 +137,13 @@ public class ChunkPos {
     }
 
     public int getSquaredDistance(ChunkPos pos) {
-        return getRaw().getSquaredDistance(pos.getRaw());
+        int dx = getX() - pos.getX();
+        int dz = getZ() - pos.getZ();
+        return dx * dx + dz * dz;
     }
 
     public int getSquaredDistance(long pos) {
-        return getRaw().getSquaredDistance(pos);
+        return getSquaredDistance(of(pos));
     }
 
     public static Stream<ChunkPos> stream(ChunkPos center, int radius) {
