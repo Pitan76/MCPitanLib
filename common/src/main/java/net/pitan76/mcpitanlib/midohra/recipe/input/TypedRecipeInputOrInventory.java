@@ -1,10 +1,9 @@
 package net.pitan76.mcpitanlib.midohra.recipe.input;
 
 import net.minecraft.inventory.Inventory;
-import net.minecraft.recipe.input.RecipeInput;
 import org.jetbrains.annotations.Nullable;
 
-public class TypedRecipeInputOrInventory<T extends RecipeInput> extends RecipeInputOrInventory {
+public class TypedRecipeInputOrInventory<T extends Inventory> extends RecipeInputOrInventory {
     private final T recipeInput;
 
     public static TypedRecipeInputOrInventory<?> NONE = new TypedRecipeInputOrInventory<>(null);
@@ -14,16 +13,8 @@ public class TypedRecipeInputOrInventory<T extends RecipeInput> extends RecipeIn
         this.recipeInput = recipeInput;
     }
 
-    public static <T extends RecipeInput> TypedRecipeInputOrInventory<T> _of(T recipeInput) {
+    public static <T extends Inventory> TypedRecipeInputOrInventory<T> _of(T recipeInput) {
         return new TypedRecipeInputOrInventory<>(recipeInput);
-    }
-
-    public static TypedRecipeInputOrInventory<?> of(Inventory inventory) {
-        if (inventory instanceof RecipeInput) {
-            return _of((RecipeInput) inventory);
-        }
-
-        return NONE;
     }
 
     @Nullable
@@ -47,10 +38,6 @@ public class TypedRecipeInputOrInventory<T extends RecipeInput> extends RecipeIn
     @Nullable
     @Override
     public Inventory getInventory() {
-        if (getRaw() instanceof Inventory) {
-            return (Inventory) getRaw();
-        }
-
-        return null;
+        return getRaw();
     }
 }
