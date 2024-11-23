@@ -1,8 +1,5 @@
 package net.pitan76.mcpitanlib.midohra.recipe.entry;
 
-import net.minecraft.recipe.Recipe;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.recipe.ShapedRecipe;
 
@@ -23,8 +20,7 @@ public class ShapedRecipeEntry extends RecipeEntry {
     }
 
     public static ShapedRecipeEntry of(net.minecraft.recipe.ShapedRecipe recipe, CompatIdentifier id) {
-        RegistryKey<Recipe<?>> key = RegistryKey.of(RegistryKeys.RECIPE, id.toMinecraft());
-        net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(key, recipe);
+        net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(id.toMinecraft(), recipe);
 
         return of(recipeEntry);
     }

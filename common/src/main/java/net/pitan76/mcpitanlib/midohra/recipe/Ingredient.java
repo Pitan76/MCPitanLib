@@ -25,7 +25,7 @@ public class Ingredient {
     }
 
     public static Ingredient ofItem(Item items) {
-        return of(net.minecraft.recipe.Ingredient.ofItem(items));
+        return of(net.minecraft.recipe.Ingredient.ofItems(items));
     }
 
     public static Ingredient fromTagById(CompatIdentifier id) {
