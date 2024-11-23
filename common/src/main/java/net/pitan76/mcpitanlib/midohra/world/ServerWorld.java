@@ -33,11 +33,11 @@ public class ServerWorld extends World {
     }
 
     public void playSound(Player player, BlockPos pos, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch, long seed) {
-        getRaw().playSound(player.getEntity(), pos.getX(), pos.getY(), pos.getZ(), sound.getEntry(), category.get(), volume, pitch, seed);
+        getRaw().playSound(player.getEntity(), pos.getX(), pos.getY(), pos.getZ(), sound.get(), category.get(), volume, pitch, seed);
     }
 
     public void playSoundFromEntity(Player player, Player target, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch, long seed) {
-        getRaw().playSoundFromEntity(player.getEntity(), target.getEntity(), sound.getEntry(), category.get(), volume, pitch, seed);
+        getRaw().playSoundFromEntity(player.getEntity(), target.getEntity(), sound.get(), category.get(), volume, pitch, seed);
     }
 
     public MinecraftServer getServer() {
