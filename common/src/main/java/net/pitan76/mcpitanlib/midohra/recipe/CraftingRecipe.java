@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.midohra.recipe;
 
-import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
@@ -27,16 +26,12 @@ public class CraftingRecipe extends Recipe {
         return getRaw();
     }
 
-    public CraftingRecipeCategory getRawCategory() {
-        return getRaw().getCategory();
-    }
-
     public boolean matches(CraftingRecipeInputOrInventory input, World world) {
         return getRaw().matches(input.getRaw(), world.getRaw());
     }
 
     public net.minecraft.item.ItemStack craft(CraftingRecipeInputOrInventory input, World world) {
-        return getRaw().craft(input.getRaw(), world.getRaw().getRegistryManager());
+        return getRaw().craft(input.getRaw());
     }
 
     public ItemStack craftMidohra(CraftingRecipeInputOrInventory input, World world) {

@@ -28,7 +28,7 @@ public class ShapedRecipe extends CraftingRecipe {
     }
 
     public net.minecraft.item.ItemStack craft() {
-        return getRaw().craft(null, null);
+        return getRaw().craft(null);
     }
 
     public ItemStack craftMidohra() {

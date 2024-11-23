@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.recipe;
 
-import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 public class RecipeType {
@@ -39,7 +40,7 @@ public class RecipeType {
     }
 
     public static RecipeType of(CompatIdentifier id) {
-        return of(Registries.RECIPE_TYPE.get(id.toMinecraft()));
+        return of(Registry.RECIPE_TYPE.get(id.toMinecraft()));
     }
 
     public net.minecraft.recipe.RecipeType<?> getRaw() {
@@ -51,7 +52,11 @@ public class RecipeType {
     }
 
     public CompatIdentifier getId() {
-        return CompatIdentifier.fromMinecraft(Registries.RECIPE_TYPE.getId(recipeType));
+        Identifier id = Registry.RECIPE_TYPE.getId(recipeType);
+        if (id == null)
+            return CompatIdentifier.empty();
+        
+        return CompatIdentifier.fromMinecraft(id);
     }
 
 }

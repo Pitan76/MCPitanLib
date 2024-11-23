@@ -110,7 +110,7 @@ public class World extends WorldAccess {
     @Deprecated
     @Override
     public void playSound(PlayerEntity playerEntity, net.minecraft.util.math.BlockPos pos, SoundEvent sound, SoundCategory category) {
-        getRaw().playSound(playerEntity, pos, sound, category);
+        getRaw().playSound(playerEntity, pos, sound, category, 1f, 1f);
     }
 
     @Deprecated
