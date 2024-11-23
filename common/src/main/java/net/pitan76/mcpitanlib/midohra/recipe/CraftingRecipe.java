@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.midohra.recipe;
 
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.collection.DefaultedList;
-import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.mcpitanlib.midohra.recipe.input.CraftingRecipeInputOrInventory;
@@ -45,7 +44,7 @@ public class CraftingRecipe extends Recipe {
     }
 
     public DefaultedList<net.minecraft.item.ItemStack> getRecipeRemaindersDefaultedList(CraftingRecipeInputOrInventory input) {
-        return getRaw().getRecipeRemainders(input.getRaw());
+        return getRaw().getRemainder(input.getRaw());
     }
 
     public ItemStackList getRecipeRemainders(CraftingRecipeInputOrInventory input) {
