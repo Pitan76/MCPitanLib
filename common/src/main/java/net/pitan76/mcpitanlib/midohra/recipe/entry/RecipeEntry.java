@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.midohra.recipe.entry;
 
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.recipe.CraftingRecipe;
@@ -20,8 +18,7 @@ public class RecipeEntry {
     }
 
     public static RecipeEntry of(net.minecraft.recipe.Recipe<?> recipe, CompatIdentifier id) {
-        RegistryKey<net.minecraft.recipe.Recipe<?>> key = RegistryKey.of(RegistryKeys.RECIPE, id.toMinecraft());
-        net.minecraft.recipe.RecipeEntry<?> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(key, recipe);
+        net.minecraft.recipe.RecipeEntry<?> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(id.toMinecraft(), recipe);
         return of(recipeEntry);
     }
 
@@ -62,7 +59,7 @@ public class RecipeEntry {
     }
 
     public CompatIdentifier getId() {
-        return CompatIdentifier.fromMinecraft(getRaw().id().getValue());
+        return CompatIdentifier.fromMinecraft(getRaw().id());
     }
 
     public CompatRecipeEntry<?> toCompatRecipeEntry() {
