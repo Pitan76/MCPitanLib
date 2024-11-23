@@ -13,7 +13,7 @@ public class ChunkTicketType<T> {
     public static final ChunkTicketType<ChunkPos> PLAYER = of(net.minecraft.server.world.ChunkTicketType.PLAYER);
     public static final ChunkTicketType<ChunkPos> FORCED = of(net.minecraft.server.world.ChunkTicketType.FORCED);
     public static final ChunkTicketType<BlockPos> PORTAL = of(net.minecraft.server.world.ChunkTicketType.PORTAL);
-    public static final ChunkTicketType<ChunkPos> ENDER_PEARL = of(net.minecraft.server.world.ChunkTicketType.ENDER_PEARL);
+    public static final ChunkTicketType<ChunkPos> ENDER_PEARL = of(net.minecraft.server.world.ChunkTicketType.UNKNOWN);
     public static final ChunkTicketType<Integer> POST_TELEPORT = of(net.minecraft.server.world.ChunkTicketType.POST_TELEPORT);
     public static final ChunkTicketType<ChunkPos> UNKNOWN = of(net.minecraft.server.world.ChunkTicketType.UNKNOWN);
 

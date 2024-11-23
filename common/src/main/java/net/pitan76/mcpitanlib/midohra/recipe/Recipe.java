@@ -86,6 +86,6 @@ public class Recipe {
     }
 
     public List<Ingredient> getInputs() {
-        return getRaw().getIngredientPlacement().getIngredients();
+        return getRaw().getIngredients();
     }
 }

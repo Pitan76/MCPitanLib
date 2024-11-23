@@ -57,7 +57,7 @@ public class RecipeInputOrInventory {
     public int size() {
         if (isNone()) return 0;
 
-        return getRaw().size();
+        return getRaw().getSize();
     }
 
     public boolean isEmpty() {
