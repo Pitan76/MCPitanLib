@@ -348,4 +348,8 @@ public class WorldUtil {
     public static boolean removeBlock(World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, boolean move) {
         return removeBlock(world, pos.toMinecraft(), move);
     }
+
+    public static void playSound(net.pitan76.mcpitanlib.midohra.world.World world, @Nullable Player player, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch) {
+        playSound(world.getRaw(), player, pos.toMinecraft(), sound, category, volume, pitch);
+    }
 }
