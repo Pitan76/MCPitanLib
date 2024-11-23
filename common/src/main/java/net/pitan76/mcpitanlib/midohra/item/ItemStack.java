@@ -11,14 +11,14 @@ import java.util.Map;
 
 public class ItemStack {
     private final net.minecraft.item.ItemStack stack;
-    public static final ItemStack EMPTY = of(ItemStackUtil.empty());
+    public static final ItemStack EMPTY = new ItemStack(ItemStackUtil.empty());
 
     protected ItemStack(net.minecraft.item.ItemStack stack) {
         this.stack = stack;
     }
 
     public static ItemStack of(net.minecraft.item.ItemStack stack) {
-        if (stack == null)
+        if (stack == null || stack.isEmpty())
             return EMPTY;
 
         return new ItemStack(stack);

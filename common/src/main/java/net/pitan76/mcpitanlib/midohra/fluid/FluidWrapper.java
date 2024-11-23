@@ -80,4 +80,8 @@ public class FluidWrapper {
     public ItemWrapper getBucketItem() {
         return ItemWrapper.of(FluidUtil.getBucketItem(get()));
     }
+
+    public boolean rawEquals(FluidWrapper fluid) {
+        return get() == fluid.get();
+    }
 }
