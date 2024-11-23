@@ -11,14 +11,12 @@ import java.util.Collection;
 import java.util.List;
 
 public class ServerRecipeManager extends RecipeManager {
-    private net.minecraft.recipe.ServerRecipeManager serverRecipeManager;
 
-    protected ServerRecipeManager(net.minecraft.recipe.ServerRecipeManager serverRecipeManager) {
-        super(null);
-        this.serverRecipeManager = serverRecipeManager;
+    protected ServerRecipeManager(net.minecraft.recipe.RecipeManager recipeManager) {
+        super(recipeManager);
     }
 
-    public static ServerRecipeManager of(net.minecraft.recipe.ServerRecipeManager serverRecipeManager) {
+    public static ServerRecipeManager of(net.minecraft.recipe.RecipeManager serverRecipeManager) {
         return new ServerRecipeManager(serverRecipeManager);
     }
 
@@ -30,24 +28,14 @@ public class ServerRecipeManager extends RecipeManager {
         return of(world.getRaw());
     }
 
-    @Override
-    public net.minecraft.recipe.ServerRecipeManager getRaw() {
-        return serverRecipeManager;
-    }
-
-    @Override
-    public net.minecraft.recipe.ServerRecipeManager toMinecraft() {
-        return getRaw();
-    }
-
     @Deprecated
     public Collection<net.minecraft.recipe.RecipeEntry<?>> getRawRecipes() {
-        return serverRecipeManager.values();
+        return getRaw().values();
     }
 
     public Collection<RecipeEntry> getRecipeEntries() {
         List<RecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             recipes.add(RecipeEntry.of(recipe));
         }
 
@@ -56,7 +44,7 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<CraftingRecipeEntry> getCraftingRecipeEntries() {
         List<CraftingRecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             if (recipe.value() instanceof net.minecraft.recipe.CraftingRecipe) {
                 recipes.add(CraftingRecipeEntry.of(recipe));
             }
@@ -67,7 +55,7 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<ShapelessRecipeEntry> getShapelessRecipeEntries() {
         List<ShapelessRecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             if (recipe.value() instanceof net.minecraft.recipe.ShapelessRecipe) {
                 recipes.add(ShapelessRecipeEntry.of(recipe));
             }
@@ -78,7 +66,7 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<ShapedRecipeEntry> getShapedRecipeEntries() {
         List<ShapedRecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             if (recipe.value() instanceof net.minecraft.recipe.ShapedRecipe) {
                 recipes.add(ShapedRecipeEntry.of(recipe));
             }
@@ -89,7 +77,7 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<RecipeEntry> getNormalRecipeEntries() {
         List<RecipeEntry> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             if (recipe.value() instanceof net.minecraft.recipe.ShapelessRecipe) {
                 recipes.add(ShapelessRecipeEntry.of(recipe));
             } else if (recipe.value() instanceof net.minecraft.recipe.ShapedRecipe) {
@@ -102,7 +90,7 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<Recipe> getRecipes() {
         List<Recipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             recipes.add(Recipe.of(recipe.value()));
         }
 
@@ -111,7 +99,7 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<CraftingRecipe> getCraftingRecipes() {
         List<CraftingRecipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             if (recipe.value() instanceof net.minecraft.recipe.CraftingRecipe) {
                 recipes.add(CraftingRecipe.of((net.minecraft.recipe.CraftingRecipe) recipe.value()));
             }
@@ -122,7 +110,7 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<ShapelessRecipe> getShapelessRecipes() {
         List<ShapelessRecipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             if (recipe.value() instanceof net.minecraft.recipe.ShapelessRecipe) {
                 recipes.add(ShapelessRecipe.of((net.minecraft.recipe.ShapelessRecipe) recipe.value()));
             }
@@ -133,7 +121,7 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<ShapedRecipe> getShapedRecipes() {
         List<ShapedRecipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             if (recipe.value() instanceof net.minecraft.recipe.ShapedRecipe) {
                 recipes.add(ShapedRecipe.of((net.minecraft.recipe.ShapedRecipe) recipe.value()));
             }
@@ -144,7 +132,7 @@ public class ServerRecipeManager extends RecipeManager {
 
     public Collection<Recipe> getNormalRecipes() {
         List<Recipe> recipes = new ArrayList<>();
-        for (net.minecraft.recipe.RecipeEntry<?> recipe : serverRecipeManager.values()) {
+        for (net.minecraft.recipe.RecipeEntry<?> recipe : getRaw().values()) {
             if (recipe.value() instanceof net.minecraft.recipe.ShapelessRecipe) {
                 recipes.add(ShapelessRecipe.of((net.minecraft.recipe.ShapelessRecipe) recipe.value()));
             } else if (recipe.value() instanceof net.minecraft.recipe.ShapedRecipe) {
