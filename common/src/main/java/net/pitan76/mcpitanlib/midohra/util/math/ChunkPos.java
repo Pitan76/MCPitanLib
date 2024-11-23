@@ -26,11 +26,11 @@ public class ChunkPos {
     }
 
     public static ChunkPos fromRegion(int x, int z) {
-        return of(net.minecraft.util.math.ChunkPos.fromRegion(x, z));
+        return of(x << 5, z << 5);
     }
 
     public static ChunkPos fromRegionCenter(int x, int z) {
-        return of(net.minecraft.util.math.ChunkPos.fromRegionCenter(x, z));
+        return of(x - 16, z - 16);
     }
 
     public net.minecraft.util.math.ChunkPos getRaw() {

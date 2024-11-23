@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.server;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.MessageType;
 import net.minecraft.server.BannedIpList;
 import net.minecraft.server.BannedPlayerList;
 import net.minecraft.server.MinecraftServer;
@@ -51,7 +52,10 @@ public class PlayerManager {
     }
 
     public void broadcast(TextComponent message, boolean overlay) {
-        getRaw().broadcast(message.getText(), overlay);
+        if (overlay)
+            getRaw().broadcast(message.getText(), MessageType.SYSTEM, UUID.randomUUID());
+        else
+            getRaw().broadcast(message.getText(), MessageType.CHAT, UUID.randomUUID());
     }
 
     public void broadcast(TextComponent message) {
@@ -59,7 +63,10 @@ public class PlayerManager {
     }
 
     public void broadcast(String message, boolean overlay) {
-        getRaw().broadcast(TextUtil.literal(message), overlay);
+        if (overlay)
+            getRaw().broadcast(TextUtil.literal(message), MessageType.SYSTEM, UUID.randomUUID());
+        else
+            getRaw().broadcast(TextUtil.literal(message), MessageType.CHAT, UUID.randomUUID());
     }
 
     public void broadcast(String message) {
