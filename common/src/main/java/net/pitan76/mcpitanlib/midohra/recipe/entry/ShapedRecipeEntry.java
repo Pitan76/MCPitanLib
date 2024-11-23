@@ -4,38 +4,32 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.recipe.ShapedRecipe;
 
 public class ShapedRecipeEntry extends RecipeEntry {
-    private final net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry;
+    private final ShapedRecipe recipe;
 
-    protected ShapedRecipeEntry(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry) {
-        super(null);
-        this.recipeEntry = recipeEntry;
+    protected ShapedRecipeEntry(ShapedRecipe recipe, CompatIdentifier id) {
+        super(null, id);
+        this.recipe = recipe;
     }
 
-    public static ShapedRecipeEntry _of(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry) {
-        return new ShapedRecipeEntry(recipeEntry);
-    }
-
-    public static ShapedRecipeEntry of(net.minecraft.recipe.RecipeEntry<?> recipeEntry) {
-        return _of((net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe>) recipeEntry);
+    protected ShapedRecipeEntry(ShapedRecipe recipe) {
+        this(recipe, CompatIdentifier.fromMinecraft(recipe.getRaw().getId()));
     }
 
     public static ShapedRecipeEntry of(net.minecraft.recipe.ShapedRecipe recipe, CompatIdentifier id) {
-        net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(id.toMinecraft(), recipe);
-
-        return of(recipeEntry);
+        return of(ShapedRecipe.of(recipe), id);
     }
 
     public static ShapedRecipeEntry of(ShapedRecipe recipe, CompatIdentifier id) {
-        return of(recipe.toMinecraft(), id);
+        return new ShapedRecipeEntry(recipe, id);
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> getRaw() {
-        return recipeEntry;
+    public net.minecraft.recipe.ShapedRecipe getRaw() {
+        return recipe.getRaw();
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> toMinecraft() {
+    public net.minecraft.recipe.ShapedRecipe toMinecraft() {
         return getRaw();
     }
 
@@ -46,6 +40,6 @@ public class ShapedRecipeEntry extends RecipeEntry {
 
     @Override
     public net.minecraft.recipe.ShapedRecipe getRawRecipe() {
-        return getRaw().value();
+        return getRaw();
     }
 }
