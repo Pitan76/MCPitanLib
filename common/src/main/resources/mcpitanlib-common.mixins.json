@@ -4,7 +4,10 @@
   "package": "net.pitan76.mcpitanlib.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractBlock4CompatProviderMixin",
     "AbstractBlockMixin",
+    "Block4CompatProviderMixin",
+    "BlockInvoker",
     "BlockMixin",
     "ItemMixin",
     "ItemStackMixin",

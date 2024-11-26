@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider.Options;
 import net.pitan76.mcpitanlib.api.event.block.*;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -70,9 +71,9 @@ public class AbstractBlockMixin {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, hand, hit), options).toActionResult();
+            CompatActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, hand, hit), options);
             if (options.cancel && returnValue != null)
-                cir.setReturnValue(returnValue);
+                cir.setReturnValue(returnValue.toActionResult());
         }
     }
 
