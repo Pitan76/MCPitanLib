@@ -19,6 +19,7 @@ import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
 import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
+import net.pitan76.mcpitanlib.api.item.consume.CompatUseAction;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -208,9 +209,9 @@ public class ItemMixin {
         if (this instanceof CompatItemProvider) {
             CompatItemProvider provider = (CompatItemProvider) this;
             Options options = new Options();
-            UseAction returnValue = provider.getUseAction(new UseActionArgs(stack), options).get();
+            CompatUseAction returnValue = provider.getUseAction(new UseActionArgs(stack), options);
             if (options.cancel)
-                cir.setReturnValue(returnValue);
+                cir.setReturnValue(returnValue.get());
         }
     }
 }
