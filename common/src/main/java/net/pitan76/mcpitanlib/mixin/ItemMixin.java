@@ -20,6 +20,7 @@ import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
 import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -35,9 +36,9 @@ public class ItemMixin {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClick(new ItemUseEvent(world, user, hand), options).toActionResult();
+            CompatActionResult returnValue = provider.onRightClick(new ItemUseEvent(world, user, hand), options);
             if (options.cancel && returnValue != null)
-                cir.setReturnValue(returnValue);
+                cir.setReturnValue(returnValue.toActionResult());
         }
     }
 
@@ -47,9 +48,9 @@ public class ItemMixin {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()), options).toActionResult();
+            CompatActionResult returnValue = provider.onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()), options);
             if (options.cancel && returnValue != null)
-                cir.setReturnValue(returnValue);
+                cir.setReturnValue(returnValue.toActionResult());
         }
     }
 
@@ -58,9 +59,9 @@ public class ItemMixin {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            ActionResult returnValue = provider.onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand), options).toActionResult();
+            CompatActionResult returnValue = provider.onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand), options);
             if (options.cancel && returnValue != null)
-                cir.setReturnValue(returnValue);
+                cir.setReturnValue(returnValue.toActionResult());
         }
     }
 
