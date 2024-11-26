@@ -1,8 +1,15 @@
 package net.pitan76.mcpitanlib.midohra.easybuilder;
 
 import net.minecraft.item.Item;
+import net.minecraft.util.shape.VoxelShape;
+import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
+import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
+import net.pitan76.mcpitanlib.api.block.args.v2.CollisionShapeEvent;
+import net.pitan76.mcpitanlib.api.block.args.v2.OutlineShapeEvent;
+import net.pitan76.mcpitanlib.api.block.args.v2.PlacementStateArgs;
+import net.pitan76.mcpitanlib.api.block.args.v2.StateForNeighborUpdateArgs;
 import net.pitan76.mcpitanlib.api.block.v2.BlockSettingsBuilder;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
@@ -19,13 +26,12 @@ import net.pitan76.mcpitanlib.api.util.color.CompatMapColor;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.core.datafixer.Pair;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.SupplierBlockWrapper;
 import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
+import java.util.function.*;
 
 public class BlockBuilder {
 
@@ -34,6 +40,13 @@ public class BlockBuilder {
     public Consumer<StateReplacedEvent> onStateReplaced;
     public Consumer<ItemAppendTooltipEvent> onAppendTooltip;
     public Consumer<AppendPropertiesArgs> onAppendProperties;
+    public BlockState defaultState;
+    public BiConsumer<BlockWrapper, BlockBuilder> onInit;
+    public Function<OutlineShapeEvent, VoxelShape> onOutlineShape;
+    public Function<CollisionShapeEvent, VoxelShape> onCollisionShape;
+    public Function<RenderTypeArgs, CompatBlockRenderType> onRenderType;
+    public Function<PlacementStateArgs, @Nullable BlockState> onPlacementState;
+    public Function<StateForNeighborUpdateArgs, BlockState> onStateForNeighborUpdate;
 
     public BlockBuilder(BlockSettingsBuilder settingsBuilder) {
         this.settingsBuilder = settingsBuilder;
@@ -149,6 +162,53 @@ public class BlockBuilder {
 
     public BlockBuilder onAppendProperties(Consumer<AppendPropertiesArgs> onAppendProperties) {
         this.onAppendProperties = onAppendProperties;
+        return this;
+    }
+
+    public BlockBuilder onOutlineShape(Function<OutlineShapeEvent, VoxelShape> onOutlineShape) {
+        this.onOutlineShape = onOutlineShape;
+        return this;
+    }
+
+    public BlockBuilder onCollisionShape(Function<CollisionShapeEvent, VoxelShape> onCollisionShape) {
+        this.onCollisionShape = onCollisionShape;
+        return this;
+    }
+
+    public BlockBuilder onRenderType(Function<RenderTypeArgs, CompatBlockRenderType> onRenderType) {
+        this.onRenderType = onRenderType;
+        return this;
+    }
+
+    public BlockBuilder onPlacementState(Function<PlacementStateArgs, @Nullable BlockState> onPlacementState) {
+        this.onPlacementState = onPlacementState;
+        return this;
+    }
+
+    public BlockBuilder onStateForNeighborUpdate(Function<StateForNeighborUpdateArgs, BlockState> onStateForNeighborUpdate) {
+        this.onStateForNeighborUpdate = onStateForNeighborUpdate;
+        return this;
+    }
+
+    public BlockBuilder setOutlineShape(VoxelShape shape) {
+        return onOutlineShape(e -> shape);
+    }
+
+    public BlockBuilder setCollisionShape(VoxelShape shape) {
+        return onCollisionShape(e -> shape);
+    }
+
+    public BlockBuilder setRenderType(CompatBlockRenderType renderType) {
+        return onRenderType(e -> renderType);
+    }
+
+    public BlockBuilder onInit(BiConsumer<BlockWrapper, BlockBuilder> onInit) {
+        this.onInit = onInit;
+        return this;
+    }
+
+    public BlockBuilder setDefaultState(BlockState defaultState) {
+        this.defaultState = defaultState;
         return this;
     }
 }

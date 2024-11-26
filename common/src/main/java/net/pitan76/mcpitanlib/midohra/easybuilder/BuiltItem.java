@@ -1,9 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.easybuilder;
 
-import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
-import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
-import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
-import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
+import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -19,6 +16,8 @@ public class BuiltItem extends CompatItem {
     protected Function<ItemUseOnBlockEvent, CompatActionResult> onRightClickOnBlock;
     protected Function<ItemUseOnEntityEvent, CompatActionResult> onRightClickOnEntity;
     protected Consumer<ItemAppendTooltipEvent> onAppendTooltip;
+    protected Function<ItemBarColorArgs, Integer> onItemBarColor;
+    protected Function<ItemBarStepArgs, Integer> onItemBarStep;
 
     protected BuiltItem(CompatibleItemSettings settings) {
         super(settings);
@@ -26,18 +25,21 @@ public class BuiltItem extends CompatItem {
 
     public BuiltItem(ItemBuilder builder) {
         this(builder.settingsBuilder.build());
-
-        this.onRightClick = builder.onRightClick;
-        this.onRightClickOnBlock = builder.onRightClickOnBlock;
-        this.onAppendTooltip = builder.onAppendTooltip;
+        init(builder);
     }
 
     public BuiltItem(ItemBuilder builder, CompatIdentifier id) {
         this(builder.settingsBuilder.build(id));
+        init(builder);
+    }
 
+    protected void init(ItemBuilder builder) {
         this.onRightClick = builder.onRightClick;
         this.onRightClickOnBlock = builder.onRightClickOnBlock;
+        this.onRightClickOnEntity = builder.onRightClickOnEntity;
         this.onAppendTooltip = builder.onAppendTooltip;
+        this.onItemBarColor = builder.onItemBarColor;
+        this.onItemBarStep = builder.onItemBarStep;
     }
 
     @Override
@@ -68,5 +70,21 @@ public class BuiltItem extends CompatItem {
     public void appendTooltip(ItemAppendTooltipEvent e) {
         if (onAppendTooltip != null)
             onAppendTooltip.accept(e);
+    }
+
+    @Override
+    public int getItemBarColor(ItemBarColorArgs args) {
+        if (onItemBarColor != null)
+            return onItemBarColor.apply(args);
+
+        return super.getItemBarColor(args);
+    }
+
+    @Override
+    public int getItemBarStep(ItemBarStepArgs args) {
+        if (onItemBarStep != null)
+            return onItemBarStep.apply(args);
+
+        return super.getItemBarStep(args);
     }
 }

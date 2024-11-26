@@ -1,9 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.easybuilder;
 
-import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
-import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
-import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
-import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
+import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
@@ -29,6 +26,8 @@ public class ItemBuilder {
     public Function<ItemUseOnBlockEvent, CompatActionResult> onRightClickOnBlock;
     public Function<ItemUseOnEntityEvent, CompatActionResult> onRightClickOnEntity;
     public Consumer<ItemAppendTooltipEvent> onAppendTooltip;
+    public Function<ItemBarColorArgs, Integer> onItemBarColor;
+    public Function<ItemBarStepArgs, Integer> onItemBarStep;
 
     public ItemBuilder(ItemSettingsBuilder settingsBuilder) {
         this.settingsBuilder = settingsBuilder;
@@ -133,6 +132,16 @@ public class ItemBuilder {
 
     public ItemBuilder onAppendTooltip(Consumer<ItemAppendTooltipEvent> onAppendTooltip) {
         this.onAppendTooltip = onAppendTooltip;
+        return this;
+    }
+
+    public ItemBuilder onItemBarColor(Function<ItemBarColorArgs, Integer> onItemBarColor) {
+        this.onItemBarColor = onItemBarColor;
+        return this;
+    }
+
+    public ItemBuilder onItemBarStep(Function<ItemBarStepArgs, Integer> onItemBarStep) {
+        this.onItemBarStep = onItemBarStep;
         return this;
     }
 }
