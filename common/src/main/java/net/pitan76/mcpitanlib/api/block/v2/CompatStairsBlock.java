@@ -17,7 +17,7 @@ import net.pitan76.mcpitanlib.midohra.block.BlockState;
 
 public class CompatStairsBlock extends net.pitan76.mcpitanlib.api.block.CompatStairsBlock {
 
-    public static final DirectionProperty FACING = CompatProperties.of(StairsBlock.FACING);
+    public static final DirectionProperty FACING = CompatProperties.ofDir(StairsBlock.FACING);
     public static final EnumProperty<BlockHalf> HALF = CompatProperties.of(StairsBlock.HALF);
     public static final EnumProperty<StairShape> SHAPE = CompatProperties.of(StairsBlock.SHAPE);
     public static final BooleanProperty WATERLOGGED = CompatProperties.of(StairsBlock.WATERLOGGED);
