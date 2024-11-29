@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -143,5 +144,55 @@ public class CompatInventory extends SimpleInventory {
 
     public ItemStack callGetStack(int slot) {
         return super.getStack(slot);
+    }
+
+    @Deprecated
+    @Override
+    public int size() {
+        return getSize();
+    }
+
+    public int getSize() {
+        return super.size();
+    }
+
+    @Deprecated
+    @Override
+    public boolean isEmpty() {
+        return callIsEmpty();
+    }
+
+    public boolean callIsEmpty() {
+        return super.isEmpty();
+    }
+
+    @Deprecated
+    @Override
+    public boolean canTransferTo(Inventory hopperInventory, int slot, ItemStack stack) {
+        return callCanTransferTo(hopperInventory, slot, stack);
+    }
+
+    public boolean callCanTransferTo(Inventory hopperInventory, int slot, ItemStack stack) {
+        return super.canTransferTo(hopperInventory, slot, stack);
+    }
+
+    @Deprecated
+    @Override
+    public ItemStack addStack(ItemStack stack) {
+        return callAddStack(stack);
+    }
+
+    public ItemStack callAddStack(ItemStack stack) {
+        return super.addStack(stack);
+    }
+
+    @Deprecated
+    @Override
+    public int getMaxCountPerStack() {
+        return callGetMaxCountPerStack();
+    }
+
+    public int callGetMaxCountPerStack() {
+        return super.getMaxCountPerStack();
     }
 }
