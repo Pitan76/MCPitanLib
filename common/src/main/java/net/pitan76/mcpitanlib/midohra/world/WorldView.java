@@ -3,13 +3,15 @@ package net.pitan76.mcpitanlib.midohra.world;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.FluidState;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.world.WorldAccessUtil;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+import net.pitan76.mcpitanlib.midohra.util.math.Direction;
 
 import java.util.Optional;
 
-public class WorldView implements IWorldView {
+public class WorldView implements IWorldView, RedstoneView {
     private final net.minecraft.world.WorldView world;
 
     protected WorldView(net.minecraft.world.WorldView world) {
@@ -62,5 +64,11 @@ public class WorldView implements IWorldView {
     @Override
     public FluidState getFluidState(net.minecraft.util.math.BlockPos pos) {
         return getRaw().getFluidState(pos);
+    }
+
+    @Override
+    @Deprecated
+    public net.minecraft.world.RedstoneView getRedstoneView() {
+        return getRaw();
     }
 }
