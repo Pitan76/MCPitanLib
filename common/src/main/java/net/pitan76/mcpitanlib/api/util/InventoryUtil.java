@@ -120,4 +120,36 @@ public class InventoryUtil {
             to.set(i, from.getStack(i));
         }
     }
+
+    public static int getSize(Inventory inventory) {
+        return inventory.size();
+    }
+
+    public static ItemStack getStack(Inventory inventory, int slot) {
+        return inventory.getStack(slot);
+    }
+
+    public static void setStack(Inventory inventory, int slot, ItemStack stack) {
+        inventory.setStack(slot, stack);
+    }
+
+    public static boolean isEmpty(Inventory inventory) {
+        return inventory.isEmpty();
+    }
+
+    public static ItemStack removeStack(Inventory inventory, int slot) {
+        return inventory.removeStack(slot);
+    }
+
+    public static ItemStack removeStack(Inventory inventory, int slot, int amount) {
+        return inventory.removeStack(slot, amount);
+    }
+
+    public static void clear(Inventory inventory) {
+        inventory.clear();
+    }
+
+    public static void markDirty(Inventory inventory) {
+        inventory.markDirty();
+    }
 }
