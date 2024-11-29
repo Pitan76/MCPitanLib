@@ -8,8 +8,6 @@ import net.minecraft.block.enums.SlabType;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
@@ -17,12 +15,15 @@ import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.event.block.CanPathfindThroughArgs;
 import net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs;
+import net.pitan76.mcpitanlib.api.state.property.BooleanProperty;
+import net.pitan76.mcpitanlib.api.state.property.CompatProperties;
+import net.pitan76.mcpitanlib.api.state.property.EnumProperty;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 
 public class CompatSlabBlock extends SlabBlock implements CompatBlockProvider {
 
-    public static final EnumProperty<SlabType> TYPE = SlabBlock.TYPE;
-    public static final BooleanProperty WATERLOGGED = SlabBlock.WATERLOGGED;
+    public static final EnumProperty<SlabType> TYPE = CompatProperties.of(SlabBlock.TYPE);
+    public static final BooleanProperty WATERLOGGED = CompatProperties.of(SlabBlock.WATERLOGGED);
 
     public CompatibleBlockSettings settings;
 

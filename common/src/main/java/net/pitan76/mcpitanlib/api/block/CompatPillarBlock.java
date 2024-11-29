@@ -6,17 +6,18 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.Direction;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs;
+import net.pitan76.mcpitanlib.api.state.property.CompatProperties;
+import net.pitan76.mcpitanlib.api.state.property.EnumProperty;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 
 public class CompatPillarBlock extends PillarBlock implements CompatBlockProvider {
 
-    public static final EnumProperty<Direction.Axis> AXIS = PillarBlock.AXIS;
+    public static final EnumProperty<Direction.Axis> AXIS = CompatProperties.of(PillarBlock.AXIS);
 
     public CompatibleBlockSettings settings;
 
