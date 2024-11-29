@@ -488,4 +488,8 @@ public class Player {
     public net.pitan76.mcpitanlib.midohra.item.ItemStack getMidohraStackInHand(Hand hand) {
         return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStackInHand(hand));
     }
+
+    public Hand getActiveHand() {
+        return getEntity().getActiveHand();
+    }
 }
