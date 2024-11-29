@@ -94,14 +94,14 @@ public class CompatProperties {
     }
 
     public static <T extends Enum<T> & StringIdentifiable> EnumProperty<T> of(net.minecraft.state.property.EnumProperty<T> property) {
-        if (property == Properties.BLOCK_HALF) return (EnumProperty<T>) BLOCK_HALF;
-        if (property == Properties.STAIR_SHAPE) return (EnumProperty<T>) STAIR_SHAPE;
-        if (property == Properties.SLAB_TYPE) return (EnumProperty<T>) SLAB_TYPE;
-        if (property == Properties.CHEST_TYPE) return (EnumProperty<T>) CHEST_TYPE;
-        if (property == Properties.PISTON_TYPE) return (EnumProperty<T>) PISTON_TYPE;
-        if (property == Properties.AXIS) return (EnumProperty<T>) AXIS;
-        if (property == Properties.HORIZONTAL_AXIS) return (EnumProperty<T>) HORIZONTAL_AXIS;
-        if (property == Properties.COMPARATOR_MODE) return (EnumProperty<T>) COMPARATOR_MODE;
+        if (property.equals(Properties.BLOCK_HALF)) return (EnumProperty) BLOCK_HALF;
+        if (property.equals(Properties.STAIR_SHAPE)) return (EnumProperty) STAIR_SHAPE;
+        if (property.equals(Properties.SLAB_TYPE)) return (EnumProperty) SLAB_TYPE;
+        if (property.equals(Properties.CHEST_TYPE)) return (EnumProperty) CHEST_TYPE;
+        if (property.equals(Properties.PISTON_TYPE)) return (EnumProperty) PISTON_TYPE;
+        if (property.equals(Properties.AXIS)) return (EnumProperty) AXIS;
+        if (property.equals(Properties.HORIZONTAL_AXIS)) return (EnumProperty) HORIZONTAL_AXIS;
+        if (property.equals(Properties.COMPARATOR_MODE)) return (EnumProperty) COMPARATOR_MODE;
 
         return new EnumProperty<>(property);
     }
