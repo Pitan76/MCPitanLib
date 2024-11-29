@@ -53,10 +53,10 @@ public class CompatProperties {
             return of((net.minecraft.state.property.BooleanProperty) property);
         }
         if (property instanceof net.minecraft.state.property.EnumProperty) {
+            if (property.getType() == Direction.class) {
+                return ofDir((net.minecraft.state.property.EnumProperty<Direction>) property);
+            }
             return of((net.minecraft.state.property.EnumProperty<?>) property);
-        }
-        if (property instanceof net.minecraft.state.property.DirectionProperty) {
-            return of((net.minecraft.state.property.DirectionProperty) property);
         }
         return UnknownProperty.of(property);
     }
@@ -106,7 +106,7 @@ public class CompatProperties {
         return new EnumProperty<>(property);
     }
 
-    public static DirectionProperty of(net.minecraft.state.property.DirectionProperty property) {
+    public static DirectionProperty ofDir(net.minecraft.state.property.EnumProperty<Direction> property) {
         if (property == Properties.FACING) return FACING;
         if (property == Properties.HORIZONTAL_FACING) return HORIZONTAL_FACING;
         if (property == Properties.HOPPER_FACING) return HOPPER_FACING;
