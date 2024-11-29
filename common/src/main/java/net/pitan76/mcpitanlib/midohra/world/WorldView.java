@@ -68,7 +68,7 @@ public class WorldView implements IWorldView, RedstoneView {
 
     @Override
     @Deprecated
-    public net.minecraft.world.RedstoneView getRedstoneView() {
+    public WorldView getRedstoneView() {
         return getRaw();
     }
 }

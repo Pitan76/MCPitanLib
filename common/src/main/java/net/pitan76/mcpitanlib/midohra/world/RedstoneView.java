@@ -1,26 +1,39 @@
 package net.pitan76.mcpitanlib.midohra.world;
 
+import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.util.math.Direction;
 
 public interface RedstoneView {
 
-    net.minecraft.world.RedstoneView getRedstoneView();
+    net.minecraft.world.WorldView getRedstoneView();
 
     default boolean isReceivingRedstonePower(BlockPos pos) {
-        return getRedstoneView().isReceivingRedstonePower(pos.toMinecraft());
+        if (getRedstoneView() instanceof World) {
+            return ((World) getRedstoneView()).isReceivingRedstonePower(pos.toMinecraft());
+        }
+        return false;
     }
 
     default int getEmittedRedstonePower(BlockPos pos, Direction direction) {
-        return getRedstoneView().getEmittedRedstonePower(pos.toMinecraft(), direction.toMinecraft());
+        if (getRedstoneView() instanceof World) {
+            return ((World) getRedstoneView()).getEmittedRedstonePower(pos.toMinecraft(), direction.toMinecraft());
+        }
+        return 0;
     }
 
     default int getEmittedRedstonePower(BlockPos pos, Direction direction, boolean onlyFromGate) {
-        return getRedstoneView().getEmittedRedstonePower(pos.toMinecraft(), direction.toMinecraft(), onlyFromGate);
+        if (getRedstoneView() instanceof World) {
+            return ((World) getRedstoneView()).getEmittedRedstonePower(pos.toMinecraft(), direction.toMinecraft());
+        }
+        return 0;
     }
 
     default boolean isEmittingRedstonePower(BlockPos pos, Direction direction) {
-        return getRedstoneView().isEmittingRedstonePower(pos.toMinecraft(), direction.toMinecraft());
+        if (getRedstoneView() instanceof World) {
+            return ((World) getRedstoneView()).isEmittingRedstonePower(pos.toMinecraft(), direction.toMinecraft());
+        }
+        return false;
     }
 
     default int getStrongRedstonePower(BlockPos pos, Direction direction) {
@@ -28,11 +41,10 @@ public interface RedstoneView {
     }
 
     default int getReceivedStrongRedstonePower(BlockPos pos) {
-        return getRedstoneView().getReceivedStrongRedstonePower(pos.toMinecraft());
-    }
-
-    static RedstoneView of(net.minecraft.world.RedstoneView redstoneView) {
-        return () -> redstoneView;
+        if (getRedstoneView() instanceof World) {
+            return ((World) getRedstoneView()).getReceivedStrongRedstonePower(pos.toMinecraft());
+        }
+        return 0;
     }
 
     static RedstoneView of(net.minecraft.world.WorldView world) {
