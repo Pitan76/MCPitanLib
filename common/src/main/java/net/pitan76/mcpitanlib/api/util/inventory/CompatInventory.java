@@ -166,14 +166,8 @@ public class CompatInventory extends SimpleInventory {
         return super.isEmpty();
     }
 
-    @Deprecated
-    @Override
-    public boolean canTransferTo(Inventory hopperInventory, int slot, ItemStack stack) {
-        return callCanTransferTo(hopperInventory, slot, stack);
-    }
-
     public boolean callCanTransferTo(Inventory hopperInventory, int slot, ItemStack stack) {
-        return super.canTransferTo(hopperInventory, slot, stack);
+        return hopperInventory.isValid(slot, stack);
     }
 
     @Deprecated
