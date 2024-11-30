@@ -10,7 +10,7 @@ public class CompatProperties {
     public static final DirectionProperty FACING = new DirectionProperty(Properties.FACING);
     public static final DirectionProperty HORIZONTAL_FACING = new DirectionProperty(Properties.HORIZONTAL_FACING);
     public static final DirectionProperty HOPPER_FACING = new DirectionProperty(Properties.HOPPER_FACING);
-    public static final DirectionProperty VERTICAL_DIRECTION = new DirectionProperty(Properties.VERTICAL_DIRECTION);
+    public static final DirectionProperty VERTICAL_DIRECTION = DirectionProperty.of("vertical_direction", (dir) -> dir == Direction.UP || dir == Direction.DOWN);
 
     public static final BooleanProperty POWERED = new BooleanProperty(Properties.POWERED);
     public static final BooleanProperty ENABLED = new BooleanProperty(Properties.ENABLED);
@@ -110,7 +110,6 @@ public class CompatProperties {
         if (property == Properties.FACING) return FACING;
         if (property == Properties.HORIZONTAL_FACING) return HORIZONTAL_FACING;
         if (property == Properties.HOPPER_FACING) return HOPPER_FACING;
-        if (property == Properties.VERTICAL_DIRECTION) return VERTICAL_DIRECTION;
 
         return new DirectionProperty(property);
     }
