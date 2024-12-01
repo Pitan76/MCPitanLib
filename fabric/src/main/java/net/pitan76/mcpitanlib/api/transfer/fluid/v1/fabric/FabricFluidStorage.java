@@ -3,9 +3,11 @@ package net.pitan76.mcpitanlib.api.transfer.fluid.v1.fabric;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
+import net.pitan76.mcpitanlib.api.extra.transfer.util.FluidStorageUtil;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidStorage;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
 
+@SuppressWarnings({"removal", "UnstableApiUsage"})
 public class FabricFluidStorage implements IFluidStorage {
 
     public final SingleFluidStorage storage;
@@ -31,7 +33,7 @@ public class FabricFluidStorage implements IFluidStorage {
 
     @Override
     public void setResource(IFluidVariant variant) {
-        storage.variant = ((FabricFluidVariant) variant).raw;
+        storage.fluidVariant = ((FabricFluidVariant) variant).raw;
     }
 
     @Override
@@ -67,12 +69,12 @@ public class FabricFluidStorage implements IFluidStorage {
 
     @Override
     public void writeNbt(WriteNbtArgs args) {
-        storage.writeNbt(args.nbt);
+        FluidStorageUtil.writeNbt(storage, args);
     }
 
     @Override
     public void readNbt(WriteNbtArgs args) {
-        storage.readNbt(args.nbt);
+        FluidStorageUtil.readNbt(storage, args);
 
     }
 }

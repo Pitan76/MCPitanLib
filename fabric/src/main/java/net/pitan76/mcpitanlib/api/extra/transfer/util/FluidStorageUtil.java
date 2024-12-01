@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 
-@SuppressWarnings("removal")
+@SuppressWarnings({"removal", "UnstableApiUsage"})
 public class FluidStorageUtil {
     public static SingleFluidStorage withFixedCapacity(long capacity, Runnable onChange) {
         return new SingleFluidStorage() {
@@ -35,11 +35,11 @@ public class FluidStorageUtil {
     }
 
     public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.readNbt(nbt);
+        readNbt(storage, new NbtRWArgs(nbt, registryLookup));
     }
 
     public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.writeNbt(nbt);
+        writeNbt(storage, new NbtRWArgs(nbt, registryLookup));
     }
 
     /**

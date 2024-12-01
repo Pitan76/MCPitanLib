@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.transfer.fluid.v1.fabric;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.minecraft.fluid.Fluid;
+import net.pitan76.mcpitanlib.api.extra.transfer.util.FluidStorageUtil;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidStorage;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
 
 public class FluidStorageUtilImpl {
     public static IFluidStorage withFixedCapacity(long capacity, Runnable onChange) {
-        return new FabricFluidStorage(SingleFluidStorage.withFixedCapacity(capacity, onChange));
+        return new FabricFluidStorage(FluidStorageUtil.withFixedCapacity(capacity, onChange));
     }
 
     public static IFluidVariant getVariant(Fluid fluid) {
