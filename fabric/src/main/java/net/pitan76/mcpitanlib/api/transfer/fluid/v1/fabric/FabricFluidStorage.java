@@ -67,12 +67,12 @@ public class FabricFluidStorage implements IFluidStorage {
 
     @Override
     public void writeNbt(WriteNbtArgs args) {
-        storage.writeNbt(args.nbt, args.getWrapperLookup());
+        storage.writeNbt(args.nbt);
     }
 
     @Override
     public void readNbt(WriteNbtArgs args) {
-        storage.readNbt(args.nbt, args.getWrapperLookup());
+        storage.readNbt(args.nbt);
 
     }
 }
