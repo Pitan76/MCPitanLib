@@ -27,8 +27,9 @@ public class ServerPlayerUtil {
     }
 
     public static boolean teleport(ServerPlayerEntity serverPlayerEntity, ServerWorld serverWorld, double x, double y, double z) {
-        return teleport(serverPlayerEntity, serverWorld, x, y, z, serverPlayerEntity.getYaw(), serverPlayerEntity.getPitch());
+        return teleport(serverPlayerEntity, serverWorld, x, y, z, serverPlayerEntity.getYaw(1.0F), serverPlayerEntity.getPitch(1.0F));
     }
+
     public static boolean teleport(ServerPlayerEntity serverPlayerEntity, net.pitan76.mcpitanlib.midohra.world.ServerWorld serverWorld, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
         return teleport(serverPlayerEntity, serverWorld.getRaw(), x, y, z, yaw, pitch, resetCamera);
     }
@@ -38,7 +39,7 @@ public class ServerPlayerUtil {
     }
 
     public static boolean teleport(ServerPlayerEntity serverPlayerEntity, net.pitan76.mcpitanlib.midohra.world.ServerWorld serverWorld, double x, double y, double z) {
-        return teleport(serverPlayerEntity, serverWorld, x, y, z, serverPlayerEntity.getYaw(), serverPlayerEntity.getPitch());
+        return teleport(serverPlayerEntity, serverWorld, x, y, z, serverPlayerEntity.getYaw(1.0F), serverPlayerEntity.getPitch(1.0F));
     }
 
     public static boolean teleport(Player player, net.pitan76.mcpitanlib.midohra.world.ServerWorld serverWorld, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
