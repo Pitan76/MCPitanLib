@@ -79,7 +79,7 @@ public class CompatibleItemSettings {
         return this;
     }
 
-    public Item.Settings build() {
+    public ExtendSettings build() {
         if (itemGroupId != null) {
             RegistrySupplier<ItemGroup> itemGroup = MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(itemGroupId);
             settings.arch$tab(itemGroup);
