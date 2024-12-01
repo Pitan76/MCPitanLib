@@ -90,7 +90,7 @@ public class CompatibleItemSettings {
             settings.arch$tab(itemGroup);
         }
 
-        if (_itemId != null) {
+        if (_itemId != null && !(this instanceof net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings)) {
             settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, _itemId));
         }
 
