@@ -7,6 +7,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 
 @SuppressWarnings("removal")
 public class FluidStorageUtil {
@@ -31,6 +32,14 @@ public class FluidStorageUtil {
 
     public static void writeNbt(SingleFluidStorage storage, NbtRWArgs args) {
         args.nbt.copyFrom(storage.fluidVariant.getNbt());
+    }
+
+    public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
+        storage.readNbt(nbt, registryLookup.getRegistryLookup());
+    }
+
+    public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
+        storage.writeNbt(nbt, registryLookup.getRegistryLookup());
     }
 
     /**
