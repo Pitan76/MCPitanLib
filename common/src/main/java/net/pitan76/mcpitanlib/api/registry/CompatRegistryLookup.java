@@ -16,10 +16,10 @@ public class CompatRegistryLookup {
     }
 
     public WriteNbtArgs createWriteNbtArgs(NbtCompound nbt) {
-        return new WriteNbtArgs(nbt, registryLookup);
+        return new WriteNbtArgs(nbt);
     }
 
     public ReadNbtArgs createReadNbtArgs(NbtCompound nbt) {
-        return new ReadNbtArgs(nbt, registryLookup);
+        return new ReadNbtArgs(nbt);
     }
 }
