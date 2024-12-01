@@ -4,7 +4,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -91,8 +90,13 @@ public class World extends WorldAccess {
     }
 
     public Optional<World> getWorld(CompatIdentifier id) {
-        Optional<ServerWorld> optional = WorldUtil.getWorld(getRaw(), id);
+        Optional<net.minecraft.server.world.ServerWorld> optional = WorldUtil.getWorld(getRaw(), id);
         return optional.map(World::of);
+    }
+
+    public Optional<ServerWorld> getServerWorld(CompatIdentifier id) {
+        Optional<net.minecraft.server.world.ServerWorld> optional = WorldUtil.getWorld(getRaw(), id);
+        return optional.map(ServerWorld::of);
     }
 
     public void spawnEntity(Entity entity) {
@@ -137,5 +141,12 @@ public class World extends WorldAccess {
     @Override
     public void playSound(BlockPos pos, CompatSoundEvent soundEvent, CompatSoundCategory category, float volume, float pitch) {
         playSound(null, pos, soundEvent, category, volume, pitch);
+    }
+
+    public Optional<ServerWorld> toServerWorld() {
+        if (getRaw() instanceof net.minecraft.server.world.ServerWorld) {
+            return Optional.of(ServerWorld.of((net.minecraft.server.world.ServerWorld) getRaw()));
+        }
+        return Optional.empty();
     }
 }
