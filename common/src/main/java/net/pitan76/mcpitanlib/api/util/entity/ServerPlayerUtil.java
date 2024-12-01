@@ -1,22 +1,24 @@
 package net.pitan76.mcpitanlib.api.util.entity;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 
-import java.util.Collections;
 import java.util.Optional;
 
 public class ServerPlayerUtil {
     public static boolean teleport(ServerPlayerEntity serverPlayerEntity, ServerWorld serverWorld, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
-        if (resetCamera) {
-            serverPlayerEntity.stopRiding();
-            serverPlayerEntity.setCameraEntity(serverPlayerEntity);
+        if (!resetCamera) {
+            Entity cameraEntity = serverPlayerEntity.getCameraEntity();
+            teleport(serverPlayerEntity, serverWorld, x, y, z, yaw, pitch);
+            serverPlayerEntity.setCameraEntity(cameraEntity);
         }
 
-        return serverPlayerEntity.teleport(serverWorld, x, y, z, Collections.emptySet(), yaw, pitch);
+        teleport(serverPlayerEntity, serverWorld, x, y, z, yaw, pitch);
+        return true;
     }
 
     public static boolean teleport(ServerPlayerEntity serverPlayerEntity, ServerWorld serverWorld, double x, double y, double z, float yaw, float pitch) {
