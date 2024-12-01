@@ -47,13 +47,13 @@ public class CompatBlockEntity extends BlockEntity {
     }
 
     public NbtCompound toInitialChunkDataNbt(CompatRegistryLookup registryLookup) {
-        return super.toInitialChunkDataNbt(registryLookup.getRegistryLookup());
+        return super.toInitialChunkDataNbt();
     }
 
     @Deprecated
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        return toInitialChunkDataNbt(new CompatRegistryLookup(registries));
+    public NbtCompound toInitialChunkDataNbt() {
+        return toInitialChunkDataNbt(new CompatRegistryLookup());
     }
 
     // deprecated

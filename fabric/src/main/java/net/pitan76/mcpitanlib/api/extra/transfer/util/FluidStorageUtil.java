@@ -34,11 +34,11 @@ public class FluidStorageUtil {
     }
 
     public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.readNbt(nbt, registryLookup.getRegistryLookup());
+        storage.readNbt(nbt);
     }
 
     public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.writeNbt(nbt, registryLookup.getRegistryLookup());
+        storage.writeNbt(nbt);
     }
 
     /**
