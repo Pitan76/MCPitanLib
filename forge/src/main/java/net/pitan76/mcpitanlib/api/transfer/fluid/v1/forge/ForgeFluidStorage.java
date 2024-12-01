@@ -1,18 +1,19 @@
-package net.pitan76.mcpitanlib.api.transfer.fluid.v1.neoforge;
+package net.pitan76.mcpitanlib.api.transfer.fluid.v1.forge;
 
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidStorage;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
 
-public class NeoForgeFluidStorage implements IFluidStorage {
+public class ForgeFluidStorage implements IFluidStorage {
 
     public final FluidTank storage;
 
     public Runnable onChange;
 
-    public NeoForgeFluidStorage(FluidTank storage, Runnable onChange) {
+    public ForgeFluidStorage(FluidTank storage, Runnable onChange) {
         this.storage = storage;
         this.onChange = onChange;
     }
@@ -29,12 +30,12 @@ public class NeoForgeFluidStorage implements IFluidStorage {
 
     @Override
     public IFluidVariant getResource() {
-        return new NeoForgeFluidVariant(storage.getFluid());
+        return new ForgeFluidVariant(storage.getFluid());
     }
 
     @Override
     public void setResource(IFluidVariant variant) {
-        storage.setFluid(((NeoForgeFluidVariant) variant).raw);
+        storage.setFluid(((ForgeFluidVariant) variant).raw);
     }
 
     @Override
@@ -44,20 +45,26 @@ public class NeoForgeFluidStorage implements IFluidStorage {
 
     @Override
     public long insert(IFluidVariant variant, long maxAmount, boolean simulate) {
-        if (simulate)
-            return storage.fill(((NeoForgeFluidVariant) variant).raw.copyWithAmount((int) maxAmount), IFluidHandler.FluidAction.SIMULATE);
+        FluidStack stack = ((ForgeFluidVariant) variant).raw.copy();
+        stack.setAmount((int) maxAmount);
+        if (simulate) {
+            return storage.fill(stack, IFluidHandler.FluidAction.SIMULATE);
+        }
 
         onChange.run();
-        return storage.fill(((NeoForgeFluidVariant) variant).raw.copyWithAmount((int) maxAmount), IFluidHandler.FluidAction.EXECUTE);
+        return storage.fill(stack, IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override
     public long extract(IFluidVariant variant, long maxAmount, boolean simulate) {
-        if (simulate)
-            return storage.drain(((NeoForgeFluidVariant) variant).raw.copyWithAmount((int) maxAmount), IFluidHandler.FluidAction.SIMULATE).getAmount();
+        FluidStack stack = ((ForgeFluidVariant) variant).raw.copy();
+        stack.setAmount((int) maxAmount);
+        if (simulate) {
+            return storage.drain(stack, IFluidHandler.FluidAction.SIMULATE).getAmount();
+        }
 
         onChange.run();
-        return storage.drain(((NeoForgeFluidVariant) variant).raw.copyWithAmount((int) maxAmount), IFluidHandler.FluidAction.EXECUTE).getAmount();
+        return storage.drain(stack, IFluidHandler.FluidAction.EXECUTE).getAmount();
     }
 
     @Override

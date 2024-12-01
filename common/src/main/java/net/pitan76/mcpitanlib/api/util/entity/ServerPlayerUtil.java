@@ -74,7 +74,7 @@ public class ServerPlayerUtil {
     }
 
     public static void playSound(ServerPlayerEntity serverPlayerEntity, CompatSoundEvent soundEvent, CompatSoundCategory category, float volume, float pitch) {
-        serverPlayerEntity.playSoundToPlayer(soundEvent.get(), category.get(), volume, pitch);
+        serverPlayerEntity.playSound(soundEvent.get(), category.get(), volume, pitch);
     }
 
     public static void playSound(ServerPlayerEntity serverPlayerEntity, CompatSoundEvent soundEvent, float volume, float pitch) {
@@ -82,7 +82,7 @@ public class ServerPlayerUtil {
     }
 
     public static void playSound(ServerPlayerEntity serverPlayerEntity, CompatSoundEvent soundEvent) {
-        serverPlayerEntity.playSound(soundEvent.get());
+        serverPlayerEntity.playSound(soundEvent.get(), 1.0F, 1.0F);
     }
 
     public static void playSound(Player player, CompatSoundEvent soundEvent, CompatSoundCategory category, float volume, float pitch) {
