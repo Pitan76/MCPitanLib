@@ -11,7 +11,12 @@ import java.util.Optional;
 
 public class ServerPlayerUtil {
     public static boolean teleport(ServerPlayerEntity serverPlayerEntity, ServerWorld serverWorld, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
-        return serverPlayerEntity.teleport(serverWorld, x, y, z, PositionFlag.VALUES, yaw, pitch, resetCamera);
+        if (resetCamera) {
+            serverPlayerEntity.stopRiding();
+            serverPlayerEntity.setCameraEntity(serverPlayerEntity);
+        }
+
+        return serverPlayerEntity.teleport(serverWorld, x, y, z, PositionFlag.VALUES, yaw, pitch);
     }
 
     public static boolean teleport(ServerPlayerEntity serverPlayerEntity, ServerWorld serverWorld, double x, double y, double z, float yaw, float pitch) {
