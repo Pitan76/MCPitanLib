@@ -74,7 +74,7 @@ public class CompatibleItemSettings {
         return this;
     }
 
-    public Item.Settings build() {
+    public ExtendSettings build() {
         if (itemGroupId != null) {
             if (CreativeTabBuilder.itemGroupBuilderMap.containsKey(itemGroupId)) {
                 CreativeTabBuilder itemGroupBuilder = CreativeTabBuilder.itemGroupBuilderMap.get(itemGroupId);
