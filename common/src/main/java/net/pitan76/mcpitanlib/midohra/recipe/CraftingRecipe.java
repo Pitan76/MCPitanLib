@@ -43,6 +43,14 @@ public class CraftingRecipe extends Recipe {
         return ItemStack.of(craft(input, world));
     }
 
+    public net.minecraft.item.ItemStack craft(CraftingRecipeInputOrInventory input, CompatRegistryLookup registryLookup) {
+        return getRaw().craft(input.getRaw(), registryLookup.getRegistryLookup());
+    }
+
+    public net.minecraft.item.ItemStack craft(CraftingRecipeInputOrInventory input, net.minecraft.world.World world) {
+        return getRaw().craft(input.getRaw(), world.getRegistryManager());
+    }
+
     public DefaultedList<net.minecraft.item.ItemStack> getRecipeRemaindersDefaultedList(CraftingRecipeInputOrInventory input) {
         return getRaw().getRemainder(input.getRaw());
     }
