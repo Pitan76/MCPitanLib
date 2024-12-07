@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.recipe;
 
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
@@ -35,7 +37,11 @@ public class ShapedRecipe extends CraftingRecipe {
     }
 
     public net.minecraft.item.ItemStack craft(CompatRegistryLookup registryLookup) {
-        return getRaw().craft(null, registryLookup.getRegistryLookup());
+        if (registryLookup instanceof DynamicRegistryManager)
+            return getRaw().craft(null, (DynamicRegistryManager) registryLookup.getRegistryLookup());
+
+        DynamicRegistryManager manager = DynamicRegistryManager.of(Registries.REGISTRIES);
+        return getRaw().craft(null, manager);
     }
 
     public net.minecraft.item.ItemStack craft(World world) {
