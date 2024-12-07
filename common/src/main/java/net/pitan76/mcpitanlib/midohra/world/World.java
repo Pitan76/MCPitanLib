@@ -7,9 +7,11 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.RegistryLookupUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.recipe.RecipeManager;
@@ -148,5 +150,9 @@ public class World extends WorldAccess {
             return Optional.of(ServerWorld.of((net.minecraft.server.world.ServerWorld) getRaw()));
         }
         return Optional.empty();
+    }
+
+    public CompatRegistryLookup getRegistryLookup() {
+        return RegistryLookupUtil.getRegistryLookup(getRaw());
     }
 }
