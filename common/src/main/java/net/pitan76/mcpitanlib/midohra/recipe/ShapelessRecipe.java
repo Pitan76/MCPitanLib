@@ -36,7 +36,6 @@ public class ShapelessRecipe extends CraftingRecipe {
 
     public net.minecraft.item.ItemStack craft(CompatRegistryLookup registryLookup) {
         return craft();
-
     }
 
     public net.minecraft.item.ItemStack craft(World world) {
