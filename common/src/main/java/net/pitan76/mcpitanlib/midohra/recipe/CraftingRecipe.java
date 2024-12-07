@@ -1,6 +1,8 @@
 package net.pitan76.mcpitanlib.midohra.recipe;
 
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
@@ -45,7 +47,11 @@ public class CraftingRecipe extends Recipe {
     }
 
     public net.minecraft.item.ItemStack craft(CraftingRecipeInputOrInventory input, CompatRegistryLookup registryLookup) {
-        return getRaw().craft(input.getRaw(), registryLookup.getRegistryLookup());
+        if (registryLookup instanceof DynamicRegistryManager)
+            return getRaw().craft(input.getRaw(), (DynamicRegistryManager) registryLookup.getRegistryLookup());
+
+        DynamicRegistryManager manager = DynamicRegistryManager.of(Registries.REGISTRIES);
+        return getRaw().craft(input.getRaw(), manager);
     }
 
     public net.minecraft.item.ItemStack craft(CraftingRecipeInputOrInventory input, net.minecraft.world.World world) {
