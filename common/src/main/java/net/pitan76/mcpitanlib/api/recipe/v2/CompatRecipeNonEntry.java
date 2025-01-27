@@ -5,6 +5,7 @@ import net.minecraft.recipe.Recipe;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 
+@Deprecated
 public class CompatRecipeNonEntry<T extends Inventory> extends CompatRecipeEntry<T> {
     public CompatRecipeNonEntry(Recipe<T> recipe) {
         super(CompatIdentifier.EMPTY, "", RecipeUtil.CompatibilityCraftingRecipeCategory.MISC, recipe);
