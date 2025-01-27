@@ -15,14 +15,24 @@ import java.util.List;
 
 public class RecipeUtil {
     public static Collection<Recipe<?>> getMCRecipes(World world) {
+        Collection<Recipe<?>> recipes = new ArrayList<>();
+
+        for (net.minecraft.recipe.RecipeEntry<?> entry : getMCRecipeEntries(world)) {
+            recipes.add(entry.value());
+        }
+
+        return recipes;
+    }
+
+    public static Collection<net.minecraft.recipe.RecipeEntry<?>> getMCRecipeEntries(World world) {
         return world.getRecipeManager().values();
     }
 
     public static Collection<CompatRecipe> getRecipes(World world) {
         List<CompatRecipe> recipes = new ArrayList<>();
 
-        for (Recipe<?> recipe : getMCRecipes(world)) {
-            recipes.add(new CompatRecipe(recipe, recipe.getId()));
+        for (net.minecraft.recipe.RecipeEntry<?> entry : getMCRecipeEntries(world)) {
+            recipes.add(new CompatRecipe(entry));
         }
 
         return recipes;
@@ -31,9 +41,9 @@ public class RecipeUtil {
     public static Collection<CompatRecipe> getRecipesByType(World world, RecipeType<?> type) {
         List<CompatRecipe> recipes = new ArrayList<>();
 
-        for (Recipe<?> recipe : getMCRecipes(world)) {
-            if (recipe.getType() == type) {
-                recipes.add(new CompatRecipe(recipe, recipe.getId()));
+        for (net.minecraft.recipe.RecipeEntry<?> entry : getMCRecipeEntries(world)) {
+            if (entry.value().getType() == type) {
+                recipes.add(new CompatRecipe(entry));
             }
         }
 
@@ -52,8 +62,8 @@ public class RecipeUtil {
     public static Collection<RecipeEntry> getRecipeEntries(net.pitan76.mcpitanlib.midohra.world.World world) {
         List<RecipeEntry> entries = new ArrayList<>();
 
-        for (Recipe<?> recipe : getMCRecipes(world.getRaw())) {
-            entries.add(RecipeEntry.of(recipe, CompatIdentifier.fromMinecraft(recipe.getId())));
+        for (net.minecraft.recipe.RecipeEntry<?> entry : getMCRecipeEntries(world.getRaw())) {
+            entries.add(RecipeEntry.of(entry.value(), CompatIdentifier.fromMinecraft(entry.id())));
         }
 
         return entries;
@@ -74,9 +84,9 @@ public class RecipeUtil {
     public static Collection<CraftingRecipeEntry> getCraftingRecipeEntries(net.pitan76.mcpitanlib.midohra.world.World world) {
         List<CraftingRecipeEntry> entries = new ArrayList<>();
 
-        for (Recipe<?> recipe : getMCRecipes(world.getRaw())) {
-            if (recipe instanceof net.minecraft.recipe.CraftingRecipe) {
-                entries.add(CraftingRecipeEntry.of((net.minecraft.recipe.CraftingRecipe) recipe, CompatIdentifier.fromMinecraft(recipe.getId())));
+        for (net.minecraft.recipe.RecipeEntry<?> entry : getMCRecipeEntries(world.getRaw())) {
+            if (entry.value() instanceof net.minecraft.recipe.CraftingRecipe) {
+                entries.add(CraftingRecipeEntry.of((net.minecraft.recipe.CraftingRecipe) entry.value(), CompatIdentifier.fromMinecraft(entry.id())));
             }
         }
 
