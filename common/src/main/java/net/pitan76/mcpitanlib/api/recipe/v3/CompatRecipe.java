@@ -6,6 +6,7 @@ import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
 import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import net.pitan76.mcpitanlib.midohra.recipe.entry.RecipeEntry;
 
 public class CompatRecipe {
@@ -18,9 +19,14 @@ public class CompatRecipe {
     }
 
     @Deprecated
+    public CompatRecipe(net.minecraft.recipe.RecipeEntry<?> entry) {
+        this(entry.value(), entry.id());
+    }
+
+    @Deprecated
     public CompatRecipe(Recipe<?> recipe) {
         this.recipe = recipe;
-        this.id = recipe.getId();
+        this.id = RecipeUtil.getId(recipe);
     }
 
     public boolean isNull() {
@@ -53,7 +59,7 @@ public class CompatRecipe {
 
     @Deprecated
     public CompatibleRecipeEntry getCompatibleRecipeEntry() {
-        return new CompatibleRecipeEntry(getRecipe());
+        return new CompatibleRecipeEntry(new net.minecraft.recipe.RecipeEntry<Recipe<?>>(getId(), getRecipe()));
     }
 
     // MidohraAPI
