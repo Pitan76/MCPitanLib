@@ -59,4 +59,16 @@ public class CraftingRecipe extends Recipe {
     public ItemStackList getRecipeRemainders(CraftingRecipeInputOrInventory input) {
         return ItemStackList.of(getRecipeRemaindersDefaultedList(input));
     }
+
+    public net.minecraft.item.ItemStack getOutput(CraftingRecipeInputOrInventory input, net.minecraft.world.World world) {
+        return getRaw().getOutput();
+    }
+
+    public net.minecraft.item.ItemStack getOutput(CraftingRecipeInputOrInventory input, World world) {
+        return getOutput(input, world.getRaw());
+    }
+
+    public ItemStack getOutputMidohra(CraftingRecipeInputOrInventory input, World world) {
+        return ItemStack.of(getOutput(input, world));
+    }
 }

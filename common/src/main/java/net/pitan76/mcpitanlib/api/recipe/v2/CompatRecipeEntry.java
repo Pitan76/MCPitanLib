@@ -6,6 +6,7 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 public class CompatRecipeEntry<T extends Recipe<?>> {
     private final RecipeEntry<T> entry;
 
