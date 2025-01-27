@@ -8,6 +8,7 @@ import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
 
 import java.util.Optional;
 
+@Deprecated
 public interface MatchGetter<I extends Inventory, T extends Recipe<I>> {
     Optional<CompatRecipeEntry<T>> getFirstMatch(CompatRecipeInput<I> input, World world);
 }
