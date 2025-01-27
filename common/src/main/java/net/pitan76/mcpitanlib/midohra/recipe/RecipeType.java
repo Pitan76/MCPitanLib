@@ -7,13 +7,13 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 public class RecipeType {
     private final net.minecraft.recipe.RecipeType<?> recipeType;
 
-    public static RecipeType CRAFTING = new RecipeType(net.minecraft.recipe.RecipeType.CRAFTING);
-    public static RecipeType SMELTING = new RecipeType(net.minecraft.recipe.RecipeType.SMELTING);
-    public static RecipeType BLASTING = new RecipeType(net.minecraft.recipe.RecipeType.BLASTING);
-    public static RecipeType SMOKING = new RecipeType(net.minecraft.recipe.RecipeType.SMOKING);
-    public static RecipeType CAMPFIRE_COOKING = new RecipeType(net.minecraft.recipe.RecipeType.CAMPFIRE_COOKING);
-    public static RecipeType STONECUTTING = new RecipeType(net.minecraft.recipe.RecipeType.STONECUTTING);
-    public static RecipeType SMITHING = new RecipeType(net.minecraft.recipe.RecipeType.SMITHING);
+    public static final RecipeType CRAFTING = new RecipeType(net.minecraft.recipe.RecipeType.CRAFTING);
+    public static final RecipeType SMELTING = new RecipeType(net.minecraft.recipe.RecipeType.SMELTING);
+    public static final RecipeType BLASTING = new RecipeType(net.minecraft.recipe.RecipeType.BLASTING);
+    public static final RecipeType SMOKING = new RecipeType(net.minecraft.recipe.RecipeType.SMOKING);
+    public static final RecipeType CAMPFIRE_COOKING = new RecipeType(net.minecraft.recipe.RecipeType.CAMPFIRE_COOKING);
+    public static final RecipeType STONECUTTING = new RecipeType(net.minecraft.recipe.RecipeType.STONECUTTING);
+    public static final RecipeType SMITHING = new RecipeType(net.minecraft.recipe.RecipeType.SMITHING);
 
     protected RecipeType(net.minecraft.recipe.RecipeType<?> recipeType) {
         this.recipeType = recipeType;
