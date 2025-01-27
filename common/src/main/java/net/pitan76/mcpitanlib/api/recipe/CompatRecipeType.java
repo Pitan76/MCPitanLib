@@ -5,6 +5,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
+@Deprecated
 public class CompatRecipeType<T extends Recipe<?>> {
     public static final CompatRecipeType<CraftingRecipe> CRAFTING = new CompatRecipeType<>(RecipeType.CRAFTING);
     public static final CompatRecipeType<SmeltingRecipe> SMELTING = new CompatRecipeType<>(RecipeType.SMELTING);
@@ -48,5 +49,9 @@ public class CompatRecipeType<T extends Recipe<?>> {
 
     public static <T extends Recipe<?>> CompatRecipeType<T> of(RecipeType<T> type) {
         return new CompatRecipeType<>(type);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.recipe.RecipeType toMidohra() {
+        return net.pitan76.mcpitanlib.midohra.recipe.RecipeType.of(type);
     }
 }
