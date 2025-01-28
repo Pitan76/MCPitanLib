@@ -61,7 +61,7 @@ public class CraftingRecipe extends Recipe {
     }
 
     public net.minecraft.item.ItemStack getOutput(CraftingRecipeInputOrInventory input, net.minecraft.world.World world) {
-        return getRaw().getResult(world.getRegistryManager());
+        return craft(input, world);
     }
 
     public net.minecraft.item.ItemStack getOutput(CraftingRecipeInputOrInventory input, World world) {

@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.api.recipe.v3;
 
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
 import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
@@ -20,7 +22,7 @@ public class CompatRecipe {
 
     @Deprecated
     public CompatRecipe(net.minecraft.recipe.RecipeEntry<?> entry) {
-        this(entry.value(), entry.id());
+        this(entry.value(), entry.id().getValue());
     }
 
     @Deprecated
@@ -59,7 +61,7 @@ public class CompatRecipe {
 
     @Deprecated
     public CompatibleRecipeEntry getCompatibleRecipeEntry() {
-        return new CompatibleRecipeEntry(new net.minecraft.recipe.RecipeEntry<Recipe<?>>(getId(), getRecipe()));
+        return new CompatibleRecipeEntry(new net.minecraft.recipe.RecipeEntry<Recipe<?>>(RegistryKey.of(RegistryKeys.RECIPE, getId()), getRecipe()));
     }
 
     // MidohraAPI

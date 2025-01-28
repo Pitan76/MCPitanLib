@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.util.recipe;
 
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.recipe.v3.CompatRecipe;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -25,7 +26,12 @@ public class RecipeUtil {
     }
 
     public static Collection<net.minecraft.recipe.RecipeEntry<?>> getMCRecipeEntries(World world) {
-        return world.getRecipeManager().values();
+        if (world.getRecipeManager() instanceof ServerRecipeManager) {
+            return ((ServerRecipeManager) world.getRecipeManager()).values();
+        }
+
+        // Client is not supported... TODO: Implement client support for 1.21.3~
+        return new ArrayList<>();
     }
 
     public static Collection<CompatRecipe> getRecipes(World world) {
@@ -63,7 +69,7 @@ public class RecipeUtil {
         List<RecipeEntry> entries = new ArrayList<>();
 
         for (net.minecraft.recipe.RecipeEntry<?> entry : getMCRecipeEntries(world.getRaw())) {
-            entries.add(RecipeEntry.of(entry.value(), CompatIdentifier.fromMinecraft(entry.id())));
+            entries.add(RecipeEntry.of(entry.value(), CompatIdentifier.fromMinecraft(entry.id().getValue())));
         }
 
         return entries;
@@ -86,7 +92,7 @@ public class RecipeUtil {
 
         for (net.minecraft.recipe.RecipeEntry<?> entry : getMCRecipeEntries(world.getRaw())) {
             if (entry.value() instanceof net.minecraft.recipe.CraftingRecipe) {
-                entries.add(CraftingRecipeEntry.of((net.minecraft.recipe.CraftingRecipe) entry.value(), CompatIdentifier.fromMinecraft(entry.id())));
+                entries.add(CraftingRecipeEntry.of((net.minecraft.recipe.CraftingRecipe) entry.value(), CompatIdentifier.fromMinecraft(entry.id().getValue())));
             }
         }
 
