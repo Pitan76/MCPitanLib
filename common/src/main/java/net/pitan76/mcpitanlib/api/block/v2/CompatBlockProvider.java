@@ -47,7 +47,7 @@ public interface CompatBlockProvider extends ExtendBlockProvider {
 
     default void setDefaultState(BlockState state) {
         if (this instanceof Block) {
-            ((BlockInvoker) this).setDefaultState(state.toMinecraft());
+            ((BlockInvoker) this).setDefaultState_invoke(state.toMinecraft());
         }
     }
 
