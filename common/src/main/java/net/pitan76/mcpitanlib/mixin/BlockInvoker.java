@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(Block.class)
 public interface BlockInvoker {
     @Invoker("setDefaultState")
-    void setDefaultState(BlockState state);
+    void setDefaultState_invoke(BlockState state);
 }
