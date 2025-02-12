@@ -22,4 +22,11 @@ public class IdentifierUtil {
     public static String getPath(Identifier identifier) {
         return identifier.getPath();
     }
+
+    public static Identifier from(CompatIdentifier id) {
+        if (id == null)
+            return null;
+
+        return id.toMinecraft();
+    }
 }
