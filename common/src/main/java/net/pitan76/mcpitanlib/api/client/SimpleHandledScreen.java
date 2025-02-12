@@ -20,6 +20,7 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.*;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
@@ -253,7 +254,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public Identifier getBackgroundTexture() {
-        return getCompatBackgroundTexture().toMinecraft();
+        return IdentifierUtil.from(getCompatBackgroundTexture());
     }
 
     public CompatIdentifier getCompatBackgroundTexture() {
