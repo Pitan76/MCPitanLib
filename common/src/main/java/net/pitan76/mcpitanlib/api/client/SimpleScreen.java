@@ -16,6 +16,7 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.KeyEventArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
 public abstract class SimpleScreen extends Screen {
@@ -184,7 +185,7 @@ public abstract class SimpleScreen extends Screen {
     }
 
     public Identifier getBackgroundTexture() {
-        return getCompatBackgroundTexture().toMinecraft();
+        return IdentifierUtil.from(getCompatBackgroundTexture());
     }
 
     public CompatIdentifier getCompatBackgroundTexture() {
