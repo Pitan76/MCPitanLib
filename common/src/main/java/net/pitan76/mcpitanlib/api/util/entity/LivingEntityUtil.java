@@ -23,7 +23,7 @@ public class LivingEntityUtil extends EntityUtil {
         entity.removeStatusEffect(effect.getEntry(world));
     }
 
-    public List<CompatStatusEffectInstance> getStatusEffects(LivingEntity entity) {
+    public static List<CompatStatusEffectInstance> getStatusEffects(LivingEntity entity) {
         List<CompatStatusEffectInstance> compatEffects = new ArrayList<>();
 
         for (StatusEffectInstance effect : entity.getStatusEffects()) {
@@ -31,5 +31,17 @@ public class LivingEntityUtil extends EntityUtil {
         }
 
         return compatEffects;
+    }
+
+    public static float getHealth(LivingEntity entity) {
+        return entity.getHealth();
+    }
+
+    public static void setHealth(LivingEntity entity, float health) {
+        entity.setHealth(health);
+    }
+
+    public static float getMaxHealth(LivingEntity entity) {
+        return entity.getMaxHealth();
     }
 }

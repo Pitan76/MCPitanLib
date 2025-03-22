@@ -8,10 +8,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class ItemStackUtil {
     public static ItemStack copy(ItemStack stack) {
@@ -115,6 +117,13 @@ public class ItemStackUtil {
 
     public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity) {
         stack.damage(amount, entity.getServerWorld(), entity, (item) -> entity.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
+    }
+
+    public static void damage(ItemStack stack, int amount, Player entity) {
+        Optional<ServerPlayerEntity> player = entity.getServerPlayer();
+        if (player.isEmpty()) return;
+
+        damage(stack, amount, player.get());
     }
 
     public static ItemStack empty() {
