@@ -1,7 +1,8 @@
 package net.pitan76.mcpitanlib.api.text;
 
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class TextConverter {
      */
     public static MutableText convert(String text, boolean translatable) {
         String[] splits = split(text);
-        MutableText result = Text.literal("");
+        MutableText result = new LiteralText("");
         Formatting[] currentFormatting = {};
 
         for (String part : splits) {
@@ -56,12 +57,12 @@ public class TextConverter {
                 Matcher matcher = pattern.matcher(part);
                 if (matcher.find()) {
                     String key = matcher.group(1);
-                    result.append(Text.translatable(key).formatted(currentFormatting));
+                    result.append(new TranslatableText(key).formatted(currentFormatting));
                     continue;
                 }
             }
 
-            result.append(Text.literal(part).formatted(currentFormatting));
+            result.append(new LiteralText(part).formatted(currentFormatting));
         }
 
         return result;
