@@ -351,4 +351,8 @@ public class WorldUtil {
     public static void playSound(net.pitan76.mcpitanlib.midohra.world.World world, @Nullable Player player, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch) {
         playSound(world.getRaw(), player, pos.toMinecraft(), sound, category, volume, pitch);
     }
+
+    public static void dropStackOnBlock(World world, BlockPos pos, ItemStack stack) {
+        Block.dropStack(world, pos, stack);
+    }
 }

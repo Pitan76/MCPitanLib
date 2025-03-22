@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -82,5 +83,9 @@ public class BlockEntityUtil {
         NbtCompound nbt = NbtUtil.create();
         writeNbt(blockEntity, nbt, registryLookup);
         return nbt;
+    }
+
+    public static void setStackNbt(BlockEntity blockEntity, ItemStack stack, CompatRegistryLookup registryLookup) {
+        blockEntity.setStackNbt(stack, registryLookup.getRegistryLookup());
     }
 }

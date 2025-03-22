@@ -492,4 +492,12 @@ public class Player {
     public Hand getActiveHand() {
         return getEntity().getActiveHand();
     }
+
+    public float getBlockBreakingSpeed(BlockState state) {
+        return getEntity().getBlockBreakingSpeed(state);
+    }
+
+    public boolean canHarvest(BlockState state) {
+        return getEntity().canHarvest(state);
+    }
 }

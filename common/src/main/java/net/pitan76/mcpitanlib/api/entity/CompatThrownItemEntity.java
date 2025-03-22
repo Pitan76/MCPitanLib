@@ -92,7 +92,7 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity {
     @Deprecated
     @Override
     public void initDataTracker() {
-        initDataTracker(new InitDataTrackerArgs());
+        initDataTracker(new InitDataTrackerArgs(dataTracker));
     }
 
     public void initDataTracker(InitDataTrackerArgs args) {
