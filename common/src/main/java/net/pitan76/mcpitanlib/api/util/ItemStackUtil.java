@@ -127,7 +127,7 @@ public class ItemStackUtil {
 
     public static void damage(ItemStack stack, int amount, Player entity) {
         Optional<ServerPlayerEntity> player = entity.getServerPlayer();
-        if (player.isEmpty()) return;
+        if (!player.isPresent()) return;
 
         damage(stack, amount, player.get());
     }

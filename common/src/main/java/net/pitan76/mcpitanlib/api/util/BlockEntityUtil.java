@@ -86,6 +86,6 @@ public class BlockEntityUtil {
     }
 
     public static void setStackNbt(BlockEntity blockEntity, ItemStack stack, CompatRegistryLookup registryLookup) {
-        blockEntity.setStackNbt(stack);
+        blockEntity.writeNbt(stack.getTag());
     }
 }
