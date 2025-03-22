@@ -89,4 +89,22 @@ public class TextComponent {
 
         return this;
     }
+
+    /**
+     * Convert string to TextComponent with formatting
+     * @param text String
+     * @return TextComponent
+     */
+    public static TextComponent convert(String text) {
+        return new TextComponent(TextUtil.convert(text));
+    }
+
+    /**
+     * Convert string to TextComponent with translatable
+     * @param text String
+     * @return TextComponent
+     */
+    public static TextComponent convertWithTranslatable(String text) {
+        return new TextComponent(TextUtil.convertWithTranslatable(text));
+    }
 }
