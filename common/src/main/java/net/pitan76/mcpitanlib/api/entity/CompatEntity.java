@@ -18,7 +18,7 @@ public class CompatEntity extends Entity {
     @Deprecated
     @Override
     public void initDataTracker() {
-        initDataTracker(new InitDataTrackerArgs());
+        initDataTracker(new InitDataTrackerArgs(dataTracker));
     }
 
     public void initDataTracker(InitDataTrackerArgs args) {
