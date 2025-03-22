@@ -64,6 +64,18 @@ public class CommandRegistry {
                                         if (command instanceof IntegerCommand) {
                                             event = new IntegerCommandEvent();
                                         }
+                                        if (command instanceof DoubleCommand) {
+                                            event = new DoubleCommandEvent();
+                                        }
+                                        if (command instanceof FloatCommand) {
+                                            event = new FloatCommandEvent();
+                                        }
+                                        if (command instanceof LongCommand) {
+                                            event = new LongCommandEvent();
+                                        }
+                                        if (command instanceof BooleanCommand) {
+                                            event = new BooleanCommandEvent();
+                                        }
                                         if (command instanceof StringCommand) {
                                             event = new StringCommandEvent();
                                         }
@@ -81,6 +93,9 @@ public class CommandRegistry {
                                         }
                                         if (command instanceof ItemCommand) {
                                             event = new ItemCommandEvent();
+                                        }
+                                        if (command instanceof BlockCommand) {
+                                            event = new BlockCommandEvent();
                                         }
 
                                         event.setContext(context);

@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.text.*;
+import net.pitan76.mcpitanlib.api.text.TextConverter;
 
 public class TextUtil {
     public static MutableText literal(String string) {
@@ -58,5 +59,13 @@ public class TextUtil {
 
     public static MutableText of(String string) {
         return literal(string);
+    }
+
+    public static MutableText convert(String text) {
+        return TextConverter.convert(text, false);
+    }
+
+    public static MutableText convertWithTranslatable(String text) {
+        return TextConverter.convert(text, true);
     }
 }

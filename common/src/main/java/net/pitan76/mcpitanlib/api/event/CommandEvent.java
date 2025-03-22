@@ -31,4 +31,8 @@ public class CommandEvent<T> {
     public AbstractCommand<?> getCommand() {
         return command;
     }
+
+    public <V> V getArgument(String name, Class<V> clazz) {
+        return context.getArgument(name, clazz);
+    }
 }
