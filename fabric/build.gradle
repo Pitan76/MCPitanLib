@@ -86,7 +86,6 @@ publishing {
             version = info.mod_version
             from components.java
         }
-
     }
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
