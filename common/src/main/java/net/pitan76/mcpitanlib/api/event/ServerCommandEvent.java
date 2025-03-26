@@ -23,8 +23,12 @@ public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
         this.context = context;
     }
 
+    public ServerCommandSource getSource() {
+        return getContext().getSource();
+    }
+
     public PlayerEntity getPlayerEntity() throws CommandSyntaxException {
-        return context.getSource().getPlayer();
+        return getSource().getPlayer();
     }
 
     public Player getPlayer() throws CommandSyntaxException {
@@ -32,54 +36,82 @@ public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
     }
 
     public World getWorld() {
-        return context.getSource().getWorld();
+        return getSource().getWorld();
     }
 
     public Entity getEntity() {
-        return context.getSource().getEntity();
+        return getSource().getEntity();
     }
 
     public String getInput() {
-        return context.getInput();
+        return getContext().getInput();
     }
 
     public Command<ServerCommandSource> getContextCommand() {
-        return context.getCommand();
+        return getContext().getCommand();
     }
 
     public CommandContext<ServerCommandSource> getChild() {
-        return context.getChild();
+        return getContext().getChild();
     }
 
     public CommandContext<ServerCommandSource> getLastChild() {
-        return context.getLastChild();
+        return getContext().getLastChild();
     }
 
     public StringRange getRange() {
-        return context.getRange();
+        return getContext().getRange();
     }
 
+    // Text
     public void sendSuccess(Text message, boolean broadcastToOps) {
-        context.getSource().sendFeedback(message, broadcastToOps);
+        getSource().sendFeedback(message, broadcastToOps);
     }
 
     public void sendFailure(Text message) {
-        context.getSource().sendError(message);
+        getSource().sendError(message);
     }
 
     public void sendSuccess(Text message) {
         sendSuccess(message, false);
     }
 
+    // String (Formatted)
     public void sendSuccess(String message, boolean broadcastToOps) {
-        sendSuccess(TextUtil.literal(message), broadcastToOps);
+        sendSuccess(TextUtil.convert(message), broadcastToOps);
     }
 
     public void sendSuccess(String message) {
-        sendSuccess(TextUtil.literal(message));
+        sendSuccess(message, false);
     }
 
     public void sendFailure(String message) {
+        sendFailure(TextUtil.convert(message));
+    }
+
+    // Translatable
+    public void sendSuccessWithTranslatable(String message, boolean broadcastToOps) {
+        sendSuccess(TextUtil.convertWithTranslatable(message), broadcastToOps);
+    }
+
+    public void sendSuccessWithTranslatable(String message) {
+        sendSuccessWithTranslatable(message, false);
+    }
+
+    public void sendFailureWithTranslatable(String message) {
+        sendFailure(TextUtil.convertWithTranslatable(message));
+    }
+
+    // Raw
+    public void sendSuccessRaw(String message, boolean broadcastToOps) {
+        sendSuccess(TextUtil.literal(message), broadcastToOps);
+    }
+
+    public void sendSuccessRaw(String message) {
+        sendSuccessRaw(message, false);
+    }
+
+    public void sendFailureRaw(String message) {
         sendFailure(TextUtil.literal(message));
     }
 
