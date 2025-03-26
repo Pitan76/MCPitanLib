@@ -17,11 +17,11 @@ public class CommandEvent<T> {
     }
 
     public String getInput() {
-        return context.getInput();
+        return getContext().getInput();
     }
 
     public StringRange getRange() {
-        return context.getRange();
+        return getContext().getRange();
     }
 
     public void setCommand(AbstractCommand<?> command) {
@@ -33,6 +33,6 @@ public class CommandEvent<T> {
     }
 
     public <V> V getArgument(String name, Class<V> clazz) {
-        return context.getArgument(name, clazz);
+        return getContext().getArgument(name, clazz);
     }
 }
