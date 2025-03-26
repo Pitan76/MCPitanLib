@@ -9,16 +9,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
 import net.pitan76.mcpitanlib.api.block.args.RotateArgs;
 import net.pitan76.mcpitanlib.api.block.args.SideInvisibleArgs;
-import net.pitan76.mcpitanlib.api.block.args.v2.CollisionShapeEvent;
-import net.pitan76.mcpitanlib.api.block.args.v2.OutlineShapeEvent;
-import net.pitan76.mcpitanlib.api.block.args.v2.PlacementStateArgs;
-import net.pitan76.mcpitanlib.api.block.args.v2.StateForNeighborUpdateArgs;
+import net.pitan76.mcpitanlib.api.block.args.v2.*;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,5 +142,25 @@ public class CompatBlock extends ExtendBlock {
     @Override
     public VoxelShape getCollisionShape(net.pitan76.mcpitanlib.api.event.block.CollisionShapeEvent e) {
         return super.getCollisionShape(e);
+    }
+
+    @Deprecated
+    @Override
+    public boolean hasComparatorOutput(BlockState state) {
+        return hasComparatorOutput(new HasComparatorOutputArgs(state));
+    }
+
+    public boolean hasComparatorOutput(HasComparatorOutputArgs args) {
+        return super.hasComparatorOutput(args.state);
+    }
+
+    @Deprecated
+    @Override
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        return getComparatorOutput(new GetComparatorOutputArgs(state, world, pos));
+    }
+
+    public int getComparatorOutput(GetComparatorOutputArgs args) {
+        return super.getComparatorOutput(args.state, args.world, args.pos);
     }
 }
