@@ -6,6 +6,7 @@ import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +30,7 @@ public class TextConverter {
 
         for (String part : splits) {
             // Section
-            if (part.startsWith("§")) {
+            if (part.startsWith("§") && part.length() == 2) {
                 char code = part.charAt(1);
                 // Reset
                 if (code == 'r') {
@@ -37,16 +38,20 @@ public class TextConverter {
                     continue;
                 }
 
+                Formatting format = Formatting.byCode(code);
+                if (format == null)
+                    continue;
+
                 // Bold, Italic, Underline, Strikethrough, Obfuscated
                 if (code >= 'k' && code <= 'o') {
                     ArrayList<Formatting> list = new ArrayList<>(Arrays.asList(currentFormatting));
-                    list.add(Formatting.byCode(code));
+                    list.add(format);
                     currentFormatting = list.toArray(new Formatting[0]);
                     continue;
                 }
 
                 // Color
-                currentFormatting = new Formatting[]{Formatting.byCode(code)};
+                currentFormatting = new Formatting[]{format};
                 continue;
             }
 
@@ -54,11 +59,29 @@ public class TextConverter {
             if (translatable) {
                 Pattern pattern = Pattern.compile("\\{(.+?)\\}");
                 Matcher matcher = pattern.matcher(part);
-                if (matcher.find()) {
+                MutableText tempText = Text.literal("");
+                int lastIndex = 0;
+
+                while (matcher.find()) {
+                    // {translatable key} より前の文字列を追加
+                    if (matcher.start() > lastIndex) {
+                        tempText.append(Text.literal(part.substring(lastIndex, matcher.start())).formatted(currentFormatting));
+                    }
+
+                    // {translatable key} を追加
                     String key = matcher.group(1);
-                    result.append(Text.translatable(key).formatted(currentFormatting));
-                    continue;
+                    tempText.append(Text.translatable(key).formatted(currentFormatting));
+
+                    lastIndex = matcher.end();
                 }
+
+                // 最後の文字列を追加
+                if (lastIndex < part.length()) {
+                    tempText.append(Text.literal(part.substring(lastIndex)).formatted(currentFormatting));
+                }
+
+                result.append(tempText);
+                continue;
             }
 
             result.append(Text.literal(part).formatted(currentFormatting));
@@ -68,12 +91,12 @@ public class TextConverter {
     }
 
     public static String[] split(String text) {
-        Matcher matcher = Pattern.compile("((?i)§[0-9a-fk-or])|([^§]+)").matcher(text);
-        StringBuilder sb = new StringBuilder();
+        Matcher matcher = Pattern.compile("(?i)§[0-9a-fk-or]|[^§]+").matcher(text);
+        List<String> parts = new ArrayList<>();
 
         while (matcher.find())
-            sb.append(matcher.group()).append("\0"); // 区切り文字としてヌル文字を使う
+            parts.add(matcher.group());
 
-        return sb.toString().split("\0"); // ヌル文字で分割
+        return parts.toArray(new String[0]);
     }
 }
