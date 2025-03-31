@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.10-SNAPSHOT" apply false
     id 'com.matthewprenger.cursegradle' version '1.+'
     id "com.modrinth.minotaur" version "2.+"
 }
@@ -19,10 +19,22 @@ def loadProperties(filename) {
 
 ext.info = loadProperties("$rootDir/info.properties")
 
+allprojects {
+    version = info.mod_version + "-" + rootProject.minecraft_version
+    group = info.maven_group
+}
+
 subprojects {
+    apply plugin: "architectury-plugin"
     apply plugin: "dev.architectury.loom"
+    apply plugin: "maven-publish"
     apply plugin: "com.modrinth.minotaur"
     apply plugin: "com.matthewprenger.cursegradle"
+
+    base {
+        // Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
+        archivesBaseName = info.archives_base_name
+    }
 
     loom {
         silentMojangMappingsLicense()
@@ -112,24 +124,6 @@ subprojects {
                 }
             }
         }
-    }
-}
-
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
-
-    archivesBaseName = info.archives_base_name
-    version = info.mod_version + "-" + rootProject.minecraft_version
-    group = info.maven_group
-
-    repositories {
-        // Add repositories to retrieve artifacts from in here.
-        // You should only use this when depending on other mods because
-        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-        // for more information about repositories.
     }
 
     tasks.withType(JavaCompile).configureEach {
