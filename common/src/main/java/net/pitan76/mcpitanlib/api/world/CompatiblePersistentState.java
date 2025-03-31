@@ -31,4 +31,24 @@ public abstract class CompatiblePersistentState extends PersistentState {
     }
 
     public abstract NbtCompound writeNbt(WriteNbtArgs args);
+
+    @Deprecated
+    @Override
+    public void markDirty() {
+        callMarkDirty();
+    }
+
+    public void callMarkDirty() {
+        super.markDirty();
+    }
+
+    @Deprecated
+    @Override
+    public void setDirty(boolean dirty) {
+        callSetDirty(dirty);
+    }
+
+    public void callSetDirty(boolean dirty) {
+        super.setDirty(dirty);
+    }
 }
