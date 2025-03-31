@@ -7,12 +7,15 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -103,6 +106,42 @@ public class CompatBlockEntity extends BlockEntity {
             return false;
 
         return WorldUtil.isClient(getWorld());
+    }
+
+    @Deprecated
+    @Override
+    public @Nullable World getWorld() {
+        return callGetWorld();
+    }
+
+    @Deprecated
+    @Override
+    public BlockPos getPos() {
+        return callGetPos();
+    }
+
+    public World callGetWorld() {
+        return super.getWorld();
+    }
+
+    public BlockPos callGetPos() {
+        return super.getPos();
+    }
+
+    public BlockState callGetBlockState() {
+        return BlockEntityUtil.getBlockState(this);
+    }
+
+    public BlockState callGetCachedState() {
+        return BlockEntityUtil.getCachedState(this);
+    }
+
+    public boolean hasServerWorld() {
+        return callGetWorld() instanceof ServerWorld;
+    }
+
+    public ServerWorld getServerWorld() {
+        return BlockEntityUtil.getServerWorld(this);
     }
 
 }
