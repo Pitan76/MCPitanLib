@@ -43,6 +43,7 @@ dependencies {
     include("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
 
     include("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
+    include("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
 }
 
 processResources {
