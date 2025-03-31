@@ -5,6 +5,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
@@ -70,8 +73,29 @@ public class CompatEntity extends Entity {
         readNbt(new ReadNbtArgs(nbt));
     }
 
+    @Deprecated
     @Override
     public World getWorld() {
+        return callGetWorld();
+    }
+
+    public World callGetWorld() {
         return super.getWorld();
+    }
+
+    public BlockPos callGetBlockPos() {
+        return getBlockPos();
+    }
+
+    public Vec3d callGetPos() {
+        return getPos();
+    }
+
+    public boolean hasServerWorld() {
+        return callGetWorld() instanceof ServerWorld;
+    }
+
+    public ServerWorld getServerWorld() {
+        return (ServerWorld) getWorld();
     }
 }
