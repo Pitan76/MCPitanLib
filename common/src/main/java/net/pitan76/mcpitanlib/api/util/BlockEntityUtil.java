@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
@@ -84,5 +85,9 @@ public class BlockEntityUtil {
 
     public static void setStackNbt(BlockEntity blockEntity, ItemStack stack, CompatRegistryLookup registryLookup) {
         blockEntity.setStackNbt(stack);
+    }
+
+    public static ServerWorld getServerWorld(BlockEntity blockEntity) {
+        return (ServerWorld) getWorld(blockEntity);
     }
 }
