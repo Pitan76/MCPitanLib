@@ -18,11 +18,18 @@ public class PickStackEvent {
     public BlockPos pos;
     public BlockState state;
 
+    public boolean includeData = true;
 
     public PickStackEvent(WorldView world, BlockPos pos, BlockState state) {
+        this.worldView = world;
+        this.pos = pos;
+        this.state = state;
     }
 
     public PickStackEvent(BlockView world, BlockPos pos, BlockState state) {
+        this.blockView = world;
+        this.pos = pos;
+        this.state = state;
     }
 
     public BlockState getState() {
@@ -74,5 +81,13 @@ public class PickStackEvent {
         } catch (Error e) {
             return false;
         }
+    }
+
+    public void setIncludeData(boolean includeData) {
+        this.includeData = includeData;
+    }
+
+    public boolean isIncludeData() {
+        return includeData;
     }
 }
