@@ -14,7 +14,6 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class IngredientUtil {
     public static Ingredient fromTagByIdentifier(Identifier id) {
@@ -41,7 +40,7 @@ public class IngredientUtil {
     public static List<Item> getItems(Ingredient ingredient) {
         List<Item> items = new ArrayList<>();
 
-        for (RegistryEntry<Item> entry : ingredient.getMatchingItems().toList()) {
+        for (RegistryEntry<Item> entry : ingredient.getMatchingItems()) {
             items.add(entry.value());
         }
 

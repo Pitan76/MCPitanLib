@@ -12,6 +12,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider.Options;
 import net.pitan76.mcpitanlib.api.event.block.*;
@@ -77,6 +78,18 @@ public class BlockMixin {
             BlockBreakResult returnValue = provider.onBreak(new BlockBreakEvent(world, pos, state, player), options);
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue.getState());
+        }
+    }
+
+    @Inject(method = "getPickStack", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getPickStack(WorldView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
+        // ExtendBlockProviderを実装している場合
+        if (this instanceof ExtendBlockProvider) {
+            ExtendBlockProvider provider = (ExtendBlockProvider) this;
+            Options options = new Options();
+            ItemStack returnValue = provider.getPickStack(new PickStackEvent(world, pos, state), options);
+            if (options.cancel && returnValue != null)
+                cir.setReturnValue(returnValue);
         }
     }
 

@@ -2,10 +2,8 @@ package net.pitan76.mcpitanlib.api.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.equipment.ArmorMaterial;
-import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
@@ -50,7 +48,7 @@ public interface CompatibleArmorMaterial {
 
     @Deprecated
     default ArmorMaterial build() {
-        return new ArmorMaterial(0, getDefense(), getEnchantability(), RegistryEntry.of(getEquipSound()), getToughness(), getKnockbackResistance(), getRepairTag(), RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, getId()));
+        return new ArmorMaterial(0, getDefense(), getEnchantability(), RegistryEntry.of(getEquipSound()), getToughness(), getKnockbackResistance(), getRepairTag(), getId());
     }
 
     default EnumMap<EquipmentType, Integer> getDefense() {

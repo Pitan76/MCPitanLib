@@ -17,7 +17,6 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider.Options;
 import net.pitan76.mcpitanlib.api.event.block.*;
@@ -82,7 +81,7 @@ public class AbstractBlockMixin {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
             NamedScreenHandlerFactory returnValue = new SimpleNamedScreenHandlerFactory((syncId, inventory, player) ->
-                provider.createScreenHandler(new ScreenHandlerCreateEvent(state, world, pos, syncId, inventory, player), options), provider.getScreenTitle());
+                    provider.createScreenHandler(new ScreenHandlerCreateEvent(state, world, pos, syncId, inventory, player), options), provider.getScreenTitle());
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
@@ -116,22 +115,6 @@ public class AbstractBlockMixin {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
             Boolean returnValue = provider.canPathfindThrough(new CanPathfindThroughArgs(state, type), options);
-            if (options.cancel && returnValue != null)
-                cir.setReturnValue(returnValue);
-        }
-    }
-
-    @Inject(method = "getPickStack", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData, CallbackInfoReturnable<ItemStack> cir) {
-        // ExtendBlockProviderを実装している場合 (1.21.5からAbstractBlockに移転)
-        if (this instanceof ExtendBlockProvider) {
-            ExtendBlockProvider provider = (ExtendBlockProvider) this;
-            Options options = new Options();
-
-            PickStackEvent event = new PickStackEvent(world, pos, state);
-            event.setIncludeData(includeData);
-
-            ItemStack returnValue = provider.getPickStack(event, options);
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }

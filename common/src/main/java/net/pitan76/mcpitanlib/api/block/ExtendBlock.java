@@ -185,9 +185,8 @@ public class ExtendBlock extends Block {
 
     @Override
     @Deprecated
-    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         PickStackEvent event = new PickStackEvent(world, pos, state);
-        event.setIncludeData(includeData);
         return getPickStack(event);
     }
 
@@ -197,7 +196,7 @@ public class ExtendBlock extends Block {
      * @return ItemStack
      */
     public ItemStack getPickStack(PickStackEvent event) {
-        return super.getPickStack(event.worldView, event.pos, event.state, event.includeData);
+        return super.getPickStack(event.worldView, event.pos, event.state);
     }
 
     @Override

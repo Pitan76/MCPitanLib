@@ -84,7 +84,7 @@ public class BlockEntityUtil {
     }
 
     public static void setStackNbt(BlockEntity blockEntity, ItemStack stack, CompatRegistryLookup registryLookup) {
-        blockEntity.readComponents(stack);
+        blockEntity.setStackNbt(stack, registryLookup.getRegistryLookup());
     }
 
     public static ServerWorld getServerWorld(BlockEntity blockEntity) {

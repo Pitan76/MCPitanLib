@@ -15,7 +15,6 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
-import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ParticleFactory;
@@ -27,7 +26,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.LoadedEntityModels;
+import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
@@ -128,7 +127,7 @@ public class CompatRegistryClient {
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
         BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer()
+                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
 
@@ -139,16 +138,14 @@ public class CompatRegistryClient {
         class Context {
             private final BlockEntityRenderDispatcher renderDispatcher;
             private final BlockRenderManager renderManager;
-            private final ItemModelManager itemModelManager;
             private final ItemRenderer itemRenderer;
             private final EntityRenderDispatcher entityRenderDispatcher;
-            private final LoadedEntityModels layerRenderDispatcher;
+            private final EntityModelLoader layerRenderDispatcher;
             private final TextRenderer textRenderer;
 
-            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemModelManager itemModelManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, LoadedEntityModels layerRenderDispatcher, TextRenderer textRenderer) {
+            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, EntityModelLoader layerRenderDispatcher, TextRenderer textRenderer) {
                 this.renderDispatcher = renderDispatcher;
                 this.renderManager = renderManager;
-                this.itemModelManager = itemModelManager;
                 this.itemRenderer = itemRenderer;
                 this.entityRenderDispatcher = entityRenderDispatcher;
                 this.layerRenderDispatcher = layerRenderDispatcher;
@@ -167,15 +164,11 @@ public class CompatRegistryClient {
                 return this.entityRenderDispatcher;
             }
 
-            public ItemModelManager getItemModelManager() {
-                return itemModelManager;
-            }
-
             public ItemRenderer getItemRenderer() {
                 return this.itemRenderer;
             }
 
-            public LoadedEntityModels getLayerRenderDispatcher() {
+            public EntityModelLoader getLayerRenderDispatcher() {
                 return this.layerRenderDispatcher;
             }
 
@@ -204,7 +197,7 @@ public class CompatRegistryClient {
 
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
         BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer()
+                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
 }
