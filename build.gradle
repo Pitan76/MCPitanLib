@@ -79,6 +79,7 @@ subprojects {
                         requiredDependency 'architectury-api'
                         embeddedLibrary 'cloth-config'
                         embeddedLibrary 'compatdatapacks'
+                        embeddedLibrary 'legacyitemmodels'
                     }
 
                     mainArtifact(tasks.remapJar)
@@ -107,6 +108,7 @@ subprojects {
                     required.project "architectury-api"
                     embedded.project "cloth-config"
                     embedded.project "compatdatapacks"
+                    embedded.project "legacyitemmodels"
                 }
             }
         }
