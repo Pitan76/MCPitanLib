@@ -44,11 +44,11 @@ public class ExtendEntity extends Entity {
 
     // 互換性用 (NbtTag型をOverrideすること)
     public void writeNbt(NbtTag nbt) {
-        super.writeNbt(nbt);
+        super.writeNbt(nbt.nbt);
     }
 
     public void readNbt(NbtTag nbt) {
-        super.readNbt(nbt);
+        super.readNbt(nbt.nbt);
     }
 
     // 1.18

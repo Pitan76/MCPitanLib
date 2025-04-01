@@ -10,45 +10,37 @@ public class ChunkTicketType<T> {
 
     public static final ChunkTicketType<Unit> START = of(net.minecraft.server.world.ChunkTicketType.START);
     public static final ChunkTicketType<Unit> DRAGON = of(net.minecraft.server.world.ChunkTicketType.DRAGON);
-    public static final ChunkTicketType<ChunkPos> PLAYER = of(net.minecraft.server.world.ChunkTicketType.PLAYER);
+    public static final ChunkTicketType<ChunkPos> PLAYER = of(net.minecraft.server.world.ChunkTicketType.PLAYER_SIMULATION);
     public static final ChunkTicketType<ChunkPos> FORCED = of(net.minecraft.server.world.ChunkTicketType.FORCED);
     public static final ChunkTicketType<BlockPos> PORTAL = of(net.minecraft.server.world.ChunkTicketType.PORTAL);
     public static final ChunkTicketType<ChunkPos> ENDER_PEARL = of(net.minecraft.server.world.ChunkTicketType.ENDER_PEARL);
-    public static final ChunkTicketType<Integer> POST_TELEPORT = of(net.minecraft.server.world.ChunkTicketType.create("mpl_post_teleport", Comparator.comparingInt(Integer::intValue)));
+    public static final ChunkTicketType<Integer> POST_TELEPORT = of(net.minecraft.server.world.ChunkTicketType.PORTAL);
     public static final ChunkTicketType<ChunkPos> UNKNOWN = of(net.minecraft.server.world.ChunkTicketType.UNKNOWN);
 
-    private final net.minecraft.server.world.ChunkTicketType<T> ticketType;
+    private final net.minecraft.server.world.ChunkTicketType ticketType;
 
-    protected ChunkTicketType(net.minecraft.server.world.ChunkTicketType<T> ticketType) {
+    protected ChunkTicketType(net.minecraft.server.world.ChunkTicketType ticketType) {
         this.ticketType = ticketType;
     }
 
-    public static <T> ChunkTicketType<T> of(net.minecraft.server.world.ChunkTicketType<T> ticketType) {
+    public static <T> ChunkTicketType<T> of(net.minecraft.server.world.ChunkTicketType ticketType) {
         return new ChunkTicketType<>(ticketType);
     }
 
-    public net.minecraft.server.world.ChunkTicketType<T> getRaw() {
+    public net.minecraft.server.world.ChunkTicketType getRaw() {
         return ticketType;
     }
 
-    public net.minecraft.server.world.ChunkTicketType<T> toMinecraft() {
+    public net.minecraft.server.world.ChunkTicketType toMinecraft() {
         return getRaw();
     }
 
-    public static <T> ChunkTicketType<T> create(String name, Comparator<T> argumentComparator) {
-        return of(net.minecraft.server.world.ChunkTicketType.create(name, argumentComparator));
-    }
-
-    public static <T> ChunkTicketType<T> create(String name, Comparator<T> argumentComparator, int expiryTicks) {
-        return of(net.minecraft.server.world.ChunkTicketType.create(name, argumentComparator, expiryTicks));
-    }
-
     public Comparator<T> getArgumentComparator() {
-        return getRaw().getArgumentComparator();
+        return null;
     }
 
     public long getExpiryTicks() {
-        return getRaw().getExpiryTicks();
+        return getRaw().expiryTicks();
     }
 
     @Override

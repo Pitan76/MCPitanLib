@@ -11,11 +11,11 @@ public class PlayerInventoryUtil {
     }
 
     public static int getSelectedSlot(PlayerInventory playerInventory) {
-        return playerInventory.selectedSlot;
+        return playerInventory.getSelectedSlot();
     }
 
     public static void setSelectedSlot(PlayerInventory playerInventory, int slot) {
-        playerInventory.selectedSlot = slot;
+        playerInventory.setSelectedSlot(slot);
     }
 
     public static void dropAllItems(PlayerInventory inv) {
@@ -23,18 +23,25 @@ public class PlayerInventoryUtil {
     }
 
     public static DefaultedList<ItemStack> getMain(PlayerInventory inv) {
-        return inv.main;
+        return inv.getMainStacks();
     }
 
     public static DefaultedList<ItemStack> getArmor(PlayerInventory inv) {
-        return inv.armor;
+        DefaultedList<ItemStack> stacks = DefaultedList.ofSize(4, ItemStack.EMPTY);
+        stacks.set(0, inv.getStack(36));
+        stacks.set(1, inv.getStack(37));
+        stacks.set(2, inv.getStack(38));
+        stacks.set(3, inv.getStack(39));
+        return stacks;
     }
 
     public static DefaultedList<ItemStack> getOffHand(PlayerInventory inv) {
-        return inv.offHand;
+        DefaultedList<ItemStack> stacks = DefaultedList.ofSize(1, ItemStack.EMPTY);
+        stacks.set(0, inv.getStack(PlayerInventory.OFF_HAND_SLOT));
+        return stacks;
     }
 
     public static ItemStack getMainHandStack(PlayerInventory inv) {
-        return inv.getMainHandStack();
+        return inv.player.getMainHandStack();
     }
 }

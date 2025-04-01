@@ -103,16 +103,4 @@ public class BlockMixin {
                 cir.setReturnValue(returnValue);
         }
     }
-
-    @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type, CallbackInfo ci) {
-        // ExtendBlockProviderを実装している場合
-        if (this instanceof ExtendBlockProvider) {
-            ExtendBlockProvider provider = (ExtendBlockProvider) this;
-            Options options = new Options();
-            provider.appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context), options);
-            if (options.cancel)
-                ci.cancel();
-        }
-    }
 }

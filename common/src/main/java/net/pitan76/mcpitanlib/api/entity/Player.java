@@ -33,7 +33,6 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
-import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -82,7 +81,12 @@ public class Player {
      * @return DefaultedList<ItemStack>
      */
     public DefaultedList<ItemStack> getArmor() {
-        return getInv().armor;
+        DefaultedList<ItemStack> stacks = DefaultedList.ofSize(4, ItemStack.EMPTY);
+        stacks.set(0, getInv().getStack(36));
+        stacks.set(1, getInv().getStack(37));
+        stacks.set(2, getInv().getStack(38));
+        stacks.set(3, getInv().getStack(39));
+        return stacks;
     }
 
     /**
@@ -90,7 +94,7 @@ public class Player {
      * @return DefaultedList<ItemStack>
      */
     public DefaultedList<ItemStack> getMain() {
-        return getInv().main;
+        return getInv().getMainStacks();
     }
 
     /**
@@ -98,7 +102,9 @@ public class Player {
      * @return DefaultedList<ItemStack>
      */
     public DefaultedList<ItemStack> getOffHand() {
-        return getInv().offHand;
+        DefaultedList<ItemStack> stacks = DefaultedList.ofSize(1, ItemStack.EMPTY);
+        stacks.set(0, getInv().getStack(PlayerInventory.OFF_HAND_SLOT));
+        return stacks;
     }
 
     /**
@@ -106,7 +112,7 @@ public class Player {
      * @return int
      */
     public int getSelectSlot() {
-        return getInv().selectedSlot;
+        return getInv().getSelectedSlot();
     }
 
     /**

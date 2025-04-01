@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.item.v2;
 
 import net.minecraft.block.Block;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
@@ -13,6 +14,7 @@ import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ExtendBlockItem extends BlockItem implements CompatItemProvider {
 
@@ -52,8 +54,8 @@ public class ExtendBlockItem extends BlockItem implements CompatItemProvider {
 
     @Deprecated
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context));
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        appendTooltip(new ItemAppendTooltipEvent(stack, context, displayComponent, textConsumer, type));
     }
 
     @Deprecated
@@ -63,7 +65,7 @@ public class ExtendBlockItem extends BlockItem implements CompatItemProvider {
     }
 
     public void appendTooltip(ItemAppendTooltipEvent event) {
-        super.appendTooltip(event.getStack(), event.getContext(), event.getTooltip(), event.type);
+        super.appendTooltip(event.getStack(), event.getContext(), event.displayComponent, event.textConsumer, event.type);
     }
 
     @Override

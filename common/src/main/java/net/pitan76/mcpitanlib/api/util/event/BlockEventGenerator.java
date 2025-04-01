@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util.event;
 import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.event.block.BlockBreakEvent;
 import net.pitan76.mcpitanlib.api.event.block.BlockPlacedEvent;
+import net.pitan76.mcpitanlib.api.event.block.ItemScattererUtil;
 import net.pitan76.mcpitanlib.api.event.block.StateReplacedEvent;
 
 public class BlockEventGenerator {
@@ -15,6 +16,6 @@ public class BlockEventGenerator {
     }
 
     public static void onStateReplaced(Block block, StateReplacedEvent e) {
-        block.onStateReplaced(e.state, e.world, e.pos, e.newState, e.moved);
+        ItemScattererUtil.onStateReplaced(e);
     }
 }

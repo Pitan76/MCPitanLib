@@ -6,6 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.block.BlockItemByExtendBlock1215;
+import net.pitan76.mcpitanlib.api.block.ExtendBlock;
+import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 
@@ -47,6 +50,14 @@ public class ItemUtilV1 {
 
     @Deprecated
     public static BlockItem ofBlock(Block block, Item.Settings settings) {
+        if (block instanceof ExtendBlock) {
+            return new BlockItemByExtendBlock1215((ExtendBlock) block, settings);
+        }
+
+        if (block instanceof ExtendBlockProvider) {
+            return new BlockItemByExtendBlock1215((ExtendBlockProvider) block, settings);
+        }
+
         return new BlockItem(block, settings);
     }
 

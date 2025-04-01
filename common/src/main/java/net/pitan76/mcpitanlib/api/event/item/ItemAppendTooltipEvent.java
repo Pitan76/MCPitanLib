@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,15 +11,24 @@ import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.RegistryLookupUtil;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ItemAppendTooltipEvent extends BaseEvent {
     public ItemStack stack;
+
+    @Deprecated
     public World world;
+
+    @Deprecated
     public List<Text> tooltip;
 
     public TooltipType type;
     public Item.TooltipContext context;
+
+    public TooltipDisplayComponent displayComponent;
+    public Consumer<Text> textConsumer;
 
     public ItemAppendTooltipEvent(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipType type, Item.TooltipContext context) {
         this.stack = stack;
@@ -26,6 +36,14 @@ public class ItemAppendTooltipEvent extends BaseEvent {
         this.tooltip = tooltip;
         this.type = type;
         this.context = context;
+    }
+
+    public ItemAppendTooltipEvent(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        this.stack = stack;
+        this.context = context;
+        this.displayComponent = displayComponent;
+        this.textConsumer = textConsumer;
+        this.type = type;
     }
 
     public ItemStack getStack() {
@@ -37,7 +55,7 @@ public class ItemAppendTooltipEvent extends BaseEvent {
     }
 
     public List<Text> getTooltip() {
-        return tooltip;
+        return new ArrayList<>();
     }
 
     public Item.TooltipContext getContext() {
@@ -45,15 +63,17 @@ public class ItemAppendTooltipEvent extends BaseEvent {
     }
 
     public void addTooltip(Text text) {
-        tooltip.add(text);
+        textConsumer.accept(text);
     }
 
     public void addTooltip(List<Text> texts) {
-        tooltip.addAll(texts);
+        for (Text text : texts) {
+            addTooltip(text);
+        }
     }
 
     public boolean removeTooltip(Text text) {
-        return tooltip.remove(text);
+        return false;
     }
 
     public boolean isCreative() {

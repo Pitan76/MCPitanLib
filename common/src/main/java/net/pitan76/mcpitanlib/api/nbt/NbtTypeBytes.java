@@ -16,5 +16,5 @@ public class NbtTypeBytes {
     public static final byte COMPOUND = NbtElement.COMPOUND_TYPE;
     public static final byte INT_ARRAY = NbtElement.INT_ARRAY_TYPE;
     public static final byte LONG_ARRAY = NbtElement.LONG_ARRAY_TYPE;
-    public static final byte NUMBER = NbtElement.NUMBER_TYPE;
+    public static final byte NUMBER = NbtElement.INT_TYPE;
 }

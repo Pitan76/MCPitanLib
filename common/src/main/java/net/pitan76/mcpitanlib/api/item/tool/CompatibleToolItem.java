@@ -23,7 +23,7 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
     }
 
     public CompatibleToolItem(CompatibleToolMaterial material, CompatibleItemSettings settings) {
-        this(material.build().applyToolSettings(settings.build(), null, 0, 0));
+        this(material.build().applyToolSettings(settings.build(), null, 0, 0, 0));
         this.settings = settings;
     }
 
@@ -54,8 +54,8 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
 
     @Deprecated
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return postHit(new PostHitEvent(stack, target, attacker));
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        postHit(new PostHitEvent(stack, target, attacker));
     }
 
     @Deprecated
@@ -70,7 +70,8 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
      * @return boolean
      */
     public boolean postHit(PostHitEvent event) {
-        return super.postHit(event.stack, event.target, event.attacker);
+        super.postHit(event.stack, event.target, event.attacker);
+        return true;
     }
 
     /**

@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.consume.UseAction;
@@ -23,6 +24,7 @@ import net.pitan76.mcpitanlib.core.Dummy;
 import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ExtendItem extends Item {
 
@@ -72,8 +74,8 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context));
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        appendTooltip(new ItemAppendTooltipEvent(stack, context, displayComponent, textConsumer, type));
     }
 
     @Deprecated
@@ -84,8 +86,8 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return postHit(new PostHitEvent(stack, target, attacker));
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        postHit(new PostHitEvent(stack, target, attacker));
     }
 
     @Deprecated
@@ -145,7 +147,7 @@ public class ExtendItem extends Item {
      * @param event ItemAppendTooltipEvent
      */
     public void appendTooltip(ItemAppendTooltipEvent event) {
-        super.appendTooltip(event.stack, event.context, event.tooltip, event.type);
+        super.appendTooltip(event.stack, event.context, event.displayComponent, event.textConsumer, event.type);
     }
 
     /**
@@ -162,7 +164,8 @@ public class ExtendItem extends Item {
      * @return boolean
      */
     public boolean postHit(PostHitEvent event) {
-        return super.postHit(event.stack, event.target, event.attacker);
+        super.postHit(event.stack, event.target, event.attacker);
+        return true;
     }
 
     /**
@@ -249,11 +252,11 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-        return canMine(new CanMineArgs(state, world, pos, miner));
+    public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {
+        return canMine(new CanMineArgs(stack, state, world, pos, user));
     }
 
     public boolean canMine(CanMineArgs args) {
-        return super.canMine(args.state, args.world, args.pos, args.miner.getEntity());
+        return super.canMine(args.stack, args.state, args.world, args.pos, args.entity);
     }
 }

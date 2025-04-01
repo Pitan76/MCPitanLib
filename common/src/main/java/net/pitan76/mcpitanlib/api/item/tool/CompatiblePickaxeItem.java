@@ -2,8 +2,8 @@ package net.pitan76.mcpitanlib.api.item.tool;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -13,17 +13,17 @@ import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 
-public class CompatiblePickaxeItem extends PickaxeItem implements CompatItemProvider {
+public class CompatiblePickaxeItem extends Item implements CompatItemProvider {
 
     public CompatibleItemSettings settings;
 
     public CompatiblePickaxeItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatibleItemSettings settings) {
-        super(material.build(), attackDamage, attackSpeed, settings.build());
+        super(settings.build().pickaxe(material.build(), attackDamage, attackSpeed));
         this.settings = settings;
     }
 
     public CompatiblePickaxeItem(int attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+        super(settings.build().pickaxe(material, attackDamage, attackSpeed));
         this.settings = settings;
     }
 
@@ -54,8 +54,8 @@ public class CompatiblePickaxeItem extends PickaxeItem implements CompatItemProv
 
     @Deprecated
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return postHit(new PostHitEvent(stack, target, attacker));
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        postHit(new PostHitEvent(stack, target, attacker));
     }
 
     @Deprecated
@@ -70,7 +70,8 @@ public class CompatiblePickaxeItem extends PickaxeItem implements CompatItemProv
      * @return boolean
      */
     public boolean postHit(PostHitEvent event) {
-        return super.postHit(event.stack, event.target, event.attacker);
+        super.postHit(event.stack, event.target, event.attacker);
+        return true;
     }
 
     /**

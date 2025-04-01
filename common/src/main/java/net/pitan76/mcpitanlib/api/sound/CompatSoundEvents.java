@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.sound;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.entity.passive.WolfSoundVariants;
 import net.minecraft.sound.SoundEvents;
 
 public class CompatSoundEvents {
@@ -1550,15 +1551,15 @@ public class CompatSoundEvents {
     public static final CompatSoundEvent ITEM_WOLF_ARMOR_CRACK = new CompatSoundEvent(SoundEvents.ITEM_WOLF_ARMOR_CRACK);
     public static final CompatSoundEvent ITEM_WOLF_ARMOR_DAMAGE = new CompatSoundEvent(SoundEvents.ITEM_WOLF_ARMOR_DAMAGE);
     public static final CompatSoundEvent ITEM_WOLF_ARMOR_REPAIR = new CompatSoundEvent(SoundEvents.ITEM_WOLF_ARMOR_REPAIR);
-    public static final CompatSoundEvent ENTITY_WOLF_AMBIENT = new CompatSoundEvent(SoundEvents.ENTITY_WOLF_AMBIENT);
-    public static final CompatSoundEvent ENTITY_WOLF_DEATH = new CompatSoundEvent(SoundEvents.ENTITY_WOLF_DEATH);
-    public static final CompatSoundEvent ENTITY_WOLF_GROWL = new CompatSoundEvent(SoundEvents.ENTITY_WOLF_GROWL);
-    public static final CompatSoundEvent ENTITY_WOLF_HOWL = new CompatSoundEvent(SoundEvents.ENTITY_WOLF_HOWL);
-    public static final CompatSoundEvent ENTITY_WOLF_HURT = new CompatSoundEvent(SoundEvents.ENTITY_WOLF_HURT);
-    public static final CompatSoundEvent ENTITY_WOLF_PANT = new CompatSoundEvent(SoundEvents.ENTITY_WOLF_PANT);
+    public static final CompatSoundEvent ENTITY_WOLF_AMBIENT = new CompatSoundEvent(SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.Type.CLASSIC).ambientSound());
+    public static final CompatSoundEvent ENTITY_WOLF_DEATH = new CompatSoundEvent(SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.Type.CLASSIC).deathSound());
+    public static final CompatSoundEvent ENTITY_WOLF_GROWL = new CompatSoundEvent(SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.Type.CLASSIC).growlSound());
+    public static final CompatSoundEvent ENTITY_WOLF_HOWL = new CompatSoundEvent(SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.Type.CLASSIC).ambientSound());
+    public static final CompatSoundEvent ENTITY_WOLF_HURT = new CompatSoundEvent(SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.Type.CLASSIC).hurtSound());
+    public static final CompatSoundEvent ENTITY_WOLF_PANT = new CompatSoundEvent(SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.Type.CLASSIC).pantSound());
     public static final CompatSoundEvent ENTITY_WOLF_SHAKE = new CompatSoundEvent(SoundEvents.ENTITY_WOLF_SHAKE);
     public static final CompatSoundEvent ENTITY_WOLF_STEP = new CompatSoundEvent(SoundEvents.ENTITY_WOLF_STEP);
-    public static final CompatSoundEvent ENTITY_WOLF_WHINE = new CompatSoundEvent(SoundEvents.ENTITY_WOLF_WHINE);
+    public static final CompatSoundEvent ENTITY_WOLF_WHINE = new CompatSoundEvent(SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.Type.CLASSIC).whineSound());
     public static final CompatSoundEvent BLOCK_WOODEN_DOOR_CLOSE = new CompatSoundEvent(SoundEvents.BLOCK_WOODEN_DOOR_CLOSE);
     public static final CompatSoundEvent BLOCK_WOODEN_DOOR_OPEN = new CompatSoundEvent(SoundEvents.BLOCK_WOODEN_DOOR_OPEN);
     public static final CompatSoundEvent BLOCK_WOODEN_TRAPDOOR_CLOSE = new CompatSoundEvent(SoundEvents.BLOCK_WOODEN_TRAPDOOR_CLOSE);

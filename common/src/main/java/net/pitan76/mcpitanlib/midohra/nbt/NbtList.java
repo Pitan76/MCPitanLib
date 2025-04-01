@@ -79,7 +79,7 @@ public class NbtList extends AbstractList<NbtElement> implements ElementConverti
     }
 
     public String asString() {
-        return nbtList.asString();
+        return nbtList.asString().orElse("");
     }
 
     @Override

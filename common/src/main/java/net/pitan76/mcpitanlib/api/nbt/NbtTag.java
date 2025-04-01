@@ -6,8 +6,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtType;
 
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.scanner.NbtScanner;
+import net.minecraft.nbt.visitor.NbtElementVisitor;
+
+import java.io.DataOutput;
+import java.io.IOException;
+
 @Deprecated
-public class NbtTag extends NbtCompound {
+public class NbtTag {
+    public NbtCompound nbt;
+
     public NbtTag() {
         super();
     }
@@ -56,14 +65,38 @@ public class NbtTag extends NbtCompound {
      * @param nbt NbtTag
      */
     public static void setNbt(ItemStack stack, NbtTag nbt) {
-        stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
+        stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt.nbt));
     }
 
     public boolean contains(String key) {
-        return super.contains(key);
+        return nbt.contains(key);
+    }
+
+    public void write(DataOutput output) throws IOException {
+        nbt.write(output);
+    }
+
+    public byte getType() {
+        return nbt.getType();
     }
 
     public NbtType<NbtCompound> getNbtType() {
-        return super.getNbtType();
+        return nbt.getNbtType();
+    }
+
+    public NbtElement copy() {
+        return nbt.copy();
+    }
+
+    public int getSizeInBytes() {
+        return nbt.getSizeInBytes();
+    }
+
+    public void accept(NbtElementVisitor visitor) {
+        nbt.accept(visitor);
+    }
+
+    public NbtScanner.Result doAccept(NbtScanner visitor) {
+        return nbt.doAccept(visitor);
     }
 }

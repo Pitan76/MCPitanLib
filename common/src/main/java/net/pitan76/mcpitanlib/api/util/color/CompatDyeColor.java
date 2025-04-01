@@ -36,7 +36,7 @@ public class CompatDyeColor implements CompatStringIdentifiable {
     }
 
     public String getName() {
-        return color.getName();
+        return color.name();
     }
 
     @Override

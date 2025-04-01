@@ -89,11 +89,11 @@ public class AbstractBlockMixin {
     }
 
     @Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
+    private void mcpitanlib$inject_onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved, CallbackInfo ci) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
-            provider.onStateReplaced(new StateReplacedEvent(state, world, pos, newState, moved), options);
+            provider.onStateReplaced(new StateReplacedEvent(state, world, pos, world.getBlockState(pos), moved), options);
             if (options.cancel)
                 ci.cancel();
         }
@@ -136,5 +136,4 @@ public class AbstractBlockMixin {
                 cir.setReturnValue(returnValue);
         }
     }
-
 }

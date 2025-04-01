@@ -24,11 +24,13 @@ public abstract class CompatiblePersistentState extends PersistentState {
 
     public abstract void readNbt(ReadNbtArgs args);
 
+    /*
     @Deprecated
     @Override
     public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         return writeNbt(new WriteNbtArgs(nbt, registryLookup));
     }
+    */
 
     public abstract NbtCompound writeNbt(WriteNbtArgs args);
 

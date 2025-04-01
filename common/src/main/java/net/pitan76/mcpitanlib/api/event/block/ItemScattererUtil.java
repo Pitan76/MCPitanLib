@@ -33,7 +33,7 @@ public class ItemScattererUtil {
     }
 
     public static void onStateReplaced(BlockState state, BlockState newState, World world, BlockPos pos) {
-        ItemScatterer.onStateReplaced(state, newState, world, pos);
+        ItemScatterer.onStateReplaced(state, world, pos);
     }
 
     public static void spawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, ItemStack stack) {

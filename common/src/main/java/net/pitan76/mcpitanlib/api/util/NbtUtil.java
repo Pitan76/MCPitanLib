@@ -54,7 +54,7 @@ public class NbtUtil {
      * @return 値
      */
     public static NbtCompound get(NbtCompound nbt, String key) {
-        return nbt.getCompound(key);
+        return nbt.getCompoundOrEmpty(key);
     }
 
     /**
@@ -85,37 +85,37 @@ public class NbtUtil {
      */
     public static <T> T get(NbtCompound nbt, String key, Class<T> clazz) {
         if (clazz == Integer.class) {
-            return (T) Integer.valueOf(nbt.getInt(key));
+            return (T) Integer.valueOf(nbt.getInt(key, 0));
         }
         if (clazz == String.class) {
-            return (T) nbt.getString(key);
+            return (T) nbt.getString(key).orElse("");
         }
         if (clazz == Boolean.class) {
-            return (T) Boolean.valueOf(nbt.getBoolean(key));
+            return (T) Boolean.valueOf(nbt.getBoolean(key, false));
         }
         if (clazz == Float.class) {
-            return (T) Float.valueOf(nbt.getFloat(key));
+            return (T) Float.valueOf(nbt.getFloat(key, 0f));
         }
         if (clazz == Double.class) {
-            return (T) Double.valueOf(nbt.getDouble(key));
+            return (T) Double.valueOf(nbt.getDouble(key, 0d));
         }
         if (clazz == Long.class) {
-            return (T) Long.valueOf(nbt.getLong(key));
+            return (T) Long.valueOf(nbt.getLong(key, 0l));
         }
         if (clazz == NbtCompound.class) {
-            return (T) nbt.getCompound(key);
+            return (T) nbt.getCompoundOrEmpty(key);
         }
         if (clazz == NbtList.class) {
             return (T) nbt.get(key);
         }
         if (clazz == Byte.class) {
-            return (T) Byte.valueOf(nbt.getByte(key));
+            return (T) Byte.valueOf(nbt.getByte(key, (byte) 0));
         }
         if (clazz == Short.class) {
-            return (T) Short.valueOf(nbt.getShort(key));
+            return (T) Short.valueOf(nbt.getShort(key, (short) 0));
         }
         if (clazz == UUID.class) {
-            return (T) nbt.getUuid(key);
+            return (T) UUID.fromString(nbt.getString(key).orElse(""));
         }
         return null;
     }
@@ -168,7 +168,7 @@ public class NbtUtil {
             return;
         }
         if (value instanceof UUID) {
-            nbt.putUuid(key, (UUID) value);
+            nbt.putString(key, value.toString());
             return;
         }
     }
@@ -195,7 +195,7 @@ public class NbtUtil {
      * @return NbtList
      */
     public static NbtList getList(NbtCompound nbt, String key, int type) {
-        return nbt.getList(key, type);
+        return nbt.getListOrEmpty(key);
     }
 
     /**
@@ -203,7 +203,7 @@ public class NbtUtil {
      * @return NbtList
      */
     public static NbtList getNbtCompoundList(NbtCompound nbt, String key) {
-        return nbt.getList(key, NbtElement.COMPOUND_TYPE);
+        return nbt.getListOrEmpty(key);
     }
 
     /**

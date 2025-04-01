@@ -54,8 +54,8 @@ public class CompatibleHoeItem extends HoeItem implements CompatItemProvider {
 
     @Deprecated
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return postHit(new PostHitEvent(stack, target, attacker));
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        postHit(new PostHitEvent(stack, target, attacker));
     }
 
     @Deprecated
@@ -70,7 +70,8 @@ public class CompatibleHoeItem extends HoeItem implements CompatItemProvider {
      * @return boolean
      */
     public boolean postHit(PostHitEvent event) {
-        return super.postHit(event.stack, event.target, event.attacker);
+        super.postHit(event.stack, event.target, event.attacker);
+        return true;
     }
 
     /**

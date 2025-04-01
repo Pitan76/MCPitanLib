@@ -73,7 +73,7 @@ public class CompatBlockSoundGroup {
     public static final CompatBlockSoundGroup AZALEA = of(BlockSoundGroup.AZALEA);
     public static final CompatBlockSoundGroup FLOWERING_AZALEA = of(BlockSoundGroup.FLOWERING_AZALEA);
     public static final CompatBlockSoundGroup MOSS_CARPET = of(BlockSoundGroup.MOSS_CARPET);
-    public static final CompatBlockSoundGroup PINK_PETALS = of(BlockSoundGroup.PINK_PETALS);
+    public static final CompatBlockSoundGroup PINK_PETALS = of(BlockSoundGroup.CHERRY_LEAVES);
     public static final CompatBlockSoundGroup MOSS_BLOCK = of(BlockSoundGroup.MOSS_BLOCK);
     public static final CompatBlockSoundGroup BIG_DRIPLEAF = of(BlockSoundGroup.BIG_DRIPLEAF);
     public static final CompatBlockSoundGroup SMALL_DRIPLEAF = of(BlockSoundGroup.SMALL_DRIPLEAF);

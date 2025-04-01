@@ -1,19 +1,17 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
@@ -44,7 +42,6 @@ import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class ExtendBlock extends Block {
     public CompatibleBlockSettings compatSettings;
@@ -202,8 +199,8 @@ public class ExtendBlock extends Block {
 
     @Override
     @Deprecated
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        onStateReplaced(new StateReplacedEvent(state, world, pos, newState, moved));
+    public void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
+        onStateReplaced(new StateReplacedEvent(state, world, pos, world.getBlockState(pos), moved));
     }
 
     /**
@@ -211,7 +208,7 @@ public class ExtendBlock extends Block {
      * @param event StateReplacedEvent
      */
     public void onStateReplaced(StateReplacedEvent event) {
-        super.onStateReplaced(event.state, event.world, event.pos, event.newState, event.moved);
+        super.onStateReplaced(event.state, (ServerWorld) event.world, event.pos, event.moved);
     }
 
     @Deprecated
@@ -288,18 +285,12 @@ public class ExtendBlock extends Block {
         return super.getPlacementState(args.ctx);
     }
 
-    @Deprecated
-    @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-        appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context));
-    }
-
     /**
      * append tooltip to item
      * @param event ItemAppendTooltipEvent
      */
     public void appendTooltip(ItemAppendTooltipEvent event) {
-        super.appendTooltip(event.stack, event.context, event.tooltip, event.type);
+
     }
 
     @Deprecated
@@ -314,12 +305,12 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        onEntityCollision(new EntityCollisionEvent(state, world, pos, entity));
+    protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
+        onEntityCollision(new EntityCollisionEvent(state, world, pos, entity, handler));
     }
 
     public void onEntityCollision(EntityCollisionEvent e) {
-        super.onEntityCollision(e.state, e.world, e.pos, e.entity);
+        super.onEntityCollision(e.state, e.world, e.pos, e.entity, e.handler);
     }
 
     @Deprecated
@@ -362,15 +353,15 @@ public class ExtendBlock extends Block {
         return super.getStateForNeighborUpdate(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom());
     }
 
-    @Deprecated
-    @Override
-    protected ImmutableMap<BlockState, VoxelShape> getShapesForStates(Function<BlockState, VoxelShape> stateToShape) {
-        return getShapesForStates(new ShapesForStatesArgs(stateToShape));
-    }
-
-    public ImmutableMap<BlockState, VoxelShape> getShapesForStates(ShapesForStatesArgs args) {
-        return super.getShapesForStates(args.stateToShape);
-    }
+//    @Deprecated
+//    @Override
+//    protected ImmutableMap<BlockState, VoxelShape> getShapesForStates(Function<BlockState, VoxelShape> stateToShape) {
+//        return getShapesForStates(new ShapesForStatesArgs(stateToShape));
+//    }
+//
+//    public ImmutableMap<BlockState, VoxelShape> getShapesForStates(ShapesForStatesArgs args) {
+//        return super.(args.stateToShape);
+//    }
 
     public StateManager<Block, BlockState> callGetStateManager() {
         return super.getStateManager();

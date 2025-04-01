@@ -28,7 +28,7 @@ public class WorldRenderRegistryImpl {
 
             @Override
             public float getTickDelta() {
-                return worldRenderContext.tickCounter().getTickDelta(true);
+                return worldRenderContext.tickCounter().getDynamicDeltaTicks();
             }
 
             @Override
@@ -88,7 +88,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public float getTickDelta() {
-                    return context.tickCounter().getTickDelta(true);
+                    return context.tickCounter().getDynamicDeltaTicks();
                 }
 
                 @Override

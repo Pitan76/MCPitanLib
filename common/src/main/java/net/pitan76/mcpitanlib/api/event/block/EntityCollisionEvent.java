@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.event.block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -21,12 +22,21 @@ public class EntityCollisionEvent extends BaseEvent {
     public World world;
     public BlockPos pos;
     public Entity entity;
+    public EntityCollisionHandler handler;
 
     public EntityCollisionEvent(BlockState state, World world, BlockPos pos, Entity entity) {
         this.state = state;
         this.world = world;
         this.pos = pos;
         this.entity = entity;
+    }
+
+    public EntityCollisionEvent(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
+        this.state = state;
+        this.world = world;
+        this.pos = pos;
+        this.entity = entity;
+        this.handler = handler;
     }
 
     public boolean isClient() {
@@ -84,5 +94,9 @@ public class EntityCollisionEvent extends BaseEvent {
 
     public BlockEntity getBlockEntity() {
         return WorldUtil.getBlockEntity(getWorld(), getBlockPos());
+    }
+
+    public EntityCollisionHandler getHandler() {
+        return handler;
     }
 }

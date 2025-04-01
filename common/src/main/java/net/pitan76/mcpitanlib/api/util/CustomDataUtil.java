@@ -74,7 +74,7 @@ public class CustomDataUtil {
      */
     public static NbtCompound get(ItemStack stack, String key) {
         NbtCompound nbt = getNbt(stack);
-        return nbt.getCompound(key);
+        return nbt.getCompoundOrEmpty(key);
     }
     
     /**

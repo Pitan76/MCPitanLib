@@ -3,8 +3,8 @@ package net.pitan76.mcpitanlib.api.item.tool;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.MiningToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -15,13 +15,13 @@ import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
-public class CompatibleMiningToolItem extends MiningToolItem implements CompatItemProvider {
+public class CompatibleMiningToolItem extends Item implements CompatItemProvider {
 
     public CompatibleItemSettings settings;
 
     @Deprecated
     protected CompatibleMiningToolItem(float attackDamage, float attackSpeed, ToolMaterial material, net.minecraft.registry.tag.TagKey<Block> effectiveBlocks, Settings settings) {
-        super(material, effectiveBlocks, attackDamage, attackSpeed, settings);
+        super(settings.tool(material, effectiveBlocks, attackDamage, attackSpeed, 0));
     }
 
     public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, TagKey<Block> tagKey, CompatibleItemSettings settings) {
@@ -60,7 +60,8 @@ public class CompatibleMiningToolItem extends MiningToolItem implements CompatIt
      * @return boolean
      */
     public boolean postHit(PostHitEvent event) {
-        return super.postHit(event.stack, event.target, event.attacker);
+        super.postHit(event.stack, event.target, event.attacker);
+        return true;
     }
 
     /**
@@ -74,8 +75,8 @@ public class CompatibleMiningToolItem extends MiningToolItem implements CompatIt
 
     @Deprecated
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return postHit(new PostHitEvent(stack, target, attacker));
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        postHit(new PostHitEvent(stack, target, attacker));
     }
 
     @Deprecated
