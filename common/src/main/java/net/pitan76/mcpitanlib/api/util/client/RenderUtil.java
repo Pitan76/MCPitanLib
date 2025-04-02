@@ -1,12 +1,11 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.util.Identifier;
 
 public class RenderUtil {
     public static void setShaderToPositionTexProgram() {
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX);
+        // -1.21.4
     }
 
     public static void setShaderColor(float red, float green, float blue, float alpha) {
@@ -14,11 +13,11 @@ public class RenderUtil {
     }
 
     public static void setShaderTexture(int texture, Identifier id) {
-        RenderSystem.setShaderTexture(texture, id);
+        // -1.21.4
     }
 
     public static void enableDepthTest() {
-        RenderSystem.enableDepthTest();
+        // -1.21.4
     }
 
     public static void enableTexture() {
