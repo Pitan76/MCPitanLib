@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.util;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Decoder;
 import com.mojang.serialization.Encoder;
-import net.minecraft.component.type.NbtComponent;
 import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
