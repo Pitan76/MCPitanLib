@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.mixin;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.consume.UseAction;
@@ -28,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 @Mixin(Item.class)
 public class ItemMixin {
@@ -91,24 +92,24 @@ public class ItemMixin {
     */
 
     @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type, CallbackInfo ci) {
+    private void mcpitanlib$appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type, CallbackInfo ci) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            provider.appendTooltip(new ItemAppendTooltipEvent(stack, null, tooltip, type, context), options);
+            provider.appendTooltip(new ItemAppendTooltipEvent(stack, context, displayComponent, textConsumer, type), options);
             if (options.cancel)
                 ci.cancel();
         }
     }
 
     @Inject(method = "postHit", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$postHit(ItemStack stack, LivingEntity target, LivingEntity attacker, CallbackInfoReturnable<Boolean> cir) {
+    private void mcpitanlib$postHit(ItemStack stack, LivingEntity target, LivingEntity attacker, CallbackInfo ci) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
-            boolean returnValue = provider.postHit(new PostHitEvent(stack, target, attacker), options);
+            provider.postHit(new PostHitEvent(stack, target, attacker), options);
             if (options.cancel)
-                cir.setReturnValue(returnValue);
+                ci.cancel();
         }
     }
 
