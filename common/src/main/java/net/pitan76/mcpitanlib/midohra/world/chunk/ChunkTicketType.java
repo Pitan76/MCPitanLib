@@ -55,4 +55,25 @@ public class ChunkTicketType<T> {
     public String toString() {
         return getRaw().toString();
     }
+
+    public ChunkTicketType(String name, long expiryTicks) {
+        this(_of(name, expiryTicks));
+    }
+
+    public ChunkTicketType(String name) {
+        this(name, 0);
+    }
+
+    public static ChunkTicketType<ChunkPos> create(String name, long expiryTicks) {
+        return new ChunkTicketType<>(name, expiryTicks);
+    }
+
+    public static ChunkTicketType<ChunkPos> create(String name) {
+        return new ChunkTicketType<>(name);
+    }
+
+    private static <T> net.minecraft.server.world.ChunkTicketType<T> _of(String name, long expiryTicks) {
+        net.minecraft.server.world.ChunkTicketType<ChunkPos> type = net.minecraft.server.world.ChunkTicketType.create(name, Comparator.comparingLong(ChunkPos::toLong), (int) expiryTicks);
+        return (net.minecraft.server.world.ChunkTicketType<T>) type;
+    }
 }
