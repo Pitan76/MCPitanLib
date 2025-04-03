@@ -35,7 +35,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public float getTickDelta() {
-                    return event.getDeltaTracker().getTickDelta(true);
+                    return event.getDeltaTracker().getDynamicDeltaTicks();
                 }
 
                 @Override
@@ -103,7 +103,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public float getTickDelta() {
-                    return event.getDeltaTracker().getTickDelta(true);
+                    return event.getDeltaTracker().getDynamicDeltaTicks();
                 }
 
                 @Override
@@ -168,7 +168,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public float getTickDelta() {
-                    return event.getPartialTick().getTickDelta(true);
+                    return event.getPartialTick().getDynamicDeltaTicks();
                 }
 
                 @Override
