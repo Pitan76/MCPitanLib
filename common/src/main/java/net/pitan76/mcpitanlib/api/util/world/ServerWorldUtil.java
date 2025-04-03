@@ -11,7 +11,7 @@ public class ServerWorldUtil {
 
     public static void spawnParticles(ServerWorld world, Player player, ParticleEffect particle, boolean force, double x, double y, double z, int count, double velocityX, double velocityY, double velocityZ, double speed) {
         if (player.isServer()) {
-            world.spawnParticles(player.getServerPlayer().get(), particle, force, false, x, y, z, count, velocityX, velocityY, velocityZ, speed);
+            world.spawnParticles(player.getServerPlayer().get(), particle, force, x, y, z, count, velocityX, velocityY, velocityZ, speed);
         }
     }
 }
