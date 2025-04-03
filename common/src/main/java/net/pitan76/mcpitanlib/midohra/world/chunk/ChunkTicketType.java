@@ -35,6 +35,14 @@ public class ChunkTicketType<T> {
         return getRaw();
     }
 
+    public static <T> ChunkTicketType<T> create(String name, Comparator<T> argumentComparator) {
+        return (ChunkTicketType<T>) create(name);
+    }
+
+    public static <T> ChunkTicketType<T> create(String name, Comparator<T> argumentComparator, int expiryTicks) {
+        return (ChunkTicketType<T>) create(name, expiryTicks);
+    }
+
     public Comparator<T> getArgumentComparator() {
         return null;
     }
@@ -46,5 +54,21 @@ public class ChunkTicketType<T> {
     @Override
     public String toString() {
         return getRaw().toString();
+    }
+
+    public ChunkTicketType(String name, long expiryTicks) {
+        this(new net.minecraft.server.world.ChunkTicketType(expiryTicks, true, net.minecraft.server.world.ChunkTicketType.Use.LOADING_AND_SIMULATION));
+    }
+
+    public ChunkTicketType(String name) {
+        this(name, 0);
+    }
+
+    public static ChunkTicketType<ChunkPos> create(String name, long expiryTicks) {
+        return new ChunkTicketType<>(name, expiryTicks);
+    }
+
+    public static ChunkTicketType<ChunkPos> create(String name) {
+        return new ChunkTicketType<>(name);
     }
 }

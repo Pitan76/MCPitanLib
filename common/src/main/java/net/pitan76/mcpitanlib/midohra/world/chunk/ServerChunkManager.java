@@ -36,10 +36,10 @@ public class ServerChunkManager extends ChunkManager {
     }
 
     public <T> void addTicket(ChunkTicketType<T> ticketType, ChunkPos pos, int radius, T argument) {
-        getRaw().addTicket(ticketType.getRaw(), pos.getRaw(), radius, argument);
+        getRaw().addTicket(ticketType.getRaw(), pos.getRaw(), radius);
     }
 
     public <T> void removeTicket(ChunkTicketType<T> ticketType, ChunkPos pos, int radius, T argument) {
-        getRaw().removeTicket(ticketType.getRaw(), pos.getRaw(), radius, argument);
+        getRaw().removeTicket(ticketType.getRaw(), pos.getRaw(), radius);
     }
 }
