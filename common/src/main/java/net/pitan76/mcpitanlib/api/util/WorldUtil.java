@@ -13,7 +13,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -29,6 +28,7 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
+import net.pitan76.mcpitanlib.midohra.world.chunk.ChunkTicketType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -101,6 +101,10 @@ public class WorldUtil {
         playSound(world, player, pos, sound.get(), category.get(), volume, pitch);
     }
 
+    public static void playSound(World world, BlockPos pos, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch) {
+        playSound(world, null, pos, sound.get(), category.get(), volume, pitch);
+    }
+
     public static void playSound(World world, double x, double y, double z, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch, boolean useDistance) {
         world.playSound(x, y, z, sound.get(), category.get(), volume, pitch, useDistance);
     }
@@ -161,12 +165,32 @@ public class WorldUtil {
         return Objects.equals(getWorldId(world), getWorldId(world2));
     }
 
-    public static <T> void addTicket(ServerWorld world, ChunkTicketType<T> type, ChunkPos pos, int radius, T argument) {
+    @Deprecated
+    public static <T> void addTicket(ServerWorld world, net.minecraft.server.world.ChunkTicketType<T> type, ChunkPos pos, int radius, T argument) {
         world.getChunkManager().addTicket(type, pos, radius, argument);
     }
 
-    public static <T> void removeTicket(ServerWorld world, ChunkTicketType<T> type, ChunkPos pos, int radius, T argument) {
+    @Deprecated
+    public static <T> void removeTicket(ServerWorld world, net.minecraft.server.world.ChunkTicketType<T> type, ChunkPos pos, int radius, T argument) {
         world.getChunkManager().removeTicket(type, pos, radius, argument);
+    }
+
+    public static <T> void addTicket(ServerWorld world, ChunkTicketType<T> type, ChunkPos pos, int radius, T argument) {
+        addTicket(world, type.getRaw(), pos, radius, argument);
+    }
+
+    public static <T> void removeTicket(ServerWorld world, ChunkTicketType<T> type, ChunkPos pos, int radius, T argument) {
+        removeTicket(world, type.getRaw(), pos, radius, argument);
+    }
+
+    public static void addTicket(ServerWorld world, ChunkTicketType<?> type, ChunkPos pos, int radius) {
+        net.minecraft.server.world.ChunkTicketType rawType = type.getRaw();
+        world.getChunkManager().addTicket( rawType, pos, radius, pos);
+    }
+
+    public static void removeTicket(ServerWorld world, ChunkTicketType<?> type, ChunkPos pos, int radius) {
+        net.minecraft.server.world.ChunkTicketType rawType = type.getRaw();
+        world.getChunkManager().removeTicket(rawType, pos, radius, pos);
     }
 
     public static boolean isReceivingRedstonePower(World world, BlockPos pos) {
