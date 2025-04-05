@@ -23,7 +23,8 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
     }
 
     public CompatibleToolItem(CompatibleToolMaterial material, CompatibleItemSettings settings) {
-        this(material.build().applyToolSettings(settings.build(), null, 0, 0, 0));
+        this(settings.build().tool(material.build(), null, 0, 0, 0));
+        this.material = material;
         this.settings = settings;
     }
 
@@ -49,7 +50,7 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
     @Deprecated
     @Override
     public float getMiningSpeed(ItemStack stack, BlockState state) {
-        return overrideGetMiningSpeedMultiplier(stack, state) * super.getMiningSpeed(stack, state) * material.getCompatMiningSpeedMultiplier();
+        return overrideGetMiningSpeedMultiplier(stack, state) * material.getCompatMiningSpeedMultiplier();
     }
 
     @Deprecated

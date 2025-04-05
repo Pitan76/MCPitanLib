@@ -51,7 +51,7 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
     @Deprecated
     @Override
     public float getMiningSpeed(ItemStack stack, BlockState state) {
-        return overrideGetMiningSpeedMultiplier(stack, state) * super.getMiningSpeed(stack, state);
+        return overrideGetMiningSpeedMultiplier(stack, state);
     }
 
     /**
