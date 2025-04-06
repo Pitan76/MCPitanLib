@@ -2,9 +2,7 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
@@ -516,5 +514,37 @@ public class NbtUtil {
         putDouble(nbt, "x", x);
         putDouble(nbt, "y", y);
         putDouble(nbt, "z", z);
+    }
+
+    public static String asString(NbtElement nbt) {
+        return nbt.asString();
+    }
+
+    public static NbtString createString(String string) {
+        return NbtString.of(string);
+    }
+
+    public static NbtInt createInt(int value) {
+        return NbtInt.of(value);
+    }
+
+    public static NbtFloat createFloat(float value) {
+        return NbtFloat.of(value);
+    }
+
+    public static NbtDouble createDouble(double value) {
+        return NbtDouble.of(value);
+    }
+
+    public static NbtLong createLong(long value) {
+        return NbtLong.of(value);
+    }
+
+    public static NbtByte createByte(byte value) {
+        return NbtByte.of(value);
+    }
+
+    public static NbtShort createShort(short value) {
+        return NbtShort.of(value);
     }
 }
