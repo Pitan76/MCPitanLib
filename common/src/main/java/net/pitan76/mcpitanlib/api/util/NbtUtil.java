@@ -2,9 +2,7 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
@@ -475,5 +473,79 @@ public class NbtUtil {
 
     public static void putElement(NbtCompound nbt, String key, NbtElement element) {
         nbt.put(key, element);
+    }
+
+    public static void setBlockPosDirect(NbtCompound nbt, BlockPos pos) {
+        putInt(nbt, "x", pos.getX());
+        putInt(nbt, "y", pos.getY());
+        putInt(nbt, "z", pos.getZ());
+    }
+
+    public static BlockPos getBlockPosDirect(NbtCompound nbt) {
+        return PosUtil.flooredBlockPos(getInt(nbt, "x"), getInt(nbt, "y"), getInt(nbt, "z"));
+    }
+
+    public static void setVec3iDirect(NbtCompound nbt, Vec3i vec3i) {
+        putInt(nbt, "x", vec3i.getX());
+        putInt(nbt, "y", vec3i.getY());
+        putInt(nbt, "z", vec3i.getZ());
+    }
+
+    public static Vec3i getVec3iDirect(NbtCompound nbt) {
+        return Vec3iUtil.create(getInt(nbt, "x"), getInt(nbt, "y"), getInt(nbt, "z"));
+    }
+
+    public static void setVec3dDirect(NbtCompound nbt, Vec3d vec3d) {
+        putDouble(nbt, "x", vec3d.getX());
+        putDouble(nbt, "y", vec3d.getY());
+        putDouble(nbt, "z", vec3d.getZ());
+    }
+
+    public static Vec3d getVec3dDirect(NbtCompound nbt) {
+        return Vec3dUtil.create(getDouble(nbt, "x"), getDouble(nbt, "y"), getDouble(nbt, "z"));
+    }
+
+    public static void setVec3iDirect(NbtCompound nbt, int x, int y, int z) {
+        putInt(nbt, "x", x);
+        putInt(nbt, "y", y);
+        putInt(nbt, "z", z);
+    }
+
+    public static void setVec3dDirect(NbtCompound nbt, double x, double y, double z) {
+        putDouble(nbt, "x", x);
+        putDouble(nbt, "y", y);
+        putDouble(nbt, "z", z);
+    }
+
+    public static String asString(NbtElement nbt) {
+        return nbt.asString();
+    }
+
+    public static NbtString createString(String string) {
+        return NbtString.of(string);
+    }
+
+    public static NbtInt createInt(int value) {
+        return NbtInt.of(value);
+    }
+
+    public static NbtFloat createFloat(float value) {
+        return NbtFloat.of(value);
+    }
+
+    public static NbtDouble createDouble(double value) {
+        return NbtDouble.of(value);
+    }
+
+    public static NbtLong createLong(long value) {
+        return NbtLong.of(value);
+    }
+
+    public static NbtByte createByte(byte value) {
+        return NbtByte.of(value);
+    }
+
+    public static NbtShort createShort(short value) {
+        return NbtShort.of(value);
     }
 }

@@ -3,6 +3,9 @@ package net.pitan76.mcpitanlib.api.tag;
 import me.shedaniel.architectury.hooks.TagHooks;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
+import net.pitan76.mcpitanlib.api.util.*;
 
 public class TagKey<T> {
     private final Tag.Identified<T> tagKey;
@@ -25,6 +28,10 @@ public class TagKey<T> {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public static TagKey<?> create(Type type, CompatIdentifier id) {
+        return create(type, id.toMinecraft());
     }
 
     @Deprecated

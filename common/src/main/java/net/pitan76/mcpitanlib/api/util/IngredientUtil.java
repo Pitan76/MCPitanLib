@@ -2,10 +2,13 @@ package net.pitan76.mcpitanlib.api.util;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.collection.DefaultedList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,5 +58,24 @@ public class IngredientUtil {
 
     public static Ingredient empty() {
         return Ingredient.EMPTY;
+    }
+
+    public static Ingredient ofItems(ItemConvertible... items) {
+        return Ingredient.ofItems(items);
+    }
+
+    public static DefaultedList<Ingredient> buildInput(Object[] input) {
+        DefaultedList<Ingredient> list = DefaultedList.of();
+        for (Object obj : input) {
+            if (obj instanceof Ingredient) {
+                list.add((Ingredient) obj);
+                continue;
+            }
+
+            if (obj instanceof ItemConvertible) {
+                list.add(ofItems((ItemConvertible) obj));
+            }
+        }
+        return list;
     }
 }

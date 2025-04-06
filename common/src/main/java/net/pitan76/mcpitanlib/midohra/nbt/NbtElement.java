@@ -42,4 +42,8 @@ public class NbtElement implements ElementConvertible {
     public NbtElement toElement() {
         return this;
     }
+
+    public String asString() {
+        return nbt.asString();
+    }
 }

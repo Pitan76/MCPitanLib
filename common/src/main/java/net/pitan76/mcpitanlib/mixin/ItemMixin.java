@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.mixin;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -12,6 +13,8 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.*;
+import net.pitan76.mcpitanlib.api.event.v2.ItemEventRegistry;
+import net.pitan76.mcpitanlib.api.event.v2.listener.InventoryTickTask;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
 import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
@@ -170,6 +173,28 @@ public class ItemMixin {
             CompatUseAction returnValue = provider.getUseAction(new UseActionArgs(stack), options);
             if (options.cancel)
                 cir.setReturnValue(returnValue.getUseAction());
+        }
+    }
+
+    @Inject(method = "inventoryTick", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected, CallbackInfo ci) {
+        // イベントを呼び出す
+        if (!ItemEventRegistry.INVENTORY_TICK.isEmpty()) {
+            int maxPriority = ItemEventRegistry.INVENTORY_TICK.getMaxPriority();
+            for (int p = maxPriority; p >= 0; p--) {
+                for (InventoryTickTask listener : ItemEventRegistry.INVENTORY_TICK.getListenersAsList(p)) {
+                    listener.inventoryTick(new InventoryTickEvent(stack, world, entity, slot, selected));
+                }
+            }
+        }
+
+        // CompatItemProviderを実装している場合
+        if (this instanceof CompatItemProvider) {
+            CompatItemProvider provider = (CompatItemProvider) this;
+            Options options = new Options();
+            provider.inventoryTick(new InventoryTickEvent(stack, world, entity, slot, selected), options);
+            if (options.cancel)
+                ci.cancel();
         }
     }
 }

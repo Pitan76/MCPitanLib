@@ -174,4 +174,8 @@ public class ItemStackUtil {
     public static ItemWrapper getItemWrapper(ItemStack stack) {
         return ItemWrapper.of(stack.getItem());
     }
+
+    public static int getMaxCount(ItemStack stack) {
+        return stack.getMaxCount();
+    }
 }
