@@ -66,6 +66,6 @@ public class RecipeManagerEvent {
     }
 
     public void putRecipe(CompatRecipe recipe) {
-        map.get(recipe.getType()).put(recipe.getId(), recipe.getRecipeEntry().getRecipeEntry());
+        map.get(recipe.getType()).put(recipe.getId(), recipe.getRecipeEntry().getRecipe());
     }
 }
