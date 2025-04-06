@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class ServerUtil {
     public static MinecraftServer getServer(World world) {
@@ -51,5 +52,9 @@ public class ServerUtil {
 
     public static PlayerManager getPlayerManager(MinecraftServer server) {
         return server.getPlayerManager();
+    }
+
+    public static MinecraftServer getServer(Player player) {
+        return getServer(player.getWorld());
     }
 }
