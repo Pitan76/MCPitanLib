@@ -1,12 +1,17 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
+import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
 import net.pitan76.mcpitanlib.api.util.*;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 
 public class ItemStack {
@@ -82,6 +87,34 @@ public class ItemStack {
 
     public void setEnchantments(Map<CompatEnchantment, Integer> enchantments, @Nullable World world) {
         EnchantmentUtil.setEnchantment(stack, enchantments, world);
+    }
+
+    public int getMaxCount() {
+        return ItemStackUtil.getMaxCount(stack);
+    }
+
+    public boolean hasLore() {
+        return LoreUtil.hasLore(stack);
+    }
+
+    public List<Text> getLore() {
+        return LoreUtil.getLore(stack);
+    }
+
+    public List<String> getLoreAsStringList() {
+        return LoreUtil.getLoreAsStringList(stack);
+    }
+
+    public void setLore(List<Text> lore) {
+        LoreUtil.setLore(stack, lore);
+    }
+
+    public void setLoreString(List<String> lore) {
+        LoreUtil.setLoreStringList(stack, lore);
+    }
+
+    public void setLore(String lore) {
+        LoreUtil.setLore(stack, lore);
     }
 
     @Deprecated

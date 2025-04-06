@@ -14,6 +14,7 @@ import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.api.util.world.WorldAccessUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.server.MCServer;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 
 import java.util.Optional;
@@ -120,5 +121,9 @@ public class WorldAccess extends WorldView {
 
     public void playSound(BlockPos pos, CompatSoundEvent soundEvent, CompatSoundCategory category) {
         playSound(null, pos.toMinecraft(), soundEvent.get(), category.get());
+    }
+
+    public MCServer getMCServer() {
+        return MCServer.of(getServer());
     }
 }

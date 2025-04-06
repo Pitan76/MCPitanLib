@@ -7,10 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
-import net.pitan76.mcpitanlib.api.util.BlockUtil;
-import net.pitan76.mcpitanlib.api.util.EntityTypeUtil;
-import net.pitan76.mcpitanlib.api.util.FluidUtil;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.util.*;
 
 public class TagKey<T> {
     private final net.minecraft.registry.tag.TagKey<T> tagKey;
@@ -27,6 +24,10 @@ public class TagKey<T> {
             case FLUID -> new TagKey<>(net.minecraft.registry.tag.TagKey.of(RegistryKeys.FLUID, identifier));
             case ENTITY_TYPE -> new TagKey<>(net.minecraft.registry.tag.TagKey.of(RegistryKeys.ENTITY_TYPE, identifier));
         };
+    }
+
+    public static TagKey<?> create(Type type, CompatIdentifier id) {
+        return create(type, id.toMinecraft());
     }
 
     @Deprecated

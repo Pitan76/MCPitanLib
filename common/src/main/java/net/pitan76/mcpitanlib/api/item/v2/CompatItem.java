@@ -1,13 +1,17 @@
 package net.pitan76.mcpitanlib.api.item.v2;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.consume.UseAction;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.CanRepairArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantabilityArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantableArgs;
+import net.pitan76.mcpitanlib.api.event.item.InventoryTickEvent;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.item.args.RarityArgs;
 import net.pitan76.mcpitanlib.api.item.args.StoppedUsingArgs;
@@ -17,6 +21,7 @@ import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
 import net.pitan76.mcpitanlib.core.Dummy;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
+import org.jetbrains.annotations.Nullable;
 
 public class CompatItem extends ExtendItem {
 
@@ -84,5 +89,15 @@ public class CompatItem extends ExtendItem {
 
     public boolean onStoppedUsing(StoppedUsingArgs args) {
         return super.onStoppedUsing(args.stack, args.world, args.user, args.remainingUseTicks);
+    }
+
+    @Deprecated
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        inventoryTick(new InventoryTickEvent(stack, world, entity, slot, selected));
+    }
+
+    public void inventoryTick(InventoryTickEvent e) {
+        super.inventoryTick(e.stack, e.world, e.entity, e.slot, e.selected);
     }
 }
