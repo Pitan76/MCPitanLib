@@ -4,10 +4,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+
+import java.util.UUID;
 
 public class EntityUtil {
     public static World getWorld(Entity entity) {
@@ -155,5 +158,125 @@ public class EntityUtil {
 
     public static void applyRotation(Entity entity, BlockRotation rotation) {
         entity.applyRotation(rotation);
+    }
+
+    public static void setVelocity(Entity entity, Vec3d velocity) {
+        entity.setVelocity(velocity);
+    }
+
+    public static void setFallDistance(Entity entity, double fallDistance) {
+        entity.fallDistance = (float) fallDistance;
+    }
+
+    public static double getFallDistance(Entity entity) {
+        return entity.fallDistance;
+    }
+
+    public static void setVelocityModified(Entity entity, boolean velocityModified) {
+        entity.velocityModified = velocityModified;
+    }
+
+    public static boolean isVelocityModified(Entity entity) {
+        return entity.velocityModified;
+    }
+
+    public static float getYaw(Entity entity) {
+        return entity.getYaw();
+    }
+
+    public static float getPitch(Entity entity) {
+        return entity.getPitch();
+    }
+
+    public static void setYaw(Entity entity, float yaw) {
+        entity.setYaw(yaw);
+    }
+
+    public static void setPitch(Entity entity, float pitch) {
+        entity.setPitch(pitch);
+    }
+
+    public static float getSpeed(Entity entity) {
+        return entity.speed;
+    }
+
+    public static void setSpeed(Entity entity, float speed) {
+        entity.speed = speed;
+    }
+
+    public static boolean isOnGround(Entity entity) {
+        return entity.isOnGround();
+    }
+
+    public static void setOnGround(Entity entity, boolean onGround) {
+        entity.setOnGround(onGround);
+    }
+
+    public static boolean isAlive(Entity entity) {
+        return entity.isAlive();
+    }
+
+    public static UUID getUuid(Entity entity) {
+        return entity.getUuid();
+    }
+
+    public static String getUuidString(Entity entity) {
+        return entity.getUuidAsString();
+    }
+
+    public static void setUuid(Entity entity, UUID uuid) {
+        entity.setUuid(uuid);
+    }
+
+    public static Text getName(Entity entity) {
+        return entity.getName();
+    }
+
+    public static Text getDisplayName(Entity entity) {
+        return entity.getDisplayName();
+    }
+
+    public static void setCustomName(Entity entity, Text customName) {
+        entity.setCustomName(customName);
+    }
+
+    public static Text getCustomName(Entity entity) {
+        return entity.getCustomName();
+    }
+
+    public static void setCustomNameVisible(Entity entity, boolean visible) {
+        entity.setCustomNameVisible(visible);
+    }
+
+    public static boolean isCustomNameVisible(Entity entity) {
+        return entity.isCustomNameVisible();
+    }
+
+    public static boolean hasCustomName(Entity entity) {
+        return entity.hasCustomName();
+    }
+
+    public static String getNameAsString(Entity entity) {
+        return entity.getName().getString();
+    }
+
+    public static String getDisplayNameAsString(Entity entity) {
+        if (entity.getDisplayName() == null)
+            return null;
+        return entity.getDisplayName().getString();
+    }
+
+    public static String getCustomNameAsString(Entity entity) {
+        if (entity.getCustomName() == null)
+            return null;
+        return entity.getCustomName().getString();
+    }
+
+    public static void setCustomName(Entity entity, String customName) {
+        entity.setCustomName(TextUtil.literal(customName));
+    }
+
+    public static Vec3d getRotationVector(Entity entity) {
+        return entity.getRotationVector();
     }
 }

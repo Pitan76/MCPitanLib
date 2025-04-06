@@ -15,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.block.WireOrientation;
@@ -108,5 +109,41 @@ public class BlockStateUtil {
 
     public static net.pitan76.mcpitanlib.midohra.block.BlockState getDefaultState(BlockWrapper block) {
         return block.getDefaultState();
+    }
+
+    public static float getHardness(BlockState state, BlockView world, BlockPos pos) {
+        return state.getHardness(world, pos);
+    }
+
+    public static float getHardness(BlockState state, World world, BlockPos pos) {
+        return state.getHardness(world, pos);
+    }
+
+    public static int getLuminance(BlockState state) {
+        return state.getLuminance();
+    }
+
+    public static int getOpacity(BlockState state) {
+        return state.getOpacity();
+    }
+
+    public static int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        return state.getComparatorOutput(world, pos);
+    }
+
+    public static float getHardness(net.pitan76.mcpitanlib.midohra.block.BlockState state, net.pitan76.mcpitanlib.midohra.world.BlockView world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        return getHardness(state.toMinecraft(), world.getRaw(), pos.toMinecraft());
+    }
+
+    public static int getLuminance(net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        return getLuminance(state.toMinecraft());
+    }
+
+    public static int getOpacity(net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        return getOpacity(state.toMinecraft());
+    }
+
+    public static int getComparatorOutput(net.pitan76.mcpitanlib.midohra.block.BlockState state, net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        return getComparatorOutput(state.toMinecraft(), world.getRaw(), pos.toMinecraft());
     }
 }
