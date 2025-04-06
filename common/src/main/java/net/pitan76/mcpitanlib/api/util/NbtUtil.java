@@ -517,7 +517,7 @@ public class NbtUtil {
     }
 
     public static String asString(NbtElement nbt) {
-        return nbt.asString();
+        return nbt.asString().orElse("");
     }
 
     public static NbtString createString(String string) {
