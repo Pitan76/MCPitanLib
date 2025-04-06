@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.LoggerUtil;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ResourceManager {
     private final net.minecraft.resource.ResourceManager resourceManager;
@@ -28,7 +30,7 @@ public class ResourceManager {
     }
 
     public static ResourceManager of(net.minecraft.server.MinecraftServer server) {
-        return of(MCServer.of(server));
+        return null;
     }
 
     public static ResourceManager of(MCServer server) {
@@ -41,7 +43,11 @@ public class ResourceManager {
     }
 
     public static ResourceManager of(WorldAccess worldAccess) {
-        return of(worldAccess.getServer());
+        if (worldAccess instanceof World) {
+            return of(((World) worldAccess).getServer());
+        } else {
+            return null;
+        }
     }
 
     public static ResourceManager of(net.pitan76.mcpitanlib.midohra.world.WorldAccess worldAccess) {
@@ -82,7 +88,7 @@ public class ResourceManager {
     public List<Resource> getAllResources(CompatIdentifier id) {
         try {
             return resourceManager.getAllResources(id.toMinecraft())
-                    .stream().map(Resource::of).toList();
+                    .stream().map(Resource::of).collect(Collectors.toList());
         } catch (IOException e) {
             return null;
         }

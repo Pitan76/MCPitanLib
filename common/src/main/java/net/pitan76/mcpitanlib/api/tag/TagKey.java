@@ -3,8 +3,6 @@ package net.pitan76.mcpitanlib.api.tag;
 import me.shedaniel.architectury.hooks.TagHooks;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.pitan76.mcpitanlib.api.util.*;
 
 public class TagKey<T> {

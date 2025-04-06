@@ -8,17 +8,19 @@ import net.pitan76.mcpitanlib.api.nbt.NbtTypeBytes;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class LoreUtil {
     public static boolean hasLore(ItemStack stack) {
-        return stack.getSubNbt("display") != null && stack.getSubNbt("display").contains("Lore");
+        return stack.getSubTag("display") != null && stack.getSubTag("display").contains("Lore");
     }
 
     public static List<Text> getLore(ItemStack stack) {
-        if (!hasLore(stack)) return List.of();
-        return NbtUtil.getList(stack.getSubNbt("display"), "Lore", NbtTypeBytes.STRING).stream()
+        if (!hasLore(stack)) return new ArrayList<>();
+        return NbtUtil.getList(stack.getSubTag("display"), "Lore", NbtTypeBytes.STRING).stream()
                     .map(nbt -> {
                         String str = NbtUtil.asString(nbt);
                         if (str == null) return TextUtil.empty();
@@ -31,13 +33,13 @@ public class LoreUtil {
                         }
 
                         return Text.of(str);
-                    }).toList();
+                    }).collect(Collectors.toList());
     }
 
     public static List<String> getLoreAsStringList(ItemStack stack) {
         return getLore(stack).stream()
                 .map(Text::getString)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public static String getLoreAsString(ItemStack stack) {
@@ -55,20 +57,23 @@ public class LoreUtil {
             nbtList.add(NbtUtil.createString(str));
         }
 
-        NbtCompound displayNbt = stack.getOrCreateSubNbt("display");
+        NbtCompound displayNbt = stack.getOrCreateSubTag("display");
         displayNbt.put("Lore", nbtList);
-        stack.setSubNbt("display", displayNbt);
+        stack.putSubTag("display", displayNbt);
     }
 
     public static void setLoreStringList(ItemStack stack, List<String> lore) {
         setLore(stack, lore.stream()
                 .map(Text::of)
-                .toList());
+                .collect(Collectors.toList()));
     }
 
     public static void setLore(ItemStack stack, String lore) {
-        setLore(stack, lore.lines()
-                .map(Text::of)
-                .toList());
+        List<Text> loreList = new ArrayList<>();
+        for (String line : lore.split("\n")) {
+            loreList.add(Text.of(line));
+        }
+        
+        setLore(stack, loreList);
     }
 }

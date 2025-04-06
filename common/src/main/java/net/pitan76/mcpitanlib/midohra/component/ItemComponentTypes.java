@@ -15,7 +15,7 @@ import net.pitan76.mcpitanlib.midohra.component.item.RarityComponentType;
 import java.util.List;
 
 public class ItemComponentTypes {
-    public static final ItemComponentType<NbtCompound> CUSTOM_DATA = new ItemComponentType<>("components.minecraft:custom_data") {
+    public static final ItemComponentType<NbtCompound> CUSTOM_DATA = new ItemComponentType<NbtCompound>("components.minecraft:custom_data") {
         @Override
         public void put(ItemStack stack, NbtCompound value) {
             CustomDataUtil.setNbt(stack, value);
@@ -32,7 +32,7 @@ public class ItemComponentTypes {
         }
     };
 
-    public static final ItemComponentType<Integer> MAX_STACK_SIZE = new ItemComponentType<>("components.minecraft:max_stack_size") {
+    public static final ItemComponentType<Integer> MAX_STACK_SIZE = new ItemComponentType<Integer>("components.minecraft:max_stack_size") {
         @Override
         public void put(ItemStack stack, Integer value) {
 
@@ -49,7 +49,7 @@ public class ItemComponentTypes {
         }
     };
 
-    public static final ItemComponentType<Integer> MAX_DAMAGE = new ItemComponentType<>("components.minecraft:max_damage") {
+    public static final ItemComponentType<Integer> MAX_DAMAGE = new ItemComponentType<Integer>("components.minecraft:max_damage") {
         @Override
         public void put(ItemStack stack, Integer value) {
 
@@ -66,7 +66,7 @@ public class ItemComponentTypes {
         }
     };
 
-    public static final ItemComponentType<Integer> DAMAGE = new ItemComponentType<>("Damage") {
+    public static final ItemComponentType<Integer> DAMAGE = new ItemComponentType<Integer>("Damage") {
         @Override
         public void put(ItemStack stack, Integer value) {
             stack.setDamage(value);
@@ -74,7 +74,7 @@ public class ItemComponentTypes {
 
         @Override
         public boolean has(ItemStack stack) {
-            return stack.hasNbt() && NbtUtil.has(stack.getNbt(), "Damage");
+            return stack.hasTag() && NbtUtil.has(stack.getTag(), "Damage");
         }
 
         @Override
@@ -83,13 +83,13 @@ public class ItemComponentTypes {
         }
     };
 
-    public static final ItemComponentType<Boolean> UNBREAKABLE = new ItemComponentType<>("Unbreakable") {
+    public static final ItemComponentType<Boolean> UNBREAKABLE = new ItemComponentType<Boolean>("Unbreakable") {
         @Override
         public void put(ItemStack stack, Boolean value) {
             if (value) {
-                stack.getNbt().putBoolean("Unbreakable", true);
+                stack.getTag().putBoolean("Unbreakable", true);
             } else {
-                stack.removeSubNbt("Unbreakable");
+                stack.removeSubTag("Unbreakable");
             }
         }
 
@@ -103,7 +103,7 @@ public class ItemComponentTypes {
 
     public static final CustomNameComponentType CUSTOM_NAME = new CustomNameComponentType();
 
-    public static final ItemComponentType<NbtCompound> BLOCK_ENTITY_DATA = new ItemComponentType<>("BlockEntityTag") {
+    public static final ItemComponentType<NbtCompound> BLOCK_ENTITY_DATA = new ItemComponentType<NbtCompound>("BlockEntityTag") {
         @Override
         public void put(ItemStack stack, NbtCompound value) {
             BlockEntityDataUtil.setBlockEntityNbt(stack, value);
@@ -120,24 +120,24 @@ public class ItemComponentTypes {
         }
     };
 
-    public static final ItemComponentType<NbtCompound> ENTITY_DATA = new ItemComponentType<>("EntityTag") {
+    public static final ItemComponentType<NbtCompound> ENTITY_DATA = new ItemComponentType<NbtCompound>("EntityTag") {
         @Override
         public void put(ItemStack stack, NbtCompound value) {
-            stack.setSubNbt("EntityTag", value);
+            stack.putSubTag("EntityTag", value);
         }
 
         @Override
         public boolean has(ItemStack stack) {
-            return stack.hasNbt() && NbtUtil.has(stack.getNbt(), "EntityTag");
+            return stack.hasTag() && NbtUtil.has(stack.getTag(), "EntityTag");
         }
 
         @Override
         public NbtCompound get(ItemStack stack) {
-            return stack.getSubNbt("EntityTag");
+            return stack.getSubTag("EntityTag");
         }
     };
 
-    public static final ItemComponentType<List<Text>> LORE = new ItemComponentType<>("display.Lore") {
+    public static final ItemComponentType<List<Text>> LORE = new ItemComponentType<List<Text>>("display.Lore") {
         @Override
         public void put(ItemStack stack, List<Text> value) {
             LoreUtil.setLore(stack, value);

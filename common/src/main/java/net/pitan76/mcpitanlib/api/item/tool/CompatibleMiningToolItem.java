@@ -15,21 +15,19 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
-import net.pitan76.mcpitanlib.api.util.BlockUtil;
 import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKey;
 import net.pitan76.mcpitanlib.api.tag.v2.typed.BlockTagKey;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
-import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
+import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
 
 import java.util.Set;
 
 public class CompatibleMiningToolItem extends MiningToolItem implements CompatItemProvider {
 
-    public net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings settings;
+    public CompatibleItemSettings settings;
 
     @Deprecated
     protected CompatibleMiningToolItem(float attackDamage, float attackSpeed, ToolMaterial material, Set<Block> effectiveBlocks, Settings settings) {
@@ -37,17 +35,17 @@ public class CompatibleMiningToolItem extends MiningToolItem implements CompatIt
     }
 
     public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, TagKey<Block> tagKey, CompatibleItemSettings settings) {
-        this(attackDamage, attackSpeed, material.build(), Sets.newHashSet(BlockUtil.getBlocks(tagKey)), settings.build());
+        this(attackDamage, attackSpeed, material.build(), Sets.newHashSet(BlockUtil.getInTag(tagKey)), settings.build());
         this.settings = settings;
     }
 
     public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatTagKey<Block> tagKey, CompatibleItemSettings settings) {
-        this(attackDamage, attackSpeed, material.build(), tagKey.getTagKey(), settings.build());
+        this(attackDamage, attackSpeed, material.build(), Sets.newHashSet(BlockUtil.getInTag(tagKey)), settings.build());
         this.settings = settings;
     }
 
     public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, BlockTagKey tagKey, CompatibleItemSettings settings) {
-        this(attackDamage, attackSpeed, material.build(), tagKey.getTagKey(), settings.build());
+        this(attackDamage, attackSpeed, material.build(), Sets.newHashSet(BlockUtil.getInTag(tagKey)), settings.build());
         this.settings = settings;
     }
 

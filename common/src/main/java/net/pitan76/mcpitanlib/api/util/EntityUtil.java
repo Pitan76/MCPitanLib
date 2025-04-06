@@ -178,27 +178,27 @@ public class EntityUtil {
     }
 
     public static float getYaw(Entity entity) {
-        return entity.getYaw();
+        return entity.yaw;
     }
 
     public static float getPitch(Entity entity) {
-        return entity.getPitch();
+        return entity.pitch;
     }
 
     public static void setYaw(Entity entity, float yaw) {
-        entity.setYaw(yaw);
+        entity.yaw = yaw;
     }
 
     public static void setPitch(Entity entity, float pitch) {
-        entity.setPitch(pitch);
+        entity.pitch = pitch;
     }
 
     public static float getSpeed(Entity entity) {
-        return entity.speed;
+        return entity.horizontalSpeed;
     }
 
     public static void setSpeed(Entity entity, float speed) {
-        entity.speed = speed;
+        entity.horizontalSpeed = speed;
     }
 
     public static boolean isOnGround(Entity entity) {

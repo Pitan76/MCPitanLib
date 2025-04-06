@@ -87,6 +87,6 @@ public class MCServer {
     }
 
     public ResourceManager getResourceManager() {
-        return ResourceManager.of(server.getResourceManager());
+        return ResourceManager.of((net.minecraft.resource.ResourceManager) null);
     }
 }

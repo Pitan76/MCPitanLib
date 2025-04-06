@@ -17,10 +17,10 @@ public abstract class ItemComponentType<T> {
     public abstract T get(ItemStack stack);
 
     public boolean has(ItemStack stack) {
-        if (!stack.hasNbt()) return false;
+        if (!stack.hasTag()) return false;
 
         String[] keys = key.split("\\.");
-        NbtCompound tmp = stack.getNbt();
+        NbtCompound tmp = stack.getTag();
         for (String k : keys) {
             if (!NbtUtil.has(tmp, k)) return false;
 

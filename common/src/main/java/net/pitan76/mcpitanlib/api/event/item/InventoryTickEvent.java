@@ -37,7 +37,7 @@ public class InventoryTickEvent extends BaseEvent {
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) entity;
             ItemStack equippedStack = LivingEntityUtil.getEquippedStack(livingEntity, slot);
-            return equippedStack.isOf(stack.getItem()) && equippedStack.getCount() == stack.getCount();
+            return equippedStack.getItem().equals(stack.getItem()) && equippedStack.getCount() == stack.getCount();
         } else {
             return false;
         }
