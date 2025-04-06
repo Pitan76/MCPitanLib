@@ -44,6 +44,6 @@ public class NbtElement implements ElementConvertible {
     }
 
     public String asString() {
-        return nbt.asString();
+        return nbt.asString().orElse("");
     }
 }
