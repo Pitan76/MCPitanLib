@@ -4,6 +4,7 @@ import net.minecraft.server.MinecraftServer;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ServerUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.resource.ResourceManager;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 
 public class MCServer {
@@ -85,5 +86,7 @@ public class MCServer {
         return ServerWorld.of(WorldUtil.getEnd(server));
     }
 
-
+    public ResourceManager getResourceManager() {
+        return ResourceManager.of(server.getResourceManager());
+    }
 }

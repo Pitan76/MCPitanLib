@@ -475,4 +475,46 @@ public class NbtUtil {
     public static void putElement(NbtCompound nbt, String key, NbtElement element) {
         nbt.put(key, element);
     }
+
+    public static void setBlockPosDirect(NbtCompound nbt, BlockPos pos) {
+        putInt(nbt, "x", pos.getX());
+        putInt(nbt, "y", pos.getY());
+        putInt(nbt, "z", pos.getZ());
+    }
+
+    public static BlockPos getBlockPosDirect(NbtCompound nbt) {
+        return PosUtil.flooredBlockPos(getInt(nbt, "x"), getInt(nbt, "y"), getInt(nbt, "z"));
+    }
+
+    public static void setVec3iDirect(NbtCompound nbt, Vec3i vec3i) {
+        putInt(nbt, "x", vec3i.getX());
+        putInt(nbt, "y", vec3i.getY());
+        putInt(nbt, "z", vec3i.getZ());
+    }
+
+    public static Vec3i getVec3iDirect(NbtCompound nbt) {
+        return Vec3iUtil.create(getInt(nbt, "x"), getInt(nbt, "y"), getInt(nbt, "z"));
+    }
+
+    public static void setVec3dDirect(NbtCompound nbt, Vec3d vec3d) {
+        putDouble(nbt, "x", vec3d.getX());
+        putDouble(nbt, "y", vec3d.getY());
+        putDouble(nbt, "z", vec3d.getZ());
+    }
+
+    public static Vec3d getVec3dDirect(NbtCompound nbt) {
+        return Vec3dUtil.create(getDouble(nbt, "x"), getDouble(nbt, "y"), getDouble(nbt, "z"));
+    }
+
+    public static void setVec3iDirect(NbtCompound nbt, int x, int y, int z) {
+        putInt(nbt, "x", x);
+        putInt(nbt, "y", y);
+        putInt(nbt, "z", z);
+    }
+
+    public static void setVec3dDirect(NbtCompound nbt, double x, double y, double z) {
+        putDouble(nbt, "x", x);
+        putDouble(nbt, "y", y);
+        putDouble(nbt, "z", z);
+    }
 }

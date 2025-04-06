@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
 import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
+import net.pitan76.mcpitanlib.api.recipe.v3.CompatRecipe;
 
 import java.util.Map;
 
@@ -55,6 +56,10 @@ public class RecipeManagerEvent {
         return resourceManager;
     }
 
+    public net.pitan76.mcpitanlib.midohra.resource.ResourceManager getResourceManagerM() {
+        return net.pitan76.mcpitanlib.midohra.resource.ResourceManager.of(resourceManager);
+    }
+
     public void putCompatibleRecipeEntry(Identifier id, CompatibleRecipeEntry entry) {
         putCompatibleRecipeEntry(entry);
     }
@@ -67,5 +72,15 @@ public class RecipeManagerEvent {
     public <T extends Recipe<?>> void putCompatibleRecipeEntry(CompatRecipeEntry<T> entry) {
         recipesById.put(entry.getId(), entry.getRecipeEntry());
         recipesByType.put(entry.getType(), entry.getRecipeEntry());
+    }
+
+    public void putRecipeEntry(net.pitan76.mcpitanlib.midohra.recipe.entry.RecipeEntry entry) {
+        recipesById.put(entry.getId().toMinecraft(), entry.toMinecraft());
+        recipesByType.put(entry.getRawRecipeType(), entry.toMinecraft());
+    }
+
+    public void putRecipe(CompatRecipe recipe) {
+        recipesById.put(recipe.getId(), recipe.getRecipeEntry().getRecipeEntry());
+        recipesByType.put(recipe.getType(), recipe.getRecipeEntry().getRecipeEntry());
     }
 }
