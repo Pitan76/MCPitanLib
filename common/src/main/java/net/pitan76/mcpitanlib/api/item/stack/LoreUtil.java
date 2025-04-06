@@ -6,6 +6,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.nbt.NbtTypeBytes;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -20,7 +21,7 @@ public class LoreUtil {
         return NbtUtil.getList(stack.getSubNbt("display"), "Lore", NbtTypeBytes.STRING).stream()
                     .map(nbt -> {
                         String str = NbtUtil.asString(nbt);
-                        if (str == null) return Text.empty();
+                        if (str == null) return TextUtil.empty();
 
                         Pattern pattern = Pattern.compile("\"text\":\"([^\"]+)\"");
                         java.util.regex.Matcher matcher = pattern.matcher(str);

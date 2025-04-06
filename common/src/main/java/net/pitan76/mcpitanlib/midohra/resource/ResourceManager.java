@@ -72,13 +72,20 @@ public class ResourceManager {
     }
 
     public Resource getResource(CompatIdentifier id) {
-        Optional<net.minecraft.resource.Resource> resource = resourceManager.getResource(id.toMinecraft());
-        return resource.map(Resource::of).orElse(null);
+        try {
+            return Resource.of(resourceManager.getResource(id.toMinecraft()));
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     public List<Resource> getAllResources(CompatIdentifier id) {
-        return resourceManager.getAllResources(id.toMinecraft())
-                .stream().map(Resource::of).toList();
+        try {
+            return resourceManager.getAllResources(id.toMinecraft())
+                    .stream().map(Resource::of).toList();
+        } catch (IOException e) {
+            return null;
+        }
     }
 
 }

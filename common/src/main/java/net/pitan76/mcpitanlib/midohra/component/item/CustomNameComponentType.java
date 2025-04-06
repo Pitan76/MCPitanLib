@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.midohra.component.item;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 public class CustomNameComponentType extends ItemComponentType<Text> {
 
@@ -16,7 +17,7 @@ public class CustomNameComponentType extends ItemComponentType<Text> {
 
     @Override
     public Text get(ItemStack stack) {
-        if (!has(stack)) return Text.empty();
+        if (!has(stack)) return TextUtil.empty();
         return stack.getName();
     }
 
@@ -30,6 +31,6 @@ public class CustomNameComponentType extends ItemComponentType<Text> {
     }
 
     public void put(ItemStack stack, String name) {
-        put(stack, Text.literal(name));
+        put(stack, TextUtil.literal(name));
     }
 }
