@@ -5,7 +5,6 @@ import net.minecraft.item.equipment.EquipmentType;
 import org.jetbrains.annotations.Nullable;
 
 public class ArmorEquipmentType {
-
     public static ArmorEquipmentType HEAD = new ArmorEquipmentType(EquipmentSlot.HEAD, EquipmentType.HELMET);
     public static ArmorEquipmentType CHEST = new ArmorEquipmentType(EquipmentSlot.CHEST, EquipmentType.CHESTPLATE);
     public static ArmorEquipmentType LEGS = new ArmorEquipmentType(EquipmentSlot.LEGS, EquipmentType.LEGGINGS);

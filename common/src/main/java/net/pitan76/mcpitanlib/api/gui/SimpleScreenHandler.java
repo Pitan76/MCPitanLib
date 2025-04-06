@@ -10,6 +10,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
+import net.pitan76.mcpitanlib.api.gui.args.SlotClickEvent;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.SlotUtil;
@@ -236,7 +237,11 @@ public class SimpleScreenHandler extends ScreenHandler {
     }
 
     public void overrideOnSlotClick(int slotIndex, int button, SlotActionType actionType, Player player) {
-        super.onSlotClick(slotIndex, button, actionType, player.getPlayerEntity());
+        onSlotClick(new SlotClickEvent(slotIndex, button, actionType, player));
+    }
+
+    public void onSlotClick(SlotClickEvent e) {
+        super.onSlotClick(e.slot, e.button, e.actionType, e.player.getEntity());
     }
 
     @Override

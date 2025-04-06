@@ -3,16 +3,23 @@ package net.pitan76.mcpitanlib.api.item.tool;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
+import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKey;
+import net.pitan76.mcpitanlib.api.tag.v2.typed.BlockTagKey;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 public class CompatibleMiningToolItem extends Item implements CompatItemProvider {
@@ -25,6 +32,16 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
     }
 
     public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, TagKey<Block> tagKey, CompatibleItemSettings settings) {
+        this(attackDamage, attackSpeed, material.build(), tagKey.getTagKey(), settings.build());
+        this.settings = settings;
+    }
+
+    public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatTagKey<Block> tagKey, CompatibleItemSettings settings) {
+        this(attackDamage, attackSpeed, material.build(), tagKey.getTagKey(), settings.build());
+        this.settings = settings;
+    }
+
+    public CompatibleMiningToolItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, BlockTagKey tagKey, CompatibleItemSettings settings) {
         this(attackDamage, attackSpeed, material.build(), tagKey.getTagKey(), settings.build());
         this.settings = settings;
     }
@@ -88,5 +105,21 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
     // -1.20.6
     public boolean isDamageableOnDefault() {
         return ItemStackUtil.getMaxDamage(this) > 0;
+    }
+
+    @Deprecated
+    @Override
+    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand)).toActionResult();
+    }
+
+    @Deprecated
+    @Override
+    public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent event, Options options) {
+        return CompatItemProvider.super.onRightClickOnEntity(event, options);
+    }
+
+    public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent e) {
+        return CompatActionResult.of(super.useOnEntity(e.stack, e.user.getEntity(), e.entity, e.hand));
     }
 }

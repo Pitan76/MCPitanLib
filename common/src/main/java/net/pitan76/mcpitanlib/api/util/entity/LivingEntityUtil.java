@@ -1,7 +1,9 @@
 package net.pitan76.mcpitanlib.api.util.entity;
 
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
@@ -43,5 +45,13 @@ public class LivingEntityUtil extends EntityUtil {
 
     public static float getMaxHealth(LivingEntity entity) {
         return entity.getMaxHealth();
+    }
+
+    public static ItemStack getEquippedStack(LivingEntity entity, EquipmentSlot slot) {
+        return entity.getEquippedStack(slot);
+    }
+
+    public static void setEquippedStack(LivingEntity entity, EquipmentSlot slot, ItemStack stack) {
+        entity.equipStack(slot, stack);
     }
 }

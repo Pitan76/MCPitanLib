@@ -5,10 +5,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
@@ -71,5 +74,45 @@ public class PostMineEvent extends BaseEvent {
      */
     public void damageStack(int amount, EquipmentSlot slot) {
         stack.damage(amount, miner, slot);
+    }
+
+    /**
+     * Damages the stack in the given slot
+     * @param amount the amount of damage to deal
+     * @param type the type of armor equipment
+     */
+    public void damageStack(int amount, ArmorEquipmentType type) {
+        stack.damage(amount, miner, type.getSlot());
+    }
+
+    /**
+     * Damages the stack in the main hand
+     * @param amount the amount of damage to deal
+     */
+    public void damageStack(int amount) {
+        stack.damage(amount, miner, EquipmentSlot.MAINHAND);
+    }
+
+    public boolean isPlayer() {
+        return miner instanceof PlayerEntity;
+    }
+
+    public Player getPlayer() {
+        if (isPlayer())
+            return new Player((PlayerEntity) miner);
+
+        return null;
+    }
+
+    public boolean isCreative() {
+        return isPlayer() && getPlayer().isCreative();
+    }
+
+    public boolean isSneaking() {
+        return miner.isSneaking();
+    }
+
+    public ItemStack getMainHandStack() {
+        return miner.getMainHandStack();
     }
 }
