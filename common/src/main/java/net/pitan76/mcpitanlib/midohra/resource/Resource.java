@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -29,8 +30,8 @@ public class Resource {
         return getRaw();
     }
 
-    public BufferedReader getReader() throws IOException {
-        return resource.getReader();
+    public BufferedReader getReader() {
+        return new BufferedReader(new InputStreamReader(getInputStream(), StandardCharsets.UTF_8));
     }
 
     public String getPackId() {
@@ -38,12 +39,7 @@ public class Resource {
     }
 
     public InputStream getInputStream() {
-        try {
-            return ResourceUtil.getInputStream(resource);
-        } catch (IOException e) {
-            LoggerUtil.error(LoggerUtil.getLogger(), "Failed to read resource: " + e.getMessage());
-            return null;
-        }
+        return ResourceUtil.getInputStream(resource);
     }
 
     public void close() {
