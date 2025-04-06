@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.pitan76.mcpitanlib.api.event.item.CanRepairArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantabilityArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantableArgs;
+import net.pitan76.mcpitanlib.api.event.item.InventoryTickEvent;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.item.args.RarityArgs;
 import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
@@ -39,5 +40,9 @@ public interface CompatItemProvider extends ExtendItemProvider {
     default boolean canRepair(CanRepairArgs args) {
         RepairIngredientTag tag = getCompatSettings().repairIngredientTag;
         return tag != null && tag.contains(args.stack);
+    }
+
+    default void inventoryTick(InventoryTickEvent e, Options options) {
+        options.cancel = false;
     }
 }
