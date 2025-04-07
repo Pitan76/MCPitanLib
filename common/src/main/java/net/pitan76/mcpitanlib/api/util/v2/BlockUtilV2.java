@@ -1,6 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.v2;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;
@@ -110,5 +112,13 @@ public class BlockUtilV2 {
      */
     public static boolean isBlockInTag(Block block, String id) {
         return isBlockInTag(block, new Identifier(id));
+    }
+
+    public static Block fromItem(Item item) {
+        return Block.getBlockFromItem(item);
+    }
+
+    public static Block fromItem(ItemStack stack) {
+        return fromItem(stack.getItem());
     }
 }

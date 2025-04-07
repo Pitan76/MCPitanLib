@@ -175,4 +175,8 @@ public class ItemStackUtil {
     public static int getMaxCount(ItemStack stack) {
         return stack.getMaxCount();
     }
+
+    public static Item getItem(ItemStack stack) {
+        return stack.getItem();
+    }
 }
