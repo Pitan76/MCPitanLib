@@ -87,4 +87,10 @@ public class CompatBlocks {
     public static final Block WATER = Blocks.WATER;
     public static final Block LAVA = Blocks.LAVA;
     public static final Block BEDROCK = Blocks.BEDROCK;
+
+    // ----
+
+    public static boolean isExist(Block block) {
+        return block != null && block != Blocks.AIR;
+    }
 }

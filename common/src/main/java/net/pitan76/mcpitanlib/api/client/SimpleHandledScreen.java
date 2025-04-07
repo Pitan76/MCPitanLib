@@ -22,6 +22,7 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
+import net.pitan76.mcpitanlib.core.datafixer.Pair;
 
 @Deprecated
 public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
@@ -291,5 +292,40 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     public int getTitleY() {
         return titleY;
+    }
+
+    @Deprecated
+    @Override
+    public Text getTitle() {
+        return callGetTitle();
+    }
+
+    public Text callGetTitle() {
+        return super.getTitle();
+    }
+
+    public Pair<Integer, Integer> getTitlePosP() {
+        return new Pair<>(getTitleX(), getTitleY());
+    }
+
+    public int getPlayerInvTitleX() {
+        return playerInventoryTitleX;
+    }
+
+    public int getPlayerInvTitleY() {
+        return playerInventoryTitleY;
+    }
+
+    public void setPlayerInvTitleX(int x) {
+        playerInventoryTitleX = x;
+    }
+
+    public void setPlayerInvTitleY(int y) {
+        playerInventoryTitleY = y;
+    }
+
+    public void setPlayerInvTitle(int x, int y) {
+        setPlayerInvTitleX(x);
+        setPlayerInvTitleY(y);
     }
 }

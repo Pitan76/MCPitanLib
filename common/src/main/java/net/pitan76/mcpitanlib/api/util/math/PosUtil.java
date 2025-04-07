@@ -1,8 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.math;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Position;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 
 public class PosUtil {
     public static BlockPos flooredBlockPos(double x, double y, double z) {
@@ -42,5 +40,69 @@ public class PosUtil {
 
     public static BlockPos[] getNeighborPoses(BlockPos pos) {
         return new BlockPos[]{pos.north(), pos.south(), pos.east(), pos.west(), pos.up(), pos.down()};
+    }
+
+    public static BlockPos up(BlockPos pos) {
+        return pos.up();
+    }
+
+    public static BlockPos down(BlockPos pos) {
+        return pos.down();
+    }
+
+    public static BlockPos north(BlockPos pos) {
+        return pos.north();
+    }
+
+    public static BlockPos south(BlockPos pos) {
+        return pos.south();
+    }
+
+    public static BlockPos east(BlockPos pos) {
+        return pos.east();
+    }
+
+    public static BlockPos west(BlockPos pos) {
+        return pos.west();
+    }
+
+    public static BlockPos add(BlockPos pos, int x, int y, int z) {
+        return pos.add(x, y, z);
+    }
+
+    public static BlockPos sub(BlockPos pos, int x, int y, int z) {
+        return pos.subtract(new Vec3i(x, y, z));
+    }
+
+    public static BlockPos mul(BlockPos pos, int n) {
+        return pos.multiply(n);
+    }
+
+    public static int x(BlockPos pos) {
+        return pos.getX();
+    }
+
+    public static int y(BlockPos pos) {
+        return pos.getY();
+    }
+
+    public static int z(BlockPos pos) {
+        return pos.getZ();
+    }
+
+    public static BlockPos offset(BlockPos pos, Direction direction) {
+        return pos.offset(direction);
+    }
+
+    public static BlockPos offset(BlockPos pos, Direction direction, int n) {
+        return pos.offset(direction, n);
+    }
+
+    public static BlockPos offset(BlockPos pos, net.pitan76.mcpitanlib.midohra.util.math.Direction direction) {
+        return pos.offset(direction.toMinecraft());
+    }
+
+    public static BlockPos offset(BlockPos pos, net.pitan76.mcpitanlib.midohra.util.math.Direction direction, int n) {
+        return pos.offset(direction.toMinecraft(), n);
     }
 }
