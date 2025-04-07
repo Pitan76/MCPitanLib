@@ -380,4 +380,8 @@ public class WorldUtil {
     public static void dropStackOnBlock(World world, BlockPos pos, ItemStack stack) {
         Block.dropStack(world, pos, stack);
     }
+
+    public static float getSkyAngle(World world, float tickDelta) {
+        return world.getSkyAngle(tickDelta);
+    }
 }
