@@ -2,7 +2,8 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.tag.MineableToolTags;
@@ -245,5 +246,13 @@ public class BlockUtil {
      */
     public static boolean isBlockInTag(Block block, String id) {
         return BlockUtilV2.isBlockInTag(block, id);
+    }
+
+    public static Block fromItem(Item item) {
+        return BlockUtilV2.fromItem(item);
+    }
+
+    public static Block fromItem(ItemStack stack) {
+        return BlockUtilV2.fromItem(stack);
     }
 }

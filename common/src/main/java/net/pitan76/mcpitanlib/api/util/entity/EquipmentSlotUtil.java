@@ -21,6 +21,9 @@ public class EquipmentSlotUtil {
     }
 
     public static int getEntitySlotId(EquipmentSlot slot) {
+        if (slot == null)
+            return 0;
+
         return slot.getEntitySlotId();
     }
 
@@ -30,7 +33,7 @@ public class EquipmentSlotUtil {
                 return slot;
             }
         }
-        return null;
+        return EquipmentSlot.MAINHAND;
     }
 
     public static ArmorEquipmentType getArmorEquipmentType(EquipmentSlot slot) {
