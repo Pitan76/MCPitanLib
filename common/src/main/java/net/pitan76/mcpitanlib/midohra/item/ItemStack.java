@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
