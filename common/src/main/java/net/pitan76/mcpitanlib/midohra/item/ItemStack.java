@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.LoreComponent;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -120,6 +119,17 @@ public class ItemStack {
     @Deprecated
     public net.minecraft.item.ItemStack toMinecraft() {
         return stack;
+    }
+
+    public ItemWrapper getItem() {
+        if (isEmpty())
+            return ItemWrapper.of();
+
+        return ItemWrapper.of(getRawItem());
+    }
+
+    public Item getRawItem() {
+        return ItemStackUtil.getItem(stack);
     }
 
     public static class Builder {
