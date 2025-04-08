@@ -63,15 +63,15 @@ public class TextFieldUtil {
         return new TextFieldWidget(renderer, x, y, width, height, text);
     }
 
-    public static TextFieldWidget create(TextRenderer renderer, int x, int y, Text text) {
-        return new TextFieldWidget(renderer, x, y, text);
+    public static TextFieldWidget create(TextRenderer renderer, int width, int height, Text text) {
+        return create(renderer, 0, 0, width, height, text);
     }
 
     public static TextFieldWidget create(TextRenderer renderer, int x, int y, int width, int height) {
         return new TextFieldWidget(renderer, x, y, width, height, TextUtil.empty());
     }
 
-    public static TextFieldWidget create(TextRenderer renderer, int x, int y) {
-        return new TextFieldWidget(renderer, x, y, TextUtil.empty());
+    public static TextFieldWidget create(TextRenderer renderer, int width, int height) {
+        return create(renderer, width, height, TextUtil.empty());
     }
 }
