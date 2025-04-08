@@ -75,7 +75,7 @@ public class PosUtil {
     }
 
     public static BlockPos mul(BlockPos pos, int n) {
-        return pos.multiply(n);
+        return new BlockPos(pos.getX() * n, pos.getY() * n, pos.getZ() * n);
     }
 
     public static int x(BlockPos pos) {

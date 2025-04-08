@@ -52,7 +52,7 @@ public class CompatItems {
     public static Item COAL = Items.COAL;
     public static Item CHARCOAL = Items.CHARCOAL;
     public static Item IRON_INGOT = Items.IRON_INGOT;
-    public static Item COPPER_INGOT = Items.COPPER_INGOT;
+    public static Item COPPER_INGOT = Items.AIR;
     public static Item GOLD_INGOT = Items.GOLD_INGOT;
     public static Item DIAMOND = Items.DIAMOND;
     public static Item EMERALD = Items.EMERALD;

@@ -99,13 +99,7 @@ public class CompatibleSlot extends Slot {
         return super.canTakeItems(player.getEntity());
     }
 
-    @Deprecated
-    @Override
-    public boolean canTakePartial(PlayerEntity player) {
-        return canTakePartial(new Player(player));
-    }
-
     public boolean canTakePartial(Player player) {
-        return super.canTakePartial(player.getEntity());
+        return canTakeItems(player);
     }
 }
