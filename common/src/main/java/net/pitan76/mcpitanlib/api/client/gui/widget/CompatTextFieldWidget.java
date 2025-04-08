@@ -18,7 +18,7 @@ public class CompatTextFieldWidget extends TextFieldWidget {
     // ----
 
     public CompatTextFieldWidget(TextRenderer textRenderer, int width, int height, Text text) {
-        super(textRenderer, width, height, text);
+        super(textRenderer, 0, 0, width, height, text);
     }
 
     public CompatTextFieldWidget(TextRenderer textRenderer, int x, int y, int width, int height, Text text) {
