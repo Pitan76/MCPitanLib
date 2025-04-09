@@ -345,8 +345,8 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
         if (textRenderer != null)
             return textRenderer;
 
-        if (super.getTextRenderer() != null)
-            return super.getTextRenderer();
+        if (super.textRenderer != null)
+            return super.textRenderer;
 
         return ClientUtil.getTextRenderer();
     }
