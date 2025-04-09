@@ -24,6 +24,7 @@ import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
+import net.pitan76.mcpitanlib.core.datafixer.Pair;
 
 public abstract class SimpleHandledScreen<S extends ScreenHandler> extends HandledScreen<S> {
 
@@ -312,5 +313,57 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     public void drawText(DrawObjectDM drawObjectDM, TextComponent text, int x, int y) {
         ScreenUtil.RendererUtil.drawText(textRenderer, drawObjectDM, text, x, y);
+    }
+
+    @Deprecated
+    @Override
+    public Text getTitle() {
+        return callGetTitle();
+    }
+
+    public Text callGetTitle() {
+        return super.getTitle();
+    }
+
+    public Pair<Integer, Integer> getTitlePosP() {
+        return new Pair<>(getTitleX(), getTitleY());
+    }
+
+    public int getPlayerInvTitleX() {
+        return playerInventoryTitleX;
+    }
+
+    public int getPlayerInvTitleY() {
+        return playerInventoryTitleY;
+    }
+
+    public void setPlayerInvTitleX(int x) {
+        playerInventoryTitleX = x;
+    }
+
+    public void setPlayerInvTitleY(int y) {
+        playerInventoryTitleY = y;
+    }
+
+    public void setPlayerInvTitle(int x, int y) {
+        setPlayerInvTitleX(x);
+        setPlayerInvTitleY(y);
+    }
+
+    public TextRenderer callGetTextRenderer() {
+        if (textRenderer != null)
+            return textRenderer;
+
+        if (super.getTextRenderer() != null)
+            return super.getTextRenderer();
+
+        return ClientUtil.getTextRenderer();
+    }
+
+    public ItemRenderer callGetItemRenderer() {
+        if (itemRenderer != null)
+            return itemRenderer;
+
+        return ClientUtil.getItemRenderer();
     }
 }
