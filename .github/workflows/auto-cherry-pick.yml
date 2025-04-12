@@ -16,10 +16,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 30
-      - name: Clean
-        run: |
-          git reset --hard
-          git clean -fd
       - name: Check
         id: check
         run: |
