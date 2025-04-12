@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-git fetch --all
+git fetch --depth=1
 CURRENT_BRANCH="${GITHUB_REF##*/}"
 SHA=$(git log -1 --pretty=format:"%H")
 MSG=$(git log -1 --pretty=%B)
