@@ -25,17 +25,23 @@ jobs:
         run: |
           COMMIT_MSG=$(git log -1 --pretty=%B)
           if echo "$COMMIT_MSG" | grep -q '^\[cp\]'; then
-            echo "pickable=true" >> $GITHUB_OUTPUT
+            echo "pickable=true" >> $GITHUB_ENV
           fi
       - name: Setup Git
-        if: steps.check.outputs.pickable == 'true'
+        if: env.pickable == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Chmod cherry-pick.sh
-        run: chmod +x .github/workflows/cherry-pick.sh
+        run: |
+          if [ ! -f .github/workflows/cherry-pick.sh ]; then
+            echo "cherry-pick.sh not found"
+            exit 1
+          fi
+          git update-index --assume-unchanged .github/workflows/cherry-pick.sh
+          chmod +x .github/workflows/cherry-pick.sh
       - name: Run cherry-pick.sh
-        if: steps.check.outputs.pickable == 'true'
+        if: env.pickable == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: .github/workflows/cherry-pick.sh
