@@ -1,10 +1,15 @@
 package net.pitan76.mcpitanlib.api.util.entity;
 
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
+
+import java.util.List;
 
 public class ItemEntityUtil {
     public static ItemEntity create(World world, double x, double y, double z, ItemStack stack) {
@@ -39,5 +44,13 @@ public class ItemEntityUtil {
 
     public static void setToDefaultPickupDelay(ItemEntity itemEntity) {
         itemEntity.setToDefaultPickupDelay();
+    }
+
+    public static ItemStack getStack(ItemEntity entity) {
+        return entity.getStack();
+    }
+
+    public static List<ItemEntity> getEntities(World world, Box box) {
+        return WorldUtil.getEntitiesByType(world, EntityType.ITEM, box);
     }
 }

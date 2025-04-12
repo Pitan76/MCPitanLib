@@ -357,4 +357,8 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
         return ClientUtil.getItemRenderer();
     }
+
+    public Text getPlayerInvTitle() {
+        return playerInventoryTitle;
+    }
 }
