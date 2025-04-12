@@ -24,7 +24,7 @@ done <<< "$BRANCHES"
 
 for BRANCH in "${TARGETS[@]}"; do
   WORK_BRANCH="cp-${BRANCH}-${SHA:0:7}"
-  git checkout -b "$WORK_BRANCH" "origin/$BRANCH"
+  git checkout -f -b "$WORK_BRANCH" "origin/$BRANCH"
   if git cherry-pick "$SHA"; then
     git push origin "$WORK_BRANCH:$BRANCH"
   else
