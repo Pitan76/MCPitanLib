@@ -2,10 +2,12 @@ package net.pitan76.mcpitanlib.api.util.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.v2.BlockUtilV2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,5 +223,13 @@ public class BlockUtil {
      */
     public static String getTranslationKey(Block block) {
         return block.getTranslationKey();
+    }
+
+    public static Block fromItem(Item item) {
+        return BlockUtilV2.fromItem(item);
+    }
+
+    public static Block fromItem(ItemStack stack) {
+        return BlockUtilV2.fromItem(stack);
     }
 }

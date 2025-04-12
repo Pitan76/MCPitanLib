@@ -7,10 +7,17 @@ import net.minecraft.screen.slot.Slot;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class CompatibleSlot extends Slot {
-    private final int _index;
+    public Inventory inventory;
+    public int index;
+    public int x;
+    public int y;
+
     public CompatibleSlot(Inventory inventory, int index, int x, int y) {
         super(inventory, index, x, y);
-        this._index = index;
+        this.inventory = inventory;
+        this.index = index;
+        this.x = x;
+        this.y = y;
     }
 
     public void callSetStack(ItemStack stack) {
@@ -62,7 +69,7 @@ public class CompatibleSlot extends Slot {
     }
 
     public int callGetIndex() {
-        return _index;
+        return index;
     }
 
     public int callGetId() {
