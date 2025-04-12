@@ -28,6 +28,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Chmod cherry-pick.sh
+        run: chmod +x .github/workflows/cherry-pick.sh
       - name: Run cherry-pick.sh
         if: steps.check.outputs.pickable == 'true'
         env:
