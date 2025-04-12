@@ -35,4 +35,8 @@ public class BoxUtil {
     public static Box createBox(BlockPos pos, int sizeX, int sizeY, int sizeZ) {
         return createBox(pos, pos.add(sizeX, sizeY, sizeZ));
     }
+
+    public static Box createBoxCenter(BlockPos pos, int size) {
+        return createBox(pos.add(-size, -size, -size), pos.add(size, size, size));
+    }
 }
