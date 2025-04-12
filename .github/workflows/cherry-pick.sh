@@ -11,30 +11,36 @@ echo "SHA: $SHA"
 
 BRANCHES=$(git for-each-ref --format='%(refname:short)' refs/remotes/origin | grep -E '^origin/1\.' | sed 's|origin/||' | sort -Vr)
 
-TARGETS=()
+TARGET_BRANCH=""
 FOUND=0
 while read -r b; do
   if [ "$FOUND" = "1" ]; then
-    TARGETS+=("$b")
+    TARGET_BRANCH="$b"
+    break
   fi
   if [ "$b" = "$CURRENT_BRANCH" ]; then
     FOUND=1
   fi
 done <<< "$BRANCHES"
 
-for BRANCH in "${TARGETS[@]}"; do
-  git reset --hard
-  git checkout -f "origin/$BRANCH"
-  if git cherry-pick "$SHA"; then
-    git push origin "$BRANCH"
-    continue
-  fi
-  git cherry-pick --abort
-  gh auth setup-git
-  gh pr create \
-    --base "$BRANCH" \
-    --head "$CURRENT_BRANCH" \
-    --title "Manual Cherry-pick needed: $SHA" \
-    --body "Cherry-pick of $SHA from $CURRENT_BRANCH to $BRANCH failed due to conflicts."
+if [ -z "$TARGET_BRANCH" ]; then
+  echo "No lower branch found. Done."
   exit 0
-done
+fi
+
+echo "Trying to cherry-pick to $TARGET_BRANCH..."
+
+git reset --hard
+git checkout -f "origin/TARGET_BRANCH"
+if git cherry-pick "$SHA"; then
+  git push origin "TARGET_BRANCH"
+  echo "Cherry-pick successful. Pushed to $TARGET_BRANCH."
+  exit 0
+fi
+git cherry-pick --abort
+gh auth setup-git
+gh pr create \
+  --base "$TARGET_BRANCH" \
+  --head "$CURRENT_BRANCH" \
+  --title "Manual Cherry-pick needed: $SHA" \
+  --body "Cherry-pick of $SHA from $CURRENT_BRANCH to $TARGET_BRANCH failed due to conflicts."
