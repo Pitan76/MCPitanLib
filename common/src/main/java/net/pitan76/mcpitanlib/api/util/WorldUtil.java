@@ -14,6 +14,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
@@ -30,6 +31,8 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
+import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.world.chunk.ChunkTicketType;
 import org.jetbrains.annotations.Nullable;
 
@@ -381,5 +384,25 @@ public class WorldUtil {
 
     public static float getSkyAngle(World world, float tickDelta) {
         return world.getSkyAngle(tickDelta);
+    }
+
+    public static Block getBlock(World world, BlockPos pos) {
+        return getBlockState(world, pos).getBlock();
+    }
+
+    public static BlockWrapper getBlockWrapper(World world, BlockPos pos) {
+        return BlockWrapper.of(getBlock(world, pos));
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByType(World world, EntityType<T> filter, Box box) {
+        return getEntitiesByType(world, filter, box, EntityPredicates.VALID_ENTITY);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByType(World world, EntityTypeWrapper filter, Box box, Predicate<? super T> predicate) {
+        return getEntitiesByType(world, (EntityType<T>) filter.get(), box, predicate);
+    }
+
+    public static List<?> getEntitiesByType(World world, EntityTypeWrapper filter, Box box) {
+        return getEntitiesByType(world, filter.get(), box);
     }
 }
