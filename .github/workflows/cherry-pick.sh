@@ -31,9 +31,9 @@ fi
 echo "Trying to cherry-pick to $TARGET_BRANCH..."
 
 git reset --hard
-git checkout -f "origin/TARGET_BRANCH"
+git checkout -f "origin/$TARGET_BRANCH"
 if git cherry-pick "$SHA"; then
-  git push origin "TARGET_BRANCH"
+  git push origin "$TARGET_BRANCH"
   echo "Cherry-pick successful. Pushed to $TARGET_BRANCH."
   exit 0
 fi
