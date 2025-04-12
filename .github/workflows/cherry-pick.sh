@@ -23,20 +23,18 @@ while read -r b; do
 done <<< "$BRANCHES"
 
 for BRANCH in "${TARGETS[@]}"; do
-  WORK_BRANCH="cp-${BRANCH}-${SHA:0:7}"
   git reset --hard
-  git checkout -f -b "$WORK_BRANCH" "origin/$BRANCH"
+  git checkout -f "origin/$BRANCH"
   if git cherry-pick "$SHA"; then
-    git push origin "$WORK_BRANCH:$BRANCH"
-  else
-    git cherry-pick --abort
-    git push origin "$WORK_BRANCH"
-    gh auth setup-git
-    gh pr create \
-      --base "$BRANCH" \
-      --head "$WORK_BRANCH" \
-      --title "Manual Cherry-pick needed: $SHA" \
-      --body "Cherry-pick of $SHA from $CURRENT_BRANCH to $BRANCH failed due to conflicts."
-    exit 0
+    git push origin "$BRANCH"
+    continue
   fi
+  git cherry-pick --abort
+  gh auth setup-git
+  gh pr create \
+    --base "$BRANCH" \
+    --head "$CURRENT_BRANCH" \
+    --title "Manual Cherry-pick needed: $SHA" \
+    --body "Cherry-pick of $SHA from $CURRENT_BRANCH to $BRANCH failed due to conflicts."
+  exit 0
 done
