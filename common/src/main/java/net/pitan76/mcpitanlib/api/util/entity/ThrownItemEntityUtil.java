@@ -11,4 +11,8 @@ public class ThrownItemEntityUtil {
     public static void setItem(ThrownItemEntity entity, ItemStack stack) {
         entity.setItem(stack);
     }
+
+    public static ItemStack getStack(ThrownItemEntity entity) {
+        return entity.getStack();
+    }
 }

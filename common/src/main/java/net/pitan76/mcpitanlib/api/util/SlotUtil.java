@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -35,5 +36,9 @@ public class SlotUtil {
 
     public static void onTakeItem(Slot slot, Player player, ItemStack stack) {
         slot.onTakeItem(player.getEntity(), stack);
+    }
+
+    public static Inventory getInventory(Slot slot) {
+        return slot.inventory;
     }
 }
