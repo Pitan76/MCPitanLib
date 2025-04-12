@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -35,5 +36,13 @@ public class EntityTypeUtil {
 
     public static EntityType<?> fromIndex(int index) {
         return Registry.ENTITY_TYPE.get(index);
+    }
+
+    public static Text getName(EntityType<?> entityType) {
+        return entityType.getName();
+    }
+
+    public static String getTranslationKey(EntityType<?> entityType) {
+        return entityType.getTranslationKey();
     }
 }
