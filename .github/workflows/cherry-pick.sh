@@ -23,6 +23,10 @@ while read -r b; do
 done <<< "$BRANCHES"
 
 for TARGET_BRANCH in "${TARGETS[@]}"; do
+  if [ -z "$TARGET_BRANCH" ]; then
+    continue
+  fi
+
   echo "Trying to cherry-pick to $TARGET_BRANCH..."
 
   git reset --hard
