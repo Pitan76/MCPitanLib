@@ -11,7 +11,7 @@ echo "SHA: $SHA"
 
 BRANCHES=$(git for-each-ref --format='%(refname:short)' refs/remotes/origin | grep -E '^origin/1\.' | sed 's|origin/||' | sort -Vr)
 
-TARGETS=""
+TARGETS=[]
 FOUND=0
 while read -r b; do
   if [ "$FOUND" = "1" ]; then
