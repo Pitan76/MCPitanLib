@@ -38,7 +38,7 @@ dependencies {
 
 `gradle.properties`に以下のように記述してください。
 ```properties
-# Example: mcpitanlib_version=+1.18.2:3.0.4
+# Example: mcpitanlib_version=+1.18.2:3.2.4
 mcpitanlib_version=x.x.x
 ```
 
@@ -85,7 +85,7 @@ dependencies {
 
 Write as follows in `gradle.properties`.
 ```properties
-# Example: mcpitanlib_version=+1.18.2:2.0.1
+# Example: mcpitanlib_version=+1.18.2:3.2.4
 mcpitanlib_version=+x.x.x:x.x.x
 ```
 
