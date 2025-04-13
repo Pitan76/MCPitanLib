@@ -3,17 +3,17 @@ package net.pitan76.mcpitanlib.midohra.entity;
 import net.minecraft.entity.EntityType;
 
 public class EntityTypes {
-    public static final EntityTypeWrapper BOAT = EntityTypeWrapper.of(EntityType.OAK_BOAT);
-    public static final EntityTypeWrapper ACACIA_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.ACACIA_BOAT);
-    public static final EntityTypeWrapper ACACIA_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.ACACIA_CHEST_BOAT);
-    public static final EntityTypeWrapper BIRCH_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BIRCH_BOAT);
-    public static final EntityTypeWrapper BIRCH_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BIRCH_CHEST_BOAT);
-    public static final EntityTypeWrapper DARK_OAK_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.DARK_OAK_BOAT);
-    public static final EntityTypeWrapper DARK_OAK_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.DARK_OAK_CHEST_BOAT);
-    public static final EntityTypeWrapper JUNGLE_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.JUNGLE_BOAT);
-    public static final EntityTypeWrapper JUNGLE_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.JUNGLE_CHEST_BOAT);
-    public static final EntityTypeWrapper SPRUCE_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.SPRUCE_BOAT);
-    public static final EntityTypeWrapper SPRUCE_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.SPRUCE_CHEST_BOAT);
+    public static final EntityTypeWrapper BOAT = EntityTypeWrapper.of(EntityType.BOAT);
+    public static final EntityTypeWrapper ACACIA_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
+    public static final EntityTypeWrapper ACACIA_CHEST_BOAT = EntityTypeWrapper.of(EntityType.CHEST_BOAT);
+    public static final EntityTypeWrapper BIRCH_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
+    public static final EntityTypeWrapper BIRCH_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.CHEST_BOAT);
+    public static final EntityTypeWrapper DARK_OAK_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
+    public static final EntityTypeWrapper DARK_OAK_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.CHEST_BOAT);
+    public static final EntityTypeWrapper JUNGLE_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
+    public static final EntityTypeWrapper JUNGLE_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.CHEST_BOAT);
+    public static final EntityTypeWrapper SPRUCE_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
+    public static final EntityTypeWrapper SPRUCE_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.CHEST_BOAT);
     public static final EntityTypeWrapper FURNACE_MINECART = EntityTypeWrapper.of(net.minecraft.entity.EntityType.FURNACE_MINECART);
     public static final EntityTypeWrapper HOPPER_MINECART = EntityTypeWrapper.of(net.minecraft.entity.EntityType.HOPPER_MINECART);
     public static final EntityTypeWrapper MINECART = EntityTypeWrapper.of(net.minecraft.entity.EntityType.MINECART);
