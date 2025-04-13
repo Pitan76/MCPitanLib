@@ -9,7 +9,7 @@ MCPitanLibはライブラリです。 1つのjarで複数のMCバージョンを
   - [FabricMC](https://fabricmc.net/)
   - [Minecraft Forge](https://files.minecraftforge.net/)
   - [NeoForge](https://neoforged.net/)
-- [Architectury API (CurseForge)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
+- Architectury API ([CurseForge](https://www.curseforge.com/minecraft/mc-mods/architectury-api) | [Modrinth](https://modrinth.com/mod/architectury-api))
 
 ### ダウンロード
 - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
@@ -56,7 +56,7 @@ I am creating it for my own use, so I don't expect others to use it much. <br />
   - [FabricMC](https://fabricmc.net/)
   - [Minecraft Forge](https://files.minecraftforge.net/)
   - [NeoForge](https://neoforged.net/)
-- [Architectury API (CurseForge)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
+- [Architectury API](https://www.curseforge.com/minecraft/mc-mods/architectury-api) ([CurseForge](https://www.curseforge.com/minecraft/mc-mods/architectury-api) | [Modrinth](https://modrinth.com/mod/architectury-api))
 
 ### Download
 - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
@@ -92,4 +92,10 @@ mcpitanlib_version=+x.x.x:x.x.x
 Please check the version at [maven.pitan76.net](https://maven.pitan76.net/net/pitan76/).
 
 For MOD development using MCPitanLib, refer to "common/src/main/java/net/pitan76/mcpitanlib/test/ExampleMod.java".
+
+## Note
+### Auto Cherry-Pick (GitHub Actions)
+コミットメッセージに [cp] を含むと、Actionsで自動的にCherry-Pickを行います。 <br />
+そのコミットしたブランチからそれより下位のバージョンのブランチにCherry-Pickし、コンフリを起こした場合はそこで停止し、PRを作成します。<br />
+今のところ、そのPRは使えないので閉じる必要があります。(今後はissueにする予定です。)
 
