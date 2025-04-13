@@ -371,6 +371,6 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     public Text getPlayerInvTitle() {
-        return playerInventoryTitle;
+        return super.playerInventory.getName();
     }
 }
