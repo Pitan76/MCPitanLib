@@ -39,7 +39,7 @@ dependencies {
 `gradle.properties`に以下のように記述してください。
 ```properties
 # Example: mcpitanlib_version=+1.18.2:3.2.4
-mcpitanlib_version=x.x.x
+mcpitanlib_version=+x.x.x:x.x.x
 ```
 
 バージョンは[maven.pitan76.net](https://maven.pitan76.net/net/pitan76/)で確認してください。
