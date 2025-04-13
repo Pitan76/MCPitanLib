@@ -1,0 +1,45 @@
+name: Build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Java 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Change gradlew permissions
+        run: chmod +x ./gradlew
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Artifacts
+          path: build/libs/
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Java 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Artifacts
+          path: build/libs/
+      - name: Change gradlew permissions
+        run: chmod +x ./gradlew
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_KEY }}
+        run: ./gradlew assemble publish
