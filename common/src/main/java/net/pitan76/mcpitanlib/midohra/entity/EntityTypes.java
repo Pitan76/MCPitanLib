@@ -23,7 +23,7 @@ public class EntityTypes {
     public static final EntityTypeWrapper LLAMA = EntityTypeWrapper.of(net.minecraft.entity.EntityType.LLAMA);
 
     public static final EntityTypeWrapper ITEM = EntityTypeWrapper.of(net.minecraft.entity.EntityType.ITEM);
-    public static final EntityTypeWrapper ITEM_DISPLAY = EntityTypeWrapper.of(EntityType.ITEM_DISPLAY);
+    public static final EntityTypeWrapper ITEM_DISPLAY = EntityTypeWrapper.of();
     public static final EntityTypeWrapper ITEM_FRAME = EntityTypeWrapper.of(net.minecraft.entity.EntityType.ITEM_FRAME);
     public static final EntityTypeWrapper GLOW_ITEM_FRAME = EntityTypeWrapper.of(EntityType.GLOW_ITEM_FRAME);
     public static final EntityTypeWrapper EXPERIENCE_BOTTLE = EntityTypeWrapper.of(EntityType.EXPERIENCE_BOTTLE);
