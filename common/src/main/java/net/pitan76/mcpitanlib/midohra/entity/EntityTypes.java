@@ -1,41 +1,39 @@
 package net.pitan76.mcpitanlib.midohra.entity;
 
-import net.minecraft.entity.EntityType;
-
 public class EntityTypes {
-    public static final EntityTypeWrapper BOAT = EntityTypeWrapper.of(EntityType.BOAT);
+    public static final EntityTypeWrapper BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
     public static final EntityTypeWrapper ACACIA_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
-    public static final EntityTypeWrapper ACACIA_CHEST_BOAT = EntityTypeWrapper.of(EntityType.CHEST_BOAT);
+    public static final EntityTypeWrapper ACACIA_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
     public static final EntityTypeWrapper BIRCH_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
-    public static final EntityTypeWrapper BIRCH_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.CHEST_BOAT);
+    public static final EntityTypeWrapper BIRCH_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
     public static final EntityTypeWrapper DARK_OAK_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
-    public static final EntityTypeWrapper DARK_OAK_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.CHEST_BOAT);
+    public static final EntityTypeWrapper DARK_OAK_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
     public static final EntityTypeWrapper JUNGLE_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
-    public static final EntityTypeWrapper JUNGLE_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.CHEST_BOAT);
+    public static final EntityTypeWrapper JUNGLE_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
     public static final EntityTypeWrapper SPRUCE_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
-    public static final EntityTypeWrapper SPRUCE_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.CHEST_BOAT);
+    public static final EntityTypeWrapper SPRUCE_CHEST_BOAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BOAT);
     public static final EntityTypeWrapper FURNACE_MINECART = EntityTypeWrapper.of(net.minecraft.entity.EntityType.FURNACE_MINECART);
     public static final EntityTypeWrapper HOPPER_MINECART = EntityTypeWrapper.of(net.minecraft.entity.EntityType.HOPPER_MINECART);
     public static final EntityTypeWrapper MINECART = EntityTypeWrapper.of(net.minecraft.entity.EntityType.MINECART);
     public static final EntityTypeWrapper TNT_MINECART = EntityTypeWrapper.of(net.minecraft.entity.EntityType.TNT_MINECART);
-    public static final EntityTypeWrapper CHEST_MINECART = EntityTypeWrapper.of(EntityType.CHEST_MINECART);
+    public static final EntityTypeWrapper CHEST_MINECART = EntityTypeWrapper.of(net.minecraft.entity.EntityType.CHEST_MINECART);
     public static final EntityTypeWrapper HORSE = EntityTypeWrapper.of(net.minecraft.entity.EntityType.HORSE);
     public static final EntityTypeWrapper LLAMA = EntityTypeWrapper.of(net.minecraft.entity.EntityType.LLAMA);
 
     public static final EntityTypeWrapper ITEM = EntityTypeWrapper.of(net.minecraft.entity.EntityType.ITEM);
     public static final EntityTypeWrapper ITEM_DISPLAY = EntityTypeWrapper.of();
     public static final EntityTypeWrapper ITEM_FRAME = EntityTypeWrapper.of(net.minecraft.entity.EntityType.ITEM_FRAME);
-    public static final EntityTypeWrapper GLOW_ITEM_FRAME = EntityTypeWrapper.of(EntityType.GLOW_ITEM_FRAME);
-    public static final EntityTypeWrapper EXPERIENCE_BOTTLE = EntityTypeWrapper.of(EntityType.EXPERIENCE_BOTTLE);
-    public static final EntityTypeWrapper EXPERIENCE_ORB = EntityTypeWrapper.of(EntityType.EXPERIENCE_ORB);
+    public static final EntityTypeWrapper GLOW_ITEM_FRAME = EntityTypeWrapper.of(net.minecraft.entity.EntityType.GLOW_ITEM_FRAME);
+    public static final EntityTypeWrapper EXPERIENCE_BOTTLE = EntityTypeWrapper.of(net.minecraft.entity.EntityType.EXPERIENCE_BOTTLE);
+    public static final EntityTypeWrapper EXPERIENCE_ORB = EntityTypeWrapper.of(net.minecraft.entity.EntityType.EXPERIENCE_ORB);
 
-    public static final EntityTypeWrapper SNOWBALL = EntityTypeWrapper.of(EntityType.SNOWBALL);
-    public static final EntityTypeWrapper FIREBALL = EntityTypeWrapper.of(EntityType.FIREBALL);
-    public static final EntityTypeWrapper SMALL_FIREBALL = EntityTypeWrapper.of(EntityType.SMALL_FIREBALL);
-    public static final EntityTypeWrapper DRAGON_FIREBALL = EntityTypeWrapper.of(EntityType.DRAGON_FIREBALL);
-    public static final EntityTypeWrapper FIREWORK_ROCKET = EntityTypeWrapper.of(EntityType.FIREWORK_ROCKET);
+    public static final EntityTypeWrapper SNOWBALL = EntityTypeWrapper.of(net.minecraft.entity.EntityType.SNOWBALL);
+    public static final EntityTypeWrapper FIREBALL = EntityTypeWrapper.of(net.minecraft.entity.EntityType.FIREBALL);
+    public static final EntityTypeWrapper SMALL_FIREBALL = EntityTypeWrapper.of(net.minecraft.entity.EntityType.SMALL_FIREBALL);
+    public static final EntityTypeWrapper DRAGON_FIREBALL = EntityTypeWrapper.of(net.minecraft.entity.EntityType.DRAGON_FIREBALL);
+    public static final EntityTypeWrapper FIREWORK_ROCKET = EntityTypeWrapper.of(net.minecraft.entity.EntityType.FIREWORK_ROCKET);
 
-    public static final EntityTypeWrapper ALLAY = EntityTypeWrapper.of(net.minecraft.entity.EntityType.ALLAY);
+    public static final EntityTypeWrapper ALLAY = EntityTypeWrapper.of();
     public static final EntityTypeWrapper AXOLOTL = EntityTypeWrapper.of(net.minecraft.entity.EntityType.AXOLOTL);
     public static final EntityTypeWrapper BAT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BAT);
     public static final EntityTypeWrapper BEE = EntityTypeWrapper.of(net.minecraft.entity.EntityType.BEE);
@@ -54,7 +52,7 @@ public class EntityTypes {
     public static final EntityTypeWrapper ENDERMITE = EntityTypeWrapper.of(net.minecraft.entity.EntityType.ENDERMITE);
     public static final EntityTypeWrapper EVOKER = EntityTypeWrapper.of(net.minecraft.entity.EntityType.EVOKER);
     public static final EntityTypeWrapper FOX = EntityTypeWrapper.of(net.minecraft.entity.EntityType.FOX);
-    public static final EntityTypeWrapper FROG = EntityTypeWrapper.of(net.minecraft.entity.EntityType.FROG);
+    public static final EntityTypeWrapper FROG = EntityTypeWrapper.of();
     public static final EntityTypeWrapper GHAST = EntityTypeWrapper.of(net.minecraft.entity.EntityType.GHAST);
     public static final EntityTypeWrapper GIANT = EntityTypeWrapper.of(net.minecraft.entity.EntityType.GIANT);
     public static final EntityTypeWrapper GLOW_SQUID = EntityTypeWrapper.of(net.minecraft.entity.EntityType.GLOW_SQUID);
