@@ -22,7 +22,10 @@ public class NbtListUtil {
     }
 
     public static Optional<String> getStringOptional(NbtList list, int index) {
-        return list.getString(index);
+        if (index < 0 || index >= list.size())
+            return Optional.empty();
+
+        return Optional.of(list.getString(index));
     }
 
     public static NbtElement get(NbtList list, int index) {
@@ -79,10 +82,10 @@ public class NbtListUtil {
     }
 
     public static NbtList getList(NbtList list, int index) {
-        return list.getList(index).orElse(create());
+        return list.getList(index);
     }
 
     public static NbtCompound getCompound(NbtList list, int index) {
-        return list.getCompound(index).orElse(NbtUtil.create());
+        return list.getCompound(index);
     }
 }
