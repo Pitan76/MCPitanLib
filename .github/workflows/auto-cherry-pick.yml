@@ -28,17 +28,17 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-      - name: Chmod cp.sh
+      - name: Chmod cherry-pick.sh
         if: env.pickable == 'true'
         run: |
-          if [ ! -f .github/workflows/cp.sh ]; then
-            echo "cp.sh not found"
+          if [ ! -f .github/workflows/cherry-pick.sh ]; then
+            echo "cherry-pick.sh not found"
             exit 1
           fi
-          git update-index --assume-unchanged .github/workflows/cp.sh
-          chmod +x .github/workflows/cp.sh
-      - name: Run cp.sh
+          git update-index --assume-unchanged .github/workflows/cherry-pick.sh
+          chmod +x .github/workflows/cherry-pick.sh
+      - name: Run cherry-pick.sh
         if: env.pickable == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: .github/workflows/cp.sh
+        run: .github/workflows/cherry-pick.sh
