@@ -53,4 +53,16 @@ public class ItemEntityUtil {
     public static List<ItemEntity> getEntities(World world, Box box) {
         return WorldUtil.getEntitiesByType(world, EntityType.ITEM, box);
     }
+
+    public static ItemEntity createWithSpawn(World world, ItemStack stack, double x, double y, double z) {
+        ItemEntity itemEntity = create(world, x, y, z, stack);
+        setToDefaultPickupDelay(itemEntity);
+        setVelocity(itemEntity, 0.0D, 0.0D, 0.0D);
+        WorldUtil.spawnEntity(world, itemEntity);
+        return itemEntity;
+    }
+
+    public static ItemEntity createWithSpawn(World world, ItemStack stack, BlockPos pos) {
+        return createWithSpawn(world, stack, pos.getX(), pos.getY(), pos.getZ());
+    }
 }
