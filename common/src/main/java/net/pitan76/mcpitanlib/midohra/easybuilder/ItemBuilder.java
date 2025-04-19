@@ -7,6 +7,7 @@ import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.item.v2.ItemSettingsBuilder;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
@@ -15,6 +16,8 @@ import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -142,6 +145,24 @@ public class ItemBuilder {
 
     public ItemBuilder onItemBarStep(Function<ItemBarStepArgs, Integer> onItemBarStep) {
         this.onItemBarStep = onItemBarStep;
+        return this;
+    }
+
+    private final List<TextComponent> tooltip = new ArrayList<>();
+
+    public ItemBuilder addTooltip(TextComponent text) {
+        if (tooltip.isEmpty())
+            onAppendTooltip = e -> e.getTooltip().add(text.getText());
+        else {
+            onAppendTooltip = e -> {
+                for (TextComponent t : tooltip) {
+                    e.getTooltip().add(t.getText());
+                }
+                e.getTooltip().add(text.getText());
+            };
+        }
+
+        this.tooltip.add(text);
         return this;
     }
 }
