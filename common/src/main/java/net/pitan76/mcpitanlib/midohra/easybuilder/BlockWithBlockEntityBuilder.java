@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.easybuilder;
 
 import net.minecraft.block.entity.BlockEntityType;
+import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.v2.BlockSettingsBuilder;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
@@ -47,6 +48,14 @@ public class BlockWithBlockEntityBuilder extends BlockBuilder {
         Supplier<ExtendBlock> result = registry.registerExtendBlock(id, () -> new BuiltBlockWithEntity(this, id));
 
         return SupplierBlockWrapper.of(result::get);
+    }
+
+    public SupplierBlockWrapper build(CommonModInitializer initializer) {
+        return build(initializer.registry);
+    }
+
+    public SupplierBlockWrapper build(CommonModInitializer initializer, CompatIdentifier id) {
+        return build(initializer.registry, id);
     }
 
     public static BlockWithBlockEntityBuilder of(CompatIdentifier id) {
