@@ -13,6 +13,7 @@ import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
+import net.pitan76.mcpitanlib.midohra.easybuilder.built.BuiltItem;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
