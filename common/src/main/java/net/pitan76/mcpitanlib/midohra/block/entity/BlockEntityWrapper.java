@@ -14,6 +14,10 @@ public class BlockEntityWrapper {
 
     public static final BlockEntityWrapper EMPTY = new BlockEntityWrapper(null);
 
+    protected BlockEntityWrapper() {
+        this.blockEntity = null;
+    }
+
     protected BlockEntityWrapper(net.minecraft.block.entity.BlockEntity blockEntity) {
         this.blockEntity = blockEntity;
     }
@@ -34,7 +38,7 @@ public class BlockEntityWrapper {
         return BlockPos.of(get().getPos());
     }
 
-    public boolean isExist() {
+    public boolean isPresent() {
         return !isEmpty();
     }
 

@@ -29,7 +29,7 @@ public class ItemGroupWrapper {
         return new ItemGroupWrapper();
     }
 
-    public boolean isExist() {
+    public boolean isPresent() {
         return !isEmpty();
     }
 
