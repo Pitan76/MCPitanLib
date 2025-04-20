@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.midohra.easybuilder;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.shape.VoxelShape;
+import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
@@ -19,6 +20,7 @@ import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.color.CompatDyeColor;
@@ -31,6 +33,8 @@ import net.pitan76.mcpitanlib.midohra.block.SupplierBlockWrapper;
 import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.*;
 
 public class BlockBuilder {
@@ -77,6 +81,14 @@ public class BlockBuilder {
         Supplier<ExtendBlock> result = registry.registerExtendBlock(id, () -> new BuiltBlock(this, id));
 
         return SupplierBlockWrapper.of(result::get);
+    }
+
+    public SupplierBlockWrapper build(CommonModInitializer initializer) {
+        return build(initializer.registry);
+    }
+
+    public SupplierBlockWrapper build(CommonModInitializer initializer, CompatIdentifier id) {
+        return build(initializer.registry, id);
     }
 
     public Pair<SupplierBlockWrapper, SupplierItemWrapper> buildWithItem(CompatRegistryV2 registry, CompatibleItemSettings settings) {
@@ -209,6 +221,24 @@ public class BlockBuilder {
 
     public BlockBuilder setDefaultState(BlockState defaultState) {
         this.defaultState = defaultState;
+        return this;
+    }
+
+    private final List<TextComponent> tooltip = new ArrayList<>();
+
+    public BlockBuilder addTooltip(TextComponent text) {
+        if (tooltip.isEmpty()) {
+            onAppendTooltip = e -> e.getTooltip().add(text.getText());
+        } else {
+            onAppendTooltip = e -> {
+                for (TextComponent t : tooltip) {
+                    e.getTooltip().add(t.getText());
+                }
+                e.getTooltip().add(text.getText());
+            };
+        }
+
+        this.tooltip.add(text);
         return this;
     }
 }
