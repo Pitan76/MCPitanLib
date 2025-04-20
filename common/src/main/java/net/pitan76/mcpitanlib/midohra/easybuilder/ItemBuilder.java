@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.easybuilder;
 
+import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
@@ -61,6 +62,14 @@ public class ItemBuilder {
         Supplier<ExtendItem> result = registry.registerExtendItem(settingsBuilder.id, () -> new BuiltItem(this, id));
 
         return SupplierItemWrapper.of(result::get);
+    }
+
+    public SupplierItemWrapper build(CommonModInitializer initializer) {
+        return build(initializer.registry);
+    }
+
+    public SupplierItemWrapper build(CommonModInitializer initializer, CompatIdentifier id) {
+        return build(initializer.registry, id);
     }
 
     public ItemBuilder maxCount(int maxCount) {
@@ -151,9 +160,9 @@ public class ItemBuilder {
     private final List<TextComponent> tooltip = new ArrayList<>();
 
     public ItemBuilder addTooltip(TextComponent text) {
-        if (tooltip.isEmpty())
+        if (tooltip.isEmpty()) {
             onAppendTooltip = e -> e.getTooltip().add(text.getText());
-        else {
+        } else {
             onAppendTooltip = e -> {
                 for (TextComponent t : tooltip) {
                     e.getTooltip().add(t.getText());
