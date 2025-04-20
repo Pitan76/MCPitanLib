@@ -1,10 +1,11 @@
-package net.pitan76.mcpitanlib.midohra.easybuilder;
+package net.pitan76.mcpitanlib.midohra.easybuilder.built;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockEntityProvider;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.midohra.easybuilder.BlockWithBlockEntityBuilder;
 import org.jetbrains.annotations.Nullable;
 
 public class BuiltBlockWithEntity extends BuiltBlock implements ExtendBlockEntityProvider {
