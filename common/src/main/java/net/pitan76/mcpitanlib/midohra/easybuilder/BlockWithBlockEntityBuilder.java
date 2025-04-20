@@ -8,6 +8,7 @@ import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.util.BlockEntityTypeUtil;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.block.SupplierBlockWrapper;
+import net.pitan76.mcpitanlib.midohra.easybuilder.built.BuiltBlockWithEntity;
 
 import java.util.function.Supplier;
 

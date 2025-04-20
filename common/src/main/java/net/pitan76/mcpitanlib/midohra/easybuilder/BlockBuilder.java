@@ -30,6 +30,7 @@ import net.pitan76.mcpitanlib.core.datafixer.Pair;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.SupplierBlockWrapper;
+import net.pitan76.mcpitanlib.midohra.easybuilder.built.BuiltBlock;
 import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
 import org.jetbrains.annotations.Nullable;
 
