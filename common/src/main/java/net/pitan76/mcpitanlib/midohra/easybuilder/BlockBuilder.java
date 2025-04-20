@@ -107,6 +107,14 @@ public class BlockBuilder {
         return Pair.of(block, SupplierItemWrapper.of(result::get));
     }
 
+    public Pair<SupplierBlockWrapper, SupplierItemWrapper> buildWithItem(CommonModInitializer initializer, CompatibleItemSettings settings) {
+        return buildWithItem(initializer.registry, settings);
+    }
+
+    public Pair<SupplierBlockWrapper, SupplierItemWrapper> buildWithItem(CommonModInitializer initializer, CompatIdentifier id, CompatibleItemSettings settings) {
+        return buildWithItem(initializer.registry, id, settings);
+    }
+
     public BlockBuilder material(CompatibleMaterial material) {
         settingsBuilder.material(material);
         return this;
