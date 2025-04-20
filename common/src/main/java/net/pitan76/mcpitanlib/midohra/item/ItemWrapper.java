@@ -33,17 +33,17 @@ public class ItemWrapper {
     }
 
     public static ItemWrapper of(CompatIdentifier id, CompatIdentifier... ids) {
-        if (of(id).isExist()) return of(id);
+        if (of(id).isPresent()) return of(id);
 
         for (CompatIdentifier id1 : ids) {
-            if (of(id1).isExist())
+            if (of(id1).isPresent())
                 return of(id1);
         }
 
         return of();
     }
 
-    public boolean isExist() {
+    public boolean isPresent() {
         return !isEmpty();
     }
 
