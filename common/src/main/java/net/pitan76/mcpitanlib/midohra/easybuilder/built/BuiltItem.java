@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.midohra.easybuilder;
+package net.pitan76.mcpitanlib.midohra.easybuilder.built;
 
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
@@ -6,6 +6,7 @@ import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
+import net.pitan76.mcpitanlib.midohra.easybuilder.ItemBuilder;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
