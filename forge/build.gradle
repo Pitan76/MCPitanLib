@@ -35,7 +35,6 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     shadowCommon 'org.yaml:snakeyaml:2.0'
-    include 'org.yaml:snakeyaml:2.0'
 
     include ("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
@@ -53,6 +52,8 @@ processResources {
 }
 
 shadowJar {
+    relocate "org.yaml.snakeyaml", "net.pitan76.mcpitanlib.shadow.yaml.snakeyaml"
+
     exclude "fabric.mod.json"
     exclude "architectury.common.json"
 
