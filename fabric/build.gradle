@@ -36,7 +36,6 @@ dependencies {
     shadowBundle(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     shadowBundle 'org.yaml:snakeyaml:2.0'
-    include 'org.yaml:snakeyaml:2.0'
 
     modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
@@ -64,6 +63,8 @@ processResources {
 }
 
 shadowJar {
+    relocate "org.yaml.snakeyaml", "net.pitan76.mcpitanlib.shadow.yaml.snakeyaml"
+
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowBundle]
