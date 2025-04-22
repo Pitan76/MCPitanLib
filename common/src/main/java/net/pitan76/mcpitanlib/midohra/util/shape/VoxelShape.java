@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.util.shape;
 
+import net.minecraft.util.shape.VoxelShapes;
 import net.pitan76.mcpitanlib.midohra.util.math.Direction;
 
 public class VoxelShape {
@@ -30,7 +31,7 @@ public class VoxelShape {
     }
 
     public VoxelShape asCuboid() {
-        return of(raw().asCuboid());
+        return of(VoxelShapes.cuboid(raw().getBoundingBox()));
     }
 
     public VoxelShape offset(double x, double y, double z) {
