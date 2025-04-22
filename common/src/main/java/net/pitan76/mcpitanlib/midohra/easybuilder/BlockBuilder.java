@@ -14,6 +14,7 @@ import net.pitan76.mcpitanlib.api.block.args.v2.StateForNeighborUpdateArgs;
 import net.pitan76.mcpitanlib.api.block.v2.BlockSettingsBuilder;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
+import net.pitan76.mcpitanlib.api.event.block.DroppedStacksArgs;
 import net.pitan76.mcpitanlib.api.event.block.StateReplacedEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
@@ -31,6 +32,7 @@ import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.SupplierBlockWrapper;
 import net.pitan76.mcpitanlib.midohra.easybuilder.built.BuiltBlock;
+import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,6 +54,7 @@ public class BlockBuilder {
     public Function<RenderTypeArgs, CompatBlockRenderType> onRenderType;
     public Function<PlacementStateArgs, @Nullable BlockState> onPlacementState;
     public Function<StateForNeighborUpdateArgs, BlockState> onStateForNeighborUpdate;
+    public Function<DroppedStacksArgs, List<net.minecraft.item.ItemStack>> onDroppedStacks;
 
     public BlockBuilder(BlockSettingsBuilder settingsBuilder) {
         this.settingsBuilder = settingsBuilder;
@@ -249,5 +252,16 @@ public class BlockBuilder {
 
         this.tooltip.add(text);
         return this;
+    }
+
+    public BlockBuilder onDroppedStacksRaw(Function<DroppedStacksArgs, List<net.minecraft.item.ItemStack>> onDroppedStacks) {
+        this.onDroppedStacks = onDroppedStacks;
+        return this;
+    }
+
+    public BlockBuilder onDroppedStacks(Function<DroppedStacksArgs, List<ItemStack>> onDroppedStacks) {
+        return onDroppedStacksRaw(e -> onDroppedStacks.apply(e).stream()
+                .map(ItemStack::toMinecraft)
+                .toList());
     }
 }
