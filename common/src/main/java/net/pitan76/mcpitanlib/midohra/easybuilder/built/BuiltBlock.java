@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.easybuilder.built;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.shape.VoxelShape;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
@@ -11,6 +12,7 @@ import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
+import net.pitan76.mcpitanlib.api.event.block.DroppedStacksArgs;
 import net.pitan76.mcpitanlib.api.event.block.StateReplacedEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -19,6 +21,7 @@ import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.easybuilder.BlockBuilder;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -33,6 +36,7 @@ public class BuiltBlock extends CompatBlock {
     protected Function<RenderTypeArgs, CompatBlockRenderType> onRenderType;
     protected Function<PlacementStateArgs, @Nullable BlockState> onPlacementState;
     protected Function<StateForNeighborUpdateArgs, BlockState> onStateForNeighborUpdate;
+    protected Function<DroppedStacksArgs, List<ItemStack>> onDroppedStacks;
 
     public BuiltBlock(CompatibleBlockSettings settings) {
         super(settings);
@@ -130,5 +134,13 @@ public class BuiltBlock extends CompatBlock {
             return onStateForNeighborUpdate.apply(args);
 
         return super.getStateForNeighborUpdate(args);
+    }
+
+    @Override
+    public List<ItemStack> getDroppedStacks(DroppedStacksArgs args) {
+        if (onDroppedStacks != null)
+            return onDroppedStacks.apply(args);
+
+        return super.getDroppedStacks(args);
     }
 }
