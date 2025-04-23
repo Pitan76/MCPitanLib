@@ -32,4 +32,8 @@ public class SimpleInventoryUtil {
     public static int size(SimpleInventory inventory) {
         return inventory.size();
     }
+
+    public static boolean isEmpty(SimpleInventory inventory) {
+        return inventory.isEmpty();
+    }
 }
