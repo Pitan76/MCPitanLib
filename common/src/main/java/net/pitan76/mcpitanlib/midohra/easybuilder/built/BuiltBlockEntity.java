@@ -19,7 +19,7 @@ public class BuiltBlockEntity extends CompatBlockEntity {
     public BiConsumer<BlockEntityWrapper, ReadNbtArgs> onReadNbt;
 
     public BuiltBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+        super(type, new TileCreateEvent(pos, state));
     }
 
     public BuiltBlockEntity(BlockEntityType<?> type, TileCreateEvent e) {

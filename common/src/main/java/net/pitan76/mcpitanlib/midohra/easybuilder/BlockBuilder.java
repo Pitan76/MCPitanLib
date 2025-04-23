@@ -39,6 +39,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.*;
+import java.util.stream.Collectors;
 
 public class BlockBuilder {
 
@@ -278,6 +279,6 @@ public class BlockBuilder {
     public BlockBuilder onDroppedStacks(Function<DroppedStacksArgs, List<ItemStack>> onDroppedStacks) {
         return onDroppedStacksRaw(e -> onDroppedStacks.apply(e).stream()
                 .map(ItemStack::toMinecraft)
-                .toList());
+                .collect(Collectors.toList()));
     }
 }

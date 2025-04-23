@@ -39,7 +39,7 @@ public class BlockEntityTypeWrapper {
     }
 
     public boolean supports(BlockState state) {
-        return isPresent() && get().supports(state.toMinecraft());
+        return isPresent() && get().supports(state.getBlock().get());
     }
 
     public BlockEntityWrapper getBlockEntity(BlockView world, BlockPos pos) {
@@ -53,6 +53,6 @@ public class BlockEntityTypeWrapper {
         if (isEmpty())
             return BlockEntityWrapper.EMPTY;
 
-        return SupplierBlockEntityWrapper.of(get().instantiate(e.getBlockPos(), e.getBlockState()));
+        return SupplierBlockEntityWrapper.of(get().instantiate());
     }
 }
