@@ -90,4 +90,8 @@ public class StateForNeighborUpdateArgs implements BlockStatePropertyHolder {
     public BlockEntity getRawBlockEntity() {
         return world.getBlockEntity(pos);
     }
+
+    public boolean isClient() {
+        return world.isClient();
+    }
 }
