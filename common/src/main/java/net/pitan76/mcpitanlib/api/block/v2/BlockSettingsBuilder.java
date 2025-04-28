@@ -7,6 +7,7 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.color.CompatDyeColor;
 import net.pitan76.mcpitanlib.api.util.color.CompatMapColor;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 
 import java.util.function.ToIntFunction;
 
@@ -22,6 +23,8 @@ public class BlockSettingsBuilder {
     public boolean requiresTool;
     public boolean dropsNothing;
     public ToIntFunction<BlockState> luminance;
+
+    protected BlockWrapper copyFromBlock = null;
 
     public BlockSettingsBuilder(CompatIdentifier id) {
         this.id = id;
@@ -91,8 +94,14 @@ public class BlockSettingsBuilder {
     }
 
     public CompatibleBlockSettings build(CompatIdentifier id) {
+        CompatibleBlockSettings settings;
 
-        CompatibleBlockSettings settings = CompatibleBlockSettings.of(id);
+        if (copyFromBlock != null) {
+            settings = CompatibleBlockSettings.copy(id, copyFromBlock.get());
+        } else {
+            settings = CompatibleBlockSettings.of(id);
+        }
+
         if (material != null)
             settings = CompatibleBlockSettings.of(id, material);
 
@@ -116,5 +125,46 @@ public class BlockSettingsBuilder {
 
     public AbstractBlock.Settings _build(CompatIdentifier id) {
         return build(id).build();
+    }
+
+    public BlockSettingsBuilder copy(CompatIdentifier id) {
+        BlockSettingsBuilder builder = new BlockSettingsBuilder();
+
+        builder.copyFromBlock = this.copyFromBlock;
+
+        builder.id = id;
+        builder.hardness = this.hardness;
+        builder.resistance = this.resistance;
+        builder.blockSoundGroup = this.blockSoundGroup;
+        builder.material = this.material;
+        builder.mapColor = this.mapColor;
+        builder.dyeColor = this.dyeColor;
+        builder.requiresTool = this.requiresTool;
+        builder.dropsNothing = this.dropsNothing;
+        builder.luminance = this.luminance;
+        return builder;
+    }
+
+    public BlockSettingsBuilder copy() {
+        return copy(this.id);
+    }
+
+    public static BlockSettingsBuilder of(CompatIdentifier id) {
+        return new BlockSettingsBuilder(id);
+    }
+
+    public static BlockSettingsBuilder of() {
+        return new BlockSettingsBuilder();
+    }
+
+    public static BlockSettingsBuilder copyBlock(BlockWrapper block) {
+        BlockSettingsBuilder builder = new BlockSettingsBuilder(block.getId());
+        builder.copyFromBlock = block;
+
+        return builder;
+    }
+
+    public static BlockSettingsBuilder copyBlock(CompatIdentifier id) {
+        return copyBlock(BlockWrapper.of(id));
     }
 }
