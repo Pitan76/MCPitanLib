@@ -122,4 +122,32 @@ public class ItemSettingsBuilder {
     public ExtendSettings _build(CompatIdentifier id) {
         return build(id).build();
     }
+
+    public ItemSettingsBuilder copy(CompatIdentifier id) {
+        ItemSettingsBuilder builder = new ItemSettingsBuilder();
+        builder.id = id;
+        builder.maxCount = this.maxCount;
+        builder.maxDamage = this.maxDamage;
+        builder.maxDamageIfAbsent = this.maxDamageIfAbsent;
+        builder.enchantability = this.enchantability;
+        builder.repairIngredientTag = this.repairIngredientTag;
+        builder.foodComponent = this.foodComponent;
+        builder.rarity = this.rarity;
+        builder.recipeRemainder = this.recipeRemainder;
+        builder.itemGroupWrapper = this.itemGroupWrapper;
+        builder.itemGroupBuilder = this.itemGroupBuilder;
+        return builder;
+    }
+
+    public ItemSettingsBuilder copy() {
+        return copy(this.id);
+    }
+
+    public static ItemSettingsBuilder of(CompatIdentifier id) {
+        return new ItemSettingsBuilder(id);
+    }
+
+    public static ItemSettingsBuilder of() {
+        return new ItemSettingsBuilder();
+    }
 }

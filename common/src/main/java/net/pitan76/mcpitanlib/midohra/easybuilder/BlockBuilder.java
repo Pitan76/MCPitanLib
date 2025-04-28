@@ -281,4 +281,29 @@ public class BlockBuilder {
                 .map(ItemStack::toMinecraft)
                 .collect(Collectors.toList()));
     }
+
+    public BlockBuilder write(BlockBuilder copy) {
+        copy.onRightClick = onRightClick;
+        copy.onStateReplaced = onStateReplaced;
+        copy.onAppendTooltip = onAppendTooltip;
+        copy.onAppendProperties = onAppendProperties;
+        copy.defaultState = defaultState;
+        copy.onInit = onInit;
+        copy.onOutlineShape = onOutlineShape;
+        copy.onCollisionShape = onCollisionShape;
+        copy.onRenderType = onRenderType;
+        copy.onPlacementState = onPlacementState;
+        copy.onStateForNeighborUpdate = onStateForNeighborUpdate;
+        copy.onDroppedStacks = onDroppedStacks;
+
+        return copy;
+    }
+
+    public BlockBuilder copy(BlockSettingsBuilder settingsBuilder) {
+        return write(new BlockBuilder(settingsBuilder));
+    }
+
+    public BlockBuilder copy() {
+        return copy(this.settingsBuilder.copy());
+    }
 }
