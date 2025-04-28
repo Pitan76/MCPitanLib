@@ -83,4 +83,20 @@ public class BlockWithBlockEntityBuilder extends BlockBuilder {
     public BlockBuilder applyBlockEntity(CompatIdentifier id) {
         return applyBlockEntity(BlockEntityTypeUtil.fromId(id));
     }
+
+    public BlockWithBlockEntityBuilder write(BlockWithBlockEntityBuilder copy) {
+        copy.settingsBuilder = this.settingsBuilder;
+        copy.blockEntityType = this.blockEntityType;
+        super.write(copy);
+
+        return copy;
+    }
+
+    public BlockWithBlockEntityBuilder copy(BlockSettingsBuilder settingsBuilder) {
+        return write(new BlockWithBlockEntityBuilder(settingsBuilder));
+    }
+
+    public BlockWithBlockEntityBuilder copy() {
+        return copy(this.settingsBuilder.copy());
+    }
 }
