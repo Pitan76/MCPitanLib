@@ -69,4 +69,20 @@ public class BlockEntityBuilder {
         this.onReadNbt = onReadNbt;
         return this;
     }
+
+    public BlockEntityBuilder write(BlockEntityBuilder copy) {
+        copy.onInit = this.onInit;
+        copy.onWriteNbt = this.onWriteNbt;
+        copy.onReadNbt = this.onReadNbt;
+
+        return copy;
+    }
+
+    public BlockEntityBuilder copy(CompatIdentifier id) {
+        return write(new BlockEntityBuilder(id));
+    }
+
+    public BlockEntityBuilder copy() {
+        return copy(this.id);
+    }
 }
