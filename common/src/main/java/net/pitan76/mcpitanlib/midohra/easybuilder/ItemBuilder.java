@@ -175,4 +175,24 @@ public class ItemBuilder {
         this.tooltip.add(text);
         return this;
     }
+
+    public ItemBuilder write(ItemBuilder copy) {
+        copy.settingsBuilder = this.settingsBuilder;
+        copy.onRightClick = this.onRightClick;
+        copy.onRightClickOnBlock = this.onRightClickOnBlock;
+        copy.onRightClickOnEntity = this.onRightClickOnEntity;
+        copy.onAppendTooltip = this.onAppendTooltip;
+        copy.onItemBarColor = this.onItemBarColor;
+        copy.onItemBarStep = this.onItemBarStep;
+
+        return copy;
+    }
+
+    public ItemBuilder copy(ItemSettingsBuilder builder) {
+        return write(new ItemBuilder(builder));
+    }
+
+    public ItemBuilder copy() {
+        return copy(this.settingsBuilder.copy());
+    }
 }
