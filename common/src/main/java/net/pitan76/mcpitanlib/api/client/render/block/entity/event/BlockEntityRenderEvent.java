@@ -5,6 +5,8 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
+import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 import net.pitan76.mcpitanlib.api.util.MathUtil;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
@@ -51,6 +53,10 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
         return vertexConsumers.getBuffer(layer);
     }
 
+    public VertexConsumer getVertexConsumer(CompatRenderLayer layer) {
+        return getVertexConsumer(layer.raw());
+    }
+
     public VertexConsumerProvider getVertexConsumers() {
         return vertexConsumers;
     }
@@ -81,5 +87,9 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
 
     public boolean isRemoved() {
         return blockEntity.isRemoved();
+    }
+
+    public DrawObjectMV getDrawObject(CompatRenderLayer layer) {
+        return new DrawObjectMV(getMatrices(), getVertexConsumer(layer));
     }
 }
