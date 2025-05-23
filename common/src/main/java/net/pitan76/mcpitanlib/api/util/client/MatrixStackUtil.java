@@ -25,4 +25,8 @@ public class MatrixStackUtil {
     public static void scale(MatrixStack matrices, float x, float y, float z) {
         matrices.scale(x, y, z);
     }
+
+    public static MatrixStack.Entry peek(MatrixStack matrices) {
+        return matrices.peek();
+    }
 }
