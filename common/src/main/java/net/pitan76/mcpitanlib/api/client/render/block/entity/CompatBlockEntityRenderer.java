@@ -21,4 +21,23 @@ public abstract class CompatBlockEntityRenderer<T extends CompatBlockEntity> ext
         render(new BlockEntityRenderEvent<>(entity, tickDelta, matrices, vertexConsumers, light, overlay));
     }
 
+    default boolean rendersOutsideBoundingBoxOverride(T blockEntity) {
+        return BlockEntityRenderer.super.rendersOutsideBoundingBox(blockEntity);
+    }
+
+    default int getRenderDistanceOverride() {
+        return BlockEntityRenderer.super.getRenderDistance();
+    }
+
+    @Deprecated
+    @Override
+    default boolean rendersOutsideBoundingBox(T blockEntity) {
+        return rendersOutsideBoundingBoxOverride(blockEntity);
+    }
+
+    @Deprecated
+    @Override
+    default int getRenderDistance() {
+        return getRenderDistanceOverride();
+    }
 }
