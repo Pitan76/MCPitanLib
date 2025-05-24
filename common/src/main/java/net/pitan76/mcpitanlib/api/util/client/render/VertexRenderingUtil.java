@@ -14,8 +14,9 @@ public class VertexRenderingUtil {
         WorldRenderer.drawBox(matrices, buffer, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha, xAxisRed, yAxisGreen, zAxisBlue);
     }
 
+    // TODO: fix
     public static void drawFilledBox(MatrixStack matrices, VertexConsumer buffer, double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {
-        WorldRenderer.method_3258(matrices, buffer, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);
+        WorldRenderer.drawBox(matrices, buffer, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);
     }
 
     public static void drawBox(DrawObjectMV drawObject, double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {
