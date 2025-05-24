@@ -30,11 +30,11 @@ public class LanguageUtil {
     }
 
     public static String getLanguage() {
-        return getLanguageManager().getLanguage();
+        return getLanguageManager().getLanguage().getCode();
     }
 
     public static void setLanguage(String language) {
-        getLanguageManager().setLanguage(language);
+        getLanguageManager().setLanguage(getLanguageManager().getLanguage(language));
     }
 
     public static void reload(net.minecraft.resource.ResourceManager resourceManager) {
