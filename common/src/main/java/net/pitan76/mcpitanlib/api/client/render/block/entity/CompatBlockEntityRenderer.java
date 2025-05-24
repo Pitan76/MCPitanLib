@@ -7,6 +7,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.pitan76.mcpitanlib.api.client.render.block.entity.event.BlockEntityRenderEvent;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 
+// TODO: 1.16.5ではextendsで1.18ではimplementsに変更されているため、ラッパーを作成する必要がある
 @Deprecated
 public abstract class CompatBlockEntityRenderer<T extends CompatBlockEntity> extends BlockEntityRenderer<T> {
 
@@ -21,23 +22,18 @@ public abstract class CompatBlockEntityRenderer<T extends CompatBlockEntity> ext
         render(new BlockEntityRenderEvent<>(entity, tickDelta, matrices, vertexConsumers, light, overlay));
     }
 
-    default boolean rendersOutsideBoundingBoxOverride(T blockEntity) {
-        return BlockEntityRenderer.super.rendersOutsideBoundingBox(blockEntity);
+    public boolean rendersOutsideBoundingBoxOverride(T blockEntity) {
+        return super.rendersOutsideBoundingBox(blockEntity);
     }
 
-    default int getRenderDistanceOverride() {
-        return BlockEntityRenderer.super.getRenderDistance();
+    public int getRenderDistanceOverride() {
+        return 64;
     }
 
     @Deprecated
     @Override
-    default boolean rendersOutsideBoundingBox(T blockEntity) {
+    public boolean rendersOutsideBoundingBox(T blockEntity) {
         return rendersOutsideBoundingBoxOverride(blockEntity);
     }
 
-    @Deprecated
-    @Override
-    default int getRenderDistance() {
-        return getRenderDistanceOverride();
-    }
 }
