@@ -131,22 +131,27 @@ public class ItemStackUtil {
     }
 
     public static ItemStack create(Item item) {
+        if (item == null) return empty();
         return new ItemStack(item);
     }
 
     public static ItemStack create(Item item, int count) {
+        if (item == null) return empty();
         return new ItemStack(item, count);
     }
 
     public static ItemStack create(ItemConvertible item) {
+        if (item == null) return empty();
         return new ItemStack(item);
     }
 
     public static ItemStack create(ItemConvertible item, int count) {
+        if (item == null) return empty();
         return new ItemStack(item, count);
     }
 
     public static boolean isEmpty(ItemStack stack) {
+        if (stack == null) return true;
         return stack.isEmpty();
     }
 
