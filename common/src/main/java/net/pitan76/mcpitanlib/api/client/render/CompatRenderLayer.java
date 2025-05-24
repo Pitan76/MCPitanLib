@@ -12,8 +12,6 @@ public class CompatRenderLayer {
     public static final CompatRenderLayer LINES = new CompatRenderLayer(RenderLayer.getLines());
     public static final CompatRenderLayer LINE_STRIP = new CompatRenderLayer(RenderLayer.getLineStrip());
     public static final CompatRenderLayer GLINT = new CompatRenderLayer(RenderLayer.getGlint());
-    public static final CompatRenderLayer DEBUG_FILLED_BOX = new CompatRenderLayer(RenderLayer.getDebugFilledBox());
-    public static final CompatRenderLayer DEBUG_QUADS = new CompatRenderLayer(RenderLayer.getDebugQuads());
 
     public final RenderLayer layer;
 
@@ -39,9 +37,5 @@ public class CompatRenderLayer {
 
     public static CompatRenderLayer getArmorCutoutNoCull(CompatIdentifier id) {
         return new CompatRenderLayer(RenderLayer.getArmorCutoutNoCull(id.toMinecraft()));
-    }
-
-    public static CompatRenderLayer getCrosshair(CompatIdentifier id) {
-        return new CompatRenderLayer(RenderLayer.getCrosshair(id.toMinecraft()));
     }
 }
