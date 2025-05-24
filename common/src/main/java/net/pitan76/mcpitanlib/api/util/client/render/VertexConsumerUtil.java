@@ -10,7 +10,7 @@ public class VertexConsumerUtil {
     }
 
     public static VertexConsumer vertex(VertexConsumer vertexConsumer, MatrixStack stack, float x, float y, float z) {
-        return vertexConsumer.vertex(stack.peek().getPositionMatrix(), x, y, z);
+        return vertexConsumer.vertex(stack.peek().getModel(), x, y, z);
     }
 
     public static VertexConsumer normal(VertexConsumer vertexConsumer, float x, float y, float z) {
@@ -26,12 +26,21 @@ public class VertexConsumerUtil {
     }
 
     public static VertexConsumer colorARGB(VertexConsumer vertexConsumer, int argb) {
-        return vertexConsumer.color(argb);
+        int red = (argb >> 16) & 0xFF;
+        int green = (argb >> 8) & 0xFF;
+        int blue = argb & 0xFF;
+        int alpha = (argb >> 24) & 0xFF;
+
+        return color(vertexConsumer, red, green, blue, alpha);
     }
 
     public static VertexConsumer colorRGB(VertexConsumer vertexConsumer, int rgb) {
-        int argb = (rgb & 0xFF0000) | ((rgb & 0x00FF00) >> 8) | ((rgb & 0x0000FF) << 8) | (rgb & 0xFF000000);
-        return colorARGB(vertexConsumer, argb);
+        int red = (rgb >> 16) & 0xFF;
+        int green = (rgb >> 8) & 0xFF;
+        int blue = rgb & 0xFF;
+        int alpha = 255; // Default alpha value
+
+        return color(vertexConsumer, red, green, blue, alpha);
     }
 
     public static VertexConsumer light(VertexConsumer vertexConsumer, int light) {

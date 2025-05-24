@@ -10,7 +10,7 @@ public class CompatRenderLayer {
     public static final CompatRenderLayer TRANSLUCENT_MOVING_BLOCK = new CompatRenderLayer(RenderLayer.getTranslucentMovingBlock());
     public static final CompatRenderLayer SOLID = new CompatRenderLayer(RenderLayer.getSolid());
     public static final CompatRenderLayer LINES = new CompatRenderLayer(RenderLayer.getLines());
-    public static final CompatRenderLayer LINE_STRIP = new CompatRenderLayer(RenderLayer.getLineStrip());
+    public static final CompatRenderLayer LINE_STRIP = new CompatRenderLayer(RenderLayer.getLines());
     public static final CompatRenderLayer GLINT = new CompatRenderLayer(RenderLayer.getGlint());
 
     public final RenderLayer layer;
