@@ -37,7 +37,7 @@ public class MCPitanLib {
     public static List<String> blockBlackList = new ArrayList<>();
 
     // MCPitanLibのアイテム、ブロック、タイルエンティティの登録
-    public static CompatRegistry registry = CompatRegistry.createRegistry(MOD_ID);
+    public static CompatRegistry registry;
 
     /**
      * MCPitanLibの初期化
@@ -48,6 +48,8 @@ public class MCPitanLib {
 
         if (PlatformUtil.isDevelopmentEnvironment() || (config.has("debugMode") && config.getBoolean("debugMode"))) {
             System.out.println("MCPitanLib: Debug Mode");
+
+            registry = CompatRegistry.createRegistry(MOD_ID);
             DebugTool.register();
             registry.allRegister();
 
