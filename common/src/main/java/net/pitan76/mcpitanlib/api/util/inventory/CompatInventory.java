@@ -40,6 +40,10 @@ public class CompatInventory extends SimpleInventory {
 
     @Override
     public ItemStack removeStack(int slot, int amount) {
+        return callRemoveStack(slot, amount);
+    }
+
+    public ItemStack callRemoveStack(int slot, int amount) {
         return super.removeStack(slot, amount);
     }
 
