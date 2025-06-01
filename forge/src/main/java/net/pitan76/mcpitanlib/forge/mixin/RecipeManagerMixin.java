@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.mixin;
+package net.pitan76.mcpitanlib.forge.mixin;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
@@ -21,11 +21,11 @@ import java.util.Map;
 @Mixin(RecipeManager.class)
 public class RecipeManagerMixin {
     @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V",
-            at = @At(value = "INVOKE", target = "Ljava/util/Map;entrySet()Ljava/util/Set;", ordinal = 1),
+            at = @At(value = "INVOKE", target = "Ljava/util/Map;entrySet()Ljava/util/Set;", ordinal = 0),
             locals = LocalCapture.CAPTURE_FAILHARD)
-    private void mcpitanlib$invokeApply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo ci, Map<RecipeType<?>, ImmutableMap.Builder<Identifier, RecipeEntry<?>>> map2) {
+    private void mcpitanlib$invokeApply(Map<Identifier, JsonElement> map2, ResourceManager resourceManager, Profiler profiler, CallbackInfo ci, Map<RecipeType<?>, ImmutableMap.Builder<Identifier, RecipeEntry<?>>> map) {
         if (RecipeManagerRegistry.managers.isEmpty()) return;
-        RecipeManagerRegistry.managers.forEach((manager) -> manager.apply(new RecipeManagerEvent(map, resourceManager, profiler, map2)));
+        RecipeManagerRegistry.managers.forEach((manager) -> manager.apply(new RecipeManagerEvent(map2, resourceManager, profiler, map)));
     }
 
 }

@@ -13,7 +13,6 @@
     "ItemStackMixin",
     "ItemUsageContextMixin",
     "MinecraftServerTimer",
-    "RecipeManagerMixin",
     "ServerWorldTimer"
   ],
   "client": [
