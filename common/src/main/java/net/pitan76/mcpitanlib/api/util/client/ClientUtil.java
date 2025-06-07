@@ -15,6 +15,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.profiler.Profiler;
+import net.pitan76.mcpitanlib.api.client.option.GameOptionsWrapper;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 import java.io.File;
@@ -100,5 +101,17 @@ public class ClientUtil {
 
     public static Mouse getMouse() {
         return getClient().mouse;
+    }
+
+    public static boolean isInSingleplayer() {
+        return getClient().isInSingleplayer();
+    }
+
+    public static boolean isPaused() {
+        return getClient().isPaused();
+    }
+
+    public static GameOptionsWrapper getOptions() {
+        return new GameOptionsWrapper(getClient().options);
     }
 }
