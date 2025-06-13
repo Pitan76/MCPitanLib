@@ -89,4 +89,8 @@ public class MCServer {
     public ResourceManager getResourceManager() {
         return ResourceManager.of(server.getResourceManager());
     }
+
+    public void execute(Runnable runnable) {
+        ServerUtil.execute(getRaw(), runnable);
+    }
 }
