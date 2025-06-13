@@ -5,6 +5,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.BlockPos;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
@@ -110,5 +111,13 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
             matrix3f = matrices.peek().getNormalMatrix();
 
         return matrix3f;
+    }
+
+    public BlockPos getPos() {
+        return blockEntity.callGetPos();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(getPos());
     }
 }
