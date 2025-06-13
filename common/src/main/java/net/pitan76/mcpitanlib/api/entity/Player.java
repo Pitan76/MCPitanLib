@@ -33,6 +33,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
+import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -509,5 +510,9 @@ public class Player {
 
     public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
         return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
+    }
+
+    public void eatFood(ItemStack stack, CompatFoodComponent foodComponent) {
+        getEntity().getHungerManager().eat(foodComponent.build());
     }
 }
