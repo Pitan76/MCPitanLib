@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 public class BlockWithBlockEntityBuilder extends BlockBuilder {
 
-    public BlockEntityType<?> blockEntityType;
+    public Supplier<BlockEntityType<?>> blockEntityType;
 
     public BlockWithBlockEntityBuilder(BlockSettingsBuilder settingsBuilder) {
         super(settingsBuilder);
@@ -24,12 +24,12 @@ public class BlockWithBlockEntityBuilder extends BlockBuilder {
         super(id);
     }
 
-    public BlockWithBlockEntityBuilder(BlockSettingsBuilder settingsBuilder, BlockEntityType<?> blockEntityType) {
+    public BlockWithBlockEntityBuilder(BlockSettingsBuilder settingsBuilder, Supplier<BlockEntityType<?>> blockEntityType) {
         super(settingsBuilder);
         this.blockEntityType = blockEntityType;
     }
 
-    public BlockWithBlockEntityBuilder(CompatIdentifier id, BlockEntityType<?> blockEntityType) {
+    public BlockWithBlockEntityBuilder(CompatIdentifier id, Supplier<BlockEntityType<?>> blockEntityType) {
         super(id);
         this.blockEntityType = blockEntityType;
     }
@@ -67,20 +67,25 @@ public class BlockWithBlockEntityBuilder extends BlockBuilder {
         return new BlockWithBlockEntityBuilder(settingsBuilder);
     }
 
-    public static BlockWithBlockEntityBuilder of(CompatIdentifier id, BlockEntityType<?> blockEntityType) {
+    public static BlockWithBlockEntityBuilder of(CompatIdentifier id, Supplier<BlockEntityType<?>> blockEntityType) {
         return new BlockWithBlockEntityBuilder(id, blockEntityType);
     }
 
-    public static BlockWithBlockEntityBuilder of(BlockSettingsBuilder settingsBuilder, BlockEntityType<?> blockEntityType) {
+    public static BlockWithBlockEntityBuilder of(BlockSettingsBuilder settingsBuilder, Supplier<BlockEntityType<?>> blockEntityType) {
         return new BlockWithBlockEntityBuilder(settingsBuilder, blockEntityType);
     }
 
-    public BlockBuilder applyBlockEntity(BlockEntityType<?> blockEntityType) {
+    public BlockWithBlockEntityBuilder applyBlockEntity(Supplier<BlockEntityType<?>> blockEntityType) {
         this.blockEntityType = blockEntityType;
         return this;
     }
 
-    public BlockBuilder applyBlockEntity(CompatIdentifier id) {
+    public BlockWithBlockEntityBuilder applyBlockEntity(BlockEntityType<?> blockEntityType) {
+        this.blockEntityType = () -> blockEntityType;
+        return this;
+    }
+
+    public BlockWithBlockEntityBuilder applyBlockEntity(CompatIdentifier id) {
         return applyBlockEntity(BlockEntityTypeUtil.fromId(id));
     }
 
