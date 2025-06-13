@@ -57,4 +57,8 @@ public class ServerUtil {
     public static MinecraftServer getServer(Player player) {
         return getServer(player.getWorld());
     }
+
+    public static void execute(MinecraftServer server, Runnable runnable) {
+        server.execute(runnable);
+    }
 }

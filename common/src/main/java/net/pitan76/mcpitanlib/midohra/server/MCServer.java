@@ -89,4 +89,8 @@ public class MCServer {
     public ResourceManager getResourceManager() {
         return ResourceManager.of((net.minecraft.resource.ResourceManager) null);
     }
+
+    public void execute(Runnable runnable) {
+        ServerUtil.execute(getRaw(), runnable);
+    }
 }
