@@ -504,4 +504,8 @@ public class Player {
     public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
         return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
     }
+
+    public void eatFood(ItemStack stack, CompatFoodComponent foodComponent) {
+        getEntity().getHungerManager().eat(foodComponent.build());
+    }
 }

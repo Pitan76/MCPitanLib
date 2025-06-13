@@ -3,6 +3,8 @@ package net.pitan76.mcpitanlib.api.util.client.render;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 public class VertexConsumerUtil {
     public static VertexConsumer vertex(VertexConsumer vertexConsumer, float x, float y, float z) {
@@ -80,5 +82,21 @@ public class VertexConsumerUtil {
     public static DrawObjectMV overlay(DrawObjectMV drawObject, int overlay) {
         overlay(drawObject.getBuffer(), overlay);
         return drawObject;
+    }
+
+    public static VertexConsumer texture(VertexConsumer vertexConsumer, float u, float v) {
+        return vertexConsumer.texture(u, v);
+    }
+
+    public static VertexConsumer vertex(VertexConsumer vertexConsumer, Matrix4f matrix4f, float x, float y, float z) {
+        return vertexConsumer.vertex(matrix4f, x, y, z);
+    }
+
+    public static VertexConsumer normal(VertexConsumer vertexConsumer, MatrixStack stack, float x, float y, float z) {
+        return vertexConsumer.normal(stack.peek(), x, y, z);
+    }
+
+    public static VertexConsumer next(VertexConsumer vertexConsumer) {
+        return vertexConsumer;
     }
 }
