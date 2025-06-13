@@ -8,9 +8,11 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.easybuilder.BlockWithBlockEntityBuilder;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Supplier;
+
 public class BuiltBlockWithEntity extends BuiltBlock implements ExtendBlockEntityProvider {
 
-    public BlockEntityType<? extends BlockEntity> blockEntityType;
+    public Supplier<BlockEntityType<? extends BlockEntity>> blockEntityType;
 
     public BuiltBlockWithEntity(CompatibleBlockSettings settings) {
         super(settings);
@@ -30,6 +32,9 @@ public class BuiltBlockWithEntity extends BuiltBlock implements ExtendBlockEntit
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityType<T> getBlockEntityType() {
-        return (BlockEntityType<T>) blockEntityType;
+        if (blockEntityType == null)
+            return null;
+
+        return (BlockEntityType<T>) blockEntityType.get();
     }
 }
