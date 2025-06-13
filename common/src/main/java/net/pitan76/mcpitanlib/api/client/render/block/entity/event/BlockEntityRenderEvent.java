@@ -11,6 +11,8 @@ import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 import net.pitan76.mcpitanlib.api.util.MathUtil;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.MatrixStackUtil;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
     public T blockEntity;
@@ -91,5 +93,22 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
 
     public DrawObjectMV getDrawObject(CompatRenderLayer layer) {
         return new DrawObjectMV(getMatrices(), getVertexConsumer(layer));
+    }
+
+    public Matrix4f matrix4f;
+    public Matrix3f matrix3f;
+
+    public Matrix4f getMatrix4f() {
+        if (matrix4f == null)
+            matrix4f = matrices.peek().getPositionMatrix();
+
+        return matrix4f;
+    }
+
+    public Matrix3f getMatrix3f() {
+        if (matrix3f == null)
+            matrix3f = matrices.peek().getNormalMatrix();
+
+        return matrix3f;
     }
 }
