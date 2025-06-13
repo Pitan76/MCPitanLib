@@ -500,4 +500,8 @@ public class Player {
     public boolean canHarvest(BlockState state) {
         return getEntity().canHarvest(state);
     }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
+    }
 }
