@@ -3,7 +3,9 @@ package net.pitan76.mcpitanlib.api.network.v2.args;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.midohra.network.CompatPacketByteBuf;
 
 public class ClientReceiveEvent {
     public MinecraftClient client;
@@ -32,5 +34,17 @@ public class ClientReceiveEvent {
 
     public PacketByteBuf getBuf() {
         return buf;
+    }
+
+    public CompatPacketByteBuf getCompatBuf() {
+        return CompatPacketByteBuf.of(buf);
+    }
+
+    public World getWorld() {
+        return getPlayer().getWorld();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
     }
 }
