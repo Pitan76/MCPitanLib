@@ -33,6 +33,10 @@ public class BlockPos {
         return blockPos;
     }
 
+    public net.minecraft.util.math.BlockPos toRaw() {
+        return toMinecraft();
+    }
+
     public BlockPos add(int x, int y, int z) {
         return new BlockPos(blockPos.add(x, y, z));
     }
