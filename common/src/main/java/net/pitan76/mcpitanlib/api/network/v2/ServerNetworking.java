@@ -5,8 +5,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.network.v2.args.ServerReceiveEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.midohra.network.CompatPacketByteBuf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,5 +53,45 @@ public class ServerNetworking {
         net.pitan76.mcpitanlib.api.network.ServerNetworking.registerReceiver(id.toMinecraft(), (server, player, buf) -> {
             consumer.accept(new ServerReceiveEvent(server, player, buf));
         });
+    }
+
+    public static void send(ServerPlayerEntity serverPlayerEntity, CompatIdentifier id, CompatPacketByteBuf buf) {
+        send(serverPlayerEntity, id, buf.getRaw());
+    }
+
+    public static void send(Player player, CompatIdentifier id, CompatPacketByteBuf buf) {
+        send(player, id, buf.getRaw());
+    }
+
+    public static void send(Iterable<Player> players, CompatIdentifier id, CompatPacketByteBuf buf) {
+        send(players, id, buf.getRaw());
+    }
+
+    public static void sendAll(MinecraftServer server, CompatIdentifier id, CompatPacketByteBuf buf) {
+        sendAll(server, id, buf.getRaw());
+    }
+
+    public static void sendAll(World world, CompatIdentifier id, CompatPacketByteBuf buf) {
+        sendAll(world.getServer(), id, buf.getRaw());
+    }
+
+    public static void send(ServerPlayerEntity serverPlayerEntity, CompatIdentifier id) {
+        send(serverPlayerEntity, id, PacketByteUtil.create());
+    }
+
+    public static void send(Player player, CompatIdentifier id) {
+        send(player, id, PacketByteUtil.create());
+    }
+
+    public static void send(Iterable<Player> players, CompatIdentifier id) {
+        send(players, id, PacketByteUtil.create());
+    }
+
+    public static void sendAll(MinecraftServer server, CompatIdentifier id) {
+        sendAll(server, id, PacketByteUtil.create());
+    }
+
+    public static void sendAll(World world, CompatIdentifier id) {
+        sendAll(world.getServer(), id, PacketByteUtil.create());
     }
 }
