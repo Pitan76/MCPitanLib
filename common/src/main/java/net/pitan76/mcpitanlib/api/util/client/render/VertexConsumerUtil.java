@@ -116,6 +116,7 @@ public class VertexConsumerUtil {
     }
 
     public static VertexConsumer next(VertexConsumer vertexConsumer) {
+        vertexConsumer.next();
         return vertexConsumer;
     }
 
