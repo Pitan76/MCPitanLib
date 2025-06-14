@@ -5,6 +5,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.midohra.network.CompatPacketByteBuf;
 import net.pitan76.mcpitanlib.midohra.server.MCServer;
 
 public class ServerReceiveEvent {
@@ -36,15 +37,23 @@ public class ServerReceiveEvent {
         return buf;
     }
 
-    public World world () {
+    public World getWorld() {
         return getPlayer().getWorld();
     }
 
     public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
-        return net.pitan76.mcpitanlib.midohra.world.World.of(world());
+        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
     }
 
     public MCServer getMidohraServer() {
         return MCServer.of(server);
+    }
+
+    public CompatPacketByteBuf getCompatBuf() {
+        return CompatPacketByteBuf.of(buf);
+    }
+
+    public void execute(Runnable runnable) {
+        server.execute(runnable);
     }
 }
