@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.client.render;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.render.BuiltBuffer;
 import net.minecraft.client.render.RenderLayer;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -43,10 +42,6 @@ public class CompatRenderLayer {
 
     public static CompatRenderLayer getEntitySolid(CompatIdentifier id) {
         return new CompatRenderLayer(RenderLayer.getEntitySolid(id.toMinecraft()));
-    }
-
-    public static CompatRenderLayer create(String name, int size, boolean hasCrumbling, boolean translucent, RenderPipeline pipeline, RenderLayer.MultiPhaseParameters params) {
-        return new CompatRenderLayer(RenderLayer.of(name, size, hasCrumbling, translucent, pipeline, params));
     }
 
     public void draw(BuiltBuffer buffer) {
