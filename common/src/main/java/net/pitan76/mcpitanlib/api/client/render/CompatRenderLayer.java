@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.client.render;
 
-import net.minecraft.client.render.BuiltBuffer;
 import net.minecraft.client.render.RenderLayer;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
@@ -42,9 +41,5 @@ public class CompatRenderLayer {
 
     public static CompatRenderLayer getEntitySolid(CompatIdentifier id) {
         return new CompatRenderLayer(RenderLayer.getEntitySolid(id.toMinecraft()));
-    }
-
-    public void draw(BuiltBuffer buffer) {
-        layer.draw(buffer);
     }
 }
