@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.client.render;
 
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
@@ -43,6 +44,10 @@ public class VertexConsumerUtil {
         return vertexConsumer.overlay(overlay);
     }
 
+    public static VertexConsumer overlayDefaultUV(VertexConsumer vertexConsumer) {
+        return vertexConsumer.overlay(OverlayTexture.DEFAULT_UV);
+    }
+
     public static DrawObjectMV vertex(DrawObjectMV drawObject, float x, float y, float z) {
         vertex(drawObject.getBuffer(), drawObject.getStack(), x, y, z);
         return drawObject;
@@ -83,6 +88,11 @@ public class VertexConsumerUtil {
         return drawObject;
     }
 
+    public static DrawObjectMV overlayDefaultUV(DrawObjectMV drawObject) {
+        overlayDefaultUV(drawObject.getBuffer());
+        return drawObject;
+    }
+
     public static VertexConsumer texture(VertexConsumer vertexConsumer, float u, float v) {
         return vertexConsumer.texture(u, v);
     }
@@ -98,4 +108,96 @@ public class VertexConsumerUtil {
     public static VertexConsumer next(VertexConsumer vertexConsumer) {
         return vertexConsumer;
     }
+
+    public static void renderQuad(VertexConsumer vertexConsumer, MatrixStack stack, Matrix4f matrix4f, Matrix3f matrix3f,
+                            float x1, float y1, float z1, float x2, float y2, float z2,
+                            float normalX, float normalY, float normalZ, int r, int g, int b, int alpha, int u, int v, int overlay, int light) {
+
+        float[][] vertexes = new float[4][3];
+
+        if (Math.abs(normalY) > 0.5f) {
+            if (normalY > 0) {
+                vertexes = new float[][]{
+                        {x1, y1, z1},
+                        {x1, y1, z2},
+                        {x2, y1, z2},
+                        {x2, y1, z1}
+                };
+
+            } else {
+                vertexes = new float[][]{
+                        {x1, y1, z1},
+                        {x2, y1, z1},
+                        {x2, y1, z2},
+                        {x1, y1, z2}
+                };
+            }
+        } else if (Math.abs(normalZ) > 0.5f) {
+            if (normalZ > 0) {
+                vertexes = new float[][]{
+                        {x1, y1, z1},
+                        {x2, y1, z1},
+                        {x2, y2, z1},
+                        {x1, y2, z1}
+                };
+            } else {
+                vertexes = new float[][]{
+                        {x1, y1, z1},
+                        {x1, y2, z1},
+                        {x2, y2, z1},
+                        {x2, y1, z1}
+                };
+            }
+        } else if (Math.abs(normalX) > 0.5f) {
+            if (normalX > 0) {
+                vertexes = new float[][]{
+                        {x1, y1, z1},
+                        {x1, y2, z1},
+                        {x1, y2, z2},
+                        {x1, y1, z2}
+                };
+            } else {
+                vertexes = new float[][]{
+                        {x1, y1, z1},
+                        {x1, y1, z2},
+                        {x1, y2, z2},
+                        {x1, y2, z1}
+                };
+            }
+        }
+
+        for (float[] vertex : vertexes) {
+            if (vertex.length != 3) continue;
+
+            vertex(vertexConsumer, matrix4f, vertex[0], vertex[1], vertex[2]);
+            color(vertexConsumer, r, g, b, alpha);
+            texture(vertexConsumer, u, v);
+            light(vertexConsumer, light);
+            normal(vertexConsumer, stack, normalX, normalY, normalZ);
+            next(vertexConsumer);
+        }
+    }
+
+    public static void renderQuad(DrawObjectMV drawObject, Matrix4f matrix4f, Matrix3f matrix3f,
+                            float x1, float y1, float z1, float x2, float y2, float z2,
+                            float normalX, float normalY, float normalZ, int r, int g, int b, int alpha, int u, int v, int overlay, int light) {
+        renderQuad(drawObject.getBuffer(), drawObject.getStack(), matrix4f, matrix3f,
+                x1, y1, z1, x2, y2, z2,
+                normalX, normalY, normalZ, r, g, b, alpha, u, v, overlay, light);
+
+    }
+
+    public static void renderQuad(DrawObjectMV drawObject,
+                            float x1, float y1, float z1, float x2, float y2, float z2,
+                            float normalX, float normalY, float normalZ, int r, int g, int b, int alpha, int u, int v, int overlay, int light) {
+
+        Matrix4f matrix4f = drawObject.getMatrix4f();
+        Matrix3f matrix3f = drawObject.getMatrix3f();
+
+        renderQuad(drawObject.getBuffer(), drawObject.getStack(), matrix4f, matrix3f,
+                x1, y1, z1, x2, y2, z2,
+                normalX, normalY, normalZ, r, g, b, alpha, u, v, overlay, light);
+
+    }
 }
+
