@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.render;
 
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.pitan76.mcpitanlib.api.util.client.render.VertexConsumerUtil;
@@ -63,6 +64,10 @@ public class DrawObjectMV {
         return VertexConsumerUtil.overlay(this, overlay);
     }
 
+    public DrawObjectMV overlayDefaultUV() {
+        return VertexConsumerUtil.overlayDefaultUV(this);
+    }
+
     public Matrix4f matrix4f;
     public Matrix3f matrix3f;
 
@@ -106,75 +111,9 @@ public class DrawObjectMV {
     }
 
     private void renderQuad(float x1, float y1, float z1, float x2, float y2, float z2,
-                            float normalX, float normalY, float normalZ, int r, int g, int b) {
-
-        if (Math.abs(normalY) > 0.5f) {
-            float y = y1;
-
-            if (normalY > 0) {
-                vertexWithMatrix4f(x1, y, z1).color(r, g, b, 255).texture(0, 0)
-                        .light(15728880).normalWithMatrix(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x1, y, z2).color(r, g, b, 255).texture(0, 0)
-                        .light(15728880).normalWithMatrix(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x2, y, z2).color(r, g, b, 255).texture(0, 0)
-                        .light(15728880).normalWithMatrix(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x2, y, z1).color(r, g, b, 255).texture(0, 0)
-                        .light(15728880).normalWithMatrix(normalX, normalY, normalZ).next();
-            } else {
-                vertexWithMatrix4f(x1, y, z1).color(r, g, b, 255).texture(0, 0)
-                        .light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x2, y, z1).color(r, g, b, 255).texture(0, 0)
-                        .light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x2, y, z2).color(r, g, b, 255).texture(0, 0)
-                        .light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x1, y, z2).color(r, g, b, 255).texture(0, 0)
-                        .light(15728880).normal(normalX, normalY, normalZ).next();
-            }
-
-        } else if (Math.abs(normalZ) > 0.5f) {
-            float z = z1;
-
-            if (normalZ > 0) {
-                // TODO: Fix
-                vertexWithMatrix4f(x1, y1, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x1, y2, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x2, y1, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-
-                vertexWithMatrix4f(x2, y1, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x1, y2, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x2, y2, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-
-            } else {
-                vertexWithMatrix4f(x1, y1, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x2, y1, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x1, y2, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-
-                vertexWithMatrix4f(x2, y1, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x2, y2, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x1, y2, z).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-            }
-
-        } else if (Math.abs(normalX) > 0.5f) {
-            float x = x1;
-
-            if (normalX > 0) {
-                vertexWithMatrix4f(x, y1, z1).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x, y2, z1).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x, y1, z2).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-
-                vertexWithMatrix4f(x, y1, z2).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x, y2, z1).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x, y2, z2).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-
-            } else {
-                vertexWithMatrix4f(x, y1, z1).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x, y1, z2).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x, y2, z1).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-
-                vertexWithMatrix4f(x, y1, z2).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x, y2, z2).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-                vertexWithMatrix4f(x, y2, z1).color(r, g, b, 255).texture(0, 0).light(15728880).normal(normalX, normalY, normalZ).next();
-            }
-        }
+                            float normalX, float normalY, float normalZ, int r, int g, int b, int alpha, int u, int v, int overlay, int light) {
+        VertexConsumerUtil.renderQuad(buffer, stack, getMatrix4f(), getMatrix3f(),
+                x1, y1, z1, x2, y2, z2,
+                normalX, normalY, normalZ, r, g, b, alpha, u, v, overlay, light);
     }
 }
