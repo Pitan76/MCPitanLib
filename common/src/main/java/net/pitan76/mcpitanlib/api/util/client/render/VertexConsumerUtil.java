@@ -3,9 +3,9 @@ package net.pitan76.mcpitanlib.api.util.client.render;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.Matrix3f;
+import net.minecraft.util.math.Matrix4f;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 
 public class VertexConsumerUtil {
     public static VertexConsumer vertex(VertexConsumer vertexConsumer, float x, float y, float z) {
