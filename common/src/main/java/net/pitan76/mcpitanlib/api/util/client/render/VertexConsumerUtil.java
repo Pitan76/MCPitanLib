@@ -112,7 +112,7 @@ public class VertexConsumerUtil {
     }
 
     public static VertexConsumer normal(VertexConsumer vertexConsumer, MatrixStack stack, float x, float y, float z) {
-        return vertexConsumer.normal(stack.peek(), x, y, z);
+        return vertexConsumer.normal(stack.peek().getNormalMatrix(), x, y, z);
     }
 
     public static VertexConsumer next(VertexConsumer vertexConsumer) {
