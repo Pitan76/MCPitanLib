@@ -506,6 +506,6 @@ public class Player {
     }
 
     public void eatFood(ItemStack stack, CompatFoodComponent foodComponent) {
-        getEntity().getHungerManager().eat(foodComponent.build());
+        getEntity().eatFood(getWorld(), stack);
     }
 }
