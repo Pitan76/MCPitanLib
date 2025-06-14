@@ -72,14 +72,14 @@ public class DrawObjectMV {
 
     public Matrix4f getMatrix4f() {
         if (matrix4f == null)
-            matrix4f = stack.peek().getPositionMatrix();
+            matrix4f = stack.peek().getModel();
 
         return matrix4f;
     }
 
     public Matrix3f getMatrix3f() {
         if (matrix3f == null)
-            matrix3f = stack.peek().getNormalMatrix();
+            matrix3f = stack.peek().getNormal();
 
         return matrix3f;
     }

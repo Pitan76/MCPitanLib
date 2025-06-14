@@ -101,14 +101,14 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
 
     public Matrix4f getMatrix4f() {
         if (matrix4f == null)
-            matrix4f = matrices.peek().getPositionMatrix();
+            matrix4f = matrices.peek().getModel();
 
         return matrix4f;
     }
 
     public Matrix3f getMatrix3f() {
         if (matrix3f == null)
-            matrix3f = matrices.peek().getNormalMatrix();
+            matrix3f = matrices.peek().getNormal();
 
         return matrix3f;
     }
