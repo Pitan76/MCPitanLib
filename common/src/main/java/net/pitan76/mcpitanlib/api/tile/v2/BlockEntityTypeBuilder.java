@@ -64,6 +64,6 @@ public class BlockEntityTypeBuilder<T extends BlockEntity> extends net.pitan76.m
         if (consumer != null)
             consumer.accept(blocks);
 
-        return build(type, factory, blocks.toArray(new Block[0]));
+        return BlockEntityType.Builder.<T>create(factory::create, blocks.toArray(new Block[0])).build(type);
     }
 }
