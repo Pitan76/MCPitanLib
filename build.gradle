@@ -64,9 +64,8 @@ subprojects {
                     if (modLoader == "neoforge") {
                         addGameVersion "NeoForge"
                     }
-                    addGameVersion('1.18')
-                    addGameVersion '1.18.1'
-                    addGameVersion '1.18.2'
+                    addGameVersion '1.16.4'
+                    addGameVersion '1.16.5'
 
                     relations {
                         if (modLoader == "fabric") {
@@ -91,7 +90,7 @@ subprojects {
                 token = System.getenv("MODRINTH_TOKEN")
                 projectId = 'mcpitanlibarch'
                 versionNumber = info.mod_version + "-" + modLoader
-                gameVersions = ['1.16', '1.16.1', '1.16.2', '1.16.3', '1.16.4', '1.16.5']
+                gameVersions = ['1.16.4', '1.16.5']
                 versionType = 'release'
                 uploadFile = tasks.remapJar
                 changelog = info.changelog
