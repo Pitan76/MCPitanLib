@@ -84,32 +84,32 @@ public class DrawObjectMV {
         return matrix3f;
     }
 
-    DrawObjectMV vertexWithMatrix4f(float x, float y, float z) {
+    public DrawObjectMV vertexWithMatrix4f(float x, float y, float z) {
         VertexConsumerUtil.vertex(buffer, getMatrix4f(), x, y, z);
         return this;
     }
 
-    DrawObjectMV vertexWithMatrix(float x, float y, float z) {
+    public DrawObjectMV vertexWithMatrix(float x, float y, float z) {
         VertexConsumerUtil.vertex(buffer, stack, x, y, z);
         return this;
     }
 
-    DrawObjectMV normalWithMatrix(float x, float y, float z) {
+    public DrawObjectMV normalWithMatrix(float x, float y, float z) {
         VertexConsumerUtil.normal(buffer, stack, x, y, z);
         return this;
     }
-    
-    DrawObjectMV texture(float u, float v) {
+
+    public DrawObjectMV texture(float u, float v) {
         VertexConsumerUtil.texture(buffer, u, v);
         return this;
     }
-    
-    DrawObjectMV next() {
+
+    public DrawObjectMV next() {
         VertexConsumerUtil.next(buffer);
         return this;
     }
 
-    private void renderQuad(float x1, float y1, float z1, float x2, float y2, float z2,
+    public void renderQuad(float x1, float y1, float z1, float x2, float y2, float z2,
                             float normalX, float normalY, float normalZ, int r, int g, int b, int alpha, int u, int v, int overlay, int light) {
         VertexConsumerUtil.renderQuad(buffer, stack, getMatrix4f(), getMatrix3f(),
                 x1, y1, z1, x2, y2, z2,
