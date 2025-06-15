@@ -24,4 +24,12 @@ public class ScreenUtil extends net.pitan76.mcpitanlib.api.util.client.ScreenUti
     public static boolean isDragging(Screen screen) {
         return screen.isDragging();
     }
+
+    public static int getWidth(Screen screen) {
+        return screen.width;
+    }
+
+    public static int getHeight(Screen screen) {
+        return screen.height;
+    }
 }
