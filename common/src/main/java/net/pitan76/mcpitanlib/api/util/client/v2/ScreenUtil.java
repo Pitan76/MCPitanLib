@@ -6,7 +6,6 @@ import net.minecraft.client.gui.screen.Screen;
 public class ScreenUtil extends net.pitan76.mcpitanlib.api.util.client.ScreenUtil {
 
     public static void setFocus(Screen screen, boolean focus) {
-        screen.setFocused(focus);
     }
 
     public static void setFocus(Screen screen, Element element) {
@@ -14,7 +13,7 @@ public class ScreenUtil extends net.pitan76.mcpitanlib.api.util.client.ScreenUti
     }
 
     public static boolean isFocused(Screen screen) {
-        return screen.isFocused();
+        return false;
     }
 
     public static void setDragging(Screen screen, boolean dragging) {
