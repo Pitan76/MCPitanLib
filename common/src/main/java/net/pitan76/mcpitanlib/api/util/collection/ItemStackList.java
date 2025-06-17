@@ -204,7 +204,7 @@ public class ItemStackList extends DefaultedList<ItemStack> {
         return ItemStackList.ofSize(size, stack.toMinecraft());
     }
 
-    public static ItemStackList of(List<ItemStack> stacks) {
+    public static ItemStackList of2(List<ItemStack> stacks) {
         ItemStackList list = ItemStackList.ofSize(stacks.size());
         for (int i = 0; i < stacks.size(); i++)
             list.set(i, stacks.get(i));
