@@ -71,11 +71,44 @@ public class CompatActionResult {
         return PASS;
     }
 
+    @Deprecated
     public static CompatActionResult create(ActionResult result, EventResult eventResult) {
         return new CompatActionResult(result, eventResult);
     }
 
+    /**
+     * @deprecated Use {@link #of(ActionResult)} instead.
+     */
+    @Deprecated
     public static CompatActionResult create(ActionResult result) {
+        return of(result);
+    }
+
+    @Deprecated
+    public static CompatActionResult create2(ActionResult result) {
         return create(result, EventResult.stop());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (!(obj instanceof CompatActionResult)) return false;
+        if (actionResult.equals(((CompatActionResult) obj).actionResult)) {
+            return eventResult.equals(((CompatActionResult) obj).eventResult);
+        }
+
+        return false;
+    }
+
+    public String getName() {
+        if (this == SUCCESS) return "SUCCESS";
+        if (this == PASS) return "PASS";
+        if (this == FAIL) return "FAIL";
+        if (this == CONSUME) return "CONSUME";
+        if (this == PASS_TO_DEFAULT_BLOCK_ACTION) return "PASS_TO_DEFAULT_BLOCK_ACTION";
+        if (this == SUCCESS_SERVER) return "SUCCESS_SERVER";
+        if (this == STOP) return "STOP";
+
+        return "UNKNOWN";
     }
 }
