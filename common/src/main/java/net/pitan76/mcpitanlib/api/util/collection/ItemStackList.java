@@ -203,4 +203,12 @@ public class ItemStackList extends DefaultedList<ItemStack> {
     public static ItemStackList of(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, int size) {
         return ItemStackList.ofSize(size, stack.toMinecraft());
     }
+
+    public static ItemStackList of(List<ItemStack> stacks) {
+        ItemStackList list = ItemStackList.ofSize(stacks.size());
+        for (int i = 0; i < stacks.size(); i++)
+            list.set(i, stacks.get(i));
+
+        return list;
+    }
 }
