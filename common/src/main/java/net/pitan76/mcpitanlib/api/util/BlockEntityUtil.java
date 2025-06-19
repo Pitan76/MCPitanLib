@@ -13,7 +13,7 @@ import net.minecraft.util.ErrorReporter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
-import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockEntityUtil {
@@ -72,18 +72,18 @@ public class BlockEntityUtil {
     }
 
     public static void readNbt(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        ReadView view = Nbt2Data.nbt2readData(nbt, registryLookup);
+        ReadView view = NbtDataConverter.nbt2readData(nbt, registryLookup);
         blockEntity.readComponentlessData(view);
     }
 
     public static void writeNbt(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
         NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY);
         blockEntity.writeComponentlessData(view);
-        Nbt2Data.data2nbt(view, nbt);
+        NbtDataConverter.data2nbt(view, nbt);
     }
 
     public static void read(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        ReadView view = Nbt2Data.nbt2readData(nbt, registryLookup);
+        ReadView view = NbtDataConverter.nbt2readData(nbt, registryLookup);
         blockEntity.read(view);
     }
 

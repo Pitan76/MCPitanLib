@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
-import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public class CompatEntity extends Entity {
     public CompatEntity(EntityType<?> type, World world) {
@@ -49,7 +49,7 @@ public class CompatEntity extends Entity {
     @Deprecated
     @Override
     protected void readCustomData(ReadView view) {
-        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        NbtCompound nbt = NbtDataConverter.data2nbt(view);
         readCustomDataFromNbt(new ReadNbtArgs(nbt));
     }
 
@@ -58,7 +58,7 @@ public class CompatEntity extends Entity {
     protected void writeCustomData(WriteView view) {
         NbtCompound nbt = new NbtCompound();
         writeCustomDataToNbt(new WriteNbtArgs(nbt));
-        Nbt2Data.nbt2writeData(nbt, view);
+        NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     public Packet<ClientPlayPacketListener> createSpawnPacket() {
@@ -79,14 +79,14 @@ public class CompatEntity extends Entity {
         super.writeData(view);
         NbtCompound nbt = new NbtCompound();
         writeNbt(new WriteNbtArgs(nbt));
-        Nbt2Data.nbt2writeData(nbt, view);
+        NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     @Deprecated
     @Override
     public void readData(ReadView view) {
         super.readData(view);
-        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        NbtCompound nbt = NbtDataConverter.data2nbt(view);
         readNbt(new ReadNbtArgs(nbt));
     }
 

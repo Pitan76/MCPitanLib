@@ -12,7 +12,7 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.nbt.NbtTag;
-import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public class ExtendEntity extends Entity {
     public ExtendEntity(EntityType<?> type, World world) {
@@ -60,20 +60,20 @@ public class ExtendEntity extends Entity {
         super.writeData(view);
         NbtCompound nbt = new NbtCompound();
         writeNbt(NbtTag.from(nbt));
-        Nbt2Data.nbt2writeData(nbt, view);
+        NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     @Deprecated
     @Override
     public void readData(ReadView view) {
         super.readData(view);
-        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        NbtCompound nbt = NbtDataConverter.data2nbt(view);
         readNbt(NbtTag.from(nbt));
     }
 
     @Override
     protected void readCustomData(ReadView view) {
-        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        NbtCompound nbt = NbtDataConverter.data2nbt(view);
         readCustomDataFromNbt(nbt);
     }
 
@@ -81,7 +81,7 @@ public class ExtendEntity extends Entity {
     protected void writeCustomData(WriteView view) {
         NbtCompound nbt = new NbtCompound();
         writeCustomDataToNbt(nbt);
-        Nbt2Data.nbt2writeData(nbt, view);
+        NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     // 1.14

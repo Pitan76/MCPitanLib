@@ -17,7 +17,7 @@ import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
-import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 import org.jetbrains.annotations.Nullable;
 
 public class CompatChestBlockEntity extends ChestBlockEntity {
@@ -82,13 +82,13 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
         NbtCompound nbt = NbtUtil.create();
         writeNbt(nbt, this.getWorld().getRegistryManager());
         writeNbt(new WriteNbtArgs(nbt, view, new CompatRegistryLookup(this.getWorld().getRegistryManager())));
-        Nbt2Data.nbt2writeData(nbt, view);
+        NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     @Override
     protected void readData(ReadView view) {
         super.readData(view);
-        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        NbtCompound nbt = NbtDataConverter.data2nbt(view);
         readNbt(nbt, view.getRegistries());
         readNbt(new ReadNbtArgs(nbt, view, new CompatRegistryLookup(view.getRegistries())));
     }

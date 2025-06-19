@@ -18,7 +18,7 @@ import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
-import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public abstract class CompatThrownItemEntity extends ThrownItemEntity {
 
@@ -115,7 +115,7 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity {
     @Deprecated
     @Override
     protected void readCustomData(ReadView view) {
-        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        NbtCompound nbt = NbtDataConverter.data2nbt(view);
         readCustomDataFromNbt(new ReadNbtArgs(nbt, view));
     }
 
@@ -124,7 +124,7 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity {
     protected void writeCustomData(WriteView view) {
         NbtCompound nbt = new NbtCompound();
         writeCustomDataToNbt(new WriteNbtArgs(nbt, view));
-        Nbt2Data.nbt2writeData(nbt, view);
+        NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     public void writeNbt(WriteNbtArgs args) {
@@ -141,14 +141,14 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity {
         super.writeData(view);
         NbtCompound nbt = new NbtCompound();
         writeNbt(new WriteNbtArgs(nbt, view));
-        Nbt2Data.nbt2writeData(nbt, view);
+        NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     @Deprecated
     @Override
     public void readData(ReadView view) {
         super.readData(view);
-        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        NbtCompound nbt = NbtDataConverter.data2nbt(view);
         readNbt(new ReadNbtArgs(nbt, view));
     }
 

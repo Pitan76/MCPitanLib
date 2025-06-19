@@ -1,9 +1,7 @@
 package net.pitan76.mcpitanlib.core.mc1216;
 
-import net.minecraft.nbt.NbtByte;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.storage.NbtReadView;
 import net.minecraft.storage.NbtWriteView;
 import net.minecraft.storage.ReadView;
@@ -17,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Nbt2Data {
+public class NbtDataConverter {
     public static void nbt2writeData(NbtCompound nbt, WriteView view) {
         if (nbt == null || view == null) return;
 

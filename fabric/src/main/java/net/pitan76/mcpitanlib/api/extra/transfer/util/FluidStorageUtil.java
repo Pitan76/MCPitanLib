@@ -10,7 +10,7 @@ import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
-import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public class FluidStorageUtil {
     public static SingleFluidStorage withFixedCapacity(long capacity, Runnable onChange) {
@@ -28,11 +28,11 @@ public class FluidStorageUtil {
     }
 
     public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.readData(Nbt2Data.nbt2readData(nbt, registryLookup));
+        storage.readData(NbtDataConverter.nbt2readData(nbt, registryLookup));
     }
 
     public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.writeData(Nbt2Data.nbt2writeData(nbt, registryLookup));
+        storage.writeData(NbtDataConverter.nbt2writeData(nbt, registryLookup));
     }
 
     /**

@@ -13,7 +13,7 @@ import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
-import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public class InventoryUtil {
     public static boolean insertItem(ItemStack insertStack, DefaultedList<ItemStack> inventory) {
@@ -56,12 +56,12 @@ public class InventoryUtil {
         if (args instanceof WriteNbtArgs) {
             WriteNbtArgs writeNbtArgs = (WriteNbtArgs) args;
             Inventories.writeData(writeNbtArgs.view, stacks, setIfEmpty);
-            return Nbt2Data.data2nbt(writeNbtArgs.view);
+            return NbtDataConverter.data2nbt(writeNbtArgs.view);
         }
 
-        WriteView view = Nbt2Data.nbt2writeData(nbt, args.registryLookup);
+        WriteView view = NbtDataConverter.nbt2writeData(nbt, args.registryLookup);
         Inventories.writeData(view, stacks, setIfEmpty);
-        return Nbt2Data.data2nbt(view);
+        return NbtDataConverter.data2nbt(view);
     }
 
     public static void readNbt(NbtRWArgs args, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
@@ -71,7 +71,7 @@ public class InventoryUtil {
             return;
         }
 
-        ReadView view = Nbt2Data.nbt2readData(nbt, args.registryLookup);
+        ReadView view = NbtDataConverter.nbt2readData(nbt, args.registryLookup);
         Inventories.readData(view, stacks);
     }
 
@@ -88,14 +88,14 @@ public class InventoryUtil {
     }
 
     public static void readNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
-        ReadView view = Nbt2Data.nbt2readData(nbt, registryLookup);
+        ReadView view = NbtDataConverter.nbt2readData(nbt, registryLookup);
         Inventories.readData(view, stacks);
     }
 
     public static NbtCompound writeNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
-        WriteView view = Nbt2Data.nbt2writeData(nbt, registryLookup);
+        WriteView view = NbtDataConverter.nbt2writeData(nbt, registryLookup);
         Inventories.writeData(view, stacks, setIfEmpty);
-        return Nbt2Data.data2nbt(view);
+        return NbtDataConverter.data2nbt(view);
     }
 
     public static NbtCompound writeNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
