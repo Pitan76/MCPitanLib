@@ -189,7 +189,7 @@ public class WorldRenderRegistryImpl {
                 @Deprecated
                 @Override
                 public Matrix4f getProjectionMatrix() {
-                    return event.getProjectionMatrix();
+                    return event.getModelViewMatrix();
                 }
 
                 @Override
