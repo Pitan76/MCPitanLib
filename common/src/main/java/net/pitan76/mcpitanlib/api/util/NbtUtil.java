@@ -548,4 +548,8 @@ public class NbtUtil {
     public static NbtShort createShort(short value) {
         return NbtShort.of(value);
     }
+
+    public static void copyFrom(NbtCompound target, NbtCompound source) {
+        target.copyFrom(source);
+    }
 }
