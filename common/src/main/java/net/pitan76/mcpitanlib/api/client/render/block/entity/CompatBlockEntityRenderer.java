@@ -17,7 +17,7 @@ public interface CompatBlockEntityRenderer<T extends CompatBlockEntity> extends 
     }
 
     default boolean rendersOutsideBoundingBoxOverride(T blockEntity) {
-        return BlockEntityRenderer.super.rendersOutsideBoundingBox(blockEntity);
+        return BlockEntityRenderer.super.rendersOutsideBoundingBox();
     }
 
     default int getRenderDistanceOverride() {
@@ -26,8 +26,8 @@ public interface CompatBlockEntityRenderer<T extends CompatBlockEntity> extends 
 
     @Deprecated
     @Override
-    default boolean rendersOutsideBoundingBox(T blockEntity) {
-        return rendersOutsideBoundingBoxOverride(blockEntity);
+    default boolean rendersOutsideBoundingBox() {
+        return rendersOutsideBoundingBoxOverride(null);
     }
 
     @Deprecated

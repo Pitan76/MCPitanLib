@@ -1,15 +1,20 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.DataResult;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
 import java.util.Objects;
@@ -59,7 +64,7 @@ public class ItemStackUtil {
      * @return ItemStack
      */
     public static ItemStack fromNbt(World world, NbtCompound nbt) {
-        return ItemStack.fromNbt(world.getRegistryManager(), nbt).orElse(ItemStack.EMPTY);
+        return fromNbt(new ReadNbtArgs(nbt));
     }
 
     /**
@@ -68,7 +73,11 @@ public class ItemStackUtil {
      * @return ItemStack
      */
     public static ItemStack fromNbt(NbtRWArgs args) {
-        return ItemStack.fromNbt(args.getWrapperLookup(), args.getNbt()).orElse(ItemStack.EMPTY);
+        DataResult<Pair<ItemStack, NbtElement>> result = ItemStack.CODEC.decode(NbtOps.INSTANCE, args.nbt);
+        if (result.error().isPresent()) return ItemStack.EMPTY;
+
+        Pair<ItemStack, NbtElement> pair = result.result().orElseThrow();
+        return pair.getFirst();
     }
 
     public static ItemStack getDefaultStack(Item item) {
@@ -108,7 +117,7 @@ public class ItemStackUtil {
     }
 
     public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity, Runnable breakCallback) {
-        stack.damage(amount, entity.getServerWorld(), entity, (item) -> breakCallback.run());
+        stack.damage(amount, entity.getWorld(), entity, (item) -> breakCallback.run());
     }
 
     public static void damage(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
@@ -116,7 +125,7 @@ public class ItemStackUtil {
     }
 
     public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity) {
-        stack.damage(amount, entity.getServerWorld(), entity, (item) -> entity.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
+        stack.damage(amount, entity.getWorld(), entity, (item) -> entity.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
     }
 
     public static void damage(ItemStack stack, int amount, Player entity) {

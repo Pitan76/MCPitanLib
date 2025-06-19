@@ -27,7 +27,7 @@ public class IngredientUtil {
 
         RegistryEntryList<Item> entryList2 = RegistryEntryList.of(entryList);
 
-        return Ingredient.fromTag(entryList2);
+        return Ingredient.ofTag(entryList2);
     }
 
     public static Ingredient fromTagByString(String id) {

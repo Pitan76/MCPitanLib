@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.client.gui.widget;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -70,6 +70,6 @@ public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
             i += hoveredVOffset;
         }
 
-        context.drawTexture(RenderLayer::getGuiTextured, texture, this.getX(), this.getY(), u, i, this.width, this.height, textureWidth, textureHeight);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), u, i, this.width, this.height, textureWidth, textureHeight);
     }
 }

@@ -6,7 +6,7 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 public class CompatRenderLayer {
     public static final CompatRenderLayer CUTOUT = new CompatRenderLayer(RenderLayer.getCutout());
     public static final CompatRenderLayer CUTOUT_MIPPED = new CompatRenderLayer(RenderLayer.getCutoutMipped());
-    public static final CompatRenderLayer TRANSLUCENT = new CompatRenderLayer(RenderLayer.getTranslucent());
+    public static final CompatRenderLayer TRANSLUCENT = new CompatRenderLayer(RenderLayer.getGlintTranslucent());
     public static final CompatRenderLayer TRANSLUCENT_MOVING_BLOCK = new CompatRenderLayer(RenderLayer.getTranslucentMovingBlock());
     public static final CompatRenderLayer SOLID = new CompatRenderLayer(RenderLayer.getSolid());
     public static final CompatRenderLayer LINES = new CompatRenderLayer(RenderLayer.getLines());

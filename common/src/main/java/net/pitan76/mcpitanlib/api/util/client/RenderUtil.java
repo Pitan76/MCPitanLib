@@ -9,7 +9,7 @@ public class RenderUtil {
     }
 
     public static void setShaderColor(float red, float green, float blue, float alpha) {
-        RenderSystem.setShaderColor(red, green, blue, alpha);
+        //RenderSystem.setShaderColor(red, green, blue, alpha);
     }
 
     public static void setShaderTexture(int texture, Identifier id) {

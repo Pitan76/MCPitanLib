@@ -7,7 +7,10 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
 
 public class FluidStorageUtil {
     public static SingleFluidStorage withFixedCapacity(long capacity, Runnable onChange) {
@@ -15,19 +18,21 @@ public class FluidStorageUtil {
     }
 
     public static void readNbt(SingleFluidStorage storage, NbtRWArgs args) {
-        storage.readNbt(args.getNbt(), args.getWrapperLookup());
+        if (args instanceof ReadNbtArgs)
+            storage.readData(((ReadNbtArgs) args).view);
     }
 
     public static void writeNbt(SingleFluidStorage storage, NbtRWArgs args) {
-        storage.writeNbt(args.getNbt(), args.getWrapperLookup());
+        if (args instanceof WriteNbtArgs)
+            storage.writeData(((WriteNbtArgs) args).view);
     }
 
     public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.readNbt(nbt, registryLookup.getRegistryLookup());
+        storage.readData(Nbt2Data.nbt2readData(nbt, registryLookup));
     }
 
     public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.writeNbt(nbt, registryLookup.getRegistryLookup());
+        storage.writeData(Nbt2Data.nbt2writeData(nbt, registryLookup));
     }
 
     /**
@@ -35,7 +40,7 @@ public class FluidStorageUtil {
      */
     @Deprecated
     public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
-        storage.readNbt(nbt, world.getRegistryManager());
+        readNbt(storage, nbt, new CompatRegistryLookup(world.getRegistryManager()));
     }
 
     /**
@@ -43,7 +48,7 @@ public class FluidStorageUtil {
      */
     @Deprecated
     public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
-        storage.writeNbt(nbt, world.getRegistryManager());
+        writeNbt(storage, nbt, new CompatRegistryLookup(world.getRegistryManager()));
     }
 
     public static long getAmount(SingleFluidStorage storage) {

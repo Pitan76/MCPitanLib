@@ -7,7 +7,6 @@ import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -18,6 +17,7 @@ import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureAr
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
+import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 
 public abstract class SimpleScreen extends Screen {
 
@@ -48,9 +48,7 @@ public abstract class SimpleScreen extends Screen {
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, int u, int v, int width, int height) {
-        //ScreenUtil.setBackground(GUI);
-        //super.drawTexture(matrices, x, y, u, v, width, height);
-        drawObjectDM.getContext().drawTexture(RenderLayer::getGuiTextured, texture, x, y, u, v, width, height, 256, 256);
+        ScreenUtil.RendererUtil.drawTexture(drawObjectDM, texture, x, y, u, v, width, height);
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, CompatIdentifier texture, int x, int y, int u, int v, int width, int height) {

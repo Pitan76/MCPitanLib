@@ -8,8 +8,11 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.nbt.NbtTag;
+import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
 
 public class ExtendEntity extends Entity {
     public ExtendEntity(EntityType<?> type, World world) {
@@ -44,23 +47,41 @@ public class ExtendEntity extends Entity {
 
     // 互換性用 (NbtTag型をOverrideすること)
     public void writeNbt(NbtTag nbt) {
-        super.writeNbt(nbt.nbt);
+
     }
 
     public void readNbt(NbtTag nbt) {
-        super.readNbt(nbt.nbt);
+
     }
 
-    // 1.18
+    @Deprecated
     @Override
-    public NbtCompound writeNbt(NbtCompound nbt) {
-        this.writeNbt(NbtTag.from(nbt));
-        return nbt;
+    public void writeData(WriteView view) {
+        super.writeData(view);
+        NbtCompound nbt = new NbtCompound();
+        writeNbt(NbtTag.from(nbt));
+        Nbt2Data.nbt2writeData(nbt, view);
+    }
+
+    @Deprecated
+    @Override
+    public void readData(ReadView view) {
+        super.readData(view);
+        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        readNbt(NbtTag.from(nbt));
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        this.readNbt(NbtTag.from(nbt));
+    protected void readCustomData(ReadView view) {
+        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        readCustomDataFromNbt(nbt);
+    }
+
+    @Override
+    protected void writeCustomData(WriteView view) {
+        NbtCompound nbt = new NbtCompound();
+        writeCustomDataToNbt(nbt);
+        Nbt2Data.nbt2writeData(nbt, view);
     }
 
     // 1.14

@@ -5,10 +5,15 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
 
 public class InventoryUtil {
     public static boolean insertItem(ItemStack insertStack, DefaultedList<ItemStack> inventory) {
@@ -48,11 +53,26 @@ public class InventoryUtil {
     }
 
     public static NbtCompound writeNbt(NbtRWArgs args, NbtCompound nbt, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
-        return Inventories.writeNbt(nbt, stacks, setIfEmpty, args.getWrapperLookup());
+        if (args instanceof WriteNbtArgs) {
+            WriteNbtArgs writeNbtArgs = (WriteNbtArgs) args;
+            Inventories.writeData(writeNbtArgs.view, stacks, setIfEmpty);
+            return Nbt2Data.data2nbt(writeNbtArgs.view);
+        }
+
+        WriteView view = Nbt2Data.nbt2writeData(nbt, args.registryLookup);
+        Inventories.writeData(view, stacks, setIfEmpty);
+        return Nbt2Data.data2nbt(view);
     }
 
     public static void readNbt(NbtRWArgs args, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
-        Inventories.readNbt(nbt, stacks, args.getWrapperLookup());
+        if (args instanceof ReadNbtArgs) {
+            ReadNbtArgs readNbtArgs = (ReadNbtArgs) args;
+            Inventories.readData(readNbtArgs.view, stacks);
+            return;
+        }
+
+        ReadView view = Nbt2Data.nbt2readData(nbt, args.registryLookup);
+        Inventories.readData(view, stacks);
     }
 
     public static NbtCompound writeNbt(NbtRWArgs args, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
@@ -68,11 +88,14 @@ public class InventoryUtil {
     }
 
     public static void readNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
-        Inventories.readNbt(nbt, stacks, registryLookup.getRegistryLookup());
+        ReadView view = Nbt2Data.nbt2readData(nbt, registryLookup);
+        Inventories.readData(view, stacks);
     }
 
     public static NbtCompound writeNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
-        return Inventories.writeNbt(nbt, stacks, setIfEmpty, registryLookup.getRegistryLookup());
+        WriteView view = Nbt2Data.nbt2writeData(nbt, registryLookup);
+        Inventories.writeData(view, stacks, setIfEmpty);
+        return Nbt2Data.data2nbt(view);
     }
 
     public static NbtCompound writeNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
@@ -93,7 +116,7 @@ public class InventoryUtil {
      */
     @Deprecated
     public static NbtCompound writeNbt(World world, NbtCompound nbt, boolean setIfEmpty, DefaultedList<ItemStack> stacks) {
-        return Inventories.writeNbt(nbt, stacks, setIfEmpty, world.getRegistryManager());
+        return writeNbt(new NbtRWArgs(nbt), stacks, setIfEmpty);
     }
 
     /**
@@ -101,7 +124,7 @@ public class InventoryUtil {
      */
     @Deprecated
     public static void readNbt(World world, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
-        Inventories.readNbt(nbt, stacks, world.getRegistryManager());
+        readNbt(new ReadNbtArgs(nbt), stacks);
     }
     // ----
 

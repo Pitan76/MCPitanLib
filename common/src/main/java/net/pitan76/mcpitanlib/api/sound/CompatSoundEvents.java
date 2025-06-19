@@ -777,8 +777,8 @@ public class CompatSoundEvents {
     public static final CompatSoundEvent BLOCK_LAVA_AMBIENT = new CompatSoundEvent(SoundEvents.BLOCK_LAVA_AMBIENT);
     public static final CompatSoundEvent BLOCK_LAVA_EXTINGUISH = new CompatSoundEvent(SoundEvents.BLOCK_LAVA_EXTINGUISH);
     public static final CompatSoundEvent BLOCK_LAVA_POP = new CompatSoundEvent(SoundEvents.BLOCK_LAVA_POP);
-    public static final CompatSoundEvent ENTITY_LEASH_KNOT_BREAK = new CompatSoundEvent(SoundEvents.ENTITY_LEASH_KNOT_BREAK);
-    public static final CompatSoundEvent ENTITY_LEASH_KNOT_PLACE = new CompatSoundEvent(SoundEvents.ENTITY_LEASH_KNOT_PLACE);
+    public static final CompatSoundEvent ENTITY_LEASH_KNOT_BREAK = new CompatSoundEvent(SoundEvents.ITEM_LEAD_BREAK);
+    public static final CompatSoundEvent ENTITY_LEASH_KNOT_PLACE = new CompatSoundEvent(SoundEvents.ITEM_LEAD_TIED);
     public static final CompatSoundEvent BLOCK_LEVER_CLICK = new CompatSoundEvent(SoundEvents.BLOCK_LEVER_CLICK);
     public static final CompatSoundEvent ENTITY_LIGHTNING_BOLT_IMPACT = new CompatSoundEvent(SoundEvents.ENTITY_LIGHTNING_BOLT_IMPACT);
     public static final CompatSoundEvent ENTITY_LIGHTNING_BOLT_THUNDER = new CompatSoundEvent(SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER);
@@ -1138,7 +1138,7 @@ public class CompatSoundEvents {
     public static final CompatSoundEvent BLOCK_POWDER_SNOW_HIT = new CompatSoundEvent(SoundEvents.BLOCK_POWDER_SNOW_HIT);
     public static final CompatSoundEvent BLOCK_POWDER_SNOW_PLACE = new CompatSoundEvent(SoundEvents.BLOCK_POWDER_SNOW_PLACE);
     public static final CompatSoundEvent BLOCK_POWDER_SNOW_STEP = new CompatSoundEvent(SoundEvents.BLOCK_POWDER_SNOW_STEP);
-    public static final CompatSoundEvent ENTITY_PUFFER_FISH_AMBIENT = new CompatSoundEvent(SoundEvents.ENTITY_PUFFER_FISH_AMBIENT);
+    public static final CompatSoundEvent ENTITY_PUFFER_FISH_AMBIENT = new CompatSoundEvent(SoundEvents.ENTITY_PUFFER_FISH_STING);
     public static final CompatSoundEvent ENTITY_PUFFER_FISH_BLOW_OUT = new CompatSoundEvent(SoundEvents.ENTITY_PUFFER_FISH_BLOW_OUT);
     public static final CompatSoundEvent ENTITY_PUFFER_FISH_BLOW_UP = new CompatSoundEvent(SoundEvents.ENTITY_PUFFER_FISH_BLOW_UP);
     public static final CompatSoundEvent ENTITY_PUFFER_FISH_DEATH = new CompatSoundEvent(SoundEvents.ENTITY_PUFFER_FISH_DEATH);

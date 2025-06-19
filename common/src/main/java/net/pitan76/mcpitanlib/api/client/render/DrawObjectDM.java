@@ -7,16 +7,23 @@ import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil.RendererUtil;
+import org.joml.Matrix3x2f;
+import org.joml.Matrix3x2fStack;
 
 public class DrawObjectDM {
     private MatrixStack stack;
+    private Matrix3x2fStack matrix3x2fStack;
     private DrawContext context;
 
     private Screen screen = null;
 
     public DrawObjectDM(DrawContext context) {
         this.context = context;
-        this.stack = context.getMatrices();
+        this.matrix3x2fStack = context.getMatrices();
+    }
+
+    public DrawObjectDM(Matrix3x2fStack matrix3x2fStack) {
+        this.matrix3x2fStack = matrix3x2fStack;
     }
 
     public DrawObjectDM(MatrixStack stack) {

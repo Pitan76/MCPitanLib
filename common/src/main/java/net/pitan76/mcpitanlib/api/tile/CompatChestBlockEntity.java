@@ -8,11 +8,16 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.util.NbtUtil;
+import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
 import org.jetbrains.annotations.Nullable;
 
 public class CompatChestBlockEntity extends ChestBlockEntity {
@@ -55,7 +60,7 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
      */
     @Deprecated
     public void writeNbtOverride(NbtCompound nbt) {
-        super.writeNbt(nbt, wrapperLookupCache);
+
     }
 
     /**
@@ -63,7 +68,7 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
      */
     @Deprecated
     public void readNbtOverride(NbtCompound nbt) {
-        super.readNbt(nbt, wrapperLookupCache);
+
     }
 
     @Deprecated
@@ -71,26 +76,36 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
 
     // ----
 
-    @Deprecated
     @Override
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        NbtCompound nbt = NbtUtil.create();
+        writeNbt(nbt, this.getWorld().getRegistryManager());
+        writeNbt(new WriteNbtArgs(nbt, view, new CompatRegistryLookup(this.getWorld().getRegistryManager())));
+        Nbt2Data.nbt2writeData(nbt, view);
+    }
+
+    @Override
+    protected void readData(ReadView view) {
+        super.readData(view);
+        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        readNbt(nbt, view.getRegistries());
+        readNbt(new ReadNbtArgs(nbt, view, new CompatRegistryLookup(view.getRegistries())));
+    }
+
+    @Deprecated
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         // deprecated
         wrapperLookupCache = registryLookup;
         writeNbtOverride(nbt);
         // ----
-
-        writeNbt(new WriteNbtArgs(nbt, registryLookup));
     }
 
     @Deprecated
-    @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         // deprecated
         wrapperLookupCache = registryLookup;
         readNbtOverride(nbt);
         // ----
-
-        readNbt(new ReadNbtArgs(nbt, registryLookup));
     }
-
 }

@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.DataResult;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
@@ -363,13 +365,17 @@ public class NbtUtil {
     }
 
     public static void putItemStack(NbtCompound nbt, String key, ItemStack stack, CompatRegistryLookup registryLookup) {
-        NbtElement stackNbt = stack.toNbt(registryLookup.getRegistryLookup());
-        put(nbt, key, stackNbt);
+        DataResult<NbtElement> dataResult = ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack);
+        put(nbt, key, dataResult.getOrThrow());
     }
 
     public static Optional<ItemStack> getItemStack(NbtCompound nbt, String key, CompatRegistryLookup registryLookup) {
         NbtElement stackNbt = get(nbt, key);
-        return ItemStack.fromNbt(registryLookup.getRegistryLookup(), stackNbt);
+        DataResult<Pair<ItemStack, NbtElement>> dataResult = ItemStack.CODEC.decode(NbtOps.INSTANCE, stackNbt);
+        if (dataResult.error().isPresent()) return Optional.empty();
+
+        Pair<ItemStack, NbtElement> pair = dataResult.getOrThrow();
+        return Optional.ofNullable(pair.getFirst());
     }
 
     public static void putSimpleItemStack(NbtCompound nbt, String key, ItemStack stack) {
@@ -548,7 +554,7 @@ public class NbtUtil {
         return NbtShort.of(value);
     }
 
-    public static void copyFrom(NbtCompound target, NbtCompound source) {
+    public static void copyFrom(NbtCompound source, NbtCompound target) {
         target.copyFrom(source);
     }
 }

@@ -22,6 +22,7 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
+import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 import net.pitan76.mcpitanlib.core.datafixer.Pair;
 
 @Deprecated
@@ -76,7 +77,7 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, int u, int v, int width, int height) {
-        drawObjectDM.getContext().drawTexture(RenderLayer::getGuiTextured, texture, x, y, u, v, width, height, 256, 256);
+        ScreenUtil.RendererUtil.drawTexture(drawObjectDM, texture, x, y, u, v, width, height, 256, 256);
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, CompatIdentifier texture, int x, int y, int u, int v, int width, int height) {

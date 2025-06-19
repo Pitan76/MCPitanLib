@@ -4,9 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -137,23 +137,26 @@ public class ScreenUtil {
 
     public static class RendererUtil {
         public static int drawText(TextRenderer renderer, DrawObjectDM drawObjectDM, Text text, int x, int y, int color) {
-            return drawObjectDM.getContext().drawText(renderer, text, x, y, color, false);
+            drawObjectDM.getContext().drawText(renderer, text, x, y, color, false);
+            return -1;
         }
 
         public static int drawText(TextRenderer renderer, DrawObjectDM drawObjectDM, String text, int x, int y, int color) {
-            return drawObjectDM.getContext().drawText(renderer, text, x, y, color, false);
+            drawObjectDM.getContext().drawText(renderer, text, x, y, color, false);
+            return -1;
         }
 
         public static int drawText(TextRenderer renderer, DrawObjectDM drawObjectDM, OrderedText text, int x, int y, int color) {
-            return drawObjectDM.getContext().drawText(renderer, text, x, y, color, false);
+            drawObjectDM.getContext().drawText(renderer, text, x, y, color, false);
+            return -1;
         }
 
         public static void drawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
-            drawObjectDM.getContext().drawTexture(RenderLayer::getGuiTextured, texture, x, y, u, v, width, height, textureWidth, textureHeight);
+            drawObjectDM.getContext().drawTexture(RenderPipelines.GUI_TEXTURED, texture, x, y, u, v, width, height, textureWidth, textureHeight);
         }
 
         public static void drawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, float u, float v, int width, int height) {
-            drawObjectDM.getContext().drawTexture(RenderLayer::getGuiTextured, texture, x, y, u, v, width, height, 256, 256);
+            drawObjectDM.getContext().drawTexture(RenderPipelines.GUI_TEXTURED, texture, x, y, u, v, width, height, 256, 256);
         }
 
         public static TextRenderer getTextRenderer() {
@@ -173,11 +176,11 @@ public class ScreenUtil {
         }
 
         public static int drawText(TextRenderer renderer, DrawObjectDM drawObjectDM, Text text, int x, int y) {
-            return drawText(renderer, drawObjectDM, text, x, y, 4210752);
+            return drawText(renderer, drawObjectDM, text, x, y, -12566464);
         }
 
         public static int drawText(TextRenderer renderer, DrawObjectDM drawObjectDM, TextComponent text, int x, int y) {
-            return drawText(renderer, drawObjectDM, text, x, y, 4210752);
+            return drawText(renderer, drawObjectDM, text, x, y, -12566464);
         }
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, TextRenderer textRenderer, Text text, int x, int y) {

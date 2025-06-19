@@ -5,10 +5,10 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.api.util.inventory.args.CanInsertArgs;
 import net.pitan76.mcpitanlib.midohra.nbt.NbtList;
@@ -70,17 +70,15 @@ public class CompatInventory extends SimpleInventory {
         onClose(new Player(player));
     }
 
-    @Deprecated
-    @Override
-    public net.minecraft.nbt.NbtList toNbtList(RegistryWrapper.WrapperLookup registries) {
-        return toNbtList(new CompatRegistryLookup(registries)).toMinecraft();
-    }
-
-    @Deprecated
-    @Override
-    public void readNbtList(net.minecraft.nbt.NbtList list, RegistryWrapper.WrapperLookup registries) {
-        readNbtList(NbtList.of(list), new CompatRegistryLookup(registries));
-    }
+//    @Deprecated
+//    public net.minecraft.nbt.NbtList toNbtList(RegistryWrapper.WrapperLookup registries) {
+//        return toNbtList(new CompatRegistryLookup(registries)).toMinecraft();
+//    }
+//
+//    @Deprecated
+//    public void readNbtList(net.minecraft.nbt.NbtList list, RegistryWrapper.WrapperLookup registries) {
+//        readNbtList(NbtList.of(list), new CompatRegistryLookup(registries));
+//    }
 
     @Deprecated
     @Override
@@ -103,11 +101,17 @@ public class CompatInventory extends SimpleInventory {
     }
 
     public NbtList toNbtList(CompatRegistryLookup registries) {
-        return NbtList.of(super.toNbtList(registries.getRegistryLookup()));
+//        WriteView.ListAppender<ItemStack> listAppender = new ListApp
+//        toDataList();
+//
+//        super.toDataList();
+//
+//        return NbtList.of(super.toNbtList(registries.getRegistryLookup()));
+        return NbtList.of(NbtUtil.createNbtList());
     }
 
     public void readNbtList(NbtList list, CompatRegistryLookup registries) {
-        super.readNbtList(list.toMinecraft(), registries.getRegistryLookup());
+//        super.readNbtList(list.toMinecraft(), registries.getRegistryLookup());
     }
 
     public boolean canPlayerUse(Player player) {

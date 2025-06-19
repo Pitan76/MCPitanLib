@@ -7,6 +7,8 @@ import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
@@ -16,6 +18,7 @@ import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
+import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
 
 public abstract class CompatThrownItemEntity extends ThrownItemEntity {
 
@@ -102,44 +105,51 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity {
     }
 
     public void readCustomDataFromNbt(ReadNbtArgs nbt) {
-        super.readCustomDataFromNbt(nbt.getNbt());
+        super.readCustomData(nbt.view);
     }
 
     public void writeCustomDataToNbt(WriteNbtArgs nbt) {
-        super.writeCustomDataToNbt(nbt.getNbt());
+        super.writeCustomData(nbt.view);
     }
 
     @Deprecated
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        readCustomDataFromNbt(new ReadNbtArgs(nbt));
+    protected void readCustomData(ReadView view) {
+        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        readCustomDataFromNbt(new ReadNbtArgs(nbt, view));
     }
 
     @Deprecated
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        writeCustomDataToNbt(new WriteNbtArgs(nbt));
+    protected void writeCustomData(WriteView view) {
+        NbtCompound nbt = new NbtCompound();
+        writeCustomDataToNbt(new WriteNbtArgs(nbt, view));
+        Nbt2Data.nbt2writeData(nbt, view);
     }
 
     public void writeNbt(WriteNbtArgs args) {
-        super.writeNbt(args.getNbt());
+        super.writeData(args.view);
     }
 
     public void readNbt(ReadNbtArgs args) {
-        super.readNbt(args.getNbt());
+        super.readData(args.view);
     }
 
     @Deprecated
     @Override
-    public NbtCompound writeNbt(NbtCompound nbt) {
-        writeNbt(new WriteNbtArgs(nbt));
-        return nbt;
+    public void writeData(WriteView view) {
+        super.writeData(view);
+        NbtCompound nbt = new NbtCompound();
+        writeNbt(new WriteNbtArgs(nbt, view));
+        Nbt2Data.nbt2writeData(nbt, view);
     }
 
     @Deprecated
     @Override
-    public void readNbt(NbtCompound nbt) {
-        readNbt(new ReadNbtArgs(nbt));
+    public void readData(ReadView view) {
+        super.readData(view);
+        NbtCompound nbt = Nbt2Data.data2nbt(view);
+        readNbt(new ReadNbtArgs(nbt, view));
     }
 
     @Override

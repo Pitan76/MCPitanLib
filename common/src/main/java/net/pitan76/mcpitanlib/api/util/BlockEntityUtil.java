@@ -7,9 +7,13 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.NbtWriteView;
+import net.minecraft.storage.ReadView;
+import net.minecraft.util.ErrorReporter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.core.mc1216.Nbt2Data;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockEntityUtil {
@@ -68,15 +72,19 @@ public class BlockEntityUtil {
     }
 
     public static void readNbt(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        blockEntity.readNbt(nbt, registryLookup.getRegistryLookup());
+        ReadView view = Nbt2Data.nbt2readData(nbt, registryLookup);
+        blockEntity.readComponentlessData(view);
     }
 
     public static void writeNbt(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        blockEntity.writeNbt(nbt, registryLookup.getRegistryLookup());
+        NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY);
+        blockEntity.writeComponentlessData(view);
+        Nbt2Data.data2nbt(view, nbt);
     }
 
     public static void read(BlockEntity blockEntity, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        blockEntity.read(nbt, registryLookup.getRegistryLookup());
+        ReadView view = Nbt2Data.nbt2readData(nbt, registryLookup);
+        blockEntity.read(view);
     }
 
     public static NbtCompound createNbt(BlockEntity blockEntity, CompatRegistryLookup registryLookup) {

@@ -2,9 +2,12 @@ package net.pitan76.mcpitanlib.api.event.nbt;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.WriteView;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 
 public class WriteNbtArgs extends NbtRWArgs {
+    @Deprecated
+    public WriteView view;
 
     @Deprecated
     public WriteNbtArgs(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
@@ -17,5 +20,17 @@ public class WriteNbtArgs extends NbtRWArgs {
 
     public WriteNbtArgs(NbtCompound nbt) {
         super(nbt);
+    }
+
+    @Deprecated
+    public WriteNbtArgs(NbtCompound nbt, WriteView view) {
+        this(nbt);
+        this.view = view;
+    }
+
+    @Deprecated
+    public WriteNbtArgs(NbtCompound nbt, WriteView view, CompatRegistryLookup registryLookup) {
+        this(nbt, registryLookup);
+        this.view = view;
     }
 }

@@ -5,6 +5,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.ItemCooldownManager;
@@ -22,7 +24,10 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stat;
 import net.minecraft.stat.StatType;
+import net.minecraft.storage.NbtReadView;
+import net.minecraft.storage.NbtWriteView;
 import net.minecraft.text.Text;
+import net.minecraft.util.ErrorReporter;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
@@ -37,6 +42,7 @@ import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
 
@@ -222,11 +228,12 @@ public class Player {
     }
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
-        getEntity().readCustomDataFromNbt(nbt);
+        getEntity().setComponent(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
-        getEntity().writeCustomDataToNbt(nbt);
+        NbtCompound source = getEntity().get(DataComponentTypes.CUSTOM_DATA).copyNbt();
+        NbtUtil.copyFrom(source, nbt);
     }
 
     public void sendMessage(Text text) {
