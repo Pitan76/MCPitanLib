@@ -171,10 +171,10 @@ public class ArchRegistryClient {
 
 
     public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
-        RenderTypeRegistry.register(layer, block);
+        CompatRegistryClient.registerRenderTypeBlock(layer, block);
     }
 
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
-        RenderTypeRegistry.register(layer, fluid);
+        CompatRegistryClient.registerRenderTypeFluid(layer, fluid);
     }
 }

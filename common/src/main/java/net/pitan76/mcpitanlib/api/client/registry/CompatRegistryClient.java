@@ -10,6 +10,7 @@ import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.font.TextRenderer;
@@ -20,6 +21,7 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
+import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
@@ -190,11 +192,41 @@ public class CompatRegistryClient {
 
 
     public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
-        RenderTypeRegistry.register(layer, block);
+        BlockRenderLayer blockRenderLayer = null;
+        if (layer == RenderLayer.getCutout()) {
+            blockRenderLayer = BlockRenderLayer.CUTOUT;
+        } else if (layer == RenderLayer.getGlintTranslucent()) {
+            blockRenderLayer = BlockRenderLayer.TRANSLUCENT;
+        } else if (layer == RenderLayer.getSolid()) {
+            blockRenderLayer = BlockRenderLayer.SOLID;
+        } else if (layer == RenderLayer.getTripwire()) {
+            blockRenderLayer = BlockRenderLayer.TRIPWIRE;
+        } else if (layer == RenderLayer.getCutoutMipped()) {
+            blockRenderLayer = BlockRenderLayer.CUTOUT_MIPPED;
+        }
+
+        if (blockRenderLayer == null) return;
+
+        RenderTypeRegistry.register(blockRenderLayer, block);
     }
 
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
-        RenderTypeRegistry.register(layer, fluid);
+        BlockRenderLayer blockRenderLayer = null;
+        if (layer == RenderLayer.getCutout()) {
+            blockRenderLayer = BlockRenderLayer.CUTOUT;
+        } else if (layer == RenderLayer.getGlintTranslucent()) {
+            blockRenderLayer = BlockRenderLayer.TRANSLUCENT;
+        } else if (layer == RenderLayer.getSolid()) {
+            blockRenderLayer = BlockRenderLayer.SOLID;
+        } else if (layer == RenderLayer.getTripwire()) {
+            blockRenderLayer = BlockRenderLayer.TRIPWIRE;
+        } else if (layer == RenderLayer.getCutoutMipped()) {
+            blockRenderLayer = BlockRenderLayer.CUTOUT_MIPPED;
+        }
+
+        if (blockRenderLayer == null) return;
+
+        RenderTypeRegistry.register(blockRenderLayer, fluid);
     }
 
     public static void registerCutoutBlock(Block block) {
