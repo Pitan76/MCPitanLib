@@ -63,6 +63,7 @@ public class NbtRWUtil {
     public static double getDouble(ReadNbtArgs args, String key) {
         return args.view.getDouble(key, 0.0);
     }
+
     public static void putString(WriteNbtArgs args, String key, String value) {
         args.view.putString(key, value);
     }
