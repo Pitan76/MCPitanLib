@@ -137,17 +137,17 @@ public class ScreenUtil {
 
     public static class RendererUtil {
         public static int drawText(TextRenderer renderer, DrawObjectDM drawObjectDM, Text text, int x, int y, int color) {
-            drawObjectDM.getContext().drawText(renderer, text, x, y, color, false);
+            drawObjectDM.getContext().drawText(renderer, text, x, y, fixColor(color), false);
             return -1;
         }
 
         public static int drawText(TextRenderer renderer, DrawObjectDM drawObjectDM, String text, int x, int y, int color) {
-            drawObjectDM.getContext().drawText(renderer, text, x, y, color, false);
+            drawObjectDM.getContext().drawText(renderer, text, x, y, fixColor(color), false);
             return -1;
         }
 
         public static int drawText(TextRenderer renderer, DrawObjectDM drawObjectDM, OrderedText text, int x, int y, int color) {
-            drawObjectDM.getContext().drawText(renderer, text, x, y, color, false);
+            drawObjectDM.getContext().drawText(renderer, text, x, y, fixColor(color), false);
             return -1;
         }
 
@@ -210,5 +210,14 @@ public class ScreenUtil {
 
     public static int getWidth(Text text) {
         return RendererUtil.getTextRenderer().getWidth(text);
+    }
+
+    // RGBからARGBに変換する (1.21.6からは透明になるため)
+    private static int fixColor(int color) {
+        if ((color >>> 24) == 0) {
+            return 0xFF000000 | color;
+        } else {
+            return color;
+        }
     }
 }
