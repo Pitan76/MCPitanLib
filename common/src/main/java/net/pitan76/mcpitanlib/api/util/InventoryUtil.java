@@ -61,14 +61,18 @@ public class InventoryUtil {
             Inventories.writeData(writeNbtArgs.view, stacks, setIfEmpty);
             if (!nbtNull)
                 NbtUtil.put(nbt, "Items", NbtListUtil.create()); // dummy list to compat with old mod
-            return NbtDataConverter.data2nbt(writeNbtArgs.view);
+
+            NbtDataConverter.data2nbt(writeNbtArgs.view, nbt);
+            return nbt;
         }
 
         WriteView view = NbtDataConverter.nbt2writeData(nbt, args.registryLookup);
         Inventories.writeData(view, stacks, setIfEmpty);
         if (!nbtNull)
             NbtUtil.put(nbt, "Items", NbtListUtil.create()); // dummy list to compat with old mod
-        return NbtDataConverter.data2nbt(view);
+
+        NbtDataConverter.data2nbt(view, nbt);
+        return nbt;
     }
 
     public static void readNbt(NbtRWArgs args, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
@@ -102,7 +106,8 @@ public class InventoryUtil {
     public static NbtCompound writeNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
         WriteView view = NbtDataConverter.nbt2writeData(nbt, registryLookup);
         Inventories.writeData(view, stacks, setIfEmpty);
-        return NbtDataConverter.data2nbt(view);
+        NbtDataConverter.data2nbt(view, nbt);
+        return nbt;
     }
 
     public static NbtCompound writeNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
