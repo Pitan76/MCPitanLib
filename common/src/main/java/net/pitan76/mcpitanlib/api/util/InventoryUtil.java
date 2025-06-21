@@ -54,17 +54,19 @@ public class InventoryUtil {
     }
 
     public static NbtCompound writeNbt(NbtRWArgs args, NbtCompound nbt, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
+        boolean nbtNull = nbt == null;
+
         if (args instanceof WriteNbtArgs) {
             WriteNbtArgs writeNbtArgs = (WriteNbtArgs) args;
             Inventories.writeData(writeNbtArgs.view, stacks, setIfEmpty);
-            if (nbt != null)
+            if (!nbtNull)
                 NbtUtil.put(nbt, "Items", NbtListUtil.create()); // dummy list to compat with old mod
             return NbtDataConverter.data2nbt(writeNbtArgs.view);
         }
 
         WriteView view = NbtDataConverter.nbt2writeData(nbt, args.registryLookup);
         Inventories.writeData(view, stacks, setIfEmpty);
-        if (nbt != null)
+        if (!nbtNull)
             NbtUtil.put(nbt, "Items", NbtListUtil.create()); // dummy list to compat with old mod
         return NbtDataConverter.data2nbt(view);
     }
