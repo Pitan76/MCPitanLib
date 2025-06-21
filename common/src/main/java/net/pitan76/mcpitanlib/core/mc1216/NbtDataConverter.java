@@ -77,11 +77,9 @@ public class NbtDataConverter {
                     if (optionalIntArray.isEmpty()) continue;
                     view.putIntArray(key, optionalIntArray.get());
                     break;
-
                 case NbtTypeBytes.LONG_ARRAY:
                     Optional<long[]> optionalLongArray = value.asLongArray();
                     if (optionalLongArray.isEmpty()) continue;
-
                     long[] longArray = optionalLongArray.get();
                     int[] longIntArray = new int[longArray.length];
                     for (int i = 0; i < longArray.length; i++)
@@ -94,7 +92,6 @@ public class NbtDataConverter {
                     NbtCompound nbt2 = optionalCompound.get();
                     view.put(key, NbtCompound.CODEC, nbt2);
                     break;
-
             }
         }
 
@@ -153,6 +150,9 @@ public class NbtDataConverter {
                     break;
                 case NbtTypeBytes.COMPOUND:
                     nbt.put(key, view.read(key, NbtCompound.CODEC).get());
+                    break;
+                default:
+                    nbt.putString(key, "Unsupported NBT type: " + type);
                     break;
             }
         }
