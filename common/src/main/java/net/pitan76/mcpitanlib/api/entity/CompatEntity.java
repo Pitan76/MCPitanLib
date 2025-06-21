@@ -50,14 +50,14 @@ public class CompatEntity extends Entity {
     @Override
     protected void readCustomData(ReadView view) {
         NbtCompound nbt = NbtDataConverter.data2nbt(view);
-        readCustomDataFromNbt(new ReadNbtArgs(nbt));
+        readCustomDataFromNbt(new ReadNbtArgs(nbt, view));
     }
 
     @Deprecated
     @Override
     protected void writeCustomData(WriteView view) {
         NbtCompound nbt = new NbtCompound();
-        writeCustomDataToNbt(new WriteNbtArgs(nbt));
+        writeCustomDataToNbt(new WriteNbtArgs(nbt, view));
         NbtDataConverter.nbt2writeData(nbt, view);
     }
 
@@ -78,7 +78,7 @@ public class CompatEntity extends Entity {
     public void writeData(WriteView view) {
         super.writeData(view);
         NbtCompound nbt = new NbtCompound();
-        writeNbt(new WriteNbtArgs(nbt));
+        writeNbt(new WriteNbtArgs(nbt, view));
         NbtDataConverter.nbt2writeData(nbt, view);
     }
 
@@ -87,7 +87,7 @@ public class CompatEntity extends Entity {
     public void readData(ReadView view) {
         super.readData(view);
         NbtCompound nbt = NbtDataConverter.data2nbt(view);
-        readNbt(new ReadNbtArgs(nbt));
+        readNbt(new ReadNbtArgs(nbt, view));
     }
 
     @Deprecated

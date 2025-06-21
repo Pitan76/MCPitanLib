@@ -5,8 +5,11 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.storage.NbtReadView;
+import net.minecraft.storage.NbtWriteView;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.util.ErrorReporter;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
@@ -58,6 +61,8 @@ public class InventoryUtil {
 
         if (args instanceof WriteNbtArgs) {
             WriteNbtArgs writeNbtArgs = (WriteNbtArgs) args;
+            if (writeNbtArgs.view == null) writeNbtArgs.view = NbtWriteView.create(ErrorReporter.EMPTY);
+
             Inventories.writeData(writeNbtArgs.view, stacks, setIfEmpty);
             if (!nbtNull)
                 NbtUtil.put(nbt, "Items", NbtListUtil.create()); // dummy list to compat with old mod
@@ -78,6 +83,8 @@ public class InventoryUtil {
     public static void readNbt(NbtRWArgs args, NbtCompound nbt, DefaultedList<ItemStack> stacks) {
         if (args instanceof ReadNbtArgs) {
             ReadNbtArgs readNbtArgs = (ReadNbtArgs) args;
+            if (readNbtArgs.view == null) return;
+
             Inventories.readData(readNbtArgs.view, stacks);
             return;
         }
@@ -104,9 +111,14 @@ public class InventoryUtil {
     }
 
     public static NbtCompound writeNbt(CompatRegistryLookup registryLookup, NbtCompound nbt, DefaultedList<ItemStack> stacks, boolean setIfEmpty) {
+        NbtUtil.put(nbt, "Items", NbtListUtil.create());
         WriteView view = NbtDataConverter.nbt2writeData(nbt, registryLookup);
         Inventories.writeData(view, stacks, setIfEmpty);
+
         NbtDataConverter.data2nbt(view, nbt);
+
+        System.out.println("writeNbt(): " + nbt);
+
         return nbt;
     }
 

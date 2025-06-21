@@ -90,6 +90,9 @@ public class NbtDataConverter {
                     Optional<NbtCompound> optionalCompound = value.asCompound();
                     if (optionalCompound.isEmpty()) continue;
                     NbtCompound nbt2 = optionalCompound.get();
+
+                    //System.out.println("NbtDataConverter nbt(" + key + "): " + nbt2);
+
                     view.put(key, NbtCompound.CODEC, nbt2);
                     break;
             }
@@ -100,6 +103,8 @@ public class NbtDataConverter {
 
     public static void data2nbt(ReadView view, NbtCompound nbt) {
         if (view == null || nbt == null) return;
+
+        // ReadViewだとgetKeys()がないので__all_keys__からキーを取得する
         String keysStr = view.getString("__all_keys__", "");
         if (keysStr.isEmpty()) return;
         String[] keys = keysStr.split(",");
@@ -149,7 +154,8 @@ public class NbtDataConverter {
                     nbt.putLongArray(key, longArray);
                     break;
                 case NbtTypeBytes.COMPOUND:
-                    nbt.put(key, view.read(key, NbtCompound.CODEC).get());
+                    NbtCompound nbt2 = view.read(key, NbtCompound.CODEC).get();
+                    nbt.put(key, nbt2);
                     break;
                 default:
                     nbt.putString(key, "Unsupported NBT type: " + type);
@@ -161,8 +167,10 @@ public class NbtDataConverter {
     public static void data2nbt(WriteView view, NbtCompound nbt) {
         if (view == null || nbt == null) return;
 
-        if (view instanceof NbtWriteView)
+        if (view instanceof NbtWriteView) {
+            //System.out.println("data2nbt(): " + ((NbtWriteView) view).getNbt());
             NbtUtil.copyFrom(((NbtWriteView) view).getNbt(), nbt);
+        }
     }
 
     public static WriteView nbt2writeData(NbtCompound nbt, CompatRegistryLookup registryLookup) {
