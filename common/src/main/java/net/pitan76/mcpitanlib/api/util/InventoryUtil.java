@@ -13,6 +13,7 @@ import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.util.nbt.NbtListUtil;
 import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public class InventoryUtil {
@@ -56,11 +57,15 @@ public class InventoryUtil {
         if (args instanceof WriteNbtArgs) {
             WriteNbtArgs writeNbtArgs = (WriteNbtArgs) args;
             Inventories.writeData(writeNbtArgs.view, stacks, setIfEmpty);
+            if (nbt != null)
+                NbtUtil.put(nbt, "Items", NbtListUtil.create()); // dummy list to compat with old mod
             return NbtDataConverter.data2nbt(writeNbtArgs.view);
         }
 
         WriteView view = NbtDataConverter.nbt2writeData(nbt, args.registryLookup);
         Inventories.writeData(view, stacks, setIfEmpty);
+        if (nbt != null)
+            NbtUtil.put(nbt, "Items", NbtListUtil.create()); // dummy list to compat with old mod
         return NbtDataConverter.data2nbt(view);
     }
 
