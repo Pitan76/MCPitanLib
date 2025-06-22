@@ -1,18 +1,22 @@
 package net.pitan76.mcpitanlib.api.util.nbt.v2;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.storage.NbtWriteView;
+import net.minecraft.storage.ReadView;
+import net.minecraft.util.ErrorReporter;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
-import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import net.pitan76.mcpitanlib.api.util.math.Vec3dUtil;
 import net.pitan76.mcpitanlib.api.util.math.Vec3iUtil;
 import net.pitan76.mcpitanlib.api.util.nbt.InvRWUtil;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+
+import java.util.Optional;
 
 public class NbtRWUtil extends net.pitan76.mcpitanlib.api.util.nbt.NbtRWUtil {
     public static void putInv(WriteNbtArgs args, ItemStackList stacks) {
@@ -24,7 +28,8 @@ public class NbtRWUtil extends net.pitan76.mcpitanlib.api.util.nbt.NbtRWUtil {
     }
 
     public static WriteNbtArgs create(CompatRegistryLookup registryLookup) {
-        return new WriteNbtArgs(NbtUtil.create(), registryLookup);
+        NbtWriteView view = _view(registryLookup);
+        return new WriteNbtArgs(view.getNbt(), view, registryLookup);
     }
 
     public static WriteNbtArgs create() {
@@ -32,23 +37,24 @@ public class NbtRWUtil extends net.pitan76.mcpitanlib.api.util.nbt.NbtRWUtil {
     }
 
     public static void put(WriteNbtArgs parent, WriteNbtArgs child, String key) {
-        NbtUtil.put(parent.nbt, key, child.nbt);
+        if (child.view instanceof NbtWriteView childView)
+            parent.view.put(key, NbtCompound.CODEC, childView.getNbt());
     }
 
     public static WriteNbtArgs putWithCreate(WriteNbtArgs parent, String key) {
-        NbtCompound nbt = NbtUtil.create();
-        NbtUtil.put(parent.nbt, key, nbt);
-
-        return new WriteNbtArgs(nbt, parent.registryLookup);
+        NbtWriteView subView = _view(parent.registryLookup);
+        parent.view.put(key, NbtCompound.CODEC, subView.getNbt());
+        return new WriteNbtArgs(subView.getNbt(), subView, parent.registryLookup);
     }
 
     public static ReadNbtArgs get(ReadNbtArgs parent, String key) {
-        NbtCompound nbt = NbtUtil.get(parent.nbt, key);
-        return new ReadNbtArgs(nbt, parent.registryLookup);
+        ReadView view = parent.view.getReadView(key);
+        return new ReadNbtArgs(null, view, parent.registryLookup);
     }
 
     public static ReadNbtArgs getOrDefault(ReadNbtArgs parent, String key, ReadNbtArgs defaultValue) {
-        return NbtUtil.has(parent.nbt, key) ? get(parent, key) : defaultValue;
+        Optional<ReadView> view = parent.view.getOptionalReadView(key);
+        return view.map(readView -> new ReadNbtArgs(null, readView, parent.registryLookup)).orElse(defaultValue);
     }
 
     public static void putPos3i(WriteNbtArgs args, String key, int x, int y, int z) {
@@ -103,5 +109,9 @@ public class NbtRWUtil extends net.pitan76.mcpitanlib.api.util.nbt.NbtRWUtil {
         int y = getInt(args2, "y");
         int z = getInt(args2, "z");
         return PosUtil.flooredBlockPos(x, y, z);
+    }
+
+    private static NbtWriteView _view(CompatRegistryLookup registryLookup) {
+        return NbtWriteView.create(ErrorReporter.EMPTY, registryLookup.getRegistryLookup());
     }
 }
