@@ -40,6 +40,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.MCPitanLib;
+import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
 import net.pitan76.mcpitanlib.api.client.render.EntityModelLayerContext;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 
@@ -198,5 +199,13 @@ public class CompatRegistryClient {
         BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
                 ctx.getRenderDispatcher(), ctx.getRenderManager(), ClientUtil.getItemRenderer(), ClientUtil.getClient().getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
+    }
+
+    public static void registerRenderTypeBlock(CompatRenderLayer layer, Block block) {
+        registerRenderTypeBlock(layer.layer, block);
+    }
+
+    public static void registerRenderTypeFluid(CompatRenderLayer layer, Fluid fluid) {
+        registerRenderTypeFluid(layer.layer, fluid);
     }
 }
