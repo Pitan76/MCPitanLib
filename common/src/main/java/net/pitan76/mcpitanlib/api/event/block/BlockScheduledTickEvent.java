@@ -8,8 +8,9 @@ import net.minecraft.util.math.random.Random;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
+import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
 
-public class BlockScheduledTickEvent extends BaseEvent {
+public class BlockScheduledTickEvent extends BaseEvent implements BlockStatePropertyHolder {
     public BlockState state;
     public ServerWorld world;
     public BlockPos pos;
@@ -40,5 +41,10 @@ public class BlockScheduledTickEvent extends BaseEvent {
 
     public BlockEntity getBlockEntity() {
         return WorldUtil.getBlockEntity(getWorld(), getPos());
+    }
+
+    @Override
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getBlockState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(state);
     }
 }
