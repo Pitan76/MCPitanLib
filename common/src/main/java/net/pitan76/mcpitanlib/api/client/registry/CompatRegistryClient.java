@@ -32,6 +32,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.MCPitanLib;
+import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
 
 import java.util.List;
 import java.util.Random;
@@ -146,5 +147,13 @@ public class CompatRegistryClient {
 
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
         BlockEntityRenderers.registerRenderer(type, dispatcher -> provider.create(new BlockEntityRendererFactory.Context(dispatcher)));
+    }
+
+    public static void registerRenderTypeBlock(CompatRenderLayer layer, Block block) {
+        registerRenderTypeBlock(layer.layer, block);
+    }
+
+    public static void registerRenderTypeFluid(CompatRenderLayer layer, Fluid fluid) {
+        registerRenderTypeFluid(layer.layer, fluid);
     }
 }
