@@ -76,7 +76,7 @@ public class NbtRWUtil {
     }
 
     public static int[] getIntArray(ReadNbtArgs args, String key) {
-        return args.nbt.getIntArray(key).get();
+        return args.nbt.getIntArray(key);
     }
 
     public static boolean getBooleanOrDefault(ReadNbtArgs args, String key, boolean defaultValue) {
@@ -112,7 +112,8 @@ public class NbtRWUtil {
     }
 
     public static int[] getIntArrayOrDefault(ReadNbtArgs args, String key, int[] defaultValue) {
-        return args.nbt.getIntArray(key).orElse(defaultValue);
+        if (!NbtUtil.has(args.nbt, key)) return defaultValue;
+        return args.nbt.getIntArray(key);
     }
 
     public static boolean isEmpty(NbtRWArgs args) {
