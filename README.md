@@ -41,11 +41,11 @@ dependencies {
 
 `gradle.properties`に以下のように記述してください。
 ```properties
-# Example: mcpitanlib_version=+1.18.2:3.2.4
+# Example: mcpitanlib_version=+1.18.2:3.3.3
 mcpitanlib_version=+x.x.x:x.x.x
 ```
 
-バージョンは[maven.pitan76.net](https://maven.pitan76.net/net/pitan76/)で確認してください。
+バージョンは[GitHub Packages](https://github.com/PTOM76/maven/packages/?q=net.pitan76.mcpitanlib) (3.3.3以降) or [maven.pitan76.net](https://maven.pitan76.net/net/pitan76/) (3.3.3以前)で確認してください。
 
 MCPitanLibを用いたMOD開発は「common/src/main/java/net/pitan76/mcpitanlib/test/ExampleMod.java」を参考にしてください。
 
@@ -92,7 +92,7 @@ Write as follows in `gradle.properties`.
 mcpitanlib_version=+x.x.x:x.x.x
 ```
 
-Please check the version at [maven.pitan76.net](https://maven.pitan76.net/net/pitan76/).
+Please check the version at [GitHub Packages](https://github.com/PTOM76/maven/packages/?q=net.pitan76.mcpitanlib) (for versions 3.3.3 and later) or [maven.pitan76.net](https://maven.pitan76.net/net/pitan76/) (for versions before 3.3.3).
 
 For MOD development using MCPitanLib, refer to "common/src/main/java/net/pitan76/mcpitanlib/test/ExampleMod.java".
 
