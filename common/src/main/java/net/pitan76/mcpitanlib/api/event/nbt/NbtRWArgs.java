@@ -41,4 +41,20 @@ public class NbtRWArgs {
 
         return registryLookup.getRegistryLookup();
     }
+
+    public boolean isNbtEmpty() {
+        return nbt != null && !nbt.isEmpty();
+    }
+
+    public boolean isViewEmpty() {
+        return false;
+    }
+
+    public boolean isEmpty() {
+        return isNbtEmpty() || isViewEmpty();
+    }
+
+    public NbtRWArgs copy() {
+        return new NbtRWArgs(nbt.copy(), registryLookup);
+    }
 }
