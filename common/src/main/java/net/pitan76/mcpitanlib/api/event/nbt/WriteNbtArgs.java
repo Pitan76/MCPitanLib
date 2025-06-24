@@ -33,4 +33,14 @@ public class WriteNbtArgs extends NbtRWArgs {
         this(nbt, registryLookup);
         this.view = view;
     }
+
+    @Override
+    public boolean isViewEmpty() {
+        return view == null;
+    }
+
+    @Override
+    public NbtRWArgs copy() {
+        return new WriteNbtArgs(nbt.copy(), view, registryLookup);
+    }
 }
