@@ -29,12 +29,12 @@ public class BlockEntityDataUtil {
 
     public static void readCompatBlockEntityNbtFromStack(ItemStack stack, CompatBlockEntity blockEntity) {
         NbtCompound nbt = getBlockEntityNbt(stack);
-        blockEntity.readNbt(new ReadNbtArgs(nbt));
+        blockEntity.readNbt(new ReadNbtArgs(nbt, RegistryLookupUtil.getRegistryLookup(blockEntity)));
     }
 
     public static void writeCompatBlockEntityNbtToStack(ItemStack stack, CompatBlockEntity blockEntity) {
         NbtCompound nbt = getBlockEntityNbt(stack);
-        blockEntity.writeNbt(new WriteNbtArgs(nbt));
+        blockEntity.writeNbt(new WriteNbtArgs(nbt, RegistryLookupUtil.getRegistryLookup(blockEntity)));
         NbtUtil.set(nbt, "id", BlockEntityTypeUtil.toID(blockEntity.getType()).toString());
         setBlockEntityNbt(stack, nbt);
     }
