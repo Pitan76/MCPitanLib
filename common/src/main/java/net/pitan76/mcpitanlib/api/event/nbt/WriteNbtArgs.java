@@ -4,6 +4,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.storage.WriteView;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public class WriteNbtArgs extends NbtRWArgs {
     @Deprecated
@@ -16,10 +17,12 @@ public class WriteNbtArgs extends NbtRWArgs {
 
     public WriteNbtArgs(NbtCompound nbt, CompatRegistryLookup registryLookup) {
         super(nbt, registryLookup);
+        view = NbtDataConverter.nbt2writeData(nbt, registryLookup);
     }
 
     public WriteNbtArgs(NbtCompound nbt) {
         super(nbt);
+        view = NbtDataConverter.nbt2writeData(nbt, (CompatRegistryLookup) null);
     }
 
     @Deprecated

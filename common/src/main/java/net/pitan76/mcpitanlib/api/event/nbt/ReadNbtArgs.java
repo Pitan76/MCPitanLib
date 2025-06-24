@@ -5,6 +5,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.storage.NbtReadView;
 import net.minecraft.storage.ReadView;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public class ReadNbtArgs extends NbtRWArgs {
     @Deprecated
@@ -17,10 +18,14 @@ public class ReadNbtArgs extends NbtRWArgs {
 
     public ReadNbtArgs(NbtCompound nbt) {
         super(nbt);
+        if (registryLookup == null)
+            registryLookup = new CompatRegistryLookup();
+        view = NbtDataConverter.nbt2readData(nbt, registryLookup);
     }
 
     public ReadNbtArgs(NbtCompound nbt, CompatRegistryLookup registryLookup) {
         super(nbt, registryLookup);
+        view = NbtDataConverter.nbt2readData(nbt, registryLookup);
     }
 
     @Deprecated
