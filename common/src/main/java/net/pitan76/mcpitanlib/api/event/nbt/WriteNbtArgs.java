@@ -18,4 +18,14 @@ public class WriteNbtArgs extends NbtRWArgs {
     public WriteNbtArgs(NbtCompound nbt) {
         super(nbt);
     }
+
+    @Override
+    public boolean isViewEmpty() {
+        return false;
+    }
+
+    @Override
+    public NbtRWArgs copy() {
+        return new WriteNbtArgs(nbt.copy(), registryLookup);
+    }
 }
