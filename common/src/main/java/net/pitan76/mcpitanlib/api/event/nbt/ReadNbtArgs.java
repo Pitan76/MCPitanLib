@@ -12,4 +12,14 @@ public class ReadNbtArgs extends NbtRWArgs {
     public ReadNbtArgs(NbtCompound nbt, CompatRegistryLookup registryLookup) {
         super(nbt, registryLookup);
     }
+
+    @Override
+    public boolean isViewEmpty() {
+        return false;
+    }
+
+    @Override
+    public NbtRWArgs copy() {
+        return new ReadNbtArgs(nbt.copy(), registryLookup);
+    }
 }
