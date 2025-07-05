@@ -14,6 +14,7 @@ import net.minecraft.world.PersistentStateManager;
 import net.minecraft.world.PersistentStateType;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.world.CompatiblePersistentState;
 
 import java.io.IOException;
@@ -22,13 +23,25 @@ import java.util.function.Supplier;
 
 public class PersistentStateUtil {
     public static <T extends PersistentState> T getOrCreate(PersistentStateManager manager, String id, Supplier<T> supplier, Function<NbtCompound, T> function) {
-        NbtCompound nbt;
-        try {
-            nbt = manager.readNbt(id, DataFixTypes.LEVEL, 0);
-        } catch (IOException e) {
-            nbt = new NbtCompound();
-        }
-        Codec<T> codec = Codec.of(Encoder.empty(), Decoder.unit(function.apply(nbt))).codec();
+        Codec<T> codec = NbtCompound.CODEC.xmap(
+                // NBT -> PersistentState
+                (nbt) -> {
+                    T state = supplier.get();
+
+                    if (state instanceof CompatiblePersistentState)
+                        ((CompatiblePersistentState) state).readNbt(new ReadNbtArgs(nbt));
+
+                    return state;
+                },
+                // PersistentState -> NBT
+                (state) -> {
+                    if (state instanceof CompatiblePersistentState)
+                        return ((CompatiblePersistentState) state).writeNbt(new WriteNbtArgs(new NbtCompound()));
+
+                    return NbtUtil.create();
+                }
+        );
+
         PersistentStateType<T> type = new PersistentStateType<>(id, supplier, codec, DataFixTypes.LEVEL);
         return manager.getOrCreate(type);
     }
