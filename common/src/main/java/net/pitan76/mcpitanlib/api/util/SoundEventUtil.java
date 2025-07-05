@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class SoundEventUtil {
     public static Identifier getId(SoundEvent soundEvent) {
-        return soundEvent.id();
+        return soundEvent.getId();
     }
 
     public static SoundEvent getSoundEvent(Identifier id) {
