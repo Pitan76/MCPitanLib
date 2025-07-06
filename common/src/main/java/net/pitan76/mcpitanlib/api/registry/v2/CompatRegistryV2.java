@@ -161,7 +161,7 @@ public class CompatRegistryV2 {
     }
 
     public RegistryResult<ChunkTicketType<?>> registerChunkTicketType(Identifier id, Supplier<ChunkTicketType<?>> supplier) {
-        return SupplierResult.of(supplier);
+        return SupplierResult.of(cr1.getMcplr1_21().registryChunkTicketType(id, supplier));
     }
 
     public void registerFuel(Supplier<Item> itemSupplier, int time) {
