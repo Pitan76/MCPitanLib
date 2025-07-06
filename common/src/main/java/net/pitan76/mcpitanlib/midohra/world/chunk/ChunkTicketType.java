@@ -76,4 +76,17 @@ public class ChunkTicketType<T> {
         net.minecraft.server.world.ChunkTicketType<ChunkPos> type = net.minecraft.server.world.ChunkTicketType.create(name, Comparator.comparingLong(ChunkPos::toLong), (int) expiryTicks);
         return (net.minecraft.server.world.ChunkTicketType<T>) type;
     }
+
+    @Override
+    public int hashCode() {
+        return ticketType.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof ChunkTicketType)) return false;
+        ChunkTicketType<?> that = (ChunkTicketType<?>) obj;
+        return ticketType.equals(that.ticketType);
+    }
 }
