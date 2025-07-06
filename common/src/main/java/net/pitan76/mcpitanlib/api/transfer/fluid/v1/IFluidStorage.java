@@ -26,7 +26,7 @@ public interface IFluidStorage {
     void readNbt(ReadNbtArgs args);
 
     default void readNbt(WriteNbtArgs args) {
-        readNbt(new ReadNbtArgs(args.getNbt(), args.getWrapperLookup()));
+        readNbt(new ReadNbtArgs(args.getNbt(), args.getRegistryLookup()));
     }
 
     default long insert(IFluidVariant variant, long maxAmount) {
