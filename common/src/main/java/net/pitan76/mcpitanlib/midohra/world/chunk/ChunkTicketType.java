@@ -71,4 +71,17 @@ public class ChunkTicketType<T> {
     public static ChunkTicketType<ChunkPos> create(String name) {
         return new ChunkTicketType<>(name);
     }
+
+    @Override
+    public int hashCode() {
+        return ticketType.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof ChunkTicketType)) return false;
+        ChunkTicketType<?> that = (ChunkTicketType<?>) obj;
+        return ticketType.equals(that.ticketType);
+    }
 }
