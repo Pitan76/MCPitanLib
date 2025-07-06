@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.world.chunk;
 
+import net.pitan76.mcpitanlib.api.util.world.ChunkManagerUtil;
+import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.util.math.ChunkPos;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 import net.pitan76.mcpitanlib.midohra.world.World;
@@ -41,5 +43,9 @@ public class ServerChunkManager extends ChunkManager {
 
     public <T> void removeTicket(ChunkTicketType<T> ticketType, ChunkPos pos, int radius, T argument) {
         getRaw().removeTicket(ticketType.getRaw(), pos.getRaw(), radius, argument);
+    }
+
+    public void markForUpdate(BlockPos pos) {
+        ChunkManagerUtil.markForUpdate(getRaw(), pos);
     }
 }
