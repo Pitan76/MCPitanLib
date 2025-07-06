@@ -97,4 +97,12 @@ public class Direction {
         return of(getRaw().rotateYCounterclockwise());
     }
 
+    @Override
+    public String toString() {
+        return getRaw().toString();
+    }
+
+    public String getName() {
+        return getRaw().name();
+    }
 }
