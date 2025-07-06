@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
@@ -45,6 +46,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.pitan76.mcpitanlib.MCPitanLib;
+import net.pitan76.mcpitanlib.api.client.color.CompatBlockColorProvider;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
 import net.pitan76.mcpitanlib.api.client.render.EntityModelLayerContext;
 
@@ -246,5 +248,14 @@ public class CompatRegistryClient {
 
     public static void registerRenderTypeFluid(CompatRenderLayer layer, Fluid fluid) {
         registerRenderTypeFluid(layer.layer, fluid);
+    }
+
+    @ExpectPlatform
+    public static void registerColorProviderBlock(BlockColorProvider provider, Block... blocks) {
+        throw new AssertionError("This method should be replaced by the platform implementation");
+    }
+
+    public static void registerColorProviderBlock(CompatBlockColorProvider provider, Block... blocks) {
+        registerColorProviderBlock((BlockColorProvider) provider, blocks);
     }
 }
