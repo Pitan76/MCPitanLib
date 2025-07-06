@@ -142,6 +142,7 @@ public class CompatIdentifier {
      * @return The Identifier.
      */
     public static CompatIdentifier fromMinecraft(Identifier id) {
+        if (id == null) return EMPTY;
         return of(id.toString());
     }
 
