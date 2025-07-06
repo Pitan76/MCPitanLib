@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.transfer.fluid.v1;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.NbtCompound;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.midohra.fluid.FluidWrapper;
@@ -22,7 +23,11 @@ public interface IFluidStorage {
 
     void writeNbt(WriteNbtArgs args);
 
-    void readNbt(WriteNbtArgs args);
+    void readNbt(ReadNbtArgs args);
+
+    default void readNbt(WriteNbtArgs args) {
+        readNbt(new ReadNbtArgs(args.getNbt(), args.getRegistryLookup()));
+    }
 
     default long insert(IFluidVariant variant, long maxAmount) {
         return insert(variant, maxAmount, false);
