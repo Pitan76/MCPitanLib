@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.nbt.v2;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.storage.NbtWriteView;
 import net.minecraft.storage.ReadView;
@@ -113,5 +114,13 @@ public class NbtRWUtil extends net.pitan76.mcpitanlib.api.util.nbt.NbtRWUtil {
 
     private static NbtWriteView _view(CompatRegistryLookup registryLookup) {
         return NbtWriteView.create(ErrorReporter.EMPTY, registryLookup.getRegistryLookup());
+    }
+
+    public static void putItemStack(WriteNbtArgs args, String key, ItemStack stack) {
+        args.view.put(key, ItemStack.CODEC, stack);
+    }
+
+    public static Optional<ItemStack> getItemStack(ReadNbtArgs args, String key) {
+        return args.view.read(key, ItemStack.CODEC);
     }
 }
