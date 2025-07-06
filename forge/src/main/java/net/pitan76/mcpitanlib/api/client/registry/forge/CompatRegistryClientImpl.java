@@ -3,7 +3,7 @@ package net.pitan76.mcpitanlib.api.client.registry.forge;
 import net.minecraft.block.Block;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.pitan76.mcpitanlib.MCPitanLib;
@@ -21,7 +21,7 @@ public class CompatRegistryClientImpl {
     }
 
     @SubscribeEvent
-    public static void registerBlockColors(RegisterColorHandlersEvent.Block event){
+    public static void registerBlockColors(ColorHandlerEvent.Block event){
         if (blockColorProviders.isEmpty()) return;
 
         for (Map.Entry<BlockColorProvider, Block[]> entry : blockColorProviders.entrySet()) {
@@ -29,9 +29,9 @@ public class CompatRegistryClientImpl {
             Block[] blocks = entry.getValue();
 
             if (blocks == null || blocks.length == 0) {
-                event.register(provider);
+                event.getBlockColors().registerColorProvider(provider);
             } else {
-                event.register(provider, blocks);
+                event.getBlockColors().registerColorProvider(provider, blocks);
             }
         }
     }
