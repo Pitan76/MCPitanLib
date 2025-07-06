@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.transfer.fluid.v1.forge;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidStorage;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
@@ -73,7 +74,7 @@ public class ForgeFluidStorage implements IFluidStorage {
     }
 
     @Override
-    public void readNbt(WriteNbtArgs args) {
+    public void readNbt(ReadNbtArgs args) {
         storage.readFromNBT(args.nbt);
     }
 }
