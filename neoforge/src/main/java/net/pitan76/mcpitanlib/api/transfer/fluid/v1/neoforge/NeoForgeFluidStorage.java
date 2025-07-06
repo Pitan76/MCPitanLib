@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.transfer.fluid.v1.neoforge;
 
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidStorage;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
@@ -66,7 +67,7 @@ public class NeoForgeFluidStorage implements IFluidStorage {
     }
 
     @Override
-    public void readNbt(WriteNbtArgs args) {
+    public void readNbt(ReadNbtArgs args) {
         storage.readFromNBT(args.nbt);
     }
 }
