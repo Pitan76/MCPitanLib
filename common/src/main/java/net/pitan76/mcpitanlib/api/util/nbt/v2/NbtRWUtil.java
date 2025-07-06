@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.nbt.v2;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
@@ -13,6 +14,8 @@ import net.pitan76.mcpitanlib.api.util.math.Vec3dUtil;
 import net.pitan76.mcpitanlib.api.util.math.Vec3iUtil;
 import net.pitan76.mcpitanlib.api.util.nbt.InvRWUtil;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+
+import java.util.Optional;
 
 public class NbtRWUtil extends net.pitan76.mcpitanlib.api.util.nbt.NbtRWUtil {
     public static void putInv(WriteNbtArgs args, ItemStackList stacks) {
@@ -103,5 +106,13 @@ public class NbtRWUtil extends net.pitan76.mcpitanlib.api.util.nbt.NbtRWUtil {
         int y = getInt(args2, "y");
         int z = getInt(args2, "z");
         return PosUtil.flooredBlockPos(x, y, z);
+    }
+
+    public static void putItemStack(WriteNbtArgs args, String key, ItemStack stack) {
+        NbtUtil.putItemStack(args.getNbt(), key, stack, args.getRegistryLookup());
+    }
+
+    public static Optional<ItemStack> getItemStack(ReadNbtArgs args, String key) {
+        return NbtUtil.getItemStack(args.getNbt(), key, args.getRegistryLookup());
     }
 }
