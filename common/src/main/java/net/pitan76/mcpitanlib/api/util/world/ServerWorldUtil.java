@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -35,5 +36,9 @@ public class ServerWorldUtil {
 
     public static List<ItemStack> getDroppedStacksOnBlock(BlockState state, ServerWorld world, BlockPos pos, @Nullable BlockEntity blockEntity, @Nullable Entity entity, ItemStack stack) {
         return Block.getDroppedStacks(state, world, pos, blockEntity, entity, stack);
+    }
+
+    public static ServerChunkManager getChunkManager(ServerWorld world) {
+        return world.getChunkManager();
     }
 }
