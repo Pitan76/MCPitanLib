@@ -6,6 +6,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.event.neoforge.WorldRenderRegistryImpl;
+import net.pitan76.mcpitanlib.api.client.registry.neoforge.CompatRegistryClientImpl;
 import net.pitan76.mcpitanlib.api.util.PlatformUtil;
 
 @Mod(MCPitanLib.MOD_ID)
@@ -18,6 +19,7 @@ public class MCPitanLibNeoForge {
             nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEventBlock);
             nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEvent);
             nfBus.addListener(WorldRenderRegistryImpl::renderLevelStageEvent);
+            nfBus.addListener(CompatRegistryClientImpl::registerBlockColors);
         }
 
         MCPitanLib.init();
