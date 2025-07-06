@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.particle.ParticleProviderRegistry;
