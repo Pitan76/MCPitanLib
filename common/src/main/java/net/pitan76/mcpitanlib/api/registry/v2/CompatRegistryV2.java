@@ -13,6 +13,7 @@ import net.minecraft.particle.ParticleType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
@@ -28,6 +29,7 @@ import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.sound.RegistryResultCompatSoundEvent;
 import net.pitan76.mcpitanlib.api.tile.BlockEntityTypeBuilder;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.midohra.world.chunk.ChunkTicketType;
 
 import java.util.function.Supplier;
 
@@ -156,6 +158,10 @@ public class CompatRegistryV2 {
 
     public RegistryResult<ItemGroup> registerItemGroup(CreativeTabBuilder builder) {
         return cr1.registerItemGroup(builder.getIdentifier(), builder);
+    }
+
+    public RegistryResult<ChunkTicketType<?>> registerChunkTicketType(Identifier id, Supplier<ChunkTicketType<?>> supplier) {
+        return SupplierResult.of(supplier);
     }
 
     public void registerFuel(Supplier<Item> itemSupplier, int time) {
