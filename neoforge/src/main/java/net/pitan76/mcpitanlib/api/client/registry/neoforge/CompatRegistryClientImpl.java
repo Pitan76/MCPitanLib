@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.client.registry.neoforge;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.color.block.BlockColorProvider;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
 import java.util.HashMap;
@@ -16,7 +15,6 @@ public class CompatRegistryClientImpl {
         blockColorProviders.put(provider, blocks);
     }
 
-    @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event){
         if (blockColorProviders.isEmpty()) return;
 
