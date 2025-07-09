@@ -20,7 +20,6 @@ public class CompatRegistryClientImpl {
         blockColorProviders.put(provider, blocks);
     }
 
-    @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event){
         if (blockColorProviders.isEmpty()) return;
 
