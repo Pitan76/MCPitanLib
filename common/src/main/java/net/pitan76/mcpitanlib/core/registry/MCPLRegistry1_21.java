@@ -33,6 +33,7 @@ public class MCPLRegistry1_21 {
     }
 
     public Supplier<ChunkTicketType<?>> registryChunkTicketType(Identifier id, Supplier<ChunkTicketType<?>> supplier) {
-        return () -> ChunkTicketType.of(TICKET_TYPE.register(id, () -> supplier.get().getRaw()).get());
+        RegistrySupplier<net.minecraft.server.world.ChunkTicketType> ticketType = TICKET_TYPE.register(id, () -> supplier.get().getRaw());
+        return () -> ChunkTicketType.of(ticketType.get());
     }
 }
