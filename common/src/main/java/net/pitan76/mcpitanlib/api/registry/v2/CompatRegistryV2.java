@@ -164,6 +164,10 @@ public class CompatRegistryV2 {
         return SupplierResult.of(supplier);
     }
 
+    public RegistryResult<ChunkTicketType<?>> registerChunkTicketType(CompatIdentifier id, Supplier<ChunkTicketType<?>> supplier) {
+        return registerChunkTicketType(id.toMinecraft(), supplier);
+    }
+
     public void registerFuel(Supplier<Item> itemSupplier, int time) {
         FuelRegistry.register(itemSupplier::get, time, cr1.getNamespace());
     }
