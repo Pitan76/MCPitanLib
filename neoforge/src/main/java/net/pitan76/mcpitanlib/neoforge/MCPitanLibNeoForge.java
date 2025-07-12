@@ -19,7 +19,8 @@ public class MCPitanLibNeoForge {
             nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEventBlock);
             nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEvent);
             nfBus.addListener(WorldRenderRegistryImpl::renderLevelStageEvent);
-            nfBus.addListener(CompatRegistryClientImpl::registerBlockColors);
+            if (bus != null)
+                bus.addListener(CompatRegistryClientImpl::registerBlockColors);
         }
 
         MCPitanLib.init();
