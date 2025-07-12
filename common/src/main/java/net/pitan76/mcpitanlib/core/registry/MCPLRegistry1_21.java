@@ -22,7 +22,6 @@ public class MCPLRegistry1_21 {
 
     public void register() {
         DATA_COMPONENT_TYPE.register();
-        TICKET_TYPE.register();
     }
 
     public RegistrySupplier<ComponentType<?>> registryDataComponentType(Identifier id, Supplier<ComponentType<?>> supplier) {
