@@ -63,11 +63,11 @@ public class NeoForgeFluidStorage implements IFluidStorage {
 
     @Override
     public void writeNbt(WriteNbtArgs args) {
-        storage.writeToNBT(args.getWrapperLookup(), args.nbt);
+        storage.serialize(args.view);
     }
 
     @Override
     public void readNbt(ReadNbtArgs args) {
-        storage.readFromNBT(args.getWrapperLookup(), args.nbt);
+        storage.deserialize(args.view);
     }
 }
