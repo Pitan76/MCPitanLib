@@ -151,9 +151,7 @@ public class WorldRenderRegistryImpl {
         }
     }
 
-    public static void renderLevelStageEvent(RenderLevelStageEvent event) {
-        if (!(event instanceof RenderLevelStageEvent.AfterLevel)) return;
-
+    public static void renderLevelStageEvent(RenderLevelStageEvent.AfterLevel event) {
         for (WorldRenderContextListener listener : worldRenderAfterLevelListeners) {
             listener.render(new WorldRenderContext() {
                 @Override
