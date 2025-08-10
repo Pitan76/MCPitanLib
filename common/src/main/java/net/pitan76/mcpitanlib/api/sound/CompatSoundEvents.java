@@ -1609,6 +1609,14 @@ public class CompatSoundEvents {
     public static final CompatSoundEvent EVENT_MOB_EFFECT_BAD_OMEN = new CompatSoundEvent(SoundEvents.BLOCK_STONE_HIT);
     public static final CompatSoundEvent EVENT_MOB_EFFECT_TRIAL_OMEN = new CompatSoundEvent(SoundEvents.BLOCK_STONE_HIT);
     public static final CompatSoundEvent EVENT_MOB_EFFECT_RAID_OMEN = new CompatSoundEvent(SoundEvents.BLOCK_STONE_HIT);
+    public static final CompatSoundEvent ENTITY_HAPPY_GHAST_EQUIP = new CompatSoundEvent(SoundEvents.ITEM_ARMOR_EQUIP_CHAIN);
+    public static final CompatSoundEvent ENTITY_HAPPY_GHAST_AMBIENT = new CompatSoundEvent(SoundEvents.ENTITY_GHAST_AMBIENT);
+    public static final CompatSoundEvent ENTITY_HAPPY_GHAST_DEATH = new CompatSoundEvent(SoundEvents.ENTITY_GHAST_DEATH);
+    public static final CompatSoundEvent ENTITY_HAPPY_GHAST_HURT = new CompatSoundEvent(SoundEvents.ENTITY_GHAST_HURT);
+    public static final CompatSoundEvent ENTITY_HAPPY_GHAST_RIDING = new CompatSoundEvent(SoundEvents.ENTITY_MINECART_RIDING);
+    public static final CompatSoundEvent ENTITY_HAPPY_GHAST_HARNESS_GOGGLES_DOWN = new CompatSoundEvent(SoundEvents.ENTITY_GHAST_AMBIENT);
+    public static final CompatSoundEvent ENTITY_HAPPY_GHAST_HARNESS_GOGGLES_UP = new CompatSoundEvent(SoundEvents.ENTITY_GHAST_AMBIENT);
+    public static final CompatSoundEvent ENTITY_HAPPY_GHAST_UNEQUIP = new CompatSoundEvent(SoundEvents.ITEM_ARMOR_EQUIP_CHAIN);
 
     static {
         
