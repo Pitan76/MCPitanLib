@@ -144,7 +144,6 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     }
 
     public CompatibleItemSettings equipable(CompatEquippableComponent component) {
-        settings.component(DataComponentTypes.EQUIPPABLE, component.raw());
         return this;
     }
 

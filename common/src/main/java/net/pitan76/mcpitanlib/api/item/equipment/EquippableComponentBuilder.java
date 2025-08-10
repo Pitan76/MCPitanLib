@@ -1,9 +1,5 @@
 package net.pitan76.mcpitanlib.api.item.equipment;
 
-import net.minecraft.component.type.EquippableComponent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryEntryLookup;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
@@ -75,17 +71,6 @@ public class EquippableComponentBuilder {
     }
 
     public CompatEquippableComponent build() {
-        EquippableComponent.Builder component = EquippableComponent.builder(equipmentType.getSlot());
-        if (equipSound != null)
-            component.equipSound(equipSound.getEntry() != null ? equipSound.getEntry() : equipSound.getReference());
-
-        component.equipOnInteract(equipOnInteract);
-        if (model != null) component.model(model.raw());
-        if (allowedEntities != null) {
-            RegistryEntryLookup<EntityType<?>> registryEntryLookup = Registries.createEntryLookup(Registries.ENTITY_TYPE);
-            component.allowedEntities(registryEntryLookup.getOrThrow((net.minecraft.registry.tag.TagKey<EntityType<?>>) allowedEntities.getTagKey()));
-        }
-
-        return CompatEquippableComponent.of(component.build());
+        return new CompatEquippableComponent();
     }
 }
