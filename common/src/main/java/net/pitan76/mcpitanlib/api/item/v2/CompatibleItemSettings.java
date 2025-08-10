@@ -4,9 +4,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import net.pitan76.mcpitanlib.api.entity.attribute.AttributeModifiersComponentBuilder;
+import net.pitan76.mcpitanlib.api.entity.attribute.CompatAttributeModifiersComponent;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.ExtendSettings;
+import net.pitan76.mcpitanlib.api.item.equipment.CompatEquippableComponent;
+import net.pitan76.mcpitanlib.api.item.equipment.EquippableComponentBuilder;
 import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
@@ -134,6 +138,22 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     public CompatibleItemSettings repairable(RepairIngredientTag tag) {
         this.repairIngredientTag = tag;
         return this;
+    }
+
+    public CompatibleItemSettings equipable(CompatEquippableComponent component) {
+        return this;
+    }
+
+    public CompatibleItemSettings equipable(EquippableComponentBuilder builder) {
+        return equipable(builder.build());
+    }
+
+    public CompatibleItemSettings attributeModifiers(CompatAttributeModifiersComponent component) {
+        return this;
+    }
+
+    public CompatibleItemSettings attributeModifiers(AttributeModifiersComponentBuilder builder) {
+        return attributeModifiers(builder.build());
     }
 
     @Override
