@@ -78,11 +78,8 @@ public class EquippableComponentBuilder {
         EquippableComponent.Builder component = EquippableComponent.builder(equipmentType.getSlot());
         if (equipSound != null)
             component.equipSound(equipSound.getEntry() != null ? equipSound.getEntry() : equipSound.getReference());
-        if (shearingSound != null)
-            component.shearingSound(shearingSound.getEntry() != null ? shearingSound.getEntry() : shearingSound.getReference());
 
         component.equipOnInteract(equipOnInteract);
-        component.canBeSheared(canBeSheared);
         if (model != null) component.model(model.raw());
         if (allowedEntities != null) {
             RegistryEntryLookup<EntityType<?>> registryEntryLookup = Registries.createEntryLookup(Registries.ENTITY_TYPE);
