@@ -152,7 +152,7 @@ public class WorldRenderRegistryImpl {
     }
 
     public static void renderLevelStageEvent(RenderLevelStageEvent event) {
-        if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_LEVEL)) return;
+        if (!(event instanceof RenderLevelStageEvent.AfterLevel)) return;
 
         for (WorldRenderContextListener listener : worldRenderAfterLevelListeners) {
             listener.render(new WorldRenderContext() {
