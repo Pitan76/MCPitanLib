@@ -117,7 +117,7 @@ public class ItemStackUtil {
     }
 
     public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity, Runnable breakCallback) {
-        stack.damage(amount, entity.getWorld(), entity, (item) -> breakCallback.run());
+        stack.damage(amount, entity.getEntityWorld(), entity, (item) -> breakCallback.run());
     }
 
     public static void damage(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
@@ -125,7 +125,7 @@ public class ItemStackUtil {
     }
 
     public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity) {
-        stack.damage(amount, entity.getWorld(), entity, (item) -> entity.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
+        stack.damage(amount, entity.getEntityWorld(), entity, (item) -> entity.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
     }
 
     public static void damage(ItemStack stack, int amount, Player entity) {

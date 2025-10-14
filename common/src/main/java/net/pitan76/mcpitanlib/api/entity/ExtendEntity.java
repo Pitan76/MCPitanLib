@@ -96,7 +96,7 @@ public class ExtendEntity extends Entity {
     }
 
     @Override
-    public World getWorld() {
-        return super.getWorld();
+    public World getEntityWorld() {
+        return super.getEntityWorld();
     }
 }

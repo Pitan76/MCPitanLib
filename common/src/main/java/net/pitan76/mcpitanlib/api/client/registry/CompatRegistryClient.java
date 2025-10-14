@@ -1,16 +1,15 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import dev.architectury.registry.client.gui.MenuScreenRegistry;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.particle.ParticleProviderRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
-import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.color.block.BlockColorProvider;
@@ -25,15 +24,18 @@ import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.BlockRenderManager;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.BlockEntityRenderManager;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
+import net.minecraft.client.render.entity.EntityRenderManager;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.LoadedEntityModels;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.texture.PlayerSkinCache;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.texture.SpriteHolder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerInventory;
@@ -60,7 +62,7 @@ public class CompatRegistryClient {
     }
 
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
-        MenuRegistry.registerScreenFactory(type, factory::create);
+        MenuScreenRegistry.registerScreenFactory(type, factory::create);
     }
 
     public interface ScreenFactory<H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> {
@@ -91,6 +93,11 @@ public class CompatRegistryClient {
             @Override
             public Sprite getSprite(Random random) {
                 return spriteSet.getSprite(random);
+            }
+
+            @Override
+            public Sprite getFirst() {
+                return spriteSet.getFirst();
             }
         }));
     }
@@ -130,26 +137,29 @@ public class CompatRegistryClient {
         // ～1.19.2
     }
 
-    public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
+    public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
         BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer()
+                ctx.renderDispatcher(), ctx.renderManager(), ctx.itemModelManager(), ctx.itemRenderer(), ctx.entityRenderDispatcher(), ctx.loadedEntityModels(), ctx.textRenderer(), ctx.spriteHolder(), ctx.playerSkinRenderCache()
         )));
     }
 
     @FunctionalInterface
-    public interface BlockEntityRendererFactory<T extends BlockEntity> {
-        BlockEntityRenderer<T> create(Context ctx);
+    public interface BlockEntityRendererFactory<T extends BlockEntity, S extends BlockEntityRenderState> {
+        BlockEntityRenderer<T, S> create(Context ctx);
 
         class Context {
-            private final BlockEntityRenderDispatcher renderDispatcher;
+            private final BlockEntityRenderManager renderDispatcher;
             private final BlockRenderManager renderManager;
             private final ItemModelManager itemModelManager;
             private final ItemRenderer itemRenderer;
-            private final EntityRenderDispatcher entityRenderDispatcher;
+            private final EntityRenderManager entityRenderDispatcher;
             private final LoadedEntityModels layerRenderDispatcher;
             private final TextRenderer textRenderer;
+            private final SpriteHolder spriteHolder;
 
-            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemModelManager itemModelManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, LoadedEntityModels layerRenderDispatcher, TextRenderer textRenderer) {
+            private final PlayerSkinCache playerSkinRenderCache;
+
+            public Context(BlockEntityRenderManager renderDispatcher, BlockRenderManager renderManager, ItemModelManager itemModelManager, ItemRenderer itemRenderer, EntityRenderManager entityRenderDispatcher, LoadedEntityModels layerRenderDispatcher, TextRenderer textRenderer, SpriteHolder spriteHolder, PlayerSkinCache playerSkinRenderCache) {
                 this.renderDispatcher = renderDispatcher;
                 this.renderManager = renderManager;
                 this.itemModelManager = itemModelManager;
@@ -157,9 +167,11 @@ public class CompatRegistryClient {
                 this.entityRenderDispatcher = entityRenderDispatcher;
                 this.layerRenderDispatcher = layerRenderDispatcher;
                 this.textRenderer = textRenderer;
+                this.spriteHolder = spriteHolder;
+                this.playerSkinRenderCache = playerSkinRenderCache;
             }
 
-            public BlockEntityRenderDispatcher getRenderDispatcher() {
+            public BlockEntityRenderManager getRenderDispatcher() {
                 return this.renderDispatcher;
             }
 
@@ -167,7 +179,7 @@ public class CompatRegistryClient {
                 return this.renderManager;
             }
 
-            public EntityRenderDispatcher getEntityRenderDispatcher() {
+            public EntityRenderManager getEntityRenderDispatcher() {
                 return this.entityRenderDispatcher;
             }
 
@@ -189,6 +201,14 @@ public class CompatRegistryClient {
 
             public TextRenderer getTextRenderer() {
                 return this.textRenderer;
+            }
+
+            public SpriteHolder getSpriteHolder() {
+                return spriteHolder;
+            }
+
+            public PlayerSkinCache getPlayerSkinRenderCache() {
+                return playerSkinRenderCache;
             }
         }
     }
@@ -236,9 +256,9 @@ public class CompatRegistryClient {
         registerRenderTypeBlock(RenderLayer.getCutout(), block);
     }
 
-    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
+    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
         BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer()
+                ctx.renderDispatcher(), ctx.renderManager(), ctx.itemModelManager(), ctx.itemRenderer(), ctx.entityRenderDispatcher(), ctx.loadedEntityModels(), ctx.textRenderer(), ctx.spriteHolder(), ctx.playerSkinRenderCache()
         )));
     }
 

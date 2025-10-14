@@ -14,10 +14,11 @@ public class KeybindingRegistry extends net.pitan76.mcpitanlib.api.client.regist
     }
 
     public static void registerWithNetwork(String translationKey, int code, String category, CompatIdentifier identifier) {
-        registerWithNetwork(new KeyBinding(translationKey, code, category), identifier);
+        registerWithNetwork(new KeyBinding(translationKey, code, KeyBinding.Category.create(CompatIdentifier.of(category).toMinecraft())), identifier);
     }
 
     public static void registerOnLevelWithNetwork(String translationKey, int code, String category, CompatIdentifier identifier) {
-        registerOnLevelWithNetwork(new KeyBinding(translationKey, code, category), identifier);
+        // TODO: categoryの互換性
+        registerOnLevelWithNetwork(new KeyBinding(translationKey, code, KeyBinding.Category.create(CompatIdentifier.of(category).toMinecraft())), identifier);
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.entity.player.PlayerInventory;
@@ -194,11 +195,11 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
     }
 
     public boolean keyReleased(KeyEventArgs args) {
-        return super.keyReleased(args.keyCode, args.scanCode, args.modifiers);
+        return super.keyReleased(new KeyInput(args.keyCode, args.scanCode, args.modifiers));
     }
 
     public boolean keyPressed(KeyEventArgs args) {
-        return super.keyPressed(args.keyCode, args.scanCode, args.modifiers);
+        return super.keyPressed(new KeyInput(args.keyCode, args.scanCode, args.modifiers));
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
@@ -211,14 +212,14 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     @Deprecated
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return this.keyReleased(new KeyEventArgs(keyCode, scanCode, modifiers));
+    public boolean keyReleased(KeyInput input) {
+        return this.keyReleased(new KeyEventArgs(input.key(), input.scancode(), input.modifiers()));
     }
 
     @Deprecated
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        return this.keyPressed(new KeyEventArgs(keyCode, scanCode, modifiers));
+    public boolean keyPressed(KeyInput input) {
+        return this.keyPressed(new KeyEventArgs(input.key(), input.scancode(), input.modifiers()));
     }
 
     @Deprecated

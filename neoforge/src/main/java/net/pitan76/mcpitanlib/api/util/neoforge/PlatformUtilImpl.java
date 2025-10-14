@@ -9,11 +9,11 @@ import java.nio.file.Path;
 
 public class PlatformUtilImpl {
     public static boolean isClient() {
-        return FMLEnvironment.dist == Dist.CLIENT;
+        return FMLEnvironment.getDist() == Dist.CLIENT;
     }
 
     public static boolean isServer() {
-        return FMLEnvironment.dist == Dist.DEDICATED_SERVER;
+        return FMLEnvironment.getDist() == Dist.DEDICATED_SERVER;
     }
 
     public static Path getConfigFolder() {

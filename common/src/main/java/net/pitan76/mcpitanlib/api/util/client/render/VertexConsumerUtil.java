@@ -33,7 +33,7 @@ public class VertexConsumerUtil {
     }
 
     public static VertexConsumer colorRGB(VertexConsumer vertexConsumer, int rgb) {
-        return vertexConsumer.colorRgb(rgb);
+        return colorARGB(vertexConsumer, (0xFF << 24) | (rgb & 0xFFFFFF));
     }
 
     public static VertexConsumer light(VertexConsumer vertexConsumer, int light) {

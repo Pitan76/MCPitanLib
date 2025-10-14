@@ -192,7 +192,8 @@ public class ScreenUtil {
         }
 
         public static void drawBorder(DrawObjectDM drawObjectDM, int x, int y, int width, int height, int color) {
-            drawObjectDM.getContext().drawBorder(x, y, width, height, color);
+            // TODO: drawBorderを一時的に廃止
+            //drawObjectDM.getContext().drawBorder(x, y, width, height, color);
         }
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, Text text, int x, int y) {

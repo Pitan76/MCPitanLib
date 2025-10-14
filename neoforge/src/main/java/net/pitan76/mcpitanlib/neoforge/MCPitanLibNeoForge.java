@@ -16,8 +16,9 @@ public class MCPitanLibNeoForge {
 
         if (PlatformUtil.isClient()) {
             IEventBus nfBus = NeoForge.EVENT_BUS;
-            nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEventBlock);
-            nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEvent);
+            // TODO: re-implement outline rendering event
+//            nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEventBlock);
+//            nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEvent);
             nfBus.addListener(WorldRenderRegistryImpl::renderLevelStageEvent);
             if (bus != null)
                 bus.addListener(CompatRegistryClientImpl::registerBlockColors);

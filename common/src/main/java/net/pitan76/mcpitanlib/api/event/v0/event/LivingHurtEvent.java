@@ -57,7 +57,7 @@ public class LivingHurtEvent {
     }
 
     public World getWorld() {
-        return entity.getWorld();
+        return entity.getEntityWorld();
     }
 
     public boolean isClient() {

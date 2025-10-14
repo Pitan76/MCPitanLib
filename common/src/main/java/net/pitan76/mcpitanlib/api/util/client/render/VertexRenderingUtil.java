@@ -9,11 +9,11 @@ import org.joml.Matrix4f;
 
 public class VertexRenderingUtil {
     public static void drawBox(MatrixStack matrices, VertexConsumer buffer, double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {
-        VertexRendering.drawBox(matrices, buffer, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);
+        VertexRendering.drawBox(matrices.peek(), buffer, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);
     }
 
     public static void drawBox(MatrixStack matrices, VertexConsumer buffer, double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha, float xAxisRed, float yAxisGreen, float zAxisBlue) {
-        VertexRendering.drawBox(matrices, buffer, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha, xAxisRed, yAxisGreen, zAxisBlue);
+        VertexRendering.drawBox(matrices.peek(), buffer, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha, xAxisRed, yAxisGreen, zAxisBlue);
     }
 
     public static void drawFilledBox(MatrixStack matrices, VertexConsumer buffer, double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {

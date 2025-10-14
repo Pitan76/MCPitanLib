@@ -41,7 +41,7 @@ public class ServerNetworking {
                     if (context.getPlayer() instanceof ServerPlayerEntity)
                         player = (ServerPlayerEntity) context.getPlayer();
 
-                    handler.receive(context.getPlayer().getServer(), player, buf);
+                    handler.receive(context.getPlayer().getEntityWorld().getServer(), player, buf);
                     buf.release();
                 });
     }

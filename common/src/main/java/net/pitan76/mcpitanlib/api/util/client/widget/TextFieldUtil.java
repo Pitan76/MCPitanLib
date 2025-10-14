@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.api.util.client.widget;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
@@ -48,15 +50,15 @@ public class TextFieldUtil {
     }
 
     public static boolean keyPressed(TextFieldWidget widget, int keyCode, int scanCode, int modifiers) {
-        return widget.keyPressed(keyCode, scanCode, modifiers);
+        return widget.keyPressed(new KeyInput(keyCode, scanCode, modifiers));
     }
 
     public static boolean keyReleased(TextFieldWidget widget, int keyCode, int scanCode, int modifiers) {
-        return widget.keyReleased(keyCode, scanCode, modifiers);
+        return widget.keyReleased(new KeyInput(keyCode, scanCode, modifiers));
     }
 
     public static boolean charTyped(TextFieldWidget widget, char chr, int modifiers) {
-        return widget.charTyped(chr, modifiers);
+        return widget.charTyped(new CharInput(chr, modifiers));
     }
 
     public static TextFieldWidget create(TextRenderer renderer, int x, int y, int width, int height, Text text) {

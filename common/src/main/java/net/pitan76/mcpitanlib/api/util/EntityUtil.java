@@ -14,27 +14,27 @@ import java.util.UUID;
 
 public class EntityUtil {
     public static World getWorld(Entity entity) {
-        return entity.getWorld();
+        return entity.getEntityWorld();
     }
 
     public static boolean damage(Entity target, DamageSource damageSource, float amount) {
-        return target.damage((ServerWorld) target.getWorld(), damageSource, amount);
+        return target.damage((ServerWorld) target.getEntityWorld(), damageSource, amount);
     }
 
     public static boolean damageWithThrownProjectile(Entity target, float damageAmount, Entity projectile, Entity attacker) {
-        return target.damage((ServerWorld) target.getWorld(), DamageSourceUtil.thrownProjectile(projectile, attacker), damageAmount);
+        return target.damage((ServerWorld) target.getEntityWorld(), DamageSourceUtil.thrownProjectile(projectile, attacker), damageAmount);
     }
 
     public static boolean damageWithMobProjectile(Entity target, float damageAmount, Entity projectile, LivingEntity attacker) {
-        return target.damage((ServerWorld) target.getWorld(), DamageSourceUtil.mobProjectile(projectile, attacker), damageAmount);
+        return target.damage((ServerWorld) target.getEntityWorld(), DamageSourceUtil.mobProjectile(projectile, attacker), damageAmount);
     }
 
     public static boolean damageWithMobAttack(Entity target, float damageAmount, Entity source, LivingEntity attacker) {
-        return target.damage((ServerWorld) target.getWorld(), DamageSourceUtil.mobAttack(attacker, source), damageAmount);
+        return target.damage((ServerWorld) target.getEntityWorld(), DamageSourceUtil.mobAttack(attacker, source), damageAmount);
     }
 
     public static boolean damageWithPlayerAttack(Entity target, float damageAmount, Entity source, Player attacker) {
-        return target.damage((ServerWorld) target.getWorld(), DamageSourceUtil.playerAttack(attacker, source), damageAmount);
+        return target.damage((ServerWorld) target.getEntityWorld(), DamageSourceUtil.playerAttack(attacker, source), damageAmount);
     }
 
     public static void discard(Entity entity) {
@@ -42,10 +42,10 @@ public class EntityUtil {
     }
 
     public static void kill(Entity entity) {
-        if (entity.getWorld() instanceof ServerWorld)
+        if (entity.getEntityWorld() instanceof ServerWorld)
             return;
 
-        entity.kill((ServerWorld) entity.getWorld());
+        entity.kill((ServerWorld) entity.getEntityWorld());
     }
 
     public static void setVelocity(Entity entity, double x, double y, double z) {
@@ -137,7 +137,7 @@ public class EntityUtil {
     }
 
     public static void attach(Entity entity, Entity vehicle) {
-        entity.startRiding(vehicle, true);
+        entity.startRiding(vehicle, true, true);
     }
 
     public static void detachFromVehicle(Entity entity) {
@@ -153,7 +153,7 @@ public class EntityUtil {
     }
 
     public static void setVehicle(Entity entity, Entity vehicle) {
-        entity.startRiding(vehicle, true);
+        entity.startRiding(vehicle, true, true);
     }
 
     public static void applyRotation(Entity entity, BlockRotation rotation) {

@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.registry.fabric;
 
-import dev.architectury.registry.menu.MenuRegistry;
+import dev.architectury.registry.client.gui.MenuScreenRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.color.block.BlockColorProvider;
@@ -12,7 +12,7 @@ import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 
 public class CompatRegistryClientImpl {
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
-        MenuRegistry.registerScreenFactory(type, factory::create);
+        MenuScreenRegistry.registerScreenFactory(type, factory::create);
     }
 
     public static void registerColorProviderBlock(BlockColorProvider provider, Block... blocks) {

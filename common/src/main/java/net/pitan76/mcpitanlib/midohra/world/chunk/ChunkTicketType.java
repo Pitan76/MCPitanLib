@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 public class ChunkTicketType<T> {
 
-    public static final ChunkTicketType<Unit> START = of(net.minecraft.server.world.ChunkTicketType.START);
+    public static final ChunkTicketType<Unit> START = of(net.minecraft.server.world.ChunkTicketType.PLAYER_SPAWN);
     public static final ChunkTicketType<Unit> DRAGON = of(net.minecraft.server.world.ChunkTicketType.DRAGON);
     public static final ChunkTicketType<ChunkPos> PLAYER = of(net.minecraft.server.world.ChunkTicketType.PLAYER_SIMULATION);
     public static final ChunkTicketType<ChunkPos> FORCED = of(net.minecraft.server.world.ChunkTicketType.FORCED);
@@ -57,7 +57,7 @@ public class ChunkTicketType<T> {
     }
 
     public ChunkTicketType(String name, long expiryTicks) {
-        this(new net.minecraft.server.world.ChunkTicketType(expiryTicks, true, net.minecraft.server.world.ChunkTicketType.Use.LOADING_AND_SIMULATION));
+        this(new net.minecraft.server.world.ChunkTicketType(expiryTicks, 6));
     }
 
     public ChunkTicketType(String name) {

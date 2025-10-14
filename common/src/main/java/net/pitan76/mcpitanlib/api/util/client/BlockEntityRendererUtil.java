@@ -5,10 +5,10 @@ import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 
 public class BlockEntityRendererUtil {
     public static BlockEntityRendererFactory.Context convert(CompatRegistryClient.BlockEntityRendererFactory.Context ctx) {
-        return new BlockEntityRendererFactory.Context(ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer());
+        return new BlockEntityRendererFactory.Context(ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer(), ctx.getSpriteHolder(), ctx.getPlayerSkinRenderCache());
     }
 
     public static CompatRegistryClient.BlockEntityRendererFactory.Context convert(BlockEntityRendererFactory.Context ctx) {
-        return new CompatRegistryClient.BlockEntityRendererFactory.Context(ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer());
+        return new CompatRegistryClient.BlockEntityRendererFactory.Context(ctx.renderDispatcher(), ctx.renderManager(), ctx.itemModelManager(), ctx.itemRenderer(), ctx.entityRenderDispatcher(), ctx.loadedEntityModels(), ctx.textRenderer(), ctx.spriteHolder(), ctx.playerSkinRenderCache());
     }
 }

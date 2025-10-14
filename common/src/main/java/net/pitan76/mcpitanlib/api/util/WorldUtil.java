@@ -119,7 +119,7 @@ public class WorldUtil {
     }
 
     public static BlockPos getSpawnPos(World world) {
-        return world.getSpawnPos();
+        return world.getSpawnPoint().getPos();
     }
 
     public static Optional<MinecraftServer> getServer(World world) {
@@ -129,9 +129,8 @@ public class WorldUtil {
 
     public static ServerWorld getWorld(World world, Identifier worldId) {
         Optional<MinecraftServer> server = getServer(world);
-        if (!server.isPresent()) return null;
+        return server.map(minecraftServer -> getWorld(minecraftServer, worldId)).orElse(null);
 
-        return getWorld(server.get(), worldId);
     }
 
     public static Optional<ServerWorld> getWorld(World world, CompatIdentifier worldId) {

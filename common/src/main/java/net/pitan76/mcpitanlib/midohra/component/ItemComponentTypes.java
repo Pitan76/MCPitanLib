@@ -1,16 +1,15 @@
 package net.pitan76.mcpitanlib.midohra.component;
 
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.TypedEntityData;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.Unit;
 import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
-import net.pitan76.mcpitanlib.api.util.BlockEntityDataUtil;
-import net.pitan76.mcpitanlib.api.util.CustomDataUtil;
-import net.pitan76.mcpitanlib.api.util.NbtUtil;
+import net.pitan76.mcpitanlib.api.util.*;
 import net.pitan76.mcpitanlib.midohra.component.item.CustomNameComponentType;
 import net.pitan76.mcpitanlib.midohra.component.item.ItemComponentType;
 import net.pitan76.mcpitanlib.midohra.component.item.RarityComponentType;
@@ -101,13 +100,21 @@ public class ItemComponentTypes {
     public static final ItemComponentType<NbtCompound> ENTITY_DATA = new ItemComponentType<>(DataComponentTypes.ENTITY_DATA) {
         @Override
         public void put(ItemStack stack, NbtCompound value) {
-            stack.set(DataComponentTypes.ENTITY_DATA, NbtComponent.of(value));
+            EntityType<?> type = EntityTypeUtil.fromId(CompatIdentifier.of(NbtUtil.getString(value, "id")));
+            stack.set(DataComponentTypes.ENTITY_DATA, TypedEntityData.create(type, value));
         }
 
         @Override
         public NbtCompound get(ItemStack stack) {
             if (!has(stack)) return NbtUtil.create();
-            return stack.get(DataComponentTypes.ENTITY_DATA).copyNbt();
+            if (!stack.contains(DataComponentTypes.ENTITY_DATA)) return NbtUtil.create();
+
+            TypedEntityData<EntityType<?>> data = stack.get(DataComponentTypes.ENTITY_DATA);
+            NbtCompound nbt = data.copyNbtWithoutId();
+
+            String id = EntityTypeUtil.toID(data.getType()).toString();
+            NbtUtil.putString(nbt, "id", id);
+            return nbt;
         }
     };
 

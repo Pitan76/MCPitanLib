@@ -205,7 +205,7 @@ public class Player {
     }
 
     public World getWorld() {
-        return getEntity().getWorld();
+        return getEntity().getEntityWorld();
     }
 
     public ScreenHandler getCurrentScreenHandler() {
@@ -265,7 +265,7 @@ public class Player {
     }
 
     public Vec3d getPos() {
-        return getEntity().getPos();
+        return getEntity().getEntityPos();
     }
 
     public ItemStack getStackInHand(Hand hand) {

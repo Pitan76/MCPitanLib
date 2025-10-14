@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
+import net.minecraft.entity.ContainerUser;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
@@ -60,17 +61,29 @@ public class CompatInventory extends SimpleInventory {
 
     @Deprecated
     @Override
-    public void onOpen(PlayerEntity player) {
-        onOpen(new Player(player));
+    public void onOpen(ContainerUser user) {
+        // TODO: ContainerUser の互換性用インターフェースの作成
+        if (user instanceof PlayerEntity) {
+            onOpen(new Player((PlayerEntity) user));
+            return;
+        }
+
+        super.onOpen(user);
+
     }
 
     @Deprecated
     @Override
-    public void onClose(PlayerEntity player) {
-        onClose(new Player(player));
+    public void onClose(ContainerUser user) {
+        if (user instanceof PlayerEntity) {
+            onClose(new Player((PlayerEntity) user));
+            return;
+        }
+
+        super.onClose(user);
     }
 
-//    @Deprecated
+    //    @Deprecated
 //    public net.minecraft.nbt.NbtList toNbtList(RegistryWrapper.WrapperLookup registries) {
 //        return toNbtList(new CompatRegistryLookup(registries)).toMinecraft();
 //    }

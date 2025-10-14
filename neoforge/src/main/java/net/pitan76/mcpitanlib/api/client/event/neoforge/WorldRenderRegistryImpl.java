@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
-import net.neoforged.neoforge.client.event.RenderHighlightEvent;
+import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
@@ -20,136 +20,136 @@ public class WorldRenderRegistryImpl {
     public static List<BeforeBlockOutlineListener> beforeBlockOutlineListeners = new ArrayList<>();
     public static List<WorldRenderContextListener> worldRenderAfterLevelListeners = new ArrayList<>();
 
-    public static void renderOutlineEventBlock(RenderHighlightEvent.Block event) {
-        for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
-            boolean eventContinue = listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
-                @Override
-                public WorldRenderer getWorldRenderer() {
-                    return event.getLevelRenderer();
-                }
-
-                @Override
-                public MatrixStack getMatrixStack() {
-                    return event.getPoseStack();
-                }
-
-                @Override
-                public float getTickDelta() {
-                    return event.getDeltaTracker().getDynamicDeltaTicks();
-                }
-
-                @Override
-                public Camera getCamera() {
-                    return event.getCamera();
-                }
-
-                @Override
-                public GameRenderer getGameRenderer() {
-                    return MinecraftClient.getInstance().gameRenderer;
-                }
-
-                @Override
-                public LightmapTextureManager getLightmapTextureManager() {
-                    return MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager();
-                }
-
-                @Deprecated
-                @Override
-                public Matrix4f getProjectionMatrix() {
-                    return null;
-                }
-
-                @Override
-                public ClientWorld getWorld() {
-                    return MinecraftClient.getInstance().world;
-                }
-
-                @Deprecated
-                @Override
-                public boolean isAdvancedTranslucency() {
-                    return event.getLevelRenderer().isTerrainRenderComplete();
-                }
-
-                @Override
-                public VertexConsumerProvider getConsumers() {
-                    return event.getMultiBufferSource();
-                }
-
-                @Override
-                public Frustum getFrustum() {
-                    return event.getLevelRenderer().getFrustum();
-                }
-            }, event.getTarget()));
-
-            if (!eventContinue) {
-                event.setCanceled(true);
-                break;
-            }
-        }
-    }
-
-    public static void renderOutlineEvent(RenderHighlightEvent.Entity event) {
-        for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
-            listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
-                @Override
-                public WorldRenderer getWorldRenderer() {
-                    return event.getLevelRenderer();
-                }
-
-                @Override
-                public MatrixStack getMatrixStack() {
-                    return event.getPoseStack();
-                }
-
-                @Override
-                public float getTickDelta() {
-                    return event.getDeltaTracker().getDynamicDeltaTicks();
-                }
-
-                @Override
-                public Camera getCamera() {
-                    return event.getCamera();
-                }
-
-                @Override
-                public GameRenderer getGameRenderer() {
-                    return MinecraftClient.getInstance().gameRenderer;
-                }
-
-                @Override
-                public LightmapTextureManager getLightmapTextureManager() {
-                    return MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager();
-                }
-
-                @Deprecated
-                @Override
-                public Matrix4f getProjectionMatrix() {
-                    return null;
-                }
-
-                @Override
-                public ClientWorld getWorld() {
-                    return MinecraftClient.getInstance().world;
-                }
-
-                @Deprecated
-                @Override
-                public boolean isAdvancedTranslucency() {
-                    return event.getLevelRenderer().isTerrainRenderComplete();
-                }
-
-                @Override
-                public VertexConsumerProvider getConsumers() {
-                    return event.getMultiBufferSource();
-                }
-
-                @Override
-                public Frustum getFrustum() {
-                    return event.getLevelRenderer().getFrustum();
-                }
-            }, event.getTarget()));
-        }
-    }
+//    public static void renderOutlineEventBlock(RenderHighlightEvent.Block event) {
+//        for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
+//            boolean eventContinue = listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
+//                @Override
+//                public WorldRenderer getWorldRenderer() {
+//                    return event.getLevelRenderer();
+//                }
+//
+//                @Override
+//                public MatrixStack getMatrixStack() {
+//                    return event.getPoseStack();
+//                }
+//
+//                @Override
+//                public float getTickDelta() {
+//                    return event.getDeltaTracker().getDynamicDeltaTicks();
+//                }
+//
+//                @Override
+//                public Camera getCamera() {
+//                    return event.getCamera();
+//                }
+//
+//                @Override
+//                public GameRenderer getGameRenderer() {
+//                    return MinecraftClient.getInstance().gameRenderer;
+//                }
+//
+//                @Override
+//                public LightmapTextureManager getLightmapTextureManager() {
+//                    return MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager();
+//                }
+//
+//                @Deprecated
+//                @Override
+//                public Matrix4f getProjectionMatrix() {
+//                    return null;
+//                }
+//
+//                @Override
+//                public ClientWorld getWorld() {
+//                    return MinecraftClient.getInstance().world;
+//                }
+//
+//                @Deprecated
+//                @Override
+//                public boolean isAdvancedTranslucency() {
+//                    return event.getLevelRenderer().isTerrainRenderComplete();
+//                }
+//
+//                @Override
+//                public VertexConsumerProvider getConsumers() {
+//                    return event.getMultiBufferSource();
+//                }
+//
+//                @Override
+//                public Frustum getFrustum() {
+//                    return event.getLevelRenderer().getFrustum();
+//                }
+//            }, event.getTarget()));
+//
+//            if (!eventContinue) {
+//                event.setCanceled(true);
+//                break;
+//            }
+//        }
+//    }
+//
+//    public static void renderOutlineEvent(RenderHighlightEvent.Entity event) {
+//        for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
+//            listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
+//                @Override
+//                public WorldRenderer getWorldRenderer() {
+//                    return event.getLevelRenderer();
+//                }
+//
+//                @Override
+//                public MatrixStack getMatrixStack() {
+//                    return event.getPoseStack();
+//                }
+//
+//                @Override
+//                public float getTickDelta() {
+//                    return event.getDeltaTracker().getDynamicDeltaTicks();
+//                }
+//
+//                @Override
+//                public Camera getCamera() {
+//                    return event.getCamera();
+//                }
+//
+//                @Override
+//                public GameRenderer getGameRenderer() {
+//                    return MinecraftClient.getInstance().gameRenderer;
+//                }
+//
+//                @Override
+//                public LightmapTextureManager getLightmapTextureManager() {
+//                    return MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager();
+//                }
+//
+//                @Deprecated
+//                @Override
+//                public Matrix4f getProjectionMatrix() {
+//                    return null;
+//                }
+//
+//                @Override
+//                public ClientWorld getWorld() {
+//                    return MinecraftClient.getInstance().world;
+//                }
+//
+//                @Deprecated
+//                @Override
+//                public boolean isAdvancedTranslucency() {
+//                    return event.getLevelRenderer().isTerrainRenderComplete();
+//                }
+//
+//                @Override
+//                public VertexConsumerProvider getConsumers() {
+//                    return event.getMultiBufferSource();
+//                }
+//
+//                @Override
+//                public Frustum getFrustum() {
+//                    return event.getLevelRenderer().getFrustum();
+//                }
+//            }, event.getTarget()));
+//        }
+//    }
 
     public static void renderLevelStageEvent(RenderLevelStageEvent.AfterLevel event) {
         for (WorldRenderContextListener listener : worldRenderAfterLevelListeners) {
@@ -166,12 +166,12 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public float getTickDelta() {
-                    return event.getPartialTick().getDynamicDeltaTicks();
+                    return event.getLevelRenderer().getTicks();
                 }
 
                 @Override
                 public Camera getCamera() {
-                    return event.getCamera();
+                    return MinecraftClient.getInstance().gameRenderer.getCamera();
                 }
 
                 @Override
@@ -208,7 +208,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Frustum getFrustum() {
-                    return event.getLevelRenderer().getFrustum();
+                    return event.getLevelRenderer().getCapturedFrustum();
                 }
             });
         }

@@ -121,6 +121,6 @@ public interface WorldRenderContext {
         if (!vertexConsumer.isPresent())
             return;
 
-        VertexRendering.drawBox(getMatrixStack(), vertexConsumer.get(), box, red, green, blue, alpha);
+        VertexRendering.drawBox(getMatrixStack().peek(), vertexConsumer.get(), box, red, green, blue, alpha);
     }
 }

@@ -9,12 +9,13 @@ import net.minecraft.util.math.BlockPos;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundEvents;
 
 import java.util.function.Supplier;
 
 public class CompatChestBlock extends ChestBlock implements CompatBlockProvider {
     public CompatChestBlock(Settings settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
-        super(supplier, settings);
+        super(supplier, CompatSoundEvents.BLOCK_CHEST_OPEN.get(), CompatSoundEvents.BLOCK_CHEST_CLOSE.get(), settings);
     }
 
     public CompatibleBlockSettings compatSettings;

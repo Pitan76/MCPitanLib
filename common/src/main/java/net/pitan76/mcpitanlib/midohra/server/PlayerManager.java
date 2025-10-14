@@ -131,7 +131,7 @@ public class PlayerManager {
     }
 
     public void setWhitelistEnabled(boolean enabled) {
-        getRaw().setWhitelistEnabled(enabled);
+        getRaw().getServer().setUseAllowlist(enabled);
     }
 
     public Whitelist getWhitelist() {

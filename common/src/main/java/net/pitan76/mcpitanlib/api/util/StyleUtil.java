@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Style;
+import net.minecraft.text.StyleSpriteSource;
 import net.minecraft.util.Formatting;
 
 public class StyleUtil {
@@ -47,7 +48,7 @@ public class StyleUtil {
     }
 
     public static Style withFont(Style style, CompatIdentifier font) {
-        return style.withFont(font.toMinecraft());
+        return style.withFont(new StyleSpriteSource.Font(font.toMinecraft()));
     }
 
     public static Style withFormatting(Style style, Formatting formatting) {

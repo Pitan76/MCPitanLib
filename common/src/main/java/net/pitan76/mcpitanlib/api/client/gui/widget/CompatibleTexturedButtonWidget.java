@@ -64,7 +64,7 @@ public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
     @Override
     public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         int i = v;
-        if (!this.isNarratable()) {
+        if (this.getNarrationMessage().toString().isEmpty()) {
             i = v + hoveredVOffset * 2;
         } else if (this.isHovered()) {
             i += hoveredVOffset;

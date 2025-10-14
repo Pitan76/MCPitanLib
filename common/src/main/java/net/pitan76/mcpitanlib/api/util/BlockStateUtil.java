@@ -128,7 +128,7 @@ public class BlockStateUtil {
     }
 
     public static int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        return state.getComparatorOutput(world, pos);
+        return state.getComparatorOutput(world, pos, Direction.NORTH);
     }
 
     public static float getHardness(net.pitan76.mcpitanlib.midohra.block.BlockState state, net.pitan76.mcpitanlib.midohra.world.BlockView world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {

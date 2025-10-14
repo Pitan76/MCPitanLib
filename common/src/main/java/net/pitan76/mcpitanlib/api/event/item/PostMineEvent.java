@@ -56,7 +56,7 @@ public class PostMineEvent extends BaseEvent {
     }
 
     public boolean isClient() {
-        return world.isClient;
+        return world.isClient();
     }
 
     public boolean stateIsIn(TagKey<Block> tagKey) {

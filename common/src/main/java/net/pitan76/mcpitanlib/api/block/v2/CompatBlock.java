@@ -159,11 +159,11 @@ public class CompatBlock extends ExtendBlock {
 
     @Deprecated
     @Override
-    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        return getComparatorOutput(new GetComparatorOutputArgs(state, world, pos));
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos, Direction direction) {
+        return getComparatorOutput(new GetComparatorOutputArgs(state, world, pos, direction));
     }
 
     public int getComparatorOutput(GetComparatorOutputArgs args) {
-        return super.getComparatorOutput(args.state, args.world, args.pos);
+        return super.getComparatorOutput(args.state, args.world, args.pos, args.direction);
     }
 }

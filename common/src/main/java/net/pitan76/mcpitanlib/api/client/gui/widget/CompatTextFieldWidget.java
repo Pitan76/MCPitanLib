@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.api.client.gui.widget;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
@@ -113,31 +115,31 @@ public class CompatTextFieldWidget extends TextFieldWidget {
 
     @Deprecated
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        return callKeyPressed(keyCode, scanCode, modifiers);
+    public boolean keyPressed(KeyInput input) {
+        return callKeyPressed(input.key(), input.scancode(), input.modifiers());
     }
 
     public boolean callKeyPressed(int keyCode, int scanCode, int modifiers) {
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(new KeyInput(keyCode, scanCode, modifiers));
     }
 
     @Deprecated
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return callKeyReleased(keyCode, scanCode, modifiers);
+    public boolean keyReleased(KeyInput input) {
+        return callKeyReleased(input.key(), input.scancode(), input.modifiers());
     }
 
     public boolean callKeyReleased(int keyCode, int scanCode, int modifiers) {
-        return super.keyReleased(keyCode, scanCode, modifiers);
+        return super.keyReleased(new KeyInput(keyCode, scanCode, modifiers));
     }
 
     @Deprecated
     @Override
-    public boolean charTyped(char chr, int modifiers) {
-        return callCharTyped(chr, modifiers);
+    public boolean charTyped(CharInput input) {
+        return callCharTyped((char) input.codepoint(), input.modifiers());
     }
 
     public boolean callCharTyped(char chr, int modifiers) {
-        return super.charTyped(chr, modifiers);
+        return super.charTyped(new CharInput(chr, modifiers));
     }
 }

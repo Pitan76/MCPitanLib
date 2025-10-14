@@ -1,9 +1,15 @@
 package net.pitan76.mcpitanlib.api.client.render.block.entity.event;
 
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
@@ -30,6 +36,32 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
         this.vertexConsumers = vertexConsumers;
         this.light = light;
         this.overlay = overlay;
+    }
+
+    private BlockEntityRenderState state;
+    private OrderedRenderCommandQueue queue;
+    private CameraRenderState cameraState;
+
+
+    public <S extends BlockEntityRenderState> BlockEntityRenderEvent(S state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
+        this.state = state;
+        this.queue = queue;
+        this.cameraState = cameraState;
+
+        this.matrices = matrices;
+        this.queue = queue;
+        this.cameraState = cameraState;
+        this.tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getDynamicDeltaTicks();
+        BlockEntity blockEntity = state.type.get(MinecraftClient.getInstance().world, state.pos);
+        if (blockEntity instanceof CompatBlockEntity) {
+            this.blockEntity = (T) blockEntity;
+        } else {
+            throw new IllegalArgumentException("BlockEntityRenderEvent: BlockEntity is not an instance of CompatBlockEntity");
+        }
+
+        this.vertexConsumers = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
+        this.light = state.lightmapCoordinates;
+        this.overlay = state.crumblingOverlay.progress();
     }
 
     public T getBlockEntity() {
@@ -114,7 +146,7 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
     }
 
     public BlockPos getPos() {
-        return blockEntity.callGetPos();
+        return state.pos;
     }
 
     public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {

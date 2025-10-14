@@ -92,12 +92,12 @@ public class CompatEntity extends Entity {
 
     @Deprecated
     @Override
-    public World getWorld() {
+    public World getEntityWorld() {
         return callGetWorld();
     }
 
     public World callGetWorld() {
-        return super.getWorld();
+        return super.getEntityWorld();
     }
 
     public BlockPos callGetBlockPos() {
@@ -105,7 +105,7 @@ public class CompatEntity extends Entity {
     }
 
     public Vec3d callGetPos() {
-        return getPos();
+        return getEntityPos();
     }
 
     public boolean hasServerWorld() {
@@ -113,6 +113,6 @@ public class CompatEntity extends Entity {
     }
 
     public ServerWorld getServerWorld() {
-        return (ServerWorld) getWorld();
+        return (ServerWorld) getEntityWorld();
     }
 }

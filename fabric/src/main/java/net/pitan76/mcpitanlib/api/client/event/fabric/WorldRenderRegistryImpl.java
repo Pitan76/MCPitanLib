@@ -1,10 +1,8 @@
 package net.pitan76.mcpitanlib.api.client.event.fabric;
 
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.profiler.Profiler;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContext;
@@ -14,6 +12,8 @@ import org.joml.Matrix4f;
 
 public class WorldRenderRegistryImpl {
     public static void registerWorldRenderBeforeBlockOutline(BeforeBlockOutlineListener listener) {
+        // TODO: Fabric APIの対応待ち
+        /*
         WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register(((worldRenderContext, hitResult) -> listener.beforeBlockOutline(new BeforeBlockOutlineEvent(
         new WorldRenderContext() {
             @Override
@@ -71,9 +71,11 @@ public class WorldRenderRegistryImpl {
                 return worldRenderContext.frustum();
             }
         }, hitResult))));
+        */
     }
 
     public static void registerWorldRenderAfterLevel(WorldRenderContextListener listener) {
+        /*
         WorldRenderEvents.END.register((context -> {
             listener.render(new WorldRenderContext() {
                 @Override
@@ -132,5 +134,7 @@ public class WorldRenderRegistryImpl {
                 }
             });
         }));
+
+         */
     }
 }

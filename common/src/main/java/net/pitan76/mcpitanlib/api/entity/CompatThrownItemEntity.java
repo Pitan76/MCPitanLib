@@ -153,7 +153,7 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity {
     }
 
     @Override
-    public World getWorld() {
-        return super.getWorld();
+    public World getEntityWorld() {
+        return super.getEntityWorld();
     }
 }

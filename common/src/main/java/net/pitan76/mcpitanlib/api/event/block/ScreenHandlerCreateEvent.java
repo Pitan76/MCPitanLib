@@ -51,6 +51,6 @@ public class ScreenHandlerCreateEvent extends BaseEvent {
     }
 
     public boolean isClient() {
-        return world.isClient;
+        return world.isClient();
     }
 }

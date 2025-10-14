@@ -18,12 +18,12 @@ public class ExtendEntityType<T extends Entity> extends EntityType<T> {
 
     @Deprecated
     public ExtendEntityType(EntityFactory<T> factory, SpawnGroup spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> canSpawnBlocks, EntityDimensions entityDimensions, float spawnBoxScale, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<RegistryKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
-        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, spawnBoxScale, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_ENABLED_FEATURES);
+        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, spawnBoxScale, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_ENABLED_FEATURES, spawnGroup.isPeaceful());
         this.alwaysUpdateVelocity = alwaysUpdateVelocity;
     }
 
     public ExtendEntityType(EntityFactory<T> factory, SpawnGroup spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> canSpawnBlocks, EntityDimensions entityDimensions, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<RegistryKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
-        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, 5, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_ENABLED_FEATURES);
+        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, 5, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_ENABLED_FEATURES, spawnGroup.isPeaceful());
         this.alwaysUpdateVelocity = alwaysUpdateVelocity;
     }
 

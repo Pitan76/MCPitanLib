@@ -1,7 +1,8 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.TypedEntityData;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
@@ -11,16 +12,19 @@ import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 public class BlockEntityDataUtil {
     public static NbtCompound getBlockEntityNbt(ItemStack stack) {
         if (!stack.contains(DataComponentTypes.BLOCK_ENTITY_DATA)) return NbtUtil.create();
-        NbtComponent component = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA);
-        if (component == null) return NbtUtil.create();
+        TypedEntityData<BlockEntityType<?>> data = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA);
+        NbtCompound nbt = data.copyNbtWithoutId();
 
-        NbtCompound nbt = component.copyNbt();
-        if (nbt == null) return NbtUtil.create();
+        String id = BlockEntityTypeUtil.toID(data.getType()).toString();
+        NbtUtil.putString(nbt, "id", id);
         return nbt;
     }
 
     public static void setBlockEntityNbt(ItemStack stack, NbtCompound nbt) {
-        stack.set(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.of(nbt));
+        if (!nbt.contains("id")) return;
+
+        BlockEntityType<?> type = BlockEntityTypeUtil.fromId(CompatIdentifier.of(NbtUtil.getString(nbt, "id")));
+        stack.set(DataComponentTypes.BLOCK_ENTITY_DATA, TypedEntityData.create(type, nbt));
     }
 
     public static boolean hasBlockEntityNbt(ItemStack stack) {
