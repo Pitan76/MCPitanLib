@@ -1,7 +1,9 @@
 package net.pitan76.mcpitanlib.api.transfer.fluid.v1.neoforge;
 
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidStorage;
@@ -9,65 +11,79 @@ import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
 
 public class NeoForgeFluidStorage implements IFluidStorage {
 
-    public final FluidTank storage;
+    public final FluidStacksResourceHandler handler;
+    public FluidStack fluid = FluidStack.EMPTY;
+    public long capacity;
 
     public Runnable onChange;
 
-    public NeoForgeFluidStorage(FluidTank storage, Runnable onChange) {
-        this.storage = storage;
+    public NeoForgeFluidStorage(FluidStacksResourceHandler handler, long capacity, Runnable onChange) {
+        this.handler = handler;
         this.onChange = onChange;
+        this.capacity = capacity;
     }
 
     @Override
     public long getAmount() {
-        return storage.getFluidAmount();
+        return handler.getAmountFrom(fluid);
     }
 
     @Override
     public long getCapacity() {
-        return storage.getCapacity();
+        return capacity;
     }
 
     @Override
     public IFluidVariant getResource() {
-        return new NeoForgeFluidVariant(storage.getFluid());
+        return new NeoForgeFluidVariant(fluid);
     }
 
     @Override
     public void setResource(IFluidVariant variant) {
-        storage.setFluid(((NeoForgeFluidVariant) variant).raw);
+        fluid = ((NeoForgeFluidVariant) variant).raw;
     }
 
     @Override
     public boolean isResourceBlank() {
-        return storage.isEmpty();
+        return fluid.isEmpty();
     }
 
     @Override
     public long insert(IFluidVariant variant, long maxAmount, boolean simulate) {
         if (simulate)
-            return storage.fill(((NeoForgeFluidVariant) variant).raw.copyWithAmount((int) maxAmount), IFluidHandler.FluidAction.SIMULATE);
+            return handler.insert(FluidResource.of(((NeoForgeFluidVariant) variant).raw), (int) maxAmount, Transaction.open(null));
 
         onChange.run();
-        return storage.fill(((NeoForgeFluidVariant) variant).raw.copyWithAmount((int) maxAmount), IFluidHandler.FluidAction.EXECUTE);
+        long inserted = 0;
+
+        try (Transaction transaction = Transaction.open(null)) {
+            inserted += handler.insert(FluidResource.of(((NeoForgeFluidVariant) variant).raw), (int) maxAmount, transaction);
+            transaction.commit();
+        }
+        return inserted;
     }
 
     @Override
     public long extract(IFluidVariant variant, long maxAmount, boolean simulate) {
         if (simulate)
-            return storage.drain(((NeoForgeFluidVariant) variant).raw.copyWithAmount((int) maxAmount), IFluidHandler.FluidAction.SIMULATE).getAmount();
+            return handler.extract(FluidResource.of(((NeoForgeFluidVariant) variant).raw), (int) maxAmount, Transaction.open(null));
 
         onChange.run();
-        return storage.drain(((NeoForgeFluidVariant) variant).raw.copyWithAmount((int) maxAmount), IFluidHandler.FluidAction.EXECUTE).getAmount();
+        long extracted = 0;
+        try (Transaction transaction = Transaction.open(null)) {
+            extracted += handler.extract(FluidResource.of(((NeoForgeFluidVariant) variant).raw), (int) maxAmount, transaction);
+            transaction.commit();
+        }
+        return extracted;
     }
 
     @Override
     public void writeNbt(WriteNbtArgs args) {
-        storage.serialize(args.view);
+        handler.serialize(args.view);
     }
 
     @Override
     public void readNbt(ReadNbtArgs args) {
-        storage.deserialize(args.view);
+        handler.deserialize(args.view);
     }
 }
