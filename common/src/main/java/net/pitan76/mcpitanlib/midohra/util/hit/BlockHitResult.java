@@ -26,7 +26,7 @@ public class BlockHitResult extends HitResult {
     }
 
     public net.minecraft.util.hit.BlockHitResult againstWorldBorder() {
-        return getRaw().againstWorldBorder();
+        return null; //getRaw().againstWorldBorder();
     }
 
     public BlockPos getBlockPos() {
@@ -50,7 +50,7 @@ public class BlockHitResult extends HitResult {
     }
 
     public boolean isAgainstWorldBorder() {
-        return getRaw().isAgainstWorldBorder();
+        return false;
     }
 
     public HitResultType getType() {
