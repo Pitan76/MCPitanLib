@@ -1,4 +1,8 @@
 git fetch origin
+git checkout 1.21.9
+timeout /T 1
+git pull
+
 git checkout 1.21.6
 timeout /T 1
 git pull
