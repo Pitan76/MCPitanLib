@@ -25,4 +25,9 @@ public class CompatContainerUser {
     public Player asPlayer() {
         return new Player(containerUser);
     }
+
+    @Deprecated
+    public PlayerEntity getRaw() {
+        return containerUser;
+    }
 }
