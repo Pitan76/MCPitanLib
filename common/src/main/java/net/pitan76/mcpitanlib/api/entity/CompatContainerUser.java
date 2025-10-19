@@ -1,28 +1,29 @@
 package net.pitan76.mcpitanlib.api.entity;
 
+import net.minecraft.entity.ContainerUser;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class CompatContainerUser {
-    protected PlayerEntity containerUser;
+    protected ContainerUser containerUser;
 
-    public CompatContainerUser(PlayerEntity containerUser) {
+    public CompatContainerUser(ContainerUser containerUser) {
         this.containerUser = containerUser;
     }
 
     public double getContainerInteractionRange() {
-        return 4.5d;
+        return containerUser.getContainerInteractionRange();
     }
 
     public LivingEntity asLivingEntity() {
-        return containerUser;
+        return containerUser.asLivingEntity();
     }
 
     public boolean isPlayer() {
-        return true;
+        return containerUser instanceof PlayerEntity;
     }
 
     public Player asPlayer() {
-        return new Player(containerUser);
+        return new Player((PlayerEntity) containerUser);
     }
 }
