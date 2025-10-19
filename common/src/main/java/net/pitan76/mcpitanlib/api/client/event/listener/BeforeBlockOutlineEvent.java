@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.midohra.util.hit.HitResultType;
 
 import java.util.Optional;
 
@@ -89,5 +90,21 @@ public class BeforeBlockOutlineEvent {
 
     public void drawBox(Box box, float red, float green, float blue, float alpha) {
         context.drawBox(box, red, green, blue, alpha);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.hit.HitResult getHitResultM() {
+        return net.pitan76.mcpitanlib.midohra.util.hit.HitResult.of(hitResult);
+    }
+
+    public HitResultType getHitResultTypeM() {
+        return HitResultType.from(hitResult.getType());
+    }
+
+    public BlockState getBlockState2() {
+        return getWorld().getBlockState(getHitResultM().asBlockHitResult().get().getBlockPos());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getBlockStateM() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(getBlockState2());
     }
 }
