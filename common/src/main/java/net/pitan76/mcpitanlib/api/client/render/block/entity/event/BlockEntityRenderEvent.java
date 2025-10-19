@@ -61,7 +61,10 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
 
         this.vertexConsumers = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
         this.light = state.lightmapCoordinates;
-        this.overlay = state.crumblingOverlay.progress();
+        if (state.crumblingOverlay != null)
+            this.overlay = state.crumblingOverlay.progress();
+        else
+            this.overlay = 0;
     }
 
     public T getBlockEntity() {

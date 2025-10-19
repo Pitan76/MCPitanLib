@@ -13,4 +13,9 @@ public abstract class CompatBlockEntityRenderer<T extends CompatBlockEntity> imp
     public CompatBlockEntityRenderer(CompatRegistryClient.BlockEntityRendererFactory.Context ctx) {
 
     }
+
+    @Override
+    public BlockEntityRenderState createRenderState() {
+        return new BlockEntityRenderState();
+    }
 }
