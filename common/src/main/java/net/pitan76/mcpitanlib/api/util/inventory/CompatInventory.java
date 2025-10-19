@@ -7,6 +7,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
+import net.pitan76.mcpitanlib.api.entity.CompatContainerUser;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
@@ -62,13 +63,12 @@ public class CompatInventory extends SimpleInventory {
     @Deprecated
     @Override
     public void onOpen(ContainerUser user) {
-        // TODO: ContainerUser の互換性用インターフェースの作成
         if (user instanceof PlayerEntity) {
             onOpen(new Player((PlayerEntity) user));
             return;
         }
 
-        super.onOpen(user);
+        this.onOpen(new CompatContainerUser(user));
 
     }
 
@@ -80,7 +80,7 @@ public class CompatInventory extends SimpleInventory {
             return;
         }
 
-        super.onClose(user);
+        this.onClose(new CompatContainerUser(user));
     }
 
     //    @Deprecated
@@ -106,11 +106,19 @@ public class CompatInventory extends SimpleInventory {
     }
 
     public void onOpen(Player player) {
-        super.onOpen(player.getEntity());
+        onOpen(new CompatContainerUser(player.getEntity()));
     }
 
     public void onClose(Player player) {
-        super.onClose(player.getEntity());
+        onClose(new CompatContainerUser(player.getEntity()));
+    }
+
+    public void onOpen(CompatContainerUser user) {
+        super.onOpen(user.getRaw());
+    }
+
+    public void onClose(CompatContainerUser user) {
+        super.onClose(user.getRaw());
     }
 
     public NbtList toNbtList(CompatRegistryLookup registries) {
