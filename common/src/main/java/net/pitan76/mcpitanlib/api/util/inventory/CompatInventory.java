@@ -6,6 +6,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
+import net.pitan76.mcpitanlib.api.entity.CompatContainerUser;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
@@ -93,11 +94,19 @@ public class CompatInventory extends SimpleInventory {
     }
 
     public void onOpen(Player player) {
-        super.onOpen(player.getEntity());
+        this.onOpen(new CompatContainerUser(player.getEntity()));
     }
 
     public void onClose(Player player) {
-        super.onClose(player.getEntity());
+        this.onClose(new CompatContainerUser(player.getEntity()));
+    }
+
+    public void onOpen(CompatContainerUser user) {
+        super.onOpen(user.getRaw());
+    }
+
+    public void onClose(CompatContainerUser user) {
+        super.onClose(user.getRaw());
     }
 
     public NbtList toNbtList(CompatRegistryLookup registries) {
