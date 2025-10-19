@@ -16,6 +16,7 @@ import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.util.hit.HitResultType;
 import net.pitan76.mcpitanlib.midohra.util.math.Direction;
 import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 import net.pitan76.mcpitanlib.midohra.world.World;
@@ -162,5 +163,13 @@ public class PlacementStateArgs extends BaseEvent implements BlockStatePropertyH
 
     public BlockEntityWrapper getBlockEntity() {
         return getWorld().getBlockEntity(getPos());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.hit.BlockHitResult getHitResultM() {
+        return net.pitan76.mcpitanlib.midohra.util.hit.BlockHitResult.of(getHitResult());
+    }
+
+    public HitResultType getHitResultTypeM() {
+        return HitResultType.from(getHitResult().getType());
     }
 }
