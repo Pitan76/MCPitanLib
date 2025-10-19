@@ -79,8 +79,7 @@ public class EquippableComponentBuilder {
         if (equipSound != null)
             component.equipSound(equipSound.getEntry() != null ? equipSound.getEntry() : equipSound.getReference());
 
-        component.equipOnInteract(equipOnInteract);
-        if (model != null) component.model(model.raw());
+        if (model != null) component.model(model.getId().toMinecraft());
         if (allowedEntities != null) {
             RegistryEntryLookup<EntityType<?>> registryEntryLookup = Registries.createEntryLookup(Registries.ENTITY_TYPE);
             component.allowedEntities(registryEntryLookup.getOrThrow((net.minecraft.registry.tag.TagKey<EntityType<?>>) allowedEntities.getTagKey()));
