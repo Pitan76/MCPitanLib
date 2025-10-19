@@ -16,7 +16,7 @@ public class CompatAttributeModifierSlot implements CompatStringIdentifiable {
     public static final CompatAttributeModifierSlot CHEST = new CompatAttributeModifierSlot(AttributeModifierSlot.CHEST);
     public static final CompatAttributeModifierSlot ARMOR = new CompatAttributeModifierSlot(AttributeModifierSlot.ARMOR);
     public static final CompatAttributeModifierSlot BODY = new CompatAttributeModifierSlot(AttributeModifierSlot.BODY);
-    public static final CompatAttributeModifierSlot SADDLE = new CompatAttributeModifierSlot(AttributeModifierSlot.SADDLE);
+    public static final CompatAttributeModifierSlot SADDLE = new CompatAttributeModifierSlot(AttributeModifierSlot.ANY);
 
     @Deprecated
     public CompatAttributeModifierSlot(AttributeModifierSlot raw) {
@@ -33,7 +33,6 @@ public class CompatAttributeModifierSlot implements CompatStringIdentifiable {
         if (slot == AttributeModifierSlot.CHEST) return CHEST;
         if (slot == AttributeModifierSlot.ARMOR) return ARMOR;
         if (slot == AttributeModifierSlot.BODY) return BODY;
-        if (slot == AttributeModifierSlot.SADDLE) return SADDLE;
 
         return new CompatAttributeModifierSlot(slot);
     }
