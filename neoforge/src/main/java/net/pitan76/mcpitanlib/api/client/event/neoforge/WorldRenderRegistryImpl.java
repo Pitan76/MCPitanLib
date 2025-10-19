@@ -214,11 +214,11 @@ public class WorldRenderRegistryImpl {
         }
     }
 
-    public static void registerWorldRenderBeforeBlockOutline(BeforeBlockOutlineListener listener) {
+    public static void _registerWorldRenderBeforeBlockOutline(BeforeBlockOutlineListener listener) {
         beforeBlockOutlineListeners.add(listener);
     }
 
-    public static void registerWorldRenderAfterLevel(WorldRenderContextListener listener) {
+    public static void _registerWorldRenderAfterLevel(WorldRenderContextListener listener) {
         worldRenderAfterLevelListeners.add(listener);
     }
 }

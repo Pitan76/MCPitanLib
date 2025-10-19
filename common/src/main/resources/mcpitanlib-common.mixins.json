@@ -18,6 +18,7 @@
     "ServerWorldTimer"
   ],
   "client": [
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

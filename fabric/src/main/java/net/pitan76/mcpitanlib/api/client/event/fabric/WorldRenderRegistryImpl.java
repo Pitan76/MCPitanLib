@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 public class WorldRenderRegistryImpl {
-    public static void registerWorldRenderBeforeBlockOutline(BeforeBlockOutlineListener listener) {
+    public static void _registerWorldRenderBeforeBlockOutline(BeforeBlockOutlineListener listener) {
         // TODO: Fabric APIの対応待ち
         /*
         WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register(((worldRenderContext, hitResult) -> listener.beforeBlockOutline(new BeforeBlockOutlineEvent(
@@ -74,7 +74,7 @@ public class WorldRenderRegistryImpl {
         */
     }
 
-    public static void registerWorldRenderAfterLevel(WorldRenderContextListener listener) {
+    public static void _registerWorldRenderAfterLevel(WorldRenderContextListener listener) {
         /*
         WorldRenderEvents.END.register((context -> {
             listener.render(new WorldRenderContext() {
