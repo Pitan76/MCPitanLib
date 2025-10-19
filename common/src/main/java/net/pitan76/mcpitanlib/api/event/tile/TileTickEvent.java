@@ -1,9 +1,11 @@
 package net.pitan76.mcpitanlib.api.event.tile;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
 import net.pitan76.mcpitanlib.midohra.world.IWorldView;
@@ -78,5 +80,13 @@ public class TileTickEvent<T extends BlockEntity> implements BlockStatePropertyH
     @Override
     public net.pitan76.mcpitanlib.midohra.block.BlockState getBlockState() {
         return getMidohraState();
+    }
+
+    public Block getBlock() {
+        return getState().getBlock();
+    }
+
+    public BlockWrapper getBlockWrapper() {
+        return BlockWrapper.of(getBlock());
     }
 }
