@@ -404,4 +404,16 @@ public class WorldUtil {
     public static List<?> getEntitiesByType(World world, EntityTypeWrapper filter, Box box) {
         return getEntitiesByType(world, filter.get(), box);
     }
+
+    public static CompatIdentifier getOverworldId() {
+        return CompatIdentifier.fromMinecraft(World.OVERWORLD.getValue());
+    }
+
+    public static CompatIdentifier getNetherId() {
+        return CompatIdentifier.fromMinecraft(World.NETHER.getValue());
+    }
+
+    public static CompatIdentifier getEndId() {
+        return CompatIdentifier.fromMinecraft(World.END.getValue());
+    }
 }
