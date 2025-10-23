@@ -11,11 +11,11 @@ import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 
 public class BlockEntityDataUtil {
     public static NbtCompound getBlockEntityNbt(ItemStack stack) {
-        if (!stack.contains(DataComponentTypes.BLOCK_ENTITY_DATA)) return NbtUtil.create();
+        if (!hasBlockEntityNbt(stack)) return NbtUtil.create();
         TypedEntityData<BlockEntityType<?>> data = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA);
         NbtCompound nbt = data.copyNbtWithoutId();
 
-        String id = BlockEntityTypeUtil.toID(data.getType()).toString();
+        String id = BlockEntityTypeUtil.toCompatID(data.getType()).toString();
         NbtUtil.putString(nbt, "id", id);
         return nbt;
     }
@@ -39,7 +39,7 @@ public class BlockEntityDataUtil {
     public static void writeCompatBlockEntityNbtToStack(ItemStack stack, CompatBlockEntity blockEntity) {
         NbtCompound nbt = getBlockEntityNbt(stack);
         blockEntity.writeNbt(new WriteNbtArgs(nbt, RegistryLookupUtil.getRegistryLookup(blockEntity)));
-        NbtUtil.set(nbt, "id", BlockEntityTypeUtil.toID(blockEntity.getType()).toString());
+        NbtUtil.putString(nbt, "id", BlockEntityTypeUtil.toCompatID(blockEntity.getType()).toString());
         setBlockEntityNbt(stack, nbt);
     }
 
