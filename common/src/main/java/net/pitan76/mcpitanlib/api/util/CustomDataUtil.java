@@ -39,7 +39,7 @@ public class CustomDataUtil {
      * @return NBTが存在するかどうか
      */
     public static boolean hasNbt(ItemStack stack) {
-        return stack.contains(DataComponentTypes.CUSTOM_DATA);
+        return stack.get(DataComponentTypes.CUSTOM_DATA) != null;
     }
     
     /**
