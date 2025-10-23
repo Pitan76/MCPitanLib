@@ -28,7 +28,7 @@ public class BlockEntityDataUtil {
     }
 
     public static boolean hasBlockEntityNbt(ItemStack stack) {
-        return stack.contains(DataComponentTypes.BLOCK_ENTITY_DATA);
+        return stack.get(DataComponentTypes.BLOCK_ENTITY_DATA) != null;
     }
 
     public static void readCompatBlockEntityNbtFromStack(ItemStack stack, CompatBlockEntity blockEntity) {
