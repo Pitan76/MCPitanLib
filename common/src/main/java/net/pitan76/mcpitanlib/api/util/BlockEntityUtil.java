@@ -92,12 +92,10 @@ public class BlockEntityUtil {
     }
 
     public static void writeToStack(ItemStack stack, BlockEntity blockEntity, CompatRegistryLookup registryLookup) {
-        NbtCompound nbt = blockEntity.createComponentlessNbt(registryLookup.getRegistryLookup());
+        NbtCompound nbt = blockEntity.createNbt();
         if (!NbtUtil.has(nbt, "id"))
             NbtUtil.putString(nbt, "id", BlockEntityTypeUtil.toID(BlockEntityUtil.getType(blockEntity)).toString());
 
         BlockEntityDataUtil.setBlockEntityNbt(stack, nbt);
-
-        stack.applyComponentsFrom(blockEntity.createComponentMap());
     }
 }
