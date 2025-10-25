@@ -98,6 +98,6 @@ public class BlockEntityUtil {
 
         BlockEntityDataUtil.setBlockEntityNbt(stack, nbt);
 
-        blockEntity.createComponentMap().forEach(stack::set);
+        stack.applyComponentsFrom(blockEntity.createComponentMap());
     }
 }
