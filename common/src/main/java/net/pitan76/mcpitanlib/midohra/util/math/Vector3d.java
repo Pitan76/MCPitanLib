@@ -26,10 +26,6 @@ public class Vector3d {
         return new Vector3d(vec.x, vec.y, vec.z);
     }
 
-    public static Vector3d of(org.joml.Vector3d vec) {
-        return new Vector3d(vec.x, vec.y, vec.z);
-    }
-
     public static Vector3d of(Vec3d vec) {
         return new Vector3d(vec.x, vec.y, vec.z);
     }
@@ -44,10 +40,6 @@ public class Vector3d {
 
     public Vector3f toFloat() {
         return new Vector3f((float) x, (float) y, (float) z);
-    }
-
-    public org.joml.Vector3d toJoml() {
-        return new org.joml.Vector3d(x, y, z);
     }
 
     public Vector3d add(Vector3d other) {
