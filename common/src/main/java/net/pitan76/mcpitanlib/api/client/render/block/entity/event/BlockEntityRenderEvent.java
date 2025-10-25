@@ -56,7 +56,7 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
         if (blockEntity instanceof CompatBlockEntity) {
             this.blockEntity = (T) blockEntity;
         } else {
-            throw new IllegalArgumentException("BlockEntityRenderEvent: BlockEntity is not an instance of CompatBlockEntity");
+            //throw new IllegalArgumentException("BlockEntityRenderEvent: BlockEntity is not an instance of CompatBlockEntity");
         }
 
         this.vertexConsumers = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
