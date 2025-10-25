@@ -19,11 +19,6 @@ public class BlockEntityUtil {
     }
 
     public static NbtCompound getBlockEntityNbt(@Nullable World world, BlockEntity blockEntity) {
-        if (world == null)
-            world = getWorld(blockEntity);
-        if (world == null)
-            return NbtUtil.create();
-
         NbtCompound nbt = NbtUtil.create();
         return blockEntity.writeNbt(nbt);
     }
