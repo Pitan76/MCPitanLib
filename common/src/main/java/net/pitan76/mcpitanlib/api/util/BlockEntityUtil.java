@@ -95,7 +95,7 @@ public class BlockEntityUtil {
     }
 
     public static void writeToStack(ItemStack stack, BlockEntity blockEntity, CompatRegistryLookup registryLookup) {
-        NbtCompound nbt = blockEntity.createNbt();
+        NbtCompound nbt = getBlockEntityNbt(blockEntity);
         if (!NbtUtil.has(nbt, "id"))
             NbtUtil.putString(nbt, "id", BlockEntityTypeUtil.toID(BlockEntityUtil.getType(blockEntity)).toString());
 
