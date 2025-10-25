@@ -283,7 +283,7 @@ public class EntityUtil {
     }
 
     public static Vec3d getPos(Entity entity) {
-        return entity.getPos();
+        return entity.getEntityPos();
     }
 
     public static Vector3d getPosM(Entity entity) {
