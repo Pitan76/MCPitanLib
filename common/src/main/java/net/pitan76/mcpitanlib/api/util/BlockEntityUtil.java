@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.component.Component;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
@@ -89,5 +90,15 @@ public class BlockEntityUtil {
 
     public static ServerWorld getServerWorld(BlockEntity blockEntity) {
         return (ServerWorld) getWorld(blockEntity);
+    }
+
+    public static void writeToStack(ItemStack stack, BlockEntity blockEntity, CompatRegistryLookup registryLookup) {
+        NbtCompound nbt = blockEntity.createComponentlessNbt(registryLookup.getRegistryLookup());
+        if (!NbtUtil.has(nbt, "id"))
+            NbtUtil.putString(nbt, "id", BlockEntityTypeUtil.toID(BlockEntityUtil.getType(blockEntity)).toString());
+
+        BlockEntityDataUtil.setBlockEntityNbt(stack, nbt);
+
+        blockEntity.createComponentMap().forEach(stack::set);
     }
 }
