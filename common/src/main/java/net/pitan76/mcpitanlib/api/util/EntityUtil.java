@@ -9,6 +9,8 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
 import java.util.UUID;
 
@@ -275,5 +277,17 @@ public class EntityUtil {
 
     public static Vec3d getRotationVector(Entity entity) {
         return entity.getRotationVector();
+    }
+
+    public static Vec3d getPos(Entity entity) {
+        return entity.getPos();
+    }
+
+    public static Vector3d getPosM(Entity entity) {
+        return Vector3d.of(getPos(entity));
+    }
+
+    public static void setPos(Entity entity, double x, double y, double z) {
+        entity.setPos(x, y, z);
     }
 }
