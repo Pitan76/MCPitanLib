@@ -23,20 +23,12 @@ public class Vector3f {
         return new Vector3f((float) vec.x, (float) vec.y, (float) vec.z);
     }
 
-    public static Vector3f of(org.joml.Vector3f vec) {
-        return new Vector3f(vec.x, vec.y, vec.z);
-    }
-
     public Vector3i toInt() {
         return new Vector3i((int) x, (int) y, (int) z);
     }
 
     public Vector3d toDouble() {
         return new Vector3d((double) x, (double) y, (double) z);
-    }
-
-    public org.joml.Vector3f toJoml() {
-        return new org.joml.Vector3f(x, y, z);
     }
 
     public Vector3f add(Vector3f other) {

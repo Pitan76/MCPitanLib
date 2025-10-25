@@ -26,10 +26,6 @@ public class Vector3i {
         return new Vector3i((int) vec.x, (int) vec.y, (int) vec.z);
     }
 
-    public static Vector3i of(org.joml.Vector3i vec) {
-        return new Vector3i(vec.x, vec.y, vec.z);
-    }
-
     public static Vector3i of(Vec3i vec) {
         return new Vector3i(vec.getX(), vec.getY(), vec.getZ());
     }
@@ -52,10 +48,6 @@ public class Vector3i {
 
     public Vector3f toFloat() {
         return new Vector3f((float) x, (float) y, (float) z);
-    }
-
-    public org.joml.Vector3i toJoml() {
-        return new org.joml.Vector3i(x, y, z);
     }
 
     public Vector3i add(Vector3i other) {
