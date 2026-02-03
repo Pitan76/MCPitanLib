@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.11-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.13-SNAPSHOT" apply false
     id 'com.matthewprenger.cursegradle' version '1.+'
     id "com.modrinth.minotaur" version "2.+"
 }
@@ -80,8 +80,7 @@ subprojects {
                     if (modLoader == "neoforge") {
                         addGameVersion "NeoForge"
                     }
-                    addGameVersion '1.21.9'
-                    addGameVersion '1.21.10'
+                    addGameVersion '1.21.11'
 
                     relations {
                         if (modLoader == "fabric") {
@@ -108,7 +107,7 @@ subprojects {
                 token = System.getenv("MODRINTH_TOKEN")
                 projectId = 'mcpitanlibarch'
                 versionNumber = info.mod_version + "-" + modLoader
-                gameVersions = ['1.21.9', '1.21.10']
+                gameVersions = ['1.21.11']
                 versionType = 'beta'
                 uploadFile = tasks.remapJar
                 changelog = info.changelog
