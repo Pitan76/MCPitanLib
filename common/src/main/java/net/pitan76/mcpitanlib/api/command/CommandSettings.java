@@ -1,14 +1,24 @@
 package net.pitan76.mcpitanlib.api.command;
 
+import net.minecraft.command.permission.Permission;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.server.command.ServerCommandSource;
 
 public class CommandSettings {
     private int permissionLevel = -1;
     private ICustom iCustom = null;
 
-    public boolean requires(ServerCommandSource source) {
+    private Permission.Level _level = null;
 
-        return customRequires(source) && (permissionLevel == -1 || source.hasPermissionLevel(permissionLevel));
+    public boolean requires(ServerCommandSource source) {
+        if (customRequires(source)) {
+            if (permissionLevel == -1) return true;
+            if (_level == null)
+                _level = new Permission.Level(PermissionLevel.fromLevel(permissionLevel));
+
+            return source.getPermissions().hasPermission(_level);
+        }
+        return false;
     }
 
     private boolean customRequires(ServerCommandSource source) {

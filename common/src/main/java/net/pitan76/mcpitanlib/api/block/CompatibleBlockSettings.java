@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.block;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,7 +15,7 @@ import java.util.function.ToIntFunction;
 
 @Deprecated
 public class CompatibleBlockSettings {
-    public static final Codec<CompatibleBlockSettings> CODEC = Codec.unit(CompatibleBlockSettings::of);
+    public static final Codec<CompatibleBlockSettings> CODEC = MapCodec.unitCodec(CompatibleBlockSettings::of);
 
     protected final AbstractBlock.Settings settings;
 

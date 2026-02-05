@@ -23,6 +23,7 @@ import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.block.entity.BlockEntityRenderManager;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -216,16 +217,14 @@ public class CompatRegistryClient {
 
     public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
         BlockRenderLayer blockRenderLayer = null;
-        if (layer == RenderLayer.getCutout()) {
+        if (layer == RenderLayers.cutout()) {
             blockRenderLayer = BlockRenderLayer.CUTOUT;
-        } else if (layer == RenderLayer.getGlintTranslucent()) {
+        } else if (layer == RenderLayers.glintTranslucent()) {
             blockRenderLayer = BlockRenderLayer.TRANSLUCENT;
-        } else if (layer == RenderLayer.getSolid()) {
+        } else if (layer == RenderLayers.solid()) {
             blockRenderLayer = BlockRenderLayer.SOLID;
-        } else if (layer == RenderLayer.getTripwire()) {
+        } else if (layer == RenderLayers.tripwire()) {
             blockRenderLayer = BlockRenderLayer.TRIPWIRE;
-        } else if (layer == RenderLayer.getCutoutMipped()) {
-            blockRenderLayer = BlockRenderLayer.CUTOUT_MIPPED;
         }
 
         if (blockRenderLayer == null) return;
@@ -235,16 +234,14 @@ public class CompatRegistryClient {
 
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
         BlockRenderLayer blockRenderLayer = null;
-        if (layer == RenderLayer.getCutout()) {
+        if (layer == RenderLayers.cutout()) {
             blockRenderLayer = BlockRenderLayer.CUTOUT;
-        } else if (layer == RenderLayer.getGlintTranslucent()) {
+        } else if (layer == RenderLayers.glintTranslucent()) {
             blockRenderLayer = BlockRenderLayer.TRANSLUCENT;
-        } else if (layer == RenderLayer.getSolid()) {
+        } else if (layer == RenderLayers.solid()) {
             blockRenderLayer = BlockRenderLayer.SOLID;
-        } else if (layer == RenderLayer.getTripwire()) {
+        } else if (layer == RenderLayers.tripwire()) {
             blockRenderLayer = BlockRenderLayer.TRIPWIRE;
-        } else if (layer == RenderLayer.getCutoutMipped()) {
-            blockRenderLayer = BlockRenderLayer.CUTOUT_MIPPED;
         }
 
         if (blockRenderLayer == null) return;
@@ -253,7 +250,7 @@ public class CompatRegistryClient {
     }
 
     public static void registerCutoutBlock(Block block) {
-        registerRenderTypeBlock(RenderLayer.getCutout(), block);
+        registerRenderTypeBlock(RenderLayers.cutout(), block);
     }
 
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {

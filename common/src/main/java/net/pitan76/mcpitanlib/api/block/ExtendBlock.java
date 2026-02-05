@@ -305,12 +305,12 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
-        onEntityCollision(new EntityCollisionEvent(state, world, pos, entity, handler));
+    protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean bl) {
+        onEntityCollision(new EntityCollisionEvent(state, world, pos, entity, handler, bl));
     }
 
     public void onEntityCollision(EntityCollisionEvent e) {
-        super.onEntityCollision(e.state, e.world, e.pos, e.entity, e.handler);
+        super.onEntityCollision(e.state, e.world, e.pos, e.entity, e.handler, e.bl);
     }
 
     @Deprecated

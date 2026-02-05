@@ -9,7 +9,6 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -119,10 +118,10 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     @Deprecated
     @Override
-    public void resize(MinecraftClient client, int width, int height) {
-        super.resize(client, width, height);
+    public void resize(int width, int height) {
+        super.resize(width, height);
         fixScreen();
-        resizeOverride(client, width, height);
+        resizeOverride(MinecraftClient.getInstance(), width, height);
     }
 
     public void fixScreen() {
@@ -152,7 +151,6 @@ public abstract class SimpleHandledScreen extends HandledScreen<ScreenHandler> {
 
     public void setTextRenderer(TextRenderer textRenderer) {
         this.textRenderer = textRenderer;
-        super.textRenderer = textRenderer;
     }
 
     public void setItemRenderer(ItemRenderer itemRenderer) {

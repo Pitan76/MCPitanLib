@@ -23,6 +23,7 @@ public class EntityCollisionEvent extends BaseEvent {
     public BlockPos pos;
     public Entity entity;
     public EntityCollisionHandler handler;
+    public boolean bl = false;
 
     public EntityCollisionEvent(BlockState state, World world, BlockPos pos, Entity entity) {
         this.state = state;
@@ -37,6 +38,15 @@ public class EntityCollisionEvent extends BaseEvent {
         this.pos = pos;
         this.entity = entity;
         this.handler = handler;
+    }
+
+    public EntityCollisionEvent(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean bl) {
+        this.state = state;
+        this.world = world;
+        this.pos = pos;
+        this.entity = entity;
+        this.handler = handler;
+        this.bl = bl;
     }
 
     public boolean isClient() {

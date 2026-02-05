@@ -128,10 +128,10 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    public void resize(MinecraftClient client, int width, int height) {
-        super.resize(client, width, height);
+    public void resize(int width, int height) {
+        super.resize(width, height);
         fixScreen();
-        resizeOverride(client, width, height);
+        resizeOverride(MinecraftClient.getInstance(), width, height);
     }
 
     public void fixScreen() {
@@ -161,7 +161,6 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     public void setTextRenderer(TextRenderer textRenderer) {
         this.textRenderer = textRenderer;
-        super.textRenderer = textRenderer;
     }
 
     public void setItemRenderer(ItemRenderer itemRenderer) {

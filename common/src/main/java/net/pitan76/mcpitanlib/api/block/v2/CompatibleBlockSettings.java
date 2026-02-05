@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.block.v2;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -23,7 +24,7 @@ public class CompatibleBlockSettings extends net.pitan76.mcpitanlib.api.block.Co
     protected CompatIdentifier identifier = null;
     public boolean changedTranslationKey = false;
 
-    public static final Codec<CompatibleBlockSettings> CODEC = Codec.unit(CompatibleBlockSettings::new);
+    public static final Codec<CompatibleBlockSettings> CODEC = MapCodec.unitCodec(CompatibleBlockSettings::new);
 
     @Deprecated
     protected CompatibleBlockSettings() {

@@ -12,9 +12,9 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.shape.VoxelShape;
 import net.pitan76.mcpitanlib.api.util.VoxelShapeUtil;
+import net.pitan76.mcpitanlib.api.util.client.render.VertexRenderingUtil;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
@@ -105,7 +105,7 @@ public interface WorldRenderContext {
         if (getConsumers() == null)
             return Optional.empty();
 
-        return Optional.of(Objects.requireNonNull(getConsumers()).getBuffer(RenderLayer.getLines()));
+        return Optional.of(Objects.requireNonNull(getConsumers()).getBuffer(RenderLayers.lines()));
     }
 
     default void drawBox(float red, float green, float blue, float alpha) {
@@ -121,6 +121,15 @@ public interface WorldRenderContext {
         if (!vertexConsumer.isPresent())
             return;
 
-        VertexRendering.drawBox(getMatrixStack().peek(), vertexConsumer.get(), box, red, green, blue, alpha);
+        VertexConsumer consumer = vertexConsumer.get();
+
+        double x1 = box.minX;
+        double y1 = box.minY;
+        double z1 = box.minZ;
+        double x2 = box.maxX;
+        double y2 = box.maxY;
+        double z2 = box.maxZ;
+
+        VertexRenderingUtil.drawBox(getMatrixStack(), consumer, x1, y1, z1, x2, y2, z2, red, green, blue, alpha);
     }
 }

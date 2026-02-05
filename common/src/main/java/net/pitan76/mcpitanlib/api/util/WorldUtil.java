@@ -382,7 +382,15 @@ public class WorldUtil {
     }
 
     public static float getSkyAngle(World world, float tickDelta) {
-        return world.getSkyAngle(tickDelta);
+        long timeOfDay = world.getTimeOfDay();
+        float f = ((float)(timeOfDay % 24000L) + tickDelta) / 24000.0F - 0.25F;
+        if (f < 0.0F) {
+            f += 1.0F;
+        }
+        if (f > 1.0F) {
+            f -= 1.0F;
+        }
+        return f;
     }
 
     public static Block getBlock(World world, BlockPos pos) {

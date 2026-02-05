@@ -175,11 +175,11 @@ public class EntityUtil {
     }
 
     public static void setVelocityModified(Entity entity, boolean velocityModified) {
-        entity.velocityModified = velocityModified;
+        entity.velocityDirty = velocityModified;
     }
 
     public static boolean isVelocityModified(Entity entity) {
-        return entity.velocityModified;
+        return entity.velocityDirty;
     }
 
     public static float getYaw(Entity entity) {

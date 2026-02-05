@@ -100,7 +100,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
         matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
 
-        Vec3d camPos = camera.getPos();
+        Vec3d camPos = camera.getCameraPos();
         matrixStack.translate(-camPos.x, -camPos.y, -camPos.z);
 
         this.matrixStack.pop();

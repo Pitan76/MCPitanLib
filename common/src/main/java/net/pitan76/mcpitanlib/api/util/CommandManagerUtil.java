@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.api.util;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.command.permission.LeveledPermissionPredicate;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -80,6 +82,6 @@ public class CommandManagerUtil {
     }
 
     public static ServerCommandSource withLevel(ServerCommandSource source, int level) {
-        return source.withLevel(level);
+        return source.withPermissions(LeveledPermissionPredicate.fromLevel(PermissionLevel.fromLevel(level)));
     }
 }

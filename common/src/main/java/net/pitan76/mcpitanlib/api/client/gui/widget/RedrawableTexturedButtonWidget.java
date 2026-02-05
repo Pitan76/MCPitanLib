@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.gui.widget;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class RedrawableTexturedButtonWidget extends CompatibleTexturedButtonWidget {
@@ -12,7 +11,7 @@ public class RedrawableTexturedButtonWidget extends CompatibleTexturedButtonWidg
     public int textureWidth;
     public int textureHeight;
 
-    public RedrawableTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, int textureWidth, int textureHeight, PressAction pressAction, Text message) {
+    public RedrawableTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, int textureWidth, int textureHeight, PressAction pressAction, net.minecraft.text.Text message) {
         super(x, y, width, height, u, v, hoveredVOffset, texture, textureWidth, textureHeight, pressAction, message);
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;

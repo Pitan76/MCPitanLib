@@ -68,7 +68,7 @@ public class ServerPlayerUtil {
     }
 
     public static void playSound(ServerPlayerEntity serverPlayerEntity, CompatSoundEvent soundEvent, CompatSoundCategory category, float volume, float pitch) {
-        serverPlayerEntity.playSoundToPlayer(soundEvent.get(), category.get(), volume, pitch);
+        playSound(serverPlayerEntity, soundEvent, volume, pitch);
     }
 
     public static void playSound(ServerPlayerEntity serverPlayerEntity, CompatSoundEvent soundEvent, float volume, float pitch) {
