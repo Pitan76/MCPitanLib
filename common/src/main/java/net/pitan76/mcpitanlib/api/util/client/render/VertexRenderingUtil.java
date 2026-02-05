@@ -53,22 +53,11 @@ public class VertexRenderingUtil {
         MatrixStack.Entry entry = matrices.peek();
         Matrix4f positionMatrix = entry.getPositionMatrix();
 
-        // 下面 (Y = minY)
         drawQuad(buffer, positionMatrix, minX, minY, minZ, maxX, minY, minZ, maxX, minY, maxZ, minX, minY, maxZ, red, green, blue, alpha);
-
-        // 上面 (Y = maxY)
         drawQuad(buffer, positionMatrix, minX, maxY, minZ, minX, maxY, maxZ, maxX, maxY, maxZ, maxX, maxY, minZ, red, green, blue, alpha);
-
-        // 北面 (Z = minZ)
         drawQuad(buffer, positionMatrix, minX, minY, minZ, minX, maxY, minZ, maxX, maxY, minZ, maxX, minY, minZ, red, green, blue, alpha);
-
-        // 南面 (Z = maxZ)
         drawQuad(buffer, positionMatrix, minX, minY, maxZ, maxX, minY, maxZ, maxX, maxY, maxZ, minX, maxY, maxZ, red, green, blue, alpha);
-
-        // 西面 (X = minX)
         drawQuad(buffer, positionMatrix, minX, minY, minZ, minX, minY, maxZ, minX, maxY, maxZ, minX, maxY, minZ, red, green, blue, alpha);
-
-        // 東面 (X = maxX)
         drawQuad(buffer, positionMatrix, maxX, minY, minZ, maxX, maxY, minZ, maxX, maxY, maxZ, maxX, minY, maxZ, red, green, blue, alpha);
     }
 
@@ -102,7 +91,24 @@ public class VertexRenderingUtil {
 
     // TODO: all version impl
     private static void drawLine(VertexConsumer consumer, MatrixStack.Entry entry, double x1, double y1, double z1, double x2, double y2, double z2, float red, float green, float blue, float alpha) {
-        VertexConsumerUtil.vertex(consumer, entry.getPositionMatrix(), (float)x1, (float)y1, (float)z1).color(red, green, blue, alpha);
-        VertexConsumerUtil.vertex(consumer, entry.getPositionMatrix(), (float)x2, (float)y2, (float)z2).color(red, green, blue, alpha);
+        float dx = (float)(x2 - x1);
+        float dy = (float)(y2 - y1);
+        float dz = (float)(z2 - z1);
+        float len = (float)Math.sqrt(dx * dx + dy * dy + dz * dz);
+        float nx = len == 0.0f ? 0.0f : dx / len;
+        float ny = len == 0.0f ? 1.0f : dy / len;
+        float nz = len == 0.0f ? 0.0f : dz / len;
+
+        VertexConsumerUtil.vertex(consumer, entry.getPositionMatrix(), (float)x1, (float)y1, (float)z1);
+        VertexConsumerUtil.color(consumer, red, green, blue, alpha);
+        VertexConsumerUtil.normal(consumer, nx, ny, nz);
+        consumer.lineWidth(1.0f); //
+        VertexConsumerUtil.next(consumer);
+
+        VertexConsumerUtil.vertex(consumer, entry.getPositionMatrix(), (float)x2, (float)y2, (float)z2);
+        VertexConsumerUtil.color(consumer, red, green, blue, alpha);
+        VertexConsumerUtil.normal(consumer, nx, ny, nz);
+        consumer.lineWidth(1.0f); //
+        VertexConsumerUtil.next(consumer);
     }
 }

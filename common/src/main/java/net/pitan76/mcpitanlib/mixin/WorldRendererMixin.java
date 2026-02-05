@@ -72,9 +72,9 @@ public abstract class WorldRendererMixin {
     }
 
 
-    @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldBorderRendering;updateRenderState(Lnet/minecraft/world/border/WorldBorder;Lnet/minecraft/util/math/Vec3d;DLnet/minecraft/client/render/state/WorldBorderRenderState;)V"))
-    private void mcpitanlib$onWorldBorderExtraction(WorldBorderRendering instance, WorldBorder worldBorder, Vec3d vec3d, double d, WorldBorderRenderState worldBorderRenderState, Operation<Void> original) {
-        original.call(instance, worldBorder, vec3d, d, worldBorderRenderState);
+    @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldBorderRendering;updateRenderState(Lnet/minecraft/world/border/WorldBorder;FLnet/minecraft/util/math/Vec3d;DLnet/minecraft/client/render/state/WorldBorderRenderState;)V"))
+    private void mcpitanlib$onWorldBorderExtraction(WorldBorderRendering instance, WorldBorder worldBorder, float tickDelta, Vec3d vec3d, double d, WorldBorderRenderState worldBorderRenderState, Operation<Void> original) {
+        original.call(instance, worldBorder, tickDelta, vec3d, d, worldBorderRenderState);
         if (WorldRenderRegistry.isEmptyWorldRenderAfterLevelListeners) return;
 
         for (WorldRenderContextListener listener : WorldRenderRegistry.worldRenderAfterLevelListeners) {
