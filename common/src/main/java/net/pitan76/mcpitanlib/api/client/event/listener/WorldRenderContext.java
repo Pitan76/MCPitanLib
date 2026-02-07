@@ -15,6 +15,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 import net.pitan76.mcpitanlib.api.util.VoxelShapeUtil;
 import net.pitan76.mcpitanlib.api.util.client.render.VertexRenderingUtil;
+import net.pitan76.mcpitanlib.midohra.client.render.CameraWrapper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
@@ -131,5 +132,9 @@ public interface WorldRenderContext {
         double z2 = box.maxZ;
 
         VertexRenderingUtil.drawBox(getMatrixStack(), consumer, x1, y1, z1, x2, y2, z2, red, green, blue, alpha);
+    }
+
+    default CameraWrapper getCameraWrapper() {
+        return CameraWrapper.of(getCamera());
     }
 }
