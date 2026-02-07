@@ -37,7 +37,7 @@ public class CameraWrapper {
 
     public Vector3d getCameraPos() {
         if (isEmpty()) return Vector3d.zero();
-        return Vector3d.of(camera.getCameraPos());
+        return Vector3d.of(camera.getPos());
     }
 
     public BlockPos getBlockPos() {
