@@ -102,13 +102,13 @@ public class VertexRenderingUtil {
         VertexConsumerUtil.vertex(consumer, entry.getPositionMatrix(), (float)x1, (float)y1, (float)z1);
         VertexConsumerUtil.color(consumer, red, green, blue, alpha);
         VertexConsumerUtil.normal(consumer, nx, ny, nz);
-        consumer.lineWidth(1.0f); //
+        consumer.lineWidth(2.0f); //
         VertexConsumerUtil.next(consumer);
 
         VertexConsumerUtil.vertex(consumer, entry.getPositionMatrix(), (float)x2, (float)y2, (float)z2);
         VertexConsumerUtil.color(consumer, red, green, blue, alpha);
         VertexConsumerUtil.normal(consumer, nx, ny, nz);
-        consumer.lineWidth(1.0f); //
+        consumer.lineWidth(2.0f); //
         VertexConsumerUtil.next(consumer);
     }
 }
