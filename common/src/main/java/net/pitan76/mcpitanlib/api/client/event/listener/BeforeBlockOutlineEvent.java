@@ -26,6 +26,11 @@ public class BeforeBlockOutlineEvent {
         this.hitResult = context.getHitResult();
     }
 
+    public BeforeBlockOutlineEvent(WorldRenderContext context, HitResult hitResult) {
+        this.context = context;
+        this.hitResult = hitResult;
+    }
+
     public HitResult getHitResult() {
         return hitResult;
     }
