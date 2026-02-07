@@ -21,10 +21,12 @@ import net.pitan76.mcpitanlib.api.event.v2.ItemEventRegistry;
 import net.pitan76.mcpitanlib.api.event.v2.listener.InventoryTickTask;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider.Options;
+import net.pitan76.mcpitanlib.api.item.FixedRecipeRemainderItem;
 import net.pitan76.mcpitanlib.api.item.args.UseActionArgs;
 import net.pitan76.mcpitanlib.api.item.consume.CompatUseAction;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -232,6 +234,17 @@ public class ItemMixin {
             provider.inventoryTick(new InventoryTickEvent(stack, world, entity, slot, selected), options);
             if (options.cancel)
                 ci.cancel();
+        }
+    }
+
+    @Inject(method = "getRecipeRemainder", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getRecipeRemainder(CallbackInfoReturnable<ItemStack> cir) {
+        if (this instanceof FixedRecipeRemainderItem) {
+            FixedRecipeRemainderItem provider = (FixedRecipeRemainderItem) this;
+            Options options = new Options();
+            ItemStack returnValue = provider.getFixedRecipeRemainder(provider.getFixedRecipeRemainder(ItemStackUtil.create((Item) (Object) this)));
+            if (options.cancel)
+                cir.setReturnValue(returnValue);
         }
     }
 }
