@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.midohra.client.render.CameraWrapper;
 import net.pitan76.mcpitanlib.midohra.util.hit.HitResultType;
 
 import java.util.Optional;
@@ -56,8 +57,13 @@ public class BeforeBlockOutlineEvent {
         return hitResult.getType();
     }
 
+    @Deprecated
     public Camera getCamera() {
         return context.getCamera();
+    }
+
+    public CameraWrapper getCameraWrapper() {
+        return CameraWrapper.of(getCamera());
     }
 
     public Optional<VoxelShape> getOutlineShape() {
