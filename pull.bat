@@ -1,4 +1,9 @@
 git fetch origin
+git checkout 1.21.11
+timeout /T 1
+git pull
+
+git fetch origin
 git checkout 1.21.9
 timeout /T 1
 git pull
@@ -53,6 +58,6 @@ timeout /T 1
 git pull
 
 git fetch origin
-git checkout 1.21.6
+git checkout 1.21.11
 
 pause
