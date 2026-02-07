@@ -61,4 +61,15 @@ call gradlew.bat curseforge
 call gradlew.bat :fabric:modrinth
 call gradlew.bat :neoforge:modrinth
 
+
+git checkout 1.21.11
+timeout /T 1
+call gradlew.bat build
+call gradlew.bat publish publishMavenCommonPublicationToGitHubPackagesRepository
+call gradlew.bat publish publishMavenFabricPublicationToGitHubPackagesRepository
+call gradlew.bat publish publishMavenNeoForgePublicationToGitHubPackagesRepository
+call gradlew.bat curseforge
+call gradlew.bat :fabric:modrinth
+call gradlew.bat :neoforge:modrinth
+
 pause
