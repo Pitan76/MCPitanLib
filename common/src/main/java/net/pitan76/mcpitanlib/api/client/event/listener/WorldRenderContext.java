@@ -15,6 +15,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.shape.VoxelShape;
 import net.pitan76.mcpitanlib.api.util.VoxelShapeUtil;
+import net.pitan76.mcpitanlib.midohra.client.render.CameraWrapper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
@@ -122,5 +123,9 @@ public interface WorldRenderContext {
             return;
 
         VertexRendering.drawBox(getMatrixStack().peek(), vertexConsumer.get(), box, red, green, blue, alpha);
+    }
+
+    default CameraWrapper getCameraWrapper() {
+        return CameraWrapper.of(getCamera());
     }
 }
