@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.render.state.OutlineRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -20,9 +21,9 @@ public class BeforeBlockOutlineEvent {
     public WorldRenderContext context;
     public HitResult hitResult;
 
-    public BeforeBlockOutlineEvent(WorldRenderContext context, HitResult hitResult) {
+    public BeforeBlockOutlineEvent(WorldRenderContext context, OutlineRenderState renderState) {
         this.context = context;
-        this.hitResult = hitResult;
+        this.hitResult = context.getHitResult();
     }
 
     public HitResult getHitResult() {
