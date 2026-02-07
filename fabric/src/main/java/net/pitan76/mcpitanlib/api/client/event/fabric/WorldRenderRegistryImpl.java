@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.api.client.event.fabric;
 
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
@@ -7,14 +9,13 @@ import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContext;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContextListener;
+import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 public class WorldRenderRegistryImpl {
     public static void _registerWorldRenderBeforeBlockOutline(BeforeBlockOutlineListener listener) {
-        // TODO: Fabric APIの対応待ち
-        /*
-        WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register(((worldRenderContext, hitResult) -> listener.beforeBlockOutline(new BeforeBlockOutlineEvent(
+        WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register(((worldRenderContext, renderState) -> listener.beforeBlockOutline(new BeforeBlockOutlineEvent(
         new WorldRenderContext() {
             @Override
             public WorldRenderer getWorldRenderer() {
@@ -23,17 +24,17 @@ public class WorldRenderRegistryImpl {
 
             @Override
             public MatrixStack getMatrixStack() {
-                return worldRenderContext.matrixStack();
+                return worldRenderContext.matrices();
             }
 
             @Override
             public float getTickDelta() {
-                return worldRenderContext.tickCounter().getDynamicDeltaTicks();
+                return MinecraftClient.getInstance().getRenderTickCounter().getDynamicDeltaTicks();
             }
 
             @Override
             public Camera getCamera() {
-                return worldRenderContext.camera();
+                return worldRenderContext.gameRenderer().getCamera();
             }
 
             @Override
@@ -48,35 +49,33 @@ public class WorldRenderRegistryImpl {
 
             @Override
             public Matrix4f getProjectionMatrix() {
-                return worldRenderContext.projectionMatrix();
+                return worldRenderContext.gameRenderer().getBasicProjectionMatrix(0);
             }
 
             @Override
             public ClientWorld getWorld() {
-                return worldRenderContext.world();
+                return ClientUtil.getWorld();
             }
 
             @Override
             public boolean isAdvancedTranslucency() {
-                return worldRenderContext.advancedTranslucency();
+                return renderState.isTranslucent();
             }
 
             @Override
-            public @Nullable VertexConsumerProvider getConsumers() {
+            public VertexConsumerProvider getConsumers() {
                 return worldRenderContext.consumers();
             }
 
             @Override
-            public @Nullable Frustum getFrustum() {
-                return worldRenderContext.frustum();
+            public Frustum getFrustum() {
+                return worldRenderContext.worldRenderer().getCapturedFrustum();
             }
-        }, hitResult))));
-        */
+        }, renderState))));
     }
 
     public static void _registerWorldRenderAfterLevel(WorldRenderContextListener listener) {
-        /*
-        WorldRenderEvents.END.register((context -> {
+        WorldRenderEvents.END_MAIN.register((context -> {
             listener.render(new WorldRenderContext() {
                 @Override
                 public WorldRenderer getWorldRenderer() {
@@ -85,17 +84,17 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public MatrixStack getMatrixStack() {
-                    return context.matrixStack();
+                    return context.matrices();
                 }
 
                 @Override
                 public float getTickDelta() {
-                    return context.tickCounter().getDynamicDeltaTicks();
+                    return MinecraftClient.getInstance().getRenderTickCounter().getDynamicDeltaTicks();
                 }
 
                 @Override
                 public Camera getCamera() {
-                    return context.camera();
+                    return context.gameRenderer().getCamera();
                 }
 
                 @Override
@@ -110,17 +109,17 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Matrix4f getProjectionMatrix() {
-                    return context.projectionMatrix();
+                    return context.gameRenderer().getBasicProjectionMatrix(0);
                 }
 
                 @Override
                 public ClientWorld getWorld() {
-                    return context.world();
+                    return ClientUtil.getWorld();
                 }
 
                 @Override
                 public boolean isAdvancedTranslucency() {
-                    return context.advancedTranslucency();
+                    return true;
                 }
 
                 @Override
@@ -130,11 +129,9 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public @Nullable Frustum getFrustum() {
-                    return context.frustum();
+                    return context.worldRenderer().getCapturedFrustum();
                 }
             });
         }));
-
-         */
     }
 }
