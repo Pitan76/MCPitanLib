@@ -5,7 +5,6 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent;
-import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
@@ -69,7 +68,7 @@ public class WorldRenderRegistryImpl {
                 @Deprecated
                 @Override
                 public boolean isAdvancedTranslucency() {
-                    return event.isInTranslucentPass();
+                    return event.getLevelRenderer().isTerrainRenderComplete();
                 }
 
                 @Override
