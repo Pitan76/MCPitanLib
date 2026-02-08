@@ -246,11 +246,9 @@ public class ItemMixin {
     @Inject(method = "getRecipeRemainder", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$getRecipeRemainder(CallbackInfoReturnable<ItemStack> cir) {
         if (this instanceof FixedRecipeRemainderItem) {
-            FixedRecipeRemainderItem provider = (FixedRecipeRemainderItem) this;
-            Options options = new Options();
-            ItemStack returnValue = provider.getFixedRecipeRemainder(provider.getFixedRecipeRemainder(ItemStackUtil.create((Item) (Object) this)));
-            if (options.cancel)
-                cir.setReturnValue(returnValue);
+            ItemStack returnValue = ((FixedRecipeRemainderItem) this)
+                    .getFixedRecipeRemainder(ItemStackUtil.create((Item) (Object) this));
+            cir.setReturnValue(returnValue);
         }
     }
 }
