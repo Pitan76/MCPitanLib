@@ -9,7 +9,7 @@
     "Block4CompatProviderMixin",
     "BlockInvoker",
     "BlockMixin",
-    "CraftingRecipeMixin",
+    "RecipeMixin",
     "ItemMixin",
     "ItemStackComponentizationFixMixin",
     "ItemStackMixin",
