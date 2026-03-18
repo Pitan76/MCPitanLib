@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.util.math;
 
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 
 public class Vector3f {
     public final float x;
@@ -168,7 +168,7 @@ public class Vector3f {
         return this.add(0.5f, 0.5f, 0.5f);
     }
 
-    public org.joml.Vector3f toMinecraft() {
-        return new org.joml.Vector3f(x, y, z);
+    public Vec3f toMinecraft() {
+        return new Vec3f(x, y, z);
     }
 }
