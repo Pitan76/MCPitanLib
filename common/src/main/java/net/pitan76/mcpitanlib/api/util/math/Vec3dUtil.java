@@ -63,7 +63,7 @@ public class Vec3dUtil {
         return a.distanceTo(b);
     }
 
-
-
-
+    public static Vec3d ofCenter(double x, double y, double z) {
+        return new Vec3d(x + 0.5, y + 0.5, z + 0.5);
+    }
 }
