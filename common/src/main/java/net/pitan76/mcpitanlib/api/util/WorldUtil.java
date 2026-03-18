@@ -5,10 +5,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ExperienceOrbEntity;
-import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.*;
+import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -30,9 +28,11 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
+import net.pitan76.mcpitanlib.api.util.math.BoxUtil;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
+import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 import net.pitan76.mcpitanlib.midohra.world.chunk.ChunkTicketType;
 import org.jetbrains.annotations.Nullable;
 
@@ -424,4 +424,51 @@ public class WorldUtil {
     public static CompatIdentifier getEndId() {
         return CompatIdentifier.fromMinecraft(World.END.getValue());
     }
+
+    public static long getTimeOfDay(World world) {
+        return world.getTimeOfDay();
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByClass(World world, Class<T> entityClass, net.pitan76.mcpitanlib.midohra.util.math.Box box) {
+        return getEntitiesByClass(world, entityClass, box, EntityPredicates.VALID_ENTITY);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByClass(World world, Class<T> entityClass, Box box) {
+        return getEntitiesByClass(world, entityClass, box, EntityPredicates.VALID_ENTITY);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByClass(World world, Class<T> entityClass, net.pitan76.mcpitanlib.midohra.util.math.Box box, Predicate<? super T> predicate) {
+        return getEntitiesByClass(world, entityClass, box.toMinecraft(), predicate);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByClass(World world, Class<T> entityClass, Vector3d center, double radius, Predicate<? super T> predicate) {
+        Box box = BoxUtil.createBox(center.x - radius, center.y - radius, center.z - radius, center.x + radius, center.y + radius, center.z + radius);
+        return getEntitiesByClass(world, entityClass, box, predicate);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByClass(World world, Class<T> entityClass, Vector3d center, double radius) {
+        return getEntitiesByClass(world, entityClass, center, radius, EntityPredicates.VALID_ENTITY);
+    }
+
+    public static List<LivingEntity> getMonsters(World world, Box box) {
+        return world.getEntitiesByClass(LivingEntity.class, box, entity -> entity instanceof Monster);
+    }
+
+    public static List<LivingEntity> getMonsters(World world, net.pitan76.mcpitanlib.midohra.util.math.Box box) {
+        return getMonsters(world, box.toMinecraft());
+    }
+
+    public static List<LivingEntity> getMonsters(World world, Vector3d center, double radius) {
+        Box box = BoxUtil.createBox(center.x - radius, center.y - radius, center.z - radius, center.x + radius, center.y + radius, center.z + radius);
+        return getMonsters(world, box);
+    }
+
+    public static List<?> getEntitiesByType(World world, EntityTypeWrapper filter, net.pitan76.mcpitanlib.midohra.util.math.Box box) {
+        return getEntitiesByType(world, filter, box.toMinecraft());
+    }
+
+    public static List<?> getEntitiesByType(World world, EntityTypeWrapper filter, net.pitan76.mcpitanlib.midohra.util.math.Box box, Predicate<? super Entity> predicate) {
+        return getEntitiesByType(world, filter, box.toMinecraft(), predicate);
+    }
+
 }
