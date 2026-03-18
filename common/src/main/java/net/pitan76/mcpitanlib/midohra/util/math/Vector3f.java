@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.util.math;
 
+import net.minecraft.util.math.Vec3d;
+
 public class Vector3f {
     public final float x;
     public final float y;
@@ -168,5 +170,13 @@ public class Vector3f {
         h = 31 * h + Float.hashCode(y);
         h = 31 * h + Float.hashCode(z);
         return h;
+    }
+
+    public Vector3f ofCenter() {
+        return this.add(0.5f, 0.5f, 0.5f);
+    }
+
+    public org.joml.Vector3f toMinecraft() {
+        return new org.joml.Vector3f(x, y, z);
     }
 }
