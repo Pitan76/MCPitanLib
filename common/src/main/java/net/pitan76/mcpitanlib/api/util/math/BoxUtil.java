@@ -39,4 +39,16 @@ public class BoxUtil {
     public static Box createBoxCenter(BlockPos pos, int size) {
         return createBox(pos.add(-size, -size, -size), pos.add(size, size, size));
     }
+
+    public static Box expand(Box box, double x, double y, double z) {
+        return new Box(box.minX - x, box.minY - y, box.minZ - z, box.maxX + x, box.maxY + y, box.maxZ + z);
+    }
+
+    public static Box expand(Box box, double size) {
+        return expand(box, size, size, size);
+    }
+
+    public static Box union(Box box1, Box box2) {
+        return box1.union(box2);
+    }
 }
