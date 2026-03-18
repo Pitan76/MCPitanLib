@@ -180,4 +180,12 @@ public class Vector3d {
         h = 31 * h + Double.hashCode(z);
         return h;
     }
+
+    public Vector3d ofCenter() {
+        return new Vector3d(x + 0.5, y + 0.5, z + 0.5);
+    }
+
+    public Vec3d toMinecraft() {
+        return new Vec3d(x, y, z);
+    }
 }

@@ -290,4 +290,17 @@ public class EntityUtil {
     public static void setPos(Entity entity, double x, double y, double z) {
         entity.setPos(x, y, z);
     }
+
+    public static void addVelocity(Entity entity, double x, double y, double z) {
+        entity.addVelocity(x, y, z);
+    }
+
+    public static void addVelocity(Entity entity, Vec3d velocity) {
+        entity.addVelocity(velocity);
+    }
+
+    public static void addVelocity(Entity entity, Vector3d velocity) {
+        addVelocity(entity, velocity.toMinecraft());
+    }
+
 }
