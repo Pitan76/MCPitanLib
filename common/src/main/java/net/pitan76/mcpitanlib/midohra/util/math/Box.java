@@ -102,14 +102,14 @@ public class Box {
     }
 
     public double getLengthX() {
-        return box.getLengthX();
+        return box.getXLength();
     }
 
     public double getLengthY() {
-        return box.getLengthY();
+        return box.getYLength();
     }
 
     public double getLengthZ() {
-        return box.getLengthZ();
+        return box.getZLength();
     }
 }
