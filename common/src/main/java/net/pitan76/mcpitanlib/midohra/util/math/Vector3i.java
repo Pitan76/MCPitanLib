@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.util.math;
 
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
 public class Vector3i {
@@ -179,5 +180,9 @@ public class Vector3i {
         h = 31 * h + Integer.hashCode(y);
         h = 31 * h + Integer.hashCode(z);
         return h;
+    }
+
+    public Vec3i toMinecraft() {
+        return new Vec3i(x, y, z);
     }
 }
