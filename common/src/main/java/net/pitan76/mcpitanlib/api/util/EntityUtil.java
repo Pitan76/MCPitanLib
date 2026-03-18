@@ -296,7 +296,7 @@ public class EntityUtil {
     }
 
     public static void addVelocity(Entity entity, Vec3d velocity) {
-        entity.addVelocity(velocity);
+        addVelocity(entity, velocity.x, velocity.y, velocity.z);
     }
 
     public static void addVelocity(Entity entity, Vector3d velocity) {
