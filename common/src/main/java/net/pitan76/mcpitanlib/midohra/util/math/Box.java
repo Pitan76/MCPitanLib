@@ -112,4 +112,17 @@ public class Box {
     public double getLengthZ() {
         return box.getZLength();
     }
+
+    @Override
+    public int hashCode() {
+        return box.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Box other = (Box) obj;
+        return box.equals(other.box);
+    }
 }
