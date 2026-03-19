@@ -105,4 +105,29 @@ public class Direction {
     public String getName() {
         return getRaw().name();
     }
+
+    public static Direction[] values() {
+        return new Direction[]{UP, DOWN, NORTH, SOUTH, EAST, WEST};
+    }
+
+    public Direction[] horizontal() {
+        return new Direction[]{NORTH, SOUTH, EAST, WEST};
+    }
+
+    public Direction[] vertical() {
+        return new Direction[]{UP, DOWN};
+    }
+
+    @Override
+    public int hashCode() {
+        return getRaw().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Direction dir = (Direction) obj;
+        return getRaw() == dir.getRaw();
+    }
 }
