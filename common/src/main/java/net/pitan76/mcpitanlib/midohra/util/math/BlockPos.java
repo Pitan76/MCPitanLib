@@ -88,4 +88,17 @@ public class BlockPos {
     public ChunkPos toChunkPos() {
         return ChunkPos.of(this);
     }
+
+    @Override
+    public int hashCode() {
+        return blockPos.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        BlockPos pos = (BlockPos) obj;
+        return blockPos.equals(pos.blockPos);
+    }
 }
