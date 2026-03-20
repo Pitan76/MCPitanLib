@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import org.jetbrains.annotations.Nullable;
 
 public class NeighborUpdateEvent extends BaseEvent {
@@ -67,5 +68,21 @@ public class NeighborUpdateEvent extends BaseEvent {
 
     public boolean hasBlockEntity() {
         return WorldUtil.hasBlockEntity(world, pos);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(world);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(pos);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(state);
+    }
+
+    public BlockEntityWrapper getBlockEntityWrapper() {
+        return BlockEntityWrapper.of(getBlockEntity());
     }
 }
