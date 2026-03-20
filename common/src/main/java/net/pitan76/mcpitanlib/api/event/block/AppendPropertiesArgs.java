@@ -6,6 +6,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Property;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
+import net.pitan76.mcpitanlib.api.util.DirectionBoolPropertyUtil;
 
 public class AppendPropertiesArgs extends BaseEvent {
     public StateManager.Builder<Block, BlockState> builder;
@@ -26,5 +27,9 @@ public class AppendPropertiesArgs extends BaseEvent {
         for (IProperty<?> property : properties) {
             builder.add(property.getProperty());
         }
+    }
+
+    public void addAllDirectionBoolProperties() {
+        DirectionBoolPropertyUtil.addProperties(this);
     }
 }
