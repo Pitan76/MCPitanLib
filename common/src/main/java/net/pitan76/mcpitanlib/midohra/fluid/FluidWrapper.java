@@ -84,4 +84,17 @@ public class FluidWrapper {
     public boolean rawEquals(FluidWrapper fluid) {
         return get() == fluid.get();
     }
+
+    @Override
+    public int hashCode() {
+        return isEmpty() ? 0 : get().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        FluidWrapper other = (FluidWrapper) obj;
+        return rawEquals(other);
+    }
 }
