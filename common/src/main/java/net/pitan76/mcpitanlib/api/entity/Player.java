@@ -44,6 +44,7 @@ import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
 
 import java.util.*;
@@ -521,5 +522,17 @@ public class Player {
 
     public void eatFood(ItemStack stack, CompatFoodComponent foodComponent) {
         getEntity().getHungerManager().eat(foodComponent.build());
+    }
+
+    public void sendMessage(String message) {
+        sendMessage(TextUtil.of(message));
+    }
+
+    public void sendActionBar(String message) {
+        sendActionBar(TextUtil.of(message));
+    }
+
+    public void sendMessagef(String format, Object... args) {
+        sendMessage(TextUtil.of(String.format(format, args)));
     }
 }
