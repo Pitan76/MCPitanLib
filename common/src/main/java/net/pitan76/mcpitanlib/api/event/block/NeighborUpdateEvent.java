@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.block.WireOrientation;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import org.jetbrains.annotations.Nullable;
 
 public class NeighborUpdateEvent extends BaseEvent {
@@ -77,5 +78,21 @@ public class NeighborUpdateEvent extends BaseEvent {
     @Deprecated
     public @Nullable WireOrientation getWireOrientation() {
         return wireOrientation;
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(world);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(pos);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(state);
+    }
+
+    public BlockEntityWrapper getBlockEntityWrapper() {
+        return BlockEntityWrapper.of(getBlockEntity());
     }
 }
