@@ -7,6 +7,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -70,5 +71,9 @@ public class ItemAppendTooltipEvent extends BaseEvent {
 
     public CompatRegistryLookup getRegistryLookup() {
         return new CompatRegistryLookup();
+    }
+
+    public void addTooltip(TextComponent textComponent) {
+        addTooltip(textComponent.getText());
     }
 }
