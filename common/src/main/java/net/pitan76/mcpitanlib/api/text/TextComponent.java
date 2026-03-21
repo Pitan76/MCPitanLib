@@ -62,6 +62,14 @@ public class TextComponent {
         return new TextComponent(TextUtil.translatable(key, args));
     }
 
+    public static TextComponent empty() {
+        return new TextComponent(TextUtil.empty());
+    }
+
+    public static TextComponent format(String format, Object... args) {
+        return literal(String.format(format, args));
+    }
+
     @Override
     public String toString() {
         return getString();
@@ -88,6 +96,18 @@ public class TextComponent {
             TextUtil.setStyle((MutableText) text, style);
 
         return this;
+    }
+
+    public TextComponent setStyle(CompatStyle style) {
+        return setStyle(style.getRaw());
+    }
+
+    public CompatStyle getCompatStyle() {
+        return CompatStyle.of(getStyle());
+    }
+
+    public boolean contains(TextComponent other) {
+        return TextUtil.contains(getText(), other.getText());
     }
 
     /**
