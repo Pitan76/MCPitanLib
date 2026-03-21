@@ -7,6 +7,19 @@ MCPitanLibはライブラリです。 1つのjarで複数のMCバージョンを
 開発中であるため、予告なく仕様が変更されることがあったり、不具合があるかもしれません。 <br />
 私専用につくっているため、他の方が使うことをあまり想定していません。 <br />
 
+クロスバージョンかつクロスプラットフォームを目指しています。
+
+### 対応状況
+- アイテムの追加
+- ブロックの追加
+- エンティティの追加
+- ブロックエンティティの追加
+- クリエイティブタブの追加
+- GUIの追加
+- サウンドの追加
+
+となります。
+
 ### 前提MOD
 - MODローダー
   - [FabricMC](https://fabricmc.net/)
@@ -53,6 +66,17 @@ MCPitanLibを用いたMOD開発は「common/src/main/java/net/pitan76/mcpitanlib
 MCPitanLib is a library. It is for supporting multiple MC versions with one jar. <br />
 It is under development, so the specification may change without notice, and there may be bugs. <br />
 I am creating it for my own use, so I don't expect others to use it much. <br />
+
+It aims to be cross-version and cross-platform.
+
+### Supported features
+- Adding items
+- Adding blocks
+- Adding entities
+- Adding block entities
+- Adding creative tabs
+- Adding GUIs
+- Adding sounds
 
 ### Required MOD
 - MOD Loader
