@@ -61,7 +61,7 @@ public class CompatTextColor {
     }
 
     public static CompatTextColor parseOrThrow(String string) {
-        return new CompatTextColor(TextColor.parse(string).get().orThrow());
+        return new CompatTextColor(TextColor.parse(string));
     }
 
     @Override
