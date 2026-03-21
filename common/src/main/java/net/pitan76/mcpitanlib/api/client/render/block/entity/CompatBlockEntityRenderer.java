@@ -13,7 +13,7 @@ public interface CompatBlockEntityRenderer<T extends CompatBlockEntity> extends 
 
     @Override
     default void render(T entity, float tickProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, Vec3d cameraPos) {
-        render(new BlockEntityRenderEvent<>(entity, tickProgress, matrices, vertexConsumers, light, overlay));
+        render(new BlockEntityRenderEvent<>(this, entity, tickProgress, matrices, vertexConsumers, light, overlay));
     }
 
     default boolean rendersOutsideBoundingBoxOverride(T blockEntity) {
