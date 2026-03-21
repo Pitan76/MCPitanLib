@@ -68,4 +68,8 @@ public class TextUtil {
     public static MutableText convertWithTranslatable(String text) {
         return TextConverter.convert(text, true);
     }
+
+    public static boolean contains(Text text, Text text1) {
+        return text.contains(text1);
+    }
 }
