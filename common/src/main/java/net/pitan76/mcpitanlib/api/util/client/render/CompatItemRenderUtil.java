@@ -22,6 +22,6 @@ public class CompatItemRenderUtil {
      */
     public static void renderItem(ItemStack stack, CompatItemDisplayContext displayContext, BlockEntityRenderEvent<?> e, World world) {
         ItemRenderer renderer = e.getItemRenderer() != null ? e.getItemRenderer() : MinecraftClient.getInstance().getItemRenderer();
-        renderer.renderItem(stack, displayContext.getContext(), e.getLight(), e.getOverlay(), e.matrices, e.vertexConsumers, 0);
+        renderer.renderItem(stack, displayContext.getContext(), e.getLight(), e.getOverlay(), e.matrices, e.vertexConsumers);
     }
 }
