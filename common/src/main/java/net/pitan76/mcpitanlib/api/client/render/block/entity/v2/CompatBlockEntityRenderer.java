@@ -5,11 +5,15 @@ import net.pitan76.mcpitanlib.api.client.render.block.entity.event.CompatBlockEn
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 
 public abstract class CompatBlockEntityRenderer<T extends CompatBlockEntity> implements net.pitan76.mcpitanlib.api.client.render.block.entity.CompatBlockEntityRenderer<T> {
+
+    @Deprecated
+    public CompatRegistryClient.BlockEntityRendererFactory.Context ctx;
+
     public CompatBlockEntityRenderer(CompatBlockEntityRendererConstructArgs args) {
 
     }
 
     public CompatBlockEntityRenderer(CompatRegistryClient.BlockEntityRendererFactory.Context ctx) {
-
+        this.ctx = ctx;
     }
 }
