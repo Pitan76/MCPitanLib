@@ -15,12 +15,12 @@ public interface CompatBlockEntityRenderer<T extends CompatBlockEntity, S extend
     void render(BlockEntityRenderEvent<T> event);
 
     default void render(T entity, float tickProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, Vec3d cameraPos) {
-        render(new BlockEntityRenderEvent<>(entity, tickProgress, matrices, vertexConsumers, light, overlay));
+        render(new BlockEntityRenderEvent<>(this, entity, tickProgress, matrices, vertexConsumers, light, overlay));
     }
 
     @Override
     default void render(S state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
-        render(new BlockEntityRenderEvent<>(state, matrices, queue, cameraState));
+        render(new BlockEntityRenderEvent<>(this, state, matrices, queue, cameraState));
     }
 
     default boolean rendersOutsideBoundingBoxOverride(T blockEntity) {

@@ -11,13 +11,17 @@ import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
+import net.pitan76.mcpitanlib.api.client.render.block.entity.CompatBlockEntityRenderer;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 import net.pitan76.mcpitanlib.api.util.MathUtil;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.MatrixStackUtil;
+import net.pitan76.mcpitanlib.api.util.client.render.CompatItemRenderUtil;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -154,5 +158,43 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
 
     public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {
         return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(getPos());
+    }
+
+    //----
+
+    @Deprecated
+    public CompatRegistryClient.BlockEntityRendererFactory.Context ctx;
+
+    public BlockEntityRenderEvent(CompatBlockEntityRenderer renderer, T blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        this(blockEntity, tickDelta, matrices, vertexConsumers, light, overlay);
+        if (renderer instanceof net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) {
+            this.ctx = ((net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) renderer).ctx;
+        }
+    }
+
+    public BlockEntityRenderEvent(CompatBlockEntityRenderer renderer, BlockEntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
+        this(state, matrices, queue, cameraState);
+        if (renderer instanceof net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) {
+            this.ctx = ((net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) renderer).ctx;
+        }
+    }
+
+    public void renderItemFixed(ItemStack stack) {
+        CompatItemRenderUtil.renderItemFixed(stack, this, blockEntity.callGetWorld());
+    }
+
+    @Deprecated
+    public OrderedRenderCommandQueue getQueue() {
+        return queue;
+    }
+
+    @Deprecated
+    public BlockEntityRenderState getState() {
+        return state;
+    }
+
+    @Deprecated
+    public CameraRenderState getCameraState() {
+        return cameraState;
     }
 }
