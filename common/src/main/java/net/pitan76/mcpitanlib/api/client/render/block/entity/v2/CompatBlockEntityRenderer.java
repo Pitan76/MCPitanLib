@@ -8,18 +8,23 @@ import net.pitan76.mcpitanlib.api.client.render.block.entity.event.CompatBlockEn
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 
 public abstract class CompatBlockEntityRenderer<T extends CompatBlockEntity> extends net.pitan76.mcpitanlib.api.client.render.block.entity.CompatBlockEntityRenderer<T> {
+
+    @Deprecated
+    public CompatRegistryClient.BlockEntityRendererFactory.Context ctx;
+
     public CompatBlockEntityRenderer(CompatBlockEntityRendererConstructArgs args) {
         super(args.dispatcher);
     }
 
     public CompatBlockEntityRenderer(CompatRegistryClient.BlockEntityRendererFactory.Context ctx) {
         super(ctx.getRenderDispatcher());
+        this.ctx = ctx;
     }
 
     abstract void render(BlockEntityRenderEvent<T> event);
 
     @Override
     public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        render(new BlockEntityRenderEvent<>(entity, tickDelta, matrices, vertexConsumers, light, overlay));
+        render(new BlockEntityRenderEvent<>(this, entity, tickDelta, matrices, vertexConsumers, light, overlay));
     }
 }

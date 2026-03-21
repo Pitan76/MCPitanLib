@@ -19,7 +19,7 @@ public abstract class CompatBlockEntityRenderer<T extends CompatBlockEntity> ext
 
     @Override
     public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        render(new BlockEntityRenderEvent<>(entity, tickDelta, matrices, vertexConsumers, light, overlay));
+        render(new BlockEntityRenderEvent<>(this, entity, tickDelta, matrices, vertexConsumers, light, overlay));
     }
 
     public boolean rendersOutsideBoundingBoxOverride(T blockEntity) {
