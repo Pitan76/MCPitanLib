@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.client.render;
 
-import net.minecraft.item.ModelTransformationMode;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.pitan76.mcpitanlib.api.util.CompatStringIdentifiable;
 
 public class CompatItemDisplayContext implements CompatStringIdentifiable {
