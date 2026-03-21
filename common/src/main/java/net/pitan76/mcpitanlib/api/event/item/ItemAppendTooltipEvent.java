@@ -8,6 +8,7 @@ import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.RegistryLookupUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,5 +87,9 @@ public class ItemAppendTooltipEvent extends BaseEvent {
 
     public CompatRegistryLookup getRegistryLookup() {
         return RegistryLookupUtil.getRegistryLookup(this);
+    }
+
+    public void addTooltip(TextComponent textComponent) {
+        addTooltip(textComponent.getText());
     }
 }
