@@ -55,7 +55,7 @@ public class CompatFormatting implements CompatStringIdentifiable {
     }
 
     public char getCode() {
-        return formatting.getCode();
+        return formatting.toString().charAt(1);
     }
 
     public Integer getColorValue() {

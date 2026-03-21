@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.text;
 
 import net.minecraft.text.Style;
+import net.minecraft.text.TextColor;
 
 public class CompatStyle {
     private final Style style;
@@ -30,7 +31,7 @@ public class CompatStyle {
     }
 
     public CompatStyle withColor(int rgbColor) {
-        return new CompatStyle(style.withColor(rgbColor));
+        return new CompatStyle(style.withColor(TextColor.fromRgb(rgbColor)));
     }
 
     public CompatStyle withBold(boolean bold) {
@@ -46,11 +47,11 @@ public class CompatStyle {
     }
 
     public CompatStyle withStrikethrough(boolean strikethrough) {
-        return new CompatStyle(style.withStrikethrough(strikethrough));
+        return withFormatting(CompatFormatting.STRIKETHROUGH);
     }
 
     public CompatStyle withObfuscated(boolean obfuscated) {
-        return new CompatStyle(style.withObfuscated(obfuscated));
+        return withFormatting(CompatFormatting.OBFUSCATED);
     }
 
     public CompatTextColor getColor() {
