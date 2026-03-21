@@ -36,6 +36,7 @@ import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
@@ -520,5 +521,13 @@ public class Player {
 
     public void sendMessagef(String format, Object... args) {
         sendMessage(TextUtil.of(String.format(format, args)));
+    }
+
+    public void sendMessage(TextComponent textComponent) {
+        sendMessage(textComponent.getText());
+    }
+
+     public void sendActionBar(TextComponent textComponent) {
+        sendActionBar(textComponent.getText());
     }
 }
