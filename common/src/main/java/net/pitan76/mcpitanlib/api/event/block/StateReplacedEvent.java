@@ -19,12 +19,17 @@ public class StateReplacedEvent extends BaseEvent {
     public BlockState newState;
     public boolean moved;
 
+    // Captured at construction time so getBlockEntity() works even after the world (1.21.x)
+    private final BlockEntity cachedBlockEntity;
+
     public StateReplacedEvent(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         this.state = state;
         this.world = world;
         this.pos = pos;
         this.newState = newState;
         this.moved = moved;
+
+        this.cachedBlockEntity = WorldUtil.hasBlockEntity(world, pos) ? WorldUtil.getBlockEntity(world, pos) : null;
     }
 
     public BlockState getState() {
@@ -61,17 +66,22 @@ public class StateReplacedEvent extends BaseEvent {
 
     /**
      * check if the block has a block entity
-     * @return BlockEntity
+     * @return boolean
      */
     public boolean hasBlockEntity() {
-        return WorldUtil.hasBlockEntity(world, pos);
+        return getBlockEntity() != null;
     }
 
     /**
      * get the block entity
+     * <p>
+     * The block entity is captured at event creation time, so this returns a valid
+     * reference even in MC 1.21.x where the world removes the BE before
+     * onStateReplaced is invoked.
      * @return BlockEntity
      */
     public BlockEntity getBlockEntity() {
+        if (cachedBlockEntity != null) return cachedBlockEntity;
         return WorldUtil.getBlockEntity(world, pos);
     }
 
