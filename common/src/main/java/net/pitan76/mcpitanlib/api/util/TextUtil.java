@@ -70,6 +70,6 @@ public class TextUtil {
     }
 
     public static boolean contains(Text text, Text text1) {
-        return text.contains(text1);
+        return text.getString().contains(text1.getString());
     }
 }

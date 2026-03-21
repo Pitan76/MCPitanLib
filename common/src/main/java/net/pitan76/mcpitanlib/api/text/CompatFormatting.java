@@ -43,7 +43,7 @@ public class CompatFormatting implements CompatStringIdentifiable {
 
     @Override
     public String asString_compat() {
-        return formatting.asString();
+        return formatting.toString();
     }
 
     public boolean isColor() {
