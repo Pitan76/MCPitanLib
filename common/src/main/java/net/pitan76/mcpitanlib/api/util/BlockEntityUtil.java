@@ -108,4 +108,8 @@ public class BlockEntityUtil {
 
         blockEntity.createComponentMap().forEach(stack::set);
     }
+
+    public static boolean isRemoved(BlockEntity blockEntity) {
+        return blockEntity.isRemoved();
+    }
 }
