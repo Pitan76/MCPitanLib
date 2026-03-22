@@ -28,6 +28,7 @@ import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.math.BoxUtil;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
+import net.pitan76.mcpitanlib.api.util.particle.CompatParticleType;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
@@ -464,4 +465,11 @@ public class WorldUtil {
         return getEntitiesByType(world, filter, box.toMinecraft(), predicate);
     }
 
+    /**
+     * ParticleType is a ParticleEffect only.
+     */
+    public static void addParticle(World world, CompatParticleType parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+        if (parameters.getRaw() instanceof ParticleEffect)
+            addParticle(world, (ParticleEffect) parameters.getRaw(), x, y, z, velocityX, velocityY, velocityZ);
+    }
 }
