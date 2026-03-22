@@ -10,7 +10,7 @@ import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class TickerUtil {
     public static <T extends BlockEntity> void tick(T blockEntity, World world, BlockPos pos, BlockState state) {
-        if (blockEntity instanceof BlockEntityTicker)
+        if (isTicker(blockEntity))
             ((BlockEntityTicker<T>) blockEntity).tick(world, pos, state, blockEntity);
     }
 
@@ -24,5 +24,9 @@ public class TickerUtil {
 
     public static <T extends Entity> void tick(T entity) {
         entity.tick();
+    }
+
+    public static boolean isTicker(BlockEntity blockEntity) {
+        return blockEntity instanceof BlockEntityTicker;
     }
 }
