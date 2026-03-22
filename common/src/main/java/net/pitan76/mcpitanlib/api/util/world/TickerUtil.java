@@ -17,11 +17,15 @@ public class TickerUtil {
     }
 
     public static <T extends BlockEntity> void tick(T blockEntity) {
-        if (blockEntity instanceof Tickable)
+        if (isTicker(blockEntity))
             ((Tickable) blockEntity).tick();
     }
 
     public static <T extends Entity> void tick(T entity) {
         entity.tick();
+    }
+
+    public static boolean isTicker(BlockEntity blockEntity) {
+        return blockEntity instanceof Tickable;
     }
 }

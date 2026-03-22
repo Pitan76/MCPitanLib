@@ -96,4 +96,8 @@ public class BlockEntityUtil {
 
         BlockEntityDataUtil.setBlockEntityNbt(stack, nbt);
     }
+
+    public static boolean isRemoved(BlockEntity blockEntity) {
+        return blockEntity.isRemoved();
+    }
 }
