@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.midohra.util.math;
 
 import net.minecraft.util.math.Vec3i;
 
+import java.util.Iterator;
+
 public class BlockPos {
     private final net.minecraft.util.math.BlockPos blockPos;
 
@@ -100,5 +102,36 @@ public class BlockPos {
         if (obj == null || getClass() != obj.getClass()) return false;
         BlockPos pos = (BlockPos) obj;
         return blockPos.equals(pos.blockPos);
+    }
+
+    public static Iterator<BlockPos> iterate(BlockPos start, BlockPos end) {
+        return new Iterator<BlockPos>() {
+            private final net.minecraft.util.math.BlockPos startRaw = start.toMinecraft();
+            private final net.minecraft.util.math.BlockPos endRaw = end.toMinecraft();
+            private int x = startRaw.getX();
+            private int y = startRaw.getY();
+            private int z = startRaw.getZ();
+
+            @Override
+            public boolean hasNext() {
+                return x <= endRaw.getX() && y <= endRaw.getY() && z <= endRaw.getZ();
+            }
+
+            @Override
+            public BlockPos next() {
+                BlockPos current = new BlockPos(new net.minecraft.util.math.BlockPos(x, y, z));
+                if (x < endRaw.getX()) {
+                    x++;
+                } else if (y < endRaw.getY()) {
+                    x = startRaw.getX();
+                    y++;
+                } else if (z < endRaw.getZ()) {
+                    x = startRaw.getX();
+                    y = startRaw.getY();
+                    z++;
+                }
+                return current;
+            }
+        };
     }
 }
