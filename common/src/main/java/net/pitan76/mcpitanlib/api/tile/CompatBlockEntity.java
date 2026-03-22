@@ -166,4 +166,33 @@ public class CompatBlockEntity extends BlockEntity {
         return BlockEntityUtil.getServerWorld(this);
     }
 
+    public void callMarkDirty() {
+        BlockEntityUtil.markDirty(this);
+    }
+
+    @Deprecated
+    @Override
+    public void markRemoved() {
+        markRemovedOverride();
+    }
+
+    public void markRemovedOverride() {
+        super.markRemoved();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(callGetWorld());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(callGetPos());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraBlockState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(callGetBlockState());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraCachedState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(callGetCachedState());
+    }
 }
