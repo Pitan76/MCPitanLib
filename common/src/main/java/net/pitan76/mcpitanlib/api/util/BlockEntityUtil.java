@@ -100,4 +100,8 @@ public class BlockEntityUtil {
 
         stack.applyComponentsFrom(blockEntity.createComponentMap());
     }
+
+    public static boolean isRemoved(BlockEntity blockEntity) {
+        return blockEntity.isRemoved();
+    }
 }
