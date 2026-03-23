@@ -104,4 +104,25 @@ public class BlockState {
     public boolean contains(DirectionProperty property) {
         return contains(property.getProperty());
     }
+
+    @Override
+    public int hashCode() {
+        return toMinecraft().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        BlockState state = (BlockState) obj;
+        return toMinecraft().equals(state.toMinecraft());
+    }
+
+    public boolean isOpaque() {
+        return BlockStateUtil.isOpaque(toMinecraft());
+    }
+
+    public boolean hasRandomTicks() {
+        return BlockStateUtil.hasRandomTicks(toMinecraft());
+    }
 }
