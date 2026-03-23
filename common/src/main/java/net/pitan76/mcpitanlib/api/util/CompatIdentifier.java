@@ -157,4 +157,17 @@ public class CompatIdentifier {
     public static boolean isMinecraftNamespace(CompatIdentifier id) {
         return id.getNamespace().equals("minecraft");
     }
+
+    public boolean isMinecraftNamespace() {
+        return this.namespace.equals("minecraft");
+    }
+
+    public CompatIdentifier(Identifier id) {
+        this.namespace = id.getNamespace();
+        this.path = id.getPath();
+    }
+
+    public static CompatIdentifier of(Identifier id) {
+        return new CompatIdentifier(id);
+    }
 }

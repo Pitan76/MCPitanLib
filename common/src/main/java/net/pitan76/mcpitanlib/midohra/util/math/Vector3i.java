@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.util.math;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
 public class Vector3i {
@@ -184,5 +183,37 @@ public class Vector3i {
 
     public Vec3i toMinecraft() {
         return new Vec3i(x, y, z);
+    }
+
+    public Vector3i mul(Vector3i other) {
+        return new Vector3i(this.x * other.x, this.y * other.y, this.z * other.z);
+    }
+
+    public Vector3i mul(int x, int y, int z) {
+        return new Vector3i(this.x * x, this.y * y, this.z * z);
+    }
+
+    public Vector3i div(Vector3i other) {
+        return new Vector3i(this.x / other.x, this.y / other.y, this.z / other.z);
+    }
+
+    public Vector3i div(int x, int y, int z) {
+        return new Vector3i(this.x / x, this.y / y, this.z / z);
+    }
+
+    public Vector3i mod(Vector3i other) {
+        return new Vector3i(this.x % other.x, this.y % other.y, this.z % other.z);
+    }
+
+    public Vector3i mod(int x, int y, int z) {
+        return new Vector3i(this.x % x, this.y % y, this.z % z);
+    }
+
+    public long asLong() {
+        return ((long) x & 0xFFFFFFFFL) << 32 | ((long) y & 0xFFFFFFFFL) << 16 | ((long) z & 0xFFFFFFFFL);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos toPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(x, y, z);
     }
 }
