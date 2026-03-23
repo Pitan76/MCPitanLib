@@ -166,4 +166,8 @@ public class CompatIdentifier {
         this.namespace = id.getNamespace();
         this.path = id.getPath();
     }
+
+    public static CompatIdentifier of(Identifier id) {
+        return new CompatIdentifier(id);
+    }
 }
