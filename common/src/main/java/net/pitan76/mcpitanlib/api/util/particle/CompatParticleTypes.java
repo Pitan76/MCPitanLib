@@ -8,7 +8,7 @@ public class CompatParticleTypes {
     public static final CompatParticleType BLOCK_MARKER = new CompatParticleType(ParticleTypes.BLOCK_MARKER);
     public static final CompatParticleType BUBBLE = new CompatParticleType(ParticleTypes.BUBBLE);
     public static final CompatParticleType CLOUD = new CompatParticleType(ParticleTypes.CLOUD);
-    public static final CompatParticleType COPPER_FIRE_FLAME = new CompatParticleType(ParticleTypes.COPPER_FIRE_FLAME);
+    public static final CompatParticleType COPPER_FIRE_FLAME = new CompatParticleType(ParticleTypes.FLAME);
     public static final CompatParticleType CRIT = new CompatParticleType(ParticleTypes.CRIT);
     public static final CompatParticleType DAMAGE_INDICATOR = new CompatParticleType(ParticleTypes.DAMAGE_INDICATOR);
     public static final CompatParticleType DRAGON_BREATH = new CompatParticleType(ParticleTypes.DRAGON_BREATH);
