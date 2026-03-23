@@ -154,4 +154,16 @@ public class BlockStateUtil {
     public static boolean canPlaceAt(net.pitan76.mcpitanlib.midohra.block.BlockState state, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, net.pitan76.mcpitanlib.midohra.world.World world) {
         return canPlaceAt(state.toMinecraft(), pos.toMinecraft(), world.getRaw());
     }
+
+    public static boolean hasRandomTicks(net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        return hasRandomTicks(state.toMinecraft());
+    }
+
+    public static void randomTick(net.pitan76.mcpitanlib.midohra.block.BlockState state, ServerWorld world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        randomTick(state.toMinecraft(), world, pos.toMinecraft());
+    }
+
+    public static void randomTick(net.pitan76.mcpitanlib.midohra.block.BlockState state, net.pitan76.mcpitanlib.midohra.world.ServerWorld world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        randomTick(state.toMinecraft(), world.getRaw(), pos.toMinecraft());
+    }
 }
