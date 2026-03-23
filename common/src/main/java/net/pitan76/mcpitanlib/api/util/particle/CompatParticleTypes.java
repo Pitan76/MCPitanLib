@@ -39,7 +39,7 @@ public class CompatParticleTypes {
     public static final CompatParticleType INFESTED = new CompatParticleType(ParticleTypes.INFESTED);
     public static final CompatParticleType CHERRY_LEAVES = new CompatParticleType(ParticleTypes.CHERRY_LEAVES);
     public static final CompatParticleType PALE_OAK_LEAVES = new CompatParticleType(ParticleTypes.PALE_OAK_LEAVES);
-    public static final CompatParticleType TINTED_LEAVES = new CompatParticleType(ParticleTypes.TINTED_LEAVES);
+    public static final CompatParticleType TINTED_LEAVES = new CompatParticleType(ParticleTypes.PALE_OAK_LEAVES);
     public static final CompatParticleType SCULK_SOUL = new CompatParticleType(ParticleTypes.SCULK_SOUL);
     public static final CompatParticleType SCULK_CHARGE = new CompatParticleType(ParticleTypes.SCULK_CHARGE);
     public static final CompatParticleType SCULK_CHARGE_POP = new CompatParticleType(ParticleTypes.SCULK_CHARGE_POP);
@@ -117,5 +117,5 @@ public class CompatParticleTypes {
     public static final CompatParticleType RAID_OMEN = new CompatParticleType(ParticleTypes.RAID_OMEN);
     public static final CompatParticleType TRIAL_OMEN = new CompatParticleType(ParticleTypes.TRIAL_OMEN);
     public static final CompatParticleType BLOCK_CRUMBLE = new CompatParticleType(ParticleTypes.BLOCK_CRUMBLE);
-    public static final CompatParticleType FIREFLY = new CompatParticleType(ParticleTypes.FIREFLY);
+    public static final CompatParticleType FIREFLY = new CompatParticleType(ParticleTypes.NOTE);
 }
