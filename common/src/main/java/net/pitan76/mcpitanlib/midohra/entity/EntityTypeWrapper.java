@@ -53,4 +53,17 @@ public class EntityTypeWrapper {
     public boolean rawEquals(EntityTypeWrapper other) {
         return entityType == other.entityType;
     }
+
+    @Override
+    public int hashCode() {
+        return get() != null ? get().hashCode() : 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        EntityTypeWrapper other = (EntityTypeWrapper) obj;
+        return rawEquals(other);
+    }
 }
