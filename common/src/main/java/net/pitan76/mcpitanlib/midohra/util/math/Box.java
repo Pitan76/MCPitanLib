@@ -125,4 +125,20 @@ public class Box {
         Box other = (Box) obj;
         return box.equals(other.box);
     }
+
+    public BlockPos getMinPos() {
+        return BlockPos.of((int) box.minX, (int) box.minY, (int) box.minZ);
+    }
+
+    public BlockPos getMaxPos() {
+        return BlockPos.of((int) box.maxX, (int) box.maxY, (int) box.maxZ);
+    }
+
+    public Vector3i getMinVector() {
+        return new Vector3i((int) box.minX, (int) box.minY, (int) box.minZ);
+    }
+
+    public Vector3i getMaxVector() {
+        return new Vector3i((int) box.maxX, (int) box.maxY, (int) box.maxZ);
+    }
 }
