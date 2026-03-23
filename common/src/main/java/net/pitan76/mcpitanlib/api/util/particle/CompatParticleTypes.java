@@ -37,7 +37,7 @@ public class CompatParticleTypes {
     public static final CompatParticleType FISHING = new CompatParticleType(ParticleTypes.FISHING);
     public static final CompatParticleType FLAME = new CompatParticleType(ParticleTypes.FLAME);
     public static final CompatParticleType INFESTED = new CompatParticleType(ParticleTypes.EFFECT);
-    public static final CompatParticleType CHERRY_LEAVES = new CompatParticleType(ParticleTypes.CHERRY_LEAVES);
+    public static final CompatParticleType CHERRY_LEAVES = new CompatParticleType(ParticleTypes.BLOCK);
     public static final CompatParticleType PALE_OAK_LEAVES = new CompatParticleType(ParticleTypes.BLOCK);
     public static final CompatParticleType TINTED_LEAVES = new CompatParticleType(ParticleTypes.BLOCK);
     public static final CompatParticleType SCULK_SOUL = new CompatParticleType(ParticleTypes.SCULK_SOUL);
@@ -107,7 +107,7 @@ public class CompatParticleTypes {
     public static final CompatParticleType ELECTRIC_SPARK = new CompatParticleType(ParticleTypes.ELECTRIC_SPARK);
     public static final CompatParticleType SCRAPE = new CompatParticleType(ParticleTypes.SCRAPE);
     public static final CompatParticleType SHRIEK = new CompatParticleType(ParticleTypes.SHRIEK);
-    public static final CompatParticleType EGG_CRACK = new CompatParticleType(ParticleTypes.EGG_CRACK);
+    public static final CompatParticleType EGG_CRACK = new CompatParticleType(ParticleTypes.EFFECT);
     public static final CompatParticleType DUST_PLUME = new CompatParticleType(ParticleTypes.EFFECT);
     public static final CompatParticleType TRIAL_SPAWNER_DETECTION = new CompatParticleType(ParticleTypes.EFFECT);
     public static final CompatParticleType TRIAL_SPAWNER_DETECTION_OMINOUS = new CompatParticleType(ParticleTypes.EFFECT);

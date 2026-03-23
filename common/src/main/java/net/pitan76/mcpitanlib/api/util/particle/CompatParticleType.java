@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.particle;
 
 import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 public class CompatParticleType {
@@ -25,7 +25,7 @@ public class CompatParticleType {
     }
 
     public Identifier getId() {
-        return Registries.PARTICLE_TYPE.getId(particleType);
+        return Registry.PARTICLE_TYPE.getId(particleType);
     }
 
     public CompatIdentifier getCompatId() {
