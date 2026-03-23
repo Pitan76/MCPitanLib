@@ -109,4 +109,8 @@ public class PosUtil {
     public static BlockPos toImmutable(BlockPos pos) {
         return pos.toImmutable();
     }
+
+    public static long asLong(BlockPos pos) {
+        return pos.asLong();
+    }
 }

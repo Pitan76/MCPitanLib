@@ -180,4 +180,36 @@ public class Vector3d {
     public Vec3d toMinecraft() {
         return new Vec3d(x, y, z);
     }
+
+    public Vector3d mul(Vector3d other) {
+        return new Vector3d(this.x * other.x, this.y * other.y, this.z * other.z);
+    }
+
+    public Vector3d mul(double x, double y, double z) {
+        return new Vector3d(this.x * x, this.y * y, this.z * z);
+    }
+
+    public Vector3d div(Vector3d other) {
+        return new Vector3d(this.x / other.x, this.y / other.y, this.z / other.z);
+    }
+
+    public Vector3d div(double x, double y, double z) {
+        return new Vector3d(this.x / x, this.y / y, this.z / z);
+    }
+
+    public Vector3d mod(Vector3d other) {
+        return new Vector3d(this.x % other.x, this.y % other.y, this.z % other.z);
+    }
+
+    public Vector3d mod(double x, double y, double z) {
+        return new Vector3d(this.x % x, this.y % y, this.z % z);
+    }
+
+    public Vector3d floor() {
+        return new Vector3d(Math.floor(x), Math.floor(y), Math.floor(z));
+    }
+
+    public long asLong() {
+        return ((long) x & 0xFFFFFFFFL) << 32 | ((long) y & 0xFFFFFFFFL) << 16 | ((long) z & 0xFFFFFFFFL);
+    }
 }
