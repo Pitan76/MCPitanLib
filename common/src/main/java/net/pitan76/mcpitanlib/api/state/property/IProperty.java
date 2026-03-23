@@ -30,4 +30,20 @@ public interface IProperty<T extends Comparable<T>> {
     }
 
     Property<T> getProperty();
+
+    default net.pitan76.mcpitanlib.midohra.block.BlockState with(net.pitan76.mcpitanlib.midohra.block.BlockState state, T value) {
+        return state.with(getProperty(), value);
+    }
+
+    default T get(net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        return state.get(getProperty());
+    }
+
+    default boolean contains(net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        return state.contains(getProperty());
+    }
+
+    default net.pitan76.mcpitanlib.midohra.block.BlockState cycle(net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        return state.cycle(getProperty());
+    }
 }
