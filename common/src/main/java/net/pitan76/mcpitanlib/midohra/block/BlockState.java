@@ -5,6 +5,8 @@ import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
+import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+import net.pitan76.mcpitanlib.midohra.world.World;
 
 public class BlockState {
     private final net.minecraft.block.BlockState state;
@@ -124,5 +126,9 @@ public class BlockState {
 
     public boolean hasRandomTicks() {
         return BlockStateUtil.hasRandomTicks(toMinecraft());
+    }
+
+    public boolean canPlaceAt(BlockPos pos, World world) {
+        return BlockStateUtil.canPlaceAt(this, pos, world);
     }
 }
