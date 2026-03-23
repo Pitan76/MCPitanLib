@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
+import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
 public class CompatEntity extends Entity {
     public CompatEntity(EntityType<?> type, World world) {
@@ -92,4 +93,20 @@ public class CompatEntity extends Entity {
     public ServerWorld getServerWorld() {
         return (ServerWorld) super.world;
     }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(callGetWorld());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraBlockPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(callGetBlockPos());
+    }
+
+     public Vector3d getMidohraPos() {
+        return Vector3d.of(callGetPos());
+     }
+
+     public net.pitan76.mcpitanlib.midohra.world.ServerWorld getMidohraServerWorld() {
+         return net.pitan76.mcpitanlib.midohra.world.ServerWorld.of(getServerWorld());
+     }
 }
