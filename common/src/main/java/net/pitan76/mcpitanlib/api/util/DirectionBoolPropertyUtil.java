@@ -55,4 +55,14 @@ public class DirectionBoolPropertyUtil {
         args.addProperty(CompatProperties.UP, CompatProperties.DOWN, CompatProperties.NORTH,
                 CompatProperties.EAST, CompatProperties.SOUTH, CompatProperties.WEST);
     }
+
+    public static BlockState withAll(BlockState state, boolean value) {
+        return state
+                .with(CompatProperties.UP, value)
+                .with(CompatProperties.DOWN, value)
+                .with(CompatProperties.NORTH, value)
+                .with(CompatProperties.EAST, value)
+                .with(CompatProperties.SOUTH, value)
+                .with(CompatProperties.WEST, value);
+    }
 }
