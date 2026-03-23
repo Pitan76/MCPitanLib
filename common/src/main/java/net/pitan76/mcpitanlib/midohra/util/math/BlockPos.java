@@ -134,4 +134,8 @@ public class BlockPos {
             }
         };
     }
+
+    public long asLong() {
+        return blockPos.asLong();
+    }
 }
