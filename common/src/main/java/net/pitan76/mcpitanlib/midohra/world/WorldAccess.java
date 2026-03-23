@@ -3,21 +3,28 @@ package net.pitan76.mcpitanlib.midohra.world;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.api.util.world.WorldAccessUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.server.MCServer;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+import net.pitan76.mcpitanlib.midohra.util.math.Box;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class WorldAccess extends WorldView {
     private final net.minecraft.world.WorldAccess world;
@@ -125,5 +132,29 @@ public class WorldAccess extends WorldView {
 
     public MCServer getMCServer() {
         return MCServer.of(getServer());
+    }
+
+    public boolean isChunkLoaded(BlockPos pos) {
+        return WorldAccessUtil.isChunkLoaded(getRaw(), pos.toMinecraft());
+    }
+
+    public <T extends Entity> List<T> getEntitiesByClass(Class<T> entityClass, Box box, Predicate<? super T> predicate) {
+        return WorldAccessUtil.getEntitiesByClass(getRaw(), entityClass, box, predicate);
+    }
+
+    public <T extends Entity> List<T> getEntitiesByType(EntityType<T> entityType, Box box, Predicate<? super Entity> predicate) {
+        return WorldAccessUtil.getEntitiesByType(getRaw(), entityType, box, predicate);
+    }
+
+    public List<?> getEntitiesByType(EntityTypeWrapper entityType, Box box, Predicate<? super Entity> predicate) {
+        return WorldAccessUtil.getEntitiesByType(getRaw(), entityType.get(), box, predicate);
+    }
+
+    public <T extends Entity> List<T> getEntitiesByClass(Class<T> entityClass, Box box) {
+        return getEntitiesByClass(entityClass, box, EntityPredicates.VALID_ENTITY);
+    }
+
+    public <T extends Entity> List<T> getEntitiesByType(EntityType<T> entityType, Box box) {
+        return getEntitiesByType(entityType, box, EntityPredicates.VALID_ENTITY);
     }
 }
