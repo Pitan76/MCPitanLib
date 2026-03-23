@@ -71,4 +71,17 @@ public class WorldView implements IWorldView, RedstoneView {
     public net.minecraft.world.WorldView getRedstoneView() {
         return getRaw();
     }
+
+    @Override
+    public int hashCode() {
+        return getRaw() != null ? getRaw().hashCode() : 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        WorldView other = (WorldView) obj;
+        return getRaw() != null ? getRaw().equals(other.getRaw()) : other.getRaw() == null;
+    }
 }

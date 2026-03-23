@@ -4,6 +4,8 @@ import net.minecraft.client.render.Camera;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
+import java.util.Objects;
+
 public class CameraWrapper {
     private final Camera camera;
 
@@ -55,10 +57,16 @@ public class CameraWrapper {
         return camera.getPitch();
     }
 
+    @Override
+    public int hashCode() {
+        return camera != null ? camera.hashCode() : 0;
+    }
 
-
-
-
-
-
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CameraWrapper other = (CameraWrapper) obj;
+        return Objects.equals(camera, other.camera);
+    }
 }
