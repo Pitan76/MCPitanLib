@@ -105,4 +105,8 @@ public class PosUtil {
     public static BlockPos offset(BlockPos pos, net.pitan76.mcpitanlib.midohra.util.math.Direction direction, int n) {
         return pos.offset(direction.toMinecraft(), n);
     }
+
+    public static BlockPos toImmutable(BlockPos pos) {
+        return pos.toImmutable();
+    }
 }
