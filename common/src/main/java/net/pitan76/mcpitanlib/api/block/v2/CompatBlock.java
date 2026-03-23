@@ -167,7 +167,7 @@ public class CompatBlock extends ExtendBlock {
 
     @Deprecated
     @Override
-    protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         return canPlaceAt(new CanPlaceAtArgs(state, world, pos));
     }
 
