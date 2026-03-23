@@ -52,7 +52,7 @@ public class CompatParticleTypes {
     public static final CompatParticleType INSTANT_EFFECT = new CompatParticleType(ParticleTypes.INSTANT_EFFECT);
     public static final CompatParticleType ITEM = new CompatParticleType(ParticleTypes.ITEM);
     public static final CompatParticleType VIBRATION = new CompatParticleType(ParticleTypes.VIBRATION);
-    public static final CompatParticleType TRAIL = new CompatParticleType(ParticleTypes.TRAIL);
+    public static final CompatParticleType TRAIL = new CompatParticleType(ParticleTypes.EFFECT);
     public static final CompatParticleType ITEM_SLIME = new CompatParticleType(ParticleTypes.ITEM_SLIME);
     public static final CompatParticleType ITEM_COBWEB = new CompatParticleType(ParticleTypes.ITEM_COBWEB);
     public static final CompatParticleType ITEM_SNOWBALL = new CompatParticleType(ParticleTypes.ITEM_SNOWBALL);
@@ -116,6 +116,6 @@ public class CompatParticleTypes {
     public static final CompatParticleType OMINOUS_SPAWNING = new CompatParticleType(ParticleTypes.OMINOUS_SPAWNING);
     public static final CompatParticleType RAID_OMEN = new CompatParticleType(ParticleTypes.RAID_OMEN);
     public static final CompatParticleType TRIAL_OMEN = new CompatParticleType(ParticleTypes.TRIAL_OMEN);
-    public static final CompatParticleType BLOCK_CRUMBLE = new CompatParticleType(ParticleTypes.BLOCK_CRUMBLE);
+    public static final CompatParticleType BLOCK_CRUMBLE = new CompatParticleType(ParticleTypes.BLOCK);
     public static final CompatParticleType FIREFLY = new CompatParticleType(ParticleTypes.NOTE);
 }
