@@ -90,4 +90,17 @@ public class BlockWrapper {
     public boolean rawEquals(BlockWrapper block) {
         return get() == block.get();
     }
+
+    @Override
+    public int hashCode() {
+        return get() != null ? get().hashCode() : 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        BlockWrapper other = (BlockWrapper) obj;
+        return rawEquals(other);
+    }
 }

@@ -12,4 +12,8 @@ public class FluidStateArgs {
     public BlockState getState() {
         return state;
     }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(state);
+    }
 }
