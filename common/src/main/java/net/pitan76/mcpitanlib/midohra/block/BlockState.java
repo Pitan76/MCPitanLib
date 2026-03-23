@@ -6,6 +6,7 @@ import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 import net.pitan76.mcpitanlib.midohra.world.World;
 
 public class BlockState {
@@ -130,5 +131,29 @@ public class BlockState {
 
     public boolean canPlaceAt(BlockPos pos, World world) {
         return BlockStateUtil.canPlaceAt(this, pos, world);
+    }
+
+    public int getLuminance() {
+        return BlockStateUtil.getLuminance(this);
+    }
+
+    public int getOpacity() {
+        return BlockStateUtil.getOpacity(this);
+    }
+
+    public int getComparatorOutput(World world, BlockPos pos) {
+        return BlockStateUtil.getComparatorOutput(this, world, pos);
+    }
+
+    public float getHardness(World world, BlockPos pos) {
+        return BlockStateUtil.getHardness(this.toMinecraft(), world.getRaw(), pos.toRaw());
+    }
+
+    public boolean randomTick(ServerWorld world, BlockPos pos) {
+        if (!hasRandomTicks())
+            return false;
+
+        BlockStateUtil.randomTick(this.toMinecraft(), world.getRaw(), pos.toRaw());
+        return true;
     }
 }
