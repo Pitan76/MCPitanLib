@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.midohra.util.math;
 
-import net.minecraft.util.math.Vec3d;
-
 public class Vector3f {
     public final float x;
     public final float y;
@@ -178,5 +176,37 @@ public class Vector3f {
 
     public org.joml.Vector3f toMinecraft() {
         return new org.joml.Vector3f(x, y, z);
+    }
+
+    public Vector3f mul(Vector3f other) {
+        return new Vector3f(this.x * other.x, this.y * other.y, this.z * other.z);
+    }
+
+    public Vector3f mul(float x, float y, float z) {
+        return new Vector3f(this.x * x, this.y * y, this.z * z);
+    }
+
+    public Vector3f div(Vector3f other) {
+        return new Vector3f(this.x / other.x, this.y / other.y, this.z / other.z);
+    }
+
+    public Vector3f div(float x, float y, float z) {
+        return new Vector3f(this.x / x, this.y / y, this.z / z);
+    }
+
+    public Vector3f mod(Vector3f other) {
+        return new Vector3f(this.x % other.x, this.y % other.y, this.z % other.z);
+    }
+
+    public Vector3f mod(float x, float y, float z) {
+        return new Vector3f(this.x % x, this.y % y, this.z % z);
+    }
+
+    public Vector3f floor() {
+        return new Vector3f((float) Math.floor(x), (float) Math.floor(y), (float) Math.floor(z));
+    }
+
+    public long asLong() {
+        return ((long) x & 0xFFFFFFFFL) << 32 | ((long) y & 0xFFFFFFFFL) << 16 | ((long) z & 0xFFFFFFFFL);
     }
 }
