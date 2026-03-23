@@ -146,4 +146,12 @@ public class BlockStateUtil {
     public static int getComparatorOutput(net.pitan76.mcpitanlib.midohra.block.BlockState state, net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
         return getComparatorOutput(state.toMinecraft(), world.getRaw(), pos.toMinecraft());
     }
+
+    public static boolean canPlaceAt(BlockState state, BlockPos pos, World world) {
+        return state.canPlaceAt(world, pos);
+    }
+
+    public static boolean canPlaceAt(net.pitan76.mcpitanlib.midohra.block.BlockState state, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, net.pitan76.mcpitanlib.midohra.world.World world) {
+        return canPlaceAt(state.toMinecraft(), pos.toMinecraft(), world.getRaw());
+    }
 }
