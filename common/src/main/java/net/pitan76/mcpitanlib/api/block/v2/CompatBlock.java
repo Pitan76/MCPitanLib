@@ -166,4 +166,14 @@ public class CompatBlock extends ExtendBlock {
     public int getComparatorOutput(GetComparatorOutputArgs args) {
         return super.getComparatorOutput(args.state, args.world, args.pos, args.direction);
     }
+
+    @Deprecated
+    @Override
+    protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        return canPlaceAt(new CanPlaceAtArgs(state, world, pos));
+    }
+
+    public boolean canPlaceAt(CanPlaceAtArgs args) {
+        return super.canPlaceAt(args.state, args.world, args.pos);
+    }
 }
