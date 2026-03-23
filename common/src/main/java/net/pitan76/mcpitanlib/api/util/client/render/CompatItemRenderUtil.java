@@ -1,8 +1,7 @@
 package net.pitan76.mcpitanlib.api.util.client.render;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.ItemModelManager;
-import net.minecraft.client.render.item.ItemRenderState;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.client.render.block.entity.event.BlockEntityRenderEvent;
@@ -22,15 +21,7 @@ public class CompatItemRenderUtil {
      * Renders an ItemStack
      */
     public static void renderItem(ItemStack stack, CompatItemDisplayContext displayContext, BlockEntityRenderEvent<?> e, World world) {
-        ItemModelManager manager = e.ctx != null ? e.ctx.getItemModelManager() : MinecraftClient.getInstance().getItemModelManager();
-
-        ItemRenderState state = new ItemRenderState();
-        manager.update(state, stack, displayContext.getContext(), world, null, 0);
-
-        int light = e.getLight();
-        if (light == 0) light = 0xF000F0; // full-bright fallback if not populated by MCPitanLib
-        int overlay = e.getOverlay();
-
-        state.render(e.matrices, e.vertexConsumers, light, overlay);
+        ItemRenderer renderer = e.getItemRenderer() != null ? e.getItemRenderer() : MinecraftClient.getInstance().getItemRenderer();
+        renderer.renderItem(stack, displayContext.getContext(), e.getLight(), e.getOverlay(), e.matrices, e.vertexConsumers, world, 0);
     }
 }
