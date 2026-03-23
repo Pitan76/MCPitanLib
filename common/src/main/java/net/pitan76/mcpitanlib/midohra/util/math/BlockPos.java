@@ -104,33 +104,18 @@ public class BlockPos {
         return blockPos.equals(pos.blockPos);
     }
 
-    public static Iterator<BlockPos> iterate(BlockPos start, BlockPos end) {
-        return new Iterator<BlockPos>() {
-            private final net.minecraft.util.math.BlockPos startRaw = start.toMinecraft();
-            private final net.minecraft.util.math.BlockPos endRaw = end.toMinecraft();
-            private int x = startRaw.getX();
-            private int y = startRaw.getY();
-            private int z = startRaw.getZ();
+    public static Iterable<BlockPos> iterate(BlockPos start, BlockPos end) {
+        return () -> new Iterator<>() {
+            private final Iterator<net.minecraft.util.math.BlockPos> rawIterator = net.minecraft.util.math.BlockPos.iterate(start.toRaw(), end.toRaw()).iterator();
 
             @Override
             public boolean hasNext() {
-                return x <= endRaw.getX() && y <= endRaw.getY() && z <= endRaw.getZ();
+                return rawIterator.hasNext();
             }
 
             @Override
             public BlockPos next() {
-                BlockPos current = new BlockPos(new net.minecraft.util.math.BlockPos(x, y, z));
-                if (x < endRaw.getX()) {
-                    x++;
-                } else if (y < endRaw.getY()) {
-                    x = startRaw.getX();
-                    y++;
-                } else if (z < endRaw.getZ()) {
-                    x = startRaw.getX();
-                    y = startRaw.getY();
-                    z++;
-                }
-                return current;
+                return new BlockPos(rawIterator.next());
             }
         };
     }
