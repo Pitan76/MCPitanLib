@@ -4,14 +4,21 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.dimension.DimensionType;
+import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class WorldViewUtil {
 
@@ -73,5 +80,25 @@ public class WorldViewUtil {
 
     public static boolean isWater(WorldView world, BlockPos pos) {
         return getFluidState(world, pos).isIn(FluidTags.WATER);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByClass(WorldAccess world, Class<T> entityClass, Box box, Predicate<? super T> predicate) {
+        return world.getEntitiesByClass(entityClass, box, predicate);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByClass(WorldAccess world, Class<T> entityClass, net.pitan76.mcpitanlib.midohra.util.math.Box box, Predicate<? super T> predicate) {
+        return getEntitiesByClass(world, entityClass, box.toMinecraft(), predicate);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByType(WorldAccess world, EntityType<T> entityType, Box box, Predicate<? super Entity> predicate) {
+        return world.getEntitiesByType(entityType, box, predicate);
+    }
+
+    public static <T extends Entity> List<T> getEntitiesByType(WorldAccess world, EntityType<T> entityType, net.pitan76.mcpitanlib.midohra.util.math.Box box, Predicate<? super Entity> predicate) {
+        return getEntitiesByType(world, entityType, box.toMinecraft(), predicate);
+    }
+
+    public static List<?> getEntitiesByType(WorldAccess world, EntityTypeWrapper entityType, Box box, Predicate<? super Entity> predicate) {
+        return getEntitiesByType(world, entityType.get(), box, predicate);
     }
 }
