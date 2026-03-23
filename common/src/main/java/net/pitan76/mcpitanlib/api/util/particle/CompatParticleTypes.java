@@ -27,10 +27,10 @@ public class CompatParticleTypes {
     public static final CompatParticleType ENTITY_EFFECT = new CompatParticleType(ParticleTypes.ENTITY_EFFECT);
     public static final CompatParticleType EXPLOSION_EMITTER = new CompatParticleType(ParticleTypes.EXPLOSION_EMITTER);
     public static final CompatParticleType EXPLOSION = new CompatParticleType(ParticleTypes.EXPLOSION);
-    public static final CompatParticleType GUST = new CompatParticleType(ParticleTypes.GUST);
-    public static final CompatParticleType SMALL_GUST = new CompatParticleType(ParticleTypes.GUST);
-    public static final CompatParticleType GUST_EMITTER_LARGE = new CompatParticleType(ParticleTypes.GUST_EMITTER);
-    public static final CompatParticleType GUST_EMITTER_SMALL = new CompatParticleType(ParticleTypes.GUST_EMITTER);
+    public static final CompatParticleType GUST = new CompatParticleType(ParticleTypes.EFFECT);
+    public static final CompatParticleType SMALL_GUST = new CompatParticleType(ParticleTypes.EFFECT);
+    public static final CompatParticleType GUST_EMITTER_LARGE = new CompatParticleType(ParticleTypes.EFFECT);
+    public static final CompatParticleType GUST_EMITTER_SMALL = new CompatParticleType(ParticleTypes.EFFECT);
     public static final CompatParticleType SONIC_BOOM = new CompatParticleType(ParticleTypes.SONIC_BOOM);
     public static final CompatParticleType FALLING_DUST = new CompatParticleType(ParticleTypes.FALLING_DUST);
     public static final CompatParticleType FIREWORK = new CompatParticleType(ParticleTypes.FIREWORK);
@@ -64,7 +64,7 @@ public class CompatParticleTypes {
     public static final CompatParticleType PORTAL = new CompatParticleType(ParticleTypes.PORTAL);
     public static final CompatParticleType RAIN = new CompatParticleType(ParticleTypes.RAIN);
     public static final CompatParticleType SMOKE = new CompatParticleType(ParticleTypes.SMOKE);
-    public static final CompatParticleType WHITE_SMOKE = new CompatParticleType(ParticleTypes.WHITE_SMOKE);
+    public static final CompatParticleType WHITE_SMOKE = new CompatParticleType(ParticleTypes.EFFECT);
     public static final CompatParticleType SNEEZE = new CompatParticleType(ParticleTypes.SNEEZE);
     public static final CompatParticleType SPIT = new CompatParticleType(ParticleTypes.SPIT);
     public static final CompatParticleType SQUID_INK = new CompatParticleType(ParticleTypes.SQUID_INK);
@@ -108,9 +108,9 @@ public class CompatParticleTypes {
     public static final CompatParticleType SCRAPE = new CompatParticleType(ParticleTypes.SCRAPE);
     public static final CompatParticleType SHRIEK = new CompatParticleType(ParticleTypes.SHRIEK);
     public static final CompatParticleType EGG_CRACK = new CompatParticleType(ParticleTypes.EGG_CRACK);
-    public static final CompatParticleType DUST_PLUME = new CompatParticleType(ParticleTypes.DUST_PLUME);
-    public static final CompatParticleType TRIAL_SPAWNER_DETECTION = new CompatParticleType(ParticleTypes.TRIAL_SPAWNER_DETECTION);
-    public static final CompatParticleType TRIAL_SPAWNER_DETECTION_OMINOUS = new CompatParticleType(ParticleTypes.TRIAL_SPAWNER_DETECTION);
+    public static final CompatParticleType DUST_PLUME = new CompatParticleType(ParticleTypes.EFFECT);
+    public static final CompatParticleType TRIAL_SPAWNER_DETECTION = new CompatParticleType(ParticleTypes.EFFECT);
+    public static final CompatParticleType TRIAL_SPAWNER_DETECTION_OMINOUS = new CompatParticleType(ParticleTypes.EFFECT);
     public static final CompatParticleType VAULT_CONNECTION = new CompatParticleType(ParticleTypes.EFFECT);
     public static final CompatParticleType DUST_PILLAR = new CompatParticleType(ParticleTypes.EFFECT);
     public static final CompatParticleType OMINOUS_SPAWNING = new CompatParticleType(ParticleTypes.EFFECT);
