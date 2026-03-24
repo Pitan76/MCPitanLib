@@ -18,6 +18,7 @@ import net.pitan76.mcpitanlib.api.util.world.WorldAccessUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 import net.pitan76.mcpitanlib.midohra.server.MCServer;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.util.math.Box;
@@ -160,5 +161,31 @@ public class WorldAccess extends WorldView {
 
     public boolean breakBlock(BlockPos pos, boolean drop, Player player) {
         return breakBlock(pos, drop, player.getEntity());
+    }
+
+    public List<EntityWrapper> getEntitiesByTypeM(EntityTypeWrapper entityType, Box box, Predicate<? super EntityWrapper> predicate) {
+        return getEntitiesByType(entityType.get(), box, (e) -> predicate.test(EntityWrapper.of(e)))
+                .stream().map(EntityWrapper::of).toList();
+    }
+
+    public List<EntityWrapper> getEntitiesByTypeM(EntityTypeWrapper entityType, Box box) {
+        return getEntitiesByType(entityType.get(), box).stream().map(EntityWrapper::of).toList();
+    }
+
+    public List<EntityWrapper> getEntitiesByClassM(Class<?> entityClass, Box box, Predicate<? super EntityWrapper> predicate) {
+        return getEntitiesByClass((Class<? extends Entity>) entityClass, box, (e) -> predicate.test(EntityWrapper.of(e)))
+                .stream().map(EntityWrapper::of).toList();
+    }
+
+    public List<EntityWrapper> getEntitiesByClassM(Class<?> entityClass, Box box) {
+        return getEntitiesByClass((Class<? extends Entity>) entityClass, box).stream().map(EntityWrapper::of).toList();
+    }
+
+    public void spawnEntity(Entity entity) {
+        getRaw().spawnEntity(entity);
+    }
+
+    public void spawnEntity(EntityWrapper entity) {
+        spawnEntity(entity.get());
     }
 }

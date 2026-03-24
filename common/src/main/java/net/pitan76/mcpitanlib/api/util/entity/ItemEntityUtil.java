@@ -115,5 +115,4 @@ public class ItemEntityUtil {
     public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.item.ItemStack stack, net.pitan76.mcpitanlib.midohra.util.math.Vector3i pos) {
         return createWithSpawn(world, stack, pos.toCenter());
     }
-
 }
