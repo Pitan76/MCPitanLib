@@ -8,6 +8,8 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
+import net.pitan76.mcpitanlib.midohra.util.math.Vector3i;
 
 import java.util.List;
 
@@ -65,4 +67,53 @@ public class ItemEntityUtil {
     public static ItemEntity createWithSpawn(World world, ItemStack stack, BlockPos pos) {
         return createWithSpawn(world, stack, pos.getX(), pos.getY(), pos.getZ());
     }
+
+    public static ItemEntity createWithSpawn(World world, ItemStack stack, Vector3d pos) {
+        return createWithSpawn(world, stack, pos.x, pos.y, pos.z);
+    }
+
+    public static ItemEntity createWithSpawn(World world, ItemStack stack, Vector3i pos) {
+        return createWithSpawn(world, stack, pos.toCenter());
+    }
+
+    public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, ItemStack stack, double x, double y, double z) {
+        return createWithSpawn(world.getRaw(), stack, x, y, z);
+    }
+
+    public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, ItemStack stack, BlockPos pos) {
+        return createWithSpawn(world, stack, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, ItemStack stack, Vector3i pos) {
+        return createWithSpawn(world, stack, pos.toCenter());
+    }
+
+    public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, ItemStack stack, net.pitan76.mcpitanlib.midohra.util.math.Vector3d pos) {
+        return createWithSpawn(world.getRaw(), stack, pos.x, pos.y, pos.z);
+    }
+
+    public static ItemEntity createWithSpawnAtCenter(net.pitan76.mcpitanlib.midohra.world.World world, ItemStack stack, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        return createWithSpawn(world, stack, pos.toCenterVector3d());
+    }
+
+    public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.item.ItemStack stack, double x, double y, double z) {
+        return createWithSpawn(world.getRaw(), stack.toMinecraft(), x, y, z);
+    }
+
+    public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.item.ItemStack stack, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        return createWithSpawn(world.getRaw(), stack.toMinecraft(), pos.toRaw());
+    }
+
+    public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.item.ItemStack stack, net.pitan76.mcpitanlib.midohra.util.math.Vector3d pos) {
+        return createWithSpawn(world.getRaw(), stack.toMinecraft(), pos.x, pos.y, pos.z);
+    }
+
+    public static ItemEntity createWithSpawnAtCenter(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.item.ItemStack stack, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        return createWithSpawn(world, stack, pos.toCenterVector3d());
+    }
+
+    public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.item.ItemStack stack, net.pitan76.mcpitanlib.midohra.util.math.Vector3i pos) {
+        return createWithSpawn(world, stack, pos.toCenter());
+    }
+
 }

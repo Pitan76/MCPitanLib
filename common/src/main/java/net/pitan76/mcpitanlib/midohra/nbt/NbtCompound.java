@@ -4,6 +4,7 @@ import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -142,5 +143,13 @@ public class NbtCompound implements ElementConvertible {
     @Override
     public NbtElement toElement() {
         return NbtElement.of(nbt);
+    }
+
+    public void putSimpleItemStack(String key, ItemStack stack) {
+        NbtUtil.putSimpleItemStack(nbt, key, stack.toMinecraft());
+    }
+
+    public Optional<ItemStack> getSimpleItemStack(String key) {
+        return NbtUtil.getSimpleItemStack(nbt, key).map(ItemStack::of);
     }
 }
