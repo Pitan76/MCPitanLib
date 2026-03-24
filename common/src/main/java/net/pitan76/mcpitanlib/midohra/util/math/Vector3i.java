@@ -216,4 +216,8 @@ public class Vector3i {
     public net.pitan76.mcpitanlib.midohra.util.math.BlockPos toPos() {
         return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(x, y, z);
     }
+
+    public Vector3d toCenter() {
+        return new Vector3d(x + 0.5, y + 0.5, z + 0.5);
+    }
 }

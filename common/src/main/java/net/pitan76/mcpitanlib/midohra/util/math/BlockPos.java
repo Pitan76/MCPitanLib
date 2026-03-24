@@ -123,4 +123,16 @@ public class BlockPos {
     public long asLong() {
         return blockPos.asLong();
     }
+
+    public Vector3i toVector3i() {
+        return new Vector3i(getX(), getY(), getZ());
+    }
+
+    public Vector3d toVector3d() {
+        return new Vector3d(getX(), getY(), getZ());
+    }
+
+    public Vector3d toCenterVector3d() {
+        return new Vector3d(getX() + 0.5, getY() + 0.5, getZ() + 0.5);
+    }
 }
