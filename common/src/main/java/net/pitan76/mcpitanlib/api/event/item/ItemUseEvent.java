@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -10,6 +11,7 @@ import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 
 public class ItemUseEvent extends BaseEvent {
@@ -106,5 +108,17 @@ public class ItemUseEvent extends BaseEvent {
 
     public IWorldView getWorldView() {
         return getMidohraWorld();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStack());
+    }
+
+    public Item getItem() {
+        return stack.getItem();
+    }
+
+    public ItemWrapper getItemWrapper() {
+        return ItemWrapper.of(getItem());
     }
 }
