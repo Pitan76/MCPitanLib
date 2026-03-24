@@ -96,7 +96,7 @@ public class Blocks {
     public static BlockWrapper DETECTOR_RAIL = of(net.minecraft.block.Blocks.DETECTOR_RAIL);
     public static BlockWrapper STICKY_PISTON = of(net.minecraft.block.Blocks.STICKY_PISTON);
     public static BlockWrapper COBWEB = of(net.minecraft.block.Blocks.COBWEB);
-    public static BlockWrapper GRASS = of(net.minecraft.block.Blocks.SHORT_GRASS);
+    public static BlockWrapper GRASS = of(net.minecraft.block.Blocks.GRASS);
     public static BlockWrapper FERN = of(net.minecraft.block.Blocks.FERN);
     public static BlockWrapper DEAD_BUSH = of(net.minecraft.block.Blocks.DEAD_BUSH);
     public static BlockWrapper SEAGRASS = of(net.minecraft.block.Blocks.SEAGRASS);
