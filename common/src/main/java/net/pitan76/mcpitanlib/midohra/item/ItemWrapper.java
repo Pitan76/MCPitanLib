@@ -1,10 +1,14 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
+import net.pitan76.mcpitanlib.midohra.easybuilder.built.BuiltItem;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class ItemWrapper {
     private final net.minecraft.item.Item item;
@@ -107,5 +111,51 @@ public class ItemWrapper {
 
     public boolean rawEquals(ItemWrapper item) {
         return get() == item.get();
+    }
+
+    @Override
+    public int hashCode() {
+        return get() != null ? get().hashCode() : 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ItemWrapper item = (ItemWrapper) obj;
+        return rawEquals(item);
+    }
+
+    public static ItemWrapper of(BlockWrapper block) {
+        if (block.isEmpty())
+            return of();
+
+        return of(block.asItem().get());
+    }
+
+    public static ItemWrapper of(String id) {
+        return of(CompatIdentifier.of(id));
+    }
+
+    public static ItemWrapper of(String namespace, String path) {
+        return of(CompatIdentifier.of(namespace, path));
+    }
+    
+    public static ItemWrapper of(CompatItem item) {
+        return of((net.minecraft.item.Item) item);
+    }
+
+    public Optional<CompatItem> toCompatItem() {
+        if (get() instanceof CompatItem) {
+            return Optional.of((CompatItem) get());
+        }
+        return Optional.empty();
+    }
+
+    public Optional<BuiltItem> toBuiltItem() {
+        if (get() instanceof BuiltItem) {
+            return Optional.of((BuiltItem) get());
+        }
+        return Optional.empty();
     }
 }
