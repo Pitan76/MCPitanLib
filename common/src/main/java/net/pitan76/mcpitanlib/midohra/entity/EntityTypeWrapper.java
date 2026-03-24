@@ -1,12 +1,14 @@
 package net.pitan76.mcpitanlib.midohra.entity;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NbtCompound;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.EntityTypeUtil;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -75,7 +77,7 @@ public class EntityTypeWrapper {
 
     public EntityWrapper createEntity(ServerWorld world, SpawnReason spawnReason) {
         if (isEmpty()) return EntityWrapper.of();
-        return EntityWrapper.of(get().create(world.getRaw(), spawnReason.getRaw()));
+        return EntityWrapper.of(get().create(world.getRaw()));
     }
 
     public EntityWrapper createEntity(ServerWorld world) {
@@ -90,6 +92,12 @@ public class EntityTypeWrapper {
             afterConsumer.accept(wrapper);
         } : null;
 
-        return EntityWrapper.of(get().create(world.getRaw(), consumer, pos.toMinecraft(), reason.getRaw(), alignPosition, invertY));
+        EntityWrapper entityWrapper = EntityWrapper.of(get().create(world.getRaw(), null, null, null, pos.toRaw(), reason.getRaw(), alignPosition, invertY));
+
+        if (consumer != null) {
+            consumer.accept(entityWrapper.get());
+        }
+
+        return entityWrapper;
     }
 }

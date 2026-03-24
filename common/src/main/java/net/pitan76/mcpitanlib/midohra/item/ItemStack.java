@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ItemStack {
     private final net.minecraft.item.ItemStack stack;
@@ -213,10 +214,10 @@ public class ItemStack {
     }
 
     public void setLoreM(List<TextComponent> lore) {
-        LoreUtil.setLore(stack, lore.stream().map(TextComponent::getText).toList());
+        LoreUtil.setLore(stack, lore.stream().map(TextComponent::getText).collect(Collectors.toList()));
     }
 
     public List<TextComponent> getLoreM() {
-        return getLore().stream().map(TextComponent::new).toList();
+        return getLore().stream().map(TextComponent::new).collect(Collectors.toList());
     }
 }

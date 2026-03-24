@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.BlockRotation;
@@ -317,15 +316,27 @@ public class EntityUtil {
     }
 
     public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
-        entity.teleport(world, x, y, z, PositionFlag.VALUES, yaw, pitch, resetCamera);
+        Entity newEntity = entity.getType().create(world);
+        discard(entity);
+
+        world.spawnEntity(newEntity);
+        entity.teleport(x, y, z);
+        entity.yaw = yaw;
+        entity.pitch = pitch;
     }
 
     public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch) {
-        teleport(entity, world, x, y, z, yaw, pitch, true);
+        Entity newEntity = entity.getType().create(world);
+        discard(entity);
+
+        world.spawnEntity(newEntity);
+        entity.teleport(x, y, z);
+        entity.yaw = yaw;
+        entity.pitch = pitch;
     }
 
     public static void teleport(Entity entity, ServerWorld world, double x, double y, double z) {
-        teleport(entity, world, x, y, z, entity.getYaw(), entity.getPitch(), true);
+        teleport(entity, world, x, y, z, getYaw(entity), getPitch(entity), true);
     }
 
     public static void teleport(Entity entity, ServerWorld world, Vector3d pos) {
@@ -337,10 +348,7 @@ public class EntityUtil {
     }
 
     public static void teleport(Entity entity, double x, double y, double z) {
-        if (entity.getEntityWorld() instanceof ServerWorld)
-            return;
-
-        teleport(entity, (ServerWorld) entity.getEntityWorld(), x, y, z, entity.getYaw(), entity.getPitch());
+        entity.teleport(x, y, z);
     }
 
     public static void teleport(Entity entity, Vector3d pos) {

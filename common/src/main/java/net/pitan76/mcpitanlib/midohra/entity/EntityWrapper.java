@@ -113,7 +113,7 @@ public class EntityWrapper {
     }
 
     public boolean isRemoved() {
-        return get().isRemoved();
+        return get().removed;
     }
 
     public void discard() {

@@ -26,6 +26,7 @@ import net.pitan76.mcpitanlib.midohra.util.math.Box;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class WorldAccess extends WorldView {
     private final net.minecraft.world.WorldAccess world;
@@ -165,20 +166,20 @@ public class WorldAccess extends WorldView {
 
     public List<EntityWrapper> getEntitiesByTypeM(EntityTypeWrapper entityType, Box box, Predicate<? super EntityWrapper> predicate) {
         return getEntitiesByType(entityType.get(), box, (e) -> predicate.test(EntityWrapper.of(e)))
-                .stream().map(EntityWrapper::of).toList();
+                .stream().map(EntityWrapper::of).collect(Collectors.toList());
     }
 
     public List<EntityWrapper> getEntitiesByTypeM(EntityTypeWrapper entityType, Box box) {
-        return getEntitiesByType(entityType.get(), box).stream().map(EntityWrapper::of).toList();
+        return getEntitiesByType(entityType.get(), box).stream().map(EntityWrapper::of).collect(Collectors.toList());
     }
 
     public List<EntityWrapper> getEntitiesByClassM(Class<?> entityClass, Box box, Predicate<? super EntityWrapper> predicate) {
         return getEntitiesByClass((Class<? extends Entity>) entityClass, box, (e) -> predicate.test(EntityWrapper.of(e)))
-                .stream().map(EntityWrapper::of).toList();
+                .stream().map(EntityWrapper::of).collect(Collectors.toList());
     }
 
     public List<EntityWrapper> getEntitiesByClassM(Class<?> entityClass, Box box) {
-        return getEntitiesByClass((Class<? extends Entity>) entityClass, box).stream().map(EntityWrapper::of).toList();
+        return getEntitiesByClass((Class<? extends Entity>) entityClass, box).stream().map(EntityWrapper::of).collect(Collectors.toList());
     }
 
     public void spawnEntity(Entity entity) {
