@@ -340,7 +340,7 @@ public class EntityUtil {
     }
 
     public static void teleport(Entity entity, double x, double y, double z) {
-        if (entity.getEntityWorld() instanceof ServerWorld)
+        if (!(entity.getEntityWorld() instanceof ServerWorld))
             return;
 
         teleport(entity, (ServerWorld) entity.getEntityWorld(), x, y, z, entity.getYaw(), entity.getPitch());
