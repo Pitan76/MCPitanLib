@@ -7,6 +7,7 @@ import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -173,5 +174,49 @@ public class ItemStack {
     @Override
     public String toString() {
         return stack.toString();
+    }
+
+    public void increment(int amount) {
+        ItemStackUtil.incrementCount(stack, amount);
+    }
+
+    public void decrement(int amount) {
+        ItemStackUtil.decrementCount(stack, amount);
+    }
+
+    public void increment() {
+        increment(1);
+    }
+
+    public void decrement() {
+        decrement(1);
+    }
+
+    public boolean is(ItemWrapper item) {
+        return getRawItem() == item.get();
+    }
+
+    public boolean is(CompatIdentifier id) {
+        return getItemId().equals(id);
+    }
+
+    public boolean isBlockItem() {
+        return getItem().isBlock();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.nbt.NbtCompound getCustomNbtM() {
+        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(getCustomNbt());
+    }
+
+    public void setCustomNbt(net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt) {
+        setCustomNbt(nbt.toMinecraft());
+    }
+
+    public void setLoreM(List<TextComponent> lore) {
+        LoreUtil.setLore(stack, lore.stream().map(TextComponent::getText).toList());
+    }
+
+    public List<TextComponent> getLoreM() {
+        return getLore().stream().map(TextComponent::new).toList();
     }
 }
