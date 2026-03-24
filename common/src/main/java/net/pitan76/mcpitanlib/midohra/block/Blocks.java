@@ -243,7 +243,7 @@ public class Blocks {
     public static BlockWrapper RED_MUSHROOM_BLOCK = of(net.minecraft.block.Blocks.RED_MUSHROOM_BLOCK);
     public static BlockWrapper MUSHROOM_STEM = of(net.minecraft.block.Blocks.MUSHROOM_STEM);
     public static BlockWrapper IRON_BARS = of(net.minecraft.block.Blocks.IRON_BARS);
-    public static BlockWrapper CHAIN = of(net.minecraft.block.Blocks.IRON_CHAIN);
+    public static BlockWrapper CHAIN = of(net.minecraft.block.Blocks.CHAIN);
     public static BlockWrapper GLASS_PANE = of(net.minecraft.block.Blocks.GLASS_PANE);
     public static BlockWrapper MELON = of(net.minecraft.block.Blocks.MELON);
     public static BlockWrapper ATTACHED_PUMPKIN_STEM = of(net.minecraft.block.Blocks.ATTACHED_PUMPKIN_STEM);
