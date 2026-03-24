@@ -105,7 +105,7 @@ public class BlockPos {
     }
 
     public static Iterable<BlockPos> iterate(BlockPos start, BlockPos end) {
-        return () -> new Iterator<>() {
+        return () -> new Iterator<BlockPos>() {
             private final Iterator<net.minecraft.util.math.BlockPos> rawIterator = net.minecraft.util.math.BlockPos.iterate(start.toRaw(), end.toRaw()).iterator();
 
             @Override

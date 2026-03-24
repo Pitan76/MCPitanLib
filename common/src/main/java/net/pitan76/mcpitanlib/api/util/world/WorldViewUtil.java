@@ -11,6 +11,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.dimension.DimensionType;
@@ -91,7 +92,12 @@ public class WorldViewUtil {
     }
 
     public static <T extends Entity> List<T> getEntitiesByType(WorldAccess world, EntityType<T> entityType, Box box, Predicate<? super Entity> predicate) {
-        return world.getEntitiesByType(entityType, box, predicate);
+        if (world instanceof World) {
+            return ((World) world).getEntitiesByType(entityType, box, predicate);
+        }
+
+        // EntityType<T> のTを
+        return (List<T>) world.getEntitiesByClass(Entity.class, box, predicate.and(entity -> ((Entity) entity).getType() == entityType));
     }
 
     public static <T extends Entity> List<T> getEntitiesByType(WorldAccess world, EntityType<T> entityType, net.pitan76.mcpitanlib.midohra.util.math.Box box, Predicate<? super Entity> predicate) {
