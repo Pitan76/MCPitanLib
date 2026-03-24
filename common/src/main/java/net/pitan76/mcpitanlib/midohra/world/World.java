@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.world;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -154,5 +155,13 @@ public class World extends WorldAccess {
 
     public CompatRegistryLookup getRegistryLookup() {
         return RegistryLookupUtil.getRegistryLookup(getRaw());
+    }
+
+    public boolean isAir(BlockPos pos) {
+        return WorldUtil.isAir(getRaw(), pos.toMinecraft());
+    }
+
+    public Block getBlock(BlockPos pos) {
+        return WorldUtil.getBlock(getRaw(), pos.toMinecraft());
     }
 }

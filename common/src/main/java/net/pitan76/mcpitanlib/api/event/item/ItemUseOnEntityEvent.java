@@ -2,11 +2,13 @@ package net.pitan76.mcpitanlib.api.event.item;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
 public class ItemUseOnEntityEvent extends BaseEvent {
 
@@ -63,5 +65,21 @@ public class ItemUseOnEntityEvent extends BaseEvent {
 
     public CompatActionResult consume() {
         return CompatActionResult.CONSUME;
+    }
+
+    public boolean isSneaking() {
+        return user.isSneaking();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(stack);
+    }
+
+    public Item getItem() {
+        return stack.getItem();
+    }
+
+    public ItemWrapper getItemWrapper() {
+        return ItemWrapper.of(getItem());
     }
 }

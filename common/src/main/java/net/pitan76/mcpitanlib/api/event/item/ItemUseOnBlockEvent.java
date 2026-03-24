@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.event.item;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.Hand;
@@ -17,6 +18,7 @@ import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 import org.jetbrains.annotations.Nullable;
 
@@ -136,5 +138,21 @@ public class ItemUseOnBlockEvent extends BaseEvent {
 
     public BlockEntityWrapper getBlockEntityWrapper() {
         return BlockEntityWrapper.of(getBlockEntity());
+    }
+
+    public boolean isSneaking() {
+        return player.isSneaking();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(stack);
+    }
+
+    public Item getItem() {
+        return stack.getItem();
+    }
+
+    public ItemWrapper getItemWrapper() {
+        return ItemWrapper.of(getItem());
     }
 }
