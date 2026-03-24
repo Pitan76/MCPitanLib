@@ -10,6 +10,7 @@ import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.RegistryLookupUtil;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -91,5 +92,9 @@ public class ItemAppendTooltipEvent extends BaseEvent {
 
     public void addTooltip(TextComponent textComponent) {
         addTooltip(textComponent.getText());
+    }
+
+    public void addTooltip(String text) {
+        addTooltip(TextUtil.literal(text));
     }
 }

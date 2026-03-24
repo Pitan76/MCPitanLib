@@ -57,4 +57,8 @@ public class NbtRWArgs {
     public NbtRWArgs copy() {
         return new NbtRWArgs(nbt.copy(), registryLookup);
     }
+
+    public net.pitan76.mcpitanlib.midohra.nbt.NbtCompound getNbtM() {
+        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(nbt);
+    }
 }
