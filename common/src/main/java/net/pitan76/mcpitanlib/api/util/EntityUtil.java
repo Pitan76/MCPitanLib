@@ -316,13 +316,7 @@ public class EntityUtil {
     }
 
     public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
-        Entity newEntity = entity.getType().create(world);
-        discard(entity);
-
-        world.spawnEntity(newEntity);
-        entity.teleport(x, y, z);
-        entity.yaw = yaw;
-        entity.pitch = pitch;
+        teleport(entity, world, x, y, z, yaw, pitch);
     }
 
     public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch) {
@@ -331,8 +325,8 @@ public class EntityUtil {
 
         world.spawnEntity(newEntity);
         entity.teleport(x, y, z);
-        entity.yaw = yaw;
-        entity.pitch = pitch;
+        setYaw(entity, yaw);
+        setPitch(entity, pitch);
     }
 
     public static void teleport(Entity entity, ServerWorld world, double x, double y, double z) {

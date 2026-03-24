@@ -90,7 +90,7 @@ public class Items {
     public static ItemWrapper DETECTOR_RAIL = of(net.minecraft.item.Items.DETECTOR_RAIL);
     public static ItemWrapper STICKY_PISTON = of(net.minecraft.item.Items.STICKY_PISTON);
     public static ItemWrapper COBWEB = of(net.minecraft.item.Items.COBWEB);
-    public static ItemWrapper GRASS = of(net.minecraft.item.Items.SHORT_GRASS);
+    public static ItemWrapper GRASS = of(net.minecraft.item.Items.GRASS);
     public static ItemWrapper FERN = of(net.minecraft.item.Items.FERN);
     public static ItemWrapper DEAD_BUSH = of(net.minecraft.item.Items.DEAD_BUSH);
     public static ItemWrapper SEAGRASS = of(net.minecraft.item.Items.SEAGRASS);
@@ -249,7 +249,7 @@ public class Items {
     public static ItemWrapper RED_MUSHROOM_BLOCK = of(net.minecraft.item.Items.RED_MUSHROOM_BLOCK);
     public static ItemWrapper MUSHROOM_STEM = of(net.minecraft.item.Items.MUSHROOM_STEM);
     public static ItemWrapper IRON_BARS = of(net.minecraft.item.Items.IRON_BARS);
-    public static ItemWrapper CHAIN = of(net.minecraft.item.Items.IRON_CHAIN);
+    public static ItemWrapper CHAIN = of(net.minecraft.item.Items.CHAIN);
     public static ItemWrapper GLASS_PANE = of(net.minecraft.item.Items.GLASS_PANE);
     public static ItemWrapper MELON = of(net.minecraft.item.Items.MELON);
     public static ItemWrapper VINE = of(net.minecraft.item.Items.VINE);
@@ -373,7 +373,7 @@ public class Items {
     public static ItemWrapper ACACIA_STAIRS = of(net.minecraft.item.Items.ACACIA_STAIRS);
     public static ItemWrapper DARK_OAK_STAIRS = of(net.minecraft.item.Items.DARK_OAK_STAIRS);
     public static ItemWrapper SLIME_BLOCK = of(net.minecraft.item.Items.SLIME_BLOCK);
-    public static ItemWrapper GRASS_PATH = of(net.minecraft.item.Items.DIRT_PATH);
+    public static ItemWrapper GRASS_PATH = of(net.minecraft.item.Items.GRASS_PATH);
     public static ItemWrapper SUNFLOWER = of(net.minecraft.item.Items.SUNFLOWER);
     public static ItemWrapper LILAC = of(net.minecraft.item.Items.LILAC);
     public static ItemWrapper ROSE_BUSH = of(net.minecraft.item.Items.ROSE_BUSH);
@@ -572,7 +572,7 @@ public class Items {
     public static ItemWrapper STRUCTURE_BLOCK = of(net.minecraft.item.Items.STRUCTURE_BLOCK);
     public static ItemWrapper JIGSAW = of(net.minecraft.item.Items.JIGSAW);
     public static ItemWrapper TURTLE_HELMET = of(net.minecraft.item.Items.TURTLE_HELMET);
-    public static ItemWrapper SCUTE = of(net.minecraft.item.Items.TURTLE_SCUTE);
+    public static ItemWrapper SCUTE = of(net.minecraft.item.Items.SCUTE);
     public static ItemWrapper FLINT_AND_STEEL = of(net.minecraft.item.Items.FLINT_AND_STEEL);
     public static ItemWrapper APPLE = of(net.minecraft.item.Items.APPLE);
     public static ItemWrapper BOW = of(net.minecraft.item.Items.BOW);

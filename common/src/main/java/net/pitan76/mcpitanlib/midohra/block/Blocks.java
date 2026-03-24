@@ -96,7 +96,7 @@ public class Blocks {
     public static BlockWrapper DETECTOR_RAIL = of(net.minecraft.block.Blocks.DETECTOR_RAIL);
     public static BlockWrapper STICKY_PISTON = of(net.minecraft.block.Blocks.STICKY_PISTON);
     public static BlockWrapper COBWEB = of(net.minecraft.block.Blocks.COBWEB);
-    public static BlockWrapper GRASS = of(net.minecraft.block.Blocks.SHORT_GRASS);
+    public static BlockWrapper GRASS = of(net.minecraft.block.Blocks.GRASS);
     public static BlockWrapper FERN = of(net.minecraft.block.Blocks.FERN);
     public static BlockWrapper DEAD_BUSH = of(net.minecraft.block.Blocks.DEAD_BUSH);
     public static BlockWrapper SEAGRASS = of(net.minecraft.block.Blocks.SEAGRASS);
@@ -243,7 +243,7 @@ public class Blocks {
     public static BlockWrapper RED_MUSHROOM_BLOCK = of(net.minecraft.block.Blocks.RED_MUSHROOM_BLOCK);
     public static BlockWrapper MUSHROOM_STEM = of(net.minecraft.block.Blocks.MUSHROOM_STEM);
     public static BlockWrapper IRON_BARS = of(net.minecraft.block.Blocks.IRON_BARS);
-    public static BlockWrapper CHAIN = of(net.minecraft.block.Blocks.IRON_CHAIN);
+    public static BlockWrapper CHAIN = of(net.minecraft.block.Blocks.CHAIN);
     public static BlockWrapper GLASS_PANE = of(net.minecraft.block.Blocks.GLASS_PANE);
     public static BlockWrapper MELON = of(net.minecraft.block.Blocks.MELON);
     public static BlockWrapper ATTACHED_PUMPKIN_STEM = of(net.minecraft.block.Blocks.ATTACHED_PUMPKIN_STEM);
@@ -499,7 +499,7 @@ public class Blocks {
     public static BlockWrapper PURPUR_STAIRS = of(net.minecraft.block.Blocks.PURPUR_STAIRS);
     public static BlockWrapper END_STONE_BRICKS = of(net.minecraft.block.Blocks.END_STONE_BRICKS);
     public static BlockWrapper BEETROOTS = of(net.minecraft.block.Blocks.BEETROOTS);
-    public static BlockWrapper GRASS_PATH = of(net.minecraft.block.Blocks.DIRT_PATH);
+    public static BlockWrapper GRASS_PATH = of(net.minecraft.block.Blocks.GRASS_PATH);
     public static BlockWrapper END_GATEWAY = of(net.minecraft.block.Blocks.END_GATEWAY);
     public static BlockWrapper REPEATING_COMMAND_BLOCK = of(net.minecraft.block.Blocks.REPEATING_COMMAND_BLOCK);
     public static BlockWrapper CHAIN_COMMAND_BLOCK = of(net.minecraft.block.Blocks.CHAIN_COMMAND_BLOCK);
