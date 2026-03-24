@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.BlockRotation;
@@ -306,4 +307,58 @@ public class EntityUtil {
         addVelocity(entity, velocity.toMinecraft());
     }
 
+    public static void setVelocity(Entity entity, Vector3d velocity) {
+        entity.setVelocity(velocity.toMinecraft());
+    }
+
+    public static void setPos(Entity entity, BlockPos pos) {
+        setPos(entity, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+     public static void setPos(Entity entity, Vector3d pos) {
+        setPos(entity, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
+        entity.teleport(world, x, y, z, PositionFlag.VALUES, yaw, pitch, resetCamera);
+    }
+
+    public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch) {
+        teleport(entity, world, x, y, z, yaw, pitch, true);
+    }
+
+    public static void teleport(Entity entity, ServerWorld world, double x, double y, double z) {
+        teleport(entity, world, x, y, z, entity.getYaw(), entity.getPitch(), true);
+    }
+
+    public static void teleport(Entity entity, ServerWorld world, Vector3d pos) {
+        teleport(entity, world, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static void teleport(Entity entity, ServerWorld world, BlockPos pos) {
+        teleport(entity, world, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static void teleport(Entity entity, double x, double y, double z) {
+        if (entity.getEntityWorld() instanceof ServerWorld)
+            return;
+
+        teleport(entity, (ServerWorld) entity.getEntityWorld(), x, y, z, entity.getYaw(), entity.getPitch());
+    }
+
+    public static void teleport(Entity entity, Vector3d pos) {
+        teleport(entity, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static void teleport(Entity entity, BlockPos pos) {
+        teleport(entity, pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public static void teleport(Entity entity, ServerWorld world, Vector3d pos, float yaw, float pitch, boolean resetCamera) {
+        teleport(entity, world, pos.getX(), pos.getY(), pos.getZ(), yaw, pitch, resetCamera);
+    }
+
+    public static void teleport(Entity entity, ServerWorld raw, BlockPos pos, float yaw, float pitch, boolean resetCamera) {
+        teleport(entity, raw, pos.getX(), pos.getY(), pos.getZ(), yaw, pitch, resetCamera);
+    }
 }
