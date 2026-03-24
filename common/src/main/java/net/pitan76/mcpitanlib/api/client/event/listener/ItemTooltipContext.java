@@ -4,6 +4,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.List;
 
@@ -54,5 +56,13 @@ public class ItemTooltipContext {
 
     public boolean isCreative() {
         return type.isCreative();
+    }
+
+    public void addTooltip(TextComponent textComponent) {
+        addTooltip(textComponent.getText());
+    }
+
+    public void addTooltip(String text) {
+        addTooltip(TextUtil.literal(text));
     }
 }
