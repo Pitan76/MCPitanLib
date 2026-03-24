@@ -249,7 +249,7 @@ public class Items {
     public static ItemWrapper RED_MUSHROOM_BLOCK = of(net.minecraft.item.Items.RED_MUSHROOM_BLOCK);
     public static ItemWrapper MUSHROOM_STEM = of(net.minecraft.item.Items.MUSHROOM_STEM);
     public static ItemWrapper IRON_BARS = of(net.minecraft.item.Items.IRON_BARS);
-    public static ItemWrapper CHAIN = of(net.minecraft.item.Items.IRON_CHAIN);
+    public static ItemWrapper CHAIN = of(net.minecraft.item.Items.CHAIN);
     public static ItemWrapper GLASS_PANE = of(net.minecraft.item.Items.GLASS_PANE);
     public static ItemWrapper MELON = of(net.minecraft.item.Items.MELON);
     public static ItemWrapper VINE = of(net.minecraft.item.Items.VINE);
