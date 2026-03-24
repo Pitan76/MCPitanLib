@@ -317,7 +317,7 @@ public class EntityUtil {
     }
 
     public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
-        entity.teleport(world, x, y, z, PositionFlag.VALUES, yaw, pitch, resetCamera);
+        entity.teleport(world, x, y, z, PositionFlag.VALUES, yaw, pitch);
     }
 
     public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch) {
