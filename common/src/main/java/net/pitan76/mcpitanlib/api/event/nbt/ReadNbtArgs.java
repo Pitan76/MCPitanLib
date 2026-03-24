@@ -28,4 +28,12 @@ public class ReadNbtArgs extends NbtRWArgs {
     public NbtRWArgs copy() {
         return new ReadNbtArgs(nbt.copy(), registryLookup);
     }
+
+    public ReadNbtArgs(net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt, CompatRegistryLookup registryLookup) {
+        this(nbt.toMinecraft(), registryLookup);
+    }
+
+    public ReadNbtArgs(net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt) {
+        this(nbt.toMinecraft());
+    }
 }

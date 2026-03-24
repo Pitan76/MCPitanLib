@@ -157,4 +157,8 @@ public class WorldAccess extends WorldView {
     public <T extends Entity> List<T> getEntitiesByType(EntityType<T> entityType, Box box) {
         return getEntitiesByType(entityType, box, EntityPredicates.VALID_ENTITY);
     }
+
+    public boolean breakBlock(BlockPos pos, boolean drop, Player player) {
+        return breakBlock(pos, drop, player.getEntity());
+    }
 }
