@@ -3,6 +3,8 @@ package net.pitan76.mcpitanlib.api.client.event.listener;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.List;
 
@@ -44,5 +46,13 @@ public class ItemTooltipContext {
 
     public boolean isCreative() {
         return !tooltipContext.isAdvanced();
+    }
+
+    public void addTooltip(TextComponent textComponent) {
+        addTooltip(textComponent.getText());
+    }
+
+    public void addTooltip(String text) {
+        addTooltip(TextUtil.literal(text));
     }
 }

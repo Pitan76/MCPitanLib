@@ -22,4 +22,12 @@ public class WriteNbtArgs extends NbtRWArgs {
     public NbtRWArgs copy() {
         return new WriteNbtArgs(nbt.copy(), registryLookup);
     }
+
+    public WriteNbtArgs(net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt, CompatRegistryLookup registryLookup) {
+        this(nbt.toMinecraft(), registryLookup);
+    }
+
+    public WriteNbtArgs(net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt) {
+        this(nbt.toMinecraft());
+    }
 }
