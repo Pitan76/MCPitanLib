@@ -90,6 +90,11 @@ public class EntityTypeWrapper {
             afterConsumer.accept(wrapper);
         } : null;
 
-        return EntityWrapper.of(get().create(world.getRaw(), null, consumer, pos.toMinecraft(), reason.getRaw(), alignPosition, invertY));
+        EntityWrapper entityWrapper = EntityWrapper.of(get().create(world.getRaw(), null, null, null, pos.toMinecraft(), reason.getRaw(), alignPosition, invertY));
+        if (consumer != null) {
+            consumer.accept(entityWrapper.get());
+        }
+
+        return entityWrapper;
     }
 }
