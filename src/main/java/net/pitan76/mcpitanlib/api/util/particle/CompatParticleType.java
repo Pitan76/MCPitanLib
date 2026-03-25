@@ -1,0 +1,34 @@
+package net.pitan76.mcpitanlib.api.util.particle;
+
+import net.minecraft.particle.ParticleType;
+import net.minecraft.registry.Registries;
+import net.minecraft.resources.Identifier;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+
+public class CompatParticleType {
+    private final ParticleType<?> particleType;
+
+    public CompatParticleType(ParticleType<?> particleType) {
+        this.particleType = particleType;
+    }
+
+    public static CompatParticleType of(ParticleType<?> particleType) {
+        return new CompatParticleType(particleType);
+    }
+
+    public ParticleType<?> getRaw() {
+        return particleType;
+    }
+
+    public boolean shouldAlwaysSpawn() {
+        return particleType.shouldAlwaysSpawn();
+    }
+
+    public Identifier getId() {
+        return Registries.PARTICLE_TYPE.getId(particleType);
+    }
+
+    public CompatIdentifier getCompatId() {
+        return CompatIdentifier.fromMinecraft(getId());
+    }
+}

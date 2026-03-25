@@ -1,0 +1,193 @@
+package net.pitan76.mcpitanlib.api.util;
+
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.DataResult;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
+import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
+
+import java.util.Objects;
+import java.util.Optional;
+
+public class ItemStackUtil {
+    public static ItemStack copy(ItemStack stack) {
+        return stack.copy();
+    }
+
+    public static ItemStack copyWithCount(ItemStack stack, int count) {
+        return stack.copyWithCount(count);
+    }
+
+    public static boolean areItemsEqual(ItemStack left, ItemStack right) {
+        return ItemStack.areItemsEqual(left, right);
+    }
+
+    @Deprecated
+    public static boolean areNbtEqual(ItemStack left, ItemStack right) {
+        return areNbtOrComponentEqual(left, right);
+    }
+
+    /**
+     * NBT (1.20.4) か Component (1.20.5以降) が一致するかどうかを取得する。
+     * @param left ItemStack
+     * @param right ItemStack
+     * @return NBTかComponentが一致するかどうか
+     */
+    public static boolean areNbtOrComponentEqual(ItemStack left, ItemStack right) {
+        return Objects.equals(left.getComponents(), right.getComponents());
+    }
+
+    /**
+     * NBTかComponentが存在するかどうか
+     * @param stack ItemStack
+     * @return Whether NBT or Component exists
+     */
+    public static boolean hasNbtOrComponent(ItemStack stack) {
+        return !stack.getComponents().isEmpty();
+    }
+
+    /**
+     * NBTからItemStackを取得する
+     * @param world World
+     * @param nbt NbtCompound
+     * @return ItemStack
+     */
+    public static ItemStack fromNbt(World world, NbtCompound nbt) {
+        return fromNbt(new ReadNbtArgs(nbt));
+    }
+
+    /**
+     * NBTからItemStackを取得する
+     * @param args NbtRWArgs
+     * @return ItemStack
+     */
+    public static ItemStack fromNbt(NbtRWArgs args) {
+        DataResult<Pair<ItemStack, NbtElement>> result = ItemStack.CODEC.decode(NbtOps.INSTANCE, args.nbt);
+        if (result.error().isPresent()) return ItemStack.EMPTY;
+
+        Pair<ItemStack, NbtElement> pair = result.result().orElseThrow();
+        return pair.getFirst();
+    }
+
+    public static ItemStack getDefaultStack(Item item) {
+        return item.getDefaultStack();
+    }
+
+    public static int getMaxDamage(ItemStack stack) {
+        return stack.getMaxDamage();
+    }
+
+    public static int getMaxDamage(Item item) {
+        return getMaxDamage(getDefaultStack(item));
+    }
+
+    public static int getDamage(ItemStack stack) {
+        return stack.getDamage();
+    }
+
+    public static void setDamage(ItemStack stack, int damage) {
+        stack.setDamage(damage);
+    }
+
+    public static int getCount(ItemStack stack) {
+        return stack.getCount();
+    }
+
+    public static void setCount(ItemStack stack, int count) {
+        stack.setCount(count);
+    }
+
+    public static void decrementCount(ItemStack stack, int count) {
+        stack.decrement(count);
+    }
+
+    public static void incrementCount(ItemStack stack, int count) {
+        stack.increment(count);
+    }
+
+    public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity, Runnable breakCallback) {
+        stack.damage(amount, entity.getEntityWorld(), entity, (item) -> breakCallback.run());
+    }
+
+    public static void damage(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
+        stack.damage(amount, entity, slot);
+    }
+
+    public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity) {
+        stack.damage(amount, entity.getEntityWorld(), entity, (item) -> entity.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
+    }
+
+    public static void damage(ItemStack stack, int amount, Player entity) {
+        Optional<ServerPlayerEntity> player = entity.getServerPlayer();
+        if (player.isEmpty()) return;
+
+        damage(stack, amount, player.get());
+    }
+
+    public static ItemStack empty() {
+        return ItemStack.EMPTY;
+    }
+
+    public static ItemStack create(Item item) {
+        if (item == null) return empty();
+        return new ItemStack(item);
+    }
+
+    public static ItemStack create(Item item, int count) {
+        if (item == null) return empty();
+        return new ItemStack(item, count);
+    }
+
+    public static ItemStack create(ItemConvertible item) {
+        if (item == null) return empty();
+        return new ItemStack(item);
+    }
+
+    public static ItemStack create(ItemConvertible item, int count) {
+        if (item == null) return empty();
+        return new ItemStack(item, count);
+    }
+
+    public static boolean isEmpty(ItemStack stack) {
+        if (stack == null) return true;
+        return stack.isEmpty();
+    }
+
+    public static boolean isEnchantable(ItemStack stack) {
+        return stack.isEnchantable();
+    }
+
+    public static boolean isDamageable(ItemStack stack) {
+        return stack.isDamageable();
+    }
+
+    public static boolean isBreak(ItemStack stack) {
+        if (isDamageable(stack))
+            return getDamage(stack) >= getMaxDamage(stack);
+
+        return false;
+    }
+
+    public static ItemWrapper getItemWrapper(ItemStack stack) {
+        return ItemWrapper.of(stack.getItem());
+    }
+
+    public static int getMaxCount(ItemStack stack) {
+        return stack.getMaxCount();
+    }
+
+    public static Item getItem(ItemStack stack) {
+        return stack.getItem();
+    }
+}

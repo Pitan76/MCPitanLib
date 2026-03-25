@@ -1,0 +1,198 @@
+package net.pitan76.mcpitanlib.api.tile;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
+import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
+import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
+import net.pitan76.mcpitanlib.api.util.NbtUtil;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
+import org.jetbrains.annotations.Nullable;
+
+public class CompatBlockEntity extends BlockEntity {
+    public CompatBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
+
+    public CompatBlockEntity(BlockEntityType<?> type, TileCreateEvent event) {
+        this(type, event.getBlockPos(), event.getBlockState());
+    }
+
+    @Nullable
+    @Override
+    @Deprecated
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        switch (getUpdatePacketType().name) {
+            case "BLOCK_ENTITY_UPDATE_S2C":
+                return BlockEntityUpdateS2CPacket.create(this);
+        }
+        return super.toUpdatePacket();
+    }
+
+    public UpdatePacketType getUpdatePacketType() {
+        return UpdatePacketType.NONE;
+    }
+
+    public void writeNbt(WriteNbtArgs args) {
+
+    }
+
+    public void readNbt(ReadNbtArgs args) {
+
+    }
+
+    public NbtCompound toInitialChunkDataNbt(CompatRegistryLookup registryLookup) {
+        return super.toInitialChunkDataNbt(registryLookup.getRegistryLookup());
+    }
+
+    @Deprecated
+    @Override
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
+        return toInitialChunkDataNbt(new CompatRegistryLookup(registries));
+    }
+
+    // deprecated
+
+    /**
+     * @deprecated Use {@link #writeNbt(WriteNbtArgs)} instead
+     */
+    @Deprecated
+    public void writeNbtOverride(NbtCompound nbt) {
+        //super.writeNbt(nbt, wrapperLookupCache);
+    }
+
+    /**
+     * @deprecated Use {@link #readNbt(ReadNbtArgs)} instead
+     */
+    @Deprecated
+    public void readNbtOverride(NbtCompound nbt) {
+        //super.readNbt(nbt, wrapperLookupCache);
+    }
+
+    @Deprecated
+    private RegistryWrapper.WrapperLookup wrapperLookupCache;
+
+    // ----
+
+
+    @Override
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        NbtCompound nbt = NbtUtil.create();
+        writeNbt(nbt, this.callGetWorld().getRegistryManager());
+        writeNbt(new WriteNbtArgs(nbt, view, new CompatRegistryLookup(this.callGetWorld().getRegistryManager())));
+        NbtDataConverter.nbt2writeData(nbt, view);
+    }
+
+    @Override
+    protected void readData(ReadView view) {
+        super.readData(view);
+        NbtCompound nbt = NbtDataConverter.data2nbt(view);
+        readNbt(nbt, view.getRegistries());
+        readNbt(new ReadNbtArgs(nbt, view, new CompatRegistryLookup(view.getRegistries())));
+    }
+
+    @Deprecated
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        // deprecated
+        wrapperLookupCache = registryLookup;
+        writeNbtOverride(nbt);
+        // ----
+    }
+
+    @Deprecated
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        // deprecated
+        wrapperLookupCache = registryLookup;
+        readNbtOverride(nbt);
+        // ----
+    }
+
+    public boolean isClient() {
+        if (getWorld() == null)
+            return false;
+
+        return WorldUtil.isClient(getWorld());
+    }
+
+    @Deprecated
+    @Override
+    public @Nullable World getWorld() {
+        return callGetWorld();
+    }
+
+    @Deprecated
+    @Override
+    public BlockPos getPos() {
+        return callGetPos();
+    }
+
+    public World callGetWorld() {
+        return super.getWorld();
+    }
+
+    public BlockPos callGetPos() {
+        return super.getPos();
+    }
+
+    public BlockState callGetBlockState() {
+        return BlockEntityUtil.getBlockState(this);
+    }
+
+    public BlockState callGetCachedState() {
+        return BlockEntityUtil.getCachedState(this);
+    }
+
+    public boolean hasServerWorld() {
+        return callGetWorld() instanceof ServerWorld;
+    }
+
+    public ServerWorld getServerWorld() {
+        return BlockEntityUtil.getServerWorld(this);
+    }
+
+    public void callMarkDirty() {
+        BlockEntityUtil.markDirty(this);
+    }
+
+    @Deprecated
+    @Override
+    public void markRemoved() {
+        markRemovedOverride();
+    }
+
+    public void markRemovedOverride() {
+        super.markRemoved();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(callGetWorld());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(callGetPos());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraBlockState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(callGetBlockState());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraCachedState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(callGetCachedState());
+    }
+}

@@ -1,0 +1,222 @@
+package net.pitan76.mcpitanlib.midohra.item;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
+import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
+import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
+import net.pitan76.mcpitanlib.api.util.*;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Map;
+
+public class ItemStack {
+    private final net.minecraft.item.ItemStack stack;
+    public static final ItemStack EMPTY = new ItemStack(ItemStackUtil.empty());
+
+    protected ItemStack(net.minecraft.item.ItemStack stack) {
+        this.stack = stack;
+    }
+
+    public static ItemStack of(net.minecraft.item.ItemStack stack) {
+        if (stack == null || stack.isEmpty())
+            return EMPTY;
+
+        return new ItemStack(stack);
+    }
+
+    public static ItemStack of(ItemConvertible item) {
+        return new Builder().item(item).build();
+    }
+
+    public static ItemStack of(ItemConvertible item, int count) {
+        return new Builder().item(item).count(count).build();
+    }
+
+    public static ItemStack empty() {
+        return EMPTY;
+    }
+
+    public int getCount() {
+        return stack.getCount();
+    }
+
+    public void setCount(int count) {
+        stack.setCount(count);
+    }
+
+    public NbtCompound getCustomNbt() {
+        return CustomDataUtil.getNbt(stack);
+    }
+
+    public void setCustomNbt(NbtCompound nbt) {
+        CustomDataUtil.setNbt(stack, nbt);
+    }
+
+    public void removeCustomNbt() {
+        CustomDataUtil.remove(stack);
+    }
+
+    public boolean hasCustomNbt() {
+        return CustomDataUtil.hasNbt(stack);
+    }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+
+    public CompatIdentifier getItemId() {
+        return ItemUtil.toCompatID(stack.getItem());
+    }
+
+    public ItemStack copy() {
+        return new ItemStack(stack.copy());
+    }
+
+    public ItemStack copyWithCount(int count) {
+        return new ItemStack(stack.copyWithCount(count));
+    }
+
+    public Map<CompatEnchantment, Integer> getEnchantments(@Nullable World world) {
+        return EnchantmentUtil.getEnchantment(stack, world);
+    }
+
+    public void setEnchantments(Map<CompatEnchantment, Integer> enchantments, @Nullable World world) {
+        EnchantmentUtil.setEnchantment(stack, enchantments, world);
+    }
+
+    public int getMaxCount() {
+        return ItemStackUtil.getMaxCount(stack);
+    }
+
+    public boolean hasLore() {
+        return LoreUtil.hasLore(stack);
+    }
+
+    public List<Text> getLore() {
+        return LoreUtil.getLore(stack);
+    }
+
+    public List<String> getLoreAsStringList() {
+        return LoreUtil.getLoreAsStringList(stack);
+    }
+
+    public void setLore(List<Text> lore) {
+        LoreUtil.setLore(stack, lore);
+    }
+
+    public void setLoreString(List<String> lore) {
+        LoreUtil.setLoreStringList(stack, lore);
+    }
+
+    public void setLore(String lore) {
+        LoreUtil.setLore(stack, lore);
+    }
+
+    @Deprecated
+    public net.minecraft.item.ItemStack toMinecraft() {
+        return stack;
+    }
+
+    public ItemWrapper getItem() {
+        if (isEmpty())
+            return ItemWrapper.of();
+
+        return ItemWrapper.of(getRawItem());
+    }
+
+    public Item getRawItem() {
+        return ItemStackUtil.getItem(stack);
+    }
+
+    public static class Builder {
+
+        protected CompatIdentifier id;
+        protected int count = 1;
+        protected NbtCompound nbt = NbtUtil.create();
+
+        public Builder() {
+
+        }
+
+        public Builder item(CompatIdentifier id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder item(ItemConvertible item) {
+            this.id = ItemUtil.toCompatID(item.asItem());
+            return this;
+        }
+
+        public Builder count(int count) {
+            this.count = count;
+            return this;
+        }
+
+        public Builder nbt(NbtCompound nbt) {
+            this.nbt = nbt;
+            return this;
+        }
+
+        public ItemStack build() {
+            net.minecraft.item.ItemStack stack = new net.minecraft.item.ItemStack(ItemUtil.fromId(id), count);
+            CustomDataUtil.setNbt(stack, nbt);
+
+            return new ItemStack(stack);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return stack.toString();
+    }
+
+    public void increment(int amount) {
+        ItemStackUtil.incrementCount(stack, amount);
+    }
+
+    public void decrement(int amount) {
+        ItemStackUtil.decrementCount(stack, amount);
+    }
+
+    public void increment() {
+        increment(1);
+    }
+
+    public void decrement() {
+        decrement(1);
+    }
+
+    public boolean is(ItemWrapper item) {
+        return getRawItem() == item.get();
+    }
+
+    public boolean is(CompatIdentifier id) {
+        return getItemId().equals(id);
+    }
+
+    public boolean isBlockItem() {
+        return getItem().isBlock();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.nbt.NbtCompound getCustomNbtM() {
+        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(getCustomNbt());
+    }
+
+    public void setCustomNbt(net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt) {
+        setCustomNbt(nbt.toMinecraft());
+    }
+
+    public void setLoreM(List<TextComponent> lore) {
+        LoreUtil.setLore(stack, lore.stream().map(TextComponent::getText).toList());
+    }
+
+    public List<TextComponent> getLoreM() {
+        return getLore().stream().map(TextComponent::new).toList();
+    }
+}

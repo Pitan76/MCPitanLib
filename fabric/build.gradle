@@ -1,0 +1,129 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+}
+
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modCompileOnly "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    // Remove the next line if you don't want to depend on the API
+    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowBundle(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+
+    shadowBundle 'org.yaml:snakeyaml:2.0'
+
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    include("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}")
+
+    modImplementation("net.pitan76:compatdatapacks76-fabric:${rootProject.compatdatapacks76_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    modImplementation("net.pitan76:legacyitemmodels-fabric:${rootProject.legacyitemmodels_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    include("net.pitan76:compatdatapacks76-fabric:${rootProject.compatdatapacks76_version}")
+    include("net.pitan76:legacyitemmodels-fabric:${rootProject.legacyitemmodels_version}")
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+
+    project.version = project.version + "-fabric"
+}
+
+shadowJar {
+    relocate "org.yaml.snakeyaml", "net.pitan76.mcpitanlib.shadow.yaml.snakeyaml"
+
+    exclude "architectury.common.json"
+
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier.set "dev-shadow"
+}
+
+remapJar {
+    injectAccessWidener = true
+    inputFile.set shadowJar.archiveFile
+    dependsOn shadowJar
+    archiveClassifier.set null
+}
+
+jar {
+    archiveClassifier.set "dev"
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+publishing {
+    publications {
+        mavenFabric(MavenPublication) {
+            artifactId = info.archives_base_name + "-" + project.name + "-" + rootProject.minecraft_version
+            version = info.mod_version
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/PTOM76/maven")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+tasks.runClient.doFirst {
+    def from = new File("../common/src/main/resources/mcpitanlib.accesswidener")
+    def to = new File("src/main/resources/mcpitanlib.accesswidener")
+    to.bytes = from.bytes
+}
+
+tasks.remapJar.doFirst {
+    if (file("src/main/resources/mcpitanlib.accesswidener").exists()) {
+        delete file("src/main/resources/mcpitanlib.accesswidener")
+    }
+}
