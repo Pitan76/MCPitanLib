@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.entity;
 
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 
 public class EquipmentSlotUtil {
@@ -24,12 +24,12 @@ public class EquipmentSlotUtil {
         if (slot == null)
             return 0;
 
-        return slot.getEntitySlotId();
+        return slot.getId();
     }
 
     public static EquipmentSlot fromEntitySlotId(int id) {
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getEntitySlotId() == id) {
+            if (slot.getId() == id) {
                 return slot;
             }
         }

@@ -1,9 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.platform.Platform;
-import dev.architectury.utils.Env;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -11,19 +9,19 @@ import java.util.Collection;
 
 public class PlatformUtil {
     public static boolean isDevelopmentEnvironment() {
-        return Platform.isDevelopmentEnvironment();
+        return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 
     public static boolean isFabric() {
-        return Platform.isFabric();
+        return true;
     }
 
     public static boolean isForge() {
-        return Platform.isMinecraftForge();
+        return false;
     }
 
     public static boolean isNeoForge() {
-        return Platform.isNeoForge();
+        return false;
     }
 
     public static boolean isClient() {
@@ -43,11 +41,11 @@ public class PlatformUtil {
     }
 
     public static Path getGameFolder() {
-        return Platform.getGameFolder();
+        return FabricLoader.getInstance().getGameDir();
     }
 
     public static Path getModsFolder() {
-        return Platform.getModsFolder();
+        return FabricLoader.getInstance().getGameDir().resolve("mods");
     }
 
     public static File getConfigFolderAsFile() {
@@ -63,14 +61,14 @@ public class PlatformUtil {
     }
 
     public static Collection<String> getModIds() {
-        return Platform.getModIds();
+        return FabricLoader.getInstance().getAllMods().stream().map(modContainer -> modContainer.getMetadata().getId()).toList();
     }
 
     public static EnvType getEnv() {
-        return Platform.getEnv();
+        return FabricLoader.getInstance().getEnvironmentType();
     }
 
     public static String getGameVersion() {
-        return Platform.getMinecraftVersion();
+        return FabricLoader.getInstance().getRawGameVersion();
     }
 }

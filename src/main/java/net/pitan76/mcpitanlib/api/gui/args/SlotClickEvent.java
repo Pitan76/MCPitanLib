@@ -1,16 +1,16 @@
 package net.pitan76.mcpitanlib.api.gui.args;
 
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatSlotActionType;
 
 public class SlotClickEvent {
     public int slot;
     public int button;
-    public ClickType actionType;
+    public ContainerInput actionType;
     public Player player;
 
-    public SlotClickEvent(int slot, int button, ClickType actionType, Player player) {
+    public SlotClickEvent(int slot, int button, ContainerInput actionType, Player player) {
         this.slot = slot;
         this.button = button;
         this.actionType = actionType;
@@ -25,7 +25,7 @@ public class SlotClickEvent {
         return button;
     }
 
-    public ClickType getRawActionType() {
+    public ContainerInput getRawActionType() {
         return actionType;
     }
 
@@ -46,22 +46,22 @@ public class SlotClickEvent {
     }
 
     public boolean isSwapAction() {
-        return actionType == ClickType.SWAP;
+        return actionType == ContainerInput.SWAP;
     }
 
     public boolean isPickupAction() {
-        return actionType == ClickType.PICKUP;
+        return actionType == ContainerInput.PICKUP;
     }
 
     public boolean isQuickCraftAction() {
-        return actionType == ClickType.QUICK_CRAFT;
+        return actionType == ContainerInput.QUICK_CRAFT;
     }
 
     public boolean isQuickMoveAction() {
-        return actionType == ClickType.QUICK_MOVE;
+        return actionType == ContainerInput.QUICK_MOVE;
     }
 
     public boolean isThrowAction() {
-        return actionType == ClickType.THROW;
+        return actionType == ContainerInput.THROW;
     }
 }

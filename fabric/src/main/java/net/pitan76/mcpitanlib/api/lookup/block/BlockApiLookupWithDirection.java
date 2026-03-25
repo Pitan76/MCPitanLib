@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.lookup.block;
 
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
@@ -14,9 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiFunction;
 
-public class BlockApiLookupWithDirection<A> extends BlockApiLookupWrapper<A, net.minecraft.util.math.Direction> {
+public class BlockApiLookupWithDirection<A> extends BlockApiLookupWrapper<A, net.minecraft.core.Direction> {
 
-    public BlockApiLookupWithDirection(BlockApiLookup<@NotNull A, net.minecraft.util.math.Direction> lookup) {
+    public BlockApiLookupWithDirection(BlockApiLookup<@NotNull A, net.minecraft.core.Direction> lookup) {
         super(lookup);
     }
 
@@ -25,7 +25,7 @@ public class BlockApiLookupWithDirection<A> extends BlockApiLookupWrapper<A, net
         return new BlockApiLookupWrapper<>(lookup);
     }
 
-    public static <A> BlockApiLookupWithDirection<A> ofDir(BlockApiLookup<@NotNull A, net.minecraft.util.math.Direction> lookup) {
+    public static <A> BlockApiLookupWithDirection<A> ofDir(BlockApiLookup<@NotNull A, net.minecraft.core.Direction> lookup) {
         return new BlockApiLookupWithDirection<>(lookup);
     }
 
@@ -46,7 +46,7 @@ public class BlockApiLookupWithDirection<A> extends BlockApiLookupWrapper<A, net
     }
 
     @Deprecated
-    public <T extends BlockEntity> void registerForBlockEntity(BiFunction<? super T, net.minecraft.util.math.Direction, @Nullable A> provider, BlockEntityType<T> blockEntityType) {
+    public <T extends BlockEntity> void registerForBlockEntity(BiFunction<? super T, net.minecraft.core.Direction, @Nullable A> provider, BlockEntityType<T> blockEntityType) {
         super.registerForBlockEntity(provider, blockEntityType);
     }
 

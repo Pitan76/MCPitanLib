@@ -8,6 +8,6 @@ import java.util.function.Supplier;
 
 public class EntityRendererRegistry {
     public static void registerEntityRendererAsFlyingItem(Supplier<EntityType<?>> entityType) {
-        CompatRegistryClient2.registerEntityRenderer(entityType, (ctx -> (EntityRenderer) new ThrownItemRenderer<>(ctx)));
+        CompatRegistryClient.registerEntityRenderer(entityType, (ctx -> (EntityRenderer) new ThrownItemRenderer<>(ctx)));
     }
 }

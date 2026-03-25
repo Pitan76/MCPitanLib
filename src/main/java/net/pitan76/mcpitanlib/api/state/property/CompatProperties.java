@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.state.property;
 
-import net.minecraft.block.enums.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.block.state.properties.ComparatorMode;

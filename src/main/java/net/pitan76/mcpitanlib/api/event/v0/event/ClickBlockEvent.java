@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.event.v0.event;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.core.BlockPos;
@@ -25,7 +24,7 @@ public class ClickBlockEvent {
         this.direction = direction;
     }
 
-    public ClickBlockEvent(Player player, InteractionHand hand, BlockPos pos, Direction direction) {
+    public ClickBlockEvent(net.minecraft.world.entity.player.Player player, InteractionHand hand, BlockPos pos, Direction direction) {
         this.player = new Player(player);
         this.hand = hand;
         this.pos = pos;

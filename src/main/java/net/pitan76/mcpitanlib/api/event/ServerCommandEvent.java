@@ -5,7 +5,6 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.context.StringRange;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
@@ -28,7 +27,7 @@ public class ServerCommandEvent extends CommandEvent<CommandSourceStack> {
         return getContext().getSource();
     }
 
-    public Player getPlayerEntity() throws CommandSyntaxException {
+    public net.minecraft.world.entity.player.Player getPlayerEntity() throws CommandSyntaxException {
         return getSource().getPlayer();
     }
 

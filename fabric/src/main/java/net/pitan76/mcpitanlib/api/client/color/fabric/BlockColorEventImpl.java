@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.color.fabric;
 
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.pitan76.mcpitanlib.api.tile.RenderAttachmentBlockEntity;
 
 public class BlockColorEventImpl {

@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
 import net.minecraft.core.Vec3i;
-import net.minecraft.util.math.*;
 import net.minecraft.world.phys.Vec3;
 
 public class PosUtil {

@@ -6,7 +6,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient2;
+import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
@@ -27,13 +27,13 @@ public class GuiRegistry {
     }
 
     @Environment(EnvType.CLIENT)
-    public static <T extends AbstractContainerMenu, U extends Screen & MenuAccess<T>> void register(String id, MenuType<T> type, CompatRegistryClient2.ScreenFactory<T, U> factory) {
-        CompatRegistryClient2.registerScreen(id, type, factory);
+    public static <T extends AbstractContainerMenu, U extends Screen & MenuAccess<T>> void register(String id, MenuType<T> type, CompatRegistryClient.ScreenFactory<T, U> factory) {
+        CompatRegistryClient.registerScreen(id, type, factory);
     }
 
     @Environment(EnvType.CLIENT)
     public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, MenuType<T> type) {
-        CompatRegistryClient2.registerScreen(id, type, SimpleContainerGuiScreen::new);
+        CompatRegistryClient.registerScreen(id, type, SimpleContainerGuiScreen::new);
     }
 
     public static <T extends AbstractContainerMenu> SupplierResult<MenuType<T>> register(CompatRegistryV2 registry, CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {

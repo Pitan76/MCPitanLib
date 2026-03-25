@@ -3,8 +3,7 @@ package net.pitan76.mcpitanlib.api.tile.fabric;
 import com.mojang.datafixers.types.Type;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.pitan76.mcpitanlib.api.tile.BlockEntityTypeBuilder;
 
 public class BlockEntityTypeBuilderImpl {

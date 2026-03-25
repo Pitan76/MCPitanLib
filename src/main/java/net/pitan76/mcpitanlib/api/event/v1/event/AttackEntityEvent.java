@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.v1.event;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
@@ -19,7 +18,7 @@ public class AttackEntityEvent {
     public InteractionHand hand;
     public EntityHitResult result;
 
-    public AttackEntityEvent(Player player, Level level, Entity target, InteractionHand hand, @Nullable EntityHitResult result) {
+    public AttackEntityEvent(net.minecraft.world.entity.player.Player player, Level level, Entity target, InteractionHand hand, @Nullable EntityHitResult result) {
         this(new Player(player), level, target, hand, result);
     }
 

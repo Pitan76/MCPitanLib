@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient2;
+import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 
 public class BlockEntityRendererUtil {
-    public static BlockEntityRendererProvider.Context convert(CompatRegistryClient2.BlockEntityRendererFactory.Context ctx) {
+    public static BlockEntityRendererProvider.Context convert(CompatRegistryClient.BlockEntityRendererFactory.Context ctx) {
         return new BlockEntityRendererProvider.Context(ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer(), ctx.getSpriteHolder(), ctx.getPlayerSkinRenderCache());
     }
 
-    public static CompatRegistryClient2.BlockEntityRendererFactory.Context convert(BlockEntityRendererProvider.Context ctx) {
-        return new CompatRegistryClient2.BlockEntityRendererFactory.Context(ctx.blockEntityRenderDispatcher(), ctx.blockRenderDispatcher(), ctx.itemModelResolver(), ctx.itemRenderer(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.materials(), ctx.playerSkinRenderCache());
+    public static CompatRegistryClient.BlockEntityRendererFactory.Context convert(BlockEntityRendererProvider.Context ctx) {
+        return new CompatRegistryClient.BlockEntityRendererFactory.Context(ctx.blockEntityRenderDispatcher(), ctx.blockRenderDispatcher(), ctx.itemModelResolver(), ctx.itemRenderer(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.materials(), ctx.playerSkinRenderCache());
     }
 }

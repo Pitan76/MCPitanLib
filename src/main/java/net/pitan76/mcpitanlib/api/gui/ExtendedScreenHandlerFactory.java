@@ -1,21 +1,25 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import dev.architectury.registry.menu.ExtendedMenuProvider;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
 import net.pitan76.mcpitanlib.api.event.container.factory.ExtraDataArgs;
+import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 
 @Deprecated
-public interface ExtendedScreenHandlerFactory extends ExtendedMenuProvider {
+public interface ExtendedScreenHandlerFactory extends ExtendedMenuProvider<FriendlyByteBuf> {
     @Override
     default Component getDisplayName() {
         return getDisplayName(new DisplayNameArgs());
     }
 
     @Override
-    default void saveExtraData(FriendlyByteBuf buf) {
+    default FriendlyByteBuf getScreenOpeningData(ServerPlayer player) {
+        FriendlyByteBuf buf = PacketByteUtil.create();
         writeExtraData(new ExtraDataArgs(buf));
+        return buf;
     }
 
     Component getDisplayName(DisplayNameArgs args);

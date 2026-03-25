@@ -1,13 +1,12 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.inventory.ClickType;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.gui.args.SlotClickEvent;
@@ -33,7 +32,7 @@ public class SimpleScreenHandler extends AbstractContainerMenu {
 
     @Deprecated
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(net.minecraft.world.entity.player.Player player) {
         return canUse(new Player(player));
     }
 
@@ -67,7 +66,7 @@ public class SimpleScreenHandler extends AbstractContainerMenu {
 
     @Deprecated
     @Override
-    public void removed(Player player) {
+    public void removed(net.minecraft.world.entity.player.Player player) {
         this.close(new Player(player));
     }
 
@@ -162,7 +161,7 @@ public class SimpleScreenHandler extends AbstractContainerMenu {
     }
 
     @Deprecated
-    public ItemStack quickMoveOverride(Player player, int index) {
+    public ItemStack quickMoveOverride(net.minecraft.world.entity.player.Player player, int index) {
         return quickMoveOverride(new Player(player), index);
     }
 
@@ -216,7 +215,7 @@ public class SimpleScreenHandler extends AbstractContainerMenu {
 
     @Deprecated
     @Override
-    public ItemStack quickMoveStack(Player player, int slot) {
+    public ItemStack quickMoveStack(net.minecraft.world.entity.player.Player player, int slot) {
         return quickMoveOverride(player, slot);
     }
 
@@ -232,11 +231,11 @@ public class SimpleScreenHandler extends AbstractContainerMenu {
 
     @Deprecated
     @Override
-    public void clicked(int slotIndex, int button, ClickType actionType, Player player) {
+    public void clicked(int slotIndex, int button, ContainerInput actionType, net.minecraft.world.entity.player.Player player) {
         overrideOnSlotClick(slotIndex, button, actionType, new Player(player));
     }
 
-    public void overrideOnSlotClick(int slotIndex, int button, ClickType actionType, Player player) {
+    public void overrideOnSlotClick(int slotIndex, int button, ContainerInput actionType, Player player) {
         onSlotClick(new SlotClickEvent(slotIndex, button, actionType, player));
     }
 

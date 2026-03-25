@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import dev.architectury.event.events.common.LifecycleEvent;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,31 +44,35 @@ public class EventRegistry {
     public static class ServerLifecycle {
         // Architectury: LifecycleEvent
         public static void serverStarted(ServerState state) {
-            LifecycleEvent.SERVER_STARTED.register(state::stateChanged);
+            ServerLifecycleEvents.SERVER_STARTED.register(state::stateChanged);
         }
 
         public static void serverStarting(ServerState state) {
-            LifecycleEvent.SERVER_STARTING.register(state::stateChanged);
+            ServerLifecycleEvents.SERVER_STARTING.register(state::stateChanged);
         }
 
         public static void serverStopped(ServerState state) {
-            LifecycleEvent.SERVER_STOPPED.register(state::stateChanged);
+            ServerLifecycleEvents.SERVER_STOPPED.register(state::stateChanged);
         }
 
         public static void serverStopping(ServerState state) {
-            LifecycleEvent.SERVER_STOPPING.register(state::stateChanged);
+            ServerLifecycleEvents.SERVER_STOPPING.register(state::stateChanged);
         }
 
         public static void serverWorldLoad(ServerWorldState state) {
-            LifecycleEvent.SERVER_LEVEL_LOAD.register(state::act);
+            ServerLevelEvents.LOAD.register((_, level) -> state.act(level));
         }
 
         public static void serverWorldSave(ServerWorldState state) {
-            LifecycleEvent.SERVER_LEVEL_SAVE.register(state::act);
+            ServerLifecycleEvents.AFTER_SAVE.register((server, _, _) -> {
+                for (ServerLevel level : server.getAllLevels()) {
+                    state.act(level);
+                }
+            });
         }
 
         public static void serverWorldUnload(ServerWorldState state) {
-            LifecycleEvent.SERVER_LEVEL_UNLOAD.register(state::act);
+            ServerLevelEvents.UNLOAD.register((_, level) -> state.act(level));
         }
 
         public interface ServerState extends InstanceState<MinecraftServer> {

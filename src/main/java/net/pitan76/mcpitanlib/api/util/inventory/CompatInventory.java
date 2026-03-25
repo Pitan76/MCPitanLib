@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
 import net.minecraft.world.entity.ContainerUser;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.Item;
@@ -64,7 +63,7 @@ public class CompatInventory extends SimpleContainer {
     @Override
     public void startOpen(ContainerUser user) {
         if (user instanceof Player) {
-            onOpen(new Player((Player) user));
+            onOpen(new Player((net.minecraft.world.entity.player.Player) user));
             return;
         }
 
@@ -76,7 +75,7 @@ public class CompatInventory extends SimpleContainer {
     @Override
     public void stopOpen(ContainerUser user) {
         if (user instanceof Player) {
-            onClose(new Player((Player) user));
+            onClose(new Player((net.minecraft.world.entity.player.Player) user));
             return;
         }
 
@@ -95,7 +94,7 @@ public class CompatInventory extends SimpleContainer {
 
     @Deprecated
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(net.minecraft.world.entity.player.Player player) {
         return canPlayerUse(new Player(player));
     }
 

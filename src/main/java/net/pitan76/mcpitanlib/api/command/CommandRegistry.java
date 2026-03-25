@@ -2,7 +2,7 @@ package net.pitan76.mcpitanlib.api.command;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import dev.architectury.event.events.common.CommandRegistrationEvent;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.CommandSourceStack;
@@ -17,7 +17,7 @@ public class CommandRegistry {
     public static CommandBuildContext latestCommandRegistryAccess;
 
     public static void register(String name, LiteralCommand command) {
-        CommandRegistrationEvent.EVENT.register((dispatcher, registry, environment) -> {
+        CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) -> {
             latestCommandRegistryAccess = registry;
 
             CommandSettings settings = new CommandSettings();
@@ -39,7 +39,7 @@ public class CommandRegistry {
     }
 
     public static void register(LiteralArgumentBuilder<CommandSourceStack> builder) {
-        CommandRegistrationEvent.EVENT.register((dispatcher, registry, environment) -> {
+        CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) -> {
                     latestCommandRegistryAccess = registry;
                     dispatcher.register(builder);
                 }

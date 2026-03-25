@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.event.v0.event;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -45,11 +44,11 @@ public class LivingHurtEvent {
     }
 
     public boolean isPlayerAttacker() {
-        return getAttacker() instanceof Player;
+        return getAttacker() instanceof net.minecraft.world.entity.player.Player;
     }
 
-    public Player getPlayerEntityAttacker() {
-        return (Player) getAttacker();
+    public net.minecraft.world.entity.player.Player getPlayerEntityAttacker() {
+        return (net.minecraft.world.entity.player.Player) getAttacker();
     }
 
     public Player getPlayerAttacker() {

@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.gui.slot;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.inventory.Slot;
@@ -101,7 +100,7 @@ public class CompatibleSlot extends Slot {
     }
 
     @Override
-    public boolean mayPickup(Player playerEntity) {
+    public boolean mayPickup(net.minecraft.world.entity.player.Player playerEntity) {
         return canTakeItems(new Player(playerEntity));
     }
 
@@ -115,7 +114,7 @@ public class CompatibleSlot extends Slot {
 
     @Deprecated
     @Override
-    public boolean allowModification(Player player) {
+    public boolean allowModification(net.minecraft.world.entity.player.Player player) {
         return canTakePartial(new Player(player));
     }
 

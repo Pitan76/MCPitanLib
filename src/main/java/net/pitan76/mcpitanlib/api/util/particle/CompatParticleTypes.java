@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.particle;
 
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.particle.*;
 
 public class CompatParticleTypes {
     public static final CompatParticleType ANGRY_VILLAGER = new CompatParticleType(ParticleTypes.ANGRY_VILLAGER);

@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.item.ItemStack;
@@ -72,7 +71,7 @@ public class BlockStateUtil {
     }
 
     public static void randomTick(BlockState state, ServerLevel world, BlockPos pos) {
-        state.randomTick(world, pos, world.random);
+        state.randomTick(world, pos, world.getRandom());
     }
 
     public static CompatActionResult onUse(BlockState state, Level world, Player player, BlockHitResult hitResult) {
@@ -83,11 +82,11 @@ public class BlockStateUtil {
         return onUse(state, world, player, BlockHitResultUtil.create(player.getPos(), dir, blockPos));
     }
 
-    public static CompatActionResult onUseWithItem(BlockState state, ItemStack stack, Level world, Player player, InteractionHand hand, BlockHitResult hit) {
+    public static CompatActionResult onUseWithItem(BlockState state, ItemStack stack, Level world, net.minecraft.world.entity.player.Player player, InteractionHand hand, BlockHitResult hit) {
         return CompatActionResult.create(state.useItemOn(stack, world, player, hand, hit));
     }
 
-    public static CompatActionResult onUseWithItem_actionResult(BlockState state, ItemStack stack, Level world, Player player, InteractionHand hand, BlockHitResult hit) {
+    public static CompatActionResult onUseWithItem_actionResult(BlockState state, ItemStack stack, Level world, net.minecraft.world.entity.player.Player player, InteractionHand hand, BlockHitResult hit) {
         return onUseWithItem(state, stack, world, player, hand, hit);
     }
 
@@ -124,7 +123,7 @@ public class BlockStateUtil {
     }
 
     public static int getOpacity(BlockState state) {
-        return state.getLightBlock();
+        return state.getLightDampening();
     }
 
     public static int getComparatorOutput(BlockState state, Level world, BlockPos pos) {
