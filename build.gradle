@@ -39,7 +39,7 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
     implementation 'org.yaml:snakeyaml:2.0'
-    include 'org.yaml:snakeyaml:2.0'
+    shadow 'org.yaml:snakeyaml:2.0'
 
 //    api("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
 //        exclude(group: "net.fabricmc.fabric-api")
@@ -69,19 +69,6 @@ processResources {
     }
 }
 
-shadowJar {
-    relocate "org.yaml.snakeyaml", "net.pitan76.mcpitanlib.shadow.yaml.snakeyaml"
-    archiveClassifier.set("")
-}
-
-tasks.build {
-    dependsOn shadowJar
-}
-
-tasks.jar {
-    enabled = false
-}
-
 def targetJavaVersion = 25
 tasks.withType(JavaCompile).configureEach {
     // ensure that the encoding is set to UTF-8, no matter what the system default is
@@ -104,6 +91,13 @@ java {
     // If you remove this line, sources will not be generated.
     withSourcesJar()
 }
+
+shadowJar {
+    relocate "org.yaml.snakeyaml", "net.pitan76.mcpitanlib.shadow.yaml.snakeyaml"
+    configurations = [project.configurations.shadow]
+    archiveClassifier.set("")
+}
+
 
 jar {
     from("LICENSE") {
