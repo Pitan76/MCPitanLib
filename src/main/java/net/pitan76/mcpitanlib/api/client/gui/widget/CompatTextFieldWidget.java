@@ -136,10 +136,10 @@ public class CompatTextFieldWidget extends EditBox {
     @Deprecated
     @Override
     public boolean charTyped(CharacterEvent input) {
-        return callCharTyped((char) input.codepoint(), input.modifiers());
+        return callCharTyped((char) input.codepoint(), -1);
     }
 
     public boolean callCharTyped(char chr, int modifiers) {
-        return super.charTyped(new CharacterEvent(chr, modifiers));
+        return super.charTyped(new CharacterEvent(chr));
     }
 }

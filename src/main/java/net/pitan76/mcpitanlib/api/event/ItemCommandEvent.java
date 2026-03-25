@@ -6,6 +6,6 @@ import net.pitan76.mcpitanlib.api.command.argument.ItemCommand;
 
 public class ItemCommandEvent extends RequiredCommandEvent {
     public Item getValue() {
-        return ItemArgument.getItem(context, ((ItemCommand) getCommand()).getArgumentName()).getItem();
+        return ItemArgument.getItem(context, ((ItemCommand) getCommand()).getArgumentName()).item().value();
     }
 }

@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.entity;
 
 import net.minecraft.world.entity.ContainerUser;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 
 public class CompatContainerUser {
     protected ContainerUser containerUser;
@@ -20,11 +19,11 @@ public class CompatContainerUser {
     }
 
     public boolean isPlayer() {
-        return containerUser instanceof Player;
+        return containerUser instanceof net.minecraft.world.entity.player.Player;
     }
 
     public Player asPlayer() {
-        return new Player((Player) containerUser);
+        return new Player((net.minecraft.world.entity.player.Player) containerUser);
     }
 
     @Deprecated

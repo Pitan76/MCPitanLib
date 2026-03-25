@@ -5,6 +5,6 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 
 public class ClickableWidgetUtil {
     public static void render(AbstractWidget widget, RenderArgs args) {
-        widget.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        widget.extractRenderState(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 }

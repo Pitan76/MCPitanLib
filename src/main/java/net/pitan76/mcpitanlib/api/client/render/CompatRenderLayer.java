@@ -25,11 +25,11 @@ public class CompatRenderLayer {
     }
 
     public static CompatRenderLayer getEntityCutout(CompatIdentifier id) {
-        return new CompatRenderLayer(RenderTypes.entityCutout(id.toMinecraft()));
+        return new CompatRenderLayer(RenderTypes.entityCutoutCull(id.toMinecraft()));
     }
 
     public static CompatRenderLayer getEntityCutoutNoCull(CompatIdentifier id) {
-        return new CompatRenderLayer(RenderTypes.entityCutoutNoCull(id.toMinecraft()));
+        return new CompatRenderLayer(RenderTypes.entityCutout(id.toMinecraft()));
     }
 
     public static CompatRenderLayer getEntityTranslucent(CompatIdentifier id) {

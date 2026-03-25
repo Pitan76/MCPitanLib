@@ -137,17 +137,17 @@ public class ScreenUtil {
 
     public static class RendererUtil {
         public static int drawText(Font renderer, DrawObjectDM drawObjectDM, Component text, int x, int y, int color) {
-            drawObjectDM.getContext().drawString(renderer, text, x, y, fixColor(color), false);
+            drawObjectDM.getContext().text(renderer, text, x, y, fixColor(color), false);
             return -1;
         }
 
         public static int drawText(Font renderer, DrawObjectDM drawObjectDM, String text, int x, int y, int color) {
-            drawObjectDM.getContext().drawString(renderer, text, x, y, fixColor(color), false);
+            drawObjectDM.getContext().text(renderer, text, x, y, fixColor(color), false);
             return -1;
         }
 
         public static int drawText(Font renderer, DrawObjectDM drawObjectDM, FormattedCharSequence text, int x, int y, int color) {
-            drawObjectDM.getContext().drawString(renderer, text, x, y, fixColor(color), false);
+            drawObjectDM.getContext().text(renderer, text, x, y, fixColor(color), false);
             return -1;
         }
 

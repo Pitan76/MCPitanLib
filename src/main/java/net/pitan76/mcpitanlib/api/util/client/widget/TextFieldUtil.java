@@ -14,7 +14,7 @@ public class TextFieldUtil {
     }
 
     public static void render(EditBox widget, RenderArgs args) {
-        widget.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        widget.extractRenderState(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
     public static void setEditable(EditBox widget, boolean editable) {
@@ -58,7 +58,7 @@ public class TextFieldUtil {
     }
 
     public static boolean charTyped(EditBox widget, char chr, int modifiers) {
-        return widget.charTyped(new CharacterEvent(chr, modifiers));
+        return widget.charTyped(new CharacterEvent(chr));
     }
 
     public static EditBox create(Font renderer, int x, int y, int width, int height, Component text) {
