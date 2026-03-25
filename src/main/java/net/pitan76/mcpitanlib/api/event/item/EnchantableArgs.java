@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class EnchantableArgs {
 

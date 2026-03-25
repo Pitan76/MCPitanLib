@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.recipe.input;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 
 public class CompatRecipeInput<I extends RecipeInput> {
     protected I input;
@@ -15,7 +15,7 @@ public class CompatRecipeInput<I extends RecipeInput> {
     }
 
     public ItemStack getStack(int slot) {
-        return input.getStackInSlot(slot);
+        return input.getItem(slot);
     }
 
     public net.pitan76.mcpitanlib.midohra.item.ItemStack getMidohraStack(int slot) {

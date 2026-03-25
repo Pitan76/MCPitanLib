@@ -1,30 +1,30 @@
 package net.pitan76.mcpitanlib.midohra.recipe.entry;
 
-import net.minecraft.recipe.Recipe;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.recipe.ShapedRecipe;
 
 public class ShapedRecipeEntry extends RecipeEntry {
-    private final net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry;
+    private final net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapedRecipe> recipeEntry;
 
-    protected ShapedRecipeEntry(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry) {
+    protected ShapedRecipeEntry(net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapedRecipe> recipeEntry) {
         super(null);
         this.recipeEntry = recipeEntry;
     }
 
-    public static ShapedRecipeEntry _of(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry) {
+    public static ShapedRecipeEntry _of(net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapedRecipe> recipeEntry) {
         return new ShapedRecipeEntry(recipeEntry);
     }
 
-    public static ShapedRecipeEntry of(net.minecraft.recipe.RecipeEntry<?> recipeEntry) {
-        return _of((net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe>) recipeEntry);
+    public static ShapedRecipeEntry of(net.minecraft.world.item.crafting.RecipeHolder<?> recipeEntry) {
+        return _of((net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapedRecipe>) recipeEntry);
     }
 
-    public static ShapedRecipeEntry of(net.minecraft.recipe.ShapedRecipe recipe, CompatIdentifier id) {
-        RegistryKey<Recipe<?>> key = RegistryKey.of(RegistryKeys.RECIPE, id.toMinecraft());
-        net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(key, recipe);
+    public static ShapedRecipeEntry of(net.minecraft.world.item.crafting.ShapedRecipe recipe, CompatIdentifier id) {
+        ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, id.toMinecraft());
+        net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapedRecipe> recipeEntry = new net.minecraft.world.item.crafting.RecipeHolder<>(key, recipe);
 
         return of(recipeEntry);
     }
@@ -34,12 +34,12 @@ public class ShapedRecipeEntry extends RecipeEntry {
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> getRaw() {
+    public net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapedRecipe> getRaw() {
         return recipeEntry;
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapedRecipe> toMinecraft() {
+    public net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapedRecipe> toMinecraft() {
         return getRaw();
     }
 
@@ -49,7 +49,7 @@ public class ShapedRecipeEntry extends RecipeEntry {
     }
 
     @Override
-    public net.minecraft.recipe.ShapedRecipe getRawRecipe() {
+    public net.minecraft.world.item.crafting.ShapedRecipe getRawRecipe() {
         return getRaw().value();
     }
 }

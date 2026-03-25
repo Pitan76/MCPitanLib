@@ -1,24 +1,24 @@
 package net.pitan76.mcpitanlib.midohra.component.item;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
 
-public class CustomNameComponentType extends ItemComponentType<Text> {
+public class CustomNameComponentType extends ItemComponentType<Component> {
 
     public CustomNameComponentType() {
-        super(DataComponentTypes.CUSTOM_NAME);
+        super(DataComponents.CUSTOM_NAME);
     }
 
     @Override
-    public void put(ItemStack stack, Text value) {
-        stack.set(DataComponentTypes.CUSTOM_NAME, value);
+    public void put(ItemStack stack, Component value) {
+        stack.set(DataComponents.CUSTOM_NAME, value);
     }
 
     @Override
-    public Text get(ItemStack stack) {
-        if (!has(stack)) return Text.empty();
-        return stack.get(DataComponentTypes.CUSTOM_NAME);
+    public Component get(ItemStack stack) {
+        if (!has(stack)) return Component.empty();
+        return stack.get(DataComponents.CUSTOM_NAME);
     }
 
     public String getAsString(ItemStack stack) {
@@ -26,6 +26,6 @@ public class CustomNameComponentType extends ItemComponentType<Text> {
     }
 
     public void put(ItemStack stack, String name) {
-        put(stack, Text.literal(name));
+        put(stack, Component.literal(name));
     }
 }

@@ -3,38 +3,38 @@ package net.pitan76.mcpitanlib.api.entity;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.ItemCooldownManager;
-import net.minecraft.entity.player.PlayerAbilities;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.stat.Stat;
-import net.minecraft.stat.StatType;
-import net.minecraft.storage.NbtReadView;
-import net.minecraft.storage.NbtWriteView;
-import net.minecraft.text.Text;
-import net.minecraft.util.ErrorReporter;
-import net.minecraft.util.Hand;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.entity.player.Abilities;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.stats.Stat;
+import net.minecraft.stats.StatType;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
@@ -55,17 +55,17 @@ import java.util.function.Consumer;
 PlayerEntity helper
  */
 public class Player {
-    private final PlayerEntity entity;
+    private final net.minecraft.world.entity.player.Player entity;
 
-    public PlayerEntity getEntity() {
+    public net.minecraft.world.entity.player.Player getEntity() {
         return entity;
     }
 
-    public PlayerEntity getPlayerEntity() {
+    public net.minecraft.world.entity.player.Player getPlayerEntity() {
         return getEntity();
     }
 
-    public Player(PlayerEntity playerEntity) {
+    public Player(net.minecraft.world.entity.player.Player playerEntity) {
         this.entity = playerEntity;
     }
 
@@ -73,7 +73,7 @@ public class Player {
      * Get player inventory
      * @return PlayerInventory
      */
-    public PlayerInventory getInv() {
+    public Inventory getInv() {
         return getEntity().getInventory();
     }
 
@@ -81,7 +81,7 @@ public class Player {
      * Alias of getInv()
      * @return PlayerInventory
      */
-    public PlayerInventory getInventory() {
+    public Inventory getInventory() {
         return getInv();
     }
 
@@ -89,12 +89,12 @@ public class Player {
      * Get armor's item stack list
      * @return DefaultedList<ItemStack>
      */
-    public DefaultedList<ItemStack> getArmor() {
-        DefaultedList<ItemStack> stacks = DefaultedList.ofSize(4, ItemStack.EMPTY);
-        stacks.set(0, getInv().getStack(36));
-        stacks.set(1, getInv().getStack(37));
-        stacks.set(2, getInv().getStack(38));
-        stacks.set(3, getInv().getStack(39));
+    public NonNullList<ItemStack> getArmor() {
+        NonNullList<ItemStack> stacks = NonNullList.withSize(4, ItemStack.EMPTY);
+        stacks.set(0, getInv().getItem(36));
+        stacks.set(1, getInv().getItem(37));
+        stacks.set(2, getInv().getItem(38));
+        stacks.set(3, getInv().getItem(39));
         return stacks;
     }
 
@@ -102,17 +102,17 @@ public class Player {
      * Get main's item stack list
      * @return DefaultedList<ItemStack>
      */
-    public DefaultedList<ItemStack> getMain() {
-        return getInv().getMainStacks();
+    public NonNullList<ItemStack> getMain() {
+        return getInv().getNonEquipmentItems();
     }
 
     /**
      * Get off hand's item stack list
      * @return DefaultedList<ItemStack>
      */
-    public DefaultedList<ItemStack> getOffHand() {
-        DefaultedList<ItemStack> stacks = DefaultedList.ofSize(1, ItemStack.EMPTY);
-        stacks.set(0, getInv().getStack(PlayerInventory.OFF_HAND_SLOT));
+    public NonNullList<ItemStack> getOffHand() {
+        NonNullList<ItemStack> stacks = NonNullList.withSize(1, ItemStack.EMPTY);
+        stacks.set(0, getInv().getItem(Inventory.SLOT_OFFHAND));
         return stacks;
     }
 
@@ -129,54 +129,54 @@ public class Player {
      * @return player inventory size
      */
     public int getInvSize() {
-        return getInv().size();
+        return getInv().getContainerSize();
     }
 
-    public OptionalInt openGuiScreen(NamedScreenHandlerFactory factory) {
-        return getEntity().openHandledScreen(factory);
+    public OptionalInt openGuiScreen(MenuProvider factory) {
+        return getEntity().openMenu(factory);
     }
 
-    public OptionalInt openGuiScreen(World world, BlockState state, BlockPos pos) {
-        return openGuiScreen(state.createScreenHandlerFactory(world, pos));
+    public OptionalInt openGuiScreen(Level world, BlockState state, BlockPos pos) {
+        return openGuiScreen(state.getMenuProvider(world, pos));
     }
 
     public boolean isServerPlayerEntity() {
-        return this.getEntity() instanceof ServerPlayerEntity;
+        return this.getEntity() instanceof ServerPlayer;
     }
 
-    public void openExtendedMenu(NamedScreenHandlerFactory provider, Consumer<PacketByteBuf> bufWriter) {
+    public void openExtendedMenu(MenuProvider provider, Consumer<FriendlyByteBuf> bufWriter) {
         if (isServerPlayerEntity())
-            ScreenHandlerUtil.openExtendedMenu((ServerPlayerEntity) this.getPlayerEntity(), provider, bufWriter);
+            ScreenHandlerUtil.openExtendedMenu((ServerPlayer) this.getPlayerEntity(), provider, bufWriter);
     }
 
     public void openExtendedMenu(ExtendedMenuProvider provider) {
         if (isServerPlayerEntity())
-            ScreenHandlerUtil.openExtendedMenu((ServerPlayerEntity) this.getPlayerEntity(), provider);
+            ScreenHandlerUtil.openExtendedMenu((ServerPlayer) this.getPlayerEntity(), provider);
     }
 
     public void openExtendedMenu(ExtendedNamedScreenHandlerFactory provider) {
         this.openExtendedMenu((ExtendedMenuProvider) provider);
     }
 
-    public void openMenu(NamedScreenHandlerFactory provider) {
+    public void openMenu(MenuProvider provider) {
         if (isServerPlayerEntity())
-            ScreenHandlerUtil.openMenu((ServerPlayerEntity) this.getPlayerEntity(), provider);
+            ScreenHandlerUtil.openMenu((ServerPlayer) this.getPlayerEntity(), provider);
     }
 
     public void insertStack(ItemStack stack) {
-        getInv().insertStack(stack);
+        getInv().add(stack);
     }
 
     public void insertStack(int slot, ItemStack stack) {
-        getInv().insertStack(slot, stack);
+        getInv().add(slot, stack);
     }
 
     public void offerOrDrop(ItemStack itemStack) {
-        getInv().offerOrDrop(itemStack);
+        getInv().placeItemBackInInventory(itemStack);
     }
 
     public void giveStack(ItemStack stack) {
-        getEntity().giveItemStack(stack);
+        getEntity().addItem(stack);
     }
 
     public String getName() {
@@ -184,10 +184,10 @@ public class Player {
     }
 
     public UUID getUUID() {
-        return getEntity().getUuid();
+        return getEntity().getUUID();
     }
 
-    public PlayerAbilities getAbilities() {
+    public Abilities getAbilities() {
         return getEntity().getAbilities();
     }
 
@@ -195,7 +195,7 @@ public class Player {
      * Returns whether this player is in creative mode.
      */
     public boolean isCreative() {
-        return getAbilities().creativeMode;
+        return getAbilities().instabuild;
     }
 
     public boolean isFlying() {
@@ -206,52 +206,52 @@ public class Player {
         return getAbilities().invulnerable;
     }
 
-    public World getWorld() {
-        return getEntity().getEntityWorld();
+    public Level getWorld() {
+        return getEntity().level();
     }
 
-    public ScreenHandler getCurrentScreenHandler() {
-        return getEntity().currentScreenHandler;
+    public AbstractContainerMenu getCurrentScreenHandler() {
+        return getEntity().containerMenu;
     }
 
     public boolean isSneaking() {
-        return getEntity().isSneaking();
+        return getEntity().isShiftKeyDown();
     }
 
     public ItemStack getCursorStack() {
-        return getCurrentScreenHandler().getCursorStack();
+        return getCurrentScreenHandler().getCarried();
     }
 
     public boolean isClient() {
-        return getWorld().isClient();
+        return getWorld().isClientSide();
     }
     public boolean isServer() {
         return !isClient();
     }
 
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        getEntity().setComponent(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
+    public void readCustomDataFromNbt(CompoundTag nbt) {
+        getEntity().setComponent(DataComponents.CUSTOM_DATA, CustomData.of(nbt));
     }
 
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        NbtCompound source = getEntity().get(DataComponentTypes.CUSTOM_DATA).copyNbt();
+    public void writeCustomDataToNbt(CompoundTag nbt) {
+        CompoundTag source = getEntity().get(DataComponents.CUSTOM_DATA).copyTag();
         NbtUtil.copyFrom(source, nbt);
     }
 
-    public void sendMessage(Text text) {
-        getEntity().sendMessage(text, false);
+    public void sendMessage(Component text) {
+        getEntity().displayClientMessage(text, false);
     }
 
-    public void sendActionBar(Text text) {
-        getEntity().sendMessage(text, true);
+    public void sendActionBar(Component text) {
+        getEntity().displayClientMessage(text, true);
     }
 
     public void equipStack(EquipmentSlot slot, ItemStack stack) {
-        getEntity().equipStack(slot, stack);
+        getEntity().setItemSlot(slot, stack);
     }
 
     public void dropStack(ItemStack stack, boolean throwRandomly, boolean retainOwnership) {
-        getEntity().dropItem(stack, throwRandomly, retainOwnership);
+        getEntity().drop(stack, throwRandomly, retainOwnership);
     }
 
     public void dropStack(ItemStack stack, boolean retainOwnership) {
@@ -263,15 +263,15 @@ public class Player {
     }
 
     public BlockPos getBlockPos() {
-        return getEntity().getBlockPos();
+        return getEntity().blockPosition();
     }
 
-    public Vec3d getPos() {
-        return getEntity().getEntityPos();
+    public Vec3 getPos() {
+        return getEntity().position();
     }
 
-    public ItemStack getStackInHand(Hand hand) {
-        return this.getEntity().getStackInHand(hand);
+    public ItemStack getStackInHand(InteractionHand hand) {
+        return this.getEntity().getItemInHand(hand);
     }
 
     public void heal(float amount) {
@@ -279,16 +279,16 @@ public class Player {
     }
 
     public float getYaw() {
-        return this.getEntity().getYaw();
+        return this.getEntity().getYRot();
     }
 
     public float getPitch() {
-        return this.getEntity().getPitch();
+        return this.getEntity().getXRot();
     }
 
-    public void playSound(SoundEvent event, SoundCategory category, float volume, float pitch) {
+    public void playSound(SoundEvent event, SoundSource category, float volume, float pitch) {
         if (isServerPlayerEntity()) {
-            Optional<ServerPlayerEntity> player = getServerPlayer();
+            Optional<ServerPlayer> player = getServerPlayer();
             if (player.isPresent()) {
                 player.get().playSound(event, volume, pitch);
                 return;
@@ -300,7 +300,7 @@ public class Player {
 
     public void playSound(SoundEvent event, float volume, float pitch) {
         if (isServerPlayerEntity()) {
-            Optional<ServerPlayerEntity> player = getServerPlayer();
+            Optional<ServerPlayer> player = getServerPlayer();
             if (player.isPresent()) {
                 player.get().playSound(event, volume, pitch);
                 return;
@@ -324,40 +324,40 @@ public class Player {
         return itemCooldown;
     }
 
-    public ItemCooldownManager getItemCooldownManager() {
-        return getEntity().getItemCooldownManager();
+    public ItemCooldowns getItemCooldownManager() {
+        return getEntity().getCooldowns();
     }
 
     public void incrementStat(Stat<?> stat) {
-        getEntity().incrementStat(stat);
+        getEntity().awardStat(stat);
     }
 
     public <T> void incrementStat(StatType<T> type, T object) {
-        getEntity().incrementStat(type.getOrCreateStat(object));
+        getEntity().awardStat(type.get(object));
     }
 
     public void incrementStat(Identifier id) {
-        getEntity().incrementStat(id);
+        getEntity().awardStat(id);
     }
 
     public void incrementStat(CompatIdentifier id) {
-        getEntity().incrementStat(id.toMinecraft());
+        getEntity().awardStat(id.toMinecraft());
     }
 
     public void teleport(double x, double y, double z) {
-        getEntity().teleport(x, y, z, false);
+        getEntity().randomTeleport(x, y, z, false);
     }
 
     public ItemStack getMainHandStack() {
-        return getStackInHand(Hand.MAIN_HAND);
+        return getStackInHand(InteractionHand.MAIN_HAND);
     }
 
     public ItemStack getOffHandStack() {
-        return getStackInHand(Hand.OFF_HAND);
+        return getStackInHand(InteractionHand.OFF_HAND);
     }
 
     public Direction getHorizontalFacing() {
-        return getEntity().getHorizontalFacing();
+        return getEntity().getDirection();
     }
 
     public double getX() {
@@ -373,39 +373,39 @@ public class Player {
     }
 
     public boolean isServerPlayer() {
-        return getEntity() instanceof ServerPlayerEntity;
+        return getEntity() instanceof ServerPlayer;
     }
 
-    public Optional<ServerPlayerEntity> getServerPlayer() {
+    public Optional<ServerPlayer> getServerPlayer() {
         if (isServerPlayer())
-            return Optional.of((ServerPlayerEntity) getEntity());
+            return Optional.of((ServerPlayer) getEntity());
 
         return Optional.empty();
     }
 
     @Environment(EnvType.CLIENT)
-    public Optional<ClientPlayerEntity> getClientPlayer() {
-        if (getEntity() instanceof ClientPlayerEntity)
-            return Optional.of((ClientPlayerEntity) getEntity());
+    public Optional<LocalPlayer> getClientPlayer() {
+        if (getEntity() instanceof LocalPlayer)
+            return Optional.of((LocalPlayer) getEntity());
 
         return Optional.empty();
     }
 
     public void setVelocity(double x, double y, double z) {
-        getEntity().setVelocity(x, y, z);
+        getEntity().setDeltaMovement(x, y, z);
     }
 
-    public void setVelocity(Vec3d velocity) {
-        getEntity().setVelocity(velocity);
+    public void setVelocity(Vec3 velocity) {
+        getEntity().setDeltaMovement(velocity);
     }
 
-    public Vec3d getVelocity() {
-        return getEntity().getVelocity();
+    public Vec3 getVelocity() {
+        return getEntity().getDeltaMovement();
     }
 
-    public Optional<ServerPlayNetworkHandler> getNetworkHandler() {
-        Optional<ServerPlayerEntity> player = getServerPlayer();
-        return player.map(sp -> sp.networkHandler);
+    public Optional<ServerGamePacketListenerImpl> getNetworkHandler() {
+        Optional<ServerPlayer> player = getServerPlayer();
+        return player.map(sp -> sp.connection);
     }
 
     public boolean hasNetworkHandler() {
@@ -436,17 +436,17 @@ public class Player {
     }
 
     public void addStatusEffect(CompatStatusEffectInstance effect) {
-        getEntity().addStatusEffect(effect.getInstance());
+        getEntity().addEffect(effect.getInstance());
     }
 
     public void removeStatusEffect(CompatStatusEffect effect) {
-        getEntity().removeStatusEffect(effect.getEntry(getWorld()));
+        getEntity().removeEffect(effect.getEntry(getWorld()));
     }
 
     public List<CompatStatusEffectInstance> getStatusEffects() {
         List<CompatStatusEffectInstance> compatEffects = new ArrayList<>();
 
-        for (StatusEffectInstance effect : getEntity().getStatusEffects()) {
+        for (MobEffectInstance effect : getEntity().getActiveEffects()) {
             compatEffects.add(new CompatStatusEffectInstance(effect));
         }
 
@@ -454,7 +454,7 @@ public class Player {
     }
 
     public void addExperience(int experience) {
-        getEntity().addExperience(experience);
+        getEntity().giveExperiencePoints(experience);
     }
 
     public int getExperienceLevel() {
@@ -462,7 +462,7 @@ public class Player {
     }
 
     public void addExperienceLevels(int levels) {
-        getEntity().addExperienceLevels(levels);
+        getEntity().giveExperienceLevels(levels);
     }
 
     public void setExperienceLevel(int level) {
@@ -470,7 +470,7 @@ public class Player {
     }
 
     public void addScore(int score) {
-        getEntity().addScore(score);
+        getEntity().increaseScore(score);
     }
 
     public int getScore() {
@@ -493,28 +493,28 @@ public class Player {
         return getEntity().isSwimming();
     }
 
-    public void setStackInHand(Hand hand, ItemStack stack) {
-        getEntity().setStackInHand(hand, stack);
+    public void setStackInHand(InteractionHand hand, ItemStack stack) {
+        getEntity().setItemInHand(hand, stack);
     }
 
-    public void setStackInHand(Hand hand, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+    public void setStackInHand(InteractionHand hand, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
         setStackInHand(hand, stack.toMinecraft());
     }
 
-    public net.pitan76.mcpitanlib.midohra.item.ItemStack getMidohraStackInHand(Hand hand) {
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getMidohraStackInHand(InteractionHand hand) {
         return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStackInHand(hand));
     }
 
-    public Hand getActiveHand() {
-        return getEntity().getActiveHand();
+    public InteractionHand getActiveHand() {
+        return getEntity().getUsedItemHand();
     }
 
     public float getBlockBreakingSpeed(BlockState state) {
-        return getEntity().getBlockBreakingSpeed(state);
+        return getEntity().getDestroySpeed(state);
     }
 
     public boolean canHarvest(BlockState state) {
-        return getEntity().canHarvest(state);
+        return getEntity().hasCorrectToolForDrops(state);
     }
 
     public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
@@ -522,7 +522,7 @@ public class Player {
     }
 
     public void eatFood(ItemStack stack, CompatFoodComponent foodComponent) {
-        getEntity().getHungerManager().eat(foodComponent.build());
+        getEntity().getFoodData().eat(foodComponent.build());
     }
 
     public void sendMessage(String message) {

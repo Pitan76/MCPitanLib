@@ -2,12 +2,12 @@ package net.pitan76.mcpitanlib.api.block;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.MapColor;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.DyeColor;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.item.DyeColor;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 
 import java.util.function.Function;
@@ -17,10 +17,10 @@ import java.util.function.ToIntFunction;
 public class CompatibleBlockSettings {
     public static final Codec<CompatibleBlockSettings> CODEC = MapCodec.unitCodec(CompatibleBlockSettings::of);
 
-    protected final AbstractBlock.Settings settings;
+    protected final BlockBehaviour.Properties settings;
 
     public CompatibleBlockSettings() {
-        this.settings = AbstractBlock.Settings.create();
+        this.settings = BlockBehaviour.Properties.of();
     }
 
     @Deprecated
@@ -34,36 +34,36 @@ public class CompatibleBlockSettings {
         if (material.isLiquid())
             settings.settings.liquid();
         if (material.isSolid())
-            settings.settings.solid();
+            settings.settings.forceSolidOn();
         if (material.isReplaceable())
             settings.settings.replaceable();
         if (material.isSolid())
-            settings.settings.solid();
+            settings.settings.forceSolidOn();
         if (material.isBurnable())
-            settings.settings.burnable();
-        settings.settings.pistonBehavior(material.getPistonBehavior());
+            settings.settings.ignitedByLava();
+        settings.settings.pushReaction(material.getPistonBehavior());
         return settings;
     }
 
     public CompatibleBlockSettings(CompatibleMaterial material, MapColor mapColor) {
-        this.settings = AbstractBlock.Settings.create();
+        this.settings = BlockBehaviour.Properties.of();
         copyCompatibleMaterial(material, this);
         mapColor(mapColor);
     }
 
     public CompatibleBlockSettings(CompatibleMaterial material, DyeColor dyeColor) {
-        this.settings = AbstractBlock.Settings.create();
+        this.settings = BlockBehaviour.Properties.of();
         copyCompatibleMaterial(material, this);
         mapColor(dyeColor);
     }
 
     public CompatibleBlockSettings(CompatibleMaterial material) {
-        this.settings = AbstractBlock.Settings.create();
+        this.settings = BlockBehaviour.Properties.of();
         copyCompatibleMaterial(material, this);
     }
 
     public CompatibleBlockSettings(CompatibleMaterial material, Function<BlockState, MapColor> mapColor) {
-        this.settings = AbstractBlock.Settings.create();
+        this.settings = BlockBehaviour.Properties.of();
         copyCompatibleMaterial(material, this);
         mapColor(mapColor);
     }
@@ -88,12 +88,12 @@ public class CompatibleBlockSettings {
         return new CompatibleBlockSettings(material, mapColor);
     }
 
-    public CompatibleBlockSettings(AbstractBlock block) {
-        this.settings = AbstractBlock.Settings.copy(block);
+    public CompatibleBlockSettings(BlockBehaviour block) {
+        this.settings = BlockBehaviour.Properties.ofFullCopy(block);
     }
 
     @Deprecated
-    public static CompatibleBlockSettings copy(AbstractBlock block) {
+    public static CompatibleBlockSettings copy(BlockBehaviour block) {
         return new CompatibleBlockSettings(block);
     }
 
@@ -102,23 +102,23 @@ public class CompatibleBlockSettings {
         return this;
     }
 
-    public CompatibleBlockSettings blockVision(AbstractBlock.ContextPredicate predicate) {
-        settings.blockVision(predicate);
+    public CompatibleBlockSettings blockVision(BlockBehaviour.StatePredicate predicate) {
+        settings.isViewBlocking(predicate);
         return this;
     }
 
-    public CompatibleBlockSettings postProcess(AbstractBlock.ContextPredicate predicate) {
-        settings.postProcess(predicate);
+    public CompatibleBlockSettings postProcess(BlockBehaviour.StatePredicate predicate) {
+        settings.hasPostProcess(predicate);
         return this;
     }
 
-    public CompatibleBlockSettings solidBlock(AbstractBlock.ContextPredicate predicate) {
-        settings.solidBlock(predicate);
+    public CompatibleBlockSettings solidBlock(BlockBehaviour.StatePredicate predicate) {
+        settings.isRedstoneConductor(predicate);
         return this;
     }
 
-    public CompatibleBlockSettings suffocates(AbstractBlock.ContextPredicate predicate) {
-        settings.suffocates(predicate);
+    public CompatibleBlockSettings suffocates(BlockBehaviour.StatePredicate predicate) {
+        settings.isSuffocating(predicate);
         return this;
     }
 
@@ -143,32 +143,32 @@ public class CompatibleBlockSettings {
     }
 
     public CompatibleBlockSettings breakInstantly() {
-        settings.breakInstantly();
+        settings.instabreak();
         return this;
     }
 
     public CompatibleBlockSettings dropsNothing() {
-        settings.dropsNothing();
+        settings.noLootTable();
         return this;
     }
 
     public CompatibleBlockSettings dynamicBounds() {
-        settings.dynamicBounds();
+        settings.dynamicShape();
         return this;
     }
 
     public CompatibleBlockSettings hardness(float hardness) {
-        settings.hardness(hardness);
+        settings.destroyTime(hardness);
         return this;
     }
 
     public CompatibleBlockSettings noBlockBreakParticles() {
-        settings.noBlockBreakParticles();
+        settings.noTerrainParticles();
         return this;
     }
 
     public CompatibleBlockSettings requiresTool() {
-        settings.requiresTool();
+        settings.requiresCorrectToolForDrops();
         return this;
     }
 
@@ -178,12 +178,12 @@ public class CompatibleBlockSettings {
     }
 
     public CompatibleBlockSettings nonOpaque() {
-        settings.nonOpaque();
+        settings.noOcclusion();
         return this;
     }
 
     public CompatibleBlockSettings resistance(float resistance) {
-        settings.resistance(resistance);
+        settings.explosionResistance(resistance);
         return this;
     }
 
@@ -198,12 +198,12 @@ public class CompatibleBlockSettings {
     }
 
     public CompatibleBlockSettings ticksRandomly() {
-        settings.ticksRandomly();
+        settings.randomTicks();
         return this;
     }
 
-    public CompatibleBlockSettings sounds(BlockSoundGroup blockSoundGroup) {
-        settings.sounds(blockSoundGroup);
+    public CompatibleBlockSettings sounds(SoundType blockSoundGroup) {
+        settings.sound(blockSoundGroup);
         return this;
     }
 
@@ -212,41 +212,41 @@ public class CompatibleBlockSettings {
     }
 
     public CompatibleBlockSettings luminance(ToIntFunction<BlockState> luminance) {
-        settings.luminance(luminance);
+        settings.lightLevel(luminance);
         return this;
     }
 
     public CompatibleBlockSettings jumpVelocityMultiplier(float jumpVelocityMultiplier) {
-        settings.jumpVelocityMultiplier(jumpVelocityMultiplier);
+        settings.jumpFactor(jumpVelocityMultiplier);
         return this;
     }
 
     public CompatibleBlockSettings slipperiness(float slipperiness) {
-        settings.slipperiness(slipperiness);
+        settings.friction(slipperiness);
         return this;
     }
 
     public CompatibleBlockSettings velocityMultiplier(float velocityMultiplier) {
-        settings.velocityMultiplier(velocityMultiplier);
+        settings.speedFactor(velocityMultiplier);
         return this;
     }
 
-    public CompatibleBlockSettings emissiveLighting(AbstractBlock.ContextPredicate predicate) {
-        settings.emissiveLighting(predicate);
+    public CompatibleBlockSettings emissiveLighting(BlockBehaviour.StatePredicate predicate) {
+        settings.emissiveRendering(predicate);
         return this;
     }
 
-    public CompatibleBlockSettings offset(AbstractBlock.OffsetType offsetType) {
-        settings.offset(offsetType);
+    public CompatibleBlockSettings offset(BlockBehaviour.OffsetType offsetType) {
+        settings.offsetType(offsetType);
         return this;
     }
 
-    public CompatibleBlockSettings allowsSpawning(AbstractBlock.TypedContextPredicate<net.minecraft.entity.EntityType<?>> predicate) {
-        settings.allowsSpawning(predicate);
+    public CompatibleBlockSettings allowsSpawning(BlockBehaviour.StateArgumentPredicate<net.minecraft.world.entity.EntityType<?>> predicate) {
+        settings.isValidSpawn(predicate);
         return this;
     }
 
-    public AbstractBlock.Settings build() {
+    public BlockBehaviour.Properties build() {
         return settings;
 
     }

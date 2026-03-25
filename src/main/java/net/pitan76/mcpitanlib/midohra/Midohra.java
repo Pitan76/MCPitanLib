@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.midohra;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
@@ -27,7 +27,7 @@ public class Midohra {
         return ItemWrapper.of(item);
     }
 
-    public static ItemGroupWrapper of(ItemGroup itemGroup) {
+    public static ItemGroupWrapper of(CreativeModeTab itemGroup) {
         return ItemGroupWrapper.of(itemGroup);
     }
     public static BlockWrapper of(Block block) {
@@ -46,55 +46,55 @@ public class Midohra {
         return BlockEntityWrapper.of(blockEntity);
     }
 
-    public static FluidWrapper of(net.minecraft.fluid.Fluid fluid) {
+    public static FluidWrapper of(net.minecraft.world.level.material.Fluid fluid) {
         return FluidWrapper.of(fluid);
     }
 
-    public static BlockState of(net.minecraft.block.BlockState state) {
+    public static BlockState of(net.minecraft.world.level.block.state.BlockState state) {
         return BlockState.of(state);
     }
 
-    public static NbtElement of(net.minecraft.nbt.NbtElement nbt) {
+    public static NbtElement of(net.minecraft.nbt.Tag nbt) {
         return NbtElement.of(nbt);
     }
 
-    public static NbtCompound of(net.minecraft.nbt.NbtCompound nbt) {
+    public static NbtCompound of(net.minecraft.nbt.CompoundTag nbt) {
         return NbtCompound.of(nbt);
     }
 
-    public static NbtList of(net.minecraft.nbt.NbtList nbt) {
+    public static NbtList of(net.minecraft.nbt.ListTag nbt) {
         return NbtList.of(nbt);
     }
 
-    public static BlockPos of(net.minecraft.util.math.BlockPos pos) {
+    public static BlockPos of(net.minecraft.core.BlockPos pos) {
         return BlockPos.of(pos);
     }
 
-    public static Direction of(net.minecraft.util.math.Direction direction) {
+    public static Direction of(net.minecraft.core.Direction direction) {
         return Direction.of(direction);
     }
 
-    public static World of(net.minecraft.world.World world) {
+    public static World of(net.minecraft.world.level.Level world) {
         return World.of(world);
     }
 
-    public static WorldView of(net.minecraft.world.WorldView world) {
+    public static WorldView of(net.minecraft.world.level.LevelReader world) {
         return WorldView.of(world);
     }
 
-    public static WorldAccess of(net.minecraft.world.WorldAccess world) {
+    public static WorldAccess of(net.minecraft.world.level.LevelAccessor world) {
         return WorldAccess.of(world);
     }
 
-    public static BlockView of(net.minecraft.world.BlockView world) {
+    public static BlockView of(net.minecraft.world.level.BlockGetter world) {
         return BlockView.of(world);
     }
 
-    public static IWorldView asWV(net.minecraft.world.WorldView world) {
+    public static IWorldView asWV(net.minecraft.world.level.LevelReader world) {
         return of(world);
     }
 
-    public static IWorldView asWV(net.minecraft.world.BlockView world) {
+    public static IWorldView asWV(net.minecraft.world.level.BlockGetter world) {
         return of(world);
     }
 
@@ -102,7 +102,7 @@ public class Midohra {
         return item.get();
     }
 
-    public static ItemGroup raw(ItemGroupWrapper itemGroup) {
+    public static CreativeModeTab raw(ItemGroupWrapper itemGroup) {
         return itemGroup.get();
     }
 
@@ -114,47 +114,47 @@ public class Midohra {
         return blockEntity.get();
     }
 
-    public static net.minecraft.fluid.Fluid raw(FluidWrapper fluid) {
+    public static net.minecraft.world.level.material.Fluid raw(FluidWrapper fluid) {
         return fluid.get();
     }
 
-    public static net.minecraft.block.BlockState raw(BlockState state) {
+    public static net.minecraft.world.level.block.state.BlockState raw(BlockState state) {
         return state.toMinecraft();
     }
 
-    public static net.minecraft.nbt.NbtElement raw(NbtElement nbt) {
+    public static net.minecraft.nbt.Tag raw(NbtElement nbt) {
         return nbt.toMinecraft();
     }
 
-    public static net.minecraft.nbt.NbtCompound raw(NbtCompound nbt) {
+    public static net.minecraft.nbt.CompoundTag raw(NbtCompound nbt) {
         return nbt.toMinecraft();
     }
 
-    public static net.minecraft.nbt.NbtList raw(NbtList nbt) {
+    public static net.minecraft.nbt.ListTag raw(NbtList nbt) {
         return nbt.toMinecraft();
     }
 
-    public static net.minecraft.util.math.BlockPos raw(BlockPos pos) {
+    public static net.minecraft.core.BlockPos raw(BlockPos pos) {
         return pos.toMinecraft();
     }
 
-    public static net.minecraft.util.math.Direction raw(Direction direction) {
+    public static net.minecraft.core.Direction raw(Direction direction) {
         return direction.toMinecraft();
     }
 
-    public static net.minecraft.world.World raw(World world) {
+    public static net.minecraft.world.level.Level raw(World world) {
         return world.toMinecraft();
     }
 
-    public static net.minecraft.world.WorldView raw(WorldView world) {
+    public static net.minecraft.world.level.LevelReader raw(WorldView world) {
         return world.toMinecraft();
     }
 
-    public static net.minecraft.world.WorldAccess raw(WorldAccess world) {
+    public static net.minecraft.world.level.LevelAccessor raw(WorldAccess world) {
         return world.toMinecraft();
     }
 
-    public static net.minecraft.world.BlockView raw(BlockView world) {
+    public static net.minecraft.world.level.BlockGetter raw(BlockView world) {
         return world.toMinecraft();
     }
 }

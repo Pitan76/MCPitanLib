@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 
 public class CollisionShapeEvent extends OutlineShapeEvent {
 
-    public CollisionShapeEvent(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public CollisionShapeEvent(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         super(state, world, pos, context);
     }
 }

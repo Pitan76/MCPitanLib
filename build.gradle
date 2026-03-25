@@ -1,6 +1,7 @@
 plugins {
     id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'
     id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 def loadProperties(filename) {
@@ -33,7 +34,8 @@ dependencies {
 
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-//    include 'org.yaml:snakeyaml:2.0'
+    implementation 'org.yaml:snakeyaml:2.0'
+    include 'org.yaml:snakeyaml:2.0'
 
 //    api("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
 //        exclude(group: "net.fabricmc.fabric-api")
@@ -61,6 +63,19 @@ processResources {
                 "minecraft_version": project.minecraft_version,
                 "loader_version": project.fabric_loader_version
     }
+}
+
+shadowJar {
+    relocate "org.yaml.snakeyaml", "net.pitan76.mcpitanlib.shadow.yaml.snakeyaml"
+    archiveClassifier.set("")
+}
+
+tasks.build {
+    dependsOn shadowJar
+}
+
+tasks.jar {
+    enabled = false
 }
 
 def targetJavaVersion = 25

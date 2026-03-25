@@ -1,17 +1,17 @@
 package net.pitan76.mcpitanlib.api.client.event.listener;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.render.state.OutlineRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.Camera;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.state.BlockOutlineRenderState;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.midohra.client.render.CameraWrapper;
 import net.pitan76.mcpitanlib.midohra.util.hit.HitResultType;
 
@@ -21,7 +21,7 @@ public class BeforeBlockOutlineEvent {
     public WorldRenderContext context;
     public HitResult hitResult;
 
-    public BeforeBlockOutlineEvent(WorldRenderContext context, OutlineRenderState renderState) {
+    public BeforeBlockOutlineEvent(WorldRenderContext context, BlockOutlineRenderState renderState) {
         this.context = context;
         this.hitResult = context.getHitResult();
     }
@@ -39,7 +39,7 @@ public class BeforeBlockOutlineEvent {
         return context;
     }
 
-    public WorldRenderer getWorldRenderer() {
+    public LevelRenderer getWorldRenderer() {
         return context.getWorldRenderer();
     }
 
@@ -47,7 +47,7 @@ public class BeforeBlockOutlineEvent {
         return Optional.ofNullable(getWorld().getBlockState(getBlockPos().orElse(null)));
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return context.getWorld();
     }
 
@@ -76,7 +76,7 @@ public class BeforeBlockOutlineEvent {
         return context.getOutlineShape();
     }
 
-    public MatrixStack getMatrixStack() {
+    public PoseStack getMatrixStack() {
         return context.getMatrixStack();
     }
 
@@ -100,7 +100,7 @@ public class BeforeBlockOutlineEvent {
         context.drawBox(red, green, blue, alpha);
     }
 
-    public void drawBox(Box box, float red, float green, float blue, float alpha) {
+    public void drawBox(AABB box, float red, float green, float blue, float alpha) {
         context.drawBox(box, red, green, blue, alpha);
     }
 

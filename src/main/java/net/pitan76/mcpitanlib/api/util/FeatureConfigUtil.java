@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.structure.rule.RuleTest;
-import net.minecraft.structure.rule.TagMatchRuleTest;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class FeatureConfigUtil {
      * @param oreFeatureConfig The ore feature config
      * @return The new ConfiguredFeature
      */
-    public static ConfiguredFeature<?, ?> createConfiguredFeature(OreFeatureConfig oreFeatureConfig) {
+    public static ConfiguredFeature<?, ?> createConfiguredFeature(OreConfiguration oreFeatureConfig) {
         return new ConfiguredFeature<>(Feature.ORE, oreFeatureConfig);
     }
 
@@ -31,8 +31,8 @@ public class FeatureConfigUtil {
      * @param size The size
      * @return The new OreFeatureConfig
      */
-    public static OreFeatureConfig createOreFeatureConfig(RuleTest test, BlockState state, int size) {
-        return new OreFeatureConfig(test, state, size);
+    public static OreConfiguration createOreFeatureConfig(RuleTest test, BlockState state, int size) {
+        return new OreConfiguration(test, state, size);
     }
 
     /**
@@ -42,8 +42,8 @@ public class FeatureConfigUtil {
      * @param size The size
      * @return The new OreFeatureConfig
      */
-    public static OreFeatureConfig createOreFeatureConfig(RuleTest test, Block block, int size) {
-        return createOreFeatureConfig(test, block.getDefaultState(), size);
+    public static OreConfiguration createOreFeatureConfig(RuleTest test, Block block, int size) {
+        return createOreFeatureConfig(test, block.defaultBlockState(), size);
     }
 
     /**
@@ -52,8 +52,8 @@ public class FeatureConfigUtil {
      * @param size The size
      * @return The new OreFeatureConfig
      */
-    public static OreFeatureConfig createOreFeatureConfig(List<OreFeatureConfig.Target> targets, int size) {
-        return new OreFeatureConfig(targets, size);
+    public static OreConfiguration createOreFeatureConfig(List<OreConfiguration.TargetBlockState> targets, int size) {
+        return new OreConfiguration(targets, size);
     }
 
     /**
@@ -62,9 +62,9 @@ public class FeatureConfigUtil {
      * @param size The size
      * @return The new OreFeatureConfig
      */
-    public static OreFeatureConfig createOreFeatureConfig(Map<RuleTest, BlockState> targetMap, int size) {
-        List<OreFeatureConfig.Target> targets = new ArrayList<>();
-        targetMap.forEach((ruleTest, blockState) -> targets.add(OreFeatureConfig.createTarget(ruleTest, blockState)));
+    public static OreConfiguration createOreFeatureConfig(Map<RuleTest, BlockState> targetMap, int size) {
+        List<OreConfiguration.TargetBlockState> targets = new ArrayList<>();
+        targetMap.forEach((ruleTest, blockState) -> targets.add(OreConfiguration.target(ruleTest, blockState)));
         return createOreFeatureConfig(targets, size);
     }
 
@@ -74,8 +74,8 @@ public class FeatureConfigUtil {
      * @param size The size
      * @return The new OreFeatureConfig
      */
-    public static OreFeatureConfig createStoneOreFeatureConfig(BlockState state, int size) {
-        RuleTest ruleTest = new TagMatchRuleTest(BlockTags.BASE_STONE_OVERWORLD);
+    public static OreConfiguration createStoneOreFeatureConfig(BlockState state, int size) {
+        RuleTest ruleTest = new TagMatchTest(BlockTags.BASE_STONE_OVERWORLD);
         return createOreFeatureConfig(ruleTest, state, size);
     }
 }

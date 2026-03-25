@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.text;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class TextConverter {
 
-    public static MutableText convert(String string) {
+    public static MutableComponent convert(String string) {
         return convert(string, false);
     }
 
@@ -23,10 +23,10 @@ public class TextConverter {
      * @param translatable boolean
      * @return MutableText
      */
-    public static MutableText convert(String text, boolean translatable) {
+    public static MutableComponent convert(String text, boolean translatable) {
         String[] splits = split(text);
-        MutableText result = Text.literal("");
-        Formatting[] currentFormatting = {};
+        MutableComponent result = Component.literal("");
+        ChatFormatting[] currentFormatting = {};
 
         for (String part : splits) {
             // Section
@@ -34,24 +34,24 @@ public class TextConverter {
                 char code = part.charAt(1);
                 // Reset
                 if (code == 'r') {
-                    currentFormatting = new Formatting[]{};
+                    currentFormatting = new ChatFormatting[]{};
                     continue;
                 }
 
-                Formatting format = Formatting.byCode(code);
+                ChatFormatting format = ChatFormatting.getByCode(code);
                 if (format == null)
                     continue;
 
                 // Bold, Italic, Underline, Strikethrough, Obfuscated
                 if (code >= 'k' && code <= 'o') {
-                    ArrayList<Formatting> list = new ArrayList<>(Arrays.asList(currentFormatting));
+                    ArrayList<ChatFormatting> list = new ArrayList<>(Arrays.asList(currentFormatting));
                     list.add(format);
-                    currentFormatting = list.toArray(new Formatting[0]);
+                    currentFormatting = list.toArray(new ChatFormatting[0]);
                     continue;
                 }
 
                 // Color
-                currentFormatting = new Formatting[]{format};
+                currentFormatting = new ChatFormatting[]{format};
                 continue;
             }
 
@@ -59,32 +59,32 @@ public class TextConverter {
             if (translatable) {
                 Pattern pattern = Pattern.compile("\\{(.+?)\\}");
                 Matcher matcher = pattern.matcher(part);
-                MutableText tempText = Text.literal("");
+                MutableComponent tempText = Component.literal("");
                 int lastIndex = 0;
 
                 while (matcher.find()) {
                     // {translatable key} より前の文字列を追加
                     if (matcher.start() > lastIndex) {
-                        tempText.append(Text.literal(part.substring(lastIndex, matcher.start())).formatted(currentFormatting));
+                        tempText.append(Component.literal(part.substring(lastIndex, matcher.start())).withStyle(currentFormatting));
                     }
 
                     // {translatable key} を追加
                     String key = matcher.group(1);
-                    tempText.append(Text.translatable(key).formatted(currentFormatting));
+                    tempText.append(Component.translatable(key).withStyle(currentFormatting));
 
                     lastIndex = matcher.end();
                 }
 
                 // 最後の文字列を追加
                 if (lastIndex < part.length()) {
-                    tempText.append(Text.literal(part.substring(lastIndex)).formatted(currentFormatting));
+                    tempText.append(Component.literal(part.substring(lastIndex)).withStyle(currentFormatting));
                 }
 
                 result.append(tempText);
                 continue;
             }
 
-            result.append(Text.literal(part).formatted(currentFormatting));
+            result.append(Component.literal(part).withStyle(currentFormatting));
         }
 
         return result;

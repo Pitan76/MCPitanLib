@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.color;
 
-import net.minecraft.util.DyeColor;
+import net.minecraft.world.item.DyeColor;
 import net.pitan76.mcpitanlib.api.util.CompatStringIdentifiable;
 
 public class CompatDyeColor implements CompatStringIdentifiable {

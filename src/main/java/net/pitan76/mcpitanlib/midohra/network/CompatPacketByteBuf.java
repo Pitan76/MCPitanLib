@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.midohra.network;
 
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 
-public class CompatPacketByteBuf extends PacketByteBuf {
-    public CompatPacketByteBuf(PacketByteBuf buf) {
+public class CompatPacketByteBuf extends FriendlyByteBuf {
+    public CompatPacketByteBuf(FriendlyByteBuf buf) {
         super(buf);
     }
 
@@ -17,11 +17,11 @@ public class CompatPacketByteBuf extends PacketByteBuf {
         return new CompatPacketByteBuf();
     }
 
-    public static CompatPacketByteBuf of(PacketByteBuf buf) {
+    public static CompatPacketByteBuf of(FriendlyByteBuf buf) {
         return new CompatPacketByteBuf(buf);
     }
 
-    public PacketByteBuf getRaw() {
+    public FriendlyByteBuf getRaw() {
         return this;
     }
 
@@ -88,21 +88,21 @@ public class CompatPacketByteBuf extends PacketByteBuf {
         return super.readByteArray();
     }
 
-    public CompatPacketByteBuf writeString(String string) {
-        super.writeString(string);
+    public CompatPacketByteBuf writeUtf(String string) {
+        super.writeUtf(string);
         return this;
     }
 
-    public String readString() {
-        return super.readString();
+    public String readUtf() {
+        return super.readUtf();
     }
 
-    public CompatPacketByteBuf writeBlockPos(net.minecraft.util.math.BlockPos pos) {
+    public CompatPacketByteBuf writeBlockPos(net.minecraft.core.BlockPos pos) {
         super.writeBlockPos(pos);
         return this;
     }
 
-    public net.minecraft.util.math.BlockPos readBlockPos() {
+    public net.minecraft.core.BlockPos readBlockPos() {
         return super.readBlockPos();
     }
 

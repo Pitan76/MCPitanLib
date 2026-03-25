@@ -1,20 +1,20 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
 
 public class OutlineShapeEvent extends BaseEvent {
     public BlockState state;
-    public BlockView world;
+    public BlockGetter world;
     public BlockPos pos;
-    public ShapeContext context;
+    public CollisionContext context;
 
-    public OutlineShapeEvent(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public OutlineShapeEvent(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -29,24 +29,24 @@ public class OutlineShapeEvent extends BaseEvent {
         return state;
     }
 
-    public BlockView getWorld() {
+    public BlockGetter getWorld() {
         return world;
     }
 
-    public ShapeContext getContext() {
+    public CollisionContext getContext() {
         return context;
     }
 
     public <T extends Comparable<T>> T getProperty(Property<T> property) {
-        return state.get(property);
+        return state.getValue(property);
     }
 
     public <T extends Comparable<T>> boolean containsProperty(Property<T> property) {
-        return state.contains(property);
+        return state.hasProperty(property);
     }
 
     public <T extends Comparable<T>, V extends T> BlockState with(Property<T> property, V value) {
-        return state.with(property, value);
+        return state.setValue(property, value);
     }
 
     public <T extends Comparable<T>> T get(IProperty<T> property) {

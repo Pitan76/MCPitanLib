@@ -1,15 +1,15 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.equipment.ArmorMaterial;
-import net.minecraft.item.equipment.EquipmentAssetKeys;
-import net.minecraft.item.equipment.EquipmentType;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.EquipmentAssets;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.util.IngredientUtil;
 
@@ -25,7 +25,7 @@ public interface CompatibleArmorMaterial {
     SoundEvent getEquipSound();
 
     default Ingredient getRepairIngredient() {
-        return IngredientUtil.fromTagByIdentifier(getRepairTag().id());
+        return IngredientUtil.fromTagByIdentifier(getRepairTag().location());
     }
 
     /**
@@ -50,15 +50,15 @@ public interface CompatibleArmorMaterial {
 
     @Deprecated
     default ArmorMaterial build() {
-        return new ArmorMaterial(0, getDefense(), getEnchantability(), RegistryEntry.of(getEquipSound()), getToughness(), getKnockbackResistance(), getRepairTag(), RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, getId()));
+        return new ArmorMaterial(0, getDefense(), getEnchantability(), Holder.direct(getEquipSound()), getToughness(), getKnockbackResistance(), getRepairTag(), ResourceKey.create(EquipmentAssets.ROOT_ID, getId()));
     }
 
-    default EnumMap<EquipmentType, Integer> getDefense() {
-        EnumMap<EquipmentType, Integer> map = new EnumMap<>(EquipmentType.class);
-        map.put(EquipmentType.HELMET, this.getProtection(ArmorEquipmentType.HEAD));
-        map.put(EquipmentType.CHESTPLATE, this.getProtection(ArmorEquipmentType.CHEST));
-        map.put(EquipmentType.LEGGINGS, this.getProtection(ArmorEquipmentType.LEGS));
-        map.put(EquipmentType.BOOTS, this.getProtection(ArmorEquipmentType.FEET));
+    default EnumMap<ArmorType, Integer> getDefense() {
+        EnumMap<ArmorType, Integer> map = new EnumMap<>(ArmorType.class);
+        map.put(ArmorType.HELMET, this.getProtection(ArmorEquipmentType.HEAD));
+        map.put(ArmorType.CHESTPLATE, this.getProtection(ArmorEquipmentType.CHEST));
+        map.put(ArmorType.LEGGINGS, this.getProtection(ArmorEquipmentType.LEGS));
+        map.put(ArmorType.BOOTS, this.getProtection(ArmorEquipmentType.FEET));
         return map;
     }
 }

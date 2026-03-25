@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.ClickType;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.gui.args.SlotClickEvent;
@@ -19,12 +19,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleScreenHandler extends ScreenHandler {
-    protected SimpleScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId) {
+public class SimpleScreenHandler extends AbstractContainerMenu {
+    protected SimpleScreenHandler(@Nullable MenuType<?> type, int syncId) {
         super(type, syncId);
     }
 
-    protected SimpleScreenHandler(@Nullable ScreenHandlerType<?> type, CreateMenuEvent e) {
+    protected SimpleScreenHandler(@Nullable MenuType<?> type, CreateMenuEvent e) {
         this(type, e.getSyncId());
     }
 
@@ -33,7 +33,7 @@ public class SimpleScreenHandler extends ScreenHandler {
 
     @Deprecated
     @Override
-    public boolean canUse(PlayerEntity player) {
+    public boolean stillValid(Player player) {
         return canUse(new Player(player));
     }
 
@@ -41,18 +41,18 @@ public class SimpleScreenHandler extends ScreenHandler {
         return true;
     }
 
-    public Slot addNormalSlot(Inventory inventory, int index, int x, int y) {
+    public Slot addNormalSlot(Container inventory, int index, int x, int y) {
         Slot slot = new Slot(inventory, index, x, y);
         return this.addSlot(slot);
     }
 
-    public <T extends Slot> Slot addSlot(Inventory inventory, int index, int x, int y, SlotFactory<T> factory) {
+    public <T extends Slot> Slot addSlot(Container inventory, int index, int x, int y, SlotFactory<T> factory) {
         Slot slot = factory.create(inventory, index, x, y);
         return this.addSlot(slot);
     }
 
     public interface SlotFactory<T extends Slot> {
-        T create(Inventory inventory, int index, int x, int y);
+        T create(Container inventory, int index, int x, int y);
     }
 
     public Slot callAddSlot(Slot slot) {
@@ -67,12 +67,12 @@ public class SimpleScreenHandler extends ScreenHandler {
 
     @Deprecated
     @Override
-    public void onClosed(PlayerEntity player) {
+    public void removed(Player player) {
         this.close(new Player(player));
     }
 
     public void close(Player player) {
-        super.onClosed(player.getPlayerEntity());
+        super.removed(player.getPlayerEntity());
     }
 
 
@@ -84,7 +84,7 @@ public class SimpleScreenHandler extends ScreenHandler {
      * @param x start x
      * @param y start y
      */
-    protected List<Slot> addPlayerMainInventorySlots(PlayerInventory inventory, int x, int y) {
+    protected List<Slot> addPlayerMainInventorySlots(Inventory inventory, int x, int y) {
         hasMainInventory = true;
         return this.addSlots(inventory, 9, x, y, DEFAULT_SLOT_SIZE, 9, 3);
     }
@@ -95,7 +95,7 @@ public class SimpleScreenHandler extends ScreenHandler {
      * @param x start x
      * @param y start y
      */
-    protected List<Slot> addPlayerHotbarSlots(PlayerInventory inventory, int x, int y) {
+    protected List<Slot> addPlayerHotbarSlots(Inventory inventory, int x, int y) {
         hasHotbar = true;
         return this.addSlotsX(inventory, 0, x, y, DEFAULT_SLOT_SIZE, 9);
     }
@@ -111,7 +111,7 @@ public class SimpleScreenHandler extends ScreenHandler {
      * @param maxAmountY y line slot max amount
      * @return Slot list
      */
-    protected List<Slot> addSlots(Inventory inventory, int firstIndex, int firstX, int firstY, int size, int maxAmountX, int maxAmountY) {
+    protected List<Slot> addSlots(Container inventory, int firstIndex, int firstX, int firstY, int size, int maxAmountX, int maxAmountY) {
         if (size < 0) size = DEFAULT_SLOT_SIZE;
         List<Slot> slots = new ArrayList<>();
         for (int y = 0; y < maxAmountY; ++y) {
@@ -131,7 +131,7 @@ public class SimpleScreenHandler extends ScreenHandler {
      * @param amount slot amount
      * @return Slot list
      */
-    protected List<Slot> addSlotsX(Inventory inventory, int firstIndex, int firstX, int y, int size, int amount) {
+    protected List<Slot> addSlotsX(Container inventory, int firstIndex, int firstX, int y, int size, int amount) {
         if (size < 0) size = DEFAULT_SLOT_SIZE;
         List<Slot> slots = new ArrayList<>();
         for (int x = 0; x < amount; ++x) {
@@ -151,7 +151,7 @@ public class SimpleScreenHandler extends ScreenHandler {
      * @param amount slot amount
      * @return Slot list
      */
-    protected List<Slot> addSlotsY(Inventory inventory, int firstIndex, int x, int firstY, int size, int amount) {
+    protected List<Slot> addSlotsY(Container inventory, int firstIndex, int x, int firstY, int size, int amount) {
         if (size < 0) size = DEFAULT_SLOT_SIZE;
         List<Slot> slots = new ArrayList<>();
         for (int y = 0; y < amount; ++y) {
@@ -162,18 +162,18 @@ public class SimpleScreenHandler extends ScreenHandler {
     }
 
     @Deprecated
-    public ItemStack quickMoveOverride(PlayerEntity player, int index) {
+    public ItemStack quickMoveOverride(Player player, int index) {
         return quickMoveOverride(new Player(player), index);
     }
 
     public boolean callInsertItem(ItemStack stack, int startIndex, int endIndex, boolean fromLast) {
-        return this.insertItem(stack, startIndex, endIndex, fromLast);
+        return this.moveItemStackTo(stack, startIndex, endIndex, fromLast);
     }
 
     @Deprecated
     @Override
-    protected boolean insertItem(ItemStack stack, int startIndex, int endIndex, boolean fromLast) {
-        return super.insertItem(stack, startIndex, endIndex, fromLast);
+    protected boolean moveItemStackTo(ItemStack stack, int startIndex, int endIndex, boolean fromLast) {
+        return super.moveItemStackTo(stack, startIndex, endIndex, fromLast);
     }
 
     public ItemStack quickMoveOverride(Player player, int index) {
@@ -216,7 +216,7 @@ public class SimpleScreenHandler extends ScreenHandler {
 
     @Deprecated
     @Override
-    public ItemStack quickMove(PlayerEntity player, int slot) {
+    public ItemStack quickMoveStack(Player player, int slot) {
         return quickMoveOverride(player, slot);
     }
 
@@ -232,45 +232,45 @@ public class SimpleScreenHandler extends ScreenHandler {
 
     @Deprecated
     @Override
-    public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
+    public void clicked(int slotIndex, int button, ClickType actionType, Player player) {
         overrideOnSlotClick(slotIndex, button, actionType, new Player(player));
     }
 
-    public void overrideOnSlotClick(int slotIndex, int button, SlotActionType actionType, Player player) {
+    public void overrideOnSlotClick(int slotIndex, int button, ClickType actionType, Player player) {
         onSlotClick(new SlotClickEvent(slotIndex, button, actionType, player));
     }
 
     public void onSlotClick(SlotClickEvent e) {
-        super.onSlotClick(e.slot, e.button, e.actionType, e.player.getEntity());
+        super.clicked(e.slot, e.button, e.actionType, e.player.getEntity());
     }
 
     @Override
     @Deprecated
-    public void setCursorStack(ItemStack stack) {
+    public void setCarried(ItemStack stack) {
         callSetCursorStack(stack);
     }
 
     public void callSetCursorStack(ItemStack stack) {
-        super.setCursorStack(stack);
+        super.setCarried(stack);
     }
 
     @Override
     @Deprecated
-    public void setStackInSlot(int slot, int revision, ItemStack stack) {
+    public void setItem(int slot, int revision, ItemStack stack) {
         callSetStackInSlot(slot, revision, stack);
     }
 
     public void callSetStackInSlot(int slot, int revision, ItemStack stack) {
-        super.setStackInSlot(slot, revision, stack);
+        super.setItem(slot, revision, stack);
     }
 
     @Override
     @Deprecated
-    public int getRevision() {
+    public int getStateId() {
         return callGetRevision();
     }
 
     public int callGetRevision() {
-        return super.getRevision();
+        return super.getStateId();
     }
 }

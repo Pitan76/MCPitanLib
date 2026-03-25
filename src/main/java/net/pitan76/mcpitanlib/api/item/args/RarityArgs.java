@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item.args;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class RarityArgs {
     public ItemStack stack;

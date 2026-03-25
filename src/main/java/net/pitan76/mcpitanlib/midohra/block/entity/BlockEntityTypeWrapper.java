@@ -6,7 +6,7 @@ import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.BlockView;
 
 public class BlockEntityTypeWrapper {
-    private final net.minecraft.block.entity.BlockEntityType<?> type;
+    private final net.minecraft.world.level.block.entity.BlockEntityType<?> type;
 
     public static final BlockEntityTypeWrapper EMPTY = new BlockEntityTypeWrapper();
 
@@ -14,11 +14,11 @@ public class BlockEntityTypeWrapper {
         this.type = null;
     }
 
-    protected BlockEntityTypeWrapper(net.minecraft.block.entity.BlockEntityType<?> blockEntity) {
+    protected BlockEntityTypeWrapper(net.minecraft.world.level.block.entity.BlockEntityType<?> blockEntity) {
         this.type = blockEntity;
     }
 
-    public static BlockEntityTypeWrapper of(net.minecraft.block.entity.BlockEntityType<?> blockEntity) {
+    public static BlockEntityTypeWrapper of(net.minecraft.world.level.block.entity.BlockEntityType<?> blockEntity) {
         return new BlockEntityTypeWrapper(blockEntity);
     }
 
@@ -26,7 +26,7 @@ public class BlockEntityTypeWrapper {
         return EMPTY;
     }
 
-    public net.minecraft.block.entity.BlockEntityType<?> get() {
+    public net.minecraft.world.level.block.entity.BlockEntityType<?> get() {
         return type;
     }
 
@@ -39,20 +39,20 @@ public class BlockEntityTypeWrapper {
     }
 
     public boolean supports(BlockState state) {
-        return isPresent() && get().supports(state.toMinecraft());
+        return isPresent() && get().isValid(state.toMinecraft());
     }
 
     public BlockEntityWrapper getBlockEntity(BlockView world, BlockPos pos) {
         if (isEmpty())
             return BlockEntityWrapper.EMPTY;
 
-        return SupplierBlockEntityWrapper.of(get().get(world.getRaw(), pos.toMinecraft()));
+        return SupplierBlockEntityWrapper.of(get().getBlockEntity(world.getRaw(), pos.toMinecraft()));
     }
 
     public BlockEntityWrapper createBlockEntity(TileCreateEvent e) {
         if (isEmpty())
             return BlockEntityWrapper.EMPTY;
 
-        return SupplierBlockEntityWrapper.of(get().instantiate(e.getBlockPos(), e.getBlockState()));
+        return SupplierBlockEntityWrapper.of(get().create(e.getBlockPos(), e.getBlockState()));
     }
 }

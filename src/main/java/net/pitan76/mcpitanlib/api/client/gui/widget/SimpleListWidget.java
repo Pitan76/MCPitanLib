@@ -3,12 +3,13 @@ package net.pitan76.mcpitanlib.api.client.gui.widget;
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList.Entry;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,18 +17,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
-public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetEntry> {
+public class SimpleListWidget extends ContainerObjectSelectionList<SimpleListWidget.WidgetEntry> {
 
-    public SimpleListWidget(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
+    public SimpleListWidget(Minecraft client, int width, int height, int top, int bottom, int itemHeight) {
         this(client, width, bottom - top, top, itemHeight);
     }
 
-    public SimpleListWidget(MinecraftClient client, int width, int height, int y, int itemHeight) {
+    public SimpleListWidget(Minecraft client, int width, int height, int y, int itemHeight) {
         super(client, width, height, y, itemHeight);
         this.centerListVertically = false;
     }
 
-    public void add(ClickableWidget widget) {
+    public void add(AbstractWidget widget) {
         super.addEntry(WidgetEntry.create(widget));
     }
 
@@ -45,19 +46,19 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
     }
 
     @Override
-    protected int getScrollbarX() {
-        return super.getScrollbarX() + 32;
+    protected int scrollBarX() {
+        return super.scrollBarX() + 32;
     }
 
     @Nullable
-    public ClickableWidget getWidget(int index) {
+    public AbstractWidget getWidget(int index) {
         if (index < 0 || index >= this.children().size()) {
             return null;
         }
         return this.children().get(index).getWidget();
     }
 
-    public Optional<ClickableWidget> getHoveredWidget(double mouseX, double mouseY) {
+    public Optional<AbstractWidget> getHoveredWidget(double mouseX, double mouseY) {
         for (WidgetEntry entry : this.children()) {
             if (entry.getWidget().isMouseOver(mouseX, mouseY)) {
                 return Optional.of(entry.getWidget());
@@ -79,35 +80,35 @@ public class SimpleListWidget extends ElementListWidget<SimpleListWidget.WidgetE
 
     @Environment(EnvType.CLIENT)
     public static class WidgetEntry extends Entry<WidgetEntry> {
-        protected final ClickableWidget widget;
+        protected final AbstractWidget widget;
 
-        public WidgetEntry(ClickableWidget widget) {
+        public WidgetEntry(AbstractWidget widget) {
             this.widget = widget;
         }
 
-        public static WidgetEntry create(ClickableWidget widget) {
+        public static WidgetEntry create(AbstractWidget widget) {
             return new WidgetEntry(widget);
         }
 
         @Deprecated
         @Override
-        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+        public void renderContent(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
             widget.render(context, mouseX, mouseY, deltaTicks);
         }
 
         @Deprecated
         @Override
-        public List<? extends Element> children() {
+        public List<? extends GuiEventListener> children() {
             return ImmutableList.of(widget);
         }
 
         @Deprecated
         @Override
-        public List<? extends Selectable> selectableChildren() {
+        public List<? extends NarratableEntry> narratables() {
             return ImmutableList.of(widget);
         }
 
-        public ClickableWidget getWidget() {
+        public AbstractWidget getWidget() {
             return widget;
         }
     }

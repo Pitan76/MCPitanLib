@@ -6,11 +6,11 @@ import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.WorldView;
 
 public class CanPlaceAtArgs extends BaseEvent {
-    public final net.minecraft.block.BlockState state;
-    public final net.minecraft.world.WorldView world;
-    public final net.minecraft.util.math.BlockPos pos;
+    public final net.minecraft.world.level.block.state.BlockState state;
+    public final net.minecraft.world.level.LevelReader world;
+    public final net.minecraft.core.BlockPos pos;
 
-    public CanPlaceAtArgs(net.minecraft.block.BlockState state, net.minecraft.world.WorldView world, net.minecraft.util.math.BlockPos pos) {
+    public CanPlaceAtArgs(net.minecraft.world.level.block.state.BlockState state, net.minecraft.world.level.LevelReader world, net.minecraft.core.BlockPos pos) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -20,15 +20,15 @@ public class CanPlaceAtArgs extends BaseEvent {
         this(state.toMinecraft(), world.toMinecraft(), pos.toMinecraft());
     }
 
-    public net.minecraft.block.BlockState getState() {
+    public net.minecraft.world.level.block.state.BlockState getState() {
         return state;
     }
 
-    public net.minecraft.world.WorldView getWorld() {
+    public net.minecraft.world.level.LevelReader getWorld() {
         return world;
     }
 
-    public net.minecraft.util.math.BlockPos getPos() {
+    public net.minecraft.core.BlockPos getPos() {
         return pos;
     }
 
@@ -45,10 +45,10 @@ public class CanPlaceAtArgs extends BaseEvent {
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public boolean isServer() {
-        return !world.isClient();
+        return !world.isClientSide();
     }
 }

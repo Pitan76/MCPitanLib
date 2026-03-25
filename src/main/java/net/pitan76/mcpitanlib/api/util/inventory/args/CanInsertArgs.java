@@ -9,7 +9,7 @@ public class CanInsertArgs {
         this.stack = stack;
     }
 
-    public CanInsertArgs(net.minecraft.item.ItemStack stack) {
+    public CanInsertArgs(net.minecraft.world.item.ItemStack stack) {
         this(ItemStack.of(stack));
     }
 
@@ -17,7 +17,7 @@ public class CanInsertArgs {
         return stack;
     }
 
-    public net.minecraft.item.ItemStack getMcStack() {
+    public net.minecraft.world.item.ItemStack getMcStack() {
         return stack.toMinecraft();
     }
 }

@@ -1,40 +1,40 @@
 package net.pitan76.mcpitanlib.api.state.property;
 
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.StringRepresentable;
 
 import java.util.function.Predicate;
 
-public class EnumProperty<T extends Enum<T> & StringIdentifiable> implements IProperty<T> {
+public class EnumProperty<T extends Enum<T> & StringRepresentable> implements IProperty<T> {
 
-    private final net.minecraft.state.property.EnumProperty<T> property;
+    private final net.minecraft.world.level.block.state.properties.EnumProperty property;
 
     public EnumProperty(String name, Class<T> type) {
-        this(net.minecraft.state.property.EnumProperty.of(name, type));
+        this(net.minecraft.world.level.block.state.properties.EnumProperty.create(name, type));
     }
 
     public EnumProperty(String name, Class<T> type, Predicate<T> filter) {
-        this(net.minecraft.state.property.EnumProperty.of(name, type, filter));
+        this(net.minecraft.world.level.block.state.properties.EnumProperty.create(name, type, filter));
     }
 
-    public EnumProperty(net.minecraft.state.property.EnumProperty<T> property) {
+    public EnumProperty(net.minecraft.world.level.block.state.properties.EnumProperty property) {
         this.property = property;
     }
 
-    public static <T extends Enum<T> & StringIdentifiable> EnumProperty<T> of(String name, Class<T> type) {
+    public static <T extends Enum<T> & StringRepresentable> EnumProperty<T> of(String name, Class<T> type) {
         return new EnumProperty<>(name, type);
     }
 
-    public static <T extends Enum<T> & StringIdentifiable> EnumProperty<T> of(String name, Class<T> type, Predicate<T> filter) {
+    public static <T extends Enum<T> & StringRepresentable> EnumProperty<T> of(String name, Class<T> type, Predicate<T> filter) {
         return new EnumProperty<>(name, type, filter);
     }
 
 
-    public static <T extends Enum<T> & StringIdentifiable> EnumProperty<T> of(net.minecraft.state.property.EnumProperty<T> property) {
+    public static <T extends Enum<T> & StringRepresentable> EnumProperty<T> of(net.minecraft.world.level.block.state.properties.EnumProperty property) {
         return new EnumProperty<>(property);
     }
 
     @Override
-    public net.minecraft.state.property.EnumProperty<T> getProperty() {
+    public net.minecraft.world.level.block.state.properties.EnumProperty getProperty() {
         return property;
     }
 }

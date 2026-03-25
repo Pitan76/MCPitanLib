@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.gui.inventory.sided;
 
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
 import net.pitan76.mcpitanlib.api.gui.inventory.sided.args.CanExtractArgs;
 import net.pitan76.mcpitanlib.api.gui.inventory.sided.args.CanInsertArgs;
 

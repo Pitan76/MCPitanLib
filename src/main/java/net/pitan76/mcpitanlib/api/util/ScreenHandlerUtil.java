@@ -2,53 +2,53 @@ package net.pitan76.mcpitanlib.api.util;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.registry.Registries;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.core.NonNullList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class ScreenHandlerUtil {
-    public static DefaultedList<Slot> getSlots(ScreenHandler screenHandler) {
+    public static NonNullList<Slot> getSlots(AbstractContainerMenu screenHandler) {
         return screenHandler.slots;
     }
 
-    public static Slot getSlot(ScreenHandler screenHandler, int index) {
+    public static Slot getSlot(AbstractContainerMenu screenHandler, int index) {
         return screenHandler.getSlot(index);
     }
 
-    public static List<ScreenHandlerType<?>> getAllScreenHandlerTypes() {
-        List<ScreenHandlerType<?>> screenHandlerTypes = new ArrayList<>();
-        for (ScreenHandlerType<?> screenHandler : Registries.SCREEN_HANDLER) {
+    public static List<MenuType<?>> getAllScreenHandlerTypes() {
+        List<MenuType<?>> screenHandlerTypes = new ArrayList<>();
+        for (MenuType<?> screenHandler : BuiltInRegistries.MENU) {
             screenHandlerTypes.add(screenHandler);
         }
         return screenHandlerTypes;
     }
 
-    public static void openExtendedMenu(ServerPlayerEntity player, NamedScreenHandlerFactory provider, Consumer<PacketByteBuf> bufWriter) {
+    public static void openExtendedMenu(ServerPlayer player, MenuProvider provider, Consumer<FriendlyByteBuf> bufWriter) {
         MenuRegistry.openExtendedMenu(player, provider, bufWriter);
     }
 
-    public static void openExtendedMenu(ServerPlayerEntity player, ExtendedMenuProvider provider) {
+    public static void openExtendedMenu(ServerPlayer player, ExtendedMenuProvider provider) {
         MenuRegistry.openExtendedMenu(player, provider);
     }
 
-    public static void openMenu(ServerPlayerEntity player, NamedScreenHandlerFactory provider) {
+    public static void openMenu(ServerPlayer player, MenuProvider provider) {
         MenuRegistry.openMenu(player, provider);
     }
 
-    public static int getRawId(ScreenHandlerType<?> type) {
-        return Registries.SCREEN_HANDLER.getRawId(type);
+    public static int getRawId(MenuType<?> type) {
+        return BuiltInRegistries.MENU.getId(type);
     }
 
-    public static ScreenHandlerType<?> fromIndex(int index) {
-        return Registries.SCREEN_HANDLER.get(index);
+    public static MenuType<?> fromIndex(int index) {
+        return BuiltInRegistries.MENU.byId(index);
     }
 }

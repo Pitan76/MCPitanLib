@@ -1,15 +1,15 @@
 package net.pitan76.mcpitanlib.api.client;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.Options;
+import net.minecraft.network.chat.Component;
 
 public class SimpleOptionsScreen extends SimpleScreen {
 
     protected final Screen parent;
-    protected final GameOptions gameOptions;
+    protected final Options gameOptions;
 
-    public SimpleOptionsScreen(Text title, Screen parent, GameOptions gameOptions) {
+    public SimpleOptionsScreen(Component title, Screen parent, Options gameOptions) {
         super(title);
         this.parent = parent;
         this.gameOptions = gameOptions;
@@ -17,11 +17,11 @@ public class SimpleOptionsScreen extends SimpleScreen {
 
     @Override
     public void removed() {
-        client.options.write();
+        client.options.save();
     }
 
     @Override
-    public void close() {
+    public void onClose() {
         client.setScreen(this.parent);
     }
 }

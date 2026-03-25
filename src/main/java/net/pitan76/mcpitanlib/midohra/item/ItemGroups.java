@@ -24,7 +24,7 @@ public class ItemGroups {
     public static final ItemGroupWrapper DECORATIONS = NATURAL;
     public static final ItemGroupWrapper MISC = INGREDIENTS;
 
-    private static ItemGroupWrapper of(net.minecraft.item.ItemGroup itemGroup) {
+    private static ItemGroupWrapper of(net.minecraft.world.item.CreativeModeTab itemGroup) {
         return ItemGroupWrapper.of(itemGroup);
     }
 }

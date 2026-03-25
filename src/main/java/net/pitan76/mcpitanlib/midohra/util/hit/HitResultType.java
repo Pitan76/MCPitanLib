@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.util.hit;
 
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.phys.HitResult;
 
 public enum HitResultType {
     MISS(HitResult.Type.MISS),

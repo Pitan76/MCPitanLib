@@ -1,24 +1,24 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.tile.ExtendBlockEntityTicker;
 import org.jetbrains.annotations.Nullable;
 
-public interface ExtendBlockEntityProvider extends BlockEntityProvider {
+public interface ExtendBlockEntityProvider extends EntityBlock {
 
     /**
      * @deprecated Use {@link #createBlockEntity(TileCreateEvent)} instead.
      */
     @Deprecated
     @Nullable
-    default BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    default BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return createBlockEntity(new TileCreateEvent(pos, state));
     }
 
@@ -37,7 +37,7 @@ public interface ExtendBlockEntityProvider extends BlockEntityProvider {
         if (getBlockEntityType() == null) return null;
 
         // return new ...BlockEntity(pos, state)
-        return getBlockEntityType().instantiate(event.getBlockPos(), event.getBlockState());
+        return getBlockEntityType().create(event.getBlockPos(), event.getBlockState());
     }
 
     @Nullable
@@ -47,10 +47,10 @@ public interface ExtendBlockEntityProvider extends BlockEntityProvider {
 
     @Nullable
     @Override
-    default <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+    default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
         if (isTick()) {
             return ((world1, pos, state1, blockEntity) -> {
-                if (getBlockEntityType() == null || blockEntity == getBlockEntityType().get(world, pos)) {
+                if (getBlockEntityType() == null || blockEntity == getBlockEntityType().getBlockEntity(world, pos)) {
                     if (blockEntity instanceof ExtendBlockEntityTicker<?>) {
                         ExtendBlockEntityTicker<T> ticker = (ExtendBlockEntityTicker<T>) blockEntity;
                         ticker.tick(world, pos, state, blockEntity);
@@ -61,11 +61,11 @@ public interface ExtendBlockEntityProvider extends BlockEntityProvider {
                 }
             });
         }
-        return BlockEntityProvider.super.getTicker(world, state, type);
+        return EntityBlock.super.getTicker(world, state, type);
     }
 
     @Nullable
-    default <T extends BlockEntity> ExtendBlockEntityTicker<T> getCompatibleTicker(World world, BlockState state, BlockEntityType<T> type) {
+    default <T extends BlockEntity> ExtendBlockEntityTicker<T> getCompatibleTicker(Level world, BlockState state, BlockEntityType<T> type) {
         BlockEntityTicker<T> ticker = getTicker(world, state, type);
         if (ticker instanceof ExtendBlockEntityTicker<T>)
             return (ExtendBlockEntityTicker<T>) ticker;

@@ -1,27 +1,27 @@
 package net.pitan76.mcpitanlib.api.text;
 
-import net.minecraft.text.TextColor;
-import net.minecraft.util.Formatting;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.ChatFormatting;
 
 public class CompatTextColor {
     private final TextColor textColor;
 
-    public static final CompatTextColor BLACK = of(TextColor.fromFormatting(Formatting.BLACK));
-    public static final CompatTextColor DARK_BLUE = of(TextColor.fromFormatting(Formatting.DARK_BLUE));
-    public static final CompatTextColor DARK_GREEN = of(TextColor.fromFormatting(Formatting.DARK_GREEN));
-    public static final CompatTextColor DARK_AQUA = of(TextColor.fromFormatting(Formatting.DARK_AQUA));
-    public static final CompatTextColor DARK_RED = of(TextColor.fromFormatting(Formatting.DARK_RED));
-    public static final CompatTextColor DARK_PURPLE = of(TextColor.fromFormatting(Formatting.DARK_PURPLE));
-    public static final CompatTextColor GOLD = of(TextColor.fromFormatting(Formatting.GOLD));
-    public static final CompatTextColor GRAY = of(TextColor.fromFormatting(Formatting.GRAY));
-    public static final CompatTextColor DARK_GRAY = of(TextColor.fromFormatting(Formatting.DARK_GRAY));
-    public static final CompatTextColor BLUE = of(TextColor.fromFormatting(Formatting.BLUE));
-    public static final CompatTextColor GREEN = of(TextColor.fromFormatting(Formatting.GREEN));
-    public static final CompatTextColor AQUA = of(TextColor.fromFormatting(Formatting.AQUA));
-    public static final CompatTextColor RED = of(TextColor.fromFormatting(Formatting.RED));
-    public static final CompatTextColor LIGHT_PURPLE = of(TextColor.fromFormatting(Formatting.LIGHT_PURPLE));
-    public static final CompatTextColor YELLOW = of(TextColor.fromFormatting(Formatting.YELLOW));
-    public static final CompatTextColor WHITE = of(TextColor.fromFormatting(Formatting.WHITE));
+    public static final CompatTextColor BLACK = of(TextColor.fromLegacyFormat(ChatFormatting.BLACK));
+    public static final CompatTextColor DARK_BLUE = of(TextColor.fromLegacyFormat(ChatFormatting.DARK_BLUE));
+    public static final CompatTextColor DARK_GREEN = of(TextColor.fromLegacyFormat(ChatFormatting.DARK_GREEN));
+    public static final CompatTextColor DARK_AQUA = of(TextColor.fromLegacyFormat(ChatFormatting.DARK_AQUA));
+    public static final CompatTextColor DARK_RED = of(TextColor.fromLegacyFormat(ChatFormatting.DARK_RED));
+    public static final CompatTextColor DARK_PURPLE = of(TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE));
+    public static final CompatTextColor GOLD = of(TextColor.fromLegacyFormat(ChatFormatting.GOLD));
+    public static final CompatTextColor GRAY = of(TextColor.fromLegacyFormat(ChatFormatting.GRAY));
+    public static final CompatTextColor DARK_GRAY = of(TextColor.fromLegacyFormat(ChatFormatting.DARK_GRAY));
+    public static final CompatTextColor BLUE = of(TextColor.fromLegacyFormat(ChatFormatting.BLUE));
+    public static final CompatTextColor GREEN = of(TextColor.fromLegacyFormat(ChatFormatting.GREEN));
+    public static final CompatTextColor AQUA = of(TextColor.fromLegacyFormat(ChatFormatting.AQUA));
+    public static final CompatTextColor RED = of(TextColor.fromLegacyFormat(ChatFormatting.RED));
+    public static final CompatTextColor LIGHT_PURPLE = of(TextColor.fromLegacyFormat(ChatFormatting.LIGHT_PURPLE));
+    public static final CompatTextColor YELLOW = of(TextColor.fromLegacyFormat(ChatFormatting.YELLOW));
+    public static final CompatTextColor WHITE = of(TextColor.fromLegacyFormat(ChatFormatting.WHITE));
 
     public CompatTextColor(TextColor textColor) {
         this.textColor = textColor;
@@ -35,8 +35,8 @@ public class CompatTextColor {
         return new CompatTextColor(textColor);
     }
 
-    public static CompatTextColor fromFormatting(Formatting formatting) {
-        return new CompatTextColor(TextColor.fromFormatting(formatting));
+    public static CompatTextColor fromFormatting(ChatFormatting formatting) {
+        return new CompatTextColor(TextColor.fromLegacyFormat(formatting));
     }
 
     public static CompatTextColor fromFormatting(CompatFormatting formatting) {
@@ -61,7 +61,7 @@ public class CompatTextColor {
     }
 
     public static CompatTextColor parseOrThrow(String string) {
-        return new CompatTextColor(TextColor.parse(string).getOrThrow());
+        return new CompatTextColor(TextColor.parseColor(string).getOrThrow());
     }
 
     @Override

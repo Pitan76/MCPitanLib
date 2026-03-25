@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.client.render.block.entity;
 
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.state.CameraRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.phys.Vec3;
 import net.pitan76.mcpitanlib.api.client.render.block.entity.event.BlockEntityRenderEvent;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 
@@ -14,32 +14,32 @@ import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 public interface CompatBlockEntityRenderer<T extends CompatBlockEntity, S extends BlockEntityRenderState> extends BlockEntityRenderer<T, S> {
     void render(BlockEntityRenderEvent<T> event);
 
-    default void render(T entity, float tickProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, Vec3d cameraPos) {
+    default void render(T entity, float tickProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, Vec3 cameraPos) {
         render(new BlockEntityRenderEvent<>(this, entity, tickProgress, matrices, vertexConsumers, light, overlay));
     }
 
     @Override
-    default void render(S state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
+    default void submit(S state, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState) {
         render(new BlockEntityRenderEvent<>(this, state, matrices, queue, cameraState));
     }
 
     default boolean rendersOutsideBoundingBoxOverride(T blockEntity) {
-        return BlockEntityRenderer.super.rendersOutsideBoundingBox();
+        return BlockEntityRenderer.super.shouldRenderOffScreen();
     }
 
     default int getRenderDistanceOverride() {
-        return BlockEntityRenderer.super.getRenderDistance();
+        return BlockEntityRenderer.super.getViewDistance();
     }
 
     @Deprecated
     @Override
-    default boolean rendersOutsideBoundingBox() {
+    default boolean shouldRenderOffScreen() {
         return rendersOutsideBoundingBoxOverride(null);
     }
 
     @Deprecated
     @Override
-    default int getRenderDistance() {
+    default int getViewDistance() {
         return getRenderDistanceOverride();
     }
 }

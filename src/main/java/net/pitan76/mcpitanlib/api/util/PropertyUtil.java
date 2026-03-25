@@ -1,38 +1,43 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.enums.BlockHalf;
-import net.minecraft.block.enums.StairShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.state.property.*;
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.math.Direction;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.core.Direction;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 import net.pitan76.mcpitanlib.api.state.property.CompatProperties;
 import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 
 public class PropertyUtil {
     public static BooleanProperty createBooleanProperty(String name) {
-        return BooleanProperty.of(name);
+        return BooleanProperty.create(name);
     }
 
     public static DirectionProperty createDirectionProperty(String name) {
         return DirectionProperty.of(name);
     }
 
-    public static IntProperty createIntProperty(String name, int min, int max) {
-        return IntProperty.of(name, min, max);
+    public static IntegerProperty createIntProperty(String name, int min, int max) {
+        return IntegerProperty.create(name, min, max);
     }
 
-    public static <T extends Enum<T> & StringIdentifiable> EnumProperty<T> createEnumProperty(String name, Class<T> type) {
-        return EnumProperty.of(name, type);
+    public static <T extends Enum<T> & StringRepresentable> EnumProperty<T> createEnumProperty(String name, Class<T> type) {
+        return EnumProperty.create(name, type);
     }
 
     public static BlockState with(BlockState state, BooleanProperty property, boolean value) {
-        return state.with(property, value);
+        return state.setValue(property, value);
     }
 
-    public static BlockState with(BlockState state, IntProperty property, int value) {
-        return state.with(property, value);
+    public static BlockState with(BlockState state, IntegerProperty property, int value) {
+        return state.setValue(property, value);
     }
 
     public static BlockState with(BlockState state, DirectionProperty property, Direction value) {
@@ -40,11 +45,11 @@ public class PropertyUtil {
     }
 
     public static boolean get(BlockState state, BooleanProperty property) {
-        return state.get(property);
+        return state.getValue(property);
     }
 
-    public static int get(BlockState state, IntProperty property) {
-        return state.get(property);
+    public static int get(BlockState state, IntegerProperty property) {
+        return state.getValue(property);
     }
 
     public static Direction get(BlockState state, DirectionProperty property) {
@@ -64,11 +69,11 @@ public class PropertyUtil {
     }
 
     public static int getPower(BlockState state) {
-        return state.get(power());
+        return state.getValue(power());
     }
 
     public static boolean isPowered(BlockState state) {
-        return state.get(powered());
+        return state.getValue(powered());
     }
 
     public static void append(AppendPropertiesArgs args, Property<?>... properties) {
@@ -91,12 +96,12 @@ public class PropertyUtil {
         args.addProperty(powered());
     }
 
-    public static IntProperty power() {
-        return Properties.POWER;
+    public static IntegerProperty power() {
+        return BlockStateProperties.POWER;
     }
 
     public static BooleanProperty powered() {
-        return Properties.POWERED;
+        return BlockStateProperties.POWERED;
     }
 
     public static DirectionProperty facing() {
@@ -108,54 +113,54 @@ public class PropertyUtil {
     }
 
     public static EnumProperty<Direction.Axis> axis() {
-        return Properties.AXIS;
+        return BlockStateProperties.AXIS;
     }
 
-    public static EnumProperty<BlockHalf> blockHalf() {
-        return Properties.BLOCK_HALF;
+    public static EnumProperty<Half> blockHalf() {
+        return BlockStateProperties.HALF;
     }
 
-    public static EnumProperty<StairShape> stairShape() {
-        return Properties.STAIR_SHAPE;
+    public static EnumProperty<StairsShape> stairShape() {
+        return BlockStateProperties.STAIRS_SHAPE;
     }
 
     public static BooleanProperty lit() {
-        return Properties.LIT;
+        return BlockStateProperties.LIT;
     }
 
     public static BooleanProperty waterlogged() {
-        return Properties.WATERLOGGED;
+        return BlockStateProperties.WATERLOGGED;
     }
 
     public static BooleanProperty attached() {
-        return Properties.ATTACHED;
+        return BlockStateProperties.ATTACHED;
     }
 
     public static BooleanProperty hanging() {
-        return Properties.HANGING;
+        return BlockStateProperties.HANGING;
     }
 
     public static BooleanProperty bottom() {
-        return Properties.BOTTOM;
+        return BlockStateProperties.BOTTOM;
     }
 
     public static BooleanProperty conditional() {
-        return Properties.CONDITIONAL;
+        return BlockStateProperties.CONDITIONAL;
     }
 
     public static BooleanProperty inWall() {
-        return Properties.IN_WALL;
+        return BlockStateProperties.IN_WALL;
     }
 
     public static BooleanProperty open() {
-        return Properties.OPEN;
+        return BlockStateProperties.OPEN;
     }
 
     public static BooleanProperty occupied() {
-        return Properties.OCCUPIED;
+        return BlockStateProperties.OCCUPIED;
     }
 
     public static boolean contains(BlockState state, Property<?> property) {
-        return state.contains(property);
+        return state.hasProperty(property);
     }
 }

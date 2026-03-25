@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.world.World;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
@@ -21,18 +21,18 @@ public class ItemAppendTooltipEvent extends BaseEvent {
     public ItemStack stack;
 
     @Deprecated
-    public World world;
+    public Level world;
 
     @Deprecated
-    public List<Text> tooltip;
+    public List<Component> tooltip;
 
-    public TooltipType type;
+    public TooltipFlag type;
     public Item.TooltipContext context;
 
-    public TooltipDisplayComponent displayComponent;
-    public Consumer<Text> textConsumer;
+    public TooltipDisplay displayComponent;
+    public Consumer<Component> textConsumer;
 
-    public ItemAppendTooltipEvent(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipType type, Item.TooltipContext context) {
+    public ItemAppendTooltipEvent(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag type, Item.TooltipContext context) {
         this.stack = stack;
         this.world = world;
         this.tooltip = tooltip;
@@ -40,7 +40,7 @@ public class ItemAppendTooltipEvent extends BaseEvent {
         this.context = context;
     }
 
-    public ItemAppendTooltipEvent(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+    public ItemAppendTooltipEvent(ItemStack stack, Item.TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type) {
         this.stack = stack;
         this.context = context;
         this.displayComponent = displayComponent;
@@ -52,11 +52,11 @@ public class ItemAppendTooltipEvent extends BaseEvent {
         return stack;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
-    public List<Text> getTooltip() {
+    public List<Component> getTooltip() {
         return new ArrayList<>();
     }
 
@@ -64,17 +64,17 @@ public class ItemAppendTooltipEvent extends BaseEvent {
         return context;
     }
 
-    public void addTooltip(Text text) {
+    public void addTooltip(Component text) {
         textConsumer.accept(text);
     }
 
-    public void addTooltip(List<Text> texts) {
-        for (Text text : texts) {
+    public void addTooltip(List<Component> texts) {
+        for (Component text : texts) {
             addTooltip(text);
         }
     }
 
-    public boolean removeTooltip(Text text) {
+    public boolean removeTooltip(Component text) {
         return false;
     }
 

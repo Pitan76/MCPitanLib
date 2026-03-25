@@ -1,18 +1,18 @@
 package net.pitan76.mcpitanlib.api.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
@@ -20,18 +20,18 @@ import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
 public class CompatEntity extends Entity {
-    public CompatEntity(EntityType<?> type, World world) {
+    public CompatEntity(EntityType<?> type, Level world) {
         super(type, world);
     }
 
     @Deprecated
     @Override
-    public void initDataTracker(DataTracker.Builder builder) {
+    public void defineSynchedData(SynchedEntityData.Builder builder) {
         initDataTracker(new InitDataTrackerArgs(builder));
     }
 
     @Override
-    public boolean damage(ServerWorld world, DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel world, DamageSource source, float amount) {
         return false;
     }
 
@@ -40,81 +40,81 @@ public class CompatEntity extends Entity {
     }
 
     public void readCustomDataFromNbt(ReadNbtArgs nbt) {
-        readCustomData(nbt.view);
+        readAdditionalSaveData(nbt.view);
     }
 
     public void writeCustomDataToNbt(WriteNbtArgs nbt) {
-        writeCustomData(nbt.view);
+        addAdditionalSaveData(nbt.view);
     }
 
     @Deprecated
     @Override
-    protected void readCustomData(ReadView view) {
-        NbtCompound nbt = NbtDataConverter.data2nbt(view);
+    protected void readAdditionalSaveData(ValueInput view) {
+        CompoundTag nbt = NbtDataConverter.data2nbt(view);
         readCustomDataFromNbt(new ReadNbtArgs(nbt, view));
     }
 
     @Deprecated
     @Override
-    protected void writeCustomData(WriteView view) {
-        NbtCompound nbt = new NbtCompound();
+    protected void addAdditionalSaveData(ValueOutput view) {
+        CompoundTag nbt = new CompoundTag();
         writeCustomDataToNbt(new WriteNbtArgs(nbt, view));
         NbtDataConverter.nbt2writeData(nbt, view);
     }
 
-    public Packet<ClientPlayPacketListener> createSpawnPacket() {
+    public Packet<ClientGamePacketListener> createSpawnPacket() {
         return null;
     }
 
     public void writeNbt(WriteNbtArgs args) {
-        writeData(args.view);
+        saveWithoutId(args.view);
     }
 
     public void readNbt(ReadNbtArgs args) {
-        readData(args.view);
+        load(args.view);
     }
 
     @Deprecated
     @Override
-    public void writeData(WriteView view) {
-        super.writeData(view);
-        NbtCompound nbt = new NbtCompound();
+    public void saveWithoutId(ValueOutput view) {
+        super.saveWithoutId(view);
+        CompoundTag nbt = new CompoundTag();
         writeNbt(new WriteNbtArgs(nbt, view));
         NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     @Deprecated
     @Override
-    public void readData(ReadView view) {
-        super.readData(view);
-        NbtCompound nbt = NbtDataConverter.data2nbt(view);
+    public void load(ValueInput view) {
+        super.load(view);
+        CompoundTag nbt = NbtDataConverter.data2nbt(view);
         readNbt(new ReadNbtArgs(nbt, view));
     }
 
     @Deprecated
     @Override
-    public World getEntityWorld() {
+    public Level level() {
         return callGetWorld();
     }
 
-    public World callGetWorld() {
-        return super.getEntityWorld();
+    public Level callGetWorld() {
+        return super.level();
     }
 
     public BlockPos callGetBlockPos() {
-        return getBlockPos();
+        return blockPosition();
     }
 
-    public Vec3d callGetPos() {
-        return getEntityPos();
+    public Vec3 callGetPos() {
+        return position();
     }
 
     public boolean hasServerWorld() {
-        return callGetWorld() instanceof ServerWorld;
+        return callGetWorld() instanceof ServerLevel;
     }
 
-    public ServerWorld getServerWorld() {
-        return (ServerWorld) getEntityWorld();
+    public ServerLevel getServerWorld() {
+        return (ServerLevel) level();
     }
 
     public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {

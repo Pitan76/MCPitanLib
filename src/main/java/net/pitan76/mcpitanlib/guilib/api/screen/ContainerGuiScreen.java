@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.guilib.api.screen;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.Text;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.client.gui.screen.CompatInventoryScreen;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawBackgroundArgs;
@@ -13,7 +13,7 @@ import net.pitan76.mcpitanlib.guilib.api.container.ContainerGui;
 import net.pitan76.mcpitanlib.guilib.api.render.SlotRenderer;
 
 public class ContainerGuiScreen<T extends ContainerGui> extends CompatInventoryScreen<T> {
-    public ContainerGuiScreen(T handler, PlayerInventory inventory, Text title) {
+    public ContainerGuiScreen(T handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
         setBackgroundWidth(handler.getScreenBackgroundWidth());
         setBackgroundHeight(handler.getScreenBackgroundHeight());
@@ -50,7 +50,7 @@ public class ContainerGuiScreen<T extends ContainerGui> extends CompatInventoryS
     @Override
     protected void drawForegroundOverride(DrawForegroundArgs args) {
         if (!handler.hasMainInventory && !containPlayerInventoryInBackground()) {
-            drawText(args.drawObjectDM, title, titleX, titleY);
+            drawText(args.drawObjectDM, title, titleLabelX, titleLabelY);
             return;
         }
 
@@ -77,7 +77,7 @@ public class ContainerGuiScreen<T extends ContainerGui> extends CompatInventoryS
     @Override
     public void drawSlots(DrawObjectDM drawObjectDM) {
         ScreenHandlerUtil.getSlots(handler).forEach((slot) -> {
-            if (slot.inventory instanceof PlayerInventory || containPlayerInventoryInBackground())
+            if (slot.container instanceof Inventory || containPlayerInventoryInBackground())
                 return;
 
             SlotRenderer.drawSlot(drawObjectDM, slot, x, y);

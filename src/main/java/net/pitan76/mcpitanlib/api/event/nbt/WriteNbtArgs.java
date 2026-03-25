@@ -1,38 +1,38 @@
 package net.pitan76.mcpitanlib.api.event.nbt;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.storage.WriteView;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public class WriteNbtArgs extends NbtRWArgs {
     @Deprecated
-    public WriteView view;
+    public ValueOutput view;
 
     @Deprecated
-    public WriteNbtArgs(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
+    public WriteNbtArgs(CompoundTag nbt, HolderLookup.Provider wrapperLookup) {
         super(nbt, wrapperLookup);
     }
 
-    public WriteNbtArgs(NbtCompound nbt, CompatRegistryLookup registryLookup) {
+    public WriteNbtArgs(CompoundTag nbt, CompatRegistryLookup registryLookup) {
         super(nbt, registryLookup);
         view = NbtDataConverter.nbt2writeData(nbt, registryLookup);
     }
 
-    public WriteNbtArgs(NbtCompound nbt) {
+    public WriteNbtArgs(CompoundTag nbt) {
         super(nbt);
         view = NbtDataConverter.nbt2writeData(nbt, (CompatRegistryLookup) null);
     }
 
     @Deprecated
-    public WriteNbtArgs(NbtCompound nbt, WriteView view) {
+    public WriteNbtArgs(CompoundTag nbt, ValueOutput view) {
         this(nbt);
         this.view = view;
     }
 
     @Deprecated
-    public WriteNbtArgs(NbtCompound nbt, WriteView view, CompatRegistryLookup registryLookup) {
+    public WriteNbtArgs(CompoundTag nbt, ValueOutput view, CompatRegistryLookup registryLookup) {
         this(nbt, registryLookup);
         this.view = view;
     }

@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.pitan76.mcpitanlib.api.entity.CompatEntity;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class EntityWrapper {
-    private final net.minecraft.entity.Entity entity;
+    private final net.minecraft.world.entity.Entity entity;
 
     public static final EntityWrapper EMPTY = new EntityWrapper(null);
 
@@ -24,11 +24,11 @@ public class EntityWrapper {
         this.entity = null;
     }
 
-    protected EntityWrapper(net.minecraft.entity.Entity entity) {
+    protected EntityWrapper(net.minecraft.world.entity.Entity entity) {
         this.entity = entity;
     }
 
-    public static EntityWrapper of(net.minecraft.entity.Entity entity) {
+    public static EntityWrapper of(net.minecraft.world.entity.Entity entity) {
         return new EntityWrapper(entity);
     }
 
@@ -44,7 +44,7 @@ public class EntityWrapper {
         return get() == null;
     }
 
-    public net.minecraft.entity.Entity get() {
+    public net.minecraft.world.entity.Entity get() {
         return entity;
     }
 
@@ -105,7 +105,7 @@ public class EntityWrapper {
     }
 
     public BlockPos getBlockPos() {
-        return BlockPos.of(get().getBlockPos());
+        return BlockPos.of(get().blockPosition());
     }
 
     public World getWorld() {
@@ -310,11 +310,11 @@ public class EntityWrapper {
     }
 
     public EntityWrapper getPassenger(int index) {
-        return EntityWrapper.of(get().getPassengerList().get(index));
+        return EntityWrapper.of(get().getPassengers().get(index));
     }
 
     public int getPassengerCount() {
-        return get().getPassengerList().size();
+        return get().getPassengers().size();
     }
 
     public Class<? extends Entity> getEntityClass() {

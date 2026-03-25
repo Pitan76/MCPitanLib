@@ -1,16 +1,16 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.context.LootWorldContext;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class DroppedStacksArgs extends BaseEvent {
     public BlockState state;
-    public LootWorldContext.Builder builder;
+    public LootParams.Builder builder;
 
-    public DroppedStacksArgs(BlockState state, LootWorldContext.Builder builder) {
+    public DroppedStacksArgs(BlockState state, LootParams.Builder builder) {
         this.state = state;
         this.builder = builder;
     }
@@ -20,11 +20,11 @@ public class DroppedStacksArgs extends BaseEvent {
     }
 
     @Deprecated
-    public LootWorldContext.Builder getBuilder() {
+    public LootParams.Builder getBuilder() {
         return builder;
     }
 
     public BlockEntity getBlockEntity() {
-        return builder.get(LootContextParameters.BLOCK_ENTITY);
+        return builder.getParameter(LootContextParams.BLOCK_ENTITY);
     }
 }

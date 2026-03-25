@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.midohra.world;
 
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
@@ -28,23 +28,23 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class WorldAccess extends WorldView {
-    private final net.minecraft.world.WorldAccess world;
+    private final net.minecraft.world.level.LevelAccessor world;
 
-    protected WorldAccess(net.minecraft.world.WorldAccess world) {
+    protected WorldAccess(net.minecraft.world.level.LevelAccessor world) {
         super(null);
         this.world = world;
     }
 
-    public static WorldAccess of(net.minecraft.world.WorldAccess world) {
+    public static WorldAccess of(net.minecraft.world.level.LevelAccessor world) {
         return new WorldAccess(world);
     }
 
     @Override
-    protected net.minecraft.world.WorldAccess getRaw() {
+    protected net.minecraft.world.level.LevelAccessor getRaw() {
         return world;
     }
 
-    public net.minecraft.world.WorldAccess toMinecraft() {
+    public net.minecraft.world.level.LevelAccessor toMinecraft() {
         return getRaw();
     }
 
@@ -106,12 +106,12 @@ public class WorldAccess extends WorldView {
     }
 
     @Deprecated
-    public void playSound(PlayerEntity playerEntity, net.minecraft.util.math.BlockPos pos, SoundEvent sound, SoundCategory category, float volume, float pitch) {
+    public void playSound(Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {
         getRaw().playSound(playerEntity, pos, sound, category, volume, pitch);
     }
 
     @Deprecated
-    public void playSound(PlayerEntity playerEntity, net.minecraft.util.math.BlockPos pos, SoundEvent sound, SoundCategory category) {
+    public void playSound(Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category) {
         getRaw().playSound(playerEntity, pos, sound, category);
     }
 
@@ -152,11 +152,11 @@ public class WorldAccess extends WorldView {
     }
 
     public <T extends Entity> List<T> getEntitiesByClass(Class<T> entityClass, Box box) {
-        return getEntitiesByClass(entityClass, box, EntityPredicates.VALID_ENTITY);
+        return getEntitiesByClass(entityClass, box, EntitySelector.ENTITY_STILL_ALIVE);
     }
 
     public <T extends Entity> List<T> getEntitiesByType(EntityType<T> entityType, Box box) {
-        return getEntitiesByType(entityType, box, EntityPredicates.VALID_ENTITY);
+        return getEntitiesByType(entityType, box, EntitySelector.ENTITY_STILL_ALIVE);
     }
 
     public boolean breakBlock(BlockPos pos, boolean drop, Player player) {
@@ -182,7 +182,7 @@ public class WorldAccess extends WorldView {
     }
 
     public void spawnEntity(Entity entity) {
-        getRaw().spawnEntity(entity);
+        getRaw().addFreshEntity(entity);
     }
 
     public void spawnEntity(EntityWrapper entity) {

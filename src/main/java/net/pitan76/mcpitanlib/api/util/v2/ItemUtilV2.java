@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.v2;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;

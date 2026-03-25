@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.recipe.Ingredient;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolMaterial;
 
 public class ToolMaterialUtil {

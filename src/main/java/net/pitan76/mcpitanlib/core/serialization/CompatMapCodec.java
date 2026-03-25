@@ -2,9 +2,9 @@ package net.pitan76.mcpitanlib.core.serialization;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.pitan76.mcpitanlib.api.block.CompatStairsBlock;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
@@ -41,11 +41,11 @@ public class CompatMapCodec<T> {
         return codec;
     }
 
-    public static <B extends Block> RecordCodecBuilder<B, AbstractBlock.Settings> createSettingsCodec() {
-        return AbstractBlock.Settings.CODEC.fieldOf("properties").forGetter(AbstractBlock::getSettings);
+    public static <B extends Block> RecordCodecBuilder<B, BlockBehaviour.Properties> createSettingsCodec() {
+        return BlockBehaviour.Properties.CODEC.fieldOf("properties").forGetter(BlockBehaviour::properties);
     }
 
-    public static <B extends Block> CompatMapCodec<B> createCodec(Function<AbstractBlock.Settings, B> blockFromSettings) {
+    public static <B extends Block> CompatMapCodec<B> createCodec(Function<BlockBehaviour.Properties, B> blockFromSettings) {
         return of(RecordCodecBuilder.mapCodec((instance) -> instance.group(createSettingsCodec()).apply(instance, blockFromSettings)));
     }
 

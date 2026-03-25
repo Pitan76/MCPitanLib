@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Rarity;
+import net.minecraft.world.item.Rarity;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 
@@ -26,20 +26,20 @@ public class CompatibleItemSettings {
     }
 
     // ～1.19.2
-    public CompatibleItemSettings addGroup(ItemGroup itemGroup) {
+    public CompatibleItemSettings addGroup(CreativeModeTab itemGroup) {
         settings.addGroup(itemGroup);
         return this;
     }
 
     // 1.19.3～
     // identifier: Item ID
-    public CompatibleItemSettings addGroup(ItemGroup itemGroup, Identifier identifier) {
+    public CompatibleItemSettings addGroup(CreativeModeTab itemGroup, Identifier identifier) {
         settings.addGroup(itemGroup, identifier);
         _itemId = identifier;
         return this;
     }
 
-    public CompatibleItemSettings addGroup(Supplier<ItemGroup> itemGroup, Identifier identifier) {
+    public CompatibleItemSettings addGroup(Supplier<CreativeModeTab> itemGroup, Identifier identifier) {
         settings.addGroup(itemGroup, identifier);
         _itemId = identifier;
         return this;
@@ -51,25 +51,25 @@ public class CompatibleItemSettings {
     }
 
     public CompatibleItemSettings maxCount(int maxCount) {
-        settings.maxCount(maxCount);
+        settings.stacksTo(maxCount);
         return this;
     }
 
     public CompatibleItemSettings maxDamage(int maxDamage) {
-        settings.maxDamage(maxDamage);
+        settings.durability(maxDamage);
         return this;
     }
 
     public CompatibleItemSettings maxDamageIfAbsent(int maxDamage) {
         try {
-            settings.maxDamage(maxDamage);
+            settings.durability(maxDamage);
         } catch (Exception ignored) {}
 
         return this;
     }
 
     @Deprecated
-    public CompatibleItemSettings food(FoodComponent foodComponent) {
+    public CompatibleItemSettings food(FoodProperties foodComponent) {
         settings.food(foodComponent);
         return this;
     }
@@ -80,28 +80,28 @@ public class CompatibleItemSettings {
     }
 
     public CompatibleItemSettings recipeRemainder(Item recipeRemainder) {
-        settings.recipeRemainder(recipeRemainder);
+        settings.craftRemainder(recipeRemainder);
         return this;
     }
 
     public ExtendSettings build() {
         if (itemGroupId != null) {
-            RegistrySupplier<ItemGroup> itemGroup = MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(itemGroupId);
+            RegistrySupplier<CreativeModeTab> itemGroup = MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(itemGroupId);
             settings.arch$tab(itemGroup);
         }
 
         if (_itemId != null && !(this instanceof net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings)) {
-            settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, _itemId));
+            settings.setId(ResourceKey.create(Registries.ITEM, _itemId));
         }
 
         return settings;
     }
 
-    public CompatibleItemSettings addGroup(ItemGroup itemGroup, CompatIdentifier identifier) {
+    public CompatibleItemSettings addGroup(CreativeModeTab itemGroup, CompatIdentifier identifier) {
         return addGroup(itemGroup, identifier.toMinecraft());
     }
 
-    public CompatibleItemSettings addGroup(Supplier<ItemGroup> itemGroup, CompatIdentifier identifier) {
+    public CompatibleItemSettings addGroup(Supplier<CreativeModeTab> itemGroup, CompatIdentifier identifier) {
         return addGroup(itemGroup, identifier.toMinecraft());
     }
 

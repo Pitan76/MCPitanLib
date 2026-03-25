@@ -1,11 +1,12 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.core.BlockPos;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
@@ -14,7 +15,7 @@ import net.pitan76.mcpitanlib.api.sound.CompatSoundEvents;
 import java.util.function.Supplier;
 
 public class CompatChestBlock extends ChestBlock implements CompatBlockProvider {
-    public CompatChestBlock(Settings settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
+    public CompatChestBlock(Properties settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
         super(supplier, CompatSoundEvents.BLOCK_CHEST_OPEN.get(), CompatSoundEvents.BLOCK_CHEST_CLOSE.get(), settings);
     }
 
@@ -29,7 +30,7 @@ public class CompatChestBlock extends ChestBlock implements CompatBlockProvider 
      */
     @Deprecated
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return createBlockEntity(new TileCreateEvent(pos, state));
     }
 
@@ -37,7 +38,7 @@ public class CompatChestBlock extends ChestBlock implements CompatBlockProvider 
      * @see ExtendBlockEntityProvider#createBlockEntity(TileCreateEvent)
      */
     public BlockEntity createBlockEntity(TileCreateEvent event) {
-        return super.createBlockEntity(event.getBlockPos(), event.getBlockState());
+        return super.newBlockEntity(event.getBlockPos(), event.getBlockState());
     }
 
     @Override

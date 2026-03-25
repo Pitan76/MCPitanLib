@@ -9,13 +9,13 @@ import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class NbtCompound implements ElementConvertible {
-    protected final net.minecraft.nbt.NbtCompound nbt;
+    protected final net.minecraft.nbt.CompoundTag nbt;
 
-    protected NbtCompound(net.minecraft.nbt.NbtCompound nbt) {
+    protected NbtCompound(net.minecraft.nbt.CompoundTag nbt) {
         this.nbt = nbt;
     }
 
-    public static NbtCompound of(net.minecraft.nbt.NbtCompound nbt) {
+    public static NbtCompound of(net.minecraft.nbt.CompoundTag nbt) {
         return new NbtCompound(nbt);
     }
 
@@ -115,7 +115,7 @@ public class NbtCompound implements ElementConvertible {
         NbtUtil.put(nbt, key, compound.nbt);
     }
 
-    public void put(String key, net.minecraft.nbt.NbtCompound nbt) {
+    public void put(String key, net.minecraft.nbt.CompoundTag nbt) {
         NbtUtil.put(this.nbt, key, nbt);
     }
 
@@ -131,7 +131,7 @@ public class NbtCompound implements ElementConvertible {
         return NbtElement.of(NbtUtil.getElement(nbt, key));
     }
 
-    public net.minecraft.nbt.NbtCompound toMinecraft() {
+    public net.minecraft.nbt.CompoundTag toMinecraft() {
         return nbt;
     }
 

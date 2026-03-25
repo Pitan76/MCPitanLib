@@ -2,21 +2,21 @@ package net.pitan76.mcpitanlib.api.util;
 
 import com.mojang.brigadier.arguments.*;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.block.Block;
-import net.minecraft.command.argument.BlockStateArgumentType;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.command.argument.ItemStackArgumentType;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.commands.arguments.blocks.BlockStateArgument;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.item.ItemArgument;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.pitan76.mcpitanlib.api.event.ServerCommandEvent;
 
 public class CommandUtil {
     public static Item getItemArgument(String name, ServerCommandEvent e) {
-        return ItemStackArgumentType.getItemStackArgument(e.getContext(), name).getItem();
+        return ItemArgument.getItem(e.getContext(), name).getItem();
     }
 
     public static Block getBlockArgument(String name, ServerCommandEvent e) {
-        return BlockStateArgumentType.getBlockState(e.getContext(), name).getBlockState().getBlock();
+        return BlockStateArgument.getBlock(e.getContext(), name).getState().getBlock();
     }
 
     public static Integer getIntegerArgument(String name, ServerCommandEvent e) {
@@ -45,7 +45,7 @@ public class CommandUtil {
 
     public static Entity getEntityArgument(String name, ServerCommandEvent e) {
         try {
-            return EntityArgumentType.getEntity(e.getContext(), name);
+            return EntityArgument.getEntity(e.getContext(), name);
         } catch (CommandSyntaxException ex) {
             return null;
         }

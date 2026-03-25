@@ -1,22 +1,22 @@
 package net.pitan76.mcpitanlib.api.client.render;
 
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.pitan76.mcpitanlib.api.util.client.render.VertexConsumerUtil;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class DrawObjectMV {
-    private final MatrixStack stack;
+    private final PoseStack stack;
     private final VertexConsumer buffer;
 
-    public DrawObjectMV(MatrixStack stack, VertexConsumer buffer) {
+    public DrawObjectMV(PoseStack stack, VertexConsumer buffer) {
         this.stack = stack;
         this.buffer = buffer;
     }
 
-    public DrawObjectMV(MatrixStack stack) {
+    public DrawObjectMV(PoseStack stack) {
         this(stack, null);
     }
 
@@ -24,7 +24,7 @@ public class DrawObjectMV {
         this(null, buffer);
     }
 
-    public MatrixStack getStack() {
+    public PoseStack getStack() {
         return stack;
     }
 
@@ -73,14 +73,14 @@ public class DrawObjectMV {
 
     public Matrix4f getMatrix4f() {
         if (matrix4f == null)
-            matrix4f = stack.peek().getPositionMatrix();
+            matrix4f = stack.last().pose();
 
         return matrix4f;
     }
 
     public Matrix3f getMatrix3f() {
         if (matrix3f == null)
-            matrix3f = stack.peek().getNormalMatrix();
+            matrix3f = stack.last().normal();
 
         return matrix3f;
     }

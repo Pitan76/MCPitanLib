@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.sound;
 
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 
 public class RegistryResultCompatSoundEvent extends CompatSoundEvent {

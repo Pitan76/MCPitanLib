@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.registry.Registries;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 
 public class SoundEventUtil {
     public static Identifier getId(SoundEvent soundEvent) {
-        return soundEvent.id();
+        return soundEvent.location();
     }
 
     public static SoundEvent getSoundEvent(Identifier id) {
-        return SoundEvent.of(id);
+        return SoundEvent.createVariableRangeEvent(id);
     }
 
     public static CompatIdentifier getCompatId(SoundEvent soundEvent) {
@@ -26,10 +26,10 @@ public class SoundEventUtil {
     }
 
     public static List<SoundEvent> getAllSoundEvents() {
-        return Registries.SOUND_EVENT.stream().collect(Collectors.toList());
+        return BuiltInRegistries.SOUND_EVENT.stream().collect(Collectors.toList());
     }
 
     public static List<Identifier> getAllSoundEventIds() {
-        return new ArrayList<>(Registries.SOUND_EVENT.getIds());
+        return new ArrayList<>(BuiltInRegistries.SOUND_EVENT.keySet());
     }
 }

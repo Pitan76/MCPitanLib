@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.simple.block;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
@@ -9,7 +10,7 @@ import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 
 public abstract class SimpleGuiBlock extends ExtendBlock implements SimpleScreenHandlerFactory {
 
-    public SimpleGuiBlock(Settings settings) {
+    public SimpleGuiBlock(Properties settings) {
         super(settings);
     }
 
@@ -22,7 +23,7 @@ public abstract class SimpleGuiBlock extends ExtendBlock implements SimpleScreen
     }
 
     @Override
-    public Text getDisplayName(DisplayNameArgs args) {
+    public Component getDisplayName(DisplayNameArgs args) {
         return getName();
     }
 }

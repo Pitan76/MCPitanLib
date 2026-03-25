@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.state.property;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.state.property.Property;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
 
 public interface IProperty<T extends Comparable<T>> {
@@ -10,15 +10,15 @@ public interface IProperty<T extends Comparable<T>> {
     }
 
     default T get(BlockState state) {
-        return state.get(getProperty());
+        return state.getValue(getProperty());
     }
 
     default BlockState with(BlockState state, T value) {
-        return state.with(getProperty(), value);
+        return state.setValue(getProperty(), value);
     }
 
     default boolean contains(BlockState state) {
-        return state.contains(getProperty());
+        return state.hasProperty(getProperty());
     }
 
     default BlockState cycle(BlockState state) {

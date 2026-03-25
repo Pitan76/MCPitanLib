@@ -1,35 +1,35 @@
 package net.pitan76.mcpitanlib.api.util.client.render;
 
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class VertexConsumerUtil {
     public static VertexConsumer vertex(VertexConsumer vertexConsumer, float x, float y, float z) {
-        return vertexConsumer.vertex(x, y, z);
+        return vertexConsumer.addVertex(x, y, z);
     }
 
-    public static VertexConsumer vertex(VertexConsumer vertexConsumer, MatrixStack stack, float x, float y, float z) {
-        return vertexConsumer.vertex(stack.peek(), x, y, z);
+    public static VertexConsumer vertex(VertexConsumer vertexConsumer, PoseStack stack, float x, float y, float z) {
+        return vertexConsumer.addVertex(stack.last(), x, y, z);
     }
 
     public static VertexConsumer normal(VertexConsumer vertexConsumer, float x, float y, float z) {
-        return vertexConsumer.normal(x, y, z);
+        return vertexConsumer.setNormal(x, y, z);
     }
 
     public static VertexConsumer color(VertexConsumer vertexConsumer, float red, float green, float blue, float alpha) {
-        return vertexConsumer.color(red, green, blue, alpha);
+        return vertexConsumer.setColor(red, green, blue, alpha);
     }
 
     public static VertexConsumer color(VertexConsumer vertexConsumer, int red, int green, int blue, int alpha) {
-        return vertexConsumer.color(red, green, blue, alpha);
+        return vertexConsumer.setColor(red, green, blue, alpha);
     }
 
     public static VertexConsumer colorARGB(VertexConsumer vertexConsumer, int argb) {
-        return vertexConsumer.color(argb);
+        return vertexConsumer.setColor(argb);
     }
 
     public static VertexConsumer colorRGB(VertexConsumer vertexConsumer, int rgb) {
@@ -37,15 +37,15 @@ public class VertexConsumerUtil {
     }
 
     public static VertexConsumer light(VertexConsumer vertexConsumer, int light) {
-        return vertexConsumer.light(light);
+        return vertexConsumer.setLight(light);
     }
 
     public static VertexConsumer overlay(VertexConsumer vertexConsumer, int overlay) {
-        return vertexConsumer.overlay(overlay);
+        return vertexConsumer.setOverlay(overlay);
     }
 
     public static VertexConsumer overlayDefaultUV(VertexConsumer vertexConsumer) {
-        return vertexConsumer.overlay(OverlayTexture.DEFAULT_UV);
+        return vertexConsumer.setOverlay(OverlayTexture.NO_OVERLAY);
     }
 
     public static DrawObjectMV vertex(DrawObjectMV drawObject, float x, float y, float z) {
@@ -94,24 +94,24 @@ public class VertexConsumerUtil {
     }
 
     public static VertexConsumer texture(VertexConsumer vertexConsumer, float u, float v) {
-        return vertexConsumer.texture(u, v);
+        return vertexConsumer.setUv(u, v);
     }
 
     public static VertexConsumer vertex(VertexConsumer vertexConsumer, Matrix4f matrix4f, float x, float y, float z) {
-        return vertexConsumer.vertex(matrix4f, x, y, z);
+        return vertexConsumer.addVertex(matrix4f, x, y, z);
     }
 
-    public static VertexConsumer normal(VertexConsumer vertexConsumer, MatrixStack stack, float x, float y, float z) {
-        return vertexConsumer.normal(stack.peek(), x, y, z);
+    public static VertexConsumer normal(VertexConsumer vertexConsumer, PoseStack stack, float x, float y, float z) {
+        return vertexConsumer.setNormal(stack.last(), x, y, z);
     }
 
     public static VertexConsumer next(VertexConsumer vertexConsumer) {
         return vertexConsumer;
     }
 
-    public static void renderQuad(VertexConsumer vertexConsumer, MatrixStack stack, Matrix4f matrix4f, Matrix3f matrix3f,
-                            float x1, float y1, float z1, float x2, float y2, float z2,
-                            float normalX, float normalY, float normalZ, int r, int g, int b, int alpha, int u, int v, int overlay, int light) {
+    public static void renderQuad(VertexConsumer vertexConsumer, PoseStack stack, Matrix4f matrix4f, Matrix3f matrix3f,
+                                  float x1, float y1, float z1, float x2, float y2, float z2,
+                                  float normalX, float normalY, float normalZ, int r, int g, int b, int alpha, int u, int v, int overlay, int light) {
 
         float[][] vertexes = new float[4][3];
 

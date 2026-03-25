@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 
 public class StatusEffectUtil {
     public static CompatStatusEffect getStatusEffect(Identifier identifier) {
-        RegistryKey<StatusEffect> registryKey = RegistryKey.of(RegistryKeys.STATUS_EFFECT, identifier);
+        ResourceKey<MobEffect> registryKey = ResourceKey.create(Registries.MOB_EFFECT, identifier);
         return new CompatStatusEffect(registryKey);
     }
 

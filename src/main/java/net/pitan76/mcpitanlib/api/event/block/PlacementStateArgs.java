@@ -1,36 +1,36 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
-import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
+import net.pitan76.mcpitanlib.mixin.UseOnContextMixin;
 import org.jetbrains.annotations.Nullable;
 
 public class PlacementStateArgs extends BaseEvent {
-    public ItemPlacementContext ctx;
+    public BlockPlaceContext ctx;
 
     @Nullable
     public Block block;
 
-    public PlacementStateArgs(ItemPlacementContext ctx) {
+    public PlacementStateArgs(BlockPlaceContext ctx) {
         this.ctx = ctx;
     }
 
-    public PlacementStateArgs(ItemPlacementContext ctx, @Nullable Block block) {
+    public PlacementStateArgs(BlockPlaceContext ctx, @Nullable Block block) {
         this.ctx = ctx;
         this.block = block;
     }
@@ -40,7 +40,7 @@ public class PlacementStateArgs extends BaseEvent {
     }
 
     public BlockPos getPos() {
-        return ctx.getBlockPos();
+        return ctx.getClickedPos();
     }
 
     public Player getPlayer() {
@@ -48,55 +48,55 @@ public class PlacementStateArgs extends BaseEvent {
     }
 
     public Direction[] getPlacementDirections() {
-        return ctx.getPlacementDirections();
+        return ctx.getNearestLookingDirections();
     }
 
-    public Hand getHand() {
+    public InteractionHand getHand() {
         return ctx.getHand();
     }
 
     public Direction getSide() {
-        return ctx.getSide();
+        return ctx.getClickedFace();
     }
 
     public Direction getHorizontalPlayerFacing() {
-        return ctx.getHorizontalPlayerFacing();
+        return ctx.getHorizontalDirection();
     }
 
     public float getPlayerYaw() {
-        return ctx.getPlayerYaw();
+        return ctx.getRotation();
     }
 
-    public World getWorld() {
-        return ctx.getWorld();
+    public Level getWorld() {
+        return ctx.getLevel();
     }
 
     public boolean isClient() {
-        return getWorld().isClient();
+        return getWorld().isClientSide();
     }
 
-    public Vec3d getHitPos() {
-        return ctx.getHitPos();
+    public Vec3 getHitPos() {
+        return ctx.getClickLocation();
     }
 
     public boolean canReplaceExisting() {
-        return ctx.canReplaceExisting();
+        return ctx.replacingClickedOnBlock();
     }
 
     @Deprecated
-    public ItemUsageContextMixin getIUCAccessor() {
-        return (ItemUsageContextMixin) ctx;
+    public UseOnContextMixin getIUCAccessor() {
+        return (UseOnContextMixin) ctx;
     }
 
     public BlockHitResult getHitResult() {
-        return getIUCAccessor().getHit();
+        return getIUCAccessor().getHitResult();
     }
 
     public ItemUseOnBlockEvent toItemUseOnBlockEvent() {
-        return new ItemUseOnBlockEvent(getWorld(), getPlayer().getPlayerEntity(), getHand(), ctx.getStack(), getHitResult());
+        return new ItemUseOnBlockEvent(getWorld(), getPlayer().getPlayerEntity(), getHand(), ctx.getItemInHand(), getHitResult());
     }
 
-    public ItemPlacementContext getCtx() {
+    public BlockPlaceContext getCtx() {
         return ctx;
     }
 

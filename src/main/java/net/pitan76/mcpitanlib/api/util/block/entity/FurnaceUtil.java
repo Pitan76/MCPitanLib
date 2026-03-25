@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.util.block.entity;
 
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.AbstractCookingRecipe;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.recipe.MatchGetter;
 import net.pitan76.mcpitanlib.api.recipe.input.CompatRecipeInput;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
@@ -14,31 +14,31 @@ import net.pitan76.mcpitanlib.api.util.recipe.input.SingleStackRecipeInputUtil;
 
 public class FurnaceUtil {
     public static int getDefaultCookTime() {
-        return AbstractFurnaceBlockEntity.DEFAULT_COOK_TIME;
+        return AbstractFurnaceBlockEntity.BURN_TIME_STANDARD;
     }
 
-    public static boolean canUseAsFuel(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, World world) {
+    public static boolean canUseAsFuel(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, Level world) {
         return canUseAsFuel(stack.toMinecraft(), world);
     }
 
-    public static boolean canUseAsFuel(ItemStack stack, World world) {
-        return world.getFuelRegistry().isFuel(stack);
+    public static boolean canUseAsFuel(ItemStack stack, Level world) {
+        return world.fuelValues().isFuel(stack);
     }
 
-    public static void tick(World world, BlockPos pos, AbstractFurnaceBlockEntity blockEntity) {
-        AbstractFurnaceBlockEntity.tick((ServerWorld) world, pos, WorldUtil.getBlockState(world, pos), blockEntity);
+    public static void tick(Level world, BlockPos pos, AbstractFurnaceBlockEntity blockEntity) {
+        AbstractFurnaceBlockEntity.serverTick((ServerLevel) world, pos, WorldUtil.getBlockState(world, pos), blockEntity);
     }
 
-    public static int getCookTime(World world, AbstractFurnaceBlockEntity furnace, MatchGetter<SingleStackRecipeInput, ? extends AbstractCookingRecipe> matchGetter) {
-        return getCookTime(world, furnace.getStack(0), matchGetter);
+    public static int getCookTime(Level world, AbstractFurnaceBlockEntity furnace, MatchGetter<SingleRecipeInput, ? extends AbstractCookingRecipe> matchGetter) {
+        return getCookTime(world, furnace.getItem(0), matchGetter);
     }
 
-    public static int getCookTime(World world, ItemStack stack, MatchGetter<SingleStackRecipeInput, ? extends AbstractCookingRecipe> matchGetter) {
-        CompatRecipeInput<SingleStackRecipeInput> input = (CompatRecipeInput<SingleStackRecipeInput>) SingleStackRecipeInputUtil.create(stack);
+    public static int getCookTime(Level world, ItemStack stack, MatchGetter<SingleRecipeInput, ? extends AbstractCookingRecipe> matchGetter) {
+        CompatRecipeInput<SingleRecipeInput> input = (CompatRecipeInput<SingleRecipeInput>) SingleStackRecipeInputUtil.create(stack);
 
         matchGetter.getFirstMatch(input, world);
 
         return matchGetter.getFirstMatch(input, world).map(
-                (recipe) -> (recipe.getRecipe()).getCookingTime()).orElse(200);
+                (recipe) -> (recipe.getRecipe()).cookingTime()).orElse(200);
     }
 }

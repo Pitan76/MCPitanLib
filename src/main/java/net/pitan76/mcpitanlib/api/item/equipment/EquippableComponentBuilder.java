@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.item.equipment;
 
-import net.minecraft.component.type.EquippableComponent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryEntryLookup;
+import net.minecraft.world.item.equipment.Equippable;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.HolderGetter;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
@@ -75,18 +75,18 @@ public class EquippableComponentBuilder {
     }
 
     public CompatEquippableComponent build() {
-        EquippableComponent.Builder component = EquippableComponent.builder(equipmentType.getSlot());
+        Equippable.Builder component = Equippable.builder(equipmentType.getSlot());
         if (equipSound != null)
-            component.equipSound(equipSound.getEntry() != null ? equipSound.getEntry() : equipSound.getReference());
+            component.setEquipSound(equipSound.getEntry() != null ? equipSound.getEntry() : equipSound.getReference());
         if (shearingSound != null)
-            component.shearingSound(shearingSound.getEntry() != null ? shearingSound.getEntry() : shearingSound.getReference());
+            component.setShearingSound(shearingSound.getEntry() != null ? shearingSound.getEntry() : shearingSound.getReference());
 
-        component.equipOnInteract(equipOnInteract);
-        component.canBeSheared(canBeSheared);
-        if (model != null) component.model(model.raw());
+        component.setEquipOnInteract(equipOnInteract);
+        component.setCanBeSheared(canBeSheared);
+        if (model != null) component.setAsset(model.raw());
         if (allowedEntities != null) {
-            RegistryEntryLookup<EntityType<?>> registryEntryLookup = Registries.createEntryLookup(Registries.ENTITY_TYPE);
-            component.allowedEntities(registryEntryLookup.getOrThrow((net.minecraft.registry.tag.TagKey<EntityType<?>>) allowedEntities.getTagKey()));
+            HolderGetter<EntityType<?>> registryEntryLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.ENTITY_TYPE);
+            component.setAllowedEntities(registryEntryLookup.getOrThrow((net.minecraft.tags.TagKey<EntityType<?>>) allowedEntities.getTagKey()));
         }
 
         return CompatEquippableComponent.of(component.build());

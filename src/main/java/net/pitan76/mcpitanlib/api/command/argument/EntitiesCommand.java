@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.command.argument;
 
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.entity.Entity;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.world.entity.Entity;
 import net.pitan76.mcpitanlib.api.event.EntitiesCommandEvent;
 import net.pitan76.mcpitanlib.api.event.ServerCommandEvent;
 
 public abstract class EntitiesCommand extends RequiredCommand<Entity> {
     @Override
-    public EntityArgumentType getArgumentType() {
-        return EntityArgumentType.entities();
+    public EntityArgument getArgumentType() {
+        return EntityArgument.entities();
     }
 
     public abstract void execute(EntitiesCommandEvent event);

@@ -1,12 +1,13 @@
 package net.pitan76.mcpitanlib.api.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PillarBlock;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.math.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
@@ -15,9 +16,9 @@ import net.pitan76.mcpitanlib.api.state.property.CompatProperties;
 import net.pitan76.mcpitanlib.api.state.property.EnumProperty;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 
-public class CompatPillarBlock extends PillarBlock implements CompatBlockProvider {
+public class CompatPillarBlock extends RotatedPillarBlock implements CompatBlockProvider {
 
-    public static final EnumProperty<Direction.Axis> AXIS = CompatProperties.of(PillarBlock.AXIS);
+    public static final EnumProperty<Direction.Axis> AXIS = CompatProperties.of(RotatedPillarBlock.AXIS);
 
     public CompatibleBlockSettings settings;
 
@@ -26,7 +27,7 @@ public class CompatPillarBlock extends PillarBlock implements CompatBlockProvide
         return settings;
     }
 
-    public CompatPillarBlock(Settings settings) {
+    public CompatPillarBlock(Properties settings) {
         super(settings);
     }
 
@@ -36,22 +37,22 @@ public class CompatPillarBlock extends PillarBlock implements CompatBlockProvide
     }
 
     public void appendProperties(AppendPropertiesArgs args) {
-        super.appendProperties(args.builder);
+        super.createBlockStateDefinition(args.builder);
     }
 
     public BlockState getPlacementState(PlacementStateArgs args) {
-        return super.getPlacementState(args.ctx);
+        return super.getStateForPlacement(args.ctx);
     }
 
     @Deprecated
     @Override
-    public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         appendProperties(new AppendPropertiesArgs(builder));
     }
 
     @Deprecated
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
         return getPlacementState(new PlacementStateArgs(ctx));
     }
 
@@ -70,11 +71,11 @@ public class CompatPillarBlock extends PillarBlock implements CompatBlockProvide
 
     @Deprecated
     @Override
-    public MapCodec<? extends PillarBlock> getCodec() {
+    public MapCodec<? extends RotatedPillarBlock> codec() {
         return getCompatCodec().getCodec();
     }
 
-    public CompatMapCodec<? extends PillarBlock> getCompatCodec() {
-        return CompatMapCodec.of(super.getCodec());
+    public CompatMapCodec<? extends RotatedPillarBlock> getCompatCodec() {
+        return CompatMapCodec.of(super.codec());
     }
 }

@@ -2,8 +2,8 @@ package net.pitan76.mcpitanlib.api.event.v1;
 
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.EntityEvent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.damagesource.DamageSource;
 import net.pitan76.mcpitanlib.api.event.v0.event.LivingHurtEvent;
 
 public class LivingHurtEventRegistry {

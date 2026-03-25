@@ -11,17 +11,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class ItemWrapper {
-    private final net.minecraft.item.Item item;
+    private final net.minecraft.world.item.Item item;
 
     protected ItemWrapper() {
         this.item = null;
     }
 
-    protected ItemWrapper(net.minecraft.item.Item item) {
+    protected ItemWrapper(net.minecraft.world.item.Item item) {
         this.item = item;
     }
 
-    public static ItemWrapper of(net.minecraft.item.Item item) {
+    public static ItemWrapper of(net.minecraft.world.item.Item item) {
         return new ItemWrapper(item);
     }
 
@@ -56,15 +56,15 @@ public class ItemWrapper {
     }
 
     public boolean isAir() {
-        return isEmpty() || get() == net.minecraft.item.Items.AIR;
+        return isEmpty() || get() == net.minecraft.world.item.Items.AIR;
     }
 
     @Nullable
-    public net.minecraft.item.Item get() {
+    public net.minecraft.world.item.Item get() {
         return item;
     }
 
-    public net.minecraft.item.Item gerOrDefault(net.minecraft.item.Item defaultItem) {
+    public net.minecraft.world.item.Item gerOrDefault(net.minecraft.world.item.Item defaultItem) {
         return isEmpty() ? defaultItem : get();
     }
 
@@ -99,14 +99,14 @@ public class ItemWrapper {
     }
 
     public boolean isBlock() {
-        return !isEmpty() && get() instanceof net.minecraft.item.BlockItem;
+        return !isEmpty() && get() instanceof net.minecraft.world.item.BlockItem;
     }
 
     public BlockWrapper asBlock() {
         if (!isBlock())
             return BlockWrapper.of();
 
-        return BlockWrapper.of(((net.minecraft.item.BlockItem) get()).getBlock());
+        return BlockWrapper.of(((net.minecraft.world.item.BlockItem) get()).getBlock());
     }
 
     public boolean rawEquals(ItemWrapper item) {
@@ -142,7 +142,7 @@ public class ItemWrapper {
     }
     
     public static ItemWrapper of(CompatItem item) {
-        return of((net.minecraft.item.Item) item);
+        return of((net.minecraft.world.item.Item) item);
     }
 
     public Optional<CompatItem> toCompatItem() {

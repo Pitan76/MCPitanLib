@@ -1,19 +1,19 @@
 package net.pitan76.mcpitanlib.api.client.option;
 
-import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.Options;
 
 public class GameOptionsWrapper {
-    public final GameOptions raw;
+    public final Options raw;
 
-    public GameOptionsWrapper(GameOptions options) {
+    public GameOptionsWrapper(Options options) {
         this.raw = options;
     }
 
-    public GameOptions getRaw() {
+    public Options getRaw() {
         return raw;
     }
 
     public void write() {
-        raw.write();
+        raw.save();
     }
 }

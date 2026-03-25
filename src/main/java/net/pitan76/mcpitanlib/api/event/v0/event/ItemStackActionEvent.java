@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.v0.event;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.event.v0.EventRegistry;
 
 import java.util.ArrayList;

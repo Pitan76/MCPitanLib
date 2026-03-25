@@ -1,19 +1,19 @@
 package net.pitan76.mcpitanlib.midohra.component.item;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Rarity;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
 
 public class RarityComponentType extends ItemComponentType<Rarity> {
 
     public RarityComponentType() {
-        super(DataComponentTypes.RARITY);
+        super(DataComponents.RARITY);
     }
 
     @Override
     public void put(ItemStack stack, Rarity value) {
-        stack.set(DataComponentTypes.RARITY, value);
+        stack.set(DataComponents.RARITY, value);
     }
 
     @Override

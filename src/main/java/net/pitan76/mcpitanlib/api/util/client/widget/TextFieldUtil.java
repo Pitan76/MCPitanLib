@@ -1,79 +1,79 @@
 package net.pitan76.mcpitanlib.api.util.client.widget;
 
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.input.CharInput;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 public class TextFieldUtil {
-    public static void setFocused(TextFieldWidget widget, boolean focused) {
+    public static void setFocused(EditBox widget, boolean focused) {
         widget.setFocused(focused);
     }
 
-    public static void render(TextFieldWidget widget, RenderArgs args) {
+    public static void render(EditBox widget, RenderArgs args) {
         widget.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
-    public static void setEditable(TextFieldWidget widget, boolean editable) {
+    public static void setEditable(EditBox widget, boolean editable) {
         widget.setEditable(editable);
     }
 
-    public static void setMaxLength(TextFieldWidget widget, int maxLength) {
+    public static void setMaxLength(EditBox widget, int maxLength) {
         widget.setMaxLength(maxLength);
     }
 
-    public static void setSuggestion(TextFieldWidget widget, String suggestion) {
+    public static void setSuggestion(EditBox widget, String suggestion) {
         widget.setSuggestion(suggestion);
     }
 
-    public static void setText(TextFieldWidget widget, String text) {
-        widget.setText(text);
+    public static void setText(EditBox widget, String text) {
+        widget.setValue(text);
     }
 
-    public static String getText(TextFieldWidget widget) {
-        return widget.getText();
+    public static String getText(EditBox widget) {
+        return widget.getValue();
     }
 
-    public static void setDrawsBackground(TextFieldWidget widget, boolean drawsBackground) {
-        widget.setDrawsBackground(drawsBackground);
+    public static void setDrawsBackground(EditBox widget, boolean drawsBackground) {
+        widget.setBordered(drawsBackground);
     }
 
-    public static void setFocusUnlocked(TextFieldWidget widget, boolean focusUnlocked) {
-        widget.setFocusUnlocked(focusUnlocked);
+    public static void setFocusUnlocked(EditBox widget, boolean focusUnlocked) {
+        widget.setCanLoseFocus(focusUnlocked);
     }
 
-    public static boolean isFocused(TextFieldWidget widget) {
+    public static boolean isFocused(EditBox widget) {
         return widget.isFocused();
     }
 
-    public static boolean keyPressed(TextFieldWidget widget, int keyCode, int scanCode, int modifiers) {
-        return widget.keyPressed(new KeyInput(keyCode, scanCode, modifiers));
+    public static boolean keyPressed(EditBox widget, int keyCode, int scanCode, int modifiers) {
+        return widget.keyPressed(new KeyEvent(keyCode, scanCode, modifiers));
     }
 
-    public static boolean keyReleased(TextFieldWidget widget, int keyCode, int scanCode, int modifiers) {
-        return widget.keyReleased(new KeyInput(keyCode, scanCode, modifiers));
+    public static boolean keyReleased(EditBox widget, int keyCode, int scanCode, int modifiers) {
+        return widget.keyReleased(new KeyEvent(keyCode, scanCode, modifiers));
     }
 
-    public static boolean charTyped(TextFieldWidget widget, char chr, int modifiers) {
-        return widget.charTyped(new CharInput(chr, modifiers));
+    public static boolean charTyped(EditBox widget, char chr, int modifiers) {
+        return widget.charTyped(new CharacterEvent(chr, modifiers));
     }
 
-    public static TextFieldWidget create(TextRenderer renderer, int x, int y, int width, int height, Text text) {
-        return new TextFieldWidget(renderer, x, y, width, height, text);
+    public static EditBox create(Font renderer, int x, int y, int width, int height, Component text) {
+        return new EditBox(renderer, x, y, width, height, text);
     }
 
-    public static TextFieldWidget create(TextRenderer renderer, int width, int height, Text text) {
-        return new TextFieldWidget(renderer, width, height, text);
+    public static EditBox create(Font renderer, int width, int height, Component text) {
+        return new EditBox(renderer, width, height, text);
     }
 
-    public static TextFieldWidget create(TextRenderer renderer, int x, int y, int width, int height) {
-        return new TextFieldWidget(renderer, x, y, width, height, TextUtil.empty());
+    public static EditBox create(Font renderer, int x, int y, int width, int height) {
+        return new EditBox(renderer, x, y, width, height, TextUtil.empty());
     }
 
-    public static TextFieldWidget create(TextRenderer renderer, int width, int height) {
-        return new TextFieldWidget(renderer, width, height, TextUtil.empty());
+    public static EditBox create(Font renderer, int width, int height) {
+        return new EditBox(renderer, width, height, TextUtil.empty());
     }
 }

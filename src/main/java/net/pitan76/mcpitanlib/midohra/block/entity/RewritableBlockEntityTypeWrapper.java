@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.block.entity;
 
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class RewritableBlockEntityTypeWrapper extends BlockEntityTypeWrapper {
     private BlockEntityType<?> type;

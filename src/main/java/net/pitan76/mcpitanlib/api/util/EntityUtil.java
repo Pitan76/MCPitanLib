@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.network.packet.s2c.play.PositionFlag;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Relative;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
@@ -16,28 +16,28 @@ import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 import java.util.UUID;
 
 public class EntityUtil {
-    public static World getWorld(Entity entity) {
-        return entity.getEntityWorld();
+    public static Level getWorld(Entity entity) {
+        return entity.level();
     }
 
     public static boolean damage(Entity target, DamageSource damageSource, float amount) {
-        return target.damage((ServerWorld) target.getEntityWorld(), damageSource, amount);
+        return target.hurtServer((ServerLevel) target.level(), damageSource, amount);
     }
 
     public static boolean damageWithThrownProjectile(Entity target, float damageAmount, Entity projectile, Entity attacker) {
-        return target.damage((ServerWorld) target.getEntityWorld(), DamageSourceUtil.thrownProjectile(projectile, attacker), damageAmount);
+        return target.hurtServer((ServerLevel) target.level(), DamageSourceUtil.thrownProjectile(projectile, attacker), damageAmount);
     }
 
     public static boolean damageWithMobProjectile(Entity target, float damageAmount, Entity projectile, LivingEntity attacker) {
-        return target.damage((ServerWorld) target.getEntityWorld(), DamageSourceUtil.mobProjectile(projectile, attacker), damageAmount);
+        return target.hurtServer((ServerLevel) target.level(), DamageSourceUtil.mobProjectile(projectile, attacker), damageAmount);
     }
 
     public static boolean damageWithMobAttack(Entity target, float damageAmount, Entity source, LivingEntity attacker) {
-        return target.damage((ServerWorld) target.getEntityWorld(), DamageSourceUtil.mobAttack(attacker, source), damageAmount);
+        return target.hurtServer((ServerLevel) target.level(), DamageSourceUtil.mobAttack(attacker, source), damageAmount);
     }
 
     public static boolean damageWithPlayerAttack(Entity target, float damageAmount, Entity source, Player attacker) {
-        return target.damage((ServerWorld) target.getEntityWorld(), DamageSourceUtil.playerAttack(attacker, source), damageAmount);
+        return target.hurtServer((ServerLevel) target.level(), DamageSourceUtil.playerAttack(attacker, source), damageAmount);
     }
 
     public static void discard(Entity entity) {
@@ -45,18 +45,18 @@ public class EntityUtil {
     }
 
     public static void kill(Entity entity) {
-        if (entity.getEntityWorld() instanceof ServerWorld)
+        if (entity.level() instanceof ServerLevel)
             return;
 
-        entity.kill((ServerWorld) entity.getEntityWorld());
+        entity.kill((ServerLevel) entity.level());
     }
 
     public static void setVelocity(Entity entity, double x, double y, double z) {
-        entity.setVelocity(x, y, z);
+        entity.setDeltaMovement(x, y, z);
     }
 
-    public static Vec3d getVelocity(Entity entity) {
-        return entity.getVelocity();
+    public static Vec3 getVelocity(Entity entity) {
+        return entity.getDeltaMovement();
     }
 
     public static void setNoGravity(Entity entity, boolean noGravity) {
@@ -64,7 +64,7 @@ public class EntityUtil {
     }
 
     public static boolean hasNoGravity(Entity entity) {
-        return entity.hasNoGravity();
+        return entity.isNoGravity();
     }
 
     public static void setInvulnerable(Entity entity, boolean invulnerable) {
@@ -84,19 +84,19 @@ public class EntityUtil {
     }
 
     public static void setGlowing(Entity entity, boolean glowing) {
-        entity.setGlowing(glowing);
+        entity.setGlowingTag(glowing);
     }
 
     public static boolean isGlowing(Entity entity) {
-        return entity.isGlowing();
+        return entity.isCurrentlyGlowing();
     }
 
     public static void setFire(Entity entity, int seconds) {
-        entity.setOnFireFor(seconds);
+        entity.igniteForSeconds(seconds);
     }
 
     public static void extinguish(Entity entity) {
-        entity.extinguish();
+        entity.clearFire();
     }
 
     public static boolean isOnFire(Entity entity) {
@@ -112,11 +112,11 @@ public class EntityUtil {
     }
 
     public static void setSneaking(Entity entity, boolean sneaking) {
-        entity.setSneaking(sneaking);
+        entity.setShiftKeyDown(sneaking);
     }
 
     public static boolean isSneaking(Entity entity) {
-        return entity.isSneaking();
+        return entity.isShiftKeyDown();
     }
 
     public static void setSprinting(Entity entity, boolean sprinting) {
@@ -136,7 +136,7 @@ public class EntityUtil {
     }
 
     public static void detach(Entity entity) {
-        entity.detach();
+        entity.unRide();
     }
 
     public static void attach(Entity entity, Entity vehicle) {
@@ -148,7 +148,7 @@ public class EntityUtil {
     }
 
     public static boolean isRiding(Entity entity) {
-        return entity.hasVehicle();
+        return entity.isPassenger();
     }
 
     public static Entity getVehicle(Entity entity) {
@@ -159,12 +159,12 @@ public class EntityUtil {
         entity.startRiding(vehicle, true, true);
     }
 
-    public static void applyRotation(Entity entity, BlockRotation rotation) {
-        entity.applyRotation(rotation);
+    public static void applyRotation(Entity entity, Rotation rotation) {
+        entity.rotate(rotation);
     }
 
-    public static void setVelocity(Entity entity, Vec3d velocity) {
-        entity.setVelocity(velocity);
+    public static void setVelocity(Entity entity, Vec3 velocity) {
+        entity.setDeltaMovement(velocity);
     }
 
     public static void setFallDistance(Entity entity, double fallDistance) {
@@ -176,39 +176,39 @@ public class EntityUtil {
     }
 
     public static void setVelocityModified(Entity entity, boolean velocityModified) {
-        entity.velocityDirty = velocityModified;
+        entity.needsSync = velocityModified;
     }
 
     public static boolean isVelocityModified(Entity entity) {
-        return entity.velocityDirty;
+        return entity.needsSync;
     }
 
     public static float getYaw(Entity entity) {
-        return entity.getYaw();
+        return entity.getYRot();
     }
 
     public static float getPitch(Entity entity) {
-        return entity.getPitch();
+        return entity.getXRot();
     }
 
     public static void setYaw(Entity entity, float yaw) {
-        entity.setYaw(yaw);
+        entity.setYRot(yaw);
     }
 
     public static void setPitch(Entity entity, float pitch) {
-        entity.setPitch(pitch);
+        entity.setXRot(pitch);
     }
 
     public static float getSpeed(Entity entity) {
-        return entity.speed;
+        return entity.flyDist;
     }
 
     public static void setSpeed(Entity entity, float speed) {
-        entity.speed = speed;
+        entity.flyDist = speed;
     }
 
     public static boolean isOnGround(Entity entity) {
-        return entity.isOnGround();
+        return entity.onGround();
     }
 
     public static void setOnGround(Entity entity, boolean onGround) {
@@ -220,30 +220,30 @@ public class EntityUtil {
     }
 
     public static UUID getUuid(Entity entity) {
-        return entity.getUuid();
+        return entity.getUUID();
     }
 
     public static String getUuidString(Entity entity) {
-        return entity.getUuidAsString();
+        return entity.getStringUUID();
     }
 
     public static void setUuid(Entity entity, UUID uuid) {
-        entity.setUuid(uuid);
+        entity.setUUID(uuid);
     }
 
-    public static Text getName(Entity entity) {
+    public static Component getName(Entity entity) {
         return entity.getName();
     }
 
-    public static Text getDisplayName(Entity entity) {
+    public static Component getDisplayName(Entity entity) {
         return entity.getDisplayName();
     }
 
-    public static void setCustomName(Entity entity, Text customName) {
+    public static void setCustomName(Entity entity, Component customName) {
         entity.setCustomName(customName);
     }
 
-    public static Text getCustomName(Entity entity) {
+    public static Component getCustomName(Entity entity) {
         return entity.getCustomName();
     }
 
@@ -279,12 +279,12 @@ public class EntityUtil {
         entity.setCustomName(TextUtil.literal(customName));
     }
 
-    public static Vec3d getRotationVector(Entity entity) {
-        return entity.getRotationVector();
+    public static Vec3 getRotationVector(Entity entity) {
+        return entity.getLookAngle();
     }
 
-    public static Vec3d getPos(Entity entity) {
-        return entity.getEntityPos();
+    public static Vec3 getPos(Entity entity) {
+        return entity.position();
     }
 
     public static Vector3d getPosM(Entity entity) {
@@ -292,15 +292,15 @@ public class EntityUtil {
     }
 
     public static void setPos(Entity entity, double x, double y, double z) {
-        entity.setPos(x, y, z);
+        entity.setPosRaw(x, y, z);
     }
 
     public static void addVelocity(Entity entity, double x, double y, double z) {
-        entity.addVelocity(x, y, z);
+        entity.push(x, y, z);
     }
 
-    public static void addVelocity(Entity entity, Vec3d velocity) {
-        entity.addVelocity(velocity);
+    public static void addVelocity(Entity entity, Vec3 velocity) {
+        entity.push(velocity);
     }
 
     public static void addVelocity(Entity entity, Vector3d velocity) {
@@ -308,7 +308,7 @@ public class EntityUtil {
     }
 
     public static void setVelocity(Entity entity, Vector3d velocity) {
-        entity.setVelocity(velocity.toMinecraft());
+        entity.setDeltaMovement(velocity.toMinecraft());
     }
 
     public static void setPos(Entity entity, BlockPos pos) {
@@ -319,31 +319,31 @@ public class EntityUtil {
         setPos(entity, pos.getX(), pos.getY(), pos.getZ());
     }
 
-    public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
-        entity.teleport(world, x, y, z, PositionFlag.VALUES, yaw, pitch, resetCamera);
+    public static void teleport(Entity entity, ServerLevel world, double x, double y, double z, float yaw, float pitch, boolean resetCamera) {
+        entity.teleportTo(world, x, y, z, Relative.ALL, yaw, pitch, resetCamera);
     }
 
-    public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch) {
+    public static void teleport(Entity entity, ServerLevel world, double x, double y, double z, float yaw, float pitch) {
         teleport(entity, world, x, y, z, yaw, pitch, true);
     }
 
-    public static void teleport(Entity entity, ServerWorld world, double x, double y, double z) {
-        teleport(entity, world, x, y, z, entity.getYaw(), entity.getPitch(), true);
+    public static void teleport(Entity entity, ServerLevel world, double x, double y, double z) {
+        teleport(entity, world, x, y, z, entity.getYRot(), entity.getXRot(), true);
     }
 
-    public static void teleport(Entity entity, ServerWorld world, Vector3d pos) {
+    public static void teleport(Entity entity, ServerLevel world, Vector3d pos) {
         teleport(entity, world, pos.getX(), pos.getY(), pos.getZ());
     }
 
-    public static void teleport(Entity entity, ServerWorld world, BlockPos pos) {
+    public static void teleport(Entity entity, ServerLevel world, BlockPos pos) {
         teleport(entity, world, pos.getX(), pos.getY(), pos.getZ());
     }
 
     public static void teleport(Entity entity, double x, double y, double z) {
-        if (!(entity.getEntityWorld() instanceof ServerWorld))
+        if (!(entity.level() instanceof ServerLevel))
             return;
 
-        teleport(entity, (ServerWorld) entity.getEntityWorld(), x, y, z, entity.getYaw(), entity.getPitch());
+        teleport(entity, (ServerLevel) entity.level(), x, y, z, entity.getYRot(), entity.getXRot());
     }
 
     public static void teleport(Entity entity, Vector3d pos) {
@@ -354,11 +354,11 @@ public class EntityUtil {
         teleport(entity, pos.getX(), pos.getY(), pos.getZ());
     }
 
-    public static void teleport(Entity entity, ServerWorld world, Vector3d pos, float yaw, float pitch, boolean resetCamera) {
+    public static void teleport(Entity entity, ServerLevel world, Vector3d pos, float yaw, float pitch, boolean resetCamera) {
         teleport(entity, world, pos.getX(), pos.getY(), pos.getZ(), yaw, pitch, resetCamera);
     }
 
-    public static void teleport(Entity entity, ServerWorld raw, BlockPos pos, float yaw, float pitch, boolean resetCamera) {
+    public static void teleport(Entity entity, ServerLevel raw, BlockPos pos, float yaw, float pitch, boolean resetCamera) {
         teleport(entity, raw, pos.getX(), pos.getY(), pos.getZ(), yaw, pitch, resetCamera);
     }
 }

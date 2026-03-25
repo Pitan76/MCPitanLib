@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.test;
 
-import net.minecraft.inventory.Inventory;
+import net.minecraft.world.Container;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.util.InventoryUtil;
@@ -9,7 +9,7 @@ import net.pitan76.mcpitanlib.guilib.api.container.SimpleContainerGui;
 
 public class ExampleContainerGui extends SimpleContainerGui {
 
-    public static Inventory EXAMPLE_INVENTORY = InventoryUtil.createSimpleInventory(1);
+    public static Container EXAMPLE_INVENTORY = InventoryUtil.createSimpleInventory(1);
 
     public ExampleContainerGui(CreateMenuEvent e) {
         super(ExampleMod.EXAMPLE_CONTAINER_GUI.get(), e);

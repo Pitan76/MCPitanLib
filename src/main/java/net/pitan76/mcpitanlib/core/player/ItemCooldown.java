@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.core.player;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class ItemCooldown {
@@ -14,7 +14,7 @@ public class ItemCooldown {
     public boolean isCoolingDown(Item item) {
         for (ItemStack stack : player.getMain()) {
             if (stack.getItem() == item) {
-                return player.getItemCooldownManager().isCoolingDown(stack);
+                return player.getItemCooldownManager().isOnCooldown(stack);
             }
         }
 
@@ -24,7 +24,7 @@ public class ItemCooldown {
     public void set(Item item, int duration) {
         for (ItemStack stack : player.getMain()) {
             if (stack.getItem() == item) {
-                player.getItemCooldownManager().set(stack, duration);
+                player.getItemCooldownManager().addCooldown(stack, duration);
             }
         }
     }

@@ -1,31 +1,31 @@
 package net.pitan76.mcpitanlib.api.event.v0.event;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class ClickBlockEvent {
     public Player player;
-    public Hand hand;
+    public InteractionHand hand;
     public BlockPos pos;
     public Direction direction;
 
-    public ClickBlockEvent(Player player, Hand hand, BlockPos pos, Direction direction) {
+    public ClickBlockEvent(Player player, InteractionHand hand, BlockPos pos, Direction direction) {
         this.player = player;
         this.hand = hand;
         this.pos = pos;
         this.direction = direction;
     }
 
-    public ClickBlockEvent(PlayerEntity player, Hand hand, BlockPos pos, Direction direction) {
+    public ClickBlockEvent(Player player, InteractionHand hand, BlockPos pos, Direction direction) {
         this.player = new Player(player);
         this.hand = hand;
         this.pos = pos;
@@ -36,7 +36,7 @@ public class ClickBlockEvent {
         return player;
     }
 
-    public Hand getHand() {
+    public InteractionHand getHand() {
         return hand;
     }
 
@@ -60,7 +60,7 @@ public class ClickBlockEvent {
         return getStackInHand().isEmpty();
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return player.getWorld();
     }
 

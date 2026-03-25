@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.recipe.input;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +18,7 @@ public class RecipeInputOrInventory {
         return new RecipeInputOrInventory(recipeInput);
     }
 
-    public static RecipeInputOrInventory of(Inventory inventory) {
+    public static RecipeInputOrInventory of(Container inventory) {
         if (inventory instanceof RecipeInput) {
             return of((RecipeInput) inventory);
         }
@@ -42,9 +42,9 @@ public class RecipeInputOrInventory {
     }
 
     @Nullable
-    public Inventory getInventory() {
-        if (getRaw() instanceof Inventory) {
-            return (Inventory) getRaw();
+    public Container getInventory() {
+        if (getRaw() instanceof Container) {
+            return (Container) getRaw();
         }
 
         return null;
@@ -66,10 +66,10 @@ public class RecipeInputOrInventory {
         return getRaw().isEmpty();
     }
 
-    public net.minecraft.item.ItemStack getStack(int slot) {
-        if (isNone()) return net.minecraft.item.ItemStack.EMPTY;
+    public net.minecraft.world.item.ItemStack getStack(int slot) {
+        if (isNone()) return net.minecraft.world.item.ItemStack.EMPTY;
 
-        return getRaw().getStackInSlot(slot);
+        return getRaw().getItem(slot);
     }
 
     public ItemStack getMidohraStack(int slot) {

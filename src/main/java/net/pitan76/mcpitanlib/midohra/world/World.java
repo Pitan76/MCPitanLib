@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.midohra.world;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
@@ -24,23 +24,23 @@ import java.util.UUID;
 
 public class World extends WorldAccess {
 
-    private final net.minecraft.world.World world;
+    private final net.minecraft.world.level.Level world;
 
-    protected World(net.minecraft.world.World world) {
+    protected World(net.minecraft.world.level.Level world) {
         super(null);
         this.world = world;
     }
 
-    public static World of(net.minecraft.world.World world) {
+    public static World of(net.minecraft.world.level.Level world) {
         return new World(world);
     }
 
     @Override
-    public net.minecraft.world.World getRaw() {
+    public net.minecraft.world.level.Level getRaw() {
         return world;
     }
 
-    public net.minecraft.world.World toMinecraft() {
+    public net.minecraft.world.level.Level toMinecraft() {
         return getRaw();
     }
 
@@ -49,7 +49,7 @@ public class World extends WorldAccess {
     }
 
     public void addBlockEntity(BlockEntity blockEntity) {
-        getRaw().addBlockEntity(blockEntity);
+        getRaw().setBlockEntity(blockEntity);
     }
 
     public void removeBlockEntity(BlockPos pos) {
@@ -93,12 +93,12 @@ public class World extends WorldAccess {
     }
 
     public Optional<World> getWorld(CompatIdentifier id) {
-        Optional<net.minecraft.server.world.ServerWorld> optional = WorldUtil.getWorld(getRaw(), id);
+        Optional<net.minecraft.server.level.ServerLevel> optional = WorldUtil.getWorld(getRaw(), id);
         return optional.map(World::of);
     }
 
     public Optional<ServerWorld> getServerWorld(CompatIdentifier id) {
-        Optional<net.minecraft.server.world.ServerWorld> optional = WorldUtil.getWorld(getRaw(), id);
+        Optional<net.minecraft.server.level.ServerLevel> optional = WorldUtil.getWorld(getRaw(), id);
         return optional.map(ServerWorld::of);
     }
 
@@ -106,23 +106,23 @@ public class World extends WorldAccess {
         WorldUtil.spawnEntity(getRaw(), entity);
     }
 
-    public void spawnStack(net.minecraft.item.ItemStack stack, BlockPos pos) {
+    public void spawnStack(net.minecraft.world.item.ItemStack stack, BlockPos pos) {
         WorldUtil.spawnStack(getRaw(), pos.toMinecraft(), stack);
     }
 
     public RecipeManager getRecipeManager() {
-        return RecipeManager.of(getRaw().getRecipeManager());
+        return RecipeManager.of(getRaw().recipeAccess());
     }
 
     @Deprecated
     @Override
-    public void playSound(PlayerEntity playerEntity, net.minecraft.util.math.BlockPos pos, SoundEvent sound, SoundCategory category) {
+    public void playSound(Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category) {
         getRaw().playSound(playerEntity, pos, sound, category);
     }
 
     @Deprecated
     @Override
-    public void playSound(PlayerEntity playerEntity, net.minecraft.util.math.BlockPos pos, SoundEvent sound, SoundCategory category, float volume, float pitch) {
+    public void playSound(Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {
         getRaw().playSound(playerEntity, pos, sound, category, volume, pitch);
     }
 
@@ -147,8 +147,8 @@ public class World extends WorldAccess {
     }
 
     public Optional<ServerWorld> toServerWorld() {
-        if (getRaw() instanceof net.minecraft.server.world.ServerWorld) {
-            return Optional.of(ServerWorld.of((net.minecraft.server.world.ServerWorld) getRaw()));
+        if (getRaw() instanceof net.minecraft.server.level.ServerLevel) {
+            return Optional.of(ServerWorld.of((net.minecraft.server.level.ServerLevel) getRaw()));
         }
         return Optional.empty();
     }

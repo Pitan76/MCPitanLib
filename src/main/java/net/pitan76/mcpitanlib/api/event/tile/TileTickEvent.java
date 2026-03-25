@@ -1,22 +1,22 @@
 package net.pitan76.mcpitanlib.api.event.tile;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
 import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 
 public class TileTickEvent<T extends BlockEntity> implements BlockStatePropertyHolder {
-    public World world;
+    public Level world;
     public BlockPos pos;
     public BlockState state;
     public T blockEntity;
 
-    public TileTickEvent(World world, BlockPos pos, BlockState state, T blockEntity) {
+    public TileTickEvent(Level world, BlockPos pos, BlockState state, T blockEntity) {
         this.world = world;
         this.pos = pos;
         this.state = state;
@@ -24,7 +24,7 @@ public class TileTickEvent<T extends BlockEntity> implements BlockStatePropertyH
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public boolean isServer() {
@@ -35,7 +35,7 @@ public class TileTickEvent<T extends BlockEntity> implements BlockStatePropertyH
         return world != null;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 

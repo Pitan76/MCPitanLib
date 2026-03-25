@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
 import dev.architectury.event.events.common.LifecycleEvent;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.v0.event.ItemStackActionEvent;
 import net.pitan76.mcpitanlib.api.event.v0.event.ServerConnectionEvent;
 
@@ -22,11 +22,11 @@ public class EventRegistry {
         }
 
         public interface PlayerJoin {
-            void join(ServerPlayerEntity player);
+            void join(ServerPlayer player);
         }
 
         public interface PlayerQuit {
-            void quit(ServerPlayerEntity player);
+            void quit(ServerPlayer player);
         }
     }
 
@@ -77,11 +77,11 @@ public class EventRegistry {
             void stateChanged(T instance);
         }
 
-        public interface WorldState<T extends World> {
+        public interface WorldState<T extends Level> {
             void act(T world);
         }
 
-        public interface ServerWorldState extends WorldState<ServerWorld> {
+        public interface ServerWorldState extends WorldState<ServerLevel> {
         }
     }
 }

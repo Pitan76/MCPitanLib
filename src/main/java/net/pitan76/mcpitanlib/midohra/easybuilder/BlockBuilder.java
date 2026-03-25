@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.easybuilder;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
@@ -49,12 +49,12 @@ public class BlockBuilder {
     public Consumer<AppendPropertiesArgs> onAppendProperties;
     public BlockState defaultState;
     public BiConsumer<BlockWrapper, BlockBuilder> onInit;
-    public Function<OutlineShapeEvent, net.minecraft.util.shape.VoxelShape> onOutlineShape;
-    public Function<CollisionShapeEvent, net.minecraft.util.shape.VoxelShape> onCollisionShape;
+    public Function<OutlineShapeEvent, net.minecraft.world.phys.shapes.VoxelShape> onOutlineShape;
+    public Function<CollisionShapeEvent, net.minecraft.world.phys.shapes.VoxelShape> onCollisionShape;
     public Function<RenderTypeArgs, CompatBlockRenderType> onRenderType;
     public Function<PlacementStateArgs, @Nullable BlockState> onPlacementState;
     public Function<StateForNeighborUpdateArgs, BlockState> onStateForNeighborUpdate;
-    public Function<DroppedStacksArgs, List<net.minecraft.item.ItemStack>> onDroppedStacks;
+    public Function<DroppedStacksArgs, List<net.minecraft.world.item.ItemStack>> onDroppedStacks;
 
     public BlockBuilder(BlockSettingsBuilder settingsBuilder) {
         this.settingsBuilder = settingsBuilder;
@@ -197,12 +197,12 @@ public class BlockBuilder {
         return onCollisionShapeRaw(e -> onCollisionShape.apply(e).raw());
     }
 
-    public BlockBuilder onOutlineShapeRaw(Function<OutlineShapeEvent, net.minecraft.util.shape.VoxelShape> onOutlineShape) {
+    public BlockBuilder onOutlineShapeRaw(Function<OutlineShapeEvent, net.minecraft.world.phys.shapes.VoxelShape> onOutlineShape) {
         this.onOutlineShape = onOutlineShape;
         return this;
     }
 
-    public BlockBuilder onCollisionShapeRaw(Function<CollisionShapeEvent, net.minecraft.util.shape.VoxelShape> onCollisionShape) {
+    public BlockBuilder onCollisionShapeRaw(Function<CollisionShapeEvent, net.minecraft.world.phys.shapes.VoxelShape> onCollisionShape) {
         this.onCollisionShape = onCollisionShape;
         return this;
     }
@@ -230,11 +230,11 @@ public class BlockBuilder {
         return onCollisionShape(e -> shape);
     }
 
-    public BlockBuilder setOutlineShape(net.minecraft.util.shape.VoxelShape shape) {
+    public BlockBuilder setOutlineShape(net.minecraft.world.phys.shapes.VoxelShape shape) {
         return onOutlineShapeRaw(e -> shape);
     }
 
-    public BlockBuilder setCollisionShape(net.minecraft.util.shape.VoxelShape shape) {
+    public BlockBuilder setCollisionShape(net.minecraft.world.phys.shapes.VoxelShape shape) {
         return onCollisionShapeRaw(e -> shape);
     }
 
@@ -270,7 +270,7 @@ public class BlockBuilder {
         return this;
     }
 
-    public BlockBuilder onDroppedStacksRaw(Function<DroppedStacksArgs, List<net.minecraft.item.ItemStack>> onDroppedStacks) {
+    public BlockBuilder onDroppedStacksRaw(Function<DroppedStacksArgs, List<net.minecraft.world.item.ItemStack>> onDroppedStacks) {
         this.onDroppedStacks = onDroppedStacks;
         return this;
     }

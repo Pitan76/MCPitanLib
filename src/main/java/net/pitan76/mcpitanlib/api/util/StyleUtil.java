@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.Style;
-import net.minecraft.text.StyleSpriteSource;
-import net.minecraft.util.Formatting;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.FontDescription;
+import net.minecraft.ChatFormatting;
 
 public class StyleUtil {
     public static Style emptyStyle() {
@@ -24,7 +24,7 @@ public class StyleUtil {
     }
 
     public static Style withUnderline(Style style, boolean underline) {
-        return style.withUnderline(underline);
+        return style.withUnderlined(underline);
     }
 
     public static Style withStrikethrough(Style style, boolean strikethrough) {
@@ -48,14 +48,14 @@ public class StyleUtil {
     }
 
     public static Style withFont(Style style, CompatIdentifier font) {
-        return style.withFont(new StyleSpriteSource.Font(font.toMinecraft()));
+        return style.withFont(new FontDescription.Resource(font.toMinecraft()));
     }
 
-    public static Style withFormatting(Style style, Formatting formatting) {
-        return style.withFormatting(formatting);
+    public static Style withFormatting(Style style, ChatFormatting formatting) {
+        return style.applyFormat(formatting);
     }
 
-    public static Style withExclusiveFormatting(Style style, Formatting formatting) {
-        return style.withExclusiveFormatting(formatting);
+    public static Style withExclusiveFormatting(Style style, ChatFormatting formatting) {
+        return style.applyLegacyFormat(formatting);
     }
 }

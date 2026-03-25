@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.util.math;
 
-import net.minecraft.util.math.Position;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.Position;
+import net.minecraft.world.phys.Vec3;
 
 public class Vector3d {
     public final double x;
@@ -30,12 +30,12 @@ public class Vector3d {
         return new Vector3d(vec.x, vec.y, vec.z);
     }
 
-    public static Vector3d of(Vec3d vec) {
+    public static Vector3d of(Vec3 vec) {
         return new Vector3d(vec.x, vec.y, vec.z);
     }
 
     public static Vector3d of(Position vec) {
-        return new Vector3d(vec.getX(), vec.getY(), vec.getZ());
+        return new Vector3d(vec.x(), vec.y(), vec.z());
     }
 
     public Vector3i toInt() {
@@ -185,8 +185,8 @@ public class Vector3d {
         return new Vector3d(x + 0.5, y + 0.5, z + 0.5);
     }
 
-    public Vec3d toMinecraft() {
-        return new Vec3d(x, y, z);
+    public Vec3 toMinecraft() {
+        return new Vec3(x, y, z);
     }
 
     public Vector3d mul(Vector3d other) {

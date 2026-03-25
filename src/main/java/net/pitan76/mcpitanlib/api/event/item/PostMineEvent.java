@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
@@ -18,12 +18,12 @@ import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class PostMineEvent extends BaseEvent {
     public ItemStack stack;
-    public World world;
+    public Level world;
     public BlockState state;
     public BlockPos pos;
     public LivingEntity miner;
 
-    public PostMineEvent(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+    public PostMineEvent(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner) {
         this.stack = stack;
         this.world = world;
         this.state = state;
@@ -39,7 +39,7 @@ public class PostMineEvent extends BaseEvent {
         return pos;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -56,7 +56,7 @@ public class PostMineEvent extends BaseEvent {
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public boolean stateIsIn(TagKey<Block> tagKey) {
@@ -73,7 +73,7 @@ public class PostMineEvent extends BaseEvent {
      * @param slot the slot to damage
      */
     public void damageStack(int amount, EquipmentSlot slot) {
-        stack.damage(amount, miner, slot);
+        stack.hurtAndBreak(amount, miner, slot);
     }
 
     /**
@@ -82,7 +82,7 @@ public class PostMineEvent extends BaseEvent {
      * @param type the type of armor equipment
      */
     public void damageStack(int amount, ArmorEquipmentType type) {
-        stack.damage(amount, miner, type.getSlot());
+        stack.hurtAndBreak(amount, miner, type.getSlot());
     }
 
     /**
@@ -90,16 +90,16 @@ public class PostMineEvent extends BaseEvent {
      * @param amount the amount of damage to deal
      */
     public void damageStack(int amount) {
-        stack.damage(amount, miner, EquipmentSlot.MAINHAND);
+        stack.hurtAndBreak(amount, miner, EquipmentSlot.MAINHAND);
     }
 
     public boolean isPlayer() {
-        return miner instanceof PlayerEntity;
+        return miner instanceof Player;
     }
 
     public Player getPlayer() {
         if (isPlayer())
-            return new Player((PlayerEntity) miner);
+            return new Player((Player) miner);
 
         return null;
     }
@@ -109,10 +109,10 @@ public class PostMineEvent extends BaseEvent {
     }
 
     public boolean isSneaking() {
-        return miner.isSneaking();
+        return miner.isShiftKeyDown();
     }
 
     public ItemStack getMainHandStack() {
-        return miner.getMainHandStack();
+        return miner.getMainHandItem();
     }
 }

@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.recipe.v3;
 
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
 import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
@@ -21,8 +21,8 @@ public class CompatRecipe {
     }
 
     @Deprecated
-    public CompatRecipe(net.minecraft.recipe.RecipeEntry<?> entry) {
-        this(entry.value(), entry.id().getValue());
+    public CompatRecipe(net.minecraft.world.item.crafting.RecipeHolder<?> entry) {
+        this(entry.value(), entry.id().identifier());
     }
 
     @Deprecated
@@ -61,13 +61,13 @@ public class CompatRecipe {
 
     @Deprecated
     public CompatibleRecipeEntry getCompatibleRecipeEntry() {
-        return new CompatibleRecipeEntry(new net.minecraft.recipe.RecipeEntry<Recipe<?>>(RegistryKey.of(RegistryKeys.RECIPE, getId()), getRecipe()));
+        return new CompatibleRecipeEntry(new net.minecraft.world.item.crafting.RecipeHolder<Recipe<?>>(ResourceKey.create(Registries.RECIPE, getId()), getRecipe()));
     }
 
     // MidohraAPI
     public net.pitan76.mcpitanlib.midohra.recipe.Recipe getMidohraRecipe() {
         if (getMidohraType() == net.pitan76.mcpitanlib.midohra.recipe.RecipeType.CRAFTING) {
-            return net.pitan76.mcpitanlib.midohra.recipe.CraftingRecipe.of((net.minecraft.recipe.CraftingRecipe) getRecipe());
+            return net.pitan76.mcpitanlib.midohra.recipe.CraftingRecipe.of((net.minecraft.world.item.crafting.CraftingRecipe) getRecipe());
         }
 
         return net.pitan76.mcpitanlib.midohra.recipe.Recipe.of(getRecipe());
@@ -75,7 +75,7 @@ public class CompatRecipe {
 
     public net.pitan76.mcpitanlib.midohra.recipe.entry.RecipeEntry getMidohraRecipeEntry() {
         if (getMidohraType() == net.pitan76.mcpitanlib.midohra.recipe.RecipeType.CRAFTING) {
-            return net.pitan76.mcpitanlib.midohra.recipe.entry.CraftingRecipeEntry.of((net.minecraft.recipe.CraftingRecipe) getRecipe(), getCompatId());
+            return net.pitan76.mcpitanlib.midohra.recipe.entry.CraftingRecipeEntry.of((net.minecraft.world.item.crafting.CraftingRecipe) getRecipe(), getCompatId());
         }
 
         return RecipeEntry.of(getRecipe(), getCompatId());

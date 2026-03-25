@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
@@ -22,8 +22,8 @@ public class InteractUtil {
         return StackActionResult.create(result, event.getStack());
     }
 
-    public static CompatActionResult useItemOnBlock(Item item, ItemUsageContext context) {
-        return CompatActionResult.create(item.useOnBlock(context));
+    public static CompatActionResult useItemOnBlock(Item item, UseOnContext context) {
+        return CompatActionResult.create(item.useOn(context));
     }
 
     public static CompatActionResult useItemOnBlock(Item item, ItemUseOnBlockEvent event) {
@@ -31,26 +31,26 @@ public class InteractUtil {
     }
 
     public static CompatActionResult useItemOnEntity(Item item, ItemUseOnEntityEvent event) {
-        return CompatActionResult.create(item.useOnEntity(event.getStack(), event.getUser().getEntity(), event.getEntity(), event.getHand()));
+        return CompatActionResult.create(item.interactLivingEntity(event.getStack(), event.getUser().getEntity(), event.getEntity(), event.getHand()));
     }
 
     public static CompatUseAction getUseAction(Item item, UseActionArgs args) {
-        return CompatUseAction.of(item.getUseAction(args.stack));
+        return CompatUseAction.of(item.getUseAnimation(args.stack));
     }
 
     public static CompatUseAction getUseAction(Item item, ItemStack stack) {
-        return CompatUseAction.of(item.getUseAction(stack));
+        return CompatUseAction.of(item.getUseAnimation(stack));
     }
 
-    public static CompatActionResult useBlock(BlockState state, World world, Player player, BlockHitResult hitResult) {
+    public static CompatActionResult useBlock(BlockState state, Level world, Player player, BlockHitResult hitResult) {
         return BlockStateUtil.onUse(state, world, player, hitResult);
     }
 
-    public static CompatActionResult useBlock(BlockState state, World world, Player player, Direction dir, BlockPos blockPos) {
+    public static CompatActionResult useBlock(BlockState state, Level world, Player player, Direction dir, BlockPos blockPos) {
         return BlockStateUtil.onUse(state, world, player, dir, blockPos);
     }
 
-    public static boolean onStoppingUsing(Item item, ItemStack stack, World world, Player player, int remainingUseTicks) {
-        return item.onStoppedUsing(stack, world, player.getEntity(), remainingUseTicks);
+    public static boolean onStoppingUsing(Item item, ItemStack stack, Level world, Player player, int remainingUseTicks) {
+        return item.releaseUsing(stack, world, player.getEntity(), remainingUseTicks);
     }
 }

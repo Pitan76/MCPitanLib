@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.tag.MineableToolTags;
@@ -51,7 +51,7 @@ public class BlockUtil {
      * @param level Level
      * @return Block settings
      */
-    public static AbstractBlock.Settings breakByTool(AbstractBlock.Settings settings, MineableToolTags toolTags, int level) {
+    public static BlockBehaviour.Properties breakByTool(BlockBehaviour.Properties settings, MineableToolTags toolTags, int level) {
         return BlockUtilV1.breakByTool(settings, toolTags, level);
     }
 
@@ -60,7 +60,7 @@ public class BlockUtil {
      * @param settings Block settings
      * @return Block settings
      */
-    public static AbstractBlock.Settings dropsNothing(AbstractBlock.Settings settings) {
+    public static BlockBehaviour.Properties dropsNothing(BlockBehaviour.Properties settings) {
         return BlockUtilV1.dropsNothing(settings);
     }
     /**
@@ -68,7 +68,7 @@ public class BlockUtil {
      * @param settings Block settings
      * @return Block settings
      */
-    public static AbstractBlock.Settings requiresTool(AbstractBlock.Settings settings) {
+    public static BlockBehaviour.Properties requiresTool(BlockBehaviour.Properties settings) {
         return BlockUtilV1.requiresTool(settings);
     }
 
@@ -140,7 +140,7 @@ public class BlockUtil {
      * @return Block created from Block.Settings.
      */
     @Deprecated
-    public static Block of(AbstractBlock.Settings settings) {
+    public static Block of(BlockBehaviour.Properties settings) {
         return BlockUtilV1.of(settings);
     }
 

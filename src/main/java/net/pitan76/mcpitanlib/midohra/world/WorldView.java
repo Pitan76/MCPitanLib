@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.midohra.world;
 
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.fluid.FluidState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.material.FluidState;
 import net.pitan76.mcpitanlib.api.util.world.WorldAccessUtil;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
@@ -10,21 +10,21 @@ import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import java.util.Optional;
 
 public class WorldView implements IWorldView, RedstoneView {
-    private final net.minecraft.world.WorldView world;
+    private final net.minecraft.world.level.LevelReader world;
 
-    protected WorldView(net.minecraft.world.WorldView world) {
+    protected WorldView(net.minecraft.world.level.LevelReader world) {
         this.world = world;
     }
 
-    public static WorldView of(net.minecraft.world.WorldView world) {
+    public static WorldView of(net.minecraft.world.level.LevelReader world) {
         return new WorldView(world);
     }
 
-    protected net.minecraft.world.WorldView getRaw() {
+    protected net.minecraft.world.level.LevelReader getRaw() {
         return world;
     }
 
-    public net.minecraft.world.WorldView toMinecraft() {
+    public net.minecraft.world.level.LevelReader toMinecraft() {
         return getRaw();
     }
 
@@ -50,23 +50,23 @@ public class WorldView implements IWorldView, RedstoneView {
     }
 
     @Override
-    public BlockEntity getBlockEntity(net.minecraft.util.math.BlockPos pos) {
+    public BlockEntity getBlockEntity(net.minecraft.core.BlockPos pos) {
         return getRaw().getBlockEntity(pos);
     }
 
     @Override
-    public net.minecraft.block.BlockState getBlockState(net.minecraft.util.math.BlockPos pos) {
+    public net.minecraft.world.level.block.state.BlockState getBlockState(net.minecraft.core.BlockPos pos) {
         return getRaw().getBlockState(pos);
     }
 
     @Override
-    public FluidState getFluidState(net.minecraft.util.math.BlockPos pos) {
+    public FluidState getFluidState(net.minecraft.core.BlockPos pos) {
         return getRaw().getFluidState(pos);
     }
 
     @Override
     @Deprecated
-    public net.minecraft.world.RedstoneView getRedstoneView() {
+    public net.minecraft.world.level.SignalGetter getRedstoneView() {
         return getRaw();
     }
 

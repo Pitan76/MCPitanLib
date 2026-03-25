@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -15,16 +15,16 @@ public class ItemUseOnEntityEvent extends BaseEvent {
     public ItemStack stack;
     public Player user;
     public LivingEntity entity;
-    public Hand hand;
+    public InteractionHand hand;
 
-    public ItemUseOnEntityEvent(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+    public ItemUseOnEntityEvent(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
         this.stack = stack;
         this.user = new Player(user);
         this.hand = hand;
         this.entity = entity;
     }
 
-    public ItemUseOnEntityEvent(ItemStack stack, Player user, LivingEntity entity, Hand hand) {
+    public ItemUseOnEntityEvent(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
         this.stack = stack;
         this.user = user;
         this.hand = hand;
@@ -35,7 +35,7 @@ public class ItemUseOnEntityEvent extends BaseEvent {
         return stack;
     }
 
-    public Hand getHand() {
+    public InteractionHand getHand() {
         return hand;
     }
 

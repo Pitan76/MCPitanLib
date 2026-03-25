@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.PlayerManager;
-import net.minecraft.world.World;
+import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 import java.util.ArrayList;
@@ -56,9 +56,9 @@ public class PlayerManagerUtil {
      * @param world World
      * @return List<Player>
      */
-    public static List<Player> getPlayers(World world) {
+    public static List<Player> getPlayers(Level world) {
         List<Player> players = new ArrayList<>();
-        for (PlayerEntity p : world.getPlayers()) {
+        for (Player p : world.players()) {
             players.add(new Player(p));
         }
         return players;
@@ -70,7 +70,7 @@ public class PlayerManagerUtil {
      * @param uuid UUID
      * @return Player
      */
-    public static Player getPlayerByUUID(World world, UUID uuid) {
+    public static Player getPlayerByUUID(Level world, UUID uuid) {
         return PlayerUtil.getPlayerByUUID(world, uuid);
     }
 
@@ -80,28 +80,28 @@ public class PlayerManagerUtil {
      * @param name String
      * @return Player
      */
-    public static Player getPlayerByName(World world, String name) {
+    public static Player getPlayerByName(Level world, String name) {
         return PlayerUtil.getPlayerByName(world, name);
     }
 
-    public static PlayerManager getPlayerManager(MinecraftServer server) {
+    public static PlayerList getPlayerManager(MinecraftServer server) {
         return ServerUtil.getPlayerManager(server);
     }
 
-    public static PlayerManager getPlayerManager(World world) {
+    public static PlayerList getPlayerManager(Level world) {
         return getPlayerManager(world.getServer());
     }
 
-    public static boolean hasPlayerByUUID(PlayerManager playerManager, UUID uuid) {
+    public static boolean hasPlayerByUUID(PlayerList playerManager, UUID uuid) {
         return playerManager.getPlayer(uuid) != null;
     }
 
-    public static boolean hasPlayerByName(PlayerManager playerManager, String name) {
-        return playerManager.getPlayer(name) != null;
+    public static boolean hasPlayerByName(PlayerList playerManager, String name) {
+        return playerManager.getPlayerByName(name) != null;
     }
 
-    public static boolean hasPlayerByIP(PlayerManager playerManager, String ip) {
-        return !playerManager.getPlayersByIp(ip).isEmpty();
+    public static boolean hasPlayerByIP(PlayerList playerManager, String ip) {
+        return !playerManager.getPlayersWithAddress(ip).isEmpty();
     }
 
     public static boolean hasPlayerByUUID(MinecraftServer server, UUID uuid) {
@@ -116,15 +116,15 @@ public class PlayerManagerUtil {
         return hasPlayerByIP(getPlayerManager(server), ip);
     }
 
-    public static boolean hasPlayerByUUID(World world, UUID uuid) {
+    public static boolean hasPlayerByUUID(Level world, UUID uuid) {
         return hasPlayerByUUID(getPlayerManager(world), uuid);
     }
 
-    public static boolean hasPlayerByName(World world, String name) {
+    public static boolean hasPlayerByName(Level world, String name) {
         return hasPlayerByName(getPlayerManager(world), name);
     }
 
-    public static boolean hasPlayerByIP(World world, String ip) {
+    public static boolean hasPlayerByIP(Level world, String ip) {
         return hasPlayerByIP(getPlayerManager(world), ip);
     }
 }

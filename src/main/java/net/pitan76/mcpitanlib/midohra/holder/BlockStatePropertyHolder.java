@@ -30,6 +30,6 @@ public interface BlockStatePropertyHolder {
     }
 
     default Direction get(DirectionProperty property) {
-        return Direction.of(get((IProperty<net.minecraft.util.math.Direction>) property));
+        return Direction.of(get((IProperty<net.minecraft.core.Direction>) property));
     }
 }

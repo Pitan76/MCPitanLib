@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.event;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 

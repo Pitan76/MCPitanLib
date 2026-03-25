@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.block;
 
-import net.minecraft.state.property.Property;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
@@ -10,21 +10,21 @@ import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 import net.pitan76.mcpitanlib.midohra.world.World;
 
 public class BlockState {
-    private final net.minecraft.block.BlockState state;
+    private final net.minecraft.world.level.block.state.BlockState state;
 
     private BlockWrapper blockWrapper;
 
-    protected BlockState(net.minecraft.block.BlockState state) {
+    protected BlockState(net.minecraft.world.level.block.state.BlockState state) {
         this.state = state;
     }
 
-    public static BlockState of(net.minecraft.block.BlockState state) {
+    public static BlockState of(net.minecraft.world.level.block.state.BlockState state) {
         return new BlockState(state);
     }
 
-    public static BlockState of(net.minecraft.block.Block block) {
+    public static BlockState of(net.minecraft.world.level.block.Block block) {
         if (block == null)
-            return of((net.minecraft.block.BlockState) null);
+            return of((net.minecraft.world.level.block.state.BlockState) null);
 
         return of(BlockStateUtil.getDefaultState(block));
     }
@@ -56,12 +56,12 @@ public class BlockState {
         return getBlock().getName();
     }
 
-    public net.minecraft.block.BlockState toMinecraft() {
+    public net.minecraft.world.level.block.state.BlockState toMinecraft() {
         return state;
     }
 
     public <T extends Comparable<T>, V extends T> BlockState with(Property<T> property, V value) {
-        return of(toMinecraft().with(property, value));
+        return of(toMinecraft().setValue(property, value));
     }
 
     public <T extends Comparable<T>, V extends T> BlockState with(IProperty<T> property, V value) {
@@ -85,7 +85,7 @@ public class BlockState {
     }
 
     public <T extends Comparable<T>> T get(Property<T> property) {
-        return toMinecraft().get(property);
+        return toMinecraft().getValue(property);
     }
 
     public <T extends Comparable<T>> T get(IProperty<T> property) {
@@ -97,7 +97,7 @@ public class BlockState {
     }
 
     public <T extends Comparable<T>> boolean contains(Property<T> property) {
-        return toMinecraft().contains(property);
+        return toMinecraft().hasProperty(property);
     }
 
     public <T extends Comparable<T>> boolean contains(IProperty<T> property) {

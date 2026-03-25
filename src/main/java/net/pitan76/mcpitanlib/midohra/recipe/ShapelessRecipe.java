@@ -1,27 +1,27 @@
 package net.pitan76.mcpitanlib.midohra.recipe;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.mcpitanlib.midohra.recipe.input.CraftingRecipeInputOrInventory;
 
 public class ShapelessRecipe extends CraftingRecipe {
-    private final net.minecraft.recipe.ShapelessRecipe recipe;
+    private final net.minecraft.world.item.crafting.ShapelessRecipe recipe;
 
-    protected ShapelessRecipe(net.minecraft.recipe.ShapelessRecipe recipe) {
+    protected ShapelessRecipe(net.minecraft.world.item.crafting.ShapelessRecipe recipe) {
         super(null);
         this.recipe = recipe;
     }
 
-    public static ShapelessRecipe of(net.minecraft.recipe.ShapelessRecipe recipe) {
+    public static ShapelessRecipe of(net.minecraft.world.item.crafting.ShapelessRecipe recipe) {
         return new ShapelessRecipe(recipe);
     }
 
-    public net.minecraft.recipe.ShapelessRecipe getRaw() {
+    public net.minecraft.world.item.crafting.ShapelessRecipe getRaw() {
         return recipe;
     }
 
-    public net.minecraft.recipe.ShapelessRecipe toMinecraft() {
+    public net.minecraft.world.item.crafting.ShapelessRecipe toMinecraft() {
         return getRaw();
     }
 
@@ -30,19 +30,19 @@ public class ShapelessRecipe extends CraftingRecipe {
     }
 
     @Deprecated
-    public net.minecraft.item.ItemStack craft() {
-        return getRaw().craft(null, null);
+    public net.minecraft.world.item.ItemStack craft() {
+        return getRaw().assemble(null, null);
     }
 
-    public net.minecraft.item.ItemStack craft(CompatRegistryLookup registryLookup) {
-        return getRaw().craft(null, registryLookup.getRegistryLookup());
+    public net.minecraft.world.item.ItemStack craft(CompatRegistryLookup registryLookup) {
+        return getRaw().assemble(null, registryLookup.getRegistryLookup());
     }
 
-    public net.minecraft.item.ItemStack craft(World world) {
-        return getRaw().craft(null, world.getRegistryManager());
+    public net.minecraft.world.item.ItemStack craft(Level world) {
+        return getRaw().assemble(null, world.registryAccess());
     }
 
-    public net.minecraft.item.ItemStack craft(net.pitan76.mcpitanlib.midohra.world.World world) {
+    public net.minecraft.world.item.ItemStack craft(net.pitan76.mcpitanlib.midohra.world.World world) {
         return craft(world.getRaw());
     }
 

@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.gui.inventory.sided.args;
 
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
 import net.pitan76.mcpitanlib.api.gui.inventory.sided.CompatSidedInventory;
 import net.pitan76.mcpitanlib.api.gui.inventory.IInventory;
 
@@ -26,7 +26,7 @@ public class AvailableSlotsArgs {
             return new int[0];
 
         IInventory inv = (IInventory) inventory;
-        int size = inv.size();
+        int size = inv.getContainerSize();
 
         int[] slots = new int[size];
         for (int i = 0; i < size; i++) {

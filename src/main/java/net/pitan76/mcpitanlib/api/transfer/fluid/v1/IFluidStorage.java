@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.transfer.fluid.v1;
 
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.nbt.CompoundTag;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
@@ -93,11 +93,11 @@ public interface IFluidStorage {
         return canExtract(wrapper.get(), amount);
     }
 
-    default void writeNbt(NbtCompound nbt, CompatRegistryLookup registryLookup) {
+    default void writeNbt(CompoundTag nbt, CompatRegistryLookup registryLookup) {
         writeNbt(new WriteNbtArgs(nbt, registryLookup));
     }
 
-    default void readNbt(NbtCompound nbt, CompatRegistryLookup registryLookup) {
+    default void readNbt(CompoundTag nbt, CompatRegistryLookup registryLookup) {
         readNbt(new WriteNbtArgs(nbt, registryLookup));
     }
 

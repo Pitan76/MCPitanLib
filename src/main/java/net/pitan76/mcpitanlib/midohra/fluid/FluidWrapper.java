@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.fluid;
 
-import net.minecraft.fluid.FluidState;
+import net.minecraft.world.level.material.FluidState;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.FluidStateUtil;
 import net.pitan76.mcpitanlib.api.util.FluidUtil;
@@ -8,17 +8,17 @@ import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import org.jetbrains.annotations.Nullable;
 
 public class FluidWrapper {
-    private final net.minecraft.fluid.Fluid fluid;
+    private final net.minecraft.world.level.material.Fluid fluid;
 
     protected FluidWrapper() {
         this.fluid = null;
     }
 
-    protected FluidWrapper(net.minecraft.fluid.Fluid fluid) {
+    protected FluidWrapper(net.minecraft.world.level.material.Fluid fluid) {
         this.fluid = fluid;
     }
 
-    public static FluidWrapper of(net.minecraft.fluid.Fluid fluid) {
+    public static FluidWrapper of(net.minecraft.world.level.material.Fluid fluid) {
         return new FluidWrapper(fluid);
     }
 
@@ -53,11 +53,11 @@ public class FluidWrapper {
     }
 
     @Nullable
-    public net.minecraft.fluid.Fluid get() {
+    public net.minecraft.world.level.material.Fluid get() {
         return fluid;
     }
 
-    public net.minecraft.fluid.Fluid gerOrDefault(net.minecraft.fluid.Fluid defaultFluid) {
+    public net.minecraft.world.level.material.Fluid gerOrDefault(net.minecraft.world.level.material.Fluid defaultFluid) {
         return isEmpty() ? defaultFluid : get();
     }
 

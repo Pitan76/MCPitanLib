@@ -1,22 +1,22 @@
 package net.pitan76.mcpitanlib.api.gui.args;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class CreateMenuEvent {
     public int syncId;
-    public PlayerInventory playerInventory;
-    public PlayerEntity player;
+    public Inventory playerInventory;
+    public Player player;
 
-    public CreateMenuEvent(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+    public CreateMenuEvent(int syncId, Inventory playerInventory, Player player) {
         this.syncId = syncId;
         this.playerInventory = playerInventory;
         this.player = player;
     }
 
-    public CreateMenuEvent(int syncId, PlayerInventory playerInventory) {
+    public CreateMenuEvent(int syncId, Inventory playerInventory) {
         this.syncId = syncId;
         this.playerInventory = playerInventory;
         this.player = playerInventory.player;
@@ -32,11 +32,11 @@ public class CreateMenuEvent {
         return syncId;
     }
 
-    public PlayerInventory getPlayerInventory() {
+    public Inventory getPlayerInventory() {
         return playerInventory;
     }
 
-    public PlayerEntity getPlayerEntity() {
+    public Player getPlayerEntity() {
         return player;
     }
 
@@ -52,7 +52,7 @@ public class CreateMenuEvent {
         return getPlayer().isClient();
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return getPlayer().getWorld();
     }
 }

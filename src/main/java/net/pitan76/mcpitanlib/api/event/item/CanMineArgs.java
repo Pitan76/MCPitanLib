@@ -1,17 +1,17 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class CanMineArgs {
     public BlockState state;
-    public World world;
+    public Level world;
     public BlockPos pos;
 
     @Deprecated
@@ -22,7 +22,7 @@ public class CanMineArgs {
 
     public LivingEntity entity;
 
-    public CanMineArgs(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
+    public CanMineArgs(BlockState state, Level world, BlockPos pos, Player miner) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -30,15 +30,15 @@ public class CanMineArgs {
         this.entity = miner;
     }
 
-    public CanMineArgs(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity entity) {
+    public CanMineArgs(ItemStack stack, BlockState state, Level world, BlockPos pos, LivingEntity entity) {
         this.stack = stack;
         this.state = state;
         this.world = world;
         this.pos = pos;
         this.entity = entity;
 
-        if (entity instanceof PlayerEntity) {
-            this.miner = new Player((PlayerEntity) entity);
+        if (entity instanceof Player) {
+            this.miner = new Player((Player) entity);
         }
     }
 
@@ -46,7 +46,7 @@ public class CanMineArgs {
         return state;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -67,7 +67,7 @@ public class CanMineArgs {
     }
 
     public ItemStack getStack() {
-        return stack != null ? stack : entity.getMainHandStack();
+        return stack != null ? stack : entity.getMainHandItem();
     }
 
     public LivingEntity getEntity() {

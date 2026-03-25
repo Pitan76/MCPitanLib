@@ -1,17 +1,17 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -24,17 +24,17 @@ import org.jetbrains.annotations.Nullable;
 
 public class ItemUseOnBlockEvent extends BaseEvent {
     public Player player;
-    public Hand hand;
+    public InteractionHand hand;
     public BlockHitResult hit;
     public ItemStack stack;
-    public World world;
+    public Level world;
     public BlockPos blockPos;
 
-    public ItemUseOnBlockEvent(PlayerEntity player, Hand hand, BlockHitResult hit) {
-        this(player.getEntityWorld(), player, hand, player.getStackInHand(hand), hit);
+    public ItemUseOnBlockEvent(Player player, InteractionHand hand, BlockHitResult hit) {
+        this(player.level(), player, hand, player.getItemInHand(hand), hit);
     }
 
-    public ItemUseOnBlockEvent(World world, @Nullable PlayerEntity player, Hand hand, ItemStack stack, BlockHitResult hit) {
+    public ItemUseOnBlockEvent(Level world, @Nullable Player player, InteractionHand hand, ItemStack stack, BlockHitResult hit) {
         if (player != null)
             this.player = new Player(player);
         this.hand = hand;
@@ -44,23 +44,23 @@ public class ItemUseOnBlockEvent extends BaseEvent {
         this.blockPos = hit.getBlockPos();
     }
 
-    public ItemUseOnBlockEvent(Player player, Hand hand, BlockHitResult hit) {
+    public ItemUseOnBlockEvent(Player player, InteractionHand hand, BlockHitResult hit) {
         this(player.getWorld(), player.getEntity(), hand, player.getStackInHand(hand), hit);
     }
 
-    public ItemUsageContext toIUC() {
-        return new ItemUsageContext(player.getPlayerEntity(), hand, hit);
+    public UseOnContext toIUC() {
+        return new UseOnContext(player.getPlayerEntity(), hand, hit);
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -72,7 +72,7 @@ public class ItemUseOnBlockEvent extends BaseEvent {
         return blockPos;
     }
 
-    public Hand getHand() {
+    public InteractionHand getHand() {
         return hand;
     }
 
@@ -108,12 +108,12 @@ public class ItemUseOnBlockEvent extends BaseEvent {
         return WorldUtil.getBlockState(world, blockPos);
     }
 
-    public Vec3d getPos() {
-        return hit.getPos();
+    public Vec3 getPos() {
+        return hit.getLocation();
     }
 
     public Direction getSide() {
-        return hit.getSide();
+        return hit.getDirection();
     }
 
     public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {

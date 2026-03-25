@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.entity.EquipmentSlotUtil;
@@ -13,13 +13,13 @@ import net.pitan76.mcpitanlib.api.util.entity.LivingEntityUtil;
 
 public class InventoryTickEvent extends BaseEvent {
     public ItemStack stack;
-    public World world;
+    public Level world;
     public Entity entity;
     public int slot;
     public boolean selected;
     public EquipmentSlot equipmentSlot;
 
-    public InventoryTickEvent(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+    public InventoryTickEvent(ItemStack stack, Level world, Entity entity, int slot, boolean selected) {
         this.stack = stack;
         this.world = world;
         this.entity = entity;
@@ -28,7 +28,7 @@ public class InventoryTickEvent extends BaseEvent {
         this.equipmentSlot = EquipmentSlotUtil.fromEntitySlotId(slot);
     }
 
-    public InventoryTickEvent(ItemStack stack, ServerWorld world, Entity entity, EquipmentSlot slot) {
+    public InventoryTickEvent(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
         this(stack, world, entity, EquipmentSlotUtil.getEntitySlotId(slot), isSelected(entity, slot, stack));
         this.equipmentSlot = slot;
     }
@@ -37,7 +37,7 @@ public class InventoryTickEvent extends BaseEvent {
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) entity;
             ItemStack equippedStack = LivingEntityUtil.getEquippedStack(livingEntity, slot);
-            return equippedStack.isOf(stack.getItem()) && equippedStack.getCount() == stack.getCount();
+            return equippedStack.is(stack.getItem()) && equippedStack.getCount() == stack.getCount();
         } else {
             return false;
         }
@@ -47,7 +47,7 @@ public class InventoryTickEvent extends BaseEvent {
         return stack;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -55,8 +55,8 @@ public class InventoryTickEvent extends BaseEvent {
         return !isClient();
     }
 
-    public ServerWorld getServerWorld() {
-        return (ServerWorld) world;
+    public ServerLevel getServerWorld() {
+        return (ServerLevel) world;
     }
 
     public Entity getEntity() {

@@ -1,21 +1,21 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.fluid.FlowableFluid;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.WorldView;
+import net.minecraft.world.level.LevelReader;
 
 public class FluidUtil {
     public static Identifier toID(Fluid fluid) {
-        return Registries.FLUID.getId(fluid);
+        return BuiltInRegistries.FLUID.getKey(fluid);
     }
 
     public static Fluid fromId(Identifier identifier) {
-        return Registries.FLUID.get(identifier);
+        return BuiltInRegistries.FLUID.getValue(identifier);
     }
 
     public static Fluid fromId(CompatIdentifier identifier) {
@@ -23,15 +23,15 @@ public class FluidUtil {
     }
 
     public static int getRawId(Fluid fluid) {
-        return Registries.FLUID.getRawId(fluid);
+        return BuiltInRegistries.FLUID.getId(fluid);
     }
 
     public static Fluid fromIndex(int index) {
-        return Registries.FLUID.get(index);
+        return BuiltInRegistries.FLUID.byId(index);
     }
 
     public static boolean isExist(CompatIdentifier id) {
-        return Registries.FLUID.containsId(id.toMinecraft());
+        return BuiltInRegistries.FLUID.containsKey(id.toMinecraft());
     }
 
     public static CompatIdentifier toCompatId(Fluid fluid) {
@@ -42,11 +42,11 @@ public class FluidUtil {
         return fromId(id.toMinecraft());
     }
 
-    public static FlowableFluid water() {
+    public static FlowingFluid water() {
         return Fluids.WATER;
     }
 
-    public static FlowableFluid lava() {
+    public static FlowingFluid lava() {
         return Fluids.LAVA;
     }
 
@@ -54,11 +54,11 @@ public class FluidUtil {
         return Fluids.EMPTY;
     }
 
-    public static FlowableFluid flowingWater() {
+    public static FlowingFluid flowingWater() {
         return Fluids.FLOWING_WATER;
     }
 
-    public static FlowableFluid flowingLava() {
+    public static FlowingFluid flowingLava() {
         return Fluids.FLOWING_LAVA;
     }
 
@@ -67,18 +67,18 @@ public class FluidUtil {
     }
 
     public static boolean isStill(FluidState state) {
-        return state.isStill();
+        return state.isSource();
     }
 
-    public static FluidState getStill(FlowableFluid fluid, boolean falling) {
-        return fluid.getStill(falling);
+    public static FluidState getStill(FlowingFluid fluid, boolean falling) {
+        return fluid.getSource(falling);
     }
 
-    public static FluidState getFlowing(FlowableFluid fluid, int level, boolean falling) {
+    public static FluidState getFlowing(FlowingFluid fluid, int level, boolean falling) {
         return fluid.getFlowing(level, falling);
     }
 
-    public static FluidState getStill(FlowableFluid fluid) {
+    public static FluidState getStill(FlowingFluid fluid) {
         return getStill(fluid, false);
     }
 
@@ -94,16 +94,16 @@ public class FluidUtil {
         return fluid == flowingWater() || fluid == flowingLava();
     }
 
-    public static int getTickRate(Fluid fluid, WorldView world) {
-        return fluid.getTickRate(world);
+    public static int getTickRate(Fluid fluid, LevelReader world) {
+        return fluid.getTickDelay(world);
     }
 
     public static FluidState getDefaultState(Fluid fluid) {
-        return fluid.getDefaultState();
+        return fluid.defaultFluidState();
     }
 
 
     public static Item getBucketItem(Fluid fluid) {
-        return fluid.getBucketItem();
+        return fluid.getBucket();
     }
 }

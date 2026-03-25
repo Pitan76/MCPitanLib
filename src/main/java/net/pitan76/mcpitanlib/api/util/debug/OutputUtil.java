@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.debug;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.mcpitanlib.api.util.PlatformUtil;
 
@@ -20,7 +20,7 @@ public class OutputUtil {
         System.out.println(getString(stack));
     }
 
-    public static void print(Inventory inventory) {
+    public static void print(Container inventory) {
         if (!dev) return;
         System.out.println(getString(inventory));
     }
@@ -29,7 +29,7 @@ public class OutputUtil {
         StringBuilder sb = new StringBuilder();
         sb.append("Item: {").append("\n");
 
-        sb.append("  Name: ").append(item.getTranslationKey()).append("\n");
+        sb.append("  Name: ").append(item.getDescriptionId()).append("\n");
         sb.append("  Id: ").append(ItemUtil.toCompatID(item)).append("\n");
         sb.append("}\n");
 
@@ -49,12 +49,12 @@ public class OutputUtil {
         return sb.toString();
     }
 
-    public static String getString(Inventory inventory) {
+    public static String getString(Container inventory) {
         StringBuilder sb = new StringBuilder();
         sb.append("Inventory: {").append("\n");
 
-        for (int i = 0; i < inventory.size(); i++) {
-            ItemStack stack = inventory.getStack(i);
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
             if (stack.isEmpty()) continue;
 
             sb.append("  Slot ").append(i).append(": {").append("\n");

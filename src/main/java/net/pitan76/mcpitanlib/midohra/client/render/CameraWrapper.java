@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.client.render;
 
-import net.minecraft.client.render.Camera;
+import net.minecraft.client.Camera;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
@@ -39,22 +39,22 @@ public class CameraWrapper {
 
     public Vector3d getCameraPos() {
         if (isEmpty()) return Vector3d.zero();
-        return Vector3d.of(camera.getCameraPos());
+        return Vector3d.of(camera.position());
     }
 
     public BlockPos getBlockPos() {
         if (isEmpty()) return BlockPos.of(0, 0, 0);
-        return BlockPos.of(camera.getBlockPos());
+        return BlockPos.of(camera.blockPosition());
     }
 
     public float getYaw() {
         if (isEmpty()) return 0f;
-        return camera.getYaw();
+        return camera.yRot();
     }
 
     public float getPitch() {
         if (isEmpty()) return 0f;
-        return camera.getPitch();
+        return camera.xRot();
     }
 
     @Override

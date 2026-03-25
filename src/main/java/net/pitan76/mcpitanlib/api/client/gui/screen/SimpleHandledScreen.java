@@ -1,18 +1,18 @@
 package net.pitan76.mcpitanlib.api.client.gui.screen;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
@@ -26,16 +26,16 @@ import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 import net.pitan76.mcpitanlib.core.datafixer.Pair;
 
-public abstract class SimpleHandledScreen<S extends ScreenHandler> extends HandledScreen<S> {
+public abstract class SimpleHandledScreen<S extends AbstractContainerMenu> extends AbstractContainerScreen<S> {
 
     public int width, height, backgroundWidth, backgroundHeight, x, y;
     public S handler;
-    public TextRenderer textRenderer;
+    public Font textRenderer;
     public ItemRenderer itemRenderer;
 
-    public Text title;
-    public MinecraftClient client;
-    public SimpleHandledScreen(S handler, PlayerInventory inventory, Text title) {
+    public Component title;
+    public Minecraft client;
+    public SimpleHandledScreen(S handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
         fixScreen();
         this.handler = handler;
@@ -45,21 +45,21 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    public S getScreenHandler() {
+    public S getMenu() {
         return getScreenHandlerOverride();
     }
 
     public S getScreenHandlerOverride() {
-        return super.getScreenHandler();
+        return super.getMenu();
     }
 
-    public <T extends Element & Drawable & Selectable> T addDrawableChild_compatibility(T drawableElement) {
-        return super.addDrawableChild(drawableElement);
+    public <T extends GuiEventListener & Renderable & NarratableEntry> T addDrawableChild_compatibility(T drawableElement) {
+        return super.addRenderableWidget(drawableElement);
         // addButton
     }
 
-    public <T extends Element & Selectable> T addSelectableChild_compatibility(T selectableElement) {
-        return super.addSelectableChild(selectableElement);
+    public <T extends GuiEventListener & NarratableEntry> T addSelectableChild_compatibility(T selectableElement) {
+        return super.addWidget(selectableElement);
     }
 
     public CompatibleTexturedButtonWidget addDrawableCTBW(CompatibleTexturedButtonWidget widget) {
@@ -68,7 +68,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
         DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         drawBackgroundOverride(new DrawBackgroundArgs(drawObjectDM, delta, mouseX, mouseY));
     }
@@ -77,13 +77,13 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+    protected void renderLabels(GuiGraphics context, int mouseX, int mouseY) {
         DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         drawForegroundOverride(new DrawForegroundArgs(drawObjectDM, mouseX, mouseY));
     }
 
     protected void drawForegroundOverride(DrawForegroundArgs args) {
-        super.drawForeground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
+        super.renderLabels(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, int u, int v, int width, int height) {
@@ -105,14 +105,14 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     public void callDrawMouseoverTooltip(DrawMouseoverTooltipArgs args) {
-        super.drawMouseoverTooltip(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
+        super.renderTooltip(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
     }
 
     public void renderOverride(RenderArgs args) {
         super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
-    public void resizeOverride(MinecraftClient client, int width, int height) {
+    public void resizeOverride(Minecraft client, int width, int height) {
     }
 
     public void initOverride() {
@@ -131,35 +131,35 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     public void resize(int width, int height) {
         super.resize(width, height);
         fixScreen();
-        resizeOverride(MinecraftClient.getInstance(), width, height);
+        resizeOverride(Minecraft.getInstance(), width, height);
     }
 
     public void fixScreen() {
         this.backgroundWidth = getBackgroundWidth();
         this.backgroundHeight = getBackgroundHeight();
-        this.x = super.x; //(this.width - this.backgroundWidth) / 2;
-        this.y = super.y; //(this.height - this.backgroundHeight) / 2;
-        this.textRenderer = super.textRenderer;
-        this.itemRenderer = MinecraftClient.getInstance().getItemRenderer();
+        this.x = super.leftPos; //(this.width - this.backgroundWidth) / 2;
+        this.y = super.topPos; //(this.height - this.backgroundHeight) / 2;
+        this.textRenderer = super.font;
+        this.itemRenderer = Minecraft.getInstance().getItemRenderer();
         this.width = super.width;
         this.height = super.height;
-        if (super.client == null)
-            this.client = MinecraftClient.getInstance();
+        if (super.minecraft == null)
+            this.client = Minecraft.getInstance();
         else
-            this.client = super.client;
+            this.client = super.minecraft;
     }
 
     public void setX(int x) {
         this.x = x;
-        super.x = x;
+        super.leftPos = x;
     }
 
     public void setY(int y) {
         this.y = y;
-        super.y = y;
+        super.topPos = y;
     }
 
-    public void setTextRenderer(TextRenderer textRenderer) {
+    public void setTextRenderer(Font textRenderer) {
         this.textRenderer = textRenderer;
     }
 
@@ -174,12 +174,12 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     public void setBackgroundWidth(int backgroundWidth) {
         this.backgroundWidth = backgroundWidth;
-        super.backgroundWidth = backgroundWidth;
+        super.imageWidth = backgroundWidth;
     }
 
     public void setBackgroundHeight(int backgroundHeight) {
         this.backgroundHeight = backgroundHeight;
-        super.backgroundHeight = backgroundHeight;
+        super.imageHeight = backgroundHeight;
     }
 
     public void setHeight(int height) {
@@ -188,31 +188,31 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     public int getBackgroundWidth() {
-        return super.backgroundWidth;
+        return super.imageWidth;
     }
 
     public int getBackgroundHeight() {
-        return super.backgroundHeight;
+        return super.imageHeight;
     }
 
     @Deprecated
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         renderOverride(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
 
     public boolean keyReleased(KeyEventArgs args) {
-        return super.keyReleased(new KeyInput(args.keyCode, args.scanCode, args.modifiers));
+        return super.keyReleased(new KeyEvent(args.keyCode, args.scanCode, args.modifiers));
     }
 
     public boolean keyPressed(KeyEventArgs args) {
-        return super.keyPressed(new KeyInput(args.keyCode, args.scanCode, args.modifiers));
+        return super.keyPressed(new KeyEvent(args.keyCode, args.scanCode, args.modifiers));
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
         if (getBackgroundTexture() != null)
-            Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), x, y, 0, 0, this.width, this.height);
+            Screen.renderMenuBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), x, y, 0, 0, this.width, this.height);
 
         RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, width, height);
@@ -220,24 +220,24 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    public boolean keyReleased(KeyInput input) {
+    public boolean keyReleased(KeyEvent input) {
         return this.keyReleased(new KeyEventArgs(input.key(), input.scancode(), input.modifiers()));
     }
 
     @Deprecated
     @Override
-    public boolean keyPressed(KeyInput input) {
+    public boolean keyPressed(KeyEvent input) {
         return this.keyPressed(new KeyEventArgs(input.key(), input.scancode(), input.modifiers()));
     }
 
     @Deprecated
     @Override
-    public void renderDarkening(DrawContext context) {
+    public void renderMenuBackground(GuiGraphics context) {
         this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context, this), 0));
     }
 
     public void closeOverride() {
-        super.close();
+        super.onClose();
     }
 
     public void removedOverride() {
@@ -245,7 +245,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     @Override
-    public void close() {
+    public void onClose() {
         closeOverride();
     }
 
@@ -263,11 +263,11 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     public void setTitleX(int x) {
-        this.titleX = x;
+        this.titleLabelX = x;
     }
 
     public void setTitleY(int y) {
-        this.titleY = y;
+        this.titleLabelY = y;
     }
 
     public void setTitlePos(int x, int y) {
@@ -279,18 +279,18 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
         if (textRenderer == null)
             textRenderer = ClientUtil.getTextRenderer();
 
-        setTitleX(backgroundWidth / 2 - textRenderer.getWidth(title) / 2);
+        setTitleX(backgroundWidth / 2 - textRenderer.width(title) / 2);
     }
 
     public int getTitleX() {
-        return titleX;
+        return titleLabelX;
     }
 
     public int getTitleY() {
-        return titleY;
+        return titleLabelY;
     }
 
-    public void drawText(DrawObjectDM drawObjectDM, Text text, int x, int y, int color) {
+    public void drawText(DrawObjectDM drawObjectDM, Component text, int x, int y, int color) {
         ScreenUtil.RendererUtil.drawText(textRenderer, drawObjectDM, text, x, y, color);
     }
 
@@ -298,7 +298,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
         ScreenUtil.RendererUtil.drawText(textRenderer, drawObjectDM, text, x, y, color);
     }
 
-    public void drawText(DrawObjectDM drawObjectDM, Text text, int x, int y) {
+    public void drawText(DrawObjectDM drawObjectDM, Component text, int x, int y) {
         ScreenUtil.RendererUtil.drawText(textRenderer, drawObjectDM, text, x, y);
     }
 
@@ -308,11 +308,11 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     @Deprecated
     @Override
-    public Text getTitle() {
+    public Component getTitle() {
         return callGetTitle();
     }
 
-    public Text callGetTitle() {
+    public Component callGetTitle() {
         return super.getTitle();
     }
 
@@ -321,19 +321,19 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     public int getPlayerInvTitleX() {
-        return playerInventoryTitleX;
+        return inventoryLabelX;
     }
 
     public int getPlayerInvTitleY() {
-        return playerInventoryTitleY;
+        return inventoryLabelY;
     }
 
     public void setPlayerInvTitleX(int x) {
-        playerInventoryTitleX = x;
+        inventoryLabelX = x;
     }
 
     public void setPlayerInvTitleY(int y) {
-        playerInventoryTitleY = y;
+        inventoryLabelY = y;
     }
 
     public void setPlayerInvTitle(int x, int y) {
@@ -341,12 +341,12 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
         setPlayerInvTitleY(y);
     }
 
-    public TextRenderer callGetTextRenderer() {
+    public Font callGetTextRenderer() {
         if (textRenderer != null)
             return textRenderer;
 
-        if (super.getTextRenderer() != null)
-            return super.getTextRenderer();
+        if (super.getFont() != null)
+            return super.getFont();
 
         return ClientUtil.getTextRenderer();
     }
@@ -358,7 +358,7 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
         return ClientUtil.getItemRenderer();
     }
 
-    public Text getPlayerInvTitle() {
+    public Component getPlayerInvTitle() {
         return playerInventoryTitle;
     }
 }

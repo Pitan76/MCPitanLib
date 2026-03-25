@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.helper;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
@@ -63,7 +63,7 @@ public class SimpleRegister {
         return builder;
     }
 
-    public static CreativeTabBuilder createCreativeTabByItem(CompatRegistryV2 registry, CompatIdentifier id, Supplier<ItemConvertible> item) {
+    public static CreativeTabBuilder createCreativeTabByItem(CompatRegistryV2 registry, CompatIdentifier id, Supplier<ItemLike> item) {
         return createCreativeTab(registry, id, () -> ItemStackUtil.create(item.get()));
     }
 }

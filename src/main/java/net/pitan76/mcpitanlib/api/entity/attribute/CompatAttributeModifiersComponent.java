@@ -1,21 +1,21 @@
 package net.pitan76.mcpitanlib.api.entity.attribute;
 
-import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class CompatAttributeModifiersComponent {
-    private final AttributeModifiersComponent raw;
+    private final ItemAttributeModifiers raw;
 
     @Deprecated
-    public CompatAttributeModifiersComponent(AttributeModifiersComponent component) {
+    public CompatAttributeModifiersComponent(ItemAttributeModifiers component) {
         this.raw = component;
     }
 
     @Deprecated
-    public AttributeModifiersComponent raw() {
+    public ItemAttributeModifiers raw() {
         return raw;
     }
 
-    public static CompatAttributeModifiersComponent of(AttributeModifiersComponent component) {
+    public static CompatAttributeModifiersComponent of(ItemAttributeModifiers component) {
         return new CompatAttributeModifiersComponent(component);
     }
 

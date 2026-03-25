@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.entity;
 
-import net.minecraft.entity.ContainerUser;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.ContainerUser;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class CompatContainerUser {
     protected ContainerUser containerUser;
@@ -16,15 +16,15 @@ public class CompatContainerUser {
     }
 
     public LivingEntity asLivingEntity() {
-        return containerUser.asLivingEntity();
+        return containerUser.getLivingEntity();
     }
 
     public boolean isPlayer() {
-        return containerUser instanceof PlayerEntity;
+        return containerUser instanceof Player;
     }
 
     public Player asPlayer() {
-        return new Player((PlayerEntity) containerUser);
+        return new Player((Player) containerUser);
     }
 
     @Deprecated

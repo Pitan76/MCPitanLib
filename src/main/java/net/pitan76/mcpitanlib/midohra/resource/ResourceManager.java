@@ -2,9 +2,9 @@ package net.pitan76.mcpitanlib.midohra.resource;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.level.LevelAccessor;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.LoggerUtil;
 import net.pitan76.mcpitanlib.api.util.ResourceUtil;
@@ -17,13 +17,13 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ResourceManager {
-    private final net.minecraft.resource.ResourceManager resourceManager;
+    private final net.minecraft.server.packs.resources.ResourceManager resourceManager;
 
-    protected ResourceManager(net.minecraft.resource.ResourceManager resourceManager) {
+    protected ResourceManager(net.minecraft.server.packs.resources.ResourceManager resourceManager) {
         this.resourceManager = resourceManager;
     }
 
-    public static ResourceManager of(net.minecraft.resource.ResourceManager resourceManager) {
+    public static ResourceManager of(net.minecraft.server.packs.resources.ResourceManager resourceManager) {
         return new ResourceManager(resourceManager);
     }
 
@@ -36,11 +36,11 @@ public class ResourceManager {
     }
 
     @Environment(EnvType.CLIENT)
-    public static ResourceManager of(MinecraftClient client) {
+    public static ResourceManager of(Minecraft client) {
         return of(client.getResourceManager());
     }
 
-    public static ResourceManager of(WorldAccess worldAccess) {
+    public static ResourceManager of(LevelAccessor worldAccess) {
         return of(worldAccess.getServer());
     }
 
@@ -48,19 +48,19 @@ public class ResourceManager {
         return of(worldAccess.getServer());
     }
 
-    public net.minecraft.resource.ResourceManager getRaw() {
+    public net.minecraft.server.packs.resources.ResourceManager getRaw() {
         return resourceManager;
     }
 
-    public net.minecraft.resource.ResourceManager toMinecraft() {
+    public net.minecraft.server.packs.resources.ResourceManager toMinecraft() {
         return getRaw();
     }
 
     public Map<CompatIdentifier, Resource> findResources(String startPath, String endPath) {
         Map<CompatIdentifier, Resource> map = new HashMap<>();
         try {
-            Map<Identifier, net.minecraft.resource.Resource> rawMap = ResourceUtil.findResources(resourceManager, startPath, endPath);
-            for (Map.Entry<Identifier, net.minecraft.resource.Resource> entry : rawMap.entrySet()) {
+            Map<Identifier, net.minecraft.server.packs.resources.Resource> rawMap = ResourceUtil.findResources(resourceManager, startPath, endPath);
+            for (Map.Entry<Identifier, net.minecraft.server.packs.resources.Resource> entry : rawMap.entrySet()) {
                 map.put(CompatIdentifier.fromMinecraft(entry.getKey()), Resource.of(entry.getValue()));
             }
         } catch (IOException e) {
@@ -72,12 +72,12 @@ public class ResourceManager {
     }
 
     public Resource getResource(CompatIdentifier id) {
-        Optional<net.minecraft.resource.Resource> resource = resourceManager.getResource(id.toMinecraft());
+        Optional<net.minecraft.server.packs.resources.Resource> resource = resourceManager.getResource(id.toMinecraft());
         return resource.map(Resource::of).orElse(null);
     }
 
     public List<Resource> getAllResources(CompatIdentifier id) {
-        return resourceManager.getAllResources(id.toMinecraft())
+        return resourceManager.getResourceStack(id.toMinecraft())
                 .stream().map(Resource::of).toList();
     }
 

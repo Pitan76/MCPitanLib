@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.entity;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.EntityTypeUtil;
@@ -11,17 +11,17 @@ import org.jspecify.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class EntityTypeWrapper {
-    private final net.minecraft.entity.EntityType<?> entityType;
+    private final net.minecraft.world.entity.EntityType<?> entityType;
 
     protected EntityTypeWrapper() {
         this.entityType = null;
     }
 
-    protected EntityTypeWrapper(net.minecraft.entity.EntityType<?> entityType) {
+    protected EntityTypeWrapper(net.minecraft.world.entity.EntityType<?> entityType) {
         this.entityType = entityType;
     }
 
-    public static EntityTypeWrapper of(net.minecraft.entity.EntityType<?> entityType) {
+    public static EntityTypeWrapper of(net.minecraft.world.entity.EntityType<?> entityType) {
         return new EntityTypeWrapper(entityType);
     }
 
@@ -37,7 +37,7 @@ public class EntityTypeWrapper {
         return entityType == null;
     }
 
-    public net.minecraft.entity.EntityType<?> get() {
+    public net.minecraft.world.entity.EntityType<?> get() {
         return entityType;
     }
 

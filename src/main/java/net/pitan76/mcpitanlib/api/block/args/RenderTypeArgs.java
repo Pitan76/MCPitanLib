@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.block.args;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
 
 public class RenderTypeArgs implements BlockStatePropertyHolder {

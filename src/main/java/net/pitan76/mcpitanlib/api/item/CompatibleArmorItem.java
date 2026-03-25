@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 
@@ -11,7 +11,7 @@ public class CompatibleArmorItem extends Item implements CompatItemProvider {
     public CompatibleItemSettings settings;
 
     public CompatibleArmorItem(CompatibleArmorMaterial material, ArmorEquipmentType type, CompatibleItemSettings settings) {
-        super(settings.build().armor(material.build(), type.getType()));
+        super(settings.build().humanoidArmor(material.build(), type.getType()));
         this.type = type;
         this.material = material;
 

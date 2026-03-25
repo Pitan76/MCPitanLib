@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.Set;
 
@@ -16,7 +16,7 @@ public class CustomDataUtil {
      * @param stack ItemStack
      * @return NBT
      */
-    public static NbtCompound getOrCreateNbt(ItemStack stack) {
+    public static CompoundTag getOrCreateNbt(ItemStack stack) {
         if (!hasNbt(stack)) {
             return NbtUtil.create();
         }
@@ -29,8 +29,8 @@ public class CustomDataUtil {
      * @param stack ItemStack
      * @param nbt NBT
      */
-    public static void setNbt(ItemStack stack, NbtCompound nbt) {
-        stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
+    public static void setNbt(ItemStack stack, CompoundTag nbt) {
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(nbt));
     }
     
     /**
@@ -39,7 +39,7 @@ public class CustomDataUtil {
      * @return NBTが存在するかどうか
      */
     public static boolean hasNbt(ItemStack stack) {
-        return stack.get(DataComponentTypes.CUSTOM_DATA) != null;
+        return stack.get(DataComponents.CUSTOM_DATA) != null;
     }
     
     /**
@@ -47,11 +47,11 @@ public class CustomDataUtil {
      * @param stack ItemStack
      * @return NBT
      */
-    public static NbtCompound getNbt(ItemStack stack) {
-        if (stack.get(DataComponentTypes.CUSTOM_DATA) == null)
+    public static CompoundTag getNbt(ItemStack stack) {
+        if (stack.get(DataComponents.CUSTOM_DATA) == null)
             return NbtUtil.create();
 
-        return stack.get(DataComponentTypes.CUSTOM_DATA).copyNbt();
+        return stack.get(DataComponents.CUSTOM_DATA).copyTag();
     }
     
     /**
@@ -60,8 +60,8 @@ public class CustomDataUtil {
      * @param key キー
      * @param value 値
      */
-    public static void put(ItemStack stack, String key, NbtCompound value) {
-        NbtCompound nbt = getOrCreateNbt(stack);
+    public static void put(ItemStack stack, String key, CompoundTag value) {
+        CompoundTag nbt = getOrCreateNbt(stack);
         NbtUtil.put(nbt, key, value);
         setNbt(stack, nbt);
     }
@@ -72,8 +72,8 @@ public class CustomDataUtil {
      * @param key キー
      * @return 値
      */
-    public static NbtCompound get(ItemStack stack, String key) {
-        NbtCompound nbt = getNbt(stack);
+    public static CompoundTag get(ItemStack stack, String key) {
+        CompoundTag nbt = getNbt(stack);
         return nbt.getCompoundOrEmpty(key);
     }
     
@@ -83,7 +83,7 @@ public class CustomDataUtil {
      * @param key キー
      */
     public static void remove(ItemStack stack, String key) {
-        NbtCompound nbt = getNbt(stack);
+        CompoundTag nbt = getNbt(stack);
         nbt.remove(key);
         setNbt(stack, nbt);
     }
@@ -98,7 +98,7 @@ public class CustomDataUtil {
         if (!hasNbt(stack))
             return false;
 
-        NbtCompound nbt = getNbt(stack);
+        CompoundTag nbt = getNbt(stack);
         return nbt.contains(key);
     }
     
@@ -110,7 +110,7 @@ public class CustomDataUtil {
      * @param <T> 値
      */
     public static <T> T get(ItemStack stack, String key, Class<T> clazz) {
-        NbtCompound nbt = getNbt(stack);
+        CompoundTag nbt = getNbt(stack);
         return NbtUtil.get(nbt, key, clazz);
     }
     
@@ -121,7 +121,7 @@ public class CustomDataUtil {
      * @param value 値
      */
     public static <T> void set(ItemStack stack, String key, T value) {
-        NbtCompound nbt = getOrCreateNbt(stack);
+        CompoundTag nbt = getOrCreateNbt(stack);
         NbtUtil.set(nbt, key, value);
         setNbt(stack, nbt);
     }
@@ -132,7 +132,7 @@ public class CustomDataUtil {
      * @return キーの一覧
      */
     public static Set<String> getKeys(ItemStack stack) {
-        NbtCompound nbt = getNbt(stack);
+        CompoundTag nbt = getNbt(stack);
         return NbtUtil.getKeys(nbt);
     }
 
@@ -170,6 +170,6 @@ public class CustomDataUtil {
      * @param stack ItemStack
      */
     public static void remove(ItemStack stack) {
-        stack.remove(DataComponentTypes.CUSTOM_DATA);
+        stack.remove(DataComponents.CUSTOM_DATA);
     }
 }

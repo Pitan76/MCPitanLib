@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 
 public class Logger {
@@ -107,7 +107,7 @@ public class Logger {
         log(message, isDebug);
     }
 
-    public void log_onWorldTick(int tick, String message, World world, boolean isDebug) {
+    public void log_onWorldTick(int tick, String message, Level world, boolean isDebug) {
         long time = WorldUtil.getTime(world);
         if (time % tick != 0) return;
 
@@ -127,7 +127,7 @@ public class Logger {
         log_onClientTick(tick, message, false);
     }
 
-    public void log_onWorldTick(int tick, String message, World world) {
+    public void log_onWorldTick(int tick, String message, Level world) {
         log_onWorldTick(tick, message, world, false);
     }
 
@@ -150,7 +150,7 @@ public class Logger {
      * @param world world
      * @param isDebug if true, log as debug
      */
-    public void log_onWorldTick(String message, World world, boolean isDebug) {
+    public void log_onWorldTick(String message, Level world, boolean isDebug) {
         log_onWorldTick(60, message, world, isDebug);
     }
 
@@ -176,7 +176,7 @@ public class Logger {
      * @param message log message
      * @param world world
      */
-    public void log_onWorldTick(String message, World world) {
+    public void log_onWorldTick(String message, Level world) {
         log_onWorldTick(message, world, false);
     }
 

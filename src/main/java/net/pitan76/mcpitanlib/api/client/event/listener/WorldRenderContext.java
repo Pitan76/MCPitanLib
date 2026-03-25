@@ -1,18 +1,26 @@
 package net.pitan76.mcpitanlib.api.client.event.listener;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.shape.VoxelShape;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.pitan76.mcpitanlib.api.util.VoxelShapeUtil;
 import net.pitan76.mcpitanlib.api.util.client.render.VertexRenderingUtil;
 import net.pitan76.mcpitanlib.midohra.client.render.CameraWrapper;
@@ -24,9 +32,9 @@ import java.util.Optional;
 
 public interface WorldRenderContext {
 
-    WorldRenderer getWorldRenderer();
+    LevelRenderer getWorldRenderer();
 
-    MatrixStack getMatrixStack();
+    PoseStack getMatrixStack();
 
     float getTickDelta();
 
@@ -34,17 +42,17 @@ public interface WorldRenderContext {
 
     GameRenderer getGameRenderer();
 
-    LightmapTextureManager getLightmapTextureManager();
+    LightTexture getLightmapTextureManager();
 
     @Deprecated
     Matrix4f getProjectionMatrix();
 
-    ClientWorld getWorld();
+    ClientLevel getWorld();
 
     @Deprecated
     boolean isAdvancedTranslucency();
 
-    @Nullable VertexConsumerProvider getConsumers();
+    @Nullable MultiBufferSource getConsumers();
     @Nullable Frustum getFrustum();
 
     @Environment(EnvType.CLIENT)
@@ -66,7 +74,7 @@ public interface WorldRenderContext {
     }
 
     default HitResult getHitResult() {
-        return MinecraftClient.getInstance().crosshairTarget;
+        return Minecraft.getInstance().hitResult;
     }
 
     default Optional<BlockState> getBlockState() {
@@ -86,12 +94,12 @@ public interface WorldRenderContext {
     }
 
     default Optional<VoxelShape> getOutlineShape() {
-        return getBlockState().map(blockState -> blockState.getOutlineShape(getWorld(),
+        return getBlockState().map(blockState -> blockState.getShape(getWorld(),
                 getBlockPos().orElse(null)));
     }
 
     default void push() {
-        getMatrixStack().push();
+        getMatrixStack().pushPose();
     }
 
     default void translate(double x, double y, double z) {
@@ -99,14 +107,14 @@ public interface WorldRenderContext {
     }
 
     default void pop() {
-        getMatrixStack().pop();
+        getMatrixStack().popPose();
     }
 
     default Optional<VertexConsumer> getVertexConsumer() {
         if (getConsumers() == null)
             return Optional.empty();
 
-        return Optional.of(Objects.requireNonNull(getConsumers()).getBuffer(RenderLayers.lines()));
+        return Optional.of(Objects.requireNonNull(getConsumers()).getBuffer(RenderTypes.lines()));
     }
 
     default void drawBox(float red, float green, float blue, float alpha) {
@@ -116,7 +124,7 @@ public interface WorldRenderContext {
         drawBox(VoxelShapeUtil.getBoundingBox(outlineShape.get()), red, green, blue, alpha);
     }
 
-    default void drawBox(Box box, float red, float green, float blue, float alpha) {
+    default void drawBox(AABB box, float red, float green, float blue, float alpha) {
         Optional<VertexConsumer> vertexConsumer = getVertexConsumer();
 
         if (!vertexConsumer.isPresent())

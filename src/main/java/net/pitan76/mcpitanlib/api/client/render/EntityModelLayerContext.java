@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.client.render;
 
-import net.minecraft.client.model.ModelData;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
 
 public class EntityModelLayerContext {
-    private final ModelData data;
+    private final MeshDefinition data;
     private final int width;
     private final int height;
 
-    public EntityModelLayerContext(ModelData data, int width, int height) {
+    public EntityModelLayerContext(MeshDefinition data, int width, int height) {
         this.data = data;
         this.width = width;
         this.height = height;
@@ -21,7 +21,7 @@ public class EntityModelLayerContext {
         return width;
     }
 
-    public ModelData getData() {
+    public MeshDefinition getData() {
         return data;
     }
 }

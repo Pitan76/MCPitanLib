@@ -1,15 +1,15 @@
 package net.pitan76.mcpitanlib.core.registry;
 
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class FuelRegistry {
     private FuelRegistry() {
 
     }
 
-    public static void register(int time, ItemConvertible... item) {
+    public static void register(int time, ItemLike... item) {
         dev.architectury.registry.fuel.FuelRegistry.register(time, item);
     }
 
@@ -18,11 +18,11 @@ public class FuelRegistry {
         return 0;
     }
 
-    public static int get(World world, ItemStack stack) {
-        return world.getFuelRegistry().getFuelTicks(stack);
+    public static int get(Level world, ItemStack stack) {
+        return world.fuelValues().burnDuration(stack);
     }
 
-    public static boolean isFuel(World world, ItemStack stack) {
-        return world.getFuelRegistry().isFuel(stack);
+    public static boolean isFuel(Level world, ItemStack stack) {
+        return world.fuelValues().isFuel(stack);
     }
 }

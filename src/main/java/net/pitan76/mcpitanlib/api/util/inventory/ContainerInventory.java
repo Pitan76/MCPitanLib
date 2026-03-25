@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
-import net.minecraft.screen.ScreenHandler;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 
-public class ContainerInventory<T extends ScreenHandler> extends CompatInventory {
+public class ContainerInventory<T extends AbstractContainerMenu> extends CompatInventory {
 
     public final T screenHandler;
 

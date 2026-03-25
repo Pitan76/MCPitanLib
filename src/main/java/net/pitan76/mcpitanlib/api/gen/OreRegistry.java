@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.gen;
 
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.pitan76.mcpitanlib.api.registry.WorldGenRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;
@@ -23,10 +23,10 @@ public class OreRegistry {
      * @return Identifier of feature
      */
     public static Identifier registerStoneOre(WorldGenRegistry registry, Block block, int size, int height, int count) {
-        Identifier identifier = BlockUtil.toID(block).withSuffixedPath("_ore_feature");
+        Identifier identifier = BlockUtil.toID(block).withSuffix("_ore_feature");
         RegistryResult<ConfiguredFeature<?, ?>> configuredFuture = registry.registerFeature(identifier,
                 () -> FeatureConfigUtil.createConfiguredFeature(
-                        FeatureConfigUtil.createStoneOreFeatureConfig(block.getDefaultState(), size)
+                        FeatureConfigUtil.createStoneOreFeatureConfig(block.defaultBlockState(), size)
                 )
         );
 
@@ -36,7 +36,7 @@ public class OreRegistry {
                 )
         );
 
-        WorldGenRegistry.addProperties(GenerationStep.Feature.UNDERGROUND_DECORATION, placedFeature);
+        WorldGenRegistry.addProperties(GenerationStep.Decoration.UNDERGROUND_DECORATION, placedFeature);
         return identifier;
     }
 }

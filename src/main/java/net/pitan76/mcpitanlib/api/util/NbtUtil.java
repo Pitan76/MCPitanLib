@@ -2,12 +2,22 @@ package net.pitan76.mcpitanlib.api.util;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.DoubleTag;
+import net.minecraft.nbt.FloatTag;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.LongTag;
+import net.minecraft.nbt.ShortTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.core.Vec3i;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import net.pitan76.mcpitanlib.api.util.math.Vec3dUtil;
@@ -23,8 +33,8 @@ public class NbtUtil {
      * 新しいNbtCompoundを作成する。
      * @return NbtCompound
      */
-    public static NbtCompound create() {
-        return new NbtCompound();
+    public static CompoundTag create() {
+        return new CompoundTag();
     }
 
     /**
@@ -33,7 +43,7 @@ public class NbtUtil {
      * @param key キー
      * @param value 値
      */
-    public static void put(NbtCompound nbt, String key, NbtCompound value) {
+    public static void put(CompoundTag nbt, String key, CompoundTag value) {
         nbt.put(key, value);
     }
 
@@ -43,7 +53,7 @@ public class NbtUtil {
      * @param key キー
      * @param value 値
      */
-    public static void put(NbtCompound nbt, String key, NbtElement value) {
+    public static void put(CompoundTag nbt, String key, Tag value) {
         nbt.put(key, value);
     }
 
@@ -53,7 +63,7 @@ public class NbtUtil {
      * @param key キー
      * @return 値
      */
-    public static NbtCompound get(NbtCompound nbt, String key) {
+    public static CompoundTag get(CompoundTag nbt, String key) {
         return nbt.getCompoundOrEmpty(key);
     }
 
@@ -62,7 +72,7 @@ public class NbtUtil {
      * @param nbt NbtCompound
      * @param key キー
      */
-    public static void remove(NbtCompound nbt, String key) {
+    public static void remove(CompoundTag nbt, String key) {
         nbt.remove(key);
     }
 
@@ -72,7 +82,7 @@ public class NbtUtil {
      * @param key キー
      * @return 値が存在するかどうか
      */
-    public static boolean has(NbtCompound nbt, String key) {
+    public static boolean has(CompoundTag nbt, String key) {
         return nbt.contains(key);
     }
 
@@ -83,36 +93,36 @@ public class NbtUtil {
      * @param clazz クラス
      * @param <T> 値
      */
-    public static <T> T get(NbtCompound nbt, String key, Class<T> clazz) {
+    public static <T> T get(CompoundTag nbt, String key, Class<T> clazz) {
         if (clazz == Integer.class) {
-            return (T) Integer.valueOf(nbt.getInt(key, 0));
+            return (T) Integer.valueOf(nbt.getIntOr(key, 0));
         }
         if (clazz == String.class) {
             return (T) nbt.getString(key).orElse("");
         }
         if (clazz == Boolean.class) {
-            return (T) Boolean.valueOf(nbt.getBoolean(key, false));
+            return (T) Boolean.valueOf(nbt.getBooleanOr(key, false));
         }
         if (clazz == Float.class) {
-            return (T) Float.valueOf(nbt.getFloat(key, 0f));
+            return (T) Float.valueOf(nbt.getFloatOr(key, 0f));
         }
         if (clazz == Double.class) {
-            return (T) Double.valueOf(nbt.getDouble(key, 0d));
+            return (T) Double.valueOf(nbt.getDoubleOr(key, 0d));
         }
         if (clazz == Long.class) {
-            return (T) Long.valueOf(nbt.getLong(key, 0l));
+            return (T) Long.valueOf(nbt.getLongOr(key, 0l));
         }
-        if (clazz == NbtCompound.class) {
+        if (clazz == CompoundTag.class) {
             return (T) nbt.getCompoundOrEmpty(key);
         }
-        if (clazz == NbtList.class) {
+        if (clazz == ListTag.class) {
             return (T) nbt.get(key);
         }
         if (clazz == Byte.class) {
-            return (T) Byte.valueOf(nbt.getByte(key, (byte) 0));
+            return (T) Byte.valueOf(nbt.getByteOr(key, (byte) 0));
         }
         if (clazz == Short.class) {
-            return (T) Short.valueOf(nbt.getShort(key, (short) 0));
+            return (T) Short.valueOf(nbt.getShortOr(key, (short) 0));
         }
         if (clazz == UUID.class) {
             return (T) UUID.fromString(nbt.getString(key).orElse(""));
@@ -126,7 +136,7 @@ public class NbtUtil {
      * @param key キー
      * @param value 値
      */
-    public static <T> void set(NbtCompound nbt, String key, T value) {
+    public static <T> void set(CompoundTag nbt, String key, T value) {
         if (value instanceof Integer) {
             nbt.putInt(key, (Integer) value);
             return;
@@ -151,12 +161,12 @@ public class NbtUtil {
             nbt.putLong(key, (Long) value);
             return;
         }
-        if (value instanceof NbtCompound) {
-            nbt.put(key, (NbtCompound) value);
+        if (value instanceof CompoundTag) {
+            nbt.put(key, (CompoundTag) value);
             return;
         }
-        if (value instanceof NbtList) {
-            nbt.put(key, (NbtList) value);
+        if (value instanceof ListTag) {
+            nbt.put(key, (ListTag) value);
             return;
         }
         if (value instanceof Byte) {
@@ -178,23 +188,23 @@ public class NbtUtil {
      * @param nbt NbtCompound
      * @return キーの一覧
      */
-    public static Set<String> getKeys(NbtCompound nbt) {
-        return nbt.getKeys();
+    public static Set<String> getKeys(CompoundTag nbt) {
+        return nbt.keySet();
     }
 
     /**
      * NbtListを取得する。
      * @return NbtList
      */
-    public static NbtList getList(NbtCompound nbt, String key) {
-        return (NbtList) nbt.get(key);
+    public static ListTag getList(CompoundTag nbt, String key) {
+        return (ListTag) nbt.get(key);
     }
 
     /**
      * NbtListを取得する。
      * @return NbtList
      */
-    public static NbtList getList(NbtCompound nbt, String key, int type) {
+    public static ListTag getList(CompoundTag nbt, String key, int type) {
         return nbt.getListOrEmpty(key);
     }
 
@@ -202,7 +212,7 @@ public class NbtUtil {
      * NbtCompoundのリストを取得する。
      * @return NbtList
      */
-    public static NbtList getNbtCompoundList(NbtCompound nbt, String key) {
+    public static ListTag getNbtCompoundList(CompoundTag nbt, String key) {
         return nbt.getListOrEmpty(key);
     }
 
@@ -210,97 +220,97 @@ public class NbtUtil {
      * NbtCompoundをコピーする。
      * @return NbtCompound
      */
-    public static NbtCompound copy(NbtCompound nbt) {
+    public static CompoundTag copy(CompoundTag nbt) {
         return nbt.copy();
     }
 
     // Helper methods
 
-    public static void putInt(NbtCompound nbt, String key, int value) {
+    public static void putInt(CompoundTag nbt, String key, int value) {
         set(nbt, key, value);
     }
 
-    public static int getInt(NbtCompound nbt, String key) {
+    public static int getInt(CompoundTag nbt, String key) {
         if (has(nbt, key))
             return get(nbt, key, Integer.class);
         return 0;
     }
 
-    public static void putString(NbtCompound nbt, String key, String value) {
+    public static void putString(CompoundTag nbt, String key, String value) {
         set(nbt, key, value);
     }
 
-    public static String getString(NbtCompound nbt, String key) {
+    public static String getString(CompoundTag nbt, String key) {
         if (has(nbt, key))
             return get(nbt, key, String.class);
         return "";
     }
 
-    public static void putBoolean(NbtCompound nbt, String key, boolean value) {
+    public static void putBoolean(CompoundTag nbt, String key, boolean value) {
         set(nbt, key, value);
     }
 
-    public static boolean getBoolean(NbtCompound nbt, String key) {
+    public static boolean getBoolean(CompoundTag nbt, String key) {
         if (has(nbt, key))
             return get(nbt, key, Boolean.class);
         return false;
     }
 
-    public static void putFloat(NbtCompound nbt, String key, float value) {
+    public static void putFloat(CompoundTag nbt, String key, float value) {
         set(nbt, key, value);
     }
 
-    public static float getFloat(NbtCompound nbt, String key) {
+    public static float getFloat(CompoundTag nbt, String key) {
         if (has(nbt, key))
             return get(nbt, key, Float.class);
         return 0;
     }
 
-    public static void putDouble(NbtCompound nbt, String key, double value) {
+    public static void putDouble(CompoundTag nbt, String key, double value) {
         set(nbt, key, value);
     }
 
-    public static double getDouble(NbtCompound nbt, String key) {
+    public static double getDouble(CompoundTag nbt, String key) {
         if (has(nbt, key))
             return get(nbt, key, Double.class);
         return 0;
     }
 
-    public static void putLong(NbtCompound nbt, String key, long value) {
+    public static void putLong(CompoundTag nbt, String key, long value) {
         set(nbt, key, value);
     }
 
-    public static long getLong(NbtCompound nbt, String key) {
+    public static long getLong(CompoundTag nbt, String key) {
         if (has(nbt, key))
             return get(nbt, key, Long.class);
         return 0;
     }
 
-    public static void putByte(NbtCompound nbt, String key, byte value) {
+    public static void putByte(CompoundTag nbt, String key, byte value) {
         set(nbt, key, value);
     }
 
-    public static byte getByte(NbtCompound nbt, String key) {
+    public static byte getByte(CompoundTag nbt, String key) {
         if (has(nbt, key))
             return get(nbt, key, Byte.class);
         return 0;
     }
 
-    public static void putShort(NbtCompound nbt, String key, short value) {
+    public static void putShort(CompoundTag nbt, String key, short value) {
         set(nbt, key, value);
     }
 
-    public static short getShort(NbtCompound nbt, String key) {
+    public static short getShort(CompoundTag nbt, String key) {
         if (has(nbt, key))
             return get(nbt, key, Short.class);
         return 0;
     }
 
-    public static void putUuid(NbtCompound nbt, String key, UUID value) {
+    public static void putUuid(CompoundTag nbt, String key, UUID value) {
         set(nbt, key, value);
     }
 
-    public static UUID getUuid(NbtCompound nbt, String key) {
+    public static UUID getUuid(CompoundTag nbt, String key) {
         if (has(nbt, key))
             return get(nbt, key, UUID.class);
         return null;
@@ -318,8 +328,8 @@ public class NbtUtil {
      * @param key キー
      * @param pos BlockPos
      */
-    public static void setBlockPos(NbtCompound nbt, String key, BlockPos pos) {
-        NbtCompound posNbt = create();
+    public static void setBlockPos(CompoundTag nbt, String key, BlockPos pos) {
+        CompoundTag posNbt = create();
         putInt(posNbt, "x", pos.getX());
         putInt(posNbt, "y", pos.getY());
         putInt(posNbt, "z", pos.getZ());
@@ -333,67 +343,67 @@ public class NbtUtil {
      * @param key キー
      * @return BlockPos
      */
-    public static BlockPos getBlockPos(NbtCompound nbt, String key) {
-        NbtCompound posNbt = get(nbt, key);
+    public static BlockPos getBlockPos(CompoundTag nbt, String key) {
+        CompoundTag posNbt = get(nbt, key);
         return PosUtil.flooredBlockPos(getInt(posNbt, "x"), getInt(posNbt, "y"), getInt(posNbt, "z"));
     }
 
-    public static void putVec3i(NbtCompound nbt, String key, Vec3i vec3i) {
-        NbtCompound vec3iNbt = create();
+    public static void putVec3i(CompoundTag nbt, String key, Vec3i vec3i) {
+        CompoundTag vec3iNbt = create();
         putInt(vec3iNbt, "x", vec3i.getX());
         putInt(vec3iNbt, "y", vec3i.getY());
         putInt(vec3iNbt, "z", vec3i.getZ());
         put(nbt, key, vec3iNbt);
     }
 
-    public static Vec3i getVec3i(NbtCompound nbt, String key) {
-        NbtCompound vec3iNbt = get(nbt, key);
+    public static Vec3i getVec3i(CompoundTag nbt, String key) {
+        CompoundTag vec3iNbt = get(nbt, key);
         return Vec3iUtil.create(getInt(vec3iNbt, "x"), getInt(vec3iNbt, "y"), getInt(vec3iNbt, "z"));
     }
 
-    public static void putVec3d(NbtCompound nbt, String key, Vec3d vec3d) {
-        NbtCompound vec3dNbt = create();
-        putDouble(vec3dNbt, "x", vec3d.getX());
-        putDouble(vec3dNbt, "y", vec3d.getY());
-        putDouble(vec3dNbt, "z", vec3d.getZ());
+    public static void putVec3d(CompoundTag nbt, String key, Vec3 vec3d) {
+        CompoundTag vec3dNbt = create();
+        putDouble(vec3dNbt, "x", vec3d.x());
+        putDouble(vec3dNbt, "y", vec3d.y());
+        putDouble(vec3dNbt, "z", vec3d.z());
         put(nbt, key, vec3dNbt);
     }
 
-    public static Vec3d getVec3d(NbtCompound nbt, String key) {
-        NbtCompound vec3dNbt = get(nbt, key);
+    public static Vec3 getVec3d(CompoundTag nbt, String key) {
+        CompoundTag vec3dNbt = get(nbt, key);
         return Vec3dUtil.create(getDouble(vec3dNbt, "x"), getDouble(vec3dNbt, "y"), getDouble(vec3dNbt, "z"));
     }
 
-    public static void putItemStack(NbtCompound nbt, String key, ItemStack stack, CompatRegistryLookup registryLookup) {
-        DataResult<NbtElement> dataResult = ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack);
+    public static void putItemStack(CompoundTag nbt, String key, ItemStack stack, CompatRegistryLookup registryLookup) {
+        DataResult<Tag> dataResult = ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack);
         put(nbt, key, dataResult.getOrThrow());
     }
 
-    public static Optional<ItemStack> getItemStack(NbtCompound nbt, String key, CompatRegistryLookup registryLookup) {
-        NbtElement stackNbt = get(nbt, key);
-        DataResult<Pair<ItemStack, NbtElement>> dataResult = ItemStack.CODEC.decode(NbtOps.INSTANCE, stackNbt);
+    public static Optional<ItemStack> getItemStack(CompoundTag nbt, String key, CompatRegistryLookup registryLookup) {
+        Tag stackNbt = get(nbt, key);
+        DataResult<Pair<ItemStack, Tag>> dataResult = ItemStack.CODEC.decode(NbtOps.INSTANCE, stackNbt);
         if (dataResult.error().isPresent()) return Optional.empty();
 
-        Pair<ItemStack, NbtElement> pair = dataResult.getOrThrow();
+        Pair<ItemStack, Tag> pair = dataResult.getOrThrow();
         return Optional.ofNullable(pair.getFirst());
     }
 
-    public static void putSimpleItemStack(NbtCompound nbt, String key, ItemStack stack) {
-        NbtCompound stackNbt = create();
+    public static void putSimpleItemStack(CompoundTag nbt, String key, ItemStack stack) {
+        CompoundTag stackNbt = create();
         putString(stackNbt, "id", ItemUtil.toID(stack.getItem()).toString());
         putByte(stackNbt, "Count", (byte) ItemStackUtil.getCount(stack));
 
-        NbtCompound tagNbt = create();
-        NbtCompound componentsNbt = create();
+        CompoundTag tagNbt = create();
+        CompoundTag componentsNbt = create();
         put(componentsNbt, "minecraft:custom_data", CustomDataUtil.getOrCreateNbt(stack));
         put(tagNbt, "components", componentsNbt);
         put(stackNbt, "tag", tagNbt);
         put(nbt, key, stackNbt);
     }
 
-    public static Optional<ItemStack> getSimpleItemStack(NbtCompound nbt, String key) {
+    public static Optional<ItemStack> getSimpleItemStack(CompoundTag nbt, String key) {
         if (!has(nbt, key)) return Optional.empty();
-        NbtCompound stackNbt = get(nbt, key);
+        CompoundTag stackNbt = get(nbt, key);
 
         if (!has(stackNbt, "id") || !has(stackNbt, "Count")) return Optional.empty();
         Item item = ItemUtil.fromId(CompatIdentifier.of(getString(stackNbt, "id")));
@@ -402,9 +412,9 @@ public class NbtUtil {
         ItemStack stack = ItemStackUtil.create(item, count);
 
         if (has(stackNbt, "tag")) {
-            NbtCompound tagNbt = get(stackNbt, "tag");
+            CompoundTag tagNbt = get(stackNbt, "tag");
             if (has(tagNbt, "components")) {
-                NbtCompound componentsNbt = get(tagNbt, "components");
+                CompoundTag componentsNbt = get(tagNbt, "components");
                 if (has(componentsNbt, "minecraft:custom_data")) {
                     CustomDataUtil.setNbt(stack, get(componentsNbt, "minecraft:custom_data"));
                 }
@@ -414,147 +424,147 @@ public class NbtUtil {
         return Optional.of(stack);
     }
 
-    public static NbtList createNbtList() {
-        return new NbtList();
+    public static ListTag createNbtList() {
+        return new ListTag();
     }
 
-    public static int getIntOrDefault(NbtCompound nbt, String key, int defaultValue) {
+    public static int getIntOrDefault(CompoundTag nbt, String key, int defaultValue) {
         if (has(nbt, key))
             return getInt(nbt, key);
         return defaultValue;
     }
 
-    public static String getStringOrDefault(NbtCompound nbt, String key, String defaultValue) {
+    public static String getStringOrDefault(CompoundTag nbt, String key, String defaultValue) {
         if (has(nbt, key))
             return getString(nbt, key);
         return defaultValue;
     }
 
-    public static boolean getBooleanOrDefault(NbtCompound nbt, String key, boolean defaultValue) {
+    public static boolean getBooleanOrDefault(CompoundTag nbt, String key, boolean defaultValue) {
         if (has(nbt, key))
             return getBoolean(nbt, key);
         return defaultValue;
     }
 
-    public static float getFloatOrDefault(NbtCompound nbt, String key, float defaultValue) {
+    public static float getFloatOrDefault(CompoundTag nbt, String key, float defaultValue) {
         if (has(nbt, key))
             return getFloat(nbt, key);
         return defaultValue;
     }
 
-    public static double getDoubleOrDefault(NbtCompound nbt, String key, double defaultValue) {
+    public static double getDoubleOrDefault(CompoundTag nbt, String key, double defaultValue) {
         if (has(nbt, key))
             return getDouble(nbt, key);
         return defaultValue;
     }
 
-    public static long getLongOrDefault(NbtCompound nbt, String key, long defaultValue) {
+    public static long getLongOrDefault(CompoundTag nbt, String key, long defaultValue) {
         if (has(nbt, key))
             return getLong(nbt, key);
         return defaultValue;
     }
 
-    public static byte getByteOrDefault(NbtCompound nbt, String key, byte defaultValue) {
+    public static byte getByteOrDefault(CompoundTag nbt, String key, byte defaultValue) {
         if (has(nbt, key))
             return getByte(nbt, key);
         return defaultValue;
     }
 
-    public static short getShortOrDefault(NbtCompound nbt, String key, short defaultValue) {
+    public static short getShortOrDefault(CompoundTag nbt, String key, short defaultValue) {
         if (has(nbt, key))
             return getShort(nbt, key);
         return defaultValue;
     }
 
-    public static UUID getUuidOrDefault(NbtCompound nbt, String key, UUID defaultValue) {
+    public static UUID getUuidOrDefault(CompoundTag nbt, String key, UUID defaultValue) {
         if (has(nbt, key))
             return getUuid(nbt, key);
         return defaultValue;
     }
 
-    public static NbtElement getElement(NbtCompound nbt, String key) {
+    public static Tag getElement(CompoundTag nbt, String key) {
         return nbt.get(key);
     }
 
-    public static void putElement(NbtCompound nbt, String key, NbtElement element) {
+    public static void putElement(CompoundTag nbt, String key, Tag element) {
         nbt.put(key, element);
     }
 
-    public static void setBlockPosDirect(NbtCompound nbt, BlockPos pos) {
+    public static void setBlockPosDirect(CompoundTag nbt, BlockPos pos) {
         putInt(nbt, "x", pos.getX());
         putInt(nbt, "y", pos.getY());
         putInt(nbt, "z", pos.getZ());
     }
 
-    public static BlockPos getBlockPosDirect(NbtCompound nbt) {
+    public static BlockPos getBlockPosDirect(CompoundTag nbt) {
         return PosUtil.flooredBlockPos(getInt(nbt, "x"), getInt(nbt, "y"), getInt(nbt, "z"));
     }
 
-    public static void setVec3iDirect(NbtCompound nbt, Vec3i vec3i) {
+    public static void setVec3iDirect(CompoundTag nbt, Vec3i vec3i) {
         putInt(nbt, "x", vec3i.getX());
         putInt(nbt, "y", vec3i.getY());
         putInt(nbt, "z", vec3i.getZ());
     }
 
-    public static Vec3i getVec3iDirect(NbtCompound nbt) {
+    public static Vec3i getVec3iDirect(CompoundTag nbt) {
         return Vec3iUtil.create(getInt(nbt, "x"), getInt(nbt, "y"), getInt(nbt, "z"));
     }
 
-    public static void setVec3dDirect(NbtCompound nbt, Vec3d vec3d) {
-        putDouble(nbt, "x", vec3d.getX());
-        putDouble(nbt, "y", vec3d.getY());
-        putDouble(nbt, "z", vec3d.getZ());
+    public static void setVec3dDirect(CompoundTag nbt, Vec3 vec3d) {
+        putDouble(nbt, "x", vec3d.x());
+        putDouble(nbt, "y", vec3d.y());
+        putDouble(nbt, "z", vec3d.z());
     }
 
-    public static Vec3d getVec3dDirect(NbtCompound nbt) {
+    public static Vec3 getVec3dDirect(CompoundTag nbt) {
         return Vec3dUtil.create(getDouble(nbt, "x"), getDouble(nbt, "y"), getDouble(nbt, "z"));
     }
 
-    public static void setVec3iDirect(NbtCompound nbt, int x, int y, int z) {
+    public static void setVec3iDirect(CompoundTag nbt, int x, int y, int z) {
         putInt(nbt, "x", x);
         putInt(nbt, "y", y);
         putInt(nbt, "z", z);
     }
 
-    public static void setVec3dDirect(NbtCompound nbt, double x, double y, double z) {
+    public static void setVec3dDirect(CompoundTag nbt, double x, double y, double z) {
         putDouble(nbt, "x", x);
         putDouble(nbt, "y", y);
         putDouble(nbt, "z", z);
     }
 
-    public static String asString(NbtElement nbt) {
+    public static String asString(Tag nbt) {
         return nbt.asString().orElse("");
     }
 
-    public static NbtString createString(String string) {
-        return NbtString.of(string);
+    public static StringTag createString(String string) {
+        return StringTag.valueOf(string);
     }
 
-    public static NbtInt createInt(int value) {
-        return NbtInt.of(value);
+    public static IntTag createInt(int value) {
+        return IntTag.valueOf(value);
     }
 
-    public static NbtFloat createFloat(float value) {
-        return NbtFloat.of(value);
+    public static FloatTag createFloat(float value) {
+        return FloatTag.valueOf(value);
     }
 
-    public static NbtDouble createDouble(double value) {
-        return NbtDouble.of(value);
+    public static DoubleTag createDouble(double value) {
+        return DoubleTag.valueOf(value);
     }
 
-    public static NbtLong createLong(long value) {
-        return NbtLong.of(value);
+    public static LongTag createLong(long value) {
+        return LongTag.valueOf(value);
     }
 
-    public static NbtByte createByte(byte value) {
-        return NbtByte.of(value);
+    public static ByteTag createByte(byte value) {
+        return ByteTag.valueOf(value);
     }
 
-    public static NbtShort createShort(short value) {
-        return NbtShort.of(value);
+    public static ShortTag createShort(short value) {
+        return ShortTag.valueOf(value);
     }
 
-    public static void copyFrom(NbtCompound source, NbtCompound target) {
-        target.copyFrom(source);
+    public static void copyFrom(CompoundTag source, CompoundTag target) {
+        target.merge(source);
     }
 }

@@ -1,21 +1,21 @@
 package net.pitan76.mcpitanlib.api.nbt;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagType;
 
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.scanner.NbtScanner;
-import net.minecraft.nbt.visitor.NbtElementVisitor;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.StreamTagVisitor;
+import net.minecraft.nbt.TagVisitor;
 
 import java.io.DataOutput;
 import java.io.IOException;
 
 @Deprecated
 public class NbtTag {
-    public NbtCompound nbt;
+    public CompoundTag nbt;
 
     public NbtTag() {
         super();
@@ -35,7 +35,7 @@ public class NbtTag {
      * @return NbtTag
      */
     public static NbtTag from(Object nbt) {
-        if (nbt instanceof NbtCompound) {
+        if (nbt instanceof CompoundTag) {
             return (NbtTag) nbt;
         }
         return (NbtTag) nbt;
@@ -56,7 +56,7 @@ public class NbtTag {
      * @return NbtTag
      */
     public static NbtTag getNbt(ItemStack stack) {
-        return from(stack.get(DataComponentTypes.CUSTOM_DATA).copyNbt());
+        return from(stack.get(DataComponents.CUSTOM_DATA).copyTag());
     }
 
     /**
@@ -65,7 +65,7 @@ public class NbtTag {
      * @param nbt NbtTag
      */
     public static void setNbt(ItemStack stack, NbtTag nbt) {
-        stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt.nbt));
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(nbt.nbt));
     }
 
     public boolean contains(String key) {
@@ -77,26 +77,26 @@ public class NbtTag {
     }
 
     public byte getType() {
+        return nbt.getId();
+    }
+
+    public TagType<CompoundTag> getNbtType() {
         return nbt.getType();
     }
 
-    public NbtType<NbtCompound> getNbtType() {
-        return nbt.getNbtType();
-    }
-
-    public NbtElement copy() {
+    public Tag copy() {
         return nbt.copy();
     }
 
     public int getSizeInBytes() {
-        return nbt.getSizeInBytes();
+        return nbt.sizeInBytes();
     }
 
-    public void accept(NbtElementVisitor visitor) {
+    public void accept(TagVisitor visitor) {
         nbt.accept(visitor);
     }
 
-    public NbtScanner.Result doAccept(NbtScanner visitor) {
-        return nbt.doAccept(visitor);
+    public StreamTagVisitor.ValueResult doAccept(StreamTagVisitor visitor) {
+        return nbt.accept(visitor);
     }
 }

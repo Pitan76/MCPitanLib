@@ -1,29 +1,31 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.Item.TooltipContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
 import net.pitan76.mcpitanlib.core.Dummy;
-import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
+import net.pitan76.mcpitanlib.mixin.UseOnContextMixin;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
 
-    public ExtendBlockItem(Block block, Settings settings) {
+    public ExtendBlockItem(Block block, Properties settings) {
         super(block, settings);
     }
 
@@ -34,26 +36,26 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
     // ExtendItem
     @Deprecated
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
         return onRightClick(new ItemUseEvent(world, user, hand)).toActionResult();
     }
 
     @Deprecated
     @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
-        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit())).toActionResult();
+    public InteractionResult useOn(UseOnContext context) {
+        UseOnContextMixin contextAccessor = (UseOnContextMixin) context;
+        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHitResult())).toActionResult();
     }
 
     @Deprecated
     @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+    public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
         return onFinishUsing(new ItemFinishUsingEvent(stack, world, user));
     }
 
     @Deprecated
     @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+    public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
         return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand)).toActionResult();
     }
 
@@ -64,13 +66,13 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
 
     @Deprecated
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type) {
         appendTooltip(new ItemAppendTooltipEvent(stack, context, displayComponent, textConsumer, type));
     }
 
     @Deprecated
     @Override
-    public void onCraft(ItemStack stack, World world) {
+    public void onCraftedPostProcess(ItemStack stack, Level world) {
         onCraft(new CraftEvent(stack, world));
     }
 
@@ -90,7 +92,7 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
      * @return ActionResultType
      */
     public CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
-        return CompatActionResult.create(super.useOnBlock(event.toIUC()));
+        return CompatActionResult.create(super.useOn(event.toIUC()));
     }
 
     /**
@@ -99,7 +101,7 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
      * @return ItemStack
      */
     public ItemStack onFinishUsing(ItemFinishUsingEvent event) {
-        return super.finishUsing(event.stack, event.world, event.user);
+        return super.finishUsingItem(event.stack, event.world, event.user);
     }
 
     /**
@@ -108,7 +110,7 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
      * @return ActionResultType
      */
     public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent event) {
-        return CompatActionResult.create(super.useOnEntity(event.stack, event.user.getEntity(), event.entity, event.hand));
+        return CompatActionResult.create(super.interactLivingEntity(event.stack, event.user.getEntity(), event.entity, event.hand));
     }
 
     /**
@@ -125,7 +127,7 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
      * @param event ItemAppendTooltipEvent
      */
     public void appendTooltip(ItemAppendTooltipEvent event) {
-        super.appendTooltip(event.stack, event.context, event.displayComponent, event.textConsumer, event.type);
+        super.appendHoverText(event.stack, event.context, event.displayComponent, event.textConsumer, event.type);
     }
 
     /**
@@ -133,6 +135,6 @@ public class ExtendBlockItem extends BlockItem implements ExtendItemProvider {
      * @param event CraftEvent
      */
     public void onCraft(CraftEvent event) {
-        super.onCraft(event.stack, event.world);
+        super.onCraftedPostProcess(event.stack, event.world);
     }
 }

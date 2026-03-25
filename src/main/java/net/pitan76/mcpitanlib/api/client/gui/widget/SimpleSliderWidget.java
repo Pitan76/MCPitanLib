@@ -2,9 +2,9 @@ package net.pitan76.mcpitanlib.api.client.gui.widget;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.SliderWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
@@ -13,12 +13,12 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-public class SimpleSliderWidget extends SliderWidget {
-    protected final Function<Double, Text> textGetter;
+public class SimpleSliderWidget extends AbstractSliderButton {
+    protected final Function<Double, Component> textGetter;
     protected final Consumer<Double> changeCallback;
     public SimpleListWidget listWidget = null;
 
-    public SimpleSliderWidget(int x, int y, int width, int height, Text text, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
+    public SimpleSliderWidget(int x, int y, int width, int height, Component text, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
         super(x, y, width, height, text, defaultValue);
         this.textGetter = (Double value) -> valueTextGetter.get(text, value);
         this.changeCallback = changeCallback;
@@ -28,7 +28,7 @@ public class SimpleSliderWidget extends SliderWidget {
         this(x, y, width, height, TextUtil.empty(), defaultValue, valueTextGetter, changeCallback);
     }
 
-    public SimpleSliderWidget(int x, int y, int width, Text text, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
+    public SimpleSliderWidget(int x, int y, int width, Component text, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
         this(x, y, width, 20, text, defaultValue, valueTextGetter, changeCallback);
     }
 
@@ -36,7 +36,7 @@ public class SimpleSliderWidget extends SliderWidget {
         this(x, y, width, 20, defaultValue, valueTextGetter, changeCallback);
     }
 
-    public SimpleSliderWidget(SimpleListWidget listWidget, int width, Text text, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
+    public SimpleSliderWidget(SimpleListWidget listWidget, int width, Component text, double defaultValue, ValueTextGetter<Double> valueTextGetter, Consumer<Double> changeCallback) {
         this(listWidget.getWidth() / 2 - 155, 0, width, 20, text, defaultValue, valueTextGetter, changeCallback);
         this.listWidget = listWidget;
     }
@@ -77,6 +77,6 @@ public class SimpleSliderWidget extends SliderWidget {
     @Environment(EnvType.CLIENT)
     @FunctionalInterface
     public interface ValueTextGetter<Double> {
-        Text get(Text optionText, Double value);
+        Component get(Component optionText, Double value);
     }
 }

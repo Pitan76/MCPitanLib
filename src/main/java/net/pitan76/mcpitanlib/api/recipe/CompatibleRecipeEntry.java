@@ -1,27 +1,32 @@
 package net.pitan76.mcpitanlib.api.recipe;
 
 import net.minecraft.recipe.*;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import org.jetbrains.annotations.Nullable;
 
 @Deprecated
 public class CompatibleRecipeEntry {
-    private final RecipeEntry<?> entry;
+    private final RecipeHolder<?> entry;
 
     public String group = "";
     public RecipeUtil.CompatibilityCraftingRecipeCategory category = null;
 
     @Deprecated
-    public CompatibleRecipeEntry(RecipeEntry<?> entry) {
+    public CompatibleRecipeEntry(RecipeHolder<?> entry) {
         this.entry = entry;
     }
 
     public CompatibleRecipeEntry(Identifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, ShapelessRecipe shapelessRecipe) {
-        this.entry = new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, id), shapelessRecipe);
+        this.entry = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, id), shapelessRecipe);
         this.group = group;
         this.category = category;
     }
@@ -31,7 +36,7 @@ public class CompatibleRecipeEntry {
     }
 
     @Deprecated
-    public RecipeEntry<?> getRecipeEntry() {
+    public RecipeHolder<?> getRecipeEntry() {
         return entry;
     }
 
@@ -44,7 +49,7 @@ public class CompatibleRecipeEntry {
     }
 
     public Identifier getId() {
-        return entry.id().getValue();
+        return entry.id().identifier();
     }
 
     public CompatIdentifier getCompatId() {

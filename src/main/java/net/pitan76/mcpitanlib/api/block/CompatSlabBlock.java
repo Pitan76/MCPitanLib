@@ -1,15 +1,16 @@
 package net.pitan76.mcpitanlib.api.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.enums.SlabType;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;
@@ -32,7 +33,7 @@ public class CompatSlabBlock extends SlabBlock implements CompatBlockProvider {
         return settings;
     }
 
-    public CompatSlabBlock(Settings settings) {
+    public CompatSlabBlock(Properties settings) {
         super(settings);
     }
 
@@ -41,22 +42,22 @@ public class CompatSlabBlock extends SlabBlock implements CompatBlockProvider {
     }
 
     public void appendProperties(AppendPropertiesArgs args) {
-        super.appendProperties(args.builder);
+        super.createBlockStateDefinition(args.builder);
     }
 
     public BlockState getPlacementState(PlacementStateArgs args) {
-        return super.getPlacementState(args.ctx);
+        return super.getStateForPlacement(args.ctx);
     }
 
     @Deprecated
     @Override
-    public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         appendProperties(new AppendPropertiesArgs(builder));
     }
 
     @Deprecated
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
         return getPlacementState(new PlacementStateArgs(ctx));
     }
 
@@ -75,22 +76,22 @@ public class CompatSlabBlock extends SlabBlock implements CompatBlockProvider {
 
     @Deprecated
     @Override
-    public MapCodec<? extends SlabBlock> getCodec() {
+    public MapCodec<? extends SlabBlock> codec() {
         return getCompatCodec().getCodec();
     }
 
     public CompatMapCodec<? extends SlabBlock> getCompatCodec() {
-        return CompatMapCodec.of(super.getCodec());
+        return CompatMapCodec.of(super.codec());
     }
 
     @Deprecated
     @Override
-    public boolean canPathfindThrough(BlockState state, NavigationType type) {
+    public boolean isPathfindable(BlockState state, PathComputationType type) {
         return canPathfindThrough(new CanPathfindThroughArgs(state, type));
     }
 
     public boolean canPathfindThrough(CanPathfindThroughArgs args) {
-        return super.canPathfindThrough(args.state, args.type);
+        return super.isPathfindable(args.state, args.type);
     }
 
     @Override

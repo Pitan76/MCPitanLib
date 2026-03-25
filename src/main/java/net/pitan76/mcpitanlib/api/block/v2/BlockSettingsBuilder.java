@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.block.v2;
 
-import net.minecraft.block.AbstractBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -89,7 +89,7 @@ public class BlockSettingsBuilder {
         return build(id);
     }
 
-    public AbstractBlock.Settings _build() {
+    public BlockBehaviour.Properties _build() {
         return build().build();
     }
 
@@ -123,7 +123,7 @@ public class BlockSettingsBuilder {
         return settings;
     }
 
-    public AbstractBlock.Settings _build(CompatIdentifier id) {
+    public BlockBehaviour.Properties _build(CompatIdentifier id) {
         return build(id).build();
     }
 

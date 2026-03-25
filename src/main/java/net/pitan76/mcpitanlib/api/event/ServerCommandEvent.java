@@ -4,31 +4,31 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.context.StringRange;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
-public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
+public class ServerCommandEvent extends CommandEvent<CommandSourceStack> {
 
-    public CommandContext<ServerCommandSource> getContext() {
+    public CommandContext<CommandSourceStack> getContext() {
         return context;
     }
 
-    public void setContext(CommandContext<ServerCommandSource> context) {
+    public void setContext(CommandContext<CommandSourceStack> context) {
         this.context = context;
     }
 
-    public ServerCommandSource getSource() {
+    public CommandSourceStack getSource() {
         return getContext().getSource();
     }
 
-    public PlayerEntity getPlayerEntity() throws CommandSyntaxException {
+    public Player getPlayerEntity() throws CommandSyntaxException {
         return getSource().getPlayer();
     }
 
@@ -36,8 +36,8 @@ public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
         return new Player(getPlayerEntity());
     }
 
-    public World getWorld() {
-        return getSource().getWorld();
+    public Level getWorld() {
+        return getSource().getLevel();
     }
 
     public Entity getEntity() {
@@ -48,15 +48,15 @@ public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
         return getContext().getInput();
     }
 
-    public Command<ServerCommandSource> getContextCommand() {
+    public Command<CommandSourceStack> getContextCommand() {
         return getContext().getCommand();
     }
 
-    public CommandContext<ServerCommandSource> getChild() {
+    public CommandContext<CommandSourceStack> getChild() {
         return getContext().getChild();
     }
 
-    public CommandContext<ServerCommandSource> getLastChild() {
+    public CommandContext<CommandSourceStack> getLastChild() {
         return getContext().getLastChild();
     }
 
@@ -65,15 +65,15 @@ public class ServerCommandEvent extends CommandEvent<ServerCommandSource> {
     }
 
     // Text
-    public void sendSuccess(Text message, boolean broadcastToOps) {
-        getSource().sendFeedback(() -> message, broadcastToOps);
+    public void sendSuccess(Component message, boolean broadcastToOps) {
+        getSource().sendSuccess(() -> message, broadcastToOps);
     }
 
-    public void sendFailure(Text message) {
-        getSource().sendError(message);
+    public void sendFailure(Component message) {
+        getSource().sendFailure(message);
     }
 
-    public void sendSuccess(Text message) {
+    public void sendSuccess(Component message) {
         sendSuccess(message, false);
     }
 

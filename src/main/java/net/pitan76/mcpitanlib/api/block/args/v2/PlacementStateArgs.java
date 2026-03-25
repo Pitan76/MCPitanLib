@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.block.args.v2;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
@@ -20,20 +20,20 @@ import net.pitan76.mcpitanlib.midohra.util.hit.HitResultType;
 import net.pitan76.mcpitanlib.midohra.util.math.Direction;
 import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 import net.pitan76.mcpitanlib.midohra.world.World;
-import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
+import net.pitan76.mcpitanlib.mixin.UseOnContextMixin;
 import org.jetbrains.annotations.Nullable;
 
 public class PlacementStateArgs extends BaseEvent implements BlockStatePropertyHolder {
-    public ItemPlacementContext ctx;
+    public BlockPlaceContext ctx;
 
     @Nullable
     public Block block;
 
-    public PlacementStateArgs(ItemPlacementContext ctx) {
+    public PlacementStateArgs(BlockPlaceContext ctx) {
         this.ctx = ctx;
     }
 
-    public PlacementStateArgs(ItemPlacementContext ctx, @Nullable Block block) {
+    public PlacementStateArgs(BlockPlaceContext ctx, @Nullable Block block) {
         this.ctx = ctx;
         this.block = block;
     }
@@ -43,7 +43,7 @@ public class PlacementStateArgs extends BaseEvent implements BlockStatePropertyH
     }
 
     public BlockPos getRawPos() {
-        return ctx.getBlockPos();
+        return ctx.getClickedPos();
     }
 
     public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getPos() {
@@ -55,7 +55,7 @@ public class PlacementStateArgs extends BaseEvent implements BlockStatePropertyH
     }
 
     public Direction[] getPlacementDirections() {
-        net.minecraft.util.math.Direction[] rawDirs = getRawPlacementDirections();
+        net.minecraft.core.Direction[] rawDirs = getRawPlacementDirections();
         Direction[] directions = new Direction[rawDirs.length];
         for (int i = 0; i < directions.length; i++) {
             directions[i] = Direction.of(rawDirs[i]);
@@ -64,11 +64,11 @@ public class PlacementStateArgs extends BaseEvent implements BlockStatePropertyH
         return directions;
     }
 
-    public net.minecraft.util.math.Direction[] getRawPlacementDirections() {
-        return ctx.getPlacementDirections();
+    public net.minecraft.core.Direction[] getRawPlacementDirections() {
+        return ctx.getNearestLookingDirections();
     }
 
-    public Hand getHand() {
+    public InteractionHand getHand() {
         return ctx.getHand();
     }
 
@@ -76,24 +76,24 @@ public class PlacementStateArgs extends BaseEvent implements BlockStatePropertyH
         return Direction.of(getRawSide());
     }
 
-    public net.minecraft.util.math.Direction getRawSide() {
-        return ctx.getSide();
+    public net.minecraft.core.Direction getRawSide() {
+        return ctx.getClickedFace();
     }
 
     public Direction getHorizontalPlayerFacing() {
         return Direction.of(getRawHorizontalPlayerFacing());
     }
 
-    public net.minecraft.util.math.Direction getRawHorizontalPlayerFacing() {
-        return ctx.getHorizontalPlayerFacing();
+    public net.minecraft.core.Direction getRawHorizontalPlayerFacing() {
+        return ctx.getHorizontalDirection();
     }
 
     public float getPlayerYaw() {
-        return ctx.getPlayerYaw();
+        return ctx.getRotation();
     }
 
     public World getWorld() {
-        return World.of(ctx.getWorld());
+        return World.of(ctx.getLevel());
     }
 
     public IWorldView getWorldView() {
@@ -104,28 +104,28 @@ public class PlacementStateArgs extends BaseEvent implements BlockStatePropertyH
         return getWorld().isClient();
     }
 
-    public Vec3d getHitPos() {
-        return ctx.getHitPos();
+    public Vec3 getHitPos() {
+        return ctx.getClickLocation();
     }
 
     public boolean canReplaceExisting() {
-        return ctx.canReplaceExisting();
+        return ctx.replacingClickedOnBlock();
     }
 
     @Deprecated
-    public ItemUsageContextMixin getIUCAccessor() {
-        return (ItemUsageContextMixin) ctx;
+    public UseOnContextMixin getIUCAccessor() {
+        return (UseOnContextMixin) ctx;
     }
 
     public BlockHitResult getHitResult() {
-        return getIUCAccessor().getHit();
+        return getIUCAccessor().getHitResult();
     }
 
     public ItemUseOnBlockEvent toItemUseOnBlockEvent() {
-        return new ItemUseOnBlockEvent(getWorld().getRaw(), getPlayer().getPlayerEntity(), getHand(), ctx.getStack(), getHitResult());
+        return new ItemUseOnBlockEvent(getWorld().getRaw(), getPlayer().getPlayerEntity(), getHand(), ctx.getItemInHand(), getHitResult());
     }
 
-    public ItemPlacementContext getCtx() {
+    public BlockPlaceContext getCtx() {
         return ctx;
     }
 
@@ -137,7 +137,7 @@ public class PlacementStateArgs extends BaseEvent implements BlockStatePropertyH
         return block != null;
     }
 
-    public net.minecraft.block.BlockState getRawBlockState() {
+    public net.minecraft.world.level.block.state.BlockState getRawBlockState() {
         return BlockStateUtil.getDefaultState(block);
     }
 
@@ -149,7 +149,7 @@ public class PlacementStateArgs extends BaseEvent implements BlockStatePropertyH
         return BlockWrapper.of(block);
     }
 
-    public <T extends Comparable<T>, V extends T> net.minecraft.block.BlockState with(Property<T> property, V value) {
+    public <T extends Comparable<T>, V extends T> net.minecraft.world.level.block.state.BlockState with(Property<T> property, V value) {
         if (block == null)
             return null;
 

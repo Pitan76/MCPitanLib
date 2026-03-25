@@ -1,15 +1,15 @@
 package net.pitan76.mcpitanlib.midohra.nbt;
 
-import net.minecraft.nbt.NbtType;
+import net.minecraft.nbt.TagType;
 
 public class NbtElement implements ElementConvertible {
-    protected final net.minecraft.nbt.NbtElement nbt;
+    protected final net.minecraft.nbt.Tag nbt;
 
-    protected NbtElement(net.minecraft.nbt.NbtElement nbt) {
+    protected NbtElement(net.minecraft.nbt.Tag nbt) {
         this.nbt = nbt;
     }
 
-    public static NbtElement of(net.minecraft.nbt.NbtElement nbt) {
+    public static NbtElement of(net.minecraft.nbt.Tag nbt) {
         return new NbtElement(nbt);
     }
 
@@ -18,15 +18,15 @@ public class NbtElement implements ElementConvertible {
     }
 
     public byte getType() {
+        return nbt.getId();
+    }
+
+    public TagType<?> getNbtType() {
         return nbt.getType();
     }
 
-    public NbtType<?> getNbtType() {
-        return nbt.getNbtType();
-    }
-
     public int getSizeInBytes() {
-        return nbt.getSizeInBytes();
+        return nbt.sizeInBytes();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class NbtElement implements ElementConvertible {
         return nbt.toString();
     }
 
-    public net.minecraft.nbt.NbtElement toMinecraft() {
+    public net.minecraft.nbt.Tag toMinecraft() {
         return nbt;
     }
 

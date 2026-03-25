@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.registry;
 
-import net.minecraft.item.ItemConvertible;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,10 +8,10 @@ import java.util.function.Supplier;
 
 public class FuelRegistry {
 
-    private static final Map<String, Map<Supplier<ItemConvertible>, Integer>> FUEL_MAP = new HashMap<>();
+    private static final Map<String, Map<Supplier<ItemLike>, Integer>> FUEL_MAP = new HashMap<>();
 
-    public static void register(Supplier<ItemConvertible> itemSupplier, int time, String namespace) {
-        Map<Supplier<ItemConvertible>, Integer> map = new HashMap<>();
+    public static void register(Supplier<ItemLike> itemSupplier, int time, String namespace) {
+        Map<Supplier<ItemLike>, Integer> map = new HashMap<>();
         map.put(itemSupplier, time);
 
         FUEL_MAP.put(namespace, map);
@@ -21,8 +21,8 @@ public class FuelRegistry {
     public static void allRegister(String namespace) {
         if (!FUEL_MAP.containsKey(namespace)) return;
 
-        Map<Supplier<ItemConvertible>, Integer> map = FUEL_MAP.get(namespace);
-        for (Map.Entry<Supplier<ItemConvertible>, Integer> entry : map.entrySet()) {
+        Map<Supplier<ItemLike>, Integer> map = FUEL_MAP.get(namespace);
+        for (Map.Entry<Supplier<ItemLike>, Integer> entry : map.entrySet()) {
             net.pitan76.mcpitanlib.core.registry.FuelRegistry.register(entry.getValue(), entry.getKey().get());
         }
 

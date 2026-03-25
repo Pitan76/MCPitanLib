@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.test;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.inventory.MenuType;
 import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
@@ -27,8 +27,8 @@ public class ExampleMod extends CommonModInitializer {
     public static ExampleMod INSTANCE;
     public static CompatRegistryV2 registry;
 
-    public static SupplierResult<ScreenHandlerType<ExampleScreenHandler>> EXAMPLE_SCREENHANDLER;
-    public static SupplierResult<ScreenHandlerType<ExampleContainerGui>> EXAMPLE_CONTAINER_GUI;
+    public static SupplierResult<MenuType<ExampleScreenHandler>> EXAMPLE_SCREENHANDLER;
+    public static SupplierResult<MenuType<ExampleContainerGui>> EXAMPLE_CONTAINER_GUI;
 
     public static RegistryResult<Item> EXAMPLE_ITEM;
     public static RegistryResult<Block> EXAMPLE_BLOCK;

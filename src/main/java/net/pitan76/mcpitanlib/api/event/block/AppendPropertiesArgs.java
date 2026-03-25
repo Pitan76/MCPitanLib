@@ -1,21 +1,21 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Property;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
 import net.pitan76.mcpitanlib.api.util.DirectionBoolPropertyUtil;
 
 public class AppendPropertiesArgs extends BaseEvent {
-    public StateManager.Builder<Block, BlockState> builder;
+    public StateDefinition.Builder<Block, BlockState> builder;
 
-    public AppendPropertiesArgs(StateManager.Builder<Block, BlockState> builder) {
+    public AppendPropertiesArgs(StateDefinition.Builder<Block, BlockState> builder) {
         this.builder = builder;
     }
 
-    public StateManager.Builder<Block, BlockState> getBuilder() {
+    public StateDefinition.Builder<Block, BlockState> getBuilder() {
         return builder;
     }
 

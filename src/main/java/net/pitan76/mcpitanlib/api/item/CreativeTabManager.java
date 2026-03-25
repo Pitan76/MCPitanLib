@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import dev.architectury.registry.CreativeTabRegistry;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 
@@ -17,23 +17,23 @@ public class CreativeTabManager {
     // グループ予約済みアイテム
     public static class BookingItem {
         @Deprecated
-        public ItemGroup itemGroup;
+        public CreativeModeTab itemGroup;
 
-        public Supplier<ItemGroup> itemGroupSupplier;
+        public Supplier<CreativeModeTab> itemGroupSupplier;
         public Identifier identifier;
 
         @Deprecated
-        private BookingItem(ItemGroup itemGroup, Identifier identifier) {
+        private BookingItem(CreativeModeTab itemGroup, Identifier identifier) {
             this.itemGroup = itemGroup;
             this.identifier = identifier;
         }
 
-        private BookingItem(Supplier<ItemGroup> itemGroup, Identifier identifier) {
+        private BookingItem(Supplier<CreativeModeTab> itemGroup, Identifier identifier) {
             this.itemGroupSupplier = itemGroup;
             this.identifier = identifier;
         }
 
-        public ItemGroup getItemGroup() {
+        public CreativeModeTab getItemGroup() {
             if (itemGroupSupplier != null)
                 return itemGroupSupplier.get();
             return itemGroup;
@@ -43,23 +43,23 @@ public class CreativeTabManager {
     // グループ予約済みアイテムスタック
     public static class BookingStack {
         @Deprecated
-        public ItemGroup itemGroup;
+        public CreativeModeTab itemGroup;
 
-        public Supplier<ItemGroup> itemGroupSupplier;
+        public Supplier<CreativeModeTab> itemGroupSupplier;
         public ItemStack stack;
 
         @Deprecated
-        private BookingStack(ItemGroup itemGroup, ItemStack stack) {
+        private BookingStack(CreativeModeTab itemGroup, ItemStack stack) {
             this.itemGroup = itemGroup;
             this.stack = stack;
         }
 
-        private BookingStack(Supplier<ItemGroup> itemGroup, ItemStack stack) {
+        private BookingStack(Supplier<CreativeModeTab> itemGroup, ItemStack stack) {
             this.itemGroupSupplier = itemGroup;
             this.stack = stack;
         }
 
-        public ItemGroup getItemGroup() {
+        public CreativeModeTab getItemGroup() {
             if (itemGroupSupplier != null)
                 return itemGroupSupplier.get();
             return itemGroup;
@@ -93,20 +93,20 @@ public class CreativeTabManager {
     }
 
     @Deprecated
-    public static void addItem(ItemGroup itemGroup, Identifier identifier) {
+    public static void addItem(CreativeModeTab itemGroup, Identifier identifier) {
         bookingItems.add(new BookingItem(itemGroup, identifier));
     }
 
     @Deprecated
-    public static void addStack(ItemGroup itemGroup, ItemStack stack) {
+    public static void addStack(CreativeModeTab itemGroup, ItemStack stack) {
         bookingStacks.add(new BookingStack(itemGroup, stack));
     }
 
-    public static void addItem(Supplier<ItemGroup> itemGroup, Identifier identifier) {
+    public static void addItem(Supplier<CreativeModeTab> itemGroup, Identifier identifier) {
         bookingItems.add(new BookingItem(itemGroup, identifier));
     }
 
-    public static void addStack(Supplier<ItemGroup> itemGroup, ItemStack stack) {
+    public static void addStack(Supplier<CreativeModeTab> itemGroup, ItemStack stack) {
         bookingStacks.add(new BookingStack(itemGroup, stack));
     }
 }

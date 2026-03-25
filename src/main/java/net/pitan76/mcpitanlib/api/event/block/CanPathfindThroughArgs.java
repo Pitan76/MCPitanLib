@@ -1,16 +1,16 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.fluid.FluidState;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.material.FluidState;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.FluidStateUtil;
 
 public class CanPathfindThroughArgs extends BaseEvent {
     public BlockState state;
-    public NavigationType type;
+    public PathComputationType type;
 
-    public CanPathfindThroughArgs(BlockState state, NavigationType type) {
+    public CanPathfindThroughArgs(BlockState state, PathComputationType type) {
         this.state = state;
 
         this.type = type;
@@ -20,7 +20,7 @@ public class CanPathfindThroughArgs extends BaseEvent {
         return state;
     }
 
-    public NavigationType getType() {
+    public PathComputationType getType() {
         return type;
     }
 
@@ -29,15 +29,15 @@ public class CanPathfindThroughArgs extends BaseEvent {
     }
 
     public boolean isWaterNavigationType() {
-        return type == NavigationType.WATER;
+        return type == PathComputationType.WATER;
     }
 
     public boolean isAirNavigationType() {
-        return type == NavigationType.AIR;
+        return type == PathComputationType.AIR;
     }
 
     public boolean isLandNavigationType() {
-        return type == NavigationType.LAND;
+        return type == PathComputationType.LAND;
     }
 
     public boolean isWaterState() {

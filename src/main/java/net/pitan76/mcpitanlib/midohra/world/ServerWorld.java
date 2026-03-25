@@ -11,33 +11,33 @@ import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.chunk.ServerChunkManager;
 
 public class ServerWorld extends World {
-    private final net.minecraft.server.world.ServerWorld world;
+    private final net.minecraft.server.level.ServerLevel world;
 
-    protected ServerWorld(net.minecraft.server.world.ServerWorld world) {
+    protected ServerWorld(net.minecraft.server.level.ServerLevel world) {
         super(null);
         this.world = world;
     }
 
-    public static ServerWorld of(net.minecraft.server.world.ServerWorld world) {
+    public static ServerWorld of(net.minecraft.server.level.ServerLevel world) {
         return new ServerWorld(world);
     }
 
     @Override
-    public net.minecraft.server.world.ServerWorld getRaw() {
+    public net.minecraft.server.level.ServerLevel getRaw() {
         return world;
     }
 
     @Override
-    public net.minecraft.server.world.ServerWorld toMinecraft() {
+    public net.minecraft.server.level.ServerLevel toMinecraft() {
         return getRaw();
     }
 
     public void playSound(Player player, BlockPos pos, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch, long seed) {
-        getRaw().playSound(player.getEntity(), pos.getX(), pos.getY(), pos.getZ(), sound.getEntry(), category.get(), volume, pitch, seed);
+        getRaw().playSeededSound(player.getEntity(), pos.getX(), pos.getY(), pos.getZ(), sound.getEntry(), category.get(), volume, pitch, seed);
     }
 
     public void playSoundFromEntity(Player player, Player target, CompatSoundEvent sound, CompatSoundCategory category, float volume, float pitch, long seed) {
-        getRaw().playSoundFromEntity(player.getEntity(), target.getEntity(), sound.getEntry(), category.get(), volume, pitch, seed);
+        getRaw().playSeededSound(player.getEntity(), target.getEntity(), sound.getEntry(), category.get(), volume, pitch, seed);
     }
 
     public MinecraftServer getServer() {

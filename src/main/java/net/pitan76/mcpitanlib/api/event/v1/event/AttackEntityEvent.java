@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.event.v1.event;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import org.jetbrains.annotations.Nullable;
@@ -14,16 +14,16 @@ import org.jetbrains.annotations.Nullable;
 public class AttackEntityEvent {
 
     public Player player;
-    public World world;
+    public Level world;
     public Entity target;
-    public Hand hand;
+    public InteractionHand hand;
     public EntityHitResult result;
 
-    public AttackEntityEvent(PlayerEntity player, World level, Entity target, Hand hand, @Nullable EntityHitResult result) {
+    public AttackEntityEvent(Player player, Level level, Entity target, InteractionHand hand, @Nullable EntityHitResult result) {
         this(new Player(player), level, target, hand, result);
     }
 
-    public AttackEntityEvent(Player player, World level, Entity target, Hand hand, @Nullable EntityHitResult result) {
+    public AttackEntityEvent(Player player, Level level, Entity target, InteractionHand hand, @Nullable EntityHitResult result) {
         this.player = player;
         this.world = level;
         this.target = target;
@@ -35,7 +35,7 @@ public class AttackEntityEvent {
         return player;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -47,7 +47,7 @@ public class AttackEntityEvent {
         return result;
     }
 
-    public Hand getHand() {
+    public InteractionHand getHand() {
         return hand;
     }
 

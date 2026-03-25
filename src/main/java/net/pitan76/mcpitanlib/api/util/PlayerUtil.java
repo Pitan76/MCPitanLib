@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 import java.util.ArrayList;
@@ -13,16 +13,16 @@ import java.util.UUID;
 public class PlayerUtil {
 
     public static Player getPlayerByUUID(MinecraftServer server, UUID uuid) {
-        return new Player(server.getPlayerManager().getPlayer(uuid));
+        return new Player(server.getPlayerList().getPlayer(uuid));
     }
 
     public static Player getPlayerByName(MinecraftServer server, String name) {
-        return new Player(server.getPlayerManager().getPlayer(name));
+        return new Player(server.getPlayerList().getPlayerByName(name));
     }
 
     public static List<Player> getPlayersByIP(MinecraftServer server, String ip) {
         List<Player> players = new ArrayList<>();
-        for (PlayerEntity p: server.getPlayerManager().getPlayersByIp(ip)) {
+        for (Player p: server.getPlayerList().getPlayersWithAddress(ip)) {
             players.add(new Player(p));
         }
         return players;
@@ -30,41 +30,41 @@ public class PlayerUtil {
 
     public static List<Player> getPlayers(MinecraftServer server) {
         List<Player> players = new ArrayList<>();
-        for (PlayerEntity p : server.getPlayerManager().getPlayerList()) {
+        for (Player p : server.getPlayerList().getPlayers()) {
             players.add(new Player(p));
         }
         return players;
     }
 
-    public static Player getPlayerByUUID(World world, UUID uuid) {
+    public static Player getPlayerByUUID(Level world, UUID uuid) {
         return getPlayerByUUID(world.getServer(), uuid);
     }
 
-    public static Player getPlayerByName(World world, String name) {
+    public static Player getPlayerByName(Level world, String name) {
         return getPlayerByName(world.getServer(), name);
     }
 
     public static boolean isExistByUUID(MinecraftServer server, UUID uuid) {
-        return server.getPlayerManager().getPlayer(uuid) != null;
+        return server.getPlayerList().getPlayer(uuid) != null;
     }
 
-    public static boolean isExistByUUID(World world, UUID uuid) {
+    public static boolean isExistByUUID(Level world, UUID uuid) {
         return isExistByUUID(world.getServer(), uuid);
     }
 
     public static boolean isExistByName(MinecraftServer server, String name) {
-        return server.getPlayerManager().getPlayer(name) != null;
+        return server.getPlayerList().getPlayerByName(name) != null;
     }
 
-    public static boolean isExistByName(World world, String name) {
+    public static boolean isExistByName(Level world, String name) {
         return isExistByName(world.getServer(), name);
     }
 
     public static boolean isExistByIP(MinecraftServer server, String ip) {
-        return !server.getPlayerManager().getPlayersByIp(ip).isEmpty();
+        return !server.getPlayerList().getPlayersWithAddress(ip).isEmpty();
     }
 
-    public static boolean isExistByIP(World world, String ip) {
+    public static boolean isExistByIP(Level world, String ip) {
         return isExistByIP(world.getServer(), ip);
     }
     
@@ -84,7 +84,7 @@ public class PlayerUtil {
         return player.getBlockPos();
     }
 
-    public static World getWorld(Player player) {
+    public static Level getWorld(Player player) {
         return player.getWorld();
     }
 

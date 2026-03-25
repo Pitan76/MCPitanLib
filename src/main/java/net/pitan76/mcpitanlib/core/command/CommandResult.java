@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.core.command;
 
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.commands.CommandSourceStack;
 
 public class CommandResult {
     private boolean isSuccess = false;
     private String message = "";
     private int result = 0;
     private ErrorType errorType = ErrorType.NONE;
-    private ServerCommandSource source;
+    private CommandSourceStack source;
 
     public CommandResult() {
 
@@ -50,11 +50,11 @@ public class CommandResult {
         return errorType;
     }
 
-    public void setSource(ServerCommandSource source) {
+    public void setSource(CommandSourceStack source) {
         this.source = source;
     }
 
-    public ServerCommandSource getSource() {
+    public CommandSourceStack getSource() {
         return source;
     }
 

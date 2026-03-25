@@ -1,15 +1,15 @@
 package net.pitan76.mcpitanlib.api.client;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 @Deprecated
 public abstract class CompatInventoryScreen extends SimpleInventoryScreen {
 
-    public CompatInventoryScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public CompatInventoryScreen(AbstractContainerMenu handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
     }
 

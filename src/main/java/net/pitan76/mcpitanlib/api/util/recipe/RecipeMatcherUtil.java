@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util.recipe;
 
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeMatcher;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.entity.player.StackedContents;
 import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
@@ -17,27 +17,27 @@ public class RecipeMatcherUtil {
         return ItemUtil.getRawId(stack.getItem());
     }
 
-    public static boolean match(RecipeMatcher<?> matcher, CompatibleRecipeEntry entry, IntList output) {
+    public static boolean match(StackedContents<?> matcher, CompatibleRecipeEntry entry, IntList output) {
         return match(matcher, entry.getRecipe(), output);
     }
 
-    public static boolean match(RecipeMatcher<?> matcher, CompatibleRecipeEntry entry, IntList output, int multiplier) {
+    public static boolean match(StackedContents<?> matcher, CompatibleRecipeEntry entry, IntList output, int multiplier) {
         return match(matcher, entry.getRecipe(), output, multiplier);
     }
 
     @Deprecated
-    public static boolean match(RecipeMatcher<?> matcher, Recipe<?> recipe, IntList output) {
+    public static boolean match(StackedContents<?> matcher, Recipe<?> recipe, IntList output) {
         return false;
         //return matcher.match(recipe, output);
     }
 
     @Deprecated
-    public static boolean match(RecipeMatcher<?> matcher, Recipe<?> recipe, IntList output, int multiplier) {
+    public static boolean match(StackedContents<?> matcher, Recipe<?> recipe, IntList output, int multiplier) {
         return false;
         //return matcher.match(recipe, output, multiplier);
     }
 
-    public static void clear(RecipeMatcher<?> matcher) {
+    public static void clear(StackedContents<?> matcher) {
         matcher.clear();
     }
 }

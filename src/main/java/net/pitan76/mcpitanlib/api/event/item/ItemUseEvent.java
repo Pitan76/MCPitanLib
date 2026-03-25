@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -16,16 +16,16 @@ import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 
 public class ItemUseEvent extends BaseEvent {
 
-    public World world;
+    public Level world;
     public Player user;
-    public Hand hand;
+    public InteractionHand hand;
     public ItemStack stack;
 
-    public ItemUseEvent(World world, PlayerEntity user, Hand hand) {
+    public ItemUseEvent(Level world, Player user, InteractionHand hand) {
         this.world = world;
         this.user = new Player(user);
         this.hand = hand;
-        this.stack = user.getStackInHand(hand);
+        this.stack = user.getItemInHand(hand);
     }
 
     public ItemStack getStack() {
@@ -36,11 +36,11 @@ public class ItemUseEvent extends BaseEvent {
         return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(stack);
     }
 
-    public Hand getHand() {
+    public InteractionHand getHand() {
         return hand;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -49,7 +49,7 @@ public class ItemUseEvent extends BaseEvent {
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public StackActionResult success(ItemStack stack) {

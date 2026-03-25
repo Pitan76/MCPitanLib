@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.network.v2;
 
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.network.v2.args.ClientReceiveEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -9,7 +9,7 @@ import net.pitan76.mcpitanlib.midohra.network.CompatPacketByteBuf;
 import java.util.function.Consumer;
 
 public class ClientNetworking {
-    public static void send(CompatIdentifier id, PacketByteBuf buf) {
+    public static void send(CompatIdentifier id, FriendlyByteBuf buf) {
         net.pitan76.mcpitanlib.api.network.ClientNetworking.send(id.toMinecraft(), buf);
     }
 

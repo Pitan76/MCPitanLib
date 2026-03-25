@@ -3,12 +3,12 @@ package net.pitan76.mcpitanlib.api.registry;
 import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 
 import java.util.function.Supplier;
@@ -22,8 +22,8 @@ public class WorldGenRegistry {
     @Deprecated
     public WorldGenRegistry(String MOD_ID) {
         this.MOD_ID = MOD_ID;
-        CONFIGURED_FEATURE = DeferredRegister.create(MOD_ID, RegistryKeys.CONFIGURED_FEATURE);
-        PLACED_FEATURE = DeferredRegister.create(MOD_ID, RegistryKeys.PLACED_FEATURE);
+        CONFIGURED_FEATURE = DeferredRegister.create(MOD_ID, Registries.CONFIGURED_FEATURE);
+        PLACED_FEATURE = DeferredRegister.create(MOD_ID, Registries.PLACED_FEATURE);
     }
 
     /**
@@ -66,11 +66,11 @@ public class WorldGenRegistry {
      * @param decoration The decoration step
      * @param feature The feature to replace
      */
-    public static void replaceProperties(GenerationStep.Feature decoration, RegistrySupplier<PlacedFeature> feature) {
+    public static void replaceProperties(GenerationStep.Decoration decoration, RegistrySupplier<PlacedFeature> feature) {
         BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, feature));
     }
 
-    public static void replaceProperties(GenerationStep.Feature decoration, RegistryResult<PlacedFeature> feature) {
+    public static void replaceProperties(GenerationStep.Decoration decoration, RegistryResult<PlacedFeature> feature) {
         replaceProperties(decoration, feature.supplier);
     }
 
@@ -79,8 +79,8 @@ public class WorldGenRegistry {
      * @param decoration The decoration step
      * @param feature The feature to replace
      */
-    public static void replaceProperties(GenerationStep.Feature decoration, PlacedFeature feature) {
-        BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature)));
+    public static void replaceProperties(GenerationStep.Decoration decoration, PlacedFeature feature) {
+        BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, Holder.direct(feature)));
     }
 
     /**
@@ -88,11 +88,11 @@ public class WorldGenRegistry {
      * @param decoration The decoration step
      * @param feature The feature to add
      */
-    public static void addProperties(GenerationStep.Feature decoration, RegistrySupplier<PlacedFeature> feature) {
+    public static void addProperties(GenerationStep.Decoration decoration, RegistrySupplier<PlacedFeature> feature) {
         BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, feature));
     }
 
-    public static void addProperties(GenerationStep.Feature decoration, RegistryResult<PlacedFeature> feature) {
+    public static void addProperties(GenerationStep.Decoration decoration, RegistryResult<PlacedFeature> feature) {
         addProperties(decoration, feature.supplier);
     }
 
@@ -101,7 +101,7 @@ public class WorldGenRegistry {
      * @param decoration The decoration step
      * @param feature The feature to add
      */
-    public static void addProperties(GenerationStep.Feature decoration, PlacedFeature feature) {
-        BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature)));
+    public static void addProperties(GenerationStep.Decoration decoration, PlacedFeature feature) {
+        BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, Holder.direct(feature)));
     }
 }

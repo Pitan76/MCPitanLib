@@ -5,19 +5,19 @@ import java.util.Optional;
 
 @SuppressWarnings("deprecation")
 public class NbtList extends AbstractList<NbtElement> implements ElementConvertible {
-    protected final net.minecraft.nbt.NbtList nbtList;
+    protected final net.minecraft.nbt.ListTag nbtList;
 
-    protected NbtList(net.minecraft.nbt.NbtList nbtList) {
+    protected NbtList(net.minecraft.nbt.ListTag nbtList) {
         this.nbtList = nbtList;
     }
 
-    public static NbtList of(net.minecraft.nbt.NbtList nbtList) {
+    public static NbtList of(net.minecraft.nbt.ListTag nbtList) {
         return new NbtList(nbtList);
     }
 
     public static Optional<NbtList> ofOptional(NbtElement nbtElement) {
-        if (nbtElement.toMinecraft() instanceof net.minecraft.nbt.NbtList)
-            return Optional.of(new NbtList((net.minecraft.nbt.NbtList) nbtElement.toMinecraft()));
+        if (nbtElement.toMinecraft() instanceof net.minecraft.nbt.ListTag)
+            return Optional.of(new NbtList((net.minecraft.nbt.ListTag) nbtElement.toMinecraft()));
 
         return Optional.empty();
     }
@@ -32,7 +32,7 @@ public class NbtList extends AbstractList<NbtElement> implements ElementConverti
     }
 
     public byte getType() {
-        return nbtList.getType();
+        return nbtList.getId();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class NbtList extends AbstractList<NbtElement> implements ElementConverti
         return NbtElement.of(nbtList.get(index));
     }
 
-    public boolean add(net.minecraft.nbt.NbtElement nbtElement) {
+    public boolean add(net.minecraft.nbt.Tag nbtElement) {
         return nbtList.add(nbtElement);
     }
 
@@ -49,7 +49,7 @@ public class NbtList extends AbstractList<NbtElement> implements ElementConverti
         return add(nbtElement.toMinecraft());
     }
 
-    public void add(int index, net.minecraft.nbt.NbtElement nbtElement) {
+    public void add(int index, net.minecraft.nbt.Tag nbtElement) {
         nbtList.add(index, nbtElement);
     }
 
@@ -99,7 +99,7 @@ public class NbtList extends AbstractList<NbtElement> implements ElementConverti
         return nbtList.toString();
     }
 
-    public net.minecraft.nbt.NbtList toMinecraft() {
+    public net.minecraft.nbt.ListTag toMinecraft() {
         return nbtList;
     }
 

@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourceManager;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.resources.Identifier;
 
 import java.io.IOException;
@@ -14,11 +14,11 @@ public class ResourceUtil {
     }
 
     public static InputStream getInputStream(Resource resource) throws IOException {
-        return resource.getInputStream();
+        return resource.open();
     }
 
     public static Map<Identifier, Resource> findResources(ResourceManager resourceManager, String startingPath, String endingPath) throws IOException {
-        return resourceManager.findResources(startingPath, s -> s.toString().endsWith(endingPath));
+        return resourceManager.listResources(startingPath, s -> s.toString().endsWith(endingPath));
     }
 
     public static void close(Resource resource) throws IOException {

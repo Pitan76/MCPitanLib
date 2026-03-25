@@ -1,23 +1,23 @@
 package net.pitan76.mcpitanlib.api.tag.v2;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.EntityType;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.inventory.MenuType;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 public class CompatTagKeyType<T> {
-    public static final CompatTagKeyType<Block> BLOCK = of(RegistryKeys.BLOCK);
-    public static final CompatTagKeyType<Item> ITEM = new CompatTagKeyType<>(RegistryKeys.ITEM);
-    public static final CompatTagKeyType<Fluid> FLUID = new CompatTagKeyType<>(RegistryKeys.FLUID);
-    public static final CompatTagKeyType<EntityType<?>> ENTITY_TYPE = new CompatTagKeyType<>(RegistryKeys.ENTITY_TYPE);
-    public static final CompatTagKeyType<BlockEntityType<?>> BLOCK_ENTITY_TYPE = new CompatTagKeyType<>(RegistryKeys.BLOCK_ENTITY_TYPE);
-    public static final CompatTagKeyType<ScreenHandlerType<?>> SCREEN_HANDLER = new CompatTagKeyType<>(RegistryKeys.SCREEN_HANDLER);
+    public static final CompatTagKeyType<Block> BLOCK = of(Registries.BLOCK);
+    public static final CompatTagKeyType<Item> ITEM = new CompatTagKeyType<>(Registries.ITEM);
+    public static final CompatTagKeyType<Fluid> FLUID = new CompatTagKeyType<>(Registries.FLUID);
+    public static final CompatTagKeyType<EntityType<?>> ENTITY_TYPE = new CompatTagKeyType<>(Registries.ENTITY_TYPE);
+    public static final CompatTagKeyType<BlockEntityType<?>> BLOCK_ENTITY_TYPE = new CompatTagKeyType<>(Registries.BLOCK_ENTITY_TYPE);
+    public static final CompatTagKeyType<MenuType<?>> SCREEN_HANDLER = new CompatTagKeyType<>(Registries.MENU);
 
     public final CompatIdentifier id;
 
@@ -30,19 +30,19 @@ public class CompatTagKeyType<T> {
     }
 
     // RegistryKey
-    private RegistryKey<Registry<T>> key;
+    private ResourceKey<Registry<T>> key;
 
-    protected CompatTagKeyType(RegistryKey<Registry<T>> key) {
-        this.id = CompatIdentifier.fromMinecraft(key.getRegistry());
+    protected CompatTagKeyType(ResourceKey<Registry<T>> key) {
+        this.id = CompatIdentifier.fromMinecraft(key.registry());
         this.key = key;
     }
 
-    public static <T> CompatTagKeyType<T> of(RegistryKey<Registry<T>> key) {
+    public static <T> CompatTagKeyType<T> of(ResourceKey<Registry<T>> key) {
         return new CompatTagKeyType<>(key);
     }
 
     @Deprecated
-    public RegistryKey<Registry<T>> getRegistryKey() {
+    public ResourceKey<Registry<T>> getRegistryKey() {
         return key;
     }
 }

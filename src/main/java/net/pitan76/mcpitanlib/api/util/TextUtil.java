@@ -1,72 +1,72 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.text.TextConverter;
 
 public class TextUtil {
-    public static MutableText literal(String string) {
-        return Text.literal(string);
+    public static MutableComponent literal(String string) {
+        return Component.literal(string);
     }
 
-    public static MutableText translatable(String key) {
-        return Text.translatable(key);
+    public static MutableComponent translatable(String key) {
+        return Component.translatable(key);
     }
 
-    public static MutableText translatable(String key, Object... args) {
-        return Text.translatable(key, args);
+    public static MutableComponent translatable(String key, Object... args) {
+        return Component.translatable(key, args);
     }
 
-    public static MutableText empty() {
+    public static MutableComponent empty() {
         return literal("");
     }
 
-    public static MutableText keybind(String string) {
-        return Text.keybind(string);
+    public static MutableComponent keybind(String string) {
+        return Component.keybind(string);
     }
 
-    public static String txt2str(Text text) {
+    public static String txt2str(Component text) {
         return text.getString();
     }
 
-    public static MutableText setStyle(MutableText text, Style style) {
+    public static MutableComponent setStyle(MutableComponent text, Style style) {
         return text.setStyle(style);
     }
 
-    public static Style getStyle(MutableText text) {
+    public static Style getStyle(MutableComponent text) {
         return text.getStyle();
     }
 
-    public static MutableText withColor(MutableText text, int color) {
+    public static MutableComponent withColor(MutableComponent text, int color) {
         return setStyle(text, StyleUtil.withColor(text.getStyle(), color));
     }
 
-    public static MutableText withBold(MutableText text, boolean bold) {
+    public static MutableComponent withBold(MutableComponent text, boolean bold) {
         return setStyle(text, StyleUtil.withBold(text.getStyle(), bold));
     }
 
-    public static MutableText append(MutableText text, Text sibling) {
+    public static MutableComponent append(MutableComponent text, Component sibling) {
         return text.append(sibling);
     }
 
-    public static MutableText append(MutableText text, String string) {
+    public static MutableComponent append(MutableComponent text, String string) {
         return text.append(string);
     }
 
-    public static MutableText of(String string) {
+    public static MutableComponent of(String string) {
         return literal(string);
     }
 
-    public static MutableText convert(String text) {
+    public static MutableComponent convert(String text) {
         return TextConverter.convert(text, false);
     }
 
-    public static MutableText convertWithTranslatable(String text) {
+    public static MutableComponent convertWithTranslatable(String text) {
         return TextConverter.convert(text, true);
     }
 
-    public static boolean contains(Text text, Text text1) {
+    public static boolean contains(Component text, Component text1) {
         return text.contains(text1);
     }
 }

@@ -1,39 +1,39 @@
 package net.pitan76.mcpitanlib.api.entity.attribute;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 import java.util.function.Consumer;
 
 public class CompatEntityAttributeInstance {
-    private final net.minecraft.entity.attribute.EntityAttributeInstance raw;
+    private final net.minecraft.world.entity.ai.attributes.AttributeInstance raw;
 
     @Deprecated
-    public CompatEntityAttributeInstance(net.minecraft.entity.attribute.EntityAttributeInstance instance) {
+    public CompatEntityAttributeInstance(net.minecraft.world.entity.ai.attributes.AttributeInstance instance) {
         this.raw = instance;
     }
 
     @Deprecated
-    public net.minecraft.entity.attribute.EntityAttributeInstance raw() {
+    public net.minecraft.world.entity.ai.attributes.AttributeInstance raw() {
         return raw;
     }
 
     @Deprecated
-    public static CompatEntityAttributeInstance of(net.minecraft.entity.attribute.EntityAttributeInstance instance) {
+    public static CompatEntityAttributeInstance of(net.minecraft.world.entity.ai.attributes.AttributeInstance instance) {
         return new CompatEntityAttributeInstance(instance);
     }
 
     public static CompatEntityAttributeInstance create(CompatEntityAttribute type, Consumer<CompatEntityAttributeInstance> updateCallback) {
-        return of(new EntityAttributeInstance(type.raw(), modifier -> {
+        return of(new AttributeInstance(type.raw(), modifier -> {
             if (updateCallback != null)
                 updateCallback.accept(of(modifier));
         }));
     }
 
     public static CompatEntityAttributeInstance get(LivingEntity entity, CompatEntityAttribute attribute) {
-        return new CompatEntityAttributeInstance(entity.getAttributeInstance(attribute.raw()));
+        return new CompatEntityAttributeInstance(entity.getAttribute(attribute.raw()));
     }
 
     public static CompatEntityAttributeInstance get(Player player, CompatEntityAttribute attribute) {
@@ -53,7 +53,7 @@ public class CompatEntityAttributeInstance {
     }
 
     public void addPersistentModifier(CompatEntityAttributeModifier modifier) {
-        raw().addPersistentModifier(modifier.raw());
+        raw().addPermanentModifier(modifier.raw());
     }
 
     public void removeModifier(CompatIdentifier id) {

@@ -11,30 +11,30 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class Resource {
-    private final net.minecraft.resource.Resource resource;
+    private final net.minecraft.server.packs.resources.Resource resource;
 
-    protected Resource(net.minecraft.resource.Resource resource) {
+    protected Resource(net.minecraft.server.packs.resources.Resource resource) {
         this.resource = resource;
     }
 
-    public static Resource of(net.minecraft.resource.Resource resource) {
+    public static Resource of(net.minecraft.server.packs.resources.Resource resource) {
         return new Resource(resource);
     }
 
-    public net.minecraft.resource.Resource getRaw() {
+    public net.minecraft.server.packs.resources.Resource getRaw() {
         return resource;
     }
 
-    public net.minecraft.resource.Resource toMinecraft() {
+    public net.minecraft.server.packs.resources.Resource toMinecraft() {
         return getRaw();
     }
 
     public BufferedReader getReader() throws IOException {
-        return resource.getReader();
+        return resource.openAsReader();
     }
 
     public String getPackId() {
-        return resource.getPackId();
+        return resource.sourcePackId();
     }
 
     public InputStream getInputStream() {

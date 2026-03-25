@@ -1,34 +1,36 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.item.consume.UseAction;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.Item.TooltipContext;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
 import net.pitan76.mcpitanlib.core.Dummy;
-import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
+import net.pitan76.mcpitanlib.mixin.UseOnContextMixin;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public class ExtendItem extends Item {
 
-    public ExtendItem(Settings settings) {
+    public ExtendItem(Properties settings) {
         super(settings);
     }
 
@@ -38,32 +40,32 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
         return onRightClick(new ItemUseEvent(world, user, hand)).toActionResult();
     }
 
     @Deprecated
     @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
-        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit())).toActionResult();
+    public InteractionResult useOn(UseOnContext context) {
+        UseOnContextMixin contextAccessor = (UseOnContextMixin) context;
+        return onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHitResult())).toActionResult();
     }
 
     @Deprecated
     @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+    public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
         return onFinishUsing(new ItemFinishUsingEvent(stack, world, user));
     }
 
     @Deprecated
     @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+    public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
         return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand)).toActionResult();
     }
 
     @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return super.getUseAction(stack);
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return super.getUseAnimation(stack);
     }
 
     @Deprecated
@@ -74,25 +76,25 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type) {
         appendTooltip(new ItemAppendTooltipEvent(stack, context, displayComponent, textConsumer, type));
     }
 
     @Deprecated
     @Override
-    public void onCraft(ItemStack stack, World world) {
+    public void onCraftedPostProcess(ItemStack stack, Level world) {
         onCraft(new CraftEvent(stack, world));
     }
 
     @Deprecated
     @Override
-    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         postHit(new PostHitEvent(stack, target, attacker));
     }
 
     @Deprecated
     @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+    public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner) {
         return postMine(new PostMineEvent(stack, world, state, pos, miner));
     }
 
@@ -112,7 +114,7 @@ public class ExtendItem extends Item {
      * @return ActionResultType
      */
     public CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
-        return CompatActionResult.create(super.useOnBlock(event.toIUC()));
+        return CompatActionResult.create(super.useOn(event.toIUC()));
     }
 
     /**
@@ -121,7 +123,7 @@ public class ExtendItem extends Item {
      * @return ItemStack
      */
     public ItemStack onFinishUsing(ItemFinishUsingEvent event) {
-        return super.finishUsing(event.stack, event.world, event.user);
+        return super.finishUsingItem(event.stack, event.world, event.user);
     }
 
     /**
@@ -130,7 +132,7 @@ public class ExtendItem extends Item {
      * @return ActionResultType
      */
     public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent event) {
-        return CompatActionResult.create(super.useOnEntity(event.stack, event.user.getEntity(), event.entity, event.hand));
+        return CompatActionResult.create(super.interactLivingEntity(event.stack, event.user.getEntity(), event.entity, event.hand));
     }
 
     /**
@@ -147,7 +149,7 @@ public class ExtendItem extends Item {
      * @param event ItemAppendTooltipEvent
      */
     public void appendTooltip(ItemAppendTooltipEvent event) {
-        super.appendTooltip(event.stack, event.context, event.displayComponent, event.textConsumer, event.type);
+        super.appendHoverText(event.stack, event.context, event.displayComponent, event.textConsumer, event.type);
     }
 
     /**
@@ -155,7 +157,7 @@ public class ExtendItem extends Item {
      * @param event CraftEvent
      */
     public void onCraft(CraftEvent event) {
-        super.onCraft(event.stack, event.world);
+        super.onCraftedPostProcess(event.stack, event.world);
     }
 
     /**
@@ -164,7 +166,7 @@ public class ExtendItem extends Item {
      * @return boolean
      */
     public boolean postHit(PostHitEvent event) {
-        super.postHit(event.stack, event.target, event.attacker);
+        super.hurtEnemy(event.stack, event.target, event.attacker);
         return true;
     }
 
@@ -174,7 +176,7 @@ public class ExtendItem extends Item {
      * @return boolean
      */
     public boolean postMine(PostMineEvent event) {
-        return super.postMine(event.stack, event.world, event.state, event.pos, event.miner);
+        return super.mineBlock(event.stack, event.world, event.state, event.pos, event.miner);
     }
 
     // -1.20.6
@@ -202,42 +204,42 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public int getItemBarColor(ItemStack stack) {
+    public int getBarColor(ItemStack stack) {
         return getItemBarColor(new ItemBarColorArgs(stack));
     }
 
     public int getItemBarColor(ItemBarColorArgs args) {
-        return super.getItemBarColor(args.stack);
+        return super.getBarColor(args.stack);
     }
 
     @Deprecated
     @Override
-    public boolean isItemBarVisible(ItemStack stack) {
+    public boolean isBarVisible(ItemStack stack) {
         return isItemBarVisible(new ItemBarVisibleArgs(stack));
     }
 
     public boolean isItemBarVisible(ItemBarVisibleArgs args) {
-        return super.isItemBarVisible(args.stack);
+        return super.isBarVisible(args.stack);
     }
 
     @Deprecated
     @Override
-    public int getItemBarStep(ItemStack stack) {
+    public int getBarWidth(ItemStack stack) {
         return getItemBarStep(new ItemBarStepArgs(stack));
     }
 
     public int getItemBarStep(ItemBarStepArgs args) {
-        return super.getItemBarStep(args.stack);
+        return super.getBarWidth(args.stack);
     }
 
     @Deprecated
     @Override
-    public float getBonusAttackDamage(Entity target, float baseAttackDamage, DamageSource damageSource) {
+    public float getAttackDamageBonus(Entity target, float baseAttackDamage, DamageSource damageSource) {
         return getBonusAttackDamage(new BonusAttackDamageArgs(target, baseAttackDamage, damageSource));
     }
 
     public float getBonusAttackDamage(BonusAttackDamageArgs args) {
-        return super.getBonusAttackDamage(args.target, args.baseAttackDamage, args.damageSource);
+        return super.getAttackDamageBonus(args.target, args.baseAttackDamage, args.damageSource);
     }
 
     @Deprecated
@@ -252,11 +254,11 @@ public class ExtendItem extends Item {
 
     @Deprecated
     @Override
-    public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {
+    public boolean canDestroyBlock(ItemStack stack, BlockState state, Level world, BlockPos pos, LivingEntity user) {
         return canMine(new CanMineArgs(stack, state, world, pos, user));
     }
 
     public boolean canMine(CanMineArgs args) {
-        return super.canMine(args.stack, args.state, args.world, args.pos, args.entity);
+        return super.canDestroyBlock(args.stack, args.state, args.world, args.pos, args.entity);
     }
 }

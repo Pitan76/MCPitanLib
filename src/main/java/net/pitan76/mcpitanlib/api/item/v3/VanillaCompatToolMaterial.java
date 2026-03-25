@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.item.v3;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.tags.TagKey;
 import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 
 public class VanillaCompatToolMaterial implements CompatToolMaterial {

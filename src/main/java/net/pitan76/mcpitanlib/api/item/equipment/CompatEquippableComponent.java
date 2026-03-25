@@ -1,22 +1,22 @@
 package net.pitan76.mcpitanlib.api.item.equipment;
 
-import net.minecraft.component.type.EquippableComponent;
+import net.minecraft.world.item.equipment.Equippable;
 
 public class CompatEquippableComponent {
-    private final EquippableComponent raw;
+    private final Equippable raw;
 
     @Deprecated
-    public CompatEquippableComponent(EquippableComponent component) {
+    public CompatEquippableComponent(Equippable component) {
         this.raw = component;
     }
 
     @Deprecated
-    public EquippableComponent raw() {
+    public Equippable raw() {
         return raw;
     }
 
     @Deprecated
-    public static CompatEquippableComponent of(EquippableComponent component) {
+    public static CompatEquippableComponent of(Equippable component) {
         return new CompatEquippableComponent(component);
     }
 

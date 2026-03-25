@@ -1,15 +1,15 @@
 package net.pitan76.mcpitanlib.guilib.test;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 import net.pitan76.mcpitanlib.guilib.api.container.ContainerGui;
 
 public class TestContainer extends ContainerGui {
-    public TestContainer(ScreenHandlerType<?> type, int syncId) {
+    public TestContainer(MenuType<?> type, int syncId) {
         super(type, syncId);
     }
 
-    public TestContainer(int i, PlayerInventory inventory) {
+    public TestContainer(int i, Inventory inventory) {
         this(null, i);
     }
 

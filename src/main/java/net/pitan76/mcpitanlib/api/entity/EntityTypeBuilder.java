@@ -1,20 +1,20 @@
 package net.pitan76.mcpitanlib.api.entity;
 
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.loot.LootTable;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.resources.ResourceKey;
 import net.pitan76.mcpitanlib.MCPitanLib;
 
 import java.util.Optional;
 
 public class EntityTypeBuilder<T extends Entity> {
 
-    private SpawnGroup spawnGroup;
+    private MobCategory spawnGroup;
     private ExtendEntityType.EntityFactory<T> factory;
     private EntityDimensions entityDimensions;
     private boolean saveable;
@@ -26,7 +26,7 @@ public class EntityTypeBuilder<T extends Entity> {
     private int trackTickInterval;
     private Boolean alwaysUpdateVelocity = null;
     private String translationKey = "entity." + MCPitanLib.MOD_ID;
-    private Optional<RegistryKey<LootTable>> lootTable = Optional.empty();
+    private Optional<ResourceKey<LootTable>> lootTable = Optional.empty();
 
     @Deprecated
     // Recommend: create()
@@ -42,7 +42,7 @@ public class EntityTypeBuilder<T extends Entity> {
     }
 
     @Deprecated
-    public EntityTypeBuilder(SpawnGroup spawnGroup, ExtendEntityType.EntityFactory<T> factory) {
+    public EntityTypeBuilder(MobCategory spawnGroup, ExtendEntityType.EntityFactory<T> factory) {
         this();
         this.spawnGroup = spawnGroup;
         this.factory = factory;
@@ -52,7 +52,7 @@ public class EntityTypeBuilder<T extends Entity> {
         return new EntityTypeBuilder<>();
     }
 
-    public static <T extends Entity> EntityTypeBuilder<T> create(SpawnGroup spawnGroup, ExtendEntityType.EntityFactory<T> factory) {
+    public static <T extends Entity> EntityTypeBuilder<T> create(MobCategory spawnGroup, ExtendEntityType.EntityFactory<T> factory) {
         return new EntityTypeBuilder<>(spawnGroup, factory);
     }
 
@@ -60,7 +60,7 @@ public class EntityTypeBuilder<T extends Entity> {
         return new ExtendEntityType<>(factory, spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, maxTrackDistance, trackTickInterval, translationKey, lootTable, alwaysUpdateVelocity);
     }
 
-    public EntityTypeBuilder<T> setSpawnGroup(SpawnGroup spawnGroup) {
+    public EntityTypeBuilder<T> setSpawnGroup(MobCategory spawnGroup) {
         this.spawnGroup = spawnGroup;
         return this;
     }
@@ -80,7 +80,7 @@ public class EntityTypeBuilder<T extends Entity> {
     }
 
     public EntityTypeBuilder<T> setChangingDimensions(float width, float height) {
-        return setDimensions(EntityDimensions.changing(width, height));
+        return setDimensions(EntityDimensions.scalable(width, height));
     }
 
     public EntityTypeBuilder<T> setSaveable(boolean saveable) {
@@ -127,7 +127,7 @@ public class EntityTypeBuilder<T extends Entity> {
         this.translationKey = translationKey;
     }
 
-    public void setLootTable(RegistryKey<LootTable> lootTable) {
+    public void setLootTable(ResourceKey<LootTable> lootTable) {
         this.lootTable = Optional.ofNullable(lootTable);
     }
 }

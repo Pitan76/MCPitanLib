@@ -3,9 +3,9 @@ package net.pitan76.mcpitanlib.api.command;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.CommandSourceStack;
 import net.pitan76.mcpitanlib.api.command.argument.*;
 import net.pitan76.mcpitanlib.api.event.*;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 public class CommandRegistry {
 
     @Deprecated
-    public static CommandRegistryAccess latestCommandRegistryAccess;
+    public static CommandBuildContext latestCommandRegistryAccess;
 
     public static void register(String name, LiteralCommand command) {
         CommandRegistrationEvent.EVENT.register((dispatcher, registry, environment) -> {
@@ -23,7 +23,7 @@ public class CommandRegistry {
             CommandSettings settings = new CommandSettings();
             command.init(settings);
 
-            LiteralArgumentBuilder<ServerCommandSource> builder = LiteralArgumentBuilder.<ServerCommandSource>literal(name).requires(settings::requires)
+            LiteralArgumentBuilder<CommandSourceStack> builder = LiteralArgumentBuilder.<CommandSourceStack>literal(name).requires(settings::requires)
                     .executes(context -> {
                         ServerCommandEvent event = new ServerCommandEvent();
                         event.setContext(context);
@@ -38,7 +38,7 @@ public class CommandRegistry {
         });
     }
 
-    public static void register(LiteralArgumentBuilder<ServerCommandSource> builder) {
+    public static void register(LiteralArgumentBuilder<CommandSourceStack> builder) {
         CommandRegistrationEvent.EVENT.register((dispatcher, registry, environment) -> {
                     latestCommandRegistryAccess = registry;
                     dispatcher.register(builder);
@@ -46,17 +46,17 @@ public class CommandRegistry {
         );
     }
 
-    private static <T extends ArgumentBuilder<ServerCommandSource, T>> void forArgsCmd(AbstractCommand<?> absCmd, ArgumentBuilder<ServerCommandSource, T> builder) {
+    private static <T extends ArgumentBuilder<CommandSourceStack, T>> void forArgsCmd(AbstractCommand<?> absCmd, ArgumentBuilder<CommandSourceStack, T> builder) {
 
         if (!absCmd.getArgumentCommands().isEmpty()) {
             // 引数コマンド
             for (Map.Entry<String, ? extends AbstractCommand<?>> argCmd : absCmd.getArgumentCommands().entrySet()) {
-                ArgumentBuilder<ServerCommandSource, ?> nextBuilder = null;
+                ArgumentBuilder<CommandSourceStack, ?> nextBuilder = null;
                 argCmd.getValue().init(new CommandSettings());
 
                 if (argCmd.getValue() instanceof LiteralCommand) {
                     LiteralCommand command = (LiteralCommand) argCmd.getValue();
-                    nextBuilder = CommandManager.literal(argCmd.getKey())
+                    nextBuilder = Commands.literal(argCmd.getKey())
                             .executes(context -> {
                                         ServerCommandEvent event = new ServerCommandEvent();
                                         event.setContext(context);
@@ -70,7 +70,7 @@ public class CommandRegistry {
                 if (argCmd.getValue() instanceof RequiredCommand) {
                     RequiredCommand<?> command = (RequiredCommand<?>) argCmd.getValue();
 
-                    nextBuilder = CommandManager.argument(argCmd.getKey(), command.getArgumentType())
+                    nextBuilder = Commands.argument(argCmd.getKey(), command.getArgumentType())
                             .executes(context -> {
                                         ServerCommandEvent event = new ServerCommandEvent();
                                         if (command instanceof IntegerCommand) {

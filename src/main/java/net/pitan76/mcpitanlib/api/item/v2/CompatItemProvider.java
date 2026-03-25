@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item.v2;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.pitan76.mcpitanlib.api.event.item.CanRepairArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantabilityArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantableArgs;

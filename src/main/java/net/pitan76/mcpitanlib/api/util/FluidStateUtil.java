@@ -1,20 +1,20 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.tags.FluidTags;
 import net.pitan76.mcpitanlib.midohra.fluid.FluidWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.World;
 
 public class FluidStateUtil {
     public static boolean isWater(FluidState state) {
-        return state.isIn(FluidTags.WATER);
+        return state.is(FluidTags.WATER);
     }
 
     public static boolean isLava(FluidState state) {
-        return state.isIn(FluidTags.LAVA);
+        return state.is(FluidTags.LAVA);
     }
 
     @Deprecated
@@ -23,11 +23,11 @@ public class FluidStateUtil {
     }
 
     public static FluidState getDefaultState(Fluid state) {
-        return state.getDefaultState();
+        return state.defaultFluidState();
     }
 
     public static Fluid getFluid(FluidState state) {
-        return state.getFluid();
+        return state.getType();
     }
 
     public static FluidWrapper getFluidWrapper(FluidState state) {

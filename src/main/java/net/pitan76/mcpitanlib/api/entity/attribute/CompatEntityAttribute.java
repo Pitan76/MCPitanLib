@@ -1,26 +1,26 @@
 package net.pitan76.mcpitanlib.api.entity.attribute;
 
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.core.Holder;
 
 public class CompatEntityAttribute {
-    public final RegistryEntry<EntityAttribute> raw;
+    public final Holder<Attribute> raw;
 
     @Deprecated
-    public CompatEntityAttribute(RegistryEntry<EntityAttribute> attribute) {
+    public CompatEntityAttribute(Holder<Attribute> attribute) {
         this.raw = attribute;
     }
 
     @Deprecated
-    public RegistryEntry<EntityAttribute> raw() {
+    public Holder<Attribute> raw() {
         return raw;
     }
 
     public String getId() {
-        return raw.getIdAsString();
+        return raw.getRegisteredName();
     }
 
-    public EntityAttribute getValue() {
+    public Attribute getValue() {
         return raw.value();
     }
 
@@ -29,7 +29,7 @@ public class CompatEntityAttribute {
     }
 
     @Deprecated
-    public static CompatEntityAttribute of(RegistryEntry<EntityAttribute> attribute) {
+    public static CompatEntityAttribute of(Holder<Attribute> attribute) {
         return new CompatEntityAttribute(attribute);
     }
 

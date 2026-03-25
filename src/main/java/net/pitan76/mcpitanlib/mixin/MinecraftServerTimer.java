@@ -18,7 +18,7 @@ public class MinecraftServerTimer implements MinecraftServerTimerAccess {
     @Unique
     private final List<TimerItem> mcpitanlib$timerItems = new ArrayList<>();
 
-    @Inject(method = "tick", at = @At("TAIL"))
+    @Inject(method = "tickServer", at = @At("TAIL"))
     private void mcpitanlib$onTick(CallbackInfo ci) {
         if (mcpitanlib$timerItems.isEmpty()) return;
         List<TimerItem> items = new ArrayList<>(mcpitanlib$timerItems);

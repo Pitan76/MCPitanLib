@@ -1,31 +1,32 @@
 package net.pitan76.mcpitanlib.core.network;
 
 import io.netty.buffer.ByteBufUtil;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload.Type;
 import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BufPayload implements CustomPayload {
+public class BufPayload implements CustomPacketPayload {
 
-    public final Id<BufPayload> ID;
+    public final Type<BufPayload> ID;
 
-    public BufPayload(byte[] data, Id<BufPayload> id) {
+    public BufPayload(byte[] data, Type<BufPayload> id) {
         this.data = data;
         this.ID = id;
 
         createCodec(id);
     }
 
-    public BufPayload(PacketByteBuf buf, Id<BufPayload> id) {
+    public BufPayload(FriendlyByteBuf buf, Type<BufPayload> id) {
         this(ByteBufUtil.getBytes(buf), id);
     }
 
-    public BufPayload(PacketByteBuf buf, Identifier id) {
+    public BufPayload(FriendlyByteBuf buf, Identifier id) {
         this(ByteBufUtil.getBytes(buf), id(id));
     }
 
@@ -35,33 +36,33 @@ public class BufPayload implements CustomPayload {
         return data;
     }
 
-    private static final Map<Id<BufPayload>, PacketCodec<PacketByteBuf, BufPayload>> CODEC_CACHE = new HashMap<>();
+    private static final Map<Type<BufPayload>, StreamCodec<FriendlyByteBuf, BufPayload>> CODEC_CACHE = new HashMap<>();
 
-    public static PacketCodec<PacketByteBuf, BufPayload> getCodec(Id<BufPayload> id) {
+    public static StreamCodec<FriendlyByteBuf, BufPayload> getCodec(Type<BufPayload> id) {
         if (CODEC_CACHE.containsKey(id)) return CODEC_CACHE.get(id);
 
         return createCodec(id);
     }
 
-    private static PacketCodec<PacketByteBuf, BufPayload> createCodec(Id<BufPayload> id) {
-        PacketCodec<PacketByteBuf, BufPayload> codec = PacketCodecs.BYTE_ARRAY.xmap((data) -> new BufPayload(data, id), BufPayload::getData).cast();
+    private static StreamCodec<FriendlyByteBuf, BufPayload> createCodec(Type<BufPayload> id) {
+        StreamCodec<FriendlyByteBuf, BufPayload> codec = ByteBufCodecs.BYTE_ARRAY.map((data) -> new BufPayload(data, id), BufPayload::getData).cast();
         CODEC_CACHE.put(id, codec);
         return codec;
     }
 
     @Override
-    public Id<? extends CustomPayload> getId() {
+    public Type<? extends CustomPacketPayload> type() {
         return ID;
     }
 
-    public static Id<BufPayload> id(Identifier id) {
-        if (CODEC_CACHE.isEmpty()) return new Id<>(id);
+    public static Type<BufPayload> id(Identifier id) {
+        if (CODEC_CACHE.isEmpty()) return new Type<>(id);
 
-        for (Id<BufPayload> key : CODEC_CACHE.keySet()) {
+        for (Type<BufPayload> key : CODEC_CACHE.keySet()) {
             if (key.id().equals(id))
                 return key;
         }
 
-        return new Id<>(id);
+        return new Type<>(id);
     }
 }

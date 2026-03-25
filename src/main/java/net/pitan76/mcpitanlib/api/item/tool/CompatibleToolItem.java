@@ -1,11 +1,12 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
@@ -18,7 +19,7 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
     public CompatibleItemSettings settings;
 
     @Deprecated
-    protected CompatibleToolItem(Settings settings) {
+    protected CompatibleToolItem(Properties settings) {
         super(settings);
     }
 
@@ -34,12 +35,12 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
-        return super.isCorrectForDrops(getDefaultStack(), state);
+        return super.isCorrectToolForDrops(getDefaultInstance(), state);
     }
 
     @Deprecated
     @Override
-    public boolean isCorrectForDrops(ItemStack stack, BlockState state) {
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return overrideIsSuitableFor(state);
     }
 
@@ -49,19 +50,19 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
 
     @Deprecated
     @Override
-    public float getMiningSpeed(ItemStack stack, BlockState state) {
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
         return overrideGetMiningSpeedMultiplier(stack, state) * material.getCompatMiningSpeedMultiplier();
     }
 
     @Deprecated
     @Override
-    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         postHit(new PostHitEvent(stack, target, attacker));
     }
 
     @Deprecated
     @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+    public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner) {
         return postMine(new PostMineEvent(stack, world, state, pos, miner));
     }
 
@@ -71,7 +72,7 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
      * @return boolean
      */
     public boolean postHit(PostHitEvent event) {
-        super.postHit(event.stack, event.target, event.attacker);
+        super.hurtEnemy(event.stack, event.target, event.attacker);
         return true;
     }
 
@@ -81,6 +82,6 @@ public class CompatibleToolItem extends Item implements CompatItemProvider {
      * @return boolean
      */
     public boolean postMine(PostMineEvent event) {
-        return super.postMine(event.stack, event.world, event.state, event.pos, event.miner);
+        return super.mineBlock(event.stack, event.world, event.state, event.pos, event.miner);
     }
 }

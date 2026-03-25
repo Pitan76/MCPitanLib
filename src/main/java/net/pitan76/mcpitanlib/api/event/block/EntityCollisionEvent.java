@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.SoundEventUtil;
@@ -19,20 +19,20 @@ import java.util.Optional;
 public class EntityCollisionEvent extends BaseEvent {
 
     public BlockState state;
-    public World world;
+    public Level world;
     public BlockPos pos;
     public Entity entity;
-    public EntityCollisionHandler handler;
+    public InsideBlockEffectApplier handler;
     public boolean bl = false;
 
-    public EntityCollisionEvent(BlockState state, World world, BlockPos pos, Entity entity) {
+    public EntityCollisionEvent(BlockState state, Level world, BlockPos pos, Entity entity) {
         this.state = state;
         this.world = world;
         this.pos = pos;
         this.entity = entity;
     }
 
-    public EntityCollisionEvent(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
+    public EntityCollisionEvent(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -40,7 +40,7 @@ public class EntityCollisionEvent extends BaseEvent {
         this.handler = handler;
     }
 
-    public EntityCollisionEvent(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean bl) {
+    public EntityCollisionEvent(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean bl) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -54,7 +54,7 @@ public class EntityCollisionEvent extends BaseEvent {
     }
 
     public BlockPos getEntityPos() {
-        return entity.getBlockPos();
+        return entity.blockPosition();
     }
 
     public BlockPos getBlockPos() {
@@ -69,44 +69,44 @@ public class EntityCollisionEvent extends BaseEvent {
         return entity;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
-    public void playSound(SoundEvent event, SoundCategory category, float volume, float pitch) {
-        WorldUtil.playSound(world, null, entity.getBlockPos(), event, category, volume, pitch);
+    public void playSound(SoundEvent event, SoundSource category, float volume, float pitch) {
+        WorldUtil.playSound(world, null, entity.blockPosition(), event, category, volume, pitch);
     }
 
     public void playSound(SoundEvent event, float volume, float pitch) {
-        playSound(event, SoundCategory.BLOCKS, volume, pitch);
+        playSound(event, SoundSource.BLOCKS, volume, pitch);
     }
 
     public void playSound(SoundEvent event) {
         playSound(event, 1f, 1f);
     }
 
-    public void playSound(SoundEvent event, SoundCategory category) {
+    public void playSound(SoundEvent event, SoundSource category) {
         playSound(event, category, 1f, 1f);
     }
 
-    public void playSound(CompatIdentifier id, SoundCategory category, float volume, float pitch) {
+    public void playSound(CompatIdentifier id, SoundSource category, float volume, float pitch) {
         playSound(SoundEventUtil.getSoundEvent(id), category, volume, pitch);
     }
 
     public boolean hasPlayerEntity() {
-        return entity instanceof PlayerEntity;
+        return entity instanceof Player;
     }
 
-    public Optional<PlayerEntity> getPlayerEntity() {
+    public Optional<Player> getPlayerEntity() {
         if (!hasPlayerEntity()) return Optional.empty();
-        return Optional.of((PlayerEntity) entity);
+        return Optional.of((Player) entity);
     }
 
     public BlockEntity getBlockEntity() {
         return WorldUtil.getBlockEntity(getWorld(), getBlockPos());
     }
 
-    public EntityCollisionHandler getHandler() {
+    public InsideBlockEffectApplier getHandler() {
         return handler;
     }
 }

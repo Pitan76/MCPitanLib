@@ -1,21 +1,21 @@
 package net.pitan76.mcpitanlib.api.entity.effect;
 
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.registry.BuiltinRegistries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.data.registries.VanillaRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.util.StatusEffectUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class CompatStatusEffect {
-    private final RegistryKey<StatusEffect> registryKey;
+    private final ResourceKey<MobEffect> registryKey;
 
     @Deprecated
-    public CompatStatusEffect(RegistryKey<StatusEffect> registryKey) {
+    public CompatStatusEffect(ResourceKey<MobEffect> registryKey) {
         this.registryKey = registryKey;
     }
 
@@ -24,11 +24,11 @@ public class CompatStatusEffect {
     }
 
     public Identifier getId() {
-        return registryKey.getRegistry();
+        return registryKey.registry();
     }
 
     @Deprecated
-    public RegistryKey<StatusEffect> getRegistryKey() {
+    public ResourceKey<MobEffect> getRegistryKey() {
         return registryKey;
     }
 
@@ -44,19 +44,19 @@ public class CompatStatusEffect {
     }
 
     @Deprecated
-    public RegistryEntry<StatusEffect> getEntry(@Nullable World world) {
-        Optional<RegistryEntry.Reference<StatusEffect>> optionalEntry;
+    public Holder<MobEffect> getEntry(@Nullable Level world) {
+        Optional<Holder.Reference<MobEffect>> optionalEntry;
         if (world == null) {
-            optionalEntry = BuiltinRegistries.createWrapperLookup()
-                    .getOptionalEntry(registryKey);
+            optionalEntry = VanillaRegistries.createLookup()
+                    .get(registryKey);
         } else {
-            optionalEntry = world.getRegistryManager().getOptionalEntry(registryKey);
+            optionalEntry = world.registryAccess().get(registryKey);
         }
 
         return optionalEntry.orElseThrow();
     }
 
-    public StatusEffect getStatusEffect(@Nullable World world) {
+    public MobEffect getStatusEffect(@Nullable Level world) {
         return getEntry(world).value();
     }
 }

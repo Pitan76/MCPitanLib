@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.v1;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.tag.MineableToolTags;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BlockUtilV1 {
     public static Block block(Identifier id) {
-        return Registries.BLOCK.get(id);
+        return BuiltInRegistries.BLOCK.getValue(id);
     }
 
     /**
@@ -22,40 +22,40 @@ public class BlockUtilV1 {
      * @param level
      * @return
      */
-    public static AbstractBlock.Settings breakByTool(AbstractBlock.Settings settings, MineableToolTags toolTags, int level) {
+    public static BlockBehaviour.Properties breakByTool(BlockBehaviour.Properties settings, MineableToolTags toolTags, int level) {
         return settings;
     }
 
-    public static AbstractBlock.Settings dropsNothing(AbstractBlock.Settings settings) {
-        return settings.dropsNothing();
+    public static BlockBehaviour.Properties dropsNothing(BlockBehaviour.Properties settings) {
+        return settings.noLootTable();
     }
 
-    public static AbstractBlock.Settings requiresTool(AbstractBlock.Settings settings) {
-        return settings.requiresTool();
+    public static BlockBehaviour.Properties requiresTool(BlockBehaviour.Properties settings) {
+        return settings.requiresCorrectToolForDrops();
     }
 
     public static boolean isExist(Identifier identifier) {
-        return Registries.BLOCK.containsId(identifier);
+        return BuiltInRegistries.BLOCK.containsKey(identifier);
     }
 
     public static Identifier toID(Block block) {
-        return Registries.BLOCK.getId(block);
+        return BuiltInRegistries.BLOCK.getKey(block);
     }
 
     public static Block fromId(Identifier identifier) {
-        return Registries.BLOCK.get(identifier);
+        return BuiltInRegistries.BLOCK.getValue(identifier);
     }
 
     public static List<Block> getAllBlocks() {
         List<Block> blocks = new ArrayList<>();
-        for (Block block : Registries.BLOCK) {
+        for (Block block : BuiltInRegistries.BLOCK) {
             blocks.add(block);
         }
         return blocks;
     }
 
     @Deprecated
-    public static Block of(AbstractBlock.Settings settings) {
+    public static Block of(BlockBehaviour.Properties settings) {
         return new Block(settings);
     }
 
@@ -64,10 +64,10 @@ public class BlockUtilV1 {
     }
 
     public static int getRawId(Block block) {
-        return Registries.BLOCK.getRawId(block);
+        return BuiltInRegistries.BLOCK.getId(block);
     }
 
     public static Block fromIndex(int index) {
-        return Registries.BLOCK.get(index);
+        return BuiltInRegistries.BLOCK.byId(index);
     }
 }

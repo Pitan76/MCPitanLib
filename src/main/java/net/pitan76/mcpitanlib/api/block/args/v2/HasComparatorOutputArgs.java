@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.block.args.v2;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class HasComparatorOutputArgs extends BaseEvent {

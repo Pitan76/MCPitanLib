@@ -1,25 +1,25 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.PlayerManager;
-import net.minecraft.world.World;
+import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class ServerUtil {
-    public static MinecraftServer getServer(World world) {
+    public static MinecraftServer getServer(Level world) {
         return world.getServer();
     }
 
     public static String getIP(MinecraftServer server) {
-        return server.getServerIp();
+        return server.getLocalIp();
     }
 
     public static int getPort(MinecraftServer server) {
-        return server.getServerPort();
+        return server.getPort();
     }
 
     public static String getMotd(MinecraftServer server) {
-        return server.getServerMotd();
+        return server.getMotd();
     }
 
     public static String getServerModName(MinecraftServer server) {
@@ -27,15 +27,15 @@ public class ServerUtil {
     }
 
     public static int getMaxPlayerCount(MinecraftServer server) {
-        return server.getMaxPlayerCount();
+        return server.getMaxPlayers();
     }
 
     public static int getCurrentPlayerCount(MinecraftServer server) {
-        return server.getCurrentPlayerCount();
+        return server.getPlayerCount();
     }
 
     public static boolean isOnlineMode(MinecraftServer server) {
-        return server.isOnlineMode();
+        return server.usesAuthentication();
     }
 
     public static boolean isServerRunning(MinecraftServer server) {
@@ -43,15 +43,15 @@ public class ServerUtil {
     }
 
     public static boolean isServerDedicated(MinecraftServer server) {
-        return server.isDedicated();
+        return server.isDedicatedServer();
     }
 
     public static boolean isSingleplayer(MinecraftServer server) {
         return server.isSingleplayer();
     }
 
-    public static PlayerManager getPlayerManager(MinecraftServer server) {
-        return server.getPlayerManager();
+    public static PlayerList getPlayerManager(MinecraftServer server) {
+        return server.getPlayerList();
     }
 
     public static MinecraftServer getServer(Player player) {

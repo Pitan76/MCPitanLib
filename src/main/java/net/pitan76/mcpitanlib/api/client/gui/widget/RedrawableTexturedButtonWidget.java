@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.client.gui.widget;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button.OnPress;
 import net.minecraft.resources.Identifier;
 
 public class RedrawableTexturedButtonWidget extends CompatibleTexturedButtonWidget {
@@ -11,7 +12,7 @@ public class RedrawableTexturedButtonWidget extends CompatibleTexturedButtonWidg
     public int textureWidth;
     public int textureHeight;
 
-    public RedrawableTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, int textureWidth, int textureHeight, PressAction pressAction, net.minecraft.text.Text message) {
+    public RedrawableTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, int textureWidth, int textureHeight, OnPress pressAction, net.minecraft.network.chat.Component message) {
         super(x, y, width, height, u, v, hoveredVOffset, texture, textureWidth, textureHeight, pressAction, message);
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
@@ -21,7 +22,7 @@ public class RedrawableTexturedButtonWidget extends CompatibleTexturedButtonWidg
         this.texture = texture;
     }
 
-    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void renderButton(GuiGraphics context, int mouseX, int mouseY, float delta) {
         super.renderWidget(context, mouseX, mouseY, delta);
     }
 

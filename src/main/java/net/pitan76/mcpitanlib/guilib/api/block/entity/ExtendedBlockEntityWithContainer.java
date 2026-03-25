@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.guilib.api.block.entity;
 
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.Text;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
@@ -31,10 +31,10 @@ public abstract class ExtendedBlockEntityWithContainer extends BlockEntityWithCo
     public void tick(TileTickEvent<ExtendedBlockEntityWithContainer> e) {
         if (isClient()) return;
 
-        List<Player> players = WorldUtil.getPlayers(Objects.requireNonNull(getWorld()));
+        List<Player> players = WorldUtil.getPlayers(Objects.requireNonNull(getLevel()));
         for (Player player : players) {
             if (player.hasNetworkHandler() && player.getCurrentScreenHandler() instanceof ExtendedBlockEntityContainerGui && ((ExtendedBlockEntityContainerGui<?>) player.getCurrentScreenHandler()).blockEntity == this ) {
-                PacketByteBuf buf = PacketByteUtil.create();
+                FriendlyByteBuf buf = PacketByteUtil.create();
                 sync(player, buf);
                 ServerNetworking.send(player, SYNC_GUI_WITH_TILE, buf);
             }
@@ -42,18 +42,18 @@ public abstract class ExtendedBlockEntityWithContainer extends BlockEntityWithCo
     }
 
     @Override
-    public Text getDisplayName(DisplayNameArgs args) {
-        if (getCachedState() == null)
+    public Component getDisplayName(DisplayNameArgs args) {
+        if (getBlockState() == null)
             return TextUtil.of("unknown");
 
-        return getCachedState().getBlock().getName();
+        return getBlockState().getBlock().getName();
     }
 
     @Override
     public void writeExtraData(ExtraDataArgs args) {
-        PacketByteUtil.writeBlockPos(args.buf, getPos());
+        PacketByteUtil.writeBlockPos(args.buf, getBlockPos());
         sync(args.getCompatPlayer(), args.buf);
     }
 
-    public abstract void sync(Player player, PacketByteBuf buf);
+    public abstract void sync(Player player, FriendlyByteBuf buf);
 }

@@ -10,17 +10,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class BlockWrapper {
-    private final net.minecraft.block.Block block;
+    private final net.minecraft.world.level.block.Block block;
 
     protected BlockWrapper() {
         this.block = null;
     }
 
-    protected BlockWrapper(net.minecraft.block.Block block) {
+    protected BlockWrapper(net.minecraft.world.level.block.Block block) {
         this.block = block;
     }
 
-    public static BlockWrapper of(net.minecraft.block.Block block) {
+    public static BlockWrapper of(net.minecraft.world.level.block.Block block) {
         return new BlockWrapper(block);
     }
 
@@ -55,11 +55,11 @@ public class BlockWrapper {
     }
 
     @Nullable
-    public net.minecraft.block.Block get() {
+    public net.minecraft.world.level.block.Block get() {
         return block;
     }
 
-    public net.minecraft.block.Block gerOrDefault(net.minecraft.block.Block defaultItem) {
+    public net.minecraft.world.level.block.Block gerOrDefault(net.minecraft.world.level.block.Block defaultItem) {
         return isEmpty() ? defaultItem : get();
     }
 
@@ -117,7 +117,7 @@ public class BlockWrapper {
     }
 
     public static BlockWrapper of(CompatBlock block) {
-        return of((net.minecraft.block.Block) block);
+        return of((net.minecraft.world.level.block.Block) block);
     }
 
     public Optional<CompatBlock> toCompatBlock() {

@@ -2,24 +2,24 @@ package net.pitan76.mcpitanlib.api.util.math.random;
 
 public class CompatRandom {
     private java.util.Random javaRandom;
-    private net.minecraft.util.math.random.Random mcRandom;
+    private net.minecraft.util.RandomSource mcRandom;
 
     public CompatRandom(java.util.Random javaRandom) {
         this.javaRandom = javaRandom;
     }
 
-    public CompatRandom(net.minecraft.util.math.random.Random mcRandom) {
+    public CompatRandom(net.minecraft.util.RandomSource mcRandom) {
         this.mcRandom = mcRandom;
     }
 
     @Deprecated
     public CompatRandom() {
-        this.mcRandom = net.minecraft.util.math.random.Random.create();
+        this.mcRandom = net.minecraft.util.RandomSource.create();
     }
 
     @Deprecated
     public CompatRandom(long seed) {
-        this.mcRandom = net.minecraft.util.math.random.Random.create(seed);
+        this.mcRandom = net.minecraft.util.RandomSource.create(seed);
     }
 
     public static CompatRandom of(long seed) {
@@ -44,7 +44,7 @@ public class CompatRandom {
                 javaRandom.nextInt();
             }
         } else {
-            mcRandom.skip(count);
+            mcRandom.consumeCount(count);
         }
     }
 
@@ -52,7 +52,7 @@ public class CompatRandom {
         if (javaRandom != null) {
             javaRandom.nextInt();
         } else {
-            mcRandom.split();
+            mcRandom.fork();
         }
     }
 
@@ -134,7 +134,7 @@ public class CompatRandom {
     }
 
     @Deprecated
-    public net.minecraft.util.math.random.Random getMcRandom() {
+    public net.minecraft.util.RandomSource getMcRandom() {
         return mcRandom;
     }
 }

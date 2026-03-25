@@ -2,14 +2,14 @@ package net.pitan76.mcpitanlib.api.block.v2;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.MapColor;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.DyeColor;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.item.DyeColor;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -51,14 +51,14 @@ public class CompatibleBlockSettings extends net.pitan76.mcpitanlib.api.block.Co
         if (material.isLiquid())
             settings.settings.liquid();
         if (material.isSolid())
-            settings.settings.solid();
+            settings.settings.forceSolidOn();
         if (material.isReplaceable())
             settings.settings.replaceable();
         if (material.isSolid())
-            settings.settings.solid();
+            settings.settings.forceSolidOn();
         if (material.isBurnable())
-            settings.settings.burnable();
-        settings.settings.pistonBehavior(material.getPistonBehavior());
+            settings.settings.ignitedByLava();
+        settings.settings.pushReaction(material.getPistonBehavior());
         return settings;
     }
 
@@ -101,12 +101,12 @@ public class CompatibleBlockSettings extends net.pitan76.mcpitanlib.api.block.Co
         return new CompatibleBlockSettings(id, material, mapColor);
     }
 
-    public CompatibleBlockSettings(CompatIdentifier id, AbstractBlock block) {
+    public CompatibleBlockSettings(CompatIdentifier id, BlockBehaviour block) {
         super(block);
         setId(id);
     }
 
-    public static CompatibleBlockSettings copy(CompatIdentifier id, AbstractBlock block) {
+    public static CompatibleBlockSettings copy(CompatIdentifier id, BlockBehaviour block) {
         return new CompatibleBlockSettings(id, block);
     }
 
@@ -115,22 +115,22 @@ public class CompatibleBlockSettings extends net.pitan76.mcpitanlib.api.block.Co
         return this;
     }
 
-    public CompatibleBlockSettings blockVision(AbstractBlock.ContextPredicate predicate) {
+    public CompatibleBlockSettings blockVision(BlockBehaviour.StatePredicate predicate) {
         super.blockVision(predicate);
         return this;
     }
 
-    public CompatibleBlockSettings postProcess(AbstractBlock.ContextPredicate predicate) {
+    public CompatibleBlockSettings postProcess(BlockBehaviour.StatePredicate predicate) {
         super.postProcess(predicate);
         return this;
     }
 
-    public CompatibleBlockSettings solidBlock(AbstractBlock.ContextPredicate predicate) {
+    public CompatibleBlockSettings solidBlock(BlockBehaviour.StatePredicate predicate) {
         super.solidBlock(predicate);
         return this;
     }
 
-    public CompatibleBlockSettings suffocates(AbstractBlock.ContextPredicate predicate) {
+    public CompatibleBlockSettings suffocates(BlockBehaviour.StatePredicate predicate) {
         super.suffocates(predicate);
         return this;
     }
@@ -256,26 +256,26 @@ public class CompatibleBlockSettings extends net.pitan76.mcpitanlib.api.block.Co
         return this;
     }
 
-    public CompatibleBlockSettings emissiveLighting(AbstractBlock.ContextPredicate predicate) {
+    public CompatibleBlockSettings emissiveLighting(BlockBehaviour.StatePredicate predicate) {
         super.emissiveLighting(predicate);
         return this;
     }
 
-    public CompatibleBlockSettings offset(AbstractBlock.OffsetType offsetType) {
+    public CompatibleBlockSettings offset(BlockBehaviour.OffsetType offsetType) {
         super.offset(offsetType);
         return this;
     }
 
-    public CompatibleBlockSettings allowsSpawning(AbstractBlock.TypedContextPredicate<net.minecraft.entity.EntityType<?>> predicate) {
+    public CompatibleBlockSettings allowsSpawning(BlockBehaviour.StateArgumentPredicate<net.minecraft.world.entity.EntityType<?>> predicate) {
         super.allowsSpawning(predicate);
         return this;
     }
 
-    public AbstractBlock.Settings build() {
+    public BlockBehaviour.Properties build() {
         super.build();
 
         if (identifier != null) {
-            settings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, identifier.toMinecraft()));
+            settings.setId(ResourceKey.create(Registries.BLOCK, identifier.toMinecraft()));
         }
 
         return settings;
@@ -283,7 +283,7 @@ public class CompatibleBlockSettings extends net.pitan76.mcpitanlib.api.block.Co
 
     @Deprecated
     @Override
-    public CompatibleBlockSettings sounds(BlockSoundGroup blockSoundGroup) {
+    public CompatibleBlockSettings sounds(SoundType blockSoundGroup) {
         super.sounds(blockSoundGroup);
         return this;
     }

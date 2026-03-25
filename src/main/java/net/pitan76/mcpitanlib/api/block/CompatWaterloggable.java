@@ -1,21 +1,21 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import net.minecraft.block.Waterloggable;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.sounds.SoundEvent;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 
 import java.util.Optional;
 
-public interface CompatWaterloggable extends Waterloggable {
+public interface CompatWaterloggable extends SimpleWaterloggedBlock {
 
     @Override
-    default Optional<SoundEvent> getBucketFillSound() {
+    default Optional<SoundEvent> getPickupSound() {
         return getCompactBucketFillSound()
                 .map(CompatSoundEvent::get);
     }
 
     default Optional<CompatSoundEvent> getCompactBucketFillSound() {
-        return Waterloggable.super.getBucketFillSound()
+        return SimpleWaterloggedBlock.super.getPickupSound()
                 .map(CompatSoundEvent::of);
     }
 }

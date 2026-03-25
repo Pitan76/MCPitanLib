@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.Container;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
@@ -14,7 +14,7 @@ import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 public class StateReplacedEvent extends BaseEvent {
 
     public BlockState state;
-    public World world;
+    public Level world;
     public BlockPos pos;
     public BlockState newState;
     public boolean moved;
@@ -22,7 +22,7 @@ public class StateReplacedEvent extends BaseEvent {
     // Captured at construction time so getBlockEntity() works even after the world (1.21.x)
     private final BlockEntity cachedBlockEntity;
 
-    public StateReplacedEvent(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    public StateReplacedEvent(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -36,7 +36,7 @@ public class StateReplacedEvent extends BaseEvent {
         return state;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -53,7 +53,7 @@ public class StateReplacedEvent extends BaseEvent {
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     /**
@@ -61,7 +61,7 @@ public class StateReplacedEvent extends BaseEvent {
      * @return boolean
      */
     public boolean isSameState() {
-        return state.isOf(newState.getBlock());
+        return state.is(newState.getBlock());
     }
 
     /**
@@ -96,7 +96,7 @@ public class StateReplacedEvent extends BaseEvent {
     }
 
     public boolean hasInventory() {
-        return getBlockEntity() instanceof Inventory;
+        return getBlockEntity() instanceof Container;
     }
 
     /**

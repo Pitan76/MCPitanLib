@@ -1,18 +1,18 @@
 package net.pitan76.mcpitanlib.api.block.v2;
 
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
@@ -42,17 +42,17 @@ public class CompatBlock extends ExtendBlock {
 
     @Override
     @Deprecated
-    protected BlockRenderType getRenderType(BlockState state) {
+    protected RenderShape getRenderShape(BlockState state) {
         return getRenderType(new RenderTypeArgs(state)).renderType;
     }
 
     public CompatBlockRenderType getRenderType(RenderTypeArgs args) {
-        return new CompatBlockRenderType(super.getRenderType(args.state));
+        return new CompatBlockRenderType(super.getRenderShape(args.state));
     }
 
     @Override
     @Deprecated
-    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+    protected BlockState rotate(BlockState state, Rotation rotation) {
         return rotate(new RotateArgs(state, rotation)).toMinecraft();
     }
 
@@ -62,12 +62,12 @@ public class CompatBlock extends ExtendBlock {
 
     @Override
     @Deprecated
-    protected boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+    protected boolean skipRendering(BlockState state, BlockState stateFrom, Direction direction) {
         return isSideInvisible(new SideInvisibleArgs(state, stateFrom, direction));
     }
 
     public boolean isSideInvisible(SideInvisibleArgs args) {
-        return super.isSideInvisible(args.state, args.stateFrom, args.direction);
+        return super.skipRendering(args.state, args.stateFrom, args.direction);
     }
 
     /**
@@ -87,11 +87,11 @@ public class CompatBlock extends ExtendBlock {
     }
 
     public @Nullable net.pitan76.mcpitanlib.midohra.block.BlockState getPlacementState(PlacementStateArgs args) {
-        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.getPlacementState(args.ctx));
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.getStateForPlacement(args.ctx));
     }
 
     @Override
-    public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
+    public @Nullable BlockState getStateForPlacement(BlockPlaceContext ctx) {
         return getPlacementState(new PlacementStateArgs(ctx)).toMinecraft();
     }
 
@@ -102,11 +102,11 @@ public class CompatBlock extends ExtendBlock {
     }
 
     public net.pitan76.mcpitanlib.midohra.block.BlockState getStateForNeighborUpdate(StateForNeighborUpdateArgs args) {
-        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.getStateForNeighborUpdate(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom()));
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(super.updateShape(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom()));
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
+    protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
         return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(state, direction, neighborState, world, pos, neighborPos, tickView, new CompatRandom(random))).toMinecraft();
     }
 
@@ -117,11 +117,11 @@ public class CompatBlock extends ExtendBlock {
     }
 
     public VoxelShape getOutlineShape(OutlineShapeEvent e) {
-        return super.getOutlineShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context);
+        return super.getShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context);
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return getOutlineShape(new OutlineShapeEvent(state, world, pos, context));
     }
 
@@ -137,7 +137,7 @@ public class CompatBlock extends ExtendBlock {
 
     @Deprecated
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return getCollisionShape(new CollisionShapeEvent(state, world, pos, context));
     }
 
@@ -149,31 +149,31 @@ public class CompatBlock extends ExtendBlock {
 
     @Deprecated
     @Override
-    public boolean hasComparatorOutput(BlockState state) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return hasComparatorOutput(new HasComparatorOutputArgs(state));
     }
 
     public boolean hasComparatorOutput(HasComparatorOutputArgs args) {
-        return super.hasComparatorOutput(args.state);
+        return super.hasAnalogOutputSignal(args.state);
     }
 
     @Deprecated
     @Override
-    public int getComparatorOutput(BlockState state, World world, BlockPos pos, Direction direction) {
+    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos, Direction direction) {
         return getComparatorOutput(new GetComparatorOutputArgs(state, world, pos, direction));
     }
 
     public int getComparatorOutput(GetComparatorOutputArgs args) {
-        return super.getComparatorOutput(args.state, args.world, args.pos, args.direction);
+        return super.getAnalogOutputSignal(args.state, args.world, args.pos, args.direction);
     }
 
     @Deprecated
     @Override
-    protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+    protected boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         return canPlaceAt(new CanPlaceAtArgs(state, world, pos));
     }
 
     public boolean canPlaceAt(CanPlaceAtArgs args) {
-        return super.canPlaceAt(args.state, args.world, args.pos);
+        return super.canSurvive(args.state, args.world, args.pos);
     }
 }

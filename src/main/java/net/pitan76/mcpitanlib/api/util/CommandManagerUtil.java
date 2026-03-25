@@ -2,23 +2,23 @@ package net.pitan76.mcpitanlib.api.util;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.command.permission.LeveledPermissionPredicate;
-import net.minecraft.command.permission.PermissionLevel;
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
+import net.minecraft.server.permissions.PermissionLevel;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.level.ServerLevel;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.core.command.CommandResult;
 
 public class CommandManagerUtil {
-    public static CommandManager getCommandManager(MinecraftServer server) {
-        return server.getCommandManager();
+    public static Commands getCommandManager(MinecraftServer server) {
+        return server.getCommands();
     }
 
     public static CommandResult execute(MinecraftServer server, String command) {
-        CommandDispatcher<ServerCommandSource> dispatcher = getCommandManager(server).getDispatcher();
-        ServerCommandSource source = server.getCommandSource();
+        CommandDispatcher<CommandSourceStack> dispatcher = getCommandManager(server).getDispatcher();
+        CommandSourceStack source = server.createCommandSourceStack();
 
         if (command.startsWith("/")) {
             command = command.substring(1);
@@ -43,8 +43,8 @@ public class CommandManagerUtil {
         return cr;
     }
 
-    public static CommandResult execute(ServerCommandSource source, String command) {
-        CommandDispatcher<ServerCommandSource> dispatcher = source.getServer().getCommandManager().getDispatcher();
+    public static CommandResult execute(CommandSourceStack source, String command) {
+        CommandDispatcher<CommandSourceStack> dispatcher = source.getServer().getCommands().getDispatcher();
 
         if (command.startsWith("/")) {
             command = command.substring(1);
@@ -73,15 +73,15 @@ public class CommandManagerUtil {
         return execute(getCommandSource(player), command);
     }
 
-    public static ServerCommandSource getCommandSource(MinecraftServer server) {
-        return server.getCommandSource();
+    public static CommandSourceStack getCommandSource(MinecraftServer server) {
+        return server.createCommandSourceStack();
     }
 
-    public static ServerCommandSource getCommandSource(Player player) {
-        return player.getEntity().getCommandSource((ServerWorld) player.getWorld());
+    public static CommandSourceStack getCommandSource(Player player) {
+        return player.getEntity().createCommandSourceStackForNameResolution((ServerLevel) player.getWorld());
     }
 
-    public static ServerCommandSource withLevel(ServerCommandSource source, int level) {
-        return source.withPermissions(LeveledPermissionPredicate.fromLevel(PermissionLevel.fromLevel(level)));
+    public static CommandSourceStack withLevel(CommandSourceStack source, int level) {
+        return source.withPermission(LevelBasedPermissionSet.forLevel(PermissionLevel.byId(level)));
     }
 }

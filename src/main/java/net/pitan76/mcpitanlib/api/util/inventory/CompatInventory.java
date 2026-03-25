@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
-import net.minecraft.entity.ContainerUser;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.world.entity.ContainerUser;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.NonNullList;
 import net.pitan76.mcpitanlib.api.entity.CompatContainerUser;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
@@ -17,54 +17,54 @@ import net.pitan76.mcpitanlib.midohra.nbt.NbtList;
 
 import java.util.List;
 
-public class CompatInventory extends SimpleInventory {
+public class CompatInventory extends SimpleContainer {
     public CompatInventory(int size) {
         super(size);
     }
 
     @Override
-    public void setStack(int slot, ItemStack stack) {
-        super.setStack(slot, stack);
+    public void setItem(int slot, ItemStack stack) {
+        super.setItem(slot, stack);
     }
 
     /**
      * super method of setStack(slot, stack)
      */
     public final void superSetStack(int slot, ItemStack stack) {
-        super.setStack(slot, stack);
+        super.setItem(slot, stack);
     }
 
     /**
      * super method of removeStack(slot, amount)
      */
     public final ItemStack superRemoveStack(int slot, int amount) {
-        return super.removeStack(slot, amount);
+        return super.removeItem(slot, amount);
     }
 
     @Override
-    public ItemStack removeStack(int slot, int amount) {
+    public ItemStack removeItem(int slot, int amount) {
         return callRemoveStack(slot, amount);
     }
 
     public ItemStack callRemoveStack(int slot, int amount) {
-        return super.removeStack(slot, amount);
+        return super.removeItem(slot, amount);
     }
 
     @Override
-    public ItemStack removeStack(int slot) {
-        return super.removeStack(slot);
+    public ItemStack removeItemNoUpdate(int slot) {
+        return super.removeItemNoUpdate(slot);
     }
 
     @Override
-    public ItemStack removeItem(Item item, int count) {
-        return super.removeItem(item, count);
+    public ItemStack removeItemType(Item item, int count) {
+        return super.removeItemType(item, count);
     }
 
     @Deprecated
     @Override
-    public void onOpen(ContainerUser user) {
-        if (user instanceof PlayerEntity) {
-            onOpen(new Player((PlayerEntity) user));
+    public void startOpen(ContainerUser user) {
+        if (user instanceof Player) {
+            onOpen(new Player((Player) user));
             return;
         }
 
@@ -74,9 +74,9 @@ public class CompatInventory extends SimpleInventory {
 
     @Deprecated
     @Override
-    public void onClose(ContainerUser user) {
-        if (user instanceof PlayerEntity) {
-            onClose(new Player((PlayerEntity) user));
+    public void stopOpen(ContainerUser user) {
+        if (user instanceof Player) {
+            onClose(new Player((Player) user));
             return;
         }
 
@@ -95,13 +95,13 @@ public class CompatInventory extends SimpleInventory {
 
     @Deprecated
     @Override
-    public boolean canPlayerUse(PlayerEntity player) {
+    public boolean stillValid(Player player) {
         return canPlayerUse(new Player(player));
     }
 
     @Deprecated
     @Override
-    public boolean canInsert(ItemStack stack) {
+    public boolean canAddItem(ItemStack stack) {
         return canInsert(new CanInsertArgs(stack));
     }
 
@@ -114,11 +114,11 @@ public class CompatInventory extends SimpleInventory {
     }
 
     public void onOpen(CompatContainerUser user) {
-        super.onOpen(user.getRaw());
+        super.startOpen(user.getRaw());
     }
 
     public void onClose(CompatContainerUser user) {
-        super.onClose(user.getRaw());
+        super.stopOpen(user.getRaw());
     }
 
     public NbtList toNbtList(CompatRegistryLookup registries) {
@@ -140,27 +140,27 @@ public class CompatInventory extends SimpleInventory {
     }
 
     public boolean canInsert(CanInsertArgs args) {
-        return super.canInsert(args.getMcStack());
+        return super.canAddItem(args.getMcStack());
     }
 
     @Deprecated
     @Override
-    public List<ItemStack> clearToList() {
+    public List<ItemStack> removeAllItems() {
         return callClearToList();
     }
 
     public List<ItemStack> callClearToList() {
-        return super.clearToList();
+        return super.removeAllItems();
     }
 
     @Deprecated
     @Override
-    public DefaultedList<ItemStack> getHeldStacks() {
+    public NonNullList<ItemStack> getItems() {
         return callGetHeldStacks();
     }
 
-    public DefaultedList<ItemStack> callGetHeldStacks() {
-        return super.getHeldStacks();
+    public NonNullList<ItemStack> callGetHeldStacks() {
+        return super.getItems();
     }
 
     public ItemStackList callGetHeldStacksAsItemStackList() {
@@ -169,22 +169,22 @@ public class CompatInventory extends SimpleInventory {
 
     @Deprecated
     @Override
-    public ItemStack getStack(int slot) {
+    public ItemStack getItem(int slot) {
         return callGetStack(slot);
     }
 
     public ItemStack callGetStack(int slot) {
-        return super.getStack(slot);
+        return super.getItem(slot);
     }
 
     @Deprecated
     @Override
-    public int size() {
+    public int getContainerSize() {
         return getSize();
     }
 
     public int getSize() {
-        return super.size();
+        return super.getContainerSize();
     }
 
     @Deprecated
@@ -199,31 +199,31 @@ public class CompatInventory extends SimpleInventory {
 
     @Deprecated
     @Override
-    public boolean canTransferTo(Inventory hopperInventory, int slot, ItemStack stack) {
+    public boolean canTakeItem(Container hopperInventory, int slot, ItemStack stack) {
         return callCanTransferTo(hopperInventory, slot, stack);
     }
 
-    public boolean callCanTransferTo(Inventory hopperInventory, int slot, ItemStack stack) {
-        return super.canTransferTo(hopperInventory, slot, stack);
+    public boolean callCanTransferTo(Container hopperInventory, int slot, ItemStack stack) {
+        return super.canTakeItem(hopperInventory, slot, stack);
     }
 
     @Deprecated
     @Override
-    public ItemStack addStack(ItemStack stack) {
+    public ItemStack addItem(ItemStack stack) {
         return callAddStack(stack);
     }
 
     public ItemStack callAddStack(ItemStack stack) {
-        return super.addStack(stack);
+        return super.addItem(stack);
     }
 
     @Deprecated
     @Override
-    public int getMaxCountPerStack() {
+    public int getMaxStackSize() {
         return callGetMaxCountPerStack();
     }
 
     public int callGetMaxCountPerStack() {
-        return super.getMaxCountPerStack();
+        return super.getMaxStackSize();
     }
 }

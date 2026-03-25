@@ -1,20 +1,20 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.Mouse;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.texture.TextureManager;
-import net.minecraft.client.util.Window;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.profiler.Profiler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.MouseHandler;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.TextureManager;
+import com.mojang.blaze3d.platform.Window;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.pitan76.mcpitanlib.api.client.option.GameOptionsWrapper;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
@@ -27,23 +27,23 @@ public class ClientUtil {
     }
 
     public static Screen getScreen() {
-        return getClient().currentScreen;
+        return getClient().screen;
     }
 
     public static Player getPlayer() {
         return new Player(getClientPlayer());
     }
 
-    public static ClientPlayerEntity getClientPlayer() {
+    public static LocalPlayer getClientPlayer() {
         return getClient().player;
     }
 
-    public static MinecraftClient getClient() {
-        return MinecraftClient.getInstance();
+    public static Minecraft getClient() {
+        return Minecraft.getInstance();
     }
 
-    public static TextRenderer getTextRenderer() {
-        return getClient().textRenderer;
+    public static Font getTextRenderer() {
+        return getClient().font;
     }
 
     public static ItemRenderer getItemRenderer() {
@@ -58,8 +58,8 @@ public class ClientUtil {
         return getClient().getTextureManager();
     }
 
-    public static ClientWorld getWorld() {
-        return getClient().world;
+    public static ClientLevel getWorld() {
+        return getClient().level;
     }
 
     public static GameRenderer getGameRenderer() {
@@ -67,27 +67,27 @@ public class ClientUtil {
     }
 
     public static Optional<Long> getTime() {
-        if (getClient().world == null) return Optional.empty();
-        return Optional.of(getClient().world.getTime());
+        if (getClient().level == null) return Optional.empty();
+        return Optional.of(getClient().level.getGameTime());
     }
 
     public static long getRenderTime() {
-        return getClient().getRenderTime();
+        return getClient().getFrameTimeNs();
     }
 
     public static HitResult getTarget() {
-        return getClient().crosshairTarget;
+        return getClient().hitResult;
     }
 
-    public static WorldRenderer getWorldRenderer() {
-        return getClient().worldRenderer;
+    public static LevelRenderer getWorldRenderer() {
+        return getClient().levelRenderer;
     }
 
     public static File getRunDirectory() {
-        return getClient().runDirectory;
+        return getClient().gameDirectory;
     }
 
-    public static Profiler getProfiler() {
+    public static ProfilerFiller getProfiler() {
         return null;
     }
 
@@ -99,12 +99,12 @@ public class ClientUtil {
         return getClient().getWindow();
     }
 
-    public static Mouse getMouse() {
-        return getClient().mouse;
+    public static MouseHandler getMouse() {
+        return getClient().mouseHandler;
     }
 
     public static boolean isInSingleplayer() {
-        return getClient().isInSingleplayer();
+        return getClient().isLocalServer();
     }
 
     public static boolean isPaused() {

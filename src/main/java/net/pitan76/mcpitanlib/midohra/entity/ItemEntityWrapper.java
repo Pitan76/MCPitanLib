@@ -8,20 +8,20 @@ import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 import net.pitan76.mcpitanlib.midohra.world.World;
 
 public class ItemEntityWrapper extends EntityWrapper {
-    public ItemEntityWrapper(net.minecraft.entity.ItemEntity entity) {
+    public ItemEntityWrapper(net.minecraft.world.entity.item.ItemEntity entity) {
         super(entity);
     }
 
-    public static ItemEntityWrapper of(net.minecraft.entity.ItemEntity entity) {
+    public static ItemEntityWrapper of(net.minecraft.world.entity.item.ItemEntity entity) {
         return new ItemEntityWrapper(entity);
     }
 
     @Override
-    public net.minecraft.entity.ItemEntity get() {
-        return (net.minecraft.entity.ItemEntity) super.get();
+    public net.minecraft.world.entity.item.ItemEntity get() {
+        return (net.minecraft.world.entity.item.ItemEntity) super.get();
     }
 
-    public net.minecraft.item.ItemStack getStackRaw() {
+    public net.minecraft.world.item.ItemStack getStackRaw() {
         return ItemEntityUtil.getStack(get());
     }
 
@@ -29,8 +29,8 @@ public class ItemEntityWrapper extends EntityWrapper {
         return ItemStack.of(getStackRaw());
     }
 
-    public void setStack(net.minecraft.item.ItemStack stack) {
-        get().setStack(stack);
+    public void setStack(net.minecraft.world.item.ItemStack stack) {
+        get().setItem(stack);
     }
 
     public void setStack(ItemStack stack) {

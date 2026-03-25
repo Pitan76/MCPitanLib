@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.midohra.recipe;
 
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.mcpitanlib.midohra.recipe.input.RecipeInputOrInventory;
 import net.pitan76.mcpitanlib.midohra.recipe.input.TypedRecipeInputOrInventory;
@@ -11,33 +11,33 @@ import net.pitan76.mcpitanlib.midohra.world.World;
 import java.util.List;
 
 public class Recipe {
-    private final net.minecraft.recipe.Recipe<?> recipe;
+    private final net.minecraft.world.item.crafting.Recipe recipe;
 
-    protected Recipe(net.minecraft.recipe.Recipe<?> recipe) {
+    protected Recipe(net.minecraft.world.item.crafting.Recipe recipe) {
         this.recipe = recipe;
     }
 
-    public static Recipe of(net.minecraft.recipe.Recipe<?> recipe) {
+    public static Recipe of(net.minecraft.world.item.crafting.Recipe recipe) {
         return new Recipe(recipe);
     }
 
-    public static CraftingRecipe of(net.minecraft.recipe.CraftingRecipe recipe) {
+    public static CraftingRecipe of(net.minecraft.world.item.crafting.CraftingRecipe recipe) {
         return new CraftingRecipe(recipe);
     }
 
-    public static ShapedRecipe of(net.minecraft.recipe.ShapedRecipe recipe) {
+    public static ShapedRecipe of(net.minecraft.world.item.crafting.ShapedRecipe recipe) {
         return new ShapedRecipe(recipe);
     }
 
-    public static ShapelessRecipe of(net.minecraft.recipe.ShapelessRecipe recipe) {
+    public static ShapelessRecipe of(net.minecraft.world.item.crafting.ShapelessRecipe recipe) {
         return new ShapelessRecipe(recipe);
     }
 
-    public net.minecraft.recipe.Recipe<?> getRaw() {
+    public net.minecraft.world.item.crafting.Recipe getRaw() {
         return recipe;
     }
 
-    public net.minecraft.recipe.Recipe<?> toMinecraft() {
+    public net.minecraft.world.item.crafting.Recipe toMinecraft() {
         return getRaw();
     }
 
@@ -53,12 +53,12 @@ public class Recipe {
         return false;
     }
 
-    public net.minecraft.item.ItemStack craft(RecipeInputOrInventory input, World world) {
+    public net.minecraft.world.item.ItemStack craft(RecipeInputOrInventory input, World world) {
         if (input instanceof TypedRecipeInputOrInventory) {
             return craft((TypedRecipeInputOrInventory<? extends RecipeInput>) input, world);
         }
 
-        return net.minecraft.item.ItemStack.EMPTY;
+        return net.minecraft.world.item.ItemStack.EMPTY;
     }
 
     public ItemStack craftMidohra(RecipeInputOrInventory input, World world) {
@@ -66,11 +66,11 @@ public class Recipe {
     }
 
     public <T extends RecipeInput> boolean matches(TypedRecipeInputOrInventory<T> input, World world) {
-        return ((net.minecraft.recipe.Recipe<T>)getRaw()).matches(input.getRecipeInput(), world.getRaw());
+        return ((net.minecraft.world.item.crafting.Recipe)getRaw()).matches(input.getRecipeInput(), world.getRaw());
     }
 
-    public <T extends RecipeInput> net.minecraft.item.ItemStack craft(TypedRecipeInputOrInventory<T> input, World world) {
-        return ((net.minecraft.recipe.Recipe<T>)getRaw()).craft(input.getRecipeInput(), world.getRaw().getRegistryManager());
+    public <T extends RecipeInput> net.minecraft.world.item.ItemStack craft(TypedRecipeInputOrInventory<T> input, World world) {
+        return ((net.minecraft.world.item.crafting.Recipe)getRaw()).assemble(input.getRecipeInput(), world.getRaw().registryAccess());
     }
 
     public <T extends RecipeInput> ItemStack craftMidohra(TypedRecipeInputOrInventory<T> input, World world) {
@@ -78,7 +78,7 @@ public class Recipe {
     }
 
     public String getGroup() {
-        return getRaw().getGroup();
+        return getRaw().group();
     }
 
     public RecipeType getType() {
@@ -86,6 +86,6 @@ public class Recipe {
     }
 
     public List<Ingredient> getInputs() {
-        return getRaw().getIngredientPlacement().getIngredients();
+        return getRaw().placementInfo().ingredients();
     }
 }

@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -20,14 +20,14 @@ import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 
 public class BlockUseEvent extends BaseEvent {
     public BlockState state;
-    public World world;
+    public Level world;
     public BlockPos pos;
     public Player player;
-    public Hand hand;
+    public InteractionHand hand;
     public BlockHitResult hit;
     public ItemStack stack;
 
-    public BlockUseEvent(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public BlockUseEvent(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -49,11 +49,11 @@ public class BlockUseEvent extends BaseEvent {
         return player;
     }
 
-    public Hand getHand() {
+    public InteractionHand getHand() {
         return hand;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -66,7 +66,7 @@ public class BlockUseEvent extends BaseEvent {
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public CompatActionResult success() {

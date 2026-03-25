@@ -1,30 +1,30 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 public class CraftEvent {
 
     public ItemStack stack;
-    public World world;
+    public Level world;
     public Player player;
 
-    public CraftEvent(ItemStack stack, World world, Player player) {
+    public CraftEvent(ItemStack stack, Level world, Player player) {
         this.stack = stack;
         this.world = world;
         this.player = player;
     }
 
-    public CraftEvent(ItemStack stack, World world, PlayerEntity player) {
+    public CraftEvent(ItemStack stack, Level world, Player player) {
         this.stack = stack;
         this.world = world;
         this.player = new Player(player);
     }
 
-    public CraftEvent(ItemStack stack, World world) {
+    public CraftEvent(ItemStack stack, Level world) {
         this.stack = stack;
         this.world = world;
     }
@@ -33,7 +33,7 @@ public class CraftEvent {
         return stack;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -43,6 +43,6 @@ public class CraftEvent {
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 }

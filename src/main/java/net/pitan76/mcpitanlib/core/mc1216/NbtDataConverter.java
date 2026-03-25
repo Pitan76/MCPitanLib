@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.core.mc1216;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.storage.NbtReadView;
-import net.minecraft.storage.NbtWriteView;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.ErrorReporter;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.util.ProblemReporter;
 import net.pitan76.mcpitanlib.api.nbt.NbtTypeBytes;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
@@ -16,15 +16,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class NbtDataConverter {
-    public static void nbt2writeData(NbtCompound nbt, WriteView view) {
+    public static void nbt2writeData(CompoundTag nbt, ValueOutput view) {
         if (nbt == null || view == null) return;
 
-        List<String> keys = new ArrayList<>(nbt.getKeys());
+        List<String> keys = new ArrayList<>(nbt.keySet());
         for (String key : keys) {
-            NbtElement value = nbt.get(key);
+            Tag value = nbt.get(key);
             if (value == null) continue;
 
-            byte type = value.getType();
+            byte type = value.getId();
             view.putByte("__nbttype_" + key + "__", type);
 
             switch (type) {
@@ -87,13 +87,13 @@ public class NbtDataConverter {
                     view.putIntArray(key, longIntArray);
                     break;
                 case NbtTypeBytes.COMPOUND:
-                    Optional<NbtCompound> optionalCompound = value.asCompound();
+                    Optional<CompoundTag> optionalCompound = value.asCompound();
                     if (optionalCompound.isEmpty()) continue;
-                    NbtCompound nbt2 = optionalCompound.get();
+                    CompoundTag nbt2 = optionalCompound.get();
 
                     //System.out.println("NbtDataConverter nbt(" + key + "): " + nbt2);
 
-                    view.put(key, NbtCompound.CODEC, nbt2);
+                    view.store(key, CompoundTag.CODEC, nbt2);
                     break;
             }
         }
@@ -101,60 +101,60 @@ public class NbtDataConverter {
         view.putString("__all_keys__", String.join(",", keys));
     }
 
-    public static void data2nbt(ReadView view, NbtCompound nbt) {
+    public static void data2nbt(ValueInput view, CompoundTag nbt) {
         if (view == null || nbt == null) return;
 
         // ReadViewだとgetKeys()がないので__all_keys__からキーを取得する
-        String keysStr = view.getString("__all_keys__", "");
+        String keysStr = view.getStringOr("__all_keys__", "");
         if (keysStr.isEmpty()) return;
         String[] keys = keysStr.split(",");
         for (String key : keys) {
             if (key == null || key.isEmpty()) continue;
 
-            byte type = view.getByte("__nbttype_" + key + "__", (byte) -1);
+            byte type = view.getByteOr("__nbttype_" + key + "__", (byte) -1);
             if (type == -1) continue;
 
             switch (type) {
                 case NbtTypeBytes.BYTE:
-                    nbt.putByte(key, view.getByte(key, (byte) 0));
+                    nbt.putByte(key, view.getByteOr(key, (byte) 0));
                     break;
                 case NbtTypeBytes.SHORT:
-                    nbt.putShort(key, (short) view.getShort(key, (short) 0));
+                    nbt.putShort(key, (short) view.getShortOr(key, (short) 0));
                     break;
                 case NbtTypeBytes.INT:
-                    nbt.putInt(key, view.getInt(key, 0));
+                    nbt.putInt(key, view.getIntOr(key, 0));
                     break;
                 case NbtTypeBytes.LONG:
-                    nbt.putLong(key, view.getLong(key, 0));
+                    nbt.putLong(key, view.getLongOr(key, 0));
                     break;
                 case NbtTypeBytes.FLOAT:
-                    nbt.putFloat(key, view.getFloat(key, 0));
+                    nbt.putFloat(key, view.getFloatOr(key, 0));
                     break;
                 case NbtTypeBytes.DOUBLE:
-                    nbt.putDouble(key, view.getDouble(key, 0));
+                    nbt.putDouble(key, view.getDoubleOr(key, 0));
                     break;
                 case NbtTypeBytes.STRING:
-                    nbt.putString(key, view.getString(key, ""));
+                    nbt.putString(key, view.getStringOr(key, ""));
                     break;
                 case NbtTypeBytes.BYTE_ARRAY:
-                    int[] intArray = view.getOptionalIntArray(key).get();
+                    int[] intArray = view.getIntArray(key).get();
                     byte[] byteArray = new byte[intArray.length];
                     for (int i = 0; i < intArray.length; i++)
                         byteArray[i] = (byte) intArray[i];
                     nbt.putByteArray(key, byteArray);
                     break;
                 case NbtTypeBytes.INT_ARRAY:
-                    nbt.putIntArray(key, view.getOptionalIntArray(key).get());
+                    nbt.putIntArray(key, view.getIntArray(key).get());
                     break;
                 case NbtTypeBytes.LONG_ARRAY:
-                    int[] longIntArray = view.getOptionalIntArray(key).get();
+                    int[] longIntArray = view.getIntArray(key).get();
                     long[] longArray = new long[longIntArray.length];
                     for (int i = 0; i < longIntArray.length; i++)
                         longArray[i] = longIntArray[i] & 0xFFFFFFFFL;
                     nbt.putLongArray(key, longArray);
                     break;
                 case NbtTypeBytes.COMPOUND:
-                    NbtCompound nbt2 = view.read(key, NbtCompound.CODEC).get();
+                    CompoundTag nbt2 = view.read(key, CompoundTag.CODEC).get();
                     nbt.put(key, nbt2);
                     break;
                 default:
@@ -164,34 +164,34 @@ public class NbtDataConverter {
         }
     }
 
-    public static void data2nbt(WriteView view, NbtCompound nbt) {
+    public static void data2nbt(ValueOutput view, CompoundTag nbt) {
         if (view == null || nbt == null) return;
 
-        if (view instanceof NbtWriteView) {
+        if (view instanceof TagValueOutput) {
             //System.out.println("data2nbt(): " + ((NbtWriteView) view).getNbt());
-            NbtUtil.copyFrom(((NbtWriteView) view).getNbt(), nbt);
+            NbtUtil.copyFrom(((TagValueOutput) view).buildResult(), nbt);
         }
     }
 
-    public static WriteView nbt2writeData(NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        WriteView view = NbtWriteView.create(ErrorReporter.EMPTY);
+    public static ValueOutput nbt2writeData(CompoundTag nbt, CompatRegistryLookup registryLookup) {
+        ValueOutput view = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
         nbt2writeData(nbt, view);
         return view;
     }
 
-    public static ReadView nbt2readData(NbtCompound nbt, CompatRegistryLookup registryLookup) {
+    public static ValueInput nbt2readData(CompoundTag nbt, CompatRegistryLookup registryLookup) {
         if (nbt == null) nbt = NbtUtil.create();
-        return NbtReadView.create(ErrorReporter.EMPTY, registryLookup.getRegistryLookup(), nbt);
+        return TagValueInput.create(ProblemReporter.DISCARDING, registryLookup.getRegistryLookup(), nbt);
     }
 
-    public static NbtCompound data2nbt(ReadView view) {
-        NbtCompound nbt = new NbtCompound();
+    public static CompoundTag data2nbt(ValueInput view) {
+        CompoundTag nbt = new CompoundTag();
         data2nbt(view, nbt);
         return nbt;
     }
 
-    public static NbtCompound data2nbt(WriteView view) {
-        NbtCompound nbt = new NbtCompound();
+    public static CompoundTag data2nbt(ValueOutput view) {
+        CompoundTag nbt = new CompoundTag();
         data2nbt(view, nbt);
         return nbt;
     }

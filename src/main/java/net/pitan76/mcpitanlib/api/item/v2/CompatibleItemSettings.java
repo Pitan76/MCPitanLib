@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.item.v2;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Rarity;
+import net.minecraft.world.item.Rarity;
 import net.pitan76.mcpitanlib.api.entity.attribute.AttributeModifiersComponentBuilder;
 import net.pitan76.mcpitanlib.api.entity.attribute.CompatAttributeModifiersComponent;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
@@ -46,12 +46,12 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
         return this;
     }
 
-    public CompatibleItemSettings addGroup(ItemGroup itemGroup) {
+    public CompatibleItemSettings addGroup(CreativeModeTab itemGroup) {
         super.addGroup(itemGroup, identifier);
         return this;
     }
 
-    public CompatibleItemSettings addGroup(Supplier<ItemGroup> itemGroup) {
+    public CompatibleItemSettings addGroup(Supplier<CreativeModeTab> itemGroup) {
         super.addGroup(itemGroup, identifier);
         return this;
     }
@@ -116,19 +116,19 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     }
 
     public CompatibleItemSettings useItemPrefixedTranslationKey() {
-        settings.useItemPrefixedTranslationKey();
+        settings.useItemDescriptionPrefix();
         changedTranslationKey = true;
         return this;
     }
 
     public CompatibleItemSettings useBlockPrefixedTranslationKey() {
-        settings.useBlockPrefixedTranslationKey();
+        settings.useBlockDescriptionPrefix();
         changedTranslationKey = true;
         return this;
     }
 
     public CompatibleItemSettings translationKey(String translationKey) {
-        settings.translationKey(translationKey);
+        settings.overrideDescription(translationKey);
         changedTranslationKey = true;
         return this;
     }
@@ -146,7 +146,7 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     }
 
     public CompatibleItemSettings equipable(CompatEquippableComponent component) {
-        settings.component(DataComponentTypes.EQUIPPABLE, component.raw());
+        settings.component(DataComponents.EQUIPPABLE, component.raw());
         return this;
     }
 
@@ -155,7 +155,7 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     }
 
     public CompatibleItemSettings attributeModifiers(CompatAttributeModifiersComponent component) {
-        settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, component.raw());
+        settings.component(DataComponents.ATTRIBUTE_MODIFIERS, component.raw());
         return this;
     }
 
@@ -168,7 +168,7 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
         super.build();
 
         if (identifier != null) {
-            settings.registryKey(RegistryKey.of(RegistryKeys.ITEM, identifier.toMinecraft()));
+            settings.setId(ResourceKey.create(Registries.ITEM, identifier.toMinecraft()));
         }
 
         return settings;
@@ -178,25 +178,25 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
 
     @Deprecated
     @Override
-    public net.pitan76.mcpitanlib.api.item.CompatibleItemSettings addGroup(ItemGroup itemGroup, Identifier identifier) {
+    public net.pitan76.mcpitanlib.api.item.CompatibleItemSettings addGroup(CreativeModeTab itemGroup, Identifier identifier) {
         return super.addGroup(itemGroup, identifier);
     }
 
     @Deprecated
     @Override
-    public net.pitan76.mcpitanlib.api.item.CompatibleItemSettings addGroup(Supplier<ItemGroup> itemGroup, Identifier identifier) {
+    public net.pitan76.mcpitanlib.api.item.CompatibleItemSettings addGroup(Supplier<CreativeModeTab> itemGroup, Identifier identifier) {
         return super.addGroup(itemGroup, identifier);
     }
 
     @Deprecated
     @Override
-    public net.pitan76.mcpitanlib.api.item.CompatibleItemSettings addGroup(Supplier<ItemGroup> itemGroup, CompatIdentifier identifier) {
+    public net.pitan76.mcpitanlib.api.item.CompatibleItemSettings addGroup(Supplier<CreativeModeTab> itemGroup, CompatIdentifier identifier) {
         return super.addGroup(itemGroup, identifier);
     }
 
     @Deprecated
     @Override
-    public net.pitan76.mcpitanlib.api.item.CompatibleItemSettings addGroup(ItemGroup itemGroup, CompatIdentifier identifier) {
+    public net.pitan76.mcpitanlib.api.item.CompatibleItemSettings addGroup(CreativeModeTab itemGroup, CompatIdentifier identifier) {
         return super.addGroup(itemGroup, identifier);
     }
 }

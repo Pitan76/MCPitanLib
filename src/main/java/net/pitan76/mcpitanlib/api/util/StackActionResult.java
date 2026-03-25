@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResult;
 import net.pitan76.mcpitanlib.api.event.result.EventResult;
 
 import java.util.Optional;
@@ -10,7 +10,7 @@ public class StackActionResult extends CompatActionResult {
     private final ItemStack stack;
     private final CompatActionResult compatActionResult;
 
-    public StackActionResult(ActionResult actionResult, EventResult eventResult, ItemStack stack) {
+    public StackActionResult(InteractionResult actionResult, EventResult eventResult, ItemStack stack) {
         this(new CompatActionResult(actionResult, eventResult), stack);
     }
 
@@ -21,7 +21,7 @@ public class StackActionResult extends CompatActionResult {
     }
 
     @Override
-    public ActionResult toActionResult() {
+    public InteractionResult toActionResult() {
         return compatActionResult.toActionResult();
     }
 
@@ -62,26 +62,26 @@ public class StackActionResult extends CompatActionResult {
         return new StackActionResult(compatActionResult, null);
     }
 
-    public static StackActionResult create(ActionResult actionResult, EventResult eventResult, ItemStack stack) {
+    public static StackActionResult create(InteractionResult actionResult, EventResult eventResult, ItemStack stack) {
         return new StackActionResult(actionResult, eventResult, stack);
     }
 
-    public static StackActionResult create(ActionResult actionResult, ItemStack stack) {
+    public static StackActionResult create(InteractionResult actionResult, ItemStack stack) {
         return new StackActionResult(actionResult, null, stack);
     }
 
     public static StackActionResult success(ItemStack stack) {
-        CompatActionResult compatActionResult = CompatActionResult.create(ActionResult.SUCCESS.withNewHandStack(stack));
+        CompatActionResult compatActionResult = CompatActionResult.create(InteractionResult.SUCCESS.heldItemTransformedTo(stack));
         return create(compatActionResult, stack);
     }
 
     public static StackActionResult successServer(ItemStack stack) {
-        CompatActionResult compatActionResult = CompatActionResult.create(ActionResult.SUCCESS_SERVER.withNewHandStack(stack));
+        CompatActionResult compatActionResult = CompatActionResult.create(InteractionResult.SUCCESS_SERVER.heldItemTransformedTo(stack));
         return create(compatActionResult, stack);
     }
 
     public static StackActionResult consume(ItemStack stack) {
-        CompatActionResult compatActionResult = CompatActionResult.create(ActionResult.CONSUME.withNewHandStack(stack));
+        CompatActionResult compatActionResult = CompatActionResult.create(InteractionResult.CONSUME.heldItemTransformedTo(stack));
         return create(compatActionResult, stack);
     }
 

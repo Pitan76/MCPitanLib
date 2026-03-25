@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.client.render;
 
-import net.minecraft.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.pitan76.mcpitanlib.api.util.CompatStringIdentifiable;
 
 public class CompatItemDisplayContext implements CompatStringIdentifiable {

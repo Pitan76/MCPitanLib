@@ -1,24 +1,24 @@
 package net.pitan76.mcpitanlib.api.util.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.CompatThrownItemEntity;
 
 public class ThrownItemEntityUtil {
-    public static ItemStack getItem(ThrownItemEntity entity) {
-        return entity.getStack();
+    public static ItemStack getItem(ThrowableItemProjectile entity) {
+        return entity.getItem();
     }
 
-    public static void setItem(ThrownItemEntity entity, ItemStack stack) {
+    public static void setItem(ThrowableItemProjectile entity, ItemStack stack) {
         entity.setItem(stack);
     }
 
-    public static ItemStack getStack(ThrownItemEntity entity) {
-        return entity.getStack();
+    public static ItemStack getStack(ThrowableItemProjectile entity) {
+        return entity.getItem();
     }
 
-    public static void setVelocity(ThrownItemEntity entity, Entity shooter, float pitch, float yaw, float roll, float speed, float divergence) {
+    public static void setVelocity(ThrowableItemProjectile entity, Entity shooter, float pitch, float yaw, float roll, float speed, float divergence) {
         ProjectileEntityUtil.setVelocity(entity, shooter, pitch, yaw, roll, speed, divergence);
     }
 
@@ -26,7 +26,7 @@ public class ThrownItemEntityUtil {
         ProjectileEntityUtil.setVelocity(entity, shooter, pitch, yaw, roll, speed, divergence);
     }
 
-    public static void setVelocity(ThrownItemEntity entity, double x, double y, double z, float power, float uncertainty) {
+    public static void setVelocity(ThrowableItemProjectile entity, double x, double y, double z, float power, float uncertainty) {
         ProjectileEntityUtil.setVelocity(entity, x, y, z, power, uncertainty);
     }
 

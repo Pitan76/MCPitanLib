@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.block.v2;
 
-import net.minecraft.block.Block;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
@@ -39,7 +39,7 @@ public interface CompatBlockProvider extends ExtendBlockProvider {
 
     default BlockState getDefaultMidohraState() {
         if (this instanceof Block) {
-            return BlockState.of(((Block) this).getDefaultState());
+            return BlockState.of(((Block) this).defaultBlockState());
         }
 
         return null;
@@ -53,7 +53,7 @@ public interface CompatBlockProvider extends ExtendBlockProvider {
 
     @Override
     @Deprecated
-    default net.minecraft.block.BlockState getPlacementState(net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs args, Options options) {
+    default net.minecraft.world.level.block.state.BlockState getPlacementState(net.pitan76.mcpitanlib.api.event.block.PlacementStateArgs args, Options options) {
         return ExtendBlockProvider.super.getPlacementState(args, options);
     }
 

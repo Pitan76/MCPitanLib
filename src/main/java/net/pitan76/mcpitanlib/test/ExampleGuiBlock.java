@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.test;
 
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
@@ -25,12 +25,12 @@ public class ExampleGuiBlock extends CompatBlock implements SimpleScreenHandlerF
     }
 
     @Override
-    public Text getDisplayName(DisplayNameArgs args) {
+    public Component getDisplayName(DisplayNameArgs args) {
         return getName();
     }
 
     @Override
-    public ScreenHandler createMenu(CreateMenuEvent e) {
+    public AbstractContainerMenu createMenu(CreateMenuEvent e) {
         return new ExampleScreenHandler(e);
     }
 }

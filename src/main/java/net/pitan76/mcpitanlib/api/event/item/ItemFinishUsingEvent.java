@@ -1,18 +1,18 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
 public class ItemFinishUsingEvent extends BaseEvent {
     public ItemStack stack;
-    public World world;
+    public Level world;
     public LivingEntity user;
 
-    public ItemFinishUsingEvent(ItemStack stack, World world, LivingEntity user) {
+    public ItemFinishUsingEvent(ItemStack stack, Level world, LivingEntity user) {
         this.stack = stack;
         this.world = world;
         this.user = user;
@@ -22,7 +22,7 @@ public class ItemFinishUsingEvent extends BaseEvent {
         return stack;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -31,7 +31,7 @@ public class ItemFinishUsingEvent extends BaseEvent {
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {

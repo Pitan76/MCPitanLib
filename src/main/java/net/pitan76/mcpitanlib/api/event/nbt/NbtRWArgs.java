@@ -1,28 +1,28 @@
 package net.pitan76.mcpitanlib.api.event.nbt;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.HolderLookup;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 
 public class NbtRWArgs {
-    public NbtCompound nbt;
+    public CompoundTag nbt;
     public CompatRegistryLookup registryLookup;
 
-    public NbtRWArgs(NbtCompound nbt, CompatRegistryLookup registryLookup) {
+    public NbtRWArgs(CompoundTag nbt, CompatRegistryLookup registryLookup) {
         this.nbt = nbt;
         this.registryLookup = registryLookup;
     }
 
     @Deprecated
-    public NbtRWArgs(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
+    public NbtRWArgs(CompoundTag nbt, HolderLookup.Provider wrapperLookup) {
         this(nbt, new CompatRegistryLookup(wrapperLookup));
     }
 
-    public NbtRWArgs(NbtCompound nbt) {
+    public NbtRWArgs(CompoundTag nbt) {
         this(nbt, (CompatRegistryLookup) null);
     }
 
-    public NbtCompound getNbt() {
+    public CompoundTag getNbt() {
         return nbt;
     }
 
@@ -35,7 +35,7 @@ public class NbtRWArgs {
     }
 
     @Deprecated
-    public RegistryWrapper.WrapperLookup getWrapperLookup() {
+    public HolderLookup.Provider getWrapperLookup() {
         if (registryLookup == null)
             registryLookup = new CompatRegistryLookup();
 

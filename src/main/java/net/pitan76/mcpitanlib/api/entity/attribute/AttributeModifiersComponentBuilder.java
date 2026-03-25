@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.entity.attribute;
 
-import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class AttributeModifiersComponentBuilder {
 
-    public final AttributeModifiersComponent.Builder builder = AttributeModifiersComponent.builder();
+    public final ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
 
     public AttributeModifiersComponentBuilder() {
 
@@ -16,7 +16,7 @@ public class AttributeModifiersComponentBuilder {
     }
 
     @Deprecated
-    public AttributeModifiersComponent build_raw() {
+    public ItemAttributeModifiers build_raw() {
         return builder.build();
     }
 

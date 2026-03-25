@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.item.v2;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.consume.UseAction;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Rarity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.item.CanRepairArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantabilityArgs;
 import net.pitan76.mcpitanlib.api.event.item.EnchantableArgs;
@@ -42,12 +42,12 @@ public class CompatItem extends ExtendItem {
 
     @Deprecated
     @Override
-    public UseAction getUseAction(ItemStack stack) {
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
         return getUseAction(new UseActionArgs(stack)).get();
     }
 
     public CompatUseAction getUseAction(UseActionArgs args) {
-        return CompatUseAction.of(super.getUseAction(args.stack));
+        return CompatUseAction.of(super.getUseAnimation(args.stack));
     }
 
     @Deprecated
@@ -83,17 +83,17 @@ public class CompatItem extends ExtendItem {
 
     @Deprecated
     @Override
-    public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+    public boolean releaseUsing(ItemStack stack, Level world, LivingEntity user, int remainingUseTicks) {
         return onStoppedUsing(new StoppedUsingArgs(stack, world, user, remainingUseTicks));
     }
 
     public boolean onStoppedUsing(StoppedUsingArgs args) {
-        return super.onStoppedUsing(args.stack, args.world, args.user, args.remainingUseTicks);
+        return super.releaseUsing(args.stack, args.world, args.user, args.remainingUseTicks);
     }
 
     @Deprecated
     @Override
-    public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {
+    public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, @Nullable EquipmentSlot slot) {
         inventoryTick(new InventoryTickEvent(stack, world, entity, slot));
     }
 

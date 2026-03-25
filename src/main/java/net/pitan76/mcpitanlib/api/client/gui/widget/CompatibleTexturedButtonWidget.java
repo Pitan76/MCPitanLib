@@ -1,15 +1,15 @@
 package net.pitan76.mcpitanlib.api.client.gui.widget;
 
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ButtonTextures;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TexturedButtonWidget;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
-public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
+public class CompatibleTexturedButtonWidget extends ImageButton {
     private final Identifier texture;
     private final int u;
     private final int v;
@@ -17,20 +17,20 @@ public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
     private final int textureWidth;
     private final int textureHeight;
 
-    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, Identifier texture, ButtonWidget.PressAction pressAction) {
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, Identifier texture, Button.OnPress pressAction) {
         this(x, y, width, height, u, v, height, texture, 256, 256, pressAction);
     }
 
-    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, ButtonWidget.PressAction pressAction) {
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, Button.OnPress pressAction) {
         this(x, y, width, height, u, v, hoveredVOffset, texture, 256, 256, pressAction);
     }
 
-    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, int textureWidth, int textureHeight, ButtonWidget.PressAction pressAction) {
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, int textureWidth, int textureHeight, Button.OnPress pressAction) {
         this(x, y, width, height, u, v, hoveredVOffset, texture, textureWidth, textureHeight, pressAction, TextUtil.empty());
     }
 
-    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, int textureWidth, int textureHeight, ButtonWidget.PressAction pressAction, net.minecraft.text.Text text) {
-        super(x, y, width, height, new ButtonTextures(texture, texture), pressAction, text);
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, Identifier texture, int textureWidth, int textureHeight, Button.OnPress pressAction, net.minecraft.network.chat.Component text) {
+        super(x, y, width, height, new WidgetSprites(texture, texture), pressAction, text);
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
         this.u = u;
@@ -39,19 +39,19 @@ public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
         this.texture = texture;
     }
 
-    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, CompatIdentifier texture, ButtonWidget.PressAction pressAction) {
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, CompatIdentifier texture, Button.OnPress pressAction) {
         this(x, y, width, height, u, v, texture.toMinecraft(), pressAction);
     }
 
-    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, CompatIdentifier texture, ButtonWidget.PressAction pressAction) {
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, CompatIdentifier texture, Button.OnPress pressAction) {
         this(x, y, width, height, u, v, hoveredVOffset, texture.toMinecraft(), pressAction);
     }
 
-    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, CompatIdentifier texture, int textureWidth, int textureHeight, ButtonWidget.PressAction pressAction) {
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, CompatIdentifier texture, int textureWidth, int textureHeight, Button.OnPress pressAction) {
         this(x, y, width, height, u, v, hoveredVOffset, texture.toMinecraft(), textureWidth, textureHeight, pressAction);
     }
 
-    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, CompatIdentifier texture, int textureWidth, int textureHeight, ButtonWidget.PressAction pressAction, net.minecraft.text.Text text) {
+    public CompatibleTexturedButtonWidget(int x, int y, int width, int height, int u, int v, int hoveredVOffset, CompatIdentifier texture, int textureWidth, int textureHeight, Button.OnPress pressAction, net.minecraft.network.chat.Component text) {
         this(x, y, width, height, u, v, hoveredVOffset, texture.toMinecraft(), textureWidth, textureHeight, pressAction, text);
     }
 
@@ -61,14 +61,14 @@ public class CompatibleTexturedButtonWidget extends TexturedButtonWidget {
     }
 
     @Override
-    public void drawIcon(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void renderContents(GuiGraphics context, int mouseX, int mouseY, float delta) {
         int i = v;
-        if (this.getNarrationMessage().toString().isEmpty()) {
+        if (this.createNarrationMessage().toString().isEmpty()) {
             i = v + hoveredVOffset * 2;
         } else if (this.isHovered()) {
             i += hoveredVOffset;
         }
 
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), u, i, this.width, this.height, textureWidth, textureHeight);
+        context.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), u, i, this.width, this.height, textureWidth, textureHeight);
     }
 }

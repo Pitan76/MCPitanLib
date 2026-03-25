@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.resource.featuretoggle.FeatureFlags;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 
-public class SimpleScreenHandlerTypeBuilder<T extends ScreenHandler> {
+public class SimpleScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
 
     private final Factory<T> factory;
 
@@ -18,21 +18,21 @@ public class SimpleScreenHandlerTypeBuilder<T extends ScreenHandler> {
         this.factory = factory;
     }
 
-    public ScreenHandlerType<T> build() {
-        return new ScreenHandlerType<>(factory::create, FeatureFlags.VANILLA_FEATURES);
+    public MenuType<T> build() {
+        return new MenuType<>(factory::create, FeatureFlags.VANILLA_SET);
     }
 
     @FunctionalInterface
-    public interface Factory<T extends ScreenHandler> {
-        T create(int syncId, PlayerInventory inventory);
+    public interface Factory<T extends AbstractContainerMenu> {
+        T create(int syncId, Inventory inventory);
     }
 
     @FunctionalInterface
-    public interface Factory2<T extends ScreenHandler> extends Factory<T> {
+    public interface Factory2<T extends AbstractContainerMenu> extends Factory<T> {
         T create(CreateMenuEvent e);
 
         @Override
-        default T create(int syncId, PlayerInventory inventory) {
+        default T create(int syncId, Inventory inventory) {
             return create(new CreateMenuEvent(syncId, inventory));
         }
     }

@@ -1,23 +1,23 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.item.consume.UseAction;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.event.v2.ItemEventRegistry;
 import net.pitan76.mcpitanlib.api.event.v2.listener.InventoryTickTask;
@@ -29,6 +29,7 @@ import net.pitan76.mcpitanlib.api.item.consume.CompatUseAction;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
+import net.pitan76.mcpitanlib.mixin.UseOnContextMixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -37,12 +38,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Consumer;
 
-// TODO(Ravel): can not resolve target class Item
 @Mixin(Item.class)
 public class ItemMixin {
-    // TODO(Ravel): no target class
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+    private void mcpitanlib$use(Level world, Player user, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -52,22 +51,20 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "useOnBlock", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
+    @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$useOnBlock(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
-            ItemUsageContextMixin contextAccessor = (ItemUsageContextMixin) context;
+            UseOnContextMixin contextAccessor = (UseOnContextMixin) context;
             Options options = new Options();
-            CompatActionResult returnValue = provider.onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHit()), options);
+            CompatActionResult returnValue = provider.onRightClickOnBlock(new ItemUseOnBlockEvent(context.getPlayer(), context.getHand(), contextAccessor.getHitResult()), options);
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue.toActionResult());
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "useOnEntity", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+    @Inject(method = "interactLivingEntity", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$useOnEntity(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -77,9 +74,8 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "finishUsing", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$finishUsing(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "finishUsingItem", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$finishUsing(ItemStack stack, Level world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -102,9 +98,8 @@ public class ItemMixin {
     }
     */
 
-    // TODO(Ravel): no target class
-    @Inject(method = "appendTooltip", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type, CallbackInfo ci) {
+    @Inject(method = "appendHoverText", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type, CallbackInfo ci) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -114,8 +109,7 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "postHit", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "hurtEnemy", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$postHit(ItemStack stack, LivingEntity target, LivingEntity attacker, CallbackInfo ci) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
@@ -126,9 +120,8 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "postMine", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "mineBlock", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$postMine(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -138,9 +131,8 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "onCraft", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$onCraft(ItemStack stack, World world, CallbackInfo ci) {
+    @Inject(method = "onCraftedPostProcess", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$onCraft(ItemStack stack, Level world, CallbackInfo ci) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
             Options options = new Options();
@@ -176,8 +168,7 @@ public class ItemMixin {
     }
     */
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getItemBarColor", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getBarColor", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$getItemBarColor(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
@@ -188,8 +179,7 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "isItemBarVisible", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isBarVisible", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$isItemBarVisible(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
@@ -200,8 +190,7 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getItemBarStep", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getBarWidth", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$getItemBarStep(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
@@ -212,8 +201,7 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getBonusAttackDamage", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getAttackDamageBonus", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$getBonusAttackDamage(Entity target, float baseAttackDamage, DamageSource damageSource, CallbackInfoReturnable<Float> cir) {
         if (this instanceof ExtendItemProvider) {
             ExtendItemProvider provider = (ExtendItemProvider) this;
@@ -224,9 +212,8 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getUseAction", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$getUseAction(ItemStack stack, CallbackInfoReturnable<UseAction> cir) {
+    @Inject(method = "getUseAnimation", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getUseAction(ItemStack stack, CallbackInfoReturnable<ItemUseAnimation> cir) {
         if (this instanceof CompatItemProvider) {
             CompatItemProvider provider = (CompatItemProvider) this;
             Options options = new Options();
@@ -236,9 +223,8 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
     @Inject(method = "inventoryTick", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inventoryTick(ItemStack stack, ServerWorld world, Entity entity, EquipmentSlot slot, CallbackInfo ci) {
+    private void mcpitanlib$inventoryTick(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot, CallbackInfo ci) {
         // イベントを呼び出す
         if (!ItemEventRegistry.INVENTORY_TICK.isEmpty()) {
             int maxPriority = ItemEventRegistry.INVENTORY_TICK.getMaxPriority();
@@ -259,8 +245,7 @@ public class ItemMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getRecipeRemainder", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getCraftingRemainder", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$getRecipeRemainder(CallbackInfoReturnable<ItemStack> cir) {
         if (this instanceof FixedRecipeRemainderItem) {
             ItemStack returnValue = ((FixedRecipeRemainderItem) this)

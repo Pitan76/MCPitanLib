@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.math;
 
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
 
 public class DirectionUtil {
 

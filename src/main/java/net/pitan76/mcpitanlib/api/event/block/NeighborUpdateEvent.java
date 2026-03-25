@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.block.WireOrientation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.redstone.Orientation;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class NeighborUpdateEvent extends BaseEvent {
     public BlockState state;
-    public World world;
+    public Level world;
     public BlockPos pos;
     public Block sourceBlock;
 
@@ -21,11 +21,11 @@ public class NeighborUpdateEvent extends BaseEvent {
     public BlockPos sourcePos;
 
     @Nullable
-    public WireOrientation wireOrientation;
+    public Orientation wireOrientation;
 
     public boolean notify;
 
-    public NeighborUpdateEvent(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable BlockPos sourcePos, boolean notify) {
+    public NeighborUpdateEvent(BlockState state, Level world, BlockPos pos, Block sourceBlock, @Nullable BlockPos sourcePos, boolean notify) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -34,7 +34,7 @@ public class NeighborUpdateEvent extends BaseEvent {
         this.notify = notify;
     }
 
-    public NeighborUpdateEvent(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+    public NeighborUpdateEvent(BlockState state, Level world, BlockPos pos, Block sourceBlock, @Nullable Orientation wireOrientation, boolean notify) {
         this(state, world, pos, sourceBlock, (BlockPos) null, notify);
         this.wireOrientation = wireOrientation;
     }
@@ -43,7 +43,7 @@ public class NeighborUpdateEvent extends BaseEvent {
         return state;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -76,7 +76,7 @@ public class NeighborUpdateEvent extends BaseEvent {
     }
 
     @Deprecated
-    public @Nullable WireOrientation getWireOrientation() {
+    public @Nullable Orientation getWireOrientation() {
         return wireOrientation;
     }
 

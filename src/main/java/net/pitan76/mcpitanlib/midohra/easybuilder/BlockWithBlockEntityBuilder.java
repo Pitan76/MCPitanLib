@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.easybuilder;
 
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.v2.BlockSettingsBuilder;

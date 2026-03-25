@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.gui.inventory.sided.args;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
 
 public class CanExtractArgs {
     public int slot;

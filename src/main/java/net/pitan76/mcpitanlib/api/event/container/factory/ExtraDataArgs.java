@@ -1,16 +1,16 @@
 package net.pitan76.mcpitanlib.api.event.container.factory;
 
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 
 public class ExtraDataArgs extends BaseEvent {
-    public PacketByteBuf buf;
-    public ServerPlayerEntity player;
+    public FriendlyByteBuf buf;
+    public ServerPlayer player;
 
-    public ExtraDataArgs(PacketByteBuf buf, ServerPlayerEntity player) {
+    public ExtraDataArgs(FriendlyByteBuf buf, ServerPlayer player) {
         super();
         this.buf = buf;
         this.player = player;
@@ -20,7 +20,7 @@ public class ExtraDataArgs extends BaseEvent {
         super();
     }
 
-    public ExtraDataArgs(PacketByteBuf buf) {
+    public ExtraDataArgs(FriendlyByteBuf buf) {
         super();
         this.buf = buf;
     }
@@ -33,11 +33,11 @@ public class ExtraDataArgs extends BaseEvent {
         return buf != null;
     }
 
-    public PacketByteBuf getBuf() {
+    public FriendlyByteBuf getBuf() {
         return buf;
     }
 
-    public ServerPlayerEntity getPlayer() {
+    public ServerPlayer getPlayer() {
         return player;
     }
 
@@ -47,7 +47,7 @@ public class ExtraDataArgs extends BaseEvent {
 
     /**
      * @param obj The object to write
-     * @see PacketByteUtil#writeVar(PacketByteBuf, Object)
+     * @see PacketByteUtil#writeVar(FriendlyByteBuf, Object)
      */
     public void writeVar(Object obj) {
         PacketByteUtil.writeVar(getBuf(), obj);

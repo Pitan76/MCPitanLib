@@ -1,17 +1,17 @@
 package net.pitan76.mcpitanlib.api.client.gui.screen;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawBackgroundArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawMouseoverTooltipArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 
-public abstract class SimpleInventoryScreen<S extends ScreenHandler> extends SimpleHandledScreen<S> {
+public abstract class SimpleInventoryScreen<S extends AbstractContainerMenu> extends SimpleHandledScreen<S> {
 
-    public SimpleInventoryScreen(S handler, PlayerInventory inventory, Text title) {
+    public SimpleInventoryScreen(S handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
     }
 

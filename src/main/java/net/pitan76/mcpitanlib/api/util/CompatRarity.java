@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Rarity;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.item.Rarity;
 
 public class CompatRarity implements CompatStringIdentifiable {
     private final Rarity rarity;
@@ -24,8 +24,8 @@ public class CompatRarity implements CompatStringIdentifiable {
         return rarity;
     }
 
-    public Formatting getFormatting() {
-        return rarity.getFormatting();
+    public ChatFormatting getFormatting() {
+        return rarity.color();
     }
 
     public String getName() {

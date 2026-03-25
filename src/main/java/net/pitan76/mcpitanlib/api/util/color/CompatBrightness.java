@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.color;
 
-import net.minecraft.block.MapColor;
+import net.minecraft.world.level.material.MapColor;
 
 public class CompatBrightness {
     private final MapColor.Brightness brightness;
@@ -31,7 +31,7 @@ public class CompatBrightness {
     }
 
     public int getBrightness() {
-        return get().brightness;
+        return get().modifier;
     }
 
 

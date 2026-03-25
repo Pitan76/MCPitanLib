@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.item.args;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 import java.util.Optional;
@@ -11,26 +11,26 @@ import java.util.Optional;
 public class StoppedUsingArgs {
 
     public ItemStack stack;
-    public World world;
+    public Level world;
     public LivingEntity user;
     public int remainingUseTicks;
 
-    public StoppedUsingArgs(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+    public StoppedUsingArgs(ItemStack stack, Level world, LivingEntity user, int remainingUseTicks) {
         this.stack = stack;
         this.world = world;
         this.user = user;
         this.remainingUseTicks = remainingUseTicks;
     }
 
-    public StoppedUsingArgs(ItemStack stack, World world, LivingEntity user) {
+    public StoppedUsingArgs(ItemStack stack, Level world, LivingEntity user) {
         this(stack, world, user, 0);
     }
 
-    public StoppedUsingArgs(ItemStack stack, World world, Player player, int remainingUseTicks) {
+    public StoppedUsingArgs(ItemStack stack, Level world, Player player, int remainingUseTicks) {
         this(stack, world, player.getEntity(), remainingUseTicks);
     }
 
-    public StoppedUsingArgs(ItemStack stack, World world, Player player) {
+    public StoppedUsingArgs(ItemStack stack, Level world, Player player) {
         this(stack, world, player, 0);
     }
 
@@ -42,7 +42,7 @@ public class StoppedUsingArgs {
         return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(stack);
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -63,7 +63,7 @@ public class StoppedUsingArgs {
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public boolean isServer() {
@@ -71,10 +71,10 @@ public class StoppedUsingArgs {
     }
 
     public boolean isPlayer() {
-        return user instanceof PlayerEntity;
+        return user instanceof Player;
     }
 
     public Optional<Player> getPlayer() {
-        return isPlayer() ? Optional.of(new Player((PlayerEntity) user)) : Optional.empty();
+        return isPlayer() ? Optional.of(new Player((Player) user)) : Optional.empty();
     }
 }

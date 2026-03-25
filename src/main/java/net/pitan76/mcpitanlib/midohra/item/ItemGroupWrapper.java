@@ -4,17 +4,17 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
 
 public class ItemGroupWrapper {
-    private final net.minecraft.item.ItemGroup itemGroup;
+    private final net.minecraft.world.item.CreativeModeTab itemGroup;
 
     protected ItemGroupWrapper() {
         this.itemGroup = null;
     }
 
-    protected ItemGroupWrapper(net.minecraft.item.ItemGroup itemGroup) {
+    protected ItemGroupWrapper(net.minecraft.world.item.CreativeModeTab itemGroup) {
         this.itemGroup = itemGroup;
     }
 
-    public static ItemGroupWrapper of(net.minecraft.item.ItemGroup itemGroup) {
+    public static ItemGroupWrapper of(net.minecraft.world.item.CreativeModeTab itemGroup) {
         return new ItemGroupWrapper(itemGroup);
     }
 
@@ -37,7 +37,7 @@ public class ItemGroupWrapper {
         return itemGroup == null;
     }
 
-    public net.minecraft.item.ItemGroup get() {
+    public net.minecraft.world.item.CreativeModeTab get() {
         return itemGroup;
     }
 
@@ -48,7 +48,7 @@ public class ItemGroupWrapper {
 
     public ItemStack getIcon() {
         if (isEmpty()) return ItemStack.EMPTY;
-        return ItemStack.of(itemGroup.getIcon());
+        return ItemStack.of(itemGroup.getIconItem());
     }
 
     public boolean rawEquals(ItemGroupWrapper other) {

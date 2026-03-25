@@ -2,20 +2,20 @@ package net.pitan76.mcpitanlib.midohra.util.math;
 
 public class Direction {
 
-    public static final Direction UP = new Direction(net.minecraft.util.math.Direction.UP);
-    public static final Direction DOWN = new Direction(net.minecraft.util.math.Direction.DOWN);
-    public static final Direction NORTH = new Direction(net.minecraft.util.math.Direction.NORTH);
-    public static final Direction SOUTH = new Direction(net.minecraft.util.math.Direction.SOUTH);
-    public static final Direction EAST = new Direction(net.minecraft.util.math.Direction.EAST);
-    public static final Direction WEST = new Direction(net.minecraft.util.math.Direction.WEST);
+    public static final Direction UP = new Direction(net.minecraft.core.Direction.UP);
+    public static final Direction DOWN = new Direction(net.minecraft.core.Direction.DOWN);
+    public static final Direction NORTH = new Direction(net.minecraft.core.Direction.NORTH);
+    public static final Direction SOUTH = new Direction(net.minecraft.core.Direction.SOUTH);
+    public static final Direction EAST = new Direction(net.minecraft.core.Direction.EAST);
+    public static final Direction WEST = new Direction(net.minecraft.core.Direction.WEST);
 
-    private final net.minecraft.util.math.Direction direction;
+    private final net.minecraft.core.Direction direction;
 
-    protected Direction(net.minecraft.util.math.Direction direction) {
+    protected Direction(net.minecraft.core.Direction direction) {
         this.direction = direction;
     }
 
-    public static Direction of(net.minecraft.util.math.Direction direction) {
+    public static Direction of(net.minecraft.core.Direction direction) {
         switch (direction) {
             case UP:
                 return UP;
@@ -53,11 +53,11 @@ public class Direction {
         }
     }
 
-    public net.minecraft.util.math.Direction getRaw() {
+    public net.minecraft.core.Direction getRaw() {
         return direction;
     }
 
-    public net.minecraft.util.math.Direction toMinecraft() {
+    public net.minecraft.core.Direction toMinecraft() {
         return getRaw();
     }
 
@@ -70,31 +70,31 @@ public class Direction {
     }
 
     public boolean isPositive() {
-        return getRaw().getDirection() == net.minecraft.util.math.Direction.AxisDirection.POSITIVE;
+        return getRaw().getAxisDirection() == net.minecraft.core.Direction.AxisDirection.POSITIVE;
     }
 
     public boolean isNegative() {
-        return getRaw().getDirection() == net.minecraft.util.math.Direction.AxisDirection.NEGATIVE;
+        return getRaw().getAxisDirection() == net.minecraft.core.Direction.AxisDirection.NEGATIVE;
     }
 
     public int getOffsetX() {
-        return getRaw().getOffsetX();
+        return getRaw().getStepX();
     }
 
     public int getOffsetY() {
-        return getRaw().getOffsetY();
+        return getRaw().getStepY();
     }
 
     public int getOffsetZ() {
-        return getRaw().getOffsetZ();
+        return getRaw().getStepZ();
     }
 
     public Direction rotateYClockwise() {
-        return of(getRaw().rotateYClockwise());
+        return of(getRaw().getClockWise());
     }
 
     public Direction rotateYCounterclockwise() {
-        return of(getRaw().rotateYCounterclockwise());
+        return of(getRaw().getCounterClockWise());
     }
 
     @Override

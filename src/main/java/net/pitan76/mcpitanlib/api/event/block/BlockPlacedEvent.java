@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
@@ -14,13 +14,13 @@ import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 
 public class BlockPlacedEvent extends BaseEvent {
 
-    public World world;
+    public Level world;
     public BlockPos pos;
     public BlockState state;
     public LivingEntity placer;
     public ItemStack stack;
 
-    public BlockPlacedEvent(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+    public BlockPlacedEvent(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
         this.world = world;
         this.pos = pos;
         this.state = state;
@@ -36,7 +36,7 @@ public class BlockPlacedEvent extends BaseEvent {
         return pos;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
@@ -49,7 +49,7 @@ public class BlockPlacedEvent extends BaseEvent {
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public BlockEntity getBlockEntity() {

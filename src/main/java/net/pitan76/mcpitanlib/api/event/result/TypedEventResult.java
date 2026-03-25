@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.event.result;
 
 import dev.architectury.event.CompoundEventResult;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResult;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 
 public class TypedEventResult<T> {
@@ -33,7 +33,7 @@ public class TypedEventResult<T> {
         return result;
     }
 
-    public ActionResult toActionResult() {
+    public InteractionResult toActionResult() {
         return result.result().asMinecraft();
     }
 
@@ -45,10 +45,10 @@ public class TypedEventResult<T> {
         if (result.object() != stack)
             return toCompatActionResult();
 
-        if (toActionResult() instanceof ActionResult.Success) {
-            ActionResult.Success success = (ActionResult.Success) toActionResult();
+        if (toActionResult() instanceof InteractionResult.Success) {
+            InteractionResult.Success success = (InteractionResult.Success) toActionResult();
 
-            return CompatActionResult.create(success.withNewHandStack(stack));
+            return CompatActionResult.create(success.heldItemTransformedTo(stack));
         }
 
         return toCompatActionResult();

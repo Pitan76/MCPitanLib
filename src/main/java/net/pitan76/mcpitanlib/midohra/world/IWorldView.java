@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.midohra.world;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.core.BlockPos;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.fluid.FluidWrapper;
 
@@ -23,6 +23,6 @@ public interface IWorldView {
     }
 
     default FluidWrapper getFluid(net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
-        return FluidWrapper.of(getFluidState(pos.toMinecraft()).getFluid());
+        return FluidWrapper.of(getFluidState(pos.toMinecraft()).getType());
     }
 }

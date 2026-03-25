@@ -1,28 +1,28 @@
 package net.pitan76.mcpitanlib.api.tag;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.util.*;
 
 public class TagKey<T> {
-    private final net.minecraft.registry.tag.TagKey<T> tagKey;
+    private final net.minecraft.tags.TagKey tagKey;
 
     @Deprecated
-    public TagKey(net.minecraft.registry.tag.TagKey<T> tagKey) {
+    public TagKey(net.minecraft.tags.TagKey tagKey) {
         this.tagKey = tagKey;
     }
 
     public static TagKey<?> create(Type type, Identifier identifier) {
         return switch (type) {
-            case BLOCK -> new TagKey<>(net.minecraft.registry.tag.TagKey.of(RegistryKeys.BLOCK, identifier));
-            case ITEM -> new TagKey<>(net.minecraft.registry.tag.TagKey.of(RegistryKeys.ITEM, identifier));
-            case FLUID -> new TagKey<>(net.minecraft.registry.tag.TagKey.of(RegistryKeys.FLUID, identifier));
-            case ENTITY_TYPE -> new TagKey<>(net.minecraft.registry.tag.TagKey.of(RegistryKeys.ENTITY_TYPE, identifier));
+            case BLOCK -> new TagKey<>(net.minecraft.tags.TagKey.create(Registries.BLOCK, identifier));
+            case ITEM -> new TagKey<>(net.minecraft.tags.TagKey.create(Registries.ITEM, identifier));
+            case FLUID -> new TagKey<>(net.minecraft.tags.TagKey.create(Registries.FLUID, identifier));
+            case ENTITY_TYPE -> new TagKey<>(net.minecraft.tags.TagKey.create(Registries.ENTITY_TYPE, identifier));
         };
     }
 
@@ -31,7 +31,7 @@ public class TagKey<T> {
     }
 
     @Deprecated
-    public net.minecraft.registry.tag.TagKey<T> getTagKey() {
+    public net.minecraft.tags.TagKey getTagKey() {
         return tagKey;
     }
 
@@ -44,14 +44,14 @@ public class TagKey<T> {
 
     public boolean isOf(T value) {
         if (value instanceof Item)
-            return getTagKey() == net.minecraft.registry.tag.TagKey.of(RegistryKeys.ITEM, ItemUtil.toID((Item) value));
+            return getTagKey() == net.minecraft.tags.TagKey.create(Registries.ITEM, ItemUtil.toID((Item) value));
         if (value instanceof Block)
-            return getTagKey() == net.minecraft.registry.tag.TagKey.of(RegistryKeys.BLOCK, BlockUtil.toID((Block) value));
+            return getTagKey() == net.minecraft.tags.TagKey.create(Registries.BLOCK, BlockUtil.toID((Block) value));
         if (value instanceof Fluid)
-            return getTagKey() == net.minecraft.registry.tag.TagKey.of(RegistryKeys.FLUID, FluidUtil.toID((Fluid) value));
+            return getTagKey() == net.minecraft.tags.TagKey.create(Registries.FLUID, FluidUtil.toID((Fluid) value));
         if (value instanceof EntityType<?>)
-            return getTagKey() == net.minecraft.registry.tag.TagKey.of(RegistryKeys.ENTITY_TYPE, EntityTypeUtil.toID((EntityType<?>) value));
+            return getTagKey() == net.minecraft.tags.TagKey.create(Registries.ENTITY_TYPE, EntityTypeUtil.toID((EntityType<?>) value));
 
-        return RegistryEntry.of(value).isIn(getTagKey());
+        return Holder.direct(value).is(getTagKey());
     }
 }

@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.guilib.api.container;
 
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
@@ -15,13 +15,13 @@ public abstract class ExtendedBlockEntityContainerGui<T extends CompatBlockEntit
 
     public T blockEntity;
 
-    public ExtendedBlockEntityContainerGui(ScreenHandlerType<?> type, CreateMenuEvent e, PacketByteBuf buf) {
+    public ExtendedBlockEntityContainerGui(MenuType<?> type, CreateMenuEvent e, FriendlyByteBuf buf) {
         this(type, e);
 
         if (buf == null) return;
 
         Player player = e.getPlayer();
-        World world = player.getWorld();
+        Level world = player.getWorld();
         BlockPos pos = buf.readBlockPos();
 
         BlockEntity blockEntity = WorldUtil.getBlockEntity(world, pos);
@@ -31,9 +31,9 @@ public abstract class ExtendedBlockEntityContainerGui<T extends CompatBlockEntit
         receiveSync(buf);
     }
 
-    protected ExtendedBlockEntityContainerGui(ScreenHandlerType<?> type, CreateMenuEvent e) {
+    protected ExtendedBlockEntityContainerGui(MenuType<?> type, CreateMenuEvent e) {
         super(type, e);
     }
 
-    public abstract void receiveSync(PacketByteBuf buf);
+    public abstract void receiveSync(FriendlyByteBuf buf);
 }

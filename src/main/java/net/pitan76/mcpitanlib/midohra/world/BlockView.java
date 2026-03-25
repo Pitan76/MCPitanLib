@@ -1,26 +1,26 @@
 package net.pitan76.mcpitanlib.midohra.world;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.core.BlockPos;
 
 public class BlockView implements IWorldView {
-    private net.minecraft.world.BlockView blockView;
+    private net.minecraft.world.level.BlockGetter blockView;
 
-    public BlockView(net.minecraft.world.BlockView blockView) {
+    public BlockView(net.minecraft.world.level.BlockGetter blockView) {
         this.blockView = blockView;
     }
 
-    public static BlockView of(net.minecraft.world.BlockView blockView) {
+    public static BlockView of(net.minecraft.world.level.BlockGetter blockView) {
         return new BlockView(blockView);
     }
 
-    public net.minecraft.world.BlockView getRaw() {
+    public net.minecraft.world.level.BlockGetter getRaw() {
         return blockView;
     }
 
-    public net.minecraft.world.BlockView toMinecraft() {
+    public net.minecraft.world.level.BlockGetter toMinecraft() {
         return getRaw();
     }
 

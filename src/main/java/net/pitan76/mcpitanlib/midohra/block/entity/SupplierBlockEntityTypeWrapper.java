@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.block.entity;
 
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 
 import java.util.function.Supplier;

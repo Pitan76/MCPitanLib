@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util.collection;
 
 import com.google.common.collect.Lists;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.NonNullList;
 import net.pitan76.mcpitanlib.api.gui.inventory.IInventory;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import org.apache.commons.lang3.Validate;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ItemStackList extends DefaultedList<ItemStack> {
+public class ItemStackList extends NonNullList<ItemStack> {
 
     public ItemStackList(List<ItemStack> delegate, @Nullable ItemStack initialElement) {
         super(delegate, initialElement);
@@ -39,32 +39,32 @@ public class ItemStackList extends DefaultedList<ItemStack> {
         return new ItemStackList(Arrays.asList(stacks), defaultStack);
     }
 
-    public static Inventory toInventory(DefaultedList<ItemStack> list) {
+    public static Container toInventory(NonNullList<ItemStack> list) {
         return IInventory.of(list);
     }
 
-    public static DefaultedList<ItemStack> toDefaultedList(Inventory inventory) {
-        DefaultedList<ItemStack> list = DefaultedList.ofSize(inventory.size(), ItemStackUtil.empty());
-        for (int i = 0; i < inventory.size(); i++) {
-            list.set(i, inventory.getStack(i));
+    public static NonNullList<ItemStack> toDefaultedList(Container inventory) {
+        NonNullList<ItemStack> list = NonNullList.withSize(inventory.getContainerSize(), ItemStackUtil.empty());
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            list.set(i, inventory.getItem(i));
         }
 
         return list;
     }
 
-    public static ItemStackList fromInventory(Inventory inventory) {
+    public static ItemStackList fromInventory(Container inventory) {
         return new ItemStackList(toDefaultedList(inventory), ItemStackUtil.empty());
     }
 
-    public Inventory toInventory() {
+    public Container toInventory() {
         return toInventory(this);
     }
 
-    public DefaultedList<ItemStack> defaultedList() {
+    public NonNullList<ItemStack> defaultedList() {
         return this;
     }
 
-    public static ItemStackList of(DefaultedList<ItemStack> defaultedList) {
+    public static ItemStackList of(NonNullList<ItemStack> defaultedList) {
         ItemStackList stacks = ItemStackList.ofSize(defaultedList.size());
         for (int i = 0; i < defaultedList.size(); i++) {
             stacks.set(i , defaultedList.get(i));

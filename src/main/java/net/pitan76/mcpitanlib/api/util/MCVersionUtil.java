@@ -10,7 +10,7 @@ public class MCVersionUtil {
     }
 
     public static String getGameVersion() {
-        return ClientUtil.getClient().getGameVersion();
+        return ClientUtil.getClient().getLaunchedVersion();
     }
 
     public static boolean isSupportedComponent() {

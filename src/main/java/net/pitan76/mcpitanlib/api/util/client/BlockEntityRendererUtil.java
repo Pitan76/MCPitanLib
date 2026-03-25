@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient2;
 
 public class BlockEntityRendererUtil {
-    public static BlockEntityRendererFactory.Context convert(CompatRegistryClient.BlockEntityRendererFactory.Context ctx) {
-        return new BlockEntityRendererFactory.Context(ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer(), ctx.getSpriteHolder(), ctx.getPlayerSkinRenderCache());
+    public static BlockEntityRendererProvider.Context convert(CompatRegistryClient2.BlockEntityRendererFactory.Context ctx) {
+        return new BlockEntityRendererProvider.Context(ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer(), ctx.getSpriteHolder(), ctx.getPlayerSkinRenderCache());
     }
 
-    public static CompatRegistryClient.BlockEntityRendererFactory.Context convert(BlockEntityRendererFactory.Context ctx) {
-        return new CompatRegistryClient.BlockEntityRendererFactory.Context(ctx.renderDispatcher(), ctx.renderManager(), ctx.itemModelManager(), ctx.itemRenderer(), ctx.entityRenderDispatcher(), ctx.loadedEntityModels(), ctx.textRenderer(), ctx.spriteHolder(), ctx.playerSkinRenderCache());
+    public static CompatRegistryClient2.BlockEntityRendererFactory.Context convert(BlockEntityRendererProvider.Context ctx) {
+        return new CompatRegistryClient2.BlockEntityRendererFactory.Context(ctx.blockEntityRenderDispatcher(), ctx.blockRenderDispatcher(), ctx.itemModelResolver(), ctx.itemRenderer(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.materials(), ctx.playerSkinRenderCache());
     }
 }

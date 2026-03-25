@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
-import net.minecraft.client.util.Window;
+import com.mojang.blaze3d.platform.Window;
 
 public class WindowUtil {
 
@@ -9,19 +9,19 @@ public class WindowUtil {
     }
 
     public static int getWindowScaledWidth() {
-        return getWindow().getScaledWidth();
+        return getWindow().getGuiScaledWidth();
     }
 
     public static int getWindowScaledHeight() {
-        return getWindow().getScaledHeight();
+        return getWindow().getGuiScaledHeight();
     }
 
     public static int getWindowWidth() {
-        return getWindow().getWidth();
+        return getWindow().getScreenWidth();
     }
 
     public static int getWindowHeight() {
-        return getWindow().getHeight();
+        return getWindow().getScreenHeight();
     }
 
     public static int getWindowX() {

@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
@@ -222,7 +222,7 @@ public class BlockUtil {
      * @return Translation key of the block.
      */
     public static String getTranslationKey(Block block) {
-        return block.getTranslationKey();
+        return block.getDescriptionId();
     }
 
     public static Block fromItem(Item item) {

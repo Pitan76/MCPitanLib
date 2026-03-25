@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.damagesource.DamageSource;
 
 public class BonusAttackDamageArgs {
 

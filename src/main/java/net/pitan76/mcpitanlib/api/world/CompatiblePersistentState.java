@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.world;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.world.PersistentState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.saveddata.SavedData;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 
-public abstract class CompatiblePersistentState extends PersistentState {
+public abstract class CompatiblePersistentState extends SavedData {
     // 1.16
     public CompatiblePersistentState(String key) {
         super();
@@ -17,22 +17,22 @@ public abstract class CompatiblePersistentState extends PersistentState {
 
     // 1.16
     @Deprecated
-    public void readNbt(NbtCompound tag) {
+    public void readNbt(CompoundTag tag) {
         readNbt(new ReadNbtArgs(tag));
     }
 
     public abstract void readNbt(ReadNbtArgs args);
 
-    public abstract NbtCompound writeNbt(WriteNbtArgs args);
+    public abstract CompoundTag writeNbt(WriteNbtArgs args);
 
     @Deprecated
     @Override
-    public void markDirty() {
+    public void setDirty() {
         callMarkDirty();
     }
 
     public void callMarkDirty() {
-        super.markDirty();
+        super.setDirty();
     }
 
     @Deprecated

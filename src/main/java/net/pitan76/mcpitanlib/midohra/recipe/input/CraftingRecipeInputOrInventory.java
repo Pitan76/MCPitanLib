@@ -1,64 +1,64 @@
 package net.pitan76.mcpitanlib.midohra.recipe.input;
 
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.recipe.input.CraftingRecipeInput;
+import net.minecraft.world.inventory.TransientCraftingContainer;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.crafting.CraftingInput;
 import org.jetbrains.annotations.Nullable;
 
 public class CraftingRecipeInputOrInventory extends RecipeInputOrInventory {
-    private final CraftingRecipeInput recipeInput;
-    private CraftingInventory inventory = null;
+    private final CraftingInput recipeInput;
+    private TransientCraftingContainer inventory = null;
 
-    public static CraftingRecipeInputOrInventory EMPTY = new CraftingRecipeInputOrInventory(CraftingRecipeInput.EMPTY);
+    public static CraftingRecipeInputOrInventory EMPTY = new CraftingRecipeInputOrInventory(CraftingInput.EMPTY);
 
-    protected CraftingRecipeInputOrInventory(CraftingRecipeInput recipeInput) {
+    protected CraftingRecipeInputOrInventory(CraftingInput recipeInput) {
         super(null);
         this.recipeInput = recipeInput;
     }
 
-    protected CraftingRecipeInputOrInventory(CraftingInventory inventory) {
+    protected CraftingRecipeInputOrInventory(TransientCraftingContainer inventory) {
         super(null);
-        this.recipeInput = inventory.createRecipeInput();
+        this.recipeInput = inventory.asCraftInput();
         this.inventory = inventory;
     }
 
-    public static CraftingRecipeInputOrInventory of(CraftingRecipeInput recipeInput) {
+    public static CraftingRecipeInputOrInventory of(CraftingInput recipeInput) {
         return new CraftingRecipeInputOrInventory(recipeInput);
     }
 
-    public static CraftingRecipeInputOrInventory of(Inventory inventory) {
-        if (inventory instanceof CraftingRecipeInput) {
-            return of((CraftingRecipeInput) inventory);
+    public static CraftingRecipeInputOrInventory of(Container inventory) {
+        if (inventory instanceof CraftingInput) {
+            return of((CraftingInput) inventory);
         }
 
         return EMPTY;
     }
 
-    public static CraftingRecipeInputOrInventory of(CraftingInventory inventory) {
+    public static CraftingRecipeInputOrInventory of(TransientCraftingContainer inventory) {
         return new CraftingRecipeInputOrInventory(inventory);
     }
 
     @Nullable
     @Override
-    public CraftingRecipeInput getRaw() {
+    public CraftingInput getRaw() {
         return recipeInput;
     }
 
     @Nullable
     @Override
-    public CraftingRecipeInput toMinecraft() {
+    public CraftingInput toMinecraft() {
         return getRaw();
     }
 
     @Nullable
     @Override
-    public CraftingRecipeInput getRecipeInput() {
+    public CraftingInput getRecipeInput() {
         return getRaw();
     }
 
     @Nullable
     @Override
-    public Inventory getInventory() {
+    public Container getInventory() {
         if (inventory != null)
             return inventory;
 

@@ -2,15 +2,15 @@ package net.pitan76.mcpitanlib.api.util;
 
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.core.NonNullList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,14 +20,14 @@ public class IngredientUtil {
     public static Ingredient fromTagByIdentifier(Identifier id) {
         List<Item> items = ItemUtil.getItems(id);
 
-        List<RegistryEntry<Item>> entryList = new ArrayList<>();
+        List<Holder<Item>> entryList = new ArrayList<>();
         for (Item item : items) {
-            entryList.add(Registries.ITEM.getEntry(item));
+            entryList.add(BuiltInRegistries.ITEM.wrapAsHolder(item));
         }
 
-        RegistryEntryList<Item> entryList2 = RegistryEntryList.of(entryList);
+        HolderSet<Item> entryList2 = HolderSet.direct(entryList);
 
-        return Ingredient.ofTag(entryList2);
+        return Ingredient.of(entryList2);
     }
 
     public static Ingredient fromTagByString(String id) {
@@ -41,7 +41,7 @@ public class IngredientUtil {
     public static List<Item> getItems(Ingredient ingredient) {
         List<Item> items = new ArrayList<>();
 
-        for (RegistryEntry<Item> entry : ingredient.getMatchingItems().toList()) {
+        for (Holder<Item> entry : ingredient.items().toList()) {
             items.add(entry.value());
         }
 
@@ -75,20 +75,20 @@ public class IngredientUtil {
         return null;
     }
 
-    public static Ingredient ofItems(ItemConvertible... items) {
-        return Ingredient.ofItems(items);
+    public static Ingredient ofItems(ItemLike... items) {
+        return Ingredient.of(items);
     }
 
-    public static DefaultedList<Ingredient> buildInput(Object[] input) {
-        DefaultedList<Ingredient> list = DefaultedList.of();
+    public static NonNullList<Ingredient> buildInput(Object[] input) {
+        NonNullList<Ingredient> list = NonNullList.create();
         for (Object obj : input) {
             if (obj instanceof Ingredient) {
                 list.add((Ingredient) obj);
                 continue;
             }
 
-            if (obj instanceof ItemConvertible) {
-                list.add(ofItems((ItemConvertible) obj));
+            if (obj instanceof ItemLike) {
+                list.add(ofItems((ItemLike) obj));
             }
         }
         return list;

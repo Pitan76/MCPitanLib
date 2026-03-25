@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
@@ -12,11 +12,11 @@ import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
 
 public class BlockScheduledTickEvent extends BaseEvent implements BlockStatePropertyHolder {
     public BlockState state;
-    public ServerWorld world;
+    public ServerLevel world;
     public BlockPos pos;
     public CompatRandom random;
 
-    public BlockScheduledTickEvent(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public BlockScheduledTickEvent(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -31,7 +31,7 @@ public class BlockScheduledTickEvent extends BaseEvent implements BlockStateProp
         return pos;
     }
 
-    public ServerWorld getWorld() {
+    public ServerLevel getWorld() {
         return world;
     }
 

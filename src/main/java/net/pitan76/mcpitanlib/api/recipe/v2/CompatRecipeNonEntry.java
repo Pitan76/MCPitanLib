@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.recipe.v2;
 
-import net.minecraft.recipe.Recipe;
+import net.minecraft.world.item.crafting.Recipe;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 

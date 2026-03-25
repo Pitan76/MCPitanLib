@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util.client.v2;
 
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
 
 public class ScreenUtil extends net.pitan76.mcpitanlib.api.util.client.ScreenUtil {
 
@@ -9,7 +9,7 @@ public class ScreenUtil extends net.pitan76.mcpitanlib.api.util.client.ScreenUti
         screen.setFocused(focus);
     }
 
-    public static void setFocus(Screen screen, Element element) {
+    public static void setFocus(Screen screen, GuiEventListener element) {
         screen.setFocused(element);
     }
 

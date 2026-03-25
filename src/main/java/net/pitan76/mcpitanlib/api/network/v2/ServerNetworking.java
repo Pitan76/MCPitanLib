@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.network.v2;
 
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.network.v2.args.ServerReceiveEvent;
@@ -16,36 +16,36 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ServerNetworking {
-    public static void send(ServerPlayerEntity serverPlayerEntity, CompatIdentifier id, PacketByteBuf buf) {
+    public static void send(ServerPlayer serverPlayerEntity, CompatIdentifier id, FriendlyByteBuf buf) {
         net.pitan76.mcpitanlib.api.network.ServerNetworking.send(serverPlayerEntity, id.toMinecraft(), buf);
     }
 
-    public static void sendByServerPlayerEntity(Iterable<ServerPlayerEntity> players, CompatIdentifier id, PacketByteBuf buf) {
+    public static void sendByServerPlayerEntity(Iterable<ServerPlayer> players, CompatIdentifier id, FriendlyByteBuf buf) {
         net.pitan76.mcpitanlib.api.network.ServerNetworking.send(players, id.toMinecraft(), buf);
     }
 
-    public static void send(Player player, CompatIdentifier id, PacketByteBuf buf) {
-        Optional<ServerPlayerEntity> optional = player.getServerPlayer();
+    public static void send(Player player, CompatIdentifier id, FriendlyByteBuf buf) {
+        Optional<ServerPlayer> optional = player.getServerPlayer();
         if (optional.isEmpty()) return;
 
         send(optional.get(), id, buf);
     }
 
-    public static void send(Iterable<Player> players, CompatIdentifier id, PacketByteBuf buf) {
-        List<ServerPlayerEntity> list = new ArrayList<>();
+    public static void send(Iterable<Player> players, CompatIdentifier id, FriendlyByteBuf buf) {
+        List<ServerPlayer> list = new ArrayList<>();
         for (Player player : players) {
-            Optional<ServerPlayerEntity> optional = player.getServerPlayer();
+            Optional<ServerPlayer> optional = player.getServerPlayer();
             optional.ifPresent(list::add);
         }
 
         sendByServerPlayerEntity(list, id, buf);
     }
 
-    public static void sendAll(MinecraftServer server, CompatIdentifier id, PacketByteBuf buf) {
+    public static void sendAll(MinecraftServer server, CompatIdentifier id, FriendlyByteBuf buf) {
         net.pitan76.mcpitanlib.api.network.ServerNetworking.sendAll(server, id.toMinecraft(), buf);
     }
 
-    public static void sendAll(World world, CompatIdentifier id, PacketByteBuf buf) {
+    public static void sendAll(Level world, CompatIdentifier id, FriendlyByteBuf buf) {
         sendAll(world.getServer(), id, buf);
     }
 
@@ -55,7 +55,7 @@ public class ServerNetworking {
         });
     }
 
-    public static void send(ServerPlayerEntity serverPlayerEntity, CompatIdentifier id, CompatPacketByteBuf buf) {
+    public static void send(ServerPlayer serverPlayerEntity, CompatIdentifier id, CompatPacketByteBuf buf) {
         send(serverPlayerEntity, id, buf.getRaw());
     }
 
@@ -71,11 +71,11 @@ public class ServerNetworking {
         sendAll(server, id, buf.getRaw());
     }
 
-    public static void sendAll(World world, CompatIdentifier id, CompatPacketByteBuf buf) {
+    public static void sendAll(Level world, CompatIdentifier id, CompatPacketByteBuf buf) {
         sendAll(world.getServer(), id, buf.getRaw());
     }
 
-    public static void send(ServerPlayerEntity serverPlayerEntity, CompatIdentifier id) {
+    public static void send(ServerPlayer serverPlayerEntity, CompatIdentifier id) {
         send(serverPlayerEntity, id, PacketByteUtil.create());
     }
 
@@ -91,7 +91,7 @@ public class ServerNetworking {
         sendAll(server, id, PacketByteUtil.create());
     }
 
-    public static void sendAll(World world, CompatIdentifier id) {
+    public static void sendAll(Level world, CompatIdentifier id) {
         sendAll(world.getServer(), id, PacketByteUtil.create());
     }
 }

@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
@@ -125,7 +125,7 @@ public class ItemUtil {
      * @return BlockItem created from Block and Item.Settings.
      */
     @Deprecated
-    public static BlockItem ofBlock(Block block, Item.Settings settings) {
+    public static BlockItem ofBlock(Block block, Item.Properties settings) {
         return ItemUtilV1.ofBlock(block, settings);
     }
 
@@ -145,7 +145,7 @@ public class ItemUtil {
      * @return Item created from Item.Settings.
      */
     @Deprecated
-    public static Item of(Item.Settings settings) {
+    public static Item of(Item.Properties settings) {
         return ItemUtilV1.of(settings);
     }
 

@@ -1,46 +1,46 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
-import net.minecraft.client.Mouse;
+import net.minecraft.client.MouseHandler;
 
 public class MouseUtil {
 
-    public static Mouse getMouse() {
+    public static MouseHandler getMouse() {
         return ClientUtil.getMouse();
     }
 
     public static double getMouseX() {
-        return getMouse().getX();
+        return getMouse().xpos();
     }
 
     public static double getMouseY() {
-        return getMouse().getY();
+        return getMouse().ypos();
     }
 
     public static boolean isCursorLocked() {
-        return getMouse().isCursorLocked();
+        return getMouse().isMouseGrabbed();
     }
 
     public static void lockCursor() {
-        getMouse().lockCursor();
+        getMouse().grabMouse();
     }
 
     public static void unlockCursor() {
-        getMouse().unlockCursor();
+        getMouse().releaseMouse();
     }
 
     public static void tick() {
-        getMouse().tick();
+        getMouse().handleAccumulatedMovement();
     }
 
     public static boolean wasLeftButtonClicked() {
-        return getMouse().wasLeftButtonClicked();
+        return getMouse().isLeftPressed();
     }
 
     public static boolean wasRightButtonClicked() {
-        return getMouse().wasRightButtonClicked();
+        return getMouse().isRightPressed();
     }
 
     public static boolean wasMiddleButtonClicked() {
-        return getMouse().wasMiddleButtonClicked();
+        return getMouse().isMiddlePressed();
     }
 }

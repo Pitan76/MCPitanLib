@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider.Options;
 import net.pitan76.mcpitanlib.api.event.block.*;
@@ -22,13 +22,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-// TODO(Ravel): can not resolve target class Block
 @Mixin(Block.class)
 public class BlockMixin {
 
-    // TODO(Ravel): no target class
-    @Inject(method = "onPlaced", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack, CallbackInfo ci) {
+    @Inject(method = "setPlacedBy", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$onPlaced(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack, CallbackInfo ci) {
         // イベントを呼び出す
         if (!BlockEventRegistry.ON_PLACED.isEmpty()) {
             int maxPriority = BlockEventRegistry.ON_PLACED.getMaxPriority();
@@ -49,9 +47,8 @@ public class BlockMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "onBreak", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player, CallbackInfoReturnable<BlockState> cir) {
+    @Inject(method = "playerWillDestroy", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$onBreak(Level world, BlockPos pos, BlockState state, Player player, CallbackInfoReturnable<BlockState> cir) {
         // イベントを呼び出す
         if (!BlockEventRegistry.ON_BREAK.isEmpty()) {
             BlockState newState = state;
@@ -77,9 +74,8 @@ public class BlockMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "appendProperties", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$appendProperties(StateManager.Builder<Block, BlockState> builder, CallbackInfo ci) {
+    @Inject(method = "createBlockStateDefinition", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$appendProperties(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
         // ExtendBlockProviderを実装している場合
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
@@ -90,9 +86,8 @@ public class BlockMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getPlacementState", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
+    @Inject(method = "getStateForPlacement", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getPlacementState(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
         // ExtendBlockProviderを実装している場合
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;

@@ -3,24 +3,24 @@ package net.pitan76.mcpitanlib.api.entity.attribute;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 public class CompatEntityAttributeModifier {
-    private final net.minecraft.entity.attribute.EntityAttributeModifier raw;
+    private final net.minecraft.world.entity.ai.attributes.AttributeModifier raw;
 
     @Deprecated
-    public CompatEntityAttributeModifier(net.minecraft.entity.attribute.EntityAttributeModifier raw) {
+    public CompatEntityAttributeModifier(net.minecraft.world.entity.ai.attributes.AttributeModifier raw) {
         this.raw = raw;
     }
 
     @Deprecated
-    public static CompatEntityAttributeModifier of(net.minecraft.entity.attribute.EntityAttributeModifier raw) {
+    public static CompatEntityAttributeModifier of(net.minecraft.world.entity.ai.attributes.AttributeModifier raw) {
         return new CompatEntityAttributeModifier(raw);
     }
 
     public static CompatEntityAttributeModifier of(CompatIdentifier id, double value, AttrModifierOperation operation) {
-        return new CompatEntityAttributeModifier(new net.minecraft.entity.attribute.EntityAttributeModifier(id.toMinecraft(), value, operation.raw()));
+        return new CompatEntityAttributeModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(id.toMinecraft(), value, operation.raw()));
     }
 
     @Deprecated
-    public net.minecraft.entity.attribute.EntityAttributeModifier raw() {
+    public net.minecraft.world.entity.ai.attributes.AttributeModifier raw() {
         return raw;
     }
 
@@ -29,7 +29,7 @@ public class CompatEntityAttributeModifier {
     }
 
     public double getValue() {
-        return raw().value();
+        return raw().amount();
     }
 
     public CompatIdentifier getId() {

@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import dev.architectury.registry.CreativeTabRegistry;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 public class CreativeTabBuilder {
     private final Identifier identifier;
-    private Text displayName = null;
+    private Component displayName = null;
     private Supplier<ItemStack> iconSupplier = null;
     private boolean noRenderedName = false;
     private boolean noScrollbar = false;
@@ -37,7 +37,7 @@ public class CreativeTabBuilder {
         return create(identifier.toMinecraft());
     }
 
-    public CreativeTabBuilder setDisplayName(Text text) {
+    public CreativeTabBuilder setDisplayName(Component text) {
         this.displayName = text;
         return this;
     }
@@ -81,16 +81,16 @@ public class CreativeTabBuilder {
      * Build ItemGroup (If loader is forge, not recommended)
      * @return ItemGroup
      */
-    public ItemGroup build() {
+    public CreativeModeTab build() {
         return CreativeTabRegistry.create((builder -> {
-            if (displayName != null) builder.displayName(displayName);
-            else builder.displayName(TextUtil.translatable("itemGroup." + identifier.getNamespace() + "." + identifier.getPath()));
+            if (displayName != null) builder.title(displayName);
+            else builder.title(TextUtil.translatable("itemGroup." + identifier.getNamespace() + "." + identifier.getPath()));
 
             if (iconSupplier != null) builder.icon(iconSupplier);
-            if (noRenderedName) builder.noRenderedName();
-            if (noScrollbar) builder.noScrollbar();
-            if (special) builder.special();
-            if (texture != null) builder.texture(IdentifierUtil.id(texture));
+            if (noRenderedName) builder.hideTitle();
+            if (noScrollbar) builder.noScrollBar();
+            if (special) builder.alignedRight();
+            if (texture != null) builder.backgroundTexture(IdentifierUtil.id(texture));
         }));
     }
 

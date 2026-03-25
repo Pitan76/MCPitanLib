@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.guilib.api.container;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
@@ -14,13 +14,13 @@ import java.util.List;
 
 public abstract class ContainerGui extends SimpleScreenHandler implements IScreenInfo {
 
-    private final List<Inventory> INVENTORIES = new ArrayList<>();
+    private final List<Container> INVENTORIES = new ArrayList<>();
 
-    protected ContainerGui(ScreenHandlerType<?> type, int syncId) {
+    protected ContainerGui(MenuType<?> type, int syncId) {
         super(type, syncId);
     }
 
-    protected ContainerGui(ScreenHandlerType<?> type, CreateMenuEvent e) {
+    protected ContainerGui(MenuType<?> type, CreateMenuEvent e) {
         super(type, e);
     }
 
@@ -31,8 +31,8 @@ public abstract class ContainerGui extends SimpleScreenHandler implements IScree
 
     @Override
     protected Slot addSlot(Slot slot) {
-        if (slot.inventory instanceof Inventory && !INVENTORIES.contains(slot.inventory))
-            INVENTORIES.add(slot.inventory);
+        if (slot.container instanceof Container && !INVENTORIES.contains(slot.container))
+            INVENTORIES.add(slot.container);
 
         return super.addSlot(slot);
     }
@@ -44,7 +44,7 @@ public abstract class ContainerGui extends SimpleScreenHandler implements IScree
     public int playerHotbarY = 142;
 
     @Override
-    protected List<Slot> addPlayerMainInventorySlots(PlayerInventory inventory, int x, int y) {
+    protected List<Slot> addPlayerMainInventorySlots(Inventory inventory, int x, int y) {
         playerMainInventoryX = x;
         playerMainInventoryY = y;
 
@@ -52,7 +52,7 @@ public abstract class ContainerGui extends SimpleScreenHandler implements IScree
     }
 
     @Override
-    protected List<Slot> addPlayerHotbarSlots(PlayerInventory inventory, int x, int y) {
+    protected List<Slot> addPlayerHotbarSlots(Inventory inventory, int x, int y) {
         playerHotbarX = x;
         playerHotbarY = y;
 
@@ -61,6 +61,6 @@ public abstract class ContainerGui extends SimpleScreenHandler implements IScree
 
     @Override
     public void close(Player player) {
-        INVENTORIES.forEach((inv -> inv.onClose(player.getEntity())));
+        INVENTORIES.forEach((inv -> inv.stopOpen(player.getEntity())));
     }
 }

@@ -1,32 +1,32 @@
 package net.pitan76.mcpitanlib.api.item.consume;
 
-import net.minecraft.item.consume.UseAction;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.pitan76.mcpitanlib.api.util.CompatStringIdentifiable;
 
 public class CompatUseAction implements CompatStringIdentifiable {
-    private final UseAction useAction;
+    private final ItemUseAnimation useAction;
 
-    public static final CompatUseAction NONE = of(UseAction.NONE);
-    public static final CompatUseAction EAT = of(UseAction.EAT);
-    public static final CompatUseAction DRINK = of(UseAction.DRINK);
-    public static final CompatUseAction BLOCK = of(UseAction.BLOCK);
-    public static final CompatUseAction BOW = of(UseAction.BOW);
-    public static final CompatUseAction SPEAR = of(UseAction.SPEAR);
-    public static final CompatUseAction CROSSBOW = of(UseAction.CROSSBOW);
-    public static final CompatUseAction SPYGLASS = of(UseAction.SPYGLASS);
-    public static final CompatUseAction TOOT_HORN = of(UseAction.TOOT_HORN);
-    public static final CompatUseAction BRUSH = of(UseAction.BRUSH);
+    public static final CompatUseAction NONE = of(ItemUseAnimation.NONE);
+    public static final CompatUseAction EAT = of(ItemUseAnimation.EAT);
+    public static final CompatUseAction DRINK = of(ItemUseAnimation.DRINK);
+    public static final CompatUseAction BLOCK = of(ItemUseAnimation.BLOCK);
+    public static final CompatUseAction BOW = of(ItemUseAnimation.BOW);
+    public static final CompatUseAction SPEAR = of(ItemUseAnimation.SPEAR);
+    public static final CompatUseAction CROSSBOW = of(ItemUseAnimation.CROSSBOW);
+    public static final CompatUseAction SPYGLASS = of(ItemUseAnimation.SPYGLASS);
+    public static final CompatUseAction TOOT_HORN = of(ItemUseAnimation.TOOT_HORN);
+    public static final CompatUseAction BRUSH = of(ItemUseAnimation.BRUSH);
 
-    public CompatUseAction(UseAction useAction) {
+    public CompatUseAction(ItemUseAnimation useAction) {
         this.useAction = useAction;
     }
 
-    public static CompatUseAction of(UseAction useAction) {
+    public static CompatUseAction of(ItemUseAnimation useAction) {
         return new CompatUseAction(useAction);
     }
 
     @Deprecated
-    public UseAction get() {
+    public ItemUseAnimation get() {
         return useAction;
     }
 
@@ -35,7 +35,7 @@ public class CompatUseAction implements CompatStringIdentifiable {
     }
 
     public String getName() {
-        return useAction.asString();
+        return useAction.getSerializedName();
     }
 
     @Override

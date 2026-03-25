@@ -1,20 +1,20 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.registry.Registries;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 
 public class BlockEntityTypeUtil {
     public static Identifier toID(BlockEntityType<?> entityType) {
-        return Registries.BLOCK_ENTITY_TYPE.getId(entityType);
+        return BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(entityType);
     }
 
     public static BlockEntityType<?> fromId(Identifier identifier) {
-        return Registries.BLOCK_ENTITY_TYPE.get(identifier);
+        return BuiltInRegistries.BLOCK_ENTITY_TYPE.getValue(identifier);
     }
 
     public static boolean isExist(Identifier identifier) {
-        return Registries.BLOCK_ENTITY_TYPE.containsId(identifier);
+        return BuiltInRegistries.BLOCK_ENTITY_TYPE.containsKey(identifier);
     }
 
     public static CompatIdentifier toCompatID(BlockEntityType<?> entityType) {
@@ -30,10 +30,10 @@ public class BlockEntityTypeUtil {
     }
 
     public static int getRawId(BlockEntityType<?> type) {
-        return Registries.BLOCK_ENTITY_TYPE.getRawId(type);
+        return BuiltInRegistries.BLOCK_ENTITY_TYPE.getId(type);
     }
 
     public static BlockEntityType<?> fromIndex(int index) {
-        return Registries.BLOCK_ENTITY_TYPE.get(index);
+        return BuiltInRegistries.BLOCK_ENTITY_TYPE.byId(index);
     }
 }

@@ -1,14 +1,14 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class EnchantmentUtil {
     public static CompatEnchantment getEnchantment(Identifier identifier) {
-        RegistryKey<Enchantment> registryKey = RegistryKey.of(RegistryKeys.ENCHANTMENT, identifier);
+        ResourceKey<Enchantment> registryKey = ResourceKey.create(Registries.ENCHANTMENT, identifier);
         return new CompatEnchantment(registryKey);
     }
 
@@ -27,7 +27,7 @@ public class EnchantmentUtil {
         return enchantment.getId();
     }
 
-    public static int getLevel(CompatEnchantment enchantment, ItemStack stack, @Nullable World world) {
+    public static int getLevel(CompatEnchantment enchantment, ItemStack stack, @Nullable Level world) {
         return enchantment.getLevel(stack, world);
     }
 
@@ -43,19 +43,19 @@ public class EnchantmentUtil {
     public static List<CompatEnchantment> getEnchantments(ItemStack stack) {
         List<CompatEnchantment> enchantments = new ArrayList<>();
 
-        EnchantmentHelper.getEnchantments(stack).getEnchantments().forEach((enchantment) -> {
-            if (enchantment.getKey().isPresent())
-                enchantments.add(new CompatEnchantment(enchantment.getKey().get()));
+        EnchantmentHelper.getEnchantmentsForCrafting(stack).keySet().forEach((enchantment) -> {
+            if (enchantment.unwrapKey().isPresent())
+                enchantments.add(new CompatEnchantment(enchantment.unwrapKey().get()));
         });
 
         return enchantments;
     }
 
     public static boolean hasEnchantment(ItemStack stack) {
-        return EnchantmentHelper.hasEnchantments(stack);
+        return EnchantmentHelper.hasAnyEnchantments(stack);
     }
 
-    public static Map<CompatEnchantment, Integer> getEnchantment(ItemStack stack, @Nullable World world) {
+    public static Map<CompatEnchantment, Integer> getEnchantment(ItemStack stack, @Nullable Level world) {
         Map<CompatEnchantment, Integer> enchantments = new HashMap<>();
 
         List<CompatEnchantment> enchantmentList = getEnchantments(stack);
@@ -66,17 +66,17 @@ public class EnchantmentUtil {
         return enchantments;
     }
 
-    public static void setEnchantment(ItemStack stack, Map<CompatEnchantment, Integer> enchantments, @Nullable World world) {
-        ItemEnchantmentsComponent.Builder builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
+    public static void setEnchantment(ItemStack stack, Map<CompatEnchantment, Integer> enchantments, @Nullable Level world) {
+        ItemEnchantments.Mutable builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
 
         enchantments.forEach((compatEnchantment, integer) -> {
-            builder.add(compatEnchantment.getEntry(world), integer);
+            builder.upgrade(compatEnchantment.getEntry(world), integer);
         });
 
-        EnchantmentHelper.set(stack, builder.build());
+        EnchantmentHelper.setEnchantments(stack, builder.toImmutable());
     }
 
     public static void removeEnchantment(ItemStack stack) {
-        stack.remove(DataComponentTypes.ENCHANTMENTS);
+        stack.remove(DataComponents.ENCHANTMENTS);
     }
 }

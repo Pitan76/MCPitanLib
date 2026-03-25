@@ -1,39 +1,39 @@
 package net.pitan76.mcpitanlib.api.event.entity;
 
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import org.jetbrains.annotations.Nullable;
 
 public class InitDataTrackerArgs {
-    public DataTracker.Builder builder;
-    public DataTracker tracker;
+    public SynchedEntityData.Builder builder;
+    public SynchedEntityData tracker;
 
-    public InitDataTrackerArgs(DataTracker.Builder builder) {
+    public InitDataTrackerArgs(SynchedEntityData.Builder builder) {
         this.builder = builder;
     }
 
-    public InitDataTrackerArgs(DataTracker tracker) {
+    public InitDataTrackerArgs(SynchedEntityData tracker) {
         this.tracker = tracker;
     }
 
-    public InitDataTrackerArgs(DataTracker.Builder builder, @Nullable DataTracker tracker) {
+    public InitDataTrackerArgs(SynchedEntityData.Builder builder, @Nullable SynchedEntityData tracker) {
         this.builder = builder;
         this.tracker = tracker;
     }
 
-    public DataTracker.Builder getBuilder() {
+    public SynchedEntityData.Builder getBuilder() {
         return builder;
     }
 
-    public <T> DataTracker.Builder add(TrackedData<T> data, T value) {
-        return builder.add(data, value);
+    public <T> SynchedEntityData.Builder add(EntityDataAccessor<T> data, T value) {
+        return builder.define(data, value);
     }
 
-    public <T> void set(TrackedData<T> data, T value) {
+    public <T> void set(EntityDataAccessor<T> data, T value) {
         tracker.set(data, value);
     }
 
-    public <T> void addTracking(TrackedData<T> data, T value) {
+    public <T> void addTracking(EntityDataAccessor<T> data, T value) {
         if (builder != null) {
             add(data, value);
             return;

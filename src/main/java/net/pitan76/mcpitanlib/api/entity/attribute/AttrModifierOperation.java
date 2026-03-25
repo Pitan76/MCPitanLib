@@ -1,32 +1,32 @@
 package net.pitan76.mcpitanlib.api.entity.attribute;
 
-import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 public class AttrModifierOperation {
-    private final EntityAttributeModifier.Operation raw;
+    private final AttributeModifier.Operation raw;
 
-    public static final AttrModifierOperation ADD = new AttrModifierOperation(EntityAttributeModifier.Operation.ADD_VALUE);
-    public static final AttrModifierOperation MUL_TOTAL = new AttrModifierOperation(EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-    public static final AttrModifierOperation MUL_BASE = new AttrModifierOperation(EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+    public static final AttrModifierOperation ADD = new AttrModifierOperation(AttributeModifier.Operation.ADD_VALUE);
+    public static final AttrModifierOperation MUL_TOTAL = new AttrModifierOperation(AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+    public static final AttrModifierOperation MUL_BASE = new AttrModifierOperation(AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
 
     @Deprecated
-    public AttrModifierOperation(EntityAttributeModifier.Operation raw) {
+    public AttrModifierOperation(AttributeModifier.Operation raw) {
         this.raw = raw;
     }
 
-    public static AttrModifierOperation of(EntityAttributeModifier.Operation raw) {
-        if (raw == EntityAttributeModifier.Operation.ADD_VALUE) {
+    public static AttrModifierOperation of(AttributeModifier.Operation raw) {
+        if (raw == AttributeModifier.Operation.ADD_VALUE) {
             return ADD;
-        } else if (raw == EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) {
+        } else if (raw == AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) {
             return MUL_TOTAL;
-        } else if (raw == EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE) {
+        } else if (raw == AttributeModifier.Operation.ADD_MULTIPLIED_BASE) {
             return MUL_BASE;
         }
 
         return new AttrModifierOperation(raw);
     }
 
-    public EntityAttributeModifier.Operation raw() {
+    public AttributeModifier.Operation raw() {
         return raw;
     }
 
@@ -35,7 +35,7 @@ public class AttrModifierOperation {
     }
 
     public int getId() {
-        return raw().getId();
+        return raw().id();
     }
 
     @Override

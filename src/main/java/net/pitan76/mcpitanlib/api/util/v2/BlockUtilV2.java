@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.v2;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;
@@ -19,7 +19,7 @@ public class BlockUtilV2 {
      * @return If the block is in the tag.
      */
     public static boolean isIn(Block block, TagKey<Block> tagKey) {
-        if (block.getRegistryEntry().isIn(tagKey.getTagKey())) return true;
+        if (block.builtInRegistryHolder().is(tagKey.getTagKey())) return true;
         return tagKey.isOf(block);
     }
 
@@ -116,7 +116,7 @@ public class BlockUtilV2 {
     }
 
     public static Block fromItem(Item item) {
-        return Block.getBlockFromItem(item);
+        return Block.byItem(item);
     }
 
     public static Block fromItem(ItemStack stack) {

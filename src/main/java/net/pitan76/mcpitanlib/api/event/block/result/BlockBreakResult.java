@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.block.result;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockBreakResult {
     public BlockState state;

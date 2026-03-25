@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.block.args;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.Direction;
 
 public class SideInvisibleArgs {
     public BlockState state;

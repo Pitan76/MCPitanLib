@@ -1,18 +1,23 @@
 package net.pitan76.mcpitanlib.api.util.math;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Position;
+import net.minecraft.core.Vec3i;
 import net.minecraft.util.math.*;
+import net.minecraft.world.phys.Vec3;
 
 public class PosUtil {
     public static BlockPos flooredBlockPos(double x, double y, double z) {
-        return BlockPos.ofFloored(x, y, z);
+        return BlockPos.containing(x, y, z);
     }
 
     public static BlockPos flooredBlockPos(Position pos) {
-        return BlockPos.ofFloored(pos);
+        return BlockPos.containing(pos);
     }
 
-    public static BlockPos flooredBlockPos(Vec3d pos) {
-        return BlockPos.ofFloored(pos);
+    public static BlockPos flooredBlockPos(Vec3 pos) {
+        return BlockPos.containing(pos);
     }
 
     public static net.pitan76.mcpitanlib.midohra.util.math.BlockPos midohraBlockPos(int x, int y, int z) {
@@ -27,27 +32,27 @@ public class PosUtil {
     }
 
     public static double getSquaredDistance(BlockPos pos1, BlockPos pos2) {
-        return pos1.getSquaredDistance(pos2);
+        return pos1.distSqr(pos2);
     }
 
     public static double getSquaredDistance(BlockPos pos1, double x, double y, double z) {
-        return pos1.getSquaredDistance(x, y, z);
+        return pos1.distToLowCornerSqr(x, y, z);
     }
 
     public static Iterable<BlockPos> iterate(BlockPos start, BlockPos end) {
-        return BlockPos.iterate(start, end);
+        return BlockPos.betweenClosed(start, end);
     }
 
     public static BlockPos[] getNeighborPoses(BlockPos pos) {
-        return new BlockPos[]{pos.north(), pos.south(), pos.east(), pos.west(), pos.up(), pos.down()};
+        return new BlockPos[]{pos.north(), pos.south(), pos.east(), pos.west(), pos.above(), pos.below()};
     }
 
     public static BlockPos up(BlockPos pos) {
-        return pos.up();
+        return pos.above();
     }
 
     public static BlockPos down(BlockPos pos) {
-        return pos.down();
+        return pos.below();
     }
 
     public static BlockPos north(BlockPos pos) {
@@ -67,7 +72,7 @@ public class PosUtil {
     }
 
     public static BlockPos add(BlockPos pos, int x, int y, int z) {
-        return pos.add(x, y, z);
+        return pos.offset(x, y, z);
     }
 
     public static BlockPos sub(BlockPos pos, int x, int y, int z) {
@@ -91,23 +96,23 @@ public class PosUtil {
     }
 
     public static BlockPos offset(BlockPos pos, Direction direction) {
-        return pos.offset(direction);
+        return pos.relative(direction);
     }
 
     public static BlockPos offset(BlockPos pos, Direction direction, int n) {
-        return pos.offset(direction, n);
+        return pos.relative(direction, n);
     }
 
     public static BlockPos offset(BlockPos pos, net.pitan76.mcpitanlib.midohra.util.math.Direction direction) {
-        return pos.offset(direction.toMinecraft());
+        return pos.relative(direction.toMinecraft());
     }
 
     public static BlockPos offset(BlockPos pos, net.pitan76.mcpitanlib.midohra.util.math.Direction direction, int n) {
-        return pos.offset(direction.toMinecraft(), n);
+        return pos.relative(direction.toMinecraft(), n);
     }
 
     public static BlockPos toImmutable(BlockPos pos) {
-        return pos.toImmutable();
+        return pos.immutable();
     }
 
     public static long asLong(BlockPos pos) {

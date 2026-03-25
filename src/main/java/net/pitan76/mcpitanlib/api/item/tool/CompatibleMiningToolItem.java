@@ -1,16 +1,17 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
@@ -27,7 +28,7 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
     public CompatibleItemSettings settings;
 
     @Deprecated
-    protected CompatibleMiningToolItem(float attackDamage, float attackSpeed, ToolMaterial material, net.minecraft.registry.tag.TagKey<Block> effectiveBlocks, Settings settings) {
+    protected CompatibleMiningToolItem(float attackDamage, float attackSpeed, ToolMaterial material, net.minecraft.tags.TagKey<Block> effectiveBlocks, Properties settings) {
         super(settings.tool(material, effectiveBlocks, attackDamage, attackSpeed, 0));
     }
 
@@ -52,12 +53,12 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
     }
 
     public boolean overrideIsSuitableFor(BlockState state) {
-        return super.isCorrectForDrops(getDefaultStack(), state);
+        return super.isCorrectToolForDrops(getDefaultInstance(), state);
     }
 
     @Deprecated
     @Override
-    public boolean isCorrectForDrops(ItemStack stack, BlockState state) {
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return overrideIsSuitableFor(state);
     }
 
@@ -67,7 +68,7 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
 
     @Deprecated
     @Override
-    public float getMiningSpeed(ItemStack stack, BlockState state) {
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
         return overrideGetMiningSpeedMultiplier(stack, state);
     }
 
@@ -77,7 +78,7 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
      * @return boolean
      */
     public boolean postHit(PostHitEvent event) {
-        super.postHit(event.stack, event.target, event.attacker);
+        super.hurtEnemy(event.stack, event.target, event.attacker);
         return true;
     }
 
@@ -87,18 +88,18 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
      * @return boolean
      */
     public boolean postMine(PostMineEvent event) {
-        return super.postMine(event.stack, event.world, event.state, event.pos, event.miner);
+        return super.mineBlock(event.stack, event.world, event.state, event.pos, event.miner);
     }
 
     @Deprecated
     @Override
-    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         postHit(new PostHitEvent(stack, target, attacker));
     }
 
     @Deprecated
     @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+    public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner) {
         return postMine(new PostMineEvent(stack, world, state, pos, miner));
     }
 
@@ -109,7 +110,7 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
 
     @Deprecated
     @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+    public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
         return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand)).toActionResult();
     }
 
@@ -120,6 +121,6 @@ public class CompatibleMiningToolItem extends Item implements CompatItemProvider
     }
 
     public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent e) {
-        return CompatActionResult.of(super.useOnEntity(e.stack, e.user.getEntity(), e.entity, e.hand));
+        return CompatActionResult.of(super.interactLivingEntity(e.stack, e.user.getEntity(), e.entity, e.hand));
     }
 }

@@ -1,19 +1,19 @@
 package net.pitan76.mcpitanlib.api.util.math;
 
-import net.minecraft.util.BlockRotation;
+import net.minecraft.world.level.block.Rotation;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 
 public class BlockRotations {
-    public static BlockRotation NONE = BlockRotation.NONE;
-    public static BlockRotation CLOCKWISE_90 = BlockRotation.CLOCKWISE_90;
-    public static BlockRotation CLOCKWISE_180 = BlockRotation.CLOCKWISE_180;
-    public static BlockRotation COUNTERCLOCKWISE_90 = BlockRotation.COUNTERCLOCKWISE_90;
+    public static Rotation NONE = Rotation.NONE;
+    public static Rotation CLOCKWISE_90 = Rotation.CLOCKWISE_90;
+    public static Rotation CLOCKWISE_180 = Rotation.CLOCKWISE_180;
+    public static Rotation COUNTERCLOCKWISE_90 = Rotation.COUNTERCLOCKWISE_90;
 
-    public static BlockRotation rotate(BlockRotation rotation, BlockRotation rotation2) {
-        return rotation.rotate(rotation2);
+    public static Rotation rotate(Rotation rotation, Rotation rotation2) {
+        return rotation.getRotated(rotation2);
     }
 
-    public static BlockRotation random(CompatRandom random) {
-        return BlockRotation.random(random.getMcRandom());
+    public static Rotation random(CompatRandom random) {
+        return Rotation.getRandom(random.getMcRandom());
     }
 }

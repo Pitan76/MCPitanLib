@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.text;
 
-import net.minecraft.text.Style;
+import net.minecraft.network.chat.Style;
 
 public class CompatStyle {
     private final Style style;
@@ -42,7 +42,7 @@ public class CompatStyle {
     }
 
     public CompatStyle withUnderline(boolean underline) {
-        return new CompatStyle(style.withUnderline(underline));
+        return new CompatStyle(style.withUnderlined(underline));
     }
 
     public CompatStyle withStrikethrough(boolean strikethrough) {

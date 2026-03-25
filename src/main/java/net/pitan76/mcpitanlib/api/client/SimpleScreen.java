@@ -1,15 +1,15 @@
 package net.pitan76.mcpitanlib.api.client;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
@@ -23,25 +23,25 @@ import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 public abstract class SimpleScreen extends Screen {
 
     public int width, height;
-    public TextRenderer textRenderer;
+    public Font textRenderer;
     public ItemRenderer itemRenderer;
 
-    public Text title;
-    public MinecraftClient client;
+    public Component title;
+    public Minecraft client;
 
-    public SimpleScreen(Text title) {
+    public SimpleScreen(Component title) {
         super(title);
         fixScreen();
         this.title = title;
     }
 
-    public <T extends Element & Drawable & Selectable> T addDrawableChild_compatibility(T drawableElement) {
-        return super.addDrawableChild(drawableElement);
+    public <T extends GuiEventListener & Renderable & NarratableEntry> T addDrawableChild_compatibility(T drawableElement) {
+        return super.addRenderableWidget(drawableElement);
         // addButton
     }
 
-    public <T extends Element & Selectable> T addSelectableChild_compatibility(T selectableElement) {
-        return super.addSelectableChild(selectableElement);
+    public <T extends GuiEventListener & NarratableEntry> T addSelectableChild_compatibility(T selectableElement) {
+        return super.addWidget(selectableElement);
     }
 
     public CompatibleTexturedButtonWidget addDrawableCTBW(CompatibleTexturedButtonWidget widget) {
@@ -58,7 +58,7 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void renderBackground(GuiGraphics context, int mouseX, int mouseY, float delta) {
         renderBackground(new RenderArgs(new DrawObjectDM(context, this), mouseX, mouseY, delta));
     }
 
@@ -71,7 +71,7 @@ public abstract class SimpleScreen extends Screen {
         super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
-    public void resizeOverride(MinecraftClient client, int width, int height) {
+    public void resizeOverride(Minecraft client, int width, int height) {
     }
 
     public void initOverride() {
@@ -90,21 +90,21 @@ public abstract class SimpleScreen extends Screen {
     public void resize(int width, int height) {
         super.resize(width, height);
         fixScreen();
-        resizeOverride(MinecraftClient.getInstance(), width, height);
+        resizeOverride(Minecraft.getInstance(), width, height);
     }
 
     public void fixScreen() {
-        this.textRenderer = super.textRenderer;
-        this.itemRenderer = MinecraftClient.getInstance().getItemRenderer();
+        this.textRenderer = super.font;
+        this.itemRenderer = Minecraft.getInstance().getItemRenderer();
         this.width = super.width;
         this.height = super.height;
-        if (super.client == null)
-            this.client = MinecraftClient.getInstance();
+        if (super.minecraft == null)
+            this.client = Minecraft.getInstance();
         else
-            this.client = super.client;
+            this.client = super.minecraft;
     }
 
-    public void setTextRenderer(TextRenderer textRenderer) {
+    public void setTextRenderer(Font textRenderer) {
         this.textRenderer = textRenderer;
     }
 
@@ -124,22 +124,22 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         render(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
 
     public boolean keyReleased(KeyEventArgs args) {
-        return super.keyReleased(new KeyInput(args.keyCode, args.scanCode, args.modifiers));
+        return super.keyReleased(new KeyEvent(args.keyCode, args.scanCode, args.modifiers));
     }
 
     public boolean keyPressed(KeyEventArgs args) {
-        return super.keyPressed(new KeyInput(args.keyCode, args.scanCode, args.modifiers));
+        return super.keyPressed(new KeyEvent(args.keyCode, args.scanCode, args.modifiers));
     }
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
         if (getBackgroundTexture() != null)
-            Screen.renderBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), 0, 0, 0, 0, this.width, this.height);
+            Screen.renderMenuBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), 0, 0, 0, 0, this.width, this.height);
 
         RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, width, height);
@@ -147,24 +147,24 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public boolean keyReleased(KeyInput keyInput) {
+    public boolean keyReleased(KeyEvent keyInput) {
         return this.keyReleased(new KeyEventArgs(keyInput.key(), keyInput.scancode(), keyInput.modifiers()));
     }
 
     @Deprecated
     @Override
-    public boolean keyPressed(KeyInput keyInput) {
+    public boolean keyPressed(KeyEvent keyInput) {
         return this.keyPressed(new KeyEventArgs(keyInput.key(), keyInput.scancode(), keyInput.modifiers()));
     }
 
     @Deprecated
     @Override
-    public void renderDarkening(DrawContext context) {
+    public void renderMenuBackground(GuiGraphics context) {
         this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context, this), 0));
     }
 
     public void closeOverride() {
-        super.close();
+        super.onClose();
     }
 
     public void removedOverride() {
@@ -172,7 +172,7 @@ public abstract class SimpleScreen extends Screen {
     }
 
     @Override
-    public void close() {
+    public void onClose() {
         closeOverride();
     }
 

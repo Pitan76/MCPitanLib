@@ -1,20 +1,20 @@
 package net.pitan76.mcpitanlib.api.text;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class TextComponent {
 
-    private Text text;
+    private Component text;
 
     public TextComponent() {
         this(TextUtil.empty());
     }
 
-    public TextComponent(Text text) {
+    public TextComponent(Component text) {
         this.text = text;
     }
 
@@ -22,16 +22,16 @@ public class TextComponent {
         this(TextUtil.literal(string));
     }
 
-    public Text getText() {
+    public Component getText() {
         return text;
     }
 
-    public void setText(Text text) {
+    public void setText(Component text) {
         this.text = text;
     }
 
-    public MutableText asMutableText() {
-        return (MutableText) text;
+    public MutableComponent asMutableText() {
+        return (MutableComponent) text;
     }
 
     public VariableTextComponent asVariableTextComponent() {
@@ -39,8 +39,8 @@ public class TextComponent {
     }
 
     @Nullable
-    public MutableText asMutableTextOrNull() {
-        if (text instanceof MutableText) {
+    public MutableComponent asMutableTextOrNull() {
+        if (text instanceof MutableComponent) {
             return asMutableText();
         }
         return null;
@@ -92,8 +92,8 @@ public class TextComponent {
     }
 
     public TextComponent setStyle(Style style) {
-        if (text instanceof MutableText)
-            TextUtil.setStyle((MutableText) text, style);
+        if (text instanceof MutableComponent)
+            TextUtil.setStyle((MutableComponent) text, style);
 
         return this;
     }

@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.client.render;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil.RendererUtil;
@@ -11,35 +11,35 @@ import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
 
 public class DrawObjectDM {
-    private MatrixStack stack;
+    private PoseStack stack;
     private Matrix3x2fStack matrix3x2fStack;
-    private DrawContext context;
+    private GuiGraphics context;
 
     private Screen screen = null;
 
-    public DrawObjectDM(DrawContext context) {
+    public DrawObjectDM(GuiGraphics context) {
         this.context = context;
-        this.matrix3x2fStack = context.getMatrices();
+        this.matrix3x2fStack = context.pose();
     }
 
     public DrawObjectDM(Matrix3x2fStack matrix3x2fStack) {
         this.matrix3x2fStack = matrix3x2fStack;
     }
 
-    public DrawObjectDM(MatrixStack stack) {
+    public DrawObjectDM(PoseStack stack) {
         this.stack = stack;
     }
 
-    public DrawObjectDM(DrawContext context, Screen screen) {
+    public DrawObjectDM(GuiGraphics context, Screen screen) {
         this(context);
         this.screen = screen;
     }
 
-    public DrawContext getContext() {
+    public GuiGraphics getContext() {
         return context;
     }
 
-    public MatrixStack getStack() {
+    public PoseStack getStack() {
         return stack;
     }
 
@@ -47,11 +47,11 @@ public class DrawObjectDM {
         return screen;
     }
 
-    public void setContext(DrawContext context) {
+    public void setContext(GuiGraphics context) {
         this.context = context;
     }
 
-    public void setStack(MatrixStack stack) {
+    public void setStack(PoseStack stack) {
         this.stack = stack;
     }
 
@@ -71,11 +71,11 @@ public class DrawObjectDM {
         RendererUtil.drawTexture(this, texture, x, y, u, v, width, height, textureWidth, textureHeight);
     }
 
-    public void drawText(Text text, int x, int y) {
+    public void drawText(Component text, int x, int y) {
         RendererUtil.drawText(RendererUtil.getTextRenderer(), this, text, x, y);
     }
 
-    public void drawTooltip(Text text, int x, int y) {
+    public void drawTooltip(Component text, int x, int y) {
         RendererUtil.drawTooltip(this, text, x, y);
     }
 

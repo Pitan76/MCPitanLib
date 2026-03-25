@@ -3,21 +3,21 @@ package net.pitan76.mcpitanlib.midohra.util.shape;
 import net.pitan76.mcpitanlib.midohra.util.math.Direction;
 
 public class VoxelShape {
-    private final net.minecraft.util.shape.VoxelShape voxelShape;
+    private final net.minecraft.world.phys.shapes.VoxelShape voxelShape;
 
-    public static final VoxelShape EMPTY = of(net.minecraft.util.shape.VoxelShapes.empty());
-    public static final VoxelShape FULL_CUBE = of(net.minecraft.util.shape.VoxelShapes.fullCube());
+    public static final VoxelShape EMPTY = of(net.minecraft.world.phys.shapes.Shapes.empty());
+    public static final VoxelShape FULL_CUBE = of(net.minecraft.world.phys.shapes.Shapes.block());
 
-    public VoxelShape(net.minecraft.util.shape.VoxelShape voxelShape) {
+    public VoxelShape(net.minecraft.world.phys.shapes.VoxelShape voxelShape) {
         this.voxelShape = voxelShape;
     }
 
-    public static VoxelShape of(net.minecraft.util.shape.VoxelShape shape) {
+    public static VoxelShape of(net.minecraft.world.phys.shapes.VoxelShape shape) {
         return new VoxelShape(shape);
     }
 
     @Deprecated
-    public net.minecraft.util.shape.VoxelShape raw() {
+    public net.minecraft.world.phys.shapes.VoxelShape raw() {
         return voxelShape;
     }
 
@@ -26,23 +26,23 @@ public class VoxelShape {
     }
 
     public VoxelShape union(VoxelShape other) {
-        return of(net.minecraft.util.shape.VoxelShapes.union(this.raw(), other.raw()));
+        return of(net.minecraft.world.phys.shapes.Shapes.or(this.raw(), other.raw()));
     }
 
     public VoxelShape asCuboid() {
-        return of(raw().asCuboid());
+        return of(raw().singleEncompassing());
     }
 
     public VoxelShape offset(double x, double y, double z) {
-        return of(raw().offset(x, y, z));
+        return of(raw().move(x, y, z));
     }
 
     public VoxelShape getFace(Direction direction) {
-        return of(raw().getFace(direction.toMinecraft()));
+        return of(raw().getFaceShape(direction.toMinecraft()));
     }
 
     public VoxelShape simplify() {
-        return of(raw().simplify());
+        return of(raw().optimize());
     }
 
     @Override
@@ -67,9 +67,9 @@ public class VoxelShape {
     }
 
     public static VoxelShape union(VoxelShape... shapes) {
-        net.minecraft.util.shape.VoxelShape result = net.minecraft.util.shape.VoxelShapes.empty();
+        net.minecraft.world.phys.shapes.VoxelShape result = net.minecraft.world.phys.shapes.Shapes.empty();
         for (VoxelShape shape : shapes) {
-            result = net.minecraft.util.shape.VoxelShapes.union(result, shape.raw());
+            result = net.minecraft.world.phys.shapes.Shapes.or(result, shape.raw());
         }
         return of(result);
     }

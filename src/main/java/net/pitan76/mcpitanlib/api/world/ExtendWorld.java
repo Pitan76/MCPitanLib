@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.world;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class ExtendWorld {
-    public World world;
-    public ExtendWorld(World world) {
+    public Level world;
+    public ExtendWorld(Level world) {
         this.world = world;
     }
 
@@ -42,7 +42,7 @@ public class ExtendWorld {
         return WorldUtil.isServer(world);
     }
 
-    public World getMinecraftWorld() {
+    public Level getMinecraftWorld() {
         return world;
     }
 }

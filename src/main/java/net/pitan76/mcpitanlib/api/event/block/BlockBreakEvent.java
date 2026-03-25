@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
@@ -13,12 +13,12 @@ import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 
 public class BlockBreakEvent extends BaseEvent {
-    public World world;
+    public Level world;
     public BlockPos pos;
     public BlockState state;
     public Player player;
 
-    public BlockBreakEvent(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockBreakEvent(Level world, BlockPos pos, BlockState state, Player player) {
         this.world = world;
         this.pos = pos;
         this.state = state;
@@ -37,16 +37,16 @@ public class BlockBreakEvent extends BaseEvent {
         return player;
     }
 
-    public PlayerEntity getPlayerEntity() {
+    public Player getPlayerEntity() {
         return player.getPlayerEntity();
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 
     public boolean isClient() {
-        return world.isClient();
+        return world.isClientSide();
     }
 
     public BlockEntity getBlockEntity() {

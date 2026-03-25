@@ -1,32 +1,32 @@
 package net.pitan76.mcpitanlib.midohra.util.hit;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 
 public class BlockHitResult extends HitResult {
-    public BlockHitResult(net.minecraft.util.hit.BlockHitResult raw) {
+    public BlockHitResult(net.minecraft.world.phys.BlockHitResult raw) {
         super(raw);
     }
 
-    public static BlockHitResult of(net.minecraft.util.hit.BlockHitResult raw) {
+    public static BlockHitResult of(net.minecraft.world.phys.BlockHitResult raw) {
         return new BlockHitResult(raw);
     }
 
     @Deprecated
-    public net.minecraft.util.hit.BlockHitResult getRaw() {
-        return (net.minecraft.util.hit.BlockHitResult) super.getRaw();
+    public net.minecraft.world.phys.BlockHitResult getRaw() {
+        return (net.minecraft.world.phys.BlockHitResult) super.getRaw();
     }
 
-    public net.minecraft.util.hit.BlockHitResult withSide(Direction side) {
-        return getRaw().withSide(side);
+    public net.minecraft.world.phys.BlockHitResult withSide(Direction side) {
+        return getRaw().withDirection(side);
     }
 
-    public net.minecraft.util.hit.BlockHitResult withBlockPos(BlockPos blockPos) {
-        return getRaw().withBlockPos(blockPos);
+    public net.minecraft.world.phys.BlockHitResult withBlockPos(BlockPos blockPos) {
+        return getRaw().withPosition(blockPos);
     }
 
-    public net.minecraft.util.hit.BlockHitResult againstWorldBorder() {
-        return getRaw().againstWorldBorder();
+    public net.minecraft.world.phys.BlockHitResult againstWorldBorder() {
+        return getRaw().hitBorder();
     }
 
     public BlockPos getBlockPos() {
@@ -38,7 +38,7 @@ public class BlockHitResult extends HitResult {
     }
 
     public Direction getSide() {
-        return getRaw().getSide();
+        return getRaw().getDirection();
     }
 
     public net.pitan76.mcpitanlib.midohra.util.math.Direction getSideM() {
@@ -46,11 +46,11 @@ public class BlockHitResult extends HitResult {
     }
 
     public boolean isInsideBlock() {
-        return getRaw().isInsideBlock();
+        return getRaw().isInside();
     }
 
     public boolean isAgainstWorldBorder() {
-        return getRaw().isAgainstWorldBorder();
+        return getRaw().isWorldBorderHit();
     }
 
     public HitResultType getType() {

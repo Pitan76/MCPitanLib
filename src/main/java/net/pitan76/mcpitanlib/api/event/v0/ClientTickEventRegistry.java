@@ -3,8 +3,8 @@ package net.pitan76.mcpitanlib.api.event.v0;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 
 public class ClientTickEventRegistry {
     public static void registerPost(Client client) {
@@ -25,11 +25,11 @@ public class ClientTickEventRegistry {
 
     @Environment(EnvType.CLIENT)
     public interface Client {
-        void tick(MinecraftClient instance);
+        void tick(Minecraft instance);
     }
 
     @Environment(EnvType.CLIENT)
     public interface ClientLevel {
-        void tick(ClientWorld instance);
+        void tick(net.minecraft.client.multiplayer.ClientLevel instance);
     }
 }

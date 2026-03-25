@@ -1,18 +1,18 @@
 package net.pitan76.mcpitanlib.api.tile;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
@@ -36,12 +36,12 @@ public class CompatBlockEntity extends BlockEntity {
     @Nullable
     @Override
     @Deprecated
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
         switch (getUpdatePacketType().name) {
             case "BLOCK_ENTITY_UPDATE_S2C":
-                return BlockEntityUpdateS2CPacket.create(this);
+                return ClientboundBlockEntityDataPacket.create(this);
         }
-        return super.toUpdatePacket();
+        return super.getUpdatePacket();
     }
 
     public UpdatePacketType getUpdatePacketType() {
@@ -56,13 +56,13 @@ public class CompatBlockEntity extends BlockEntity {
 
     }
 
-    public NbtCompound toInitialChunkDataNbt(CompatRegistryLookup registryLookup) {
-        return super.toInitialChunkDataNbt(registryLookup.getRegistryLookup());
+    public CompoundTag toInitialChunkDataNbt(CompatRegistryLookup registryLookup) {
+        return super.getUpdateTag(registryLookup.getRegistryLookup());
     }
 
     @Deprecated
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         return toInitialChunkDataNbt(new CompatRegistryLookup(registries));
     }
 
@@ -72,7 +72,7 @@ public class CompatBlockEntity extends BlockEntity {
      * @deprecated Use {@link #writeNbt(WriteNbtArgs)} instead
      */
     @Deprecated
-    public void writeNbtOverride(NbtCompound nbt) {
+    public void writeNbtOverride(CompoundTag nbt) {
         //super.writeNbt(nbt, wrapperLookupCache);
     }
 
@@ -80,35 +80,35 @@ public class CompatBlockEntity extends BlockEntity {
      * @deprecated Use {@link #readNbt(ReadNbtArgs)} instead
      */
     @Deprecated
-    public void readNbtOverride(NbtCompound nbt) {
+    public void readNbtOverride(CompoundTag nbt) {
         //super.readNbt(nbt, wrapperLookupCache);
     }
 
     @Deprecated
-    private RegistryWrapper.WrapperLookup wrapperLookupCache;
+    private HolderLookup.Provider wrapperLookupCache;
 
     // ----
 
 
     @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
-        NbtCompound nbt = NbtUtil.create();
-        writeNbt(nbt, this.callGetWorld().getRegistryManager());
-        writeNbt(new WriteNbtArgs(nbt, view, new CompatRegistryLookup(this.callGetWorld().getRegistryManager())));
+    protected void saveAdditional(ValueOutput view) {
+        super.saveAdditional(view);
+        CompoundTag nbt = NbtUtil.create();
+        writeNbt(nbt, this.callGetWorld().registryAccess());
+        writeNbt(new WriteNbtArgs(nbt, view, new CompatRegistryLookup(this.callGetWorld().registryAccess())));
         NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        NbtCompound nbt = NbtDataConverter.data2nbt(view);
-        readNbt(nbt, view.getRegistries());
-        readNbt(new ReadNbtArgs(nbt, view, new CompatRegistryLookup(view.getRegistries())));
+    protected void loadAdditional(ValueInput view) {
+        super.loadAdditional(view);
+        CompoundTag nbt = NbtDataConverter.data2nbt(view);
+        readNbt(nbt, view.lookup());
+        readNbt(new ReadNbtArgs(nbt, view, new CompatRegistryLookup(view.lookup())));
     }
 
     @Deprecated
-    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public void writeNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         // deprecated
         wrapperLookupCache = registryLookup;
         writeNbtOverride(nbt);
@@ -116,7 +116,7 @@ public class CompatBlockEntity extends BlockEntity {
     }
 
     @Deprecated
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public void readNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         // deprecated
         wrapperLookupCache = registryLookup;
         readNbtOverride(nbt);
@@ -124,30 +124,30 @@ public class CompatBlockEntity extends BlockEntity {
     }
 
     public boolean isClient() {
-        if (getWorld() == null)
+        if (getLevel() == null)
             return false;
 
-        return WorldUtil.isClient(getWorld());
+        return WorldUtil.isClient(getLevel());
     }
 
     @Deprecated
     @Override
-    public @Nullable World getWorld() {
+    public @Nullable Level getLevel() {
         return callGetWorld();
     }
 
     @Deprecated
     @Override
-    public BlockPos getPos() {
+    public BlockPos getBlockPos() {
         return callGetPos();
     }
 
-    public World callGetWorld() {
-        return super.getWorld();
+    public Level callGetWorld() {
+        return super.getLevel();
     }
 
     public BlockPos callGetPos() {
-        return super.getPos();
+        return super.getBlockPos();
     }
 
     public BlockState callGetBlockState() {
@@ -159,10 +159,10 @@ public class CompatBlockEntity extends BlockEntity {
     }
 
     public boolean hasServerWorld() {
-        return callGetWorld() instanceof ServerWorld;
+        return callGetWorld() instanceof ServerLevel;
     }
 
-    public ServerWorld getServerWorld() {
+    public ServerLevel getServerWorld() {
         return BlockEntityUtil.getServerWorld(this);
     }
 
@@ -172,12 +172,12 @@ public class CompatBlockEntity extends BlockEntity {
 
     @Deprecated
     @Override
-    public void markRemoved() {
+    public void setRemoved() {
         markRemovedOverride();
     }
 
     public void markRemovedOverride() {
-        super.markRemoved();
+        super.setRemoved();
     }
 
     public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {

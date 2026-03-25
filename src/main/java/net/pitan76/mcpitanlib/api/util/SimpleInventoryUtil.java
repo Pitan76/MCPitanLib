@@ -1,35 +1,35 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.NonNullList;
 
 public class SimpleInventoryUtil {
-    public static DefaultedList<ItemStack> getHeldStacks(SimpleInventory inventory) {
-        return inventory.getHeldStacks();
+    public static NonNullList<ItemStack> getHeldStacks(SimpleContainer inventory) {
+        return inventory.getItems();
     }
 
-    public static SimpleInventory create(int size) {
+    public static SimpleContainer create(int size) {
         return InventoryUtil.createSimpleInventory(size);
     }
 
-    public static ItemStack getStack(SimpleInventory inventory, int slot) {
-        return inventory.getStack(slot);
+    public static ItemStack getStack(SimpleContainer inventory, int slot) {
+        return inventory.getItem(slot);
     }
 
-    public static void setStack(SimpleInventory inventory, int slot, ItemStack stack) {
-        inventory.setStack(slot, stack);
+    public static void setStack(SimpleContainer inventory, int slot, ItemStack stack) {
+        inventory.setItem(slot, stack);
     }
 
-    public static void clear(SimpleInventory inventory) {
-        inventory.clear();
+    public static void clear(SimpleContainer inventory) {
+        inventory.clearContent();
     }
 
-    public static int size(SimpleInventory inventory) {
-        return inventory.size();
+    public static int size(SimpleContainer inventory) {
+        return inventory.getContainerSize();
     }
 
-    public static boolean isEmpty(SimpleInventory inventory) {
+    public static boolean isEmpty(SimpleContainer inventory) {
         return inventory.isEmpty();
     }
 }

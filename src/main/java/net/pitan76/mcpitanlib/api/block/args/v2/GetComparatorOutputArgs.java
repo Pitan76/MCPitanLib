@@ -1,25 +1,25 @@
 package net.pitan76.mcpitanlib.api.block.args.v2;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.screen.ScreenHandlerUtil;
 
 public class GetComparatorOutputArgs extends BaseEvent {
     public BlockState state;
-    public World world;
+    public Level world;
     public BlockPos pos;
     public Direction direction;
 
-    public GetComparatorOutputArgs(BlockState state, World world, BlockPos pos) {
+    public GetComparatorOutputArgs(BlockState state, Level world, BlockPos pos) {
         this(state, world, pos, Direction.NORTH);
     }
 
-    public GetComparatorOutputArgs(BlockState state, World world, BlockPos pos, Direction direction) {
+    public GetComparatorOutputArgs(BlockState state, Level world, BlockPos pos, Direction direction) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -30,7 +30,7 @@ public class GetComparatorOutputArgs extends BaseEvent {
         return state;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return world;
     }
 

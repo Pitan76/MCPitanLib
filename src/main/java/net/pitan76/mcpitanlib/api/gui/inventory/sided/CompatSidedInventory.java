@@ -1,17 +1,17 @@
 package net.pitan76.mcpitanlib.api.gui.inventory.sided;
 
-import net.minecraft.inventory.SidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Direction;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
 import net.pitan76.mcpitanlib.api.gui.inventory.sided.args.AvailableSlotsArgs;
 import net.pitan76.mcpitanlib.api.gui.inventory.sided.args.CanExtractArgs;
 import net.pitan76.mcpitanlib.api.gui.inventory.sided.args.CanInsertArgs;
 import org.jetbrains.annotations.Nullable;
 
-public interface CompatSidedInventory extends SidedInventory {
+public interface CompatSidedInventory extends WorldlyContainer {
     @Override
     @Deprecated
-    default int[] getAvailableSlots(Direction side) {
+    default int[] getSlotsForFace(Direction side) {
         return getAvailableSlots(new AvailableSlotsArgs(side, this));
     }
 
@@ -19,7 +19,7 @@ public interface CompatSidedInventory extends SidedInventory {
 
     @Override
     @Deprecated
-    default boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+    default boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dir) {
         return canInsert(new CanInsertArgs(slot, stack, dir));
     }
 
@@ -27,7 +27,7 @@ public interface CompatSidedInventory extends SidedInventory {
 
     @Override
     @Deprecated
-    default boolean canExtract(int slot, ItemStack stack, Direction dir) {
+    default boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
         return canExtract(new CanExtractArgs(slot, stack, dir));
     }
 

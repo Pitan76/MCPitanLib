@@ -3,9 +3,9 @@ package net.pitan76.mcpitanlib.api.network;
 import dev.architectury.impl.NetworkAggregator;
 import dev.architectury.networking.NetworkManager;
 import io.netty.buffer.Unpooled;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.core.network.BufPayload;
 
@@ -13,35 +13,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerNetworking {
-    public static void send(ServerPlayerEntity player, Identifier identifier, PacketByteBuf buf) {
+    public static void send(ServerPlayer player, Identifier identifier, FriendlyByteBuf buf) {
         registerS2CPayloadType(identifier);
 
         BufPayload payload = new BufPayload(buf, identifier);
         NetworkManager.sendToPlayer(player, payload);
     }
 
-    public static void send(Iterable<ServerPlayerEntity> players, Identifier identifier, PacketByteBuf buf) {
+    public static void send(Iterable<ServerPlayer> players, Identifier identifier, FriendlyByteBuf buf) {
         registerS2CPayloadType(identifier);
 
         BufPayload payload = new BufPayload(buf, identifier);
         NetworkManager.sendToPlayers(players, payload);
     }
 
-    public static void sendAll(MinecraftServer server, Identifier identifier, PacketByteBuf buf) {
-        send(server.getPlayerManager().getPlayerList(), identifier, buf);
+    public static void sendAll(MinecraftServer server, Identifier identifier, FriendlyByteBuf buf) {
+        send(server.getPlayerList().getPlayers(), identifier, buf);
     }
 
     public static void registerReceiver(Identifier identifier, ServerNetworkHandler handler) {
-        BufPayload.Id<BufPayload> id = BufPayload.id(identifier);
+        BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
         NetworkManager.registerReceiver(NetworkManager.Side.C2S, id, BufPayload.getCodec(id),
                 (payload, context) -> {
-                    PacketByteBuf buf = new PacketByteBuf(Unpooled.wrappedBuffer(payload.getData()));
+                    FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.getData()));
 
-                    ServerPlayerEntity player = null;
-                    if (context.getPlayer() instanceof ServerPlayerEntity)
-                        player = (ServerPlayerEntity) context.getPlayer();
+                    ServerPlayer player = null;
+                    if (context.getPlayer() instanceof ServerPlayer)
+                        player = (ServerPlayer) context.getPlayer();
 
-                    handler.receive(context.getPlayer().getEntityWorld().getServer(), player, buf);
+                    handler.receive(context.getPlayer().level().getServer(), player, buf);
                     buf.release();
                 });
     }
@@ -54,12 +54,12 @@ public class ServerNetworking {
 
         if (NetworkAggregator.S2C_CODECS.containsKey(identifier)) return;
 
-        BufPayload.Id<BufPayload> id = BufPayload.id(identifier);
+        BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
         NetworkManager.registerS2CPayloadType(id, BufPayload.getCodec(id));
     }
 
     @FunctionalInterface
     public interface ServerNetworkHandler {
-        void receive(MinecraftServer server, ServerPlayerEntity player, PacketByteBuf buf);
+        void receive(MinecraftServer server, ServerPlayer player, FriendlyByteBuf buf);
     }
 }

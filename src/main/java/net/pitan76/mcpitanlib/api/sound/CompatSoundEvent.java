@@ -1,23 +1,23 @@
 package net.pitan76.mcpitanlib.api.sound;
 
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.core.Holder;
+import net.minecraft.sounds.SoundEvent;
 import org.jetbrains.annotations.Nullable;
 
 public class CompatSoundEvent {
     private SoundEvent soundEvent;
-    private RegistryEntry.Reference<SoundEvent> reference;
-    private RegistryEntry<SoundEvent> entry;
+    private Holder.Reference<SoundEvent> reference;
+    private Holder<SoundEvent> entry;
 
     public CompatSoundEvent(SoundEvent soundEvent) {
         this.soundEvent = soundEvent;
     }
 
-    public CompatSoundEvent(RegistryEntry.Reference<SoundEvent> reference) {
+    public CompatSoundEvent(Holder.Reference<SoundEvent> reference) {
         this.reference = reference;
     }
 
-    public CompatSoundEvent(RegistryEntry<SoundEvent> entry) {
+    public CompatSoundEvent(Holder<SoundEvent> entry) {
         this.entry = entry;
     }
 
@@ -39,15 +39,15 @@ public class CompatSoundEvent {
 
     @Nullable
     @Deprecated
-    public RegistryEntry.Reference<SoundEvent> getReference() {
+    public Holder.Reference<SoundEvent> getReference() {
         return reference;
     }
 
     @Nullable
     @Deprecated
-    public RegistryEntry<SoundEvent> getEntry() {
+    public Holder<SoundEvent> getEntry() {
         if (entry == null) {
-            entry = RegistryEntry.of(soundEvent);
+            entry = Holder.direct(soundEvent);
         }
 
         return entry;

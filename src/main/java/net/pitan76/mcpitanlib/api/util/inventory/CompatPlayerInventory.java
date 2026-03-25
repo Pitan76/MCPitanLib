@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class CompatPlayerInventory {
-    public PlayerInventory inv;
+    public Inventory inv;
 
-    public CompatPlayerInventory(PlayerInventory inv) {
+    public CompatPlayerInventory(Inventory inv) {
         this.inv = inv;
     }
 
@@ -28,14 +28,14 @@ public class CompatPlayerInventory {
     }
 
     public void offerOrDrop(ItemStack stack) {
-        inv.offerOrDrop(stack);
+        inv.placeItemBackInInventory(stack);
     }
 
     public void offerOrDrop(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
         offerOrDrop(stack.toMinecraft());
     }
 
-    public PlayerInventory getRaw() {
+    public Inventory getRaw() {
         return inv;
     }
 }

@@ -1,22 +1,22 @@
 package net.pitan76.mcpitanlib.midohra.util.math;
 
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.core.Vec3i;
 
 import java.util.Iterator;
 
 public class BlockPos {
-    private final net.minecraft.util.math.BlockPos blockPos;
+    private final net.minecraft.core.BlockPos blockPos;
 
-    protected BlockPos(net.minecraft.util.math.BlockPos blockPos) {
+    protected BlockPos(net.minecraft.core.BlockPos blockPos) {
         this.blockPos = blockPos;
     }
 
-    public static BlockPos of(net.minecraft.util.math.BlockPos blockPos) {
+    public static BlockPos of(net.minecraft.core.BlockPos blockPos) {
         return new BlockPos(blockPos);
     }
 
     public static BlockPos of(int x, int y, int z) {
-        return new BlockPos(new net.minecraft.util.math.BlockPos(x, y, z));
+        return new BlockPos(new net.minecraft.core.BlockPos(x, y, z));
     }
 
     public int getX() {
@@ -31,20 +31,20 @@ public class BlockPos {
         return blockPos.getZ();
     }
 
-    public net.minecraft.util.math.BlockPos toMinecraft() {
+    public net.minecraft.core.BlockPos toMinecraft() {
         return blockPos;
     }
 
-    public net.minecraft.util.math.BlockPos toRaw() {
+    public net.minecraft.core.BlockPos toRaw() {
         return toMinecraft();
     }
 
     public BlockPos add(int x, int y, int z) {
-        return new BlockPos(blockPos.add(x, y, z));
+        return new BlockPos(blockPos.offset(x, y, z));
     }
 
     public BlockPos add(BlockPos pos) {
-        return new BlockPos(blockPos.add(pos.blockPos));
+        return new BlockPos(blockPos.offset(pos.blockPos));
     }
 
     public BlockPos subtract(int x, int y, int z) {
@@ -56,11 +56,11 @@ public class BlockPos {
     }
 
     public BlockPos up() {
-        return new BlockPos(blockPos.up());
+        return new BlockPos(blockPos.above());
     }
 
     public BlockPos down() {
-        return new BlockPos(blockPos.down());
+        return new BlockPos(blockPos.below());
     }
 
     public BlockPos north() {
@@ -80,11 +80,11 @@ public class BlockPos {
     }
 
     public BlockPos offset(Direction direction, int amount) {
-        return new BlockPos(blockPos.offset(direction.toMinecraft(), amount));
+        return new BlockPos(blockPos.relative(direction.toMinecraft(), amount));
     }
 
     public BlockPos offset(Direction direction) {
-        return new BlockPos(blockPos.offset(direction.toMinecraft()));
+        return new BlockPos(blockPos.relative(direction.toMinecraft()));
     }
 
     public ChunkPos toChunkPos() {
@@ -106,7 +106,7 @@ public class BlockPos {
 
     public static Iterable<BlockPos> iterate(BlockPos start, BlockPos end) {
         return () -> new Iterator<>() {
-            private final Iterator<net.minecraft.util.math.BlockPos> rawIterator = net.minecraft.util.math.BlockPos.iterate(start.toRaw(), end.toRaw()).iterator();
+            private final Iterator<net.minecraft.core.BlockPos> rawIterator = net.minecraft.core.BlockPos.betweenClosed(start.toRaw(), end.toRaw()).iterator();
 
             @Override
             public boolean hasNext() {

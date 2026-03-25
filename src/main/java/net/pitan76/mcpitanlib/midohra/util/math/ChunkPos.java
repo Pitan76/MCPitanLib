@@ -3,41 +3,41 @@ package net.pitan76.mcpitanlib.midohra.util.math;
 import java.util.stream.Stream;
 
 public class ChunkPos {
-    private final net.minecraft.util.math.ChunkPos pos;
+    private final net.minecraft.world.level.ChunkPos pos;
 
-    protected ChunkPos(net.minecraft.util.math.ChunkPos pos) {
+    protected ChunkPos(net.minecraft.world.level.ChunkPos pos) {
         this.pos = pos;
     }
 
-    public static ChunkPos of(net.minecraft.util.math.ChunkPos pos) {
+    public static ChunkPos of(net.minecraft.world.level.ChunkPos pos) {
         return new ChunkPos(pos);
     }
 
     public static ChunkPos of(int x, int z) {
-        return of(new net.minecraft.util.math.ChunkPos(x, z));
+        return of(new net.minecraft.world.level.ChunkPos(x, z));
     }
 
     public static ChunkPos of(BlockPos pos) {
-        return of(new net.minecraft.util.math.ChunkPos(pos.toMinecraft()));
+        return of(new net.minecraft.world.level.ChunkPos(pos.toMinecraft()));
     }
 
     public static ChunkPos of(long pos) {
-        return of(new net.minecraft.util.math.ChunkPos(pos));
+        return of(new net.minecraft.world.level.ChunkPos(pos));
     }
 
     public static ChunkPos fromRegion(int x, int z) {
-        return of(net.minecraft.util.math.ChunkPos.fromRegion(x, z));
+        return of(net.minecraft.world.level.ChunkPos.minFromRegion(x, z));
     }
 
     public static ChunkPos fromRegionCenter(int x, int z) {
-        return of(net.minecraft.util.math.ChunkPos.fromRegionCenter(x, z));
+        return of(net.minecraft.world.level.ChunkPos.maxFromRegion(x, z));
     }
 
-    public net.minecraft.util.math.ChunkPos getRaw() {
+    public net.minecraft.world.level.ChunkPos getRaw() {
         return pos;
     }
 
-    public net.minecraft.util.math.ChunkPos toMinecraft() {
+    public net.minecraft.world.level.ChunkPos toMinecraft() {
         return getRaw();
     }
 
@@ -50,35 +50,35 @@ public class ChunkPos {
     }
 
     public int getOffsetX(int offsetX) {
-        return getRaw().getOffsetX(offsetX);
+        return getRaw().getBlockX(offsetX);
     }
 
     public int getOffsetZ(int offsetZ) {
-        return getRaw().getOffsetZ(offsetZ);
+        return getRaw().getBlockZ(offsetZ);
     }
 
     public int getStartX() {
-        return getRaw().getStartX();
+        return getRaw().getMinBlockX();
     }
 
     public int getStartZ() {
-        return getRaw().getStartZ();
+        return getRaw().getMinBlockZ();
     }
 
     public int getEndX() {
-        return getRaw().getEndX();
+        return getRaw().getMaxBlockX();
     }
 
     public int getEndZ() {
-        return getRaw().getEndZ();
+        return getRaw().getMaxBlockZ();
     }
 
     public int getCenterX() {
-        return getRaw().getCenterX();
+        return getRaw().getMiddleBlockX();
     }
 
     public int getCenterZ() {
-        return getRaw().getCenterZ();
+        return getRaw().getMiddleBlockZ();
     }
 
     public int getRegionX() {
@@ -90,23 +90,23 @@ public class ChunkPos {
     }
 
     public int getRegionRelativeX() {
-        return getRaw().getRegionRelativeX();
+        return getRaw().getRegionLocalX();
     }
 
     public int getRegionRelativeZ() {
-        return getRaw().getRegionRelativeZ();
+        return getRaw().getRegionLocalZ();
     }
 
     public BlockPos getStartPos() {
-        return BlockPos.of(getRaw().getStartPos());
+        return BlockPos.of(getRaw().getWorldPosition());
     }
 
     public BlockPos getCenterAtY(int y) {
-        return BlockPos.of(getRaw().getCenterAtY(y));
+        return BlockPos.of(getRaw().getMiddleBlockPosition(y));
     }
 
     public BlockPos getBlockPos(int offsetX, int y, int offsetZ) {
-        return BlockPos.of(getRaw().getBlockPos(offsetX, y, offsetZ));
+        return BlockPos.of(getRaw().getBlockAt(offsetX, y, offsetZ));
     }
 
     public long toLong() {
@@ -129,26 +129,26 @@ public class ChunkPos {
     }
 
     public int getChebyshevDistance(ChunkPos pos) {
-        return getRaw().getChebyshevDistance(pos.getRaw());
+        return getRaw().getChessboardDistance(pos.getRaw());
     }
 
     public int getChebyshevDistance(int x, int z) {
-        return getRaw().getChebyshevDistance(x, z);
+        return getRaw().getChessboardDistance(x, z);
     }
 
     public int getSquaredDistance(ChunkPos pos) {
-        return getRaw().getSquaredDistance(pos.getRaw());
+        return getRaw().distanceSquared(pos.getRaw());
     }
 
     public int getSquaredDistance(long pos) {
-        return getRaw().getSquaredDistance(pos);
+        return getRaw().distanceSquared(pos);
     }
 
     public static Stream<ChunkPos> stream(ChunkPos center, int radius) {
-        return net.minecraft.util.math.ChunkPos.stream(center.getRaw(), radius).map(ChunkPos::of);
+        return net.minecraft.world.level.ChunkPos.rangeClosed(center.getRaw(), radius).map(ChunkPos::of);
     }
 
     public static Stream<ChunkPos> stream(final ChunkPos pos1, final ChunkPos pos2) {
-        return net.minecraft.util.math.ChunkPos.stream(pos1.getRaw(), pos2.getRaw()).map(ChunkPos::of);
+        return net.minecraft.world.level.ChunkPos.rangeClosed(pos1.getRaw(), pos2.getRaw()).map(ChunkPos::of);
     }
 }

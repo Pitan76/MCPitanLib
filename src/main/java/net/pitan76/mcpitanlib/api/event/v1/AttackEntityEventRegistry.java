@@ -2,11 +2,11 @@ package net.pitan76.mcpitanlib.api.event.v1;
 
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.PlayerEvent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.v1.event.AttackEntityEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +17,7 @@ public class AttackEntityEventRegistry {
     }
 
     public interface AttackEntity {
-        default EventResult attack(PlayerEntity player, World level, Entity target, Hand hand, @Nullable EntityHitResult result) {
+        default EventResult attack(Player player, Level level, Entity target, InteractionHand hand, @Nullable EntityHitResult result) {
             return attack(new AttackEntityEvent(player, level, target, hand, result)).toEventResult().getResult();
         }
 

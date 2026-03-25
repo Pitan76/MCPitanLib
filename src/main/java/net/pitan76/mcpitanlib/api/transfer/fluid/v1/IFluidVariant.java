@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.transfer.fluid.v1;
 
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.pitan76.mcpitanlib.midohra.fluid.FluidWrapper;
 
 public interface IFluidVariant {

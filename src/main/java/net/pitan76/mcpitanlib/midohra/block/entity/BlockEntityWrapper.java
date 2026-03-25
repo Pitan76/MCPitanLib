@@ -14,7 +14,7 @@ import net.pitan76.mcpitanlib.midohra.world.World;
 import java.util.Optional;
 
 public class BlockEntityWrapper {
-    private final net.minecraft.block.entity.BlockEntity blockEntity;
+    private final net.minecraft.world.level.block.entity.BlockEntity blockEntity;
 
     public static final BlockEntityWrapper EMPTY = new BlockEntityWrapper(null);
 
@@ -22,11 +22,11 @@ public class BlockEntityWrapper {
         this.blockEntity = null;
     }
 
-    protected BlockEntityWrapper(net.minecraft.block.entity.BlockEntity blockEntity) {
+    protected BlockEntityWrapper(net.minecraft.world.level.block.entity.BlockEntity blockEntity) {
         this.blockEntity = blockEntity;
     }
 
-    public static BlockEntityWrapper of(net.minecraft.block.entity.BlockEntity blockEntity) {
+    public static BlockEntityWrapper of(net.minecraft.world.level.block.entity.BlockEntity blockEntity) {
         return new BlockEntityWrapper(blockEntity);
     }
 
@@ -34,12 +34,12 @@ public class BlockEntityWrapper {
         return EMPTY;
     }
 
-    public net.minecraft.block.entity.BlockEntity get() {
+    public net.minecraft.world.level.block.entity.BlockEntity get() {
         return blockEntity;
     }
 
     public BlockPos getPos() {
-        return BlockPos.of(get().getPos());
+        return BlockPos.of(get().getBlockPos());
     }
 
     public boolean isPresent() {
@@ -113,7 +113,7 @@ public class BlockEntityWrapper {
     }
 
     public static BlockEntityWrapper of(BlockPos pos, World world) {
-        net.minecraft.block.entity.BlockEntity blockEntity = BlockEntityUtil.getBlockEntity(world.toMinecraft(), pos.toMinecraft());
+        net.minecraft.world.level.block.entity.BlockEntity blockEntity = BlockEntityUtil.getBlockEntity(world.toMinecraft(), pos.toMinecraft());
         return of(blockEntity);
     }
 

@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.tile.v2;
 
 import com.mojang.datafixers.types.Type;
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.pitan76.mcpitanlib.midohra.block.SupplierBlockWrapper;
 
 import java.util.ArrayList;

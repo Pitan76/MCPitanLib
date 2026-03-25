@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
 import dev.architectury.event.events.common.InteractionEvent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.result.EventResult;
 import net.pitan76.mcpitanlib.api.event.v0.event.ClickBlockEvent;
@@ -46,35 +46,35 @@ public class InteractionEventRegistry {
     }
 
     public interface RightClickItem {
-        default ActionResult click(PlayerEntity var1, Hand var2) {
+        default InteractionResult click(Player var1, InteractionHand var2) {
             return click(new Player(var1), var2).toActionResult();
         }
 
-        CompatActionResult click(Player player, Hand hand);
+        CompatActionResult click(Player player, InteractionHand hand);
     }
 
     public interface ClientLeftClickAir {
-        default void click(PlayerEntity var1, Hand var2) {
+        default void click(Player var1, InteractionHand var2) {
             click(new Player(var1), var2);
         }
 
-        void click(Player player, Hand hand);
+        void click(Player player, InteractionHand hand);
     }
 
     public interface ClientRightClickAir {
-        default void click(PlayerEntity var1, Hand var2) {
+        default void click(Player var1, InteractionHand var2) {
             click(new Player(var1), var2);
         }
 
-        void click(Player player, Hand hand);
+        void click(Player player, InteractionHand hand);
     }
 
     public interface InteractEntity {
         @SuppressWarnings("deprecation")
-        default dev.architectury.event.EventResult interact(PlayerEntity var1, Entity var2, Hand var3) {
+        default dev.architectury.event.EventResult interact(Player var1, Entity var2, InteractionHand var3) {
             return interact(new Player(var1), var2, var3).toEventResult().getResult();
         }
 
-        CompatActionResult interact(Player player, Entity entity, Hand hand);
+        CompatActionResult interact(Player player, Entity entity, InteractionHand hand);
     }
 }

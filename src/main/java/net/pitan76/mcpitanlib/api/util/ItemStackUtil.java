@@ -2,16 +2,16 @@ package net.pitan76.mcpitanlib.api.util;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
@@ -30,7 +30,7 @@ public class ItemStackUtil {
     }
 
     public static boolean areItemsEqual(ItemStack left, ItemStack right) {
-        return ItemStack.areItemsEqual(left, right);
+        return ItemStack.isSameItem(left, right);
     }
 
     @Deprecated
@@ -63,7 +63,7 @@ public class ItemStackUtil {
      * @param nbt NbtCompound
      * @return ItemStack
      */
-    public static ItemStack fromNbt(World world, NbtCompound nbt) {
+    public static ItemStack fromNbt(Level world, CompoundTag nbt) {
         return fromNbt(new ReadNbtArgs(nbt));
     }
 
@@ -73,15 +73,15 @@ public class ItemStackUtil {
      * @return ItemStack
      */
     public static ItemStack fromNbt(NbtRWArgs args) {
-        DataResult<Pair<ItemStack, NbtElement>> result = ItemStack.CODEC.decode(NbtOps.INSTANCE, args.nbt);
+        DataResult<Pair<ItemStack, Tag>> result = ItemStack.CODEC.decode(NbtOps.INSTANCE, args.nbt);
         if (result.error().isPresent()) return ItemStack.EMPTY;
 
-        Pair<ItemStack, NbtElement> pair = result.result().orElseThrow();
+        Pair<ItemStack, Tag> pair = result.result().orElseThrow();
         return pair.getFirst();
     }
 
     public static ItemStack getDefaultStack(Item item) {
-        return item.getDefaultStack();
+        return item.getDefaultInstance();
     }
 
     public static int getMaxDamage(ItemStack stack) {
@@ -93,11 +93,11 @@ public class ItemStackUtil {
     }
 
     public static int getDamage(ItemStack stack) {
-        return stack.getDamage();
+        return stack.getDamageValue();
     }
 
     public static void setDamage(ItemStack stack, int damage) {
-        stack.setDamage(damage);
+        stack.setDamageValue(damage);
     }
 
     public static int getCount(ItemStack stack) {
@@ -109,27 +109,27 @@ public class ItemStackUtil {
     }
 
     public static void decrementCount(ItemStack stack, int count) {
-        stack.decrement(count);
+        stack.shrink(count);
     }
 
     public static void incrementCount(ItemStack stack, int count) {
-        stack.increment(count);
+        stack.grow(count);
     }
 
-    public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity, Runnable breakCallback) {
-        stack.damage(amount, entity.getEntityWorld(), entity, (item) -> breakCallback.run());
+    public static void damage(ItemStack stack, int amount, ServerPlayer entity, Runnable breakCallback) {
+        stack.hurtAndBreak(amount, entity.level(), entity, (item) -> breakCallback.run());
     }
 
     public static void damage(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
-        stack.damage(amount, entity, slot);
+        stack.hurtAndBreak(amount, entity, slot);
     }
 
-    public static void damage(ItemStack stack, int amount, ServerPlayerEntity entity) {
-        stack.damage(amount, entity.getEntityWorld(), entity, (item) -> entity.sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
+    public static void damage(ItemStack stack, int amount, ServerPlayer entity) {
+        stack.hurtAndBreak(amount, entity.level(), entity, (item) -> entity.onEquippedItemBroken(item, EquipmentSlot.MAINHAND));
     }
 
     public static void damage(ItemStack stack, int amount, Player entity) {
-        Optional<ServerPlayerEntity> player = entity.getServerPlayer();
+        Optional<ServerPlayer> player = entity.getServerPlayer();
         if (player.isEmpty()) return;
 
         damage(stack, amount, player.get());
@@ -149,12 +149,12 @@ public class ItemStackUtil {
         return new ItemStack(item, count);
     }
 
-    public static ItemStack create(ItemConvertible item) {
+    public static ItemStack create(ItemLike item) {
         if (item == null) return empty();
         return new ItemStack(item);
     }
 
-    public static ItemStack create(ItemConvertible item, int count) {
+    public static ItemStack create(ItemLike item, int count) {
         if (item == null) return empty();
         return new ItemStack(item, count);
     }
@@ -169,7 +169,7 @@ public class ItemStackUtil {
     }
 
     public static boolean isDamageable(ItemStack stack) {
-        return stack.isDamageable();
+        return stack.isDamageableItem();
     }
 
     public static boolean isBreak(ItemStack stack) {
@@ -184,7 +184,7 @@ public class ItemStackUtil {
     }
 
     public static int getMaxCount(ItemStack stack) {
-        return stack.getMaxCount();
+        return stack.getMaxStackSize();
     }
 
     public static Item getItem(ItemStack stack) {

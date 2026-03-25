@@ -1,17 +1,17 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.StringRepresentable;
 
-public interface CompatStringIdentifiable extends StringIdentifiable {
+public interface CompatStringIdentifiable extends StringRepresentable {
     @Deprecated
     @Override
-    default String asString() {
+    default String getSerializedName() {
         return asString_compat();
     }
 
     String asString_compat();
 
-    default StringIdentifiable get() {
+    default StringRepresentable get() {
         return this;
     }
 }

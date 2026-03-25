@@ -1,19 +1,19 @@
 package net.pitan76.mcpitanlib.api.gui.slot;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.inventory.Slot;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
 public class CompatibleSlot extends Slot {
     
-    public Inventory inventory;
+    public Container inventory;
     public int index;
     public int x;
     public int y;
 
-    public CompatibleSlot(Inventory inventory, int index, int x, int y) {
+    public CompatibleSlot(Container inventory, int index, int x, int y) {
         super(inventory, index, x, y);
         this.inventory = inventory;
         this.index = index;
@@ -22,65 +22,65 @@ public class CompatibleSlot extends Slot {
     }
 
     public void callSetStack(ItemStack stack) {
-        super.setStack(stack);
+        super.setByPlayer(stack);
     }
 
     public void callSetStackNoCallbacks(ItemStack stack) {
-        super.setStackNoCallbacks(stack);
+        super.set(stack);
     }
 
     public ItemStack callGetStack() {
-        return super.getStack();
+        return super.getItem();
     }
 
     public ItemStack callTakeStack(int amount) {
-        return super.takeStack(amount);
+        return super.remove(amount);
     }
 
     public boolean callHasStack() {
-        return super.hasStack();
+        return super.hasItem();
     }
 
     @Deprecated
     @Override
-    public void setStack(ItemStack stack) {
+    public void setByPlayer(ItemStack stack) {
        callSetStack(stack);
     }
 
     @Deprecated
     @Override
-    public void setStackNoCallbacks(ItemStack stack) {
+    public void set(ItemStack stack) {
         callSetStackNoCallbacks(stack);
     }
 
     @Deprecated
     @Override
-    public ItemStack getStack() {
+    public ItemStack getItem() {
         return callGetStack();
     }
 
     @Deprecated
     @Override
-    public ItemStack takeStack(int amount) {
+    public ItemStack remove(int amount) {
         return callTakeStack(amount);
     }
 
     @Deprecated
     @Override
-    public boolean hasStack() {
+    public boolean hasItem() {
         return callHasStack();
     }
 
-    public Inventory callGetInventory() {
+    public Container callGetInventory() {
         return inventory;
     }
 
     public int callGetIndex() {
-        return super.getIndex();
+        return super.getContainerSlot();
     }
 
     public int callGetId() {
-        return super.id;
+        return super.index;
     }
 
     public int callGetX() {
@@ -92,34 +92,34 @@ public class CompatibleSlot extends Slot {
     }
 
     public void callMarkDirty() {
-        super.markDirty();
+        super.setChanged();
     }
 
     @Override
-    public boolean canInsert(ItemStack stack) {
+    public boolean mayPlace(ItemStack stack) {
         return canInsert(net.pitan76.mcpitanlib.midohra.item.ItemStack.of(stack));
     }
 
     @Override
-    public boolean canTakeItems(PlayerEntity playerEntity) {
+    public boolean mayPickup(Player playerEntity) {
         return canTakeItems(new Player(playerEntity));
     }
 
     public boolean canInsert(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
-        return super.canInsert(stack.toMinecraft());
+        return super.mayPlace(stack.toMinecraft());
     }
 
     public boolean canTakeItems(Player player) {
-        return super.canTakeItems(player.getEntity());
+        return super.mayPickup(player.getEntity());
     }
 
     @Deprecated
     @Override
-    public boolean canTakePartial(PlayerEntity player) {
+    public boolean allowModification(Player player) {
         return canTakePartial(new Player(player));
     }
 
     public boolean canTakePartial(Player player) {
-        return super.canTakePartial(player.getEntity());
+        return super.allowModification(player.getEntity());
     }
 }

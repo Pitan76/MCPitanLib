@@ -1,24 +1,24 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 
 public class BlockViewUtil {
-    public static BlockState getBlockState(BlockView blockView, BlockPos pos) {
+    public static BlockState getBlockState(BlockGetter blockView, BlockPos pos) {
         return blockView.getBlockState(pos);
     }
 
-    public static BlockEntity getBlockEntity(BlockView blockView, BlockPos pos) {
+    public static BlockEntity getBlockEntity(BlockGetter blockView, BlockPos pos) {
         return blockView.getBlockEntity(pos);
     }
 
-    public static boolean hasBlockEntity(BlockView blockView, BlockPos pos) {
+    public static boolean hasBlockEntity(BlockGetter blockView, BlockPos pos) {
         return getBlockEntity(blockView, pos) != null;
     }
 
-    public static boolean isAir(BlockView blockView, BlockPos pos) {
+    public static boolean isAir(BlockGetter blockView, BlockPos pos) {
         return getBlockState(blockView, pos).isAir();
     }
 }

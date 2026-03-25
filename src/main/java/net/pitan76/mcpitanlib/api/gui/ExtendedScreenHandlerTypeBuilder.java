@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.api.gui;
 
 import dev.architectury.registry.menu.MenuRegistry;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 
-public class ExtendedScreenHandlerTypeBuilder<T extends ScreenHandler> {
+public class ExtendedScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
 
     private final Factory<T> factory;
 
@@ -19,21 +19,21 @@ public class ExtendedScreenHandlerTypeBuilder<T extends ScreenHandler> {
         this.factory = factory;
     }
 
-    public ScreenHandlerType<T> build() {
+    public MenuType<T> build() {
         return MenuRegistry.ofExtended(factory::create);
     }
 
     @FunctionalInterface
-    public interface Factory<T extends ScreenHandler> {
-        T create(int syncId, PlayerInventory inventory, PacketByteBuf buf);
+    public interface Factory<T extends AbstractContainerMenu> {
+        T create(int syncId, Inventory inventory, FriendlyByteBuf buf);
     }
 
     @FunctionalInterface
-    public interface Factory2<T extends ScreenHandler> extends Factory<T> {
-        T create(CreateMenuEvent e, PacketByteBuf buf);
+    public interface Factory2<T extends AbstractContainerMenu> extends Factory<T> {
+        T create(CreateMenuEvent e, FriendlyByteBuf buf);
 
         @Override
-        default T create(int syncId, PlayerInventory inventory, PacketByteBuf buf) {
+        default T create(int syncId, Inventory inventory, FriendlyByteBuf buf) {
             return create(new CreateMenuEvent(syncId, inventory), buf);
         }
     }

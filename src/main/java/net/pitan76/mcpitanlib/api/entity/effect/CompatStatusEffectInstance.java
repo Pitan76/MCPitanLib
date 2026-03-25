@@ -1,26 +1,26 @@
 package net.pitan76.mcpitanlib.api.entity.effect;
 
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.resources.ResourceKey;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class CompatStatusEffectInstance {
-    private final StatusEffectInstance instance;
+    private final MobEffectInstance instance;
     
     @Deprecated
-    public CompatStatusEffectInstance(StatusEffectInstance instance) {
+    public CompatStatusEffectInstance(MobEffectInstance instance) {
         this.instance = instance;
     }
 
-    public StatusEffectInstance getInstance() {
+    public MobEffectInstance getInstance() {
         return instance;
     }
 
     public Optional<CompatStatusEffect> getCompatStatusEffect() {
-        Optional<RegistryKey<StatusEffect>> optional = instance.getEffectType().getKey();
+        Optional<ResourceKey<MobEffect>> optional = instance.getEffect().unwrapKey();
         return optional.map(CompatStatusEffect::new);
     }
 
@@ -44,8 +44,8 @@ public class CompatStatusEffectInstance {
         this(effect, duration, amplifier, ambient, showParticles, showIcon, null);
     }
     
-    public CompatStatusEffectInstance(CompatStatusEffect effect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, @Nullable StatusEffectInstance hiddenEffect) {
-        this.instance = new StatusEffectInstance(effect.getEntry(null), duration, amplifier, ambient, showParticles, showIcon, hiddenEffect);
+    public CompatStatusEffectInstance(CompatStatusEffect effect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, @Nullable MobEffectInstance hiddenEffect) {
+        this.instance = new MobEffectInstance(effect.getEntry(null), duration, amplifier, ambient, showParticles, showIcon, hiddenEffect);
     }
 
     public int getDuration() {
@@ -61,14 +61,14 @@ public class CompatStatusEffectInstance {
     }
 
     public boolean showParticles() {
-        return instance.shouldShowParticles();
+        return instance.isVisible();
     }
 
     public boolean showIcon() {
-        return instance.shouldShowIcon();
+        return instance.showIcon();
     }
 
     public boolean isInfinite() {
-        return instance.isInfinite();
+        return instance.isInfiniteDuration();
     }
 }

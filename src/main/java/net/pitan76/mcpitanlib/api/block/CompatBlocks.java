@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class CompatBlocks {
     public static final Block AIR = Blocks.AIR;

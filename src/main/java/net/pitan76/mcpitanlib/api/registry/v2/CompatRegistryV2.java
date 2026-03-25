@@ -1,18 +1,18 @@
 package net.pitan76.mcpitanlib.api.registry.v2;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
@@ -86,20 +86,20 @@ public class CompatRegistryV2 {
         return () -> (ExtendBlock) result.get();
     }
 
-    public RegistryResult<ScreenHandlerType<?>> registerScreenHandlerType(CompatIdentifier id, Supplier<ScreenHandlerType<?>> supplier) {
+    public RegistryResult<MenuType<?>> registerScreenHandlerType(CompatIdentifier id, Supplier<MenuType<?>> supplier) {
         return cr1.registerScreenHandlerType(id.toMinecraft(), supplier);
     }
 
-    public <T extends ScreenHandler> Supplier<ScreenHandlerType<T>> registerScreenHandlerTypeSavingGenerics(CompatIdentifier id, Supplier<ScreenHandlerType<T>> supplier) {
-        RegistryResult<ScreenHandlerType<?>> result =  cr1.registerScreenHandlerType(id.toMinecraft(), supplier::get);
-        return () -> (ScreenHandlerType<T>) result.getOrNull();
+    public <T extends AbstractContainerMenu> Supplier<MenuType<T>> registerScreenHandlerTypeSavingGenerics(CompatIdentifier id, Supplier<MenuType<T>> supplier) {
+        RegistryResult<MenuType<?>> result =  cr1.registerScreenHandlerType(id.toMinecraft(), supplier::get);
+        return () -> (MenuType<T>) result.getOrNull();
     }
 
-    public <T extends ScreenHandler> SupplierResult<ScreenHandlerType<T>> registerScreenHandlerType(CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {
+    public <T extends AbstractContainerMenu> SupplierResult<MenuType<T>> registerScreenHandlerType(CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {
         return SupplierResult.of(registerScreenHandlerTypeSavingGenerics(id, builder::build));
     }
 
-    public <T extends ScreenHandler> SupplierResult<ScreenHandlerType<T>> registerScreenHandlerType(CompatIdentifier id, ExtendedScreenHandlerTypeBuilder<T> builder) {
+    public <T extends AbstractContainerMenu> SupplierResult<MenuType<T>> registerScreenHandlerType(CompatIdentifier id, ExtendedScreenHandlerTypeBuilder<T> builder) {
         return SupplierResult.of(registerScreenHandlerTypeSavingGenerics(id, builder::build));
     }
 
@@ -144,19 +144,19 @@ public class CompatRegistryV2 {
         return cr1.registerEnchantment(id.toMinecraft(), () -> supplier.get().getEnchantment(null));
     }
 
-    public RegistryResult<StatusEffect> registryStatusEffect(CompatIdentifier id, Supplier<CompatStatusEffect> supplier) {
+    public RegistryResult<MobEffect> registryStatusEffect(CompatIdentifier id, Supplier<CompatStatusEffect> supplier) {
         return cr1.registerStatusEffect(id.toMinecraft(), () -> supplier.get().getStatusEffect(null));
     }
 
-    public RegistryResult<ItemGroup> registerItemGroup(CompatIdentifier id, Supplier<ItemGroup> supplier) {
+    public RegistryResult<CreativeModeTab> registerItemGroup(CompatIdentifier id, Supplier<CreativeModeTab> supplier) {
         return cr1.registerItemGroup(id.toMinecraft(), supplier);
     }
 
-    public RegistryResult<ItemGroup> registerItemGroup(CompatIdentifier id, CreativeTabBuilder builder) {
+    public RegistryResult<CreativeModeTab> registerItemGroup(CompatIdentifier id, CreativeTabBuilder builder) {
         return cr1.registerItemGroup(id.toMinecraft(), builder);
     }
 
-    public RegistryResult<ItemGroup> registerItemGroup(CreativeTabBuilder builder) {
+    public RegistryResult<CreativeModeTab> registerItemGroup(CreativeTabBuilder builder) {
         return cr1.registerItemGroup(builder.getIdentifier(), builder);
     }
 

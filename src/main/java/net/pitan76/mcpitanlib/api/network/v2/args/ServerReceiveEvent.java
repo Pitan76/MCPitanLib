@@ -1,27 +1,27 @@
 package net.pitan76.mcpitanlib.api.network.v2.args;
 
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.midohra.network.CompatPacketByteBuf;
 import net.pitan76.mcpitanlib.midohra.server.MCServer;
 
 public class ServerReceiveEvent {
     public MinecraftServer server;
-    public ServerPlayerEntity serverPlayer;
+    public ServerPlayer serverPlayer;
     public Player player;
-    public PacketByteBuf buf;
+    public FriendlyByteBuf buf;
 
-    public ServerReceiveEvent(MinecraftServer server, ServerPlayerEntity player, PacketByteBuf buf) {
+    public ServerReceiveEvent(MinecraftServer server, ServerPlayer player, FriendlyByteBuf buf) {
         this.server = server;
         this.serverPlayer = player;
         this.player = new Player(player);
         this.buf = buf;
     }
 
-    public ServerPlayerEntity getServerPlayer() {
+    public ServerPlayer getServerPlayer() {
         return serverPlayer;
     }
 
@@ -33,11 +33,11 @@ public class ServerReceiveEvent {
         return server;
     }
 
-    public PacketByteBuf getBuf() {
+    public FriendlyByteBuf getBuf() {
         return buf;
     }
 
-    public World getWorld() {
+    public Level getWorld() {
         return getPlayer().getWorld();
     }
 

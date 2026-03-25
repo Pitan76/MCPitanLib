@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.Text;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
@@ -15,25 +15,25 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemStack {
-    private final net.minecraft.item.ItemStack stack;
+    private final net.minecraft.world.item.ItemStack stack;
     public static final ItemStack EMPTY = new ItemStack(ItemStackUtil.empty());
 
-    protected ItemStack(net.minecraft.item.ItemStack stack) {
+    protected ItemStack(net.minecraft.world.item.ItemStack stack) {
         this.stack = stack;
     }
 
-    public static ItemStack of(net.minecraft.item.ItemStack stack) {
+    public static ItemStack of(net.minecraft.world.item.ItemStack stack) {
         if (stack == null || stack.isEmpty())
             return EMPTY;
 
         return new ItemStack(stack);
     }
 
-    public static ItemStack of(ItemConvertible item) {
+    public static ItemStack of(ItemLike item) {
         return new Builder().item(item).build();
     }
 
-    public static ItemStack of(ItemConvertible item, int count) {
+    public static ItemStack of(ItemLike item, int count) {
         return new Builder().item(item).count(count).build();
     }
 
@@ -49,11 +49,11 @@ public class ItemStack {
         stack.setCount(count);
     }
 
-    public NbtCompound getCustomNbt() {
+    public CompoundTag getCustomNbt() {
         return CustomDataUtil.getNbt(stack);
     }
 
-    public void setCustomNbt(NbtCompound nbt) {
+    public void setCustomNbt(CompoundTag nbt) {
         CustomDataUtil.setNbt(stack, nbt);
     }
 
@@ -81,11 +81,11 @@ public class ItemStack {
         return new ItemStack(stack.copyWithCount(count));
     }
 
-    public Map<CompatEnchantment, Integer> getEnchantments(@Nullable World world) {
+    public Map<CompatEnchantment, Integer> getEnchantments(@Nullable Level world) {
         return EnchantmentUtil.getEnchantment(stack, world);
     }
 
-    public void setEnchantments(Map<CompatEnchantment, Integer> enchantments, @Nullable World world) {
+    public void setEnchantments(Map<CompatEnchantment, Integer> enchantments, @Nullable Level world) {
         EnchantmentUtil.setEnchantment(stack, enchantments, world);
     }
 
@@ -97,7 +97,7 @@ public class ItemStack {
         return LoreUtil.hasLore(stack);
     }
 
-    public List<Text> getLore() {
+    public List<Component> getLore() {
         return LoreUtil.getLore(stack);
     }
 
@@ -105,7 +105,7 @@ public class ItemStack {
         return LoreUtil.getLoreAsStringList(stack);
     }
 
-    public void setLore(List<Text> lore) {
+    public void setLore(List<Component> lore) {
         LoreUtil.setLore(stack, lore);
     }
 
@@ -118,7 +118,7 @@ public class ItemStack {
     }
 
     @Deprecated
-    public net.minecraft.item.ItemStack toMinecraft() {
+    public net.minecraft.world.item.ItemStack toMinecraft() {
         return stack;
     }
 
@@ -137,7 +137,7 @@ public class ItemStack {
 
         protected CompatIdentifier id;
         protected int count = 1;
-        protected NbtCompound nbt = NbtUtil.create();
+        protected CompoundTag nbt = NbtUtil.create();
 
         public Builder() {
 
@@ -148,7 +148,7 @@ public class ItemStack {
             return this;
         }
 
-        public Builder item(ItemConvertible item) {
+        public Builder item(ItemLike item) {
             this.id = ItemUtil.toCompatID(item.asItem());
             return this;
         }
@@ -158,13 +158,13 @@ public class ItemStack {
             return this;
         }
 
-        public Builder nbt(NbtCompound nbt) {
+        public Builder nbt(CompoundTag nbt) {
             this.nbt = nbt;
             return this;
         }
 
         public ItemStack build() {
-            net.minecraft.item.ItemStack stack = new net.minecraft.item.ItemStack(ItemUtil.fromId(id), count);
+            net.minecraft.world.item.ItemStack stack = new net.minecraft.world.item.ItemStack(ItemUtil.fromId(id), count);
             CustomDataUtil.setNbt(stack, nbt);
 
             return new ItemStack(stack);

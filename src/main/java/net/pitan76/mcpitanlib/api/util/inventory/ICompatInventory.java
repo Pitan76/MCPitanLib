@@ -1,20 +1,20 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
-public interface ICompatInventory extends Inventory {
+public interface ICompatInventory extends Container {
     default void callSetStack(int slot, ItemStack stack) {
-        setStack(slot, stack);
+        setItem(slot, stack);
     }
 
     default ItemStack callGetStack(int slot) {
-        return getStack(slot);
+        return getItem(slot);
     }
 
     default int callSize() {
-        return size();
+        return getContainerSize();
     }
 
     default boolean callIsEmpty() {
@@ -22,39 +22,39 @@ public interface ICompatInventory extends Inventory {
     }
 
     default ItemStack callRemoveStack(int slot, int amount) {
-        return removeStack(slot, amount);
+        return removeItem(slot, amount);
     }
 
     default ItemStack callRemoveStack(int slot) {
-        return removeStack(slot);
+        return removeItemNoUpdate(slot);
     }
 
     default void callClear() {
-        clear();
+        clearContent();
     }
 
     default void callMarkDirty() {
-        markDirty();
+        setChanged();
     }
 
-    default boolean callCanPlayerUse(net.minecraft.entity.player.PlayerEntity player) {
-        return canPlayerUse(player);
+    default boolean callCanPlayerUse(net.minecraft.world.entity.player.Player player) {
+        return stillValid(player);
     }
 
     default boolean canPlayerUse(Player player) {
-        return canPlayerUse(player.getEntity());
+        return stillValid(player.getEntity());
     }
 
 
     default void callSetStack(int slot, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
-        setStack(slot, stack.toMinecraft());
+        setItem(slot, stack.toMinecraft());
     }
 
     default net.pitan76.mcpitanlib.midohra.item.ItemStack callGetStackAsMidohra(int slot) {
-        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStack(slot));
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getItem(slot));
     }
 
     default int callGetMaxCountPerStack() {
-        return getMaxCountPerStack();
+        return getMaxStackSize();
     }
 }

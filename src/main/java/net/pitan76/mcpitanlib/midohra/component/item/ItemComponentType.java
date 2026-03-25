@@ -1,13 +1,13 @@
 package net.pitan76.mcpitanlib.midohra.component.item;
 
-import net.minecraft.component.ComponentType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.item.ItemStack;
 
 public abstract class ItemComponentType<T> {
 
-    private final ComponentType<?> type;
+    private final DataComponentType<?> type;
 
-    protected ItemComponentType(ComponentType<?> type) {
+    protected ItemComponentType(DataComponentType<?> type) {
         this.type = type;
     }
 
@@ -16,7 +16,7 @@ public abstract class ItemComponentType<T> {
     public abstract T get(ItemStack stack);
 
     public boolean has(ItemStack stack) {
-        return stack.contains(type);
+        return stack.has(type);
     }
 
     public void putOrDefault(ItemStack stack, T value, T defaultValue) {

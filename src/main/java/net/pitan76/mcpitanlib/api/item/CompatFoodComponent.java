@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.item;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
 
 import java.util.ArrayList;
@@ -14,9 +14,9 @@ public class CompatFoodComponent {
     private boolean meat;
     private boolean alwaysEdible;
     private boolean snack;
-    private final List<Pair<StatusEffectInstance, Float>> statusEffects = new ArrayList<>();
+    private final List<Pair<MobEffectInstance, Float>> statusEffects = new ArrayList<>();
 
-    private FoodComponent latestComponent = null;
+    private FoodProperties latestComponent = null;
 
     public static CompatFoodComponent create() {
         return new CompatFoodComponent();
@@ -48,7 +48,7 @@ public class CompatFoodComponent {
     }
 
     @Deprecated
-    public CompatFoodComponent addStatusEffect(StatusEffectInstance effect, float chance) {
+    public CompatFoodComponent addStatusEffect(MobEffectInstance effect, float chance) {
         statusEffects.add(Pair.of(effect, chance));
         return this;
     }
@@ -57,26 +57,26 @@ public class CompatFoodComponent {
         return addStatusEffect(instance.getInstance(), chance);
     }
 
-    public FoodComponent.Builder getVanillaBuilder() {
-        FoodComponent.Builder builder = new FoodComponent.Builder();
+    public FoodProperties.Builder getVanillaBuilder() {
+        FoodProperties.Builder builder = new FoodProperties.Builder();
         builder.nutrition(hunger).saturationModifier(saturation);
         if (alwaysEdible) builder.alwaysEdible();
         return builder;
     }
 
-    public FoodComponent build() {
+    public FoodProperties build() {
         if (latestComponent != null) return latestComponent;
 
         float eatSeconds = 1.6f;
         if (snack) eatSeconds = 0.8f;
         if (meat) eatSeconds = 1.6f;
 
-        latestComponent = new FoodComponent(hunger, saturation, alwaysEdible);
+        latestComponent = new FoodProperties(hunger, saturation, alwaysEdible);
 
         return latestComponent;
     }
 
-    public FoodComponent vanillaBuild() {
+    public FoodProperties vanillaBuild() {
         if (latestComponent != null) return latestComponent;
 
         latestComponent = getVanillaBuilder().build();
@@ -106,13 +106,13 @@ public class CompatFoodComponent {
     }
 
     @Deprecated
-    public List<Pair<StatusEffectInstance, Float>> getStatusEffects() {
+    public List<Pair<MobEffectInstance, Float>> getStatusEffects() {
         return statusEffects;
     }
 
     public List<Pair<CompatStatusEffectInstance, Float>> getCompatStatusEffects() {
         List<Pair<CompatStatusEffectInstance, Float>> compatStatusEffects = new ArrayList<>();
-        for (Pair<StatusEffectInstance, Float> pair : statusEffects) {
+        for (Pair<MobEffectInstance, Float> pair : statusEffects) {
             compatStatusEffects.add(Pair.of(new CompatStatusEffectInstance(pair.getFirst()), pair.getSecond()));
         }
         return compatStatusEffects;

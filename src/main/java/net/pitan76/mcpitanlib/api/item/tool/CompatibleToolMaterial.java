@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.pitan76.mcpitanlib.api.util.IngredientUtil;
 
 public interface CompatibleToolMaterial {
@@ -18,7 +18,7 @@ public interface CompatibleToolMaterial {
     float getCompatMiningSpeedMultiplier();
 
     default Ingredient getCompatRepairIngredient() {
-        return IngredientUtil.fromTagByIdentifier(getRepairTag().id());
+        return IngredientUtil.fromTagByIdentifier(getRepairTag().location());
     }
 
     int getCompatDurability();

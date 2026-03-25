@@ -1,41 +1,41 @@
 package net.pitan76.mcpitanlib.api.event.nbt;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.storage.NbtReadView;
-import net.minecraft.storage.ReadView;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.ValueInput;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
 public class ReadNbtArgs extends NbtRWArgs {
     @Deprecated
-    public ReadView view;
+    public ValueInput view;
 
     @Deprecated
-    public ReadNbtArgs(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
+    public ReadNbtArgs(CompoundTag nbt, HolderLookup.Provider wrapperLookup) {
         super(nbt, wrapperLookup);
     }
 
-    public ReadNbtArgs(NbtCompound nbt) {
+    public ReadNbtArgs(CompoundTag nbt) {
         super(nbt);
         if (registryLookup == null)
             registryLookup = new CompatRegistryLookup();
         view = NbtDataConverter.nbt2readData(nbt, registryLookup);
     }
 
-    public ReadNbtArgs(NbtCompound nbt, CompatRegistryLookup registryLookup) {
+    public ReadNbtArgs(CompoundTag nbt, CompatRegistryLookup registryLookup) {
         super(nbt, registryLookup);
         view = NbtDataConverter.nbt2readData(nbt, registryLookup);
     }
 
     @Deprecated
-    public ReadNbtArgs(NbtCompound nbt, ReadView view) {
+    public ReadNbtArgs(CompoundTag nbt, ValueInput view) {
         this(nbt);
         this.view = view;
     }
 
     @Deprecated
-    public ReadNbtArgs(NbtCompound nbt, ReadView view, CompatRegistryLookup registryLookup) {
+    public ReadNbtArgs(CompoundTag nbt, ValueInput view, CompatRegistryLookup registryLookup) {
         this(nbt, registryLookup);
         this.view = view;
     }

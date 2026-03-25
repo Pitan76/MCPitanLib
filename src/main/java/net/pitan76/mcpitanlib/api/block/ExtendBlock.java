@@ -1,35 +1,36 @@
 package net.pitan76.mcpitanlib.api.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCollisionHandler;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootWorldContext;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.block.WireOrientation;
-import net.minecraft.world.tick.ScheduledTickView;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.redstone.Orientation;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
@@ -46,7 +47,7 @@ import java.util.List;
 public class ExtendBlock extends Block {
     public CompatibleBlockSettings compatSettings;
 
-    public ExtendBlock(Settings settings) {
+    public ExtendBlock(Properties settings) {
         super(settings);
     }
 
@@ -74,7 +75,7 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return getCollisionShape(new CollisionShapeEvent(state, world, pos, context));
     }
 
@@ -84,12 +85,12 @@ public class ExtendBlock extends Block {
      * @return VoxelShape
      */
     public VoxelShape getOutlineShape(OutlineShapeEvent event) {
-        return super.getOutlineShape(event.state, event.world, event.pos, event.context);
+        return super.getShape(event.state, event.world, event.pos, event.context);
     }
 
     @Deprecated
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return getOutlineShape(new OutlineShapeEvent(state, world, pos, context));
     }
 
@@ -98,19 +99,19 @@ public class ExtendBlock extends Block {
      * @param event BlockScheduledTickEvent
      */
     public void scheduledTick(BlockScheduledTickEvent event) {
-        super.scheduledTick(event.state, event.world, event.pos, event.random.getMcRandom());
+        super.tick(event.state, event.world, event.pos, event.random.getMcRandom());
     }
 
     @Override
     @Deprecated
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         scheduledTick(new BlockScheduledTickEvent(state, world, pos, random));
     }
 
     @Override
     @Deprecated
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        return onRightClick(new BlockUseEvent(state, world, pos, player, player.getActiveHand(), hit)).toActionResult();
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        return onRightClick(new BlockUseEvent(state, world, pos, player, player.getUsedItemHand(), hit)).toActionResult();
     }
 
     /**
@@ -119,14 +120,14 @@ public class ExtendBlock extends Block {
      * @return BlockUseEvent
      */
     public CompatActionResult onRightClick(BlockUseEvent event) {
-        return CompatActionResult.create(super.onUse(event.state, event.world, event.pos, event.player.getPlayerEntity(), event.hit));
+        return CompatActionResult.create(super.useWithoutItem(event.state, event.world, event.pos, event.player.getPlayerEntity(), event.hit));
     }
 
     @Deprecated
     @Nullable
     @Override
-    public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-        return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) ->
+    public MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
+        return new SimpleMenuProvider((syncId, inventory, player) ->
                 createScreenHandler(new ScreenHandlerCreateEvent(state, world, pos, syncId, inventory, player)), getScreenTitle()
         );
     }
@@ -137,7 +138,7 @@ public class ExtendBlock extends Block {
      * @return ScreenHandler
      */
     @Nullable
-    public ScreenHandler createScreenHandler(ScreenHandlerCreateEvent event) {
+    public AbstractContainerMenu createScreenHandler(ScreenHandlerCreateEvent event) {
         return null;
     }
 
@@ -146,13 +147,13 @@ public class ExtendBlock extends Block {
      * @return Text
      */
     @Nullable
-    public Text getScreenTitle() {
+    public Component getScreenTitle() {
         return TextUtil.literal("");
     }
 
     @Override
     @Deprecated
-    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         onPlaced(new BlockPlacedEvent(world, pos, state, placer, itemStack));
     }
 
@@ -161,12 +162,12 @@ public class ExtendBlock extends Block {
      * @param event BlockPlacedEvent
      */
     public void onPlaced(BlockPlacedEvent event) {
-        super.onPlaced(event.world, event.pos, event.state, event.placer, event.stack);
+        super.setPlacedBy(event.world, event.pos, event.state, event.placer, event.stack);
     }
 
     @Override
     @Deprecated
-    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         return onBreak(new BlockBreakEvent(world, pos, state, player)).state;
     }
 
@@ -176,13 +177,13 @@ public class ExtendBlock extends Block {
      * @return BlockBreakResult
      */
     public BlockBreakResult onBreak(BlockBreakEvent event) {
-        BlockState state = super.onBreak(event.world, event.pos, event.state, event.getPlayerEntity());
+        BlockState state = super.playerWillDestroy(event.world, event.pos, event.state, event.getPlayerEntity());
         return new BlockBreakResult(state);
     }
 
     @Override
     @Deprecated
-    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData) {
+    public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData) {
         PickStackEvent event = new PickStackEvent(world, pos, state);
         event.setIncludeData(includeData);
         return getPickStack(event);
@@ -194,12 +195,12 @@ public class ExtendBlock extends Block {
      * @return ItemStack
      */
     public ItemStack getPickStack(PickStackEvent event) {
-        return super.getPickStack(event.worldView, event.pos, event.state, event.includeData);
+        return super.getCloneItemStack(event.worldView, event.pos, event.state, event.includeData);
     }
 
     @Override
     @Deprecated
-    public void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
+    public void affectNeighborsAfterRemoval(BlockState state, ServerLevel world, BlockPos pos, boolean moved) {
         onStateReplaced(new StateReplacedEvent(state, world, pos, world.getBlockState(pos), moved));
     }
 
@@ -208,12 +209,12 @@ public class ExtendBlock extends Block {
      * @param event StateReplacedEvent
      */
     public void onStateReplaced(StateReplacedEvent event) {
-        super.onStateReplaced(event.state, (ServerWorld) event.world, event.pos, event.moved);
+        super.affectNeighborsAfterRemoval(event.state, (ServerLevel) event.world, event.pos, event.moved);
     }
 
     @Deprecated
     @Override
-    public List<ItemStack> getDroppedStacks(BlockState state, LootWorldContext.Builder builder) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         return getDroppedStacks(new DroppedStacksArgs(state, builder));
     }
 
@@ -223,12 +224,12 @@ public class ExtendBlock extends Block {
      * @return List<ItemStack>
      */
     public List<ItemStack> getDroppedStacks(DroppedStacksArgs args) {
-        return super.getDroppedStacks(args.state, args.builder);
+        return super.getDrops(args.state, args.builder);
     }
 
     @Deprecated
     @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, WireOrientation wireOrientation, boolean notify) {
+    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock, Orientation wireOrientation, boolean notify) {
         neighborUpdate(new NeighborUpdateEvent(state, world, pos, sourceBlock, wireOrientation, notify));
     }
 
@@ -237,12 +238,12 @@ public class ExtendBlock extends Block {
      * @param event NeighborUpdateEvent
      */
     public void neighborUpdate(NeighborUpdateEvent event) {
-        super.neighborUpdate(event.state, event.world, event.pos, event.sourceBlock, event.wireOrientation, event.notify);
+        super.neighborChanged(event.state, event.world, event.pos, event.sourceBlock, event.wireOrientation, event.notify);
     }
 
     @Deprecated
     @Override
-    public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(net.minecraft.world.level.block.state.StateDefinition.Builder builder) {
         appendProperties(new AppendPropertiesArgs(builder));
     }
 
@@ -251,7 +252,7 @@ public class ExtendBlock extends Block {
      * @param args AppendPropertiesArgs
      */
     public void appendProperties(AppendPropertiesArgs args) {
-        super.appendProperties(args.builder);
+        super.createBlockStateDefinition(args.builder);
     }
 
     /**
@@ -259,7 +260,7 @@ public class ExtendBlock extends Block {
      * @return default block state
      */
     public BlockState getNewDefaultState() {
-        return super.getDefaultState();
+        return super.defaultBlockState();
     }
 
     /**
@@ -267,12 +268,12 @@ public class ExtendBlock extends Block {
      * @param state BlockState
      */
     public void setNewDefaultState(BlockState state) {
-        super.setDefaultState(state);
+        super.registerDefaultState(state);
     }
 
     @Deprecated
     @Override
-    public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
+    public @Nullable BlockState getStateForPlacement(BlockPlaceContext ctx) {
         return this.getPlacementState(new PlacementStateArgs(ctx, this));
     }
 
@@ -282,7 +283,7 @@ public class ExtendBlock extends Block {
      * @return BlockState
      */
     public @Nullable BlockState getPlacementState(PlacementStateArgs args) {
-        return super.getPlacementState(args.ctx);
+        return super.getStateForPlacement(args.ctx);
     }
 
     /**
@@ -295,42 +296,42 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    public boolean canPathfindThrough(BlockState state, NavigationType type) {
+    public boolean isPathfindable(BlockState state, PathComputationType type) {
         return canPathfindThrough(new CanPathfindThroughArgs(state, type));
     }
 
     public boolean canPathfindThrough(CanPathfindThroughArgs args) {
-        return super.canPathfindThrough(args.state, args.type);
+        return super.isPathfindable(args.state, args.type);
     }
 
     @Deprecated
     @Override
-    protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean bl) {
+    protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier handler, boolean bl) {
         onEntityCollision(new EntityCollisionEvent(state, world, pos, entity, handler, bl));
     }
 
     public void onEntityCollision(EntityCollisionEvent e) {
-        super.onEntityCollision(e.state, e.world, e.pos, e.entity, e.handler, e.bl);
+        super.entityInside(e.state, e.world, e.pos, e.entity, e.handler, e.bl);
     }
 
     @Deprecated
     @Override
-    public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
+    public void attack(BlockState state, Level world, BlockPos pos, Player player) {
         onBlockBreakStart(new BlockBreakStartEvent(state, world, pos, new Player(player)));
     }
 
     public void onBlockBreakStart(BlockBreakStartEvent e) {
-        super.onBlockBreakStart(e.state, e.world, e.pos, e.player.getPlayerEntity());
+        super.attack(e.state, e.world, e.pos, e.player.getPlayerEntity());
     }
 
     @Deprecated
     @Override
-    protected MapCodec<? extends Block> getCodec() {
+    protected MapCodec<? extends Block> codec() {
         return getCompatCodec().getCodec();
     }
 
     public CompatMapCodec<? extends Block> getCompatCodec() {
-        return CompatMapCodec.of(super.getCodec());
+        return CompatMapCodec.of(super.codec());
     }
 
     @Deprecated
@@ -345,12 +346,12 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
+    protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
         return getStateForNeighborUpdate(new StateForNeighborUpdateArgs(state, direction, neighborState, world, pos, neighborPos, tickView, new CompatRandom(random)));
     }
 
     public BlockState getStateForNeighborUpdate(StateForNeighborUpdateArgs args) {
-        return super.getStateForNeighborUpdate(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom());
+        return super.updateShape(args.state, args.world, args.tickView, args.pos, args.direction, args.neighborPos, args.neighborState, args.random.getMcRandom());
     }
 
 //    @Deprecated
@@ -363,7 +364,7 @@ public class ExtendBlock extends Block {
 //        return super.(args.stateToShape);
 //    }
 
-    public StateManager<Block, BlockState> callGetStateManager() {
-        return super.getStateManager();
+    public StateDefinition<Block, BlockState> callGetStateManager() {
+        return super.getStateDefinition();
     }
 }

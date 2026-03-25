@@ -2,8 +2,8 @@ package net.pitan76.mcpitanlib.core.serialization.codecs;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.pitan76.mcpitanlib.api.block.CompatChestBlock;
 import net.pitan76.mcpitanlib.api.block.CompatPillarBlock;
 import net.pitan76.mcpitanlib.api.block.CompatSlabBlock;

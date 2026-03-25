@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.nbt;
 
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
@@ -13,7 +13,7 @@ public class NbtRWUtil {
     }
 
     public static boolean getBoolean(ReadNbtArgs args, String key) {
-        return args.view.getBoolean(key, false);
+        return args.view.getBooleanOr(key, false);
     }
 
     public static void putByte(WriteNbtArgs args, String key, byte value) {
@@ -21,7 +21,7 @@ public class NbtRWUtil {
     }
 
     public static byte getByte(ReadNbtArgs args, String key) {
-        return args.view.getByte(key, (byte) 0);
+        return args.view.getByteOr(key, (byte) 0);
     }
 
     public static void putInt(WriteNbtArgs args, String key, int value) {
@@ -29,7 +29,7 @@ public class NbtRWUtil {
     }
 
     public static int getInt(ReadNbtArgs args, String key) {
-        return args.view.getInt(key, 0);
+        return args.view.getIntOr(key, 0);
     }
 
     public static void putLong(WriteNbtArgs args, String key, long value) {
@@ -37,7 +37,7 @@ public class NbtRWUtil {
     }
 
     public static long getLong(ReadNbtArgs args, String key) {
-        return args.view.getLong(key, 0L);
+        return args.view.getLongOr(key, 0L);
     }
 
     public static void putShort(WriteNbtArgs args, String key, short value) {
@@ -45,7 +45,7 @@ public class NbtRWUtil {
     }
 
     public static short getShort(ReadNbtArgs args, String key) {
-        return (short) args.view.getShort(key, (short) 0);
+        return (short) args.view.getShortOr(key, (short) 0);
     }
 
     public static void putFloat(WriteNbtArgs args, String key, float value) {
@@ -53,7 +53,7 @@ public class NbtRWUtil {
     }
 
     public static float getFloat(ReadNbtArgs args, String key) {
-        return args.view.getFloat(key, 0.0f);
+        return args.view.getFloatOr(key, 0.0f);
     }
 
     public static void putDouble(WriteNbtArgs args, String key, double value) {
@@ -61,7 +61,7 @@ public class NbtRWUtil {
     }
 
     public static double getDouble(ReadNbtArgs args, String key) {
-        return args.view.getDouble(key, 0.0);
+        return args.view.getDoubleOr(key, 0.0);
     }
 
     public static void putString(WriteNbtArgs args, String key, String value) {
@@ -69,7 +69,7 @@ public class NbtRWUtil {
     }
 
     public static String getString(ReadNbtArgs args, String key) {
-        return args.view.getString(key, "");
+        return args.view.getStringOr(key, "");
     }
 
     public static void putIntArray(WriteNbtArgs args, String key, int[] value) {
@@ -77,43 +77,43 @@ public class NbtRWUtil {
     }
 
     public static int[] getIntArray(ReadNbtArgs args, String key) {
-        return args.view.getOptionalIntArray(key).orElse(new int[0]);
+        return args.view.getIntArray(key).orElse(new int[0]);
     }
 
     public static boolean getBooleanOrDefault(ReadNbtArgs args, String key, boolean defaultValue) {
-        return args.view.getBoolean(key, defaultValue);
+        return args.view.getBooleanOr(key, defaultValue);
     }
 
     public static byte getByteOrDefault(ReadNbtArgs args, String key, byte defaultValue) {
-        return args.view.getByte(key, defaultValue);
+        return args.view.getByteOr(key, defaultValue);
     }
 
     public static int getIntOrDefault(ReadNbtArgs args, String key, int defaultValue) {
-        return args.view.getInt(key, defaultValue);
+        return args.view.getIntOr(key, defaultValue);
     }
 
     public static long getLongOrDefault(ReadNbtArgs args, String key, long defaultValue) {
-        return args.view.getLong(key, defaultValue);
+        return args.view.getLongOr(key, defaultValue);
     }
 
     public static short getShortOrDefault(ReadNbtArgs args, String key, short defaultValue) {
-        return (short) args.view.getShort(key, defaultValue);
+        return (short) args.view.getShortOr(key, defaultValue);
     }
 
     public static float getFloatOrDefault(ReadNbtArgs args, String key, float defaultValue) {
-        return args.view.getFloat(key, defaultValue);
+        return args.view.getFloatOr(key, defaultValue);
     }
 
     public static double getDoubleOrDefault(ReadNbtArgs args, String key, double defaultValue) {
-        return args.view.getDouble(key, defaultValue);
+        return args.view.getDoubleOr(key, defaultValue);
     }
 
     public static String getStringOrDefault(ReadNbtArgs args, String key, String defaultValue) {
-        return args.view.getString(key, defaultValue);
+        return args.view.getStringOr(key, defaultValue);
     }
 
     public static int[] getIntArrayOrDefault(ReadNbtArgs args, String key, int[] defaultValue) {
-        return args.view.getOptionalIntArray(key).orElse(defaultValue);
+        return args.view.getIntArray(key).orElse(defaultValue);
     }
 
     public static boolean isEmpty(NbtRWArgs args) {
@@ -131,11 +131,11 @@ public class NbtRWUtil {
         return new NbtRWArgs(getCompound(args, key));
     }
 
-    public static void putCompound(WriteNbtArgs args, String key, NbtCompound other) {
-        args.view.put(key, NbtCompound.CODEC, other);
+    public static void putCompound(WriteNbtArgs args, String key, CompoundTag other) {
+        args.view.store(key, CompoundTag.CODEC, other);
     }
 
-    public static NbtCompound getCompound(ReadNbtArgs args, String key) {
-        return args.view.read(key, NbtCompound.CODEC).orElse(NbtUtil.create());
+    public static CompoundTag getCompound(ReadNbtArgs args, String key) {
+        return args.view.read(key, CompoundTag.CODEC).orElse(NbtUtil.create());
     }
 }

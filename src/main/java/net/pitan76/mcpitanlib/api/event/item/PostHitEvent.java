@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class PostHitEvent extends BaseEvent {
@@ -34,6 +34,6 @@ public class PostHitEvent extends BaseEvent {
      * @param slot the slot to damage
      */
     public void damageStack(int amount, EquipmentSlot slot) {
-        stack.damage(amount, attacker, slot);
+        stack.hurtAndBreak(amount, attacker, slot);
     }
 }

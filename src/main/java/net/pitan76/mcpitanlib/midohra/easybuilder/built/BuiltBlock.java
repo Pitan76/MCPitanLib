@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.easybuilder.built;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
 import net.pitan76.mcpitanlib.api.block.args.v2.CollisionShapeEvent;

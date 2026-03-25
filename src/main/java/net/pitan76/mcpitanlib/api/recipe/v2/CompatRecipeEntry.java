@@ -1,27 +1,31 @@
 package net.pitan76.mcpitanlib.api.recipe.v2;
 
 import net.minecraft.recipe.*;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import org.jetbrains.annotations.Nullable;
 
 @Deprecated
 public class CompatRecipeEntry<T extends Recipe<?>> {
-    private final RecipeEntry<T> entry;
+    private final RecipeHolder<T> entry;
 
     public String group = "";
     public RecipeUtil.CompatibilityCraftingRecipeCategory category = null;
 
     @Deprecated
-    public CompatRecipeEntry(RecipeEntry<T> entry) {
+    public CompatRecipeEntry(RecipeHolder<T> entry) {
         this.entry = entry;
     }
 
     public CompatRecipeEntry(Identifier id, String group, RecipeUtil.CompatibilityCraftingRecipeCategory category, T recipe) {
-        this.entry = new RecipeEntry<>(RegistryKey.of(RegistryKeys.RECIPE, id), recipe);
+        this.entry = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE, id), recipe);
         this.group = group;
         this.category = category;
     }
@@ -35,7 +39,7 @@ public class CompatRecipeEntry<T extends Recipe<?>> {
     }
 
     @Deprecated
-    public RecipeEntry<?> getRecipeEntry() {
+    public RecipeHolder<?> getRecipeEntry() {
         return entry;
     }
 
@@ -44,7 +48,7 @@ public class CompatRecipeEntry<T extends Recipe<?>> {
     }
 
     public Identifier getId() {
-        return entry.id().getValue();
+        return entry.id().identifier();
     }
 
     public CompatIdentifier getCompatId() {

@@ -1,26 +1,26 @@
 package net.pitan76.mcpitanlib.api.util.entity;
 
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.projectile.arrow.Arrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class ArrowEntityUtil {
-    public static ArrowEntity create(World world, double x, double y, double z, ItemStack stack, @Nullable ItemStack shotFrom) {
-        return new ArrowEntity(world, x, y, z, stack, shotFrom);
+    public static Arrow create(Level world, double x, double y, double z, ItemStack stack, @Nullable ItemStack shotFrom) {
+        return new Arrow(world, x, y, z, stack, shotFrom);
     }
 
-    public static ArrowEntity create(World world, double x, double y, double z, ItemStack stack) {
+    public static Arrow create(Level world, double x, double y, double z, ItemStack stack) {
         return create(world, x, y, z, stack, null);
     }
 
-    public static ArrowEntity create(World world, double x, double y, double z) {
+    public static Arrow create(Level world, double x, double y, double z) {
         return create(world, x, y, z, ItemStackUtil.getDefaultStack(Items.ARROW));
     }
 
-    public static void setVelocity(ArrowEntity arrow, double x, double y, double z, float velocity, float divergence) {
-        arrow.setVelocity(x, y, z, velocity, divergence);
+    public static void setVelocity(Arrow arrow, double x, double y, double z, float velocity, float divergence) {
+        arrow.shoot(x, y, z, velocity, divergence);
     }
 }

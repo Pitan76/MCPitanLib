@@ -1,22 +1,22 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.equipment.EquipmentType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.equipment.ArmorType;
 import org.jetbrains.annotations.Nullable;
 
 public class ArmorEquipmentType {
-    public static ArmorEquipmentType HEAD = new ArmorEquipmentType(EquipmentSlot.HEAD, EquipmentType.HELMET);
-    public static ArmorEquipmentType CHEST = new ArmorEquipmentType(EquipmentSlot.CHEST, EquipmentType.CHESTPLATE);
-    public static ArmorEquipmentType LEGS = new ArmorEquipmentType(EquipmentSlot.LEGS, EquipmentType.LEGGINGS);
-    public static ArmorEquipmentType FEET = new ArmorEquipmentType(EquipmentSlot.FEET, EquipmentType.BOOTS);
+    public static ArmorEquipmentType HEAD = new ArmorEquipmentType(EquipmentSlot.HEAD, ArmorType.HELMET);
+    public static ArmorEquipmentType CHEST = new ArmorEquipmentType(EquipmentSlot.CHEST, ArmorType.CHESTPLATE);
+    public static ArmorEquipmentType LEGS = new ArmorEquipmentType(EquipmentSlot.LEGS, ArmorType.LEGGINGS);
+    public static ArmorEquipmentType FEET = new ArmorEquipmentType(EquipmentSlot.FEET, ArmorType.BOOTS);
 
     // New type for animals from 1.20.5
-    public static ArmorEquipmentType BODY = new ArmorEquipmentType(EquipmentSlot.BODY, EquipmentType.BODY);
+    public static ArmorEquipmentType BODY = new ArmorEquipmentType(EquipmentSlot.BODY, ArmorType.BODY);
 
     protected final EquipmentSlot slot;
-    protected final EquipmentType type;
+    protected final ArmorType type;
 
-    protected ArmorEquipmentType(EquipmentSlot slot, EquipmentType type) {
+    protected ArmorEquipmentType(EquipmentSlot slot, ArmorType type) {
         this.slot = slot;
         this.type = type;
     }
@@ -27,7 +27,7 @@ public class ArmorEquipmentType {
     }
 
     @Deprecated
-    public EquipmentType getType() {
+    public ArmorType getType() {
         return type;
     }
 
@@ -53,7 +53,7 @@ public class ArmorEquipmentType {
     }
 
     @Nullable
-    public static ArmorEquipmentType of(EquipmentType type) {
+    public static ArmorEquipmentType of(ArmorType type) {
         switch (type) {
             case HELMET -> {
                 return HEAD;

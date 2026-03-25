@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.test;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.Text;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.client.gui.screen.CompatInventoryScreen;
 import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -10,7 +10,7 @@ public class ExampleScreen extends CompatInventoryScreen<ExampleScreenHandler> {
 
     public static CompatIdentifier GUI = CompatIdentifier.of("textures/gui/container/blast_furnace.png");
 
-    public ExampleScreen(ExampleScreenHandler handler, PlayerInventory inventory, Text title) {
+    public ExampleScreen(ExampleScreenHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
     }
 

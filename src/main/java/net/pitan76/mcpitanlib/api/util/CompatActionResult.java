@@ -1,29 +1,29 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.util.ActionResult;
+import net.minecraft.world.InteractionResult;
 import net.pitan76.mcpitanlib.api.event.result.EventResult;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 
 import java.util.Optional;
 
 public class CompatActionResult {
-    public static final CompatActionResult SUCCESS = new CompatActionResult(ActionResult.SUCCESS, EventResult.success());
-    public static final CompatActionResult PASS = new CompatActionResult(ActionResult.PASS, EventResult.pass());
-    public static final CompatActionResult FAIL = new CompatActionResult(ActionResult.FAIL, EventResult.fail());
-    public static final CompatActionResult CONSUME = new CompatActionResult(ActionResult.CONSUME, EventResult.success());
-    public static final CompatActionResult PASS_TO_DEFAULT_BLOCK_ACTION = new CompatActionResult(ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION, EventResult.pass());
-    public static final CompatActionResult SUCCESS_SERVER = new CompatActionResult(ActionResult.SUCCESS_SERVER, EventResult.success());
-    public static final CompatActionResult STOP = new CompatActionResult(ActionResult.FAIL, EventResult.stop());
+    public static final CompatActionResult SUCCESS = new CompatActionResult(InteractionResult.SUCCESS, EventResult.success());
+    public static final CompatActionResult PASS = new CompatActionResult(InteractionResult.PASS, EventResult.pass());
+    public static final CompatActionResult FAIL = new CompatActionResult(InteractionResult.FAIL, EventResult.fail());
+    public static final CompatActionResult CONSUME = new CompatActionResult(InteractionResult.CONSUME, EventResult.success());
+    public static final CompatActionResult PASS_TO_DEFAULT_BLOCK_ACTION = new CompatActionResult(InteractionResult.TRY_WITH_EMPTY_HAND, EventResult.pass());
+    public static final CompatActionResult SUCCESS_SERVER = new CompatActionResult(InteractionResult.SUCCESS_SERVER, EventResult.success());
+    public static final CompatActionResult STOP = new CompatActionResult(InteractionResult.FAIL, EventResult.stop());
 
-    private final ActionResult actionResult;
+    private final InteractionResult actionResult;
     private final EventResult eventResult;
 
-    protected CompatActionResult(ActionResult actionResult, EventResult eventResult) {
+    protected CompatActionResult(InteractionResult actionResult, EventResult eventResult) {
         this.actionResult = actionResult;
         this.eventResult = eventResult;
     }
 
-    public ActionResult toActionResult() {
+    public InteractionResult toActionResult() {
         return actionResult;
     }
 
@@ -35,30 +35,30 @@ public class CompatActionResult {
         return getNewHandStack().map(ItemStack::of);
     }
 
-    public Optional<net.minecraft.item.ItemStack> getNewHandStack() {
-        if (!(actionResult instanceof ActionResult.Success)) return Optional.empty();
+    public Optional<net.minecraft.world.item.ItemStack> getNewHandStack() {
+        if (!(actionResult instanceof InteractionResult.Success)) return Optional.empty();
 
-        ActionResult.Success success = (ActionResult.Success) actionResult;
-        return Optional.ofNullable(success.getNewHandStack());
+        InteractionResult.Success success = (InteractionResult.Success) actionResult;
+        return Optional.ofNullable(success.heldItemTransformedTo());
     }
 
-    public static CompatActionResult of(ActionResult result) {
-        if (result == ActionResult.SUCCESS)
+    public static CompatActionResult of(InteractionResult result) {
+        if (result == InteractionResult.SUCCESS)
             return SUCCESS;
 
-        if (result == ActionResult.PASS)
+        if (result == InteractionResult.PASS)
             return PASS;
 
-        if (result == ActionResult.FAIL)
+        if (result == InteractionResult.FAIL)
             return FAIL;
 
-        if (result == ActionResult.CONSUME)
+        if (result == InteractionResult.CONSUME)
             return CONSUME;
 
-        if (result == ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION)
+        if (result == InteractionResult.TRY_WITH_EMPTY_HAND)
             return PASS_TO_DEFAULT_BLOCK_ACTION;
 
-        if (result == ActionResult.SUCCESS_SERVER)
+        if (result == InteractionResult.SUCCESS_SERVER)
             return SUCCESS_SERVER;
 
         return PASS;
@@ -81,20 +81,20 @@ public class CompatActionResult {
     }
 
     @Deprecated
-    public static CompatActionResult create(ActionResult result, EventResult eventResult) {
+    public static CompatActionResult create(InteractionResult result, EventResult eventResult) {
         return new CompatActionResult(result, eventResult);
     }
 
     /**
-     * @deprecated Use {@link #of(ActionResult)} instead.
+     * @deprecated Use {@link #of(InteractionResult)} instead.
      */
     @Deprecated
-    public static CompatActionResult create(ActionResult result) {
+    public static CompatActionResult create(InteractionResult result) {
         return of(result);
     }
 
     @Deprecated
-    public static CompatActionResult create2(ActionResult result) {
+    public static CompatActionResult create2(InteractionResult result) {
         return create(result, EventResult.stop());
     }
 

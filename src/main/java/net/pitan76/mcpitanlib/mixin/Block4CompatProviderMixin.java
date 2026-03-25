@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider.Options;
 import net.pitan76.mcpitanlib.api.block.args.v2.PlacementStateArgs;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlockProvider;
@@ -11,13 +11,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-// TODO(Ravel): can not resolve target class Block
 @Mixin(Block.class)
 public class Block4CompatProviderMixin {
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getPlacementState", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
+    @Inject(method = "getStateForPlacement", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getPlacementState(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
         // ExtendBlockProviderを実装している場合
         if (this instanceof CompatBlockProvider) {
             CompatBlockProvider provider = (CompatBlockProvider) this;

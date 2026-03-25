@@ -1,36 +1,43 @@
 package net.pitan76.mcpitanlib.api.client.event.listener;
 
+import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.state.WorldRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.state.LevelRenderState;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.multiplayer.ClientLevel;
+import com.mojang.math.Axis;
+import net.minecraft.world.phys.Vec3;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 public class WorldRenderContextImpl implements WorldRenderContext {
 
-    public WorldRenderer worldRenderer;
-    public MatrixStack matrixStack;
+    public LevelRenderer worldRenderer;
+    public PoseStack matrixStack;
     public float tickDelta;
     public Camera camera;
     public GameRenderer gameRenderer;
-    public LightmapTextureManager lightmapTextureManager;
+    public LightTexture lightmapTextureManager;
     public Matrix4f projectionMatrix;
-    public ClientWorld world;
+    public ClientLevel world;
     public boolean advancedTranslucency;
-    public @Nullable VertexConsumerProvider consumers;
+    public @Nullable MultiBufferSource consumers;
     public @Nullable Frustum frustum;
 
     @Override
-    public WorldRenderer getWorldRenderer() {
+    public LevelRenderer getWorldRenderer() {
         return worldRenderer;
     }
 
     @Override
-    public MatrixStack getMatrixStack() {
+    public PoseStack getMatrixStack() {
         return matrixStack;
     }
 
@@ -42,7 +49,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
     @Override
     public Camera getCamera() {
         if (camera == null) {
-            return getGameRenderer().getCamera();
+            return getGameRenderer().getMainCamera();
         }
         return camera;
     }
@@ -56,7 +63,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
     }
 
     @Override
-    public LightmapTextureManager getLightmapTextureManager() {
+    public LightTexture getLightmapTextureManager() {
         return lightmapTextureManager;
     }
 
@@ -66,7 +73,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
     }
 
     @Override
-    public ClientWorld getWorld() {
+    public ClientLevel getWorld() {
         if (world == null) {
             return ClientUtil.getWorld();
         }
@@ -79,7 +86,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
     }
 
     @Override
-    public @Nullable VertexConsumerProvider getConsumers() {
+    public @Nullable MultiBufferSource getConsumers() {
         return consumers;
     }
 
@@ -88,26 +95,26 @@ public class WorldRenderContextImpl implements WorldRenderContext {
         return frustum;
     }
 
-    public void prepare(GameRenderer gameRenderer, WorldRenderer worldRenderer, WorldRenderState worldRenderState, @Nullable ClientWorld world, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix) {
+    public void prepare(GameRenderer gameRenderer, LevelRenderer worldRenderer, LevelRenderState worldRenderState, @Nullable ClientLevel world, DeltaTracker tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix) {
         this.gameRenderer = gameRenderer;
         this.worldRenderer = worldRenderer;
         this.world = world;
         this.camera = camera;
-        this.matrixStack = new MatrixStack();
-        this.matrixStack.multiplyPositionMatrix(projectionMatrix);
-        this.matrixStack.push();
+        this.matrixStack = new PoseStack();
+        this.matrixStack.mulPose(projectionMatrix);
+        this.matrixStack.pushPose();
 
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
-        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+        matrixStack.mulPose(Axis.YP.rotationDegrees(-camera.yRot()));
+        matrixStack.mulPose(Axis.XP.rotationDegrees(camera.xRot()));
 
-        Vec3d camPos = camera.getCameraPos();
+        Vec3 camPos = camera.position();
         matrixStack.translate(-camPos.x, -camPos.y, -camPos.z);
 
-        this.matrixStack.pop();
+        this.matrixStack.popPose();
 
         this.projectionMatrix = projectionMatrix;;
-        this.tickDelta = tickCounter.getDynamicDeltaTicks();
-        this.lightmapTextureManager = gameRenderer.getLightmapTextureManager();
+        this.tickDelta = tickCounter.getGameTimeDeltaTicks();
+        this.lightmapTextureManager = gameRenderer.lightTexture();
         this.frustum = worldRenderer.getCapturedFrustum();
     }
 }

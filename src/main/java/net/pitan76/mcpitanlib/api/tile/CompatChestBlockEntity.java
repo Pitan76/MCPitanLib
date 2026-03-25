@@ -1,16 +1,16 @@
 package net.pitan76.mcpitanlib.api.tile;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.core.BlockPos;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
@@ -32,12 +32,12 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
     @Nullable
     @Override
     @Deprecated
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
         switch (getUpdatePacketType().name) {
             case "BLOCK_ENTITY_UPDATE_S2C":
-                return BlockEntityUpdateS2CPacket.create(this);
+                return ClientboundBlockEntityDataPacket.create(this);
         }
-        return super.toUpdatePacket();
+        return super.getUpdatePacket();
     }
 
     public UpdatePacketType getUpdatePacketType() {
@@ -59,7 +59,7 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
      * @deprecated Use {@link #writeNbt(WriteNbtArgs)} instead
      */
     @Deprecated
-    public void writeNbtOverride(NbtCompound nbt) {
+    public void writeNbtOverride(CompoundTag nbt) {
 
     }
 
@@ -67,34 +67,34 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
      * @deprecated Use {@link #readNbt(ReadNbtArgs)} instead
      */
     @Deprecated
-    public void readNbtOverride(NbtCompound nbt) {
+    public void readNbtOverride(CompoundTag nbt) {
 
     }
 
     @Deprecated
-    private RegistryWrapper.WrapperLookup wrapperLookupCache;
+    private HolderLookup.Provider wrapperLookupCache;
 
     // ----
 
     @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
-        NbtCompound nbt = NbtUtil.create();
-        writeNbt(nbt, this.getWorld().getRegistryManager());
-        writeNbt(new WriteNbtArgs(nbt, view, new CompatRegistryLookup(this.getWorld().getRegistryManager())));
+    protected void saveAdditional(ValueOutput view) {
+        super.saveAdditional(view);
+        CompoundTag nbt = NbtUtil.create();
+        writeNbt(nbt, this.getLevel().registryAccess());
+        writeNbt(new WriteNbtArgs(nbt, view, new CompatRegistryLookup(this.getLevel().registryAccess())));
         NbtDataConverter.nbt2writeData(nbt, view);
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        NbtCompound nbt = NbtDataConverter.data2nbt(view);
-        readNbt(nbt, view.getRegistries());
-        readNbt(new ReadNbtArgs(nbt, view, new CompatRegistryLookup(view.getRegistries())));
+    protected void loadAdditional(ValueInput view) {
+        super.loadAdditional(view);
+        CompoundTag nbt = NbtDataConverter.data2nbt(view);
+        readNbt(nbt, view.lookup());
+        readNbt(new ReadNbtArgs(nbt, view, new CompatRegistryLookup(view.lookup())));
     }
 
     @Deprecated
-    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public void writeNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         // deprecated
         wrapperLookupCache = registryLookup;
         writeNbtOverride(nbt);
@@ -102,7 +102,7 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
     }
 
     @Deprecated
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    public void readNbt(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         // deprecated
         wrapperLookupCache = registryLookup;
         readNbtOverride(nbt);

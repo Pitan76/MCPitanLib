@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.tag.v2.typed;
 
-import net.minecraft.block.Block;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.tags.TagKey;
 import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKey;
 import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKeyType;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -16,7 +16,7 @@ public class BlockTagKey extends CompatTagKey<Block> {
     }
 
     public static BlockTagKey of(CompatIdentifier identifier) {
-        return new BlockTagKey(TagKey.of(CompatTagKeyType.BLOCK.getRegistryKey(), identifier.toMinecraft()));
+        return new BlockTagKey(TagKey.create(CompatTagKeyType.BLOCK.getRegistryKey(), identifier.toMinecraft()));
     }
 
     public List<Block> values() {

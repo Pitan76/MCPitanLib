@@ -1,18 +1,18 @@
 package net.pitan76.mcpitanlib.midohra.util.math;
 
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.phys.Vec3;
 import net.pitan76.mcpitanlib.api.util.math.BoxUtil;
 
 public class Box {
-    protected final net.minecraft.util.math.Box box;
+    protected final net.minecraft.world.phys.AABB box;
 
     @Deprecated
-    public Box(net.minecraft.util.math.Box box) {
+    public Box(net.minecraft.world.phys.AABB box) {
         this.box = box;
     }
 
     @Deprecated
-    public net.minecraft.util.math.Box toMinecraft() {
+    public net.minecraft.world.phys.AABB toMinecraft() {
         return box;
     }
 
@@ -97,20 +97,20 @@ public class Box {
     }
 
     public Vector3d getCenter() {
-        Vec3d center = box.getCenter();
+        Vec3 center = box.getCenter();
         return new Vector3d(center.x, center.y, center.z);
     }
 
     public double getLengthX() {
-        return box.getLengthX();
+        return box.getXsize();
     }
 
     public double getLengthY() {
-        return box.getLengthY();
+        return box.getYsize();
     }
 
     public double getLengthZ() {
-        return box.getLengthZ();
+        return box.getZsize();
     }
 
     @Override

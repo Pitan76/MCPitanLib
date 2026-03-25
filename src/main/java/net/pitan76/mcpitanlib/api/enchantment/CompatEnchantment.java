@@ -1,24 +1,24 @@
 package net.pitan76.mcpitanlib.api.enchantment;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.BuiltinRegistries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.data.registries.VanillaRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.util.EnchantmentUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class CompatEnchantment {
-    private final RegistryKey<Enchantment> registryKey;
+    private final ResourceKey<Enchantment> registryKey;
 
     @Deprecated
-    public CompatEnchantment(RegistryKey<Enchantment> registryKey) {
+    public CompatEnchantment(ResourceKey<Enchantment> registryKey) {
         this.registryKey = registryKey;
     }
 
@@ -27,11 +27,11 @@ public class CompatEnchantment {
     }
 
     public Identifier getId() {
-        return registryKey.getRegistry();
+        return registryKey.registry();
     }
 
     @Deprecated
-    public RegistryKey<Enchantment> getRegistryKey() {
+    public ResourceKey<Enchantment> getRegistryKey() {
         return registryKey;
     }
 
@@ -47,23 +47,23 @@ public class CompatEnchantment {
     }
 
     @Deprecated
-    public RegistryEntry<Enchantment> getEntry(@Nullable World world) {
-        Optional<RegistryEntry.Reference<Enchantment>> optionalEntry;
+    public Holder<Enchantment> getEntry(@Nullable Level world) {
+        Optional<Holder.Reference<Enchantment>> optionalEntry;
         if (world == null) {
-            optionalEntry = BuiltinRegistries.createWrapperLookup()
-                    .getOptionalEntry(registryKey);
+            optionalEntry = VanillaRegistries.createLookup()
+                    .get(registryKey);
         } else {
-            optionalEntry = world.getRegistryManager().getOptionalEntry(registryKey);
+            optionalEntry = world.registryAccess().get(registryKey);
         }
 
         return optionalEntry.orElseThrow();
     }
 
-    public Enchantment getEnchantment(@Nullable World world) {
+    public Enchantment getEnchantment(@Nullable Level world) {
         return getEntry(world).value();
     }
 
-    public int getLevel(ItemStack stack, @Nullable World world) {
-        return EnchantmentHelper.getLevel(getEntry(world), stack);
+    public int getLevel(ItemStack stack, @Nullable Level world) {
+        return EnchantmentHelper.getItemEnchantmentLevel(getEntry(world), stack);
     }
 }

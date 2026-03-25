@@ -4,17 +4,17 @@ import com.google.common.base.Suppliers;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.resources.Identifier;
 
 import java.util.function.Supplier;
@@ -26,26 +26,26 @@ public class MCPLRegistry {
 
     public Registrar<Item> ITEMS;
     public Registrar<Block> BLOCKS;
-    public Registrar<ScreenHandlerType<?>> SCREEN_HANDLER_TYPE;
+    public Registrar<MenuType<?>> SCREEN_HANDLER_TYPE;
     public Registrar<BlockEntityType<?>> BLOCK_ENTITY_TYPE;
     public Registrar<EntityType<?>> ENTITY_TYPE;
     public Registrar<SoundEvent> SOUND_EVENT;
     public Registrar<Fluid> FLUID;
     public Registrar<ParticleType<?>> PARTICLE_TYPE;
-    public Registrar<StatusEffect> STATUS_EFFECT;
+    public Registrar<MobEffect> STATUS_EFFECT;
 
     public MCPLRegistry(String MOD_ID) {
         REGISTRIES = Suppliers.memoize(() -> RegistrarManager.get(MOD_ID));
 
-        ITEMS = REGISTRIES.get().get(RegistryKeys.ITEM);
-        BLOCKS = REGISTRIES.get().get(RegistryKeys.BLOCK);
-        SCREEN_HANDLER_TYPE = REGISTRIES.get().get(RegistryKeys.SCREEN_HANDLER);
-        BLOCK_ENTITY_TYPE = REGISTRIES.get().get(RegistryKeys.BLOCK_ENTITY_TYPE);
-        ENTITY_TYPE = REGISTRIES.get().get(RegistryKeys.ENTITY_TYPE);
-        SOUND_EVENT = REGISTRIES.get().get(RegistryKeys.SOUND_EVENT);
-        FLUID = REGISTRIES.get().get(RegistryKeys.FLUID);
-        PARTICLE_TYPE = REGISTRIES.get().get(RegistryKeys.PARTICLE_TYPE);
-        STATUS_EFFECT = REGISTRIES.get().get(RegistryKeys.STATUS_EFFECT);
+        ITEMS = REGISTRIES.get().get(Registries.ITEM);
+        BLOCKS = REGISTRIES.get().get(Registries.BLOCK);
+        SCREEN_HANDLER_TYPE = REGISTRIES.get().get(Registries.MENU);
+        BLOCK_ENTITY_TYPE = REGISTRIES.get().get(Registries.BLOCK_ENTITY_TYPE);
+        ENTITY_TYPE = REGISTRIES.get().get(Registries.ENTITY_TYPE);
+        SOUND_EVENT = REGISTRIES.get().get(Registries.SOUND_EVENT);
+        FLUID = REGISTRIES.get().get(Registries.FLUID);
+        PARTICLE_TYPE = REGISTRIES.get().get(Registries.PARTICLE_TYPE);
+        STATUS_EFFECT = REGISTRIES.get().get(Registries.MOB_EFFECT);
     }
 
     public RegistrySupplier<Item> registryItem(Identifier id, Supplier<Item> supplier) {
@@ -56,7 +56,7 @@ public class MCPLRegistry {
         return BLOCKS.register(id, supplier);
     }
 
-    public RegistrySupplier<ScreenHandlerType<?>> registryScreenHandlerType(Identifier id, Supplier<ScreenHandlerType<?>> supplier) {
+    public RegistrySupplier<MenuType<?>> registryScreenHandlerType(Identifier id, Supplier<MenuType<?>> supplier) {
         return SCREEN_HANDLER_TYPE.register(id, supplier);
     }
 
@@ -85,7 +85,7 @@ public class MCPLRegistry {
         //return ENCHANTMENT.register(id, supplier);
     }
 
-    public RegistrySupplier<StatusEffect> registryStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
+    public RegistrySupplier<MobEffect> registryStatusEffect(Identifier id, Supplier<MobEffect> supplier) {
         return STATUS_EFFECT.register(id, supplier);
     }
 

@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item.v2;
 
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;

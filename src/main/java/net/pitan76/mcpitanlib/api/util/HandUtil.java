@@ -1,31 +1,31 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.InteractionHand;
 
 public class HandUtil {
-    public static Hand getOppositeHand(Hand hand) {
-        return hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
+    public static InteractionHand getOppositeHand(InteractionHand hand) {
+        return hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
     }
 
-    public static EquipmentSlot getEquipmentSlot(Hand hand) {
-        return hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+    public static EquipmentSlot getEquipmentSlot(InteractionHand hand) {
+        return hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
     }
 
-    public static Hand getHand(EquipmentSlot slot) {
-        return slot == EquipmentSlot.MAINHAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    public static InteractionHand getHand(EquipmentSlot slot) {
+        return slot == EquipmentSlot.MAINHAND ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
     }
 
-    public static Hand getHand(boolean mainHand) {
-        return mainHand ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    public static InteractionHand getHand(boolean mainHand) {
+        return mainHand ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
     }
 
-    public static boolean isMainHand(Hand hand) {
-        return hand == Hand.MAIN_HAND;
+    public static boolean isMainHand(InteractionHand hand) {
+        return hand == InteractionHand.MAIN_HAND;
     }
 
-    public static boolean isOffHand(Hand hand) {
-        return hand == Hand.OFF_HAND;
+    public static boolean isOffHand(InteractionHand hand) {
+        return hand == InteractionHand.OFF_HAND;
     }
 
     public static boolean isMainHand(EquipmentSlot slot) {

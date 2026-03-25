@@ -1,19 +1,19 @@
 package net.pitan76.mcpitanlib.api.registry;
 
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.component.ComponentType;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
@@ -89,16 +89,16 @@ public class CompatRegistry {
         return new RegistryResult<>(mcplr.registryBlock(id, supplier));
     }
 
-    public RegistryResult<ScreenHandlerType<?>> registerScreenHandlerType(Identifier id, Supplier<ScreenHandlerType<?>> supplier) {
+    public RegistryResult<MenuType<?>> registerScreenHandlerType(Identifier id, Supplier<MenuType<?>> supplier) {
         return new RegistryResult<>(mcplr.registryScreenHandlerType(id, supplier));
     }
 
     @Deprecated
-    public RegistryResult<ScreenHandlerType<?>> registerExtendedScreenHandlerType(Identifier id, Supplier<ExtendedScreenHandlerTypeBuilder<?>> supplier) {
+    public RegistryResult<MenuType<?>> registerExtendedScreenHandlerType(Identifier id, Supplier<ExtendedScreenHandlerTypeBuilder<?>> supplier) {
         return registerScreenHandlerType(id, () -> supplier.get().build());
     }
 
-    public RegistryResult<ScreenHandlerType<?>> registerMenu(Identifier id, Supplier<ScreenHandlerType<?>> supplier) {
+    public RegistryResult<MenuType<?>> registerMenu(Identifier id, Supplier<MenuType<?>> supplier) {
         return registerScreenHandlerType(id, supplier);
     }
 
@@ -116,11 +116,11 @@ public class CompatRegistry {
     }
 
     public RegistryResult<SoundEvent> registerSoundEvent(Identifier id) {
-        return registerSoundEvent(id, () -> SoundEvent.of(id));
+        return registerSoundEvent(id, () -> SoundEvent.createVariableRangeEvent(id));
     }
 
     public RegistryResult<SoundEvent> registerSoundEvent(Identifier id, float distanceToTravel) {
-        return registerSoundEvent(id, () -> SoundEvent.of(id, distanceToTravel));
+        return registerSoundEvent(id, () -> SoundEvent.createFixedRangeEvent(id, distanceToTravel));
     }
 
     public RegistryResult<Fluid> registerFluid(Identifier id, Supplier<Fluid> supplier) {
@@ -135,27 +135,27 @@ public class CompatRegistry {
         return new RegistryResult<>(mcplr.registryEnchantment(id, supplier));
     }
 
-    public RegistryResult<StatusEffect> registerStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
+    public RegistryResult<MobEffect> registerStatusEffect(Identifier id, Supplier<MobEffect> supplier) {
         return new RegistryResult<>(mcplr.registryStatusEffect(id, supplier));
     }
 
-    public RegistryResult<ItemGroup> registerItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
+    public RegistryResult<CreativeModeTab> registerItemGroup(Identifier id, Supplier<CreativeModeTab> supplier) {
         return new RegistryResult<>(mcplr1_20.registryItemGroup(id, supplier));
     }
 
-    public RegistryResult<ItemGroup> registerItemGroup(Identifier id, CreativeTabBuilder builder) {
+    public RegistryResult<CreativeModeTab> registerItemGroup(Identifier id, CreativeTabBuilder builder) {
         return new RegistryResult<>(mcplr1_20.registryItemGroup(id, builder));
     }
 
-    public RegistryResult<ItemGroup> registerItemGroup(CreativeTabBuilder builder) {
+    public RegistryResult<CreativeModeTab> registerItemGroup(CreativeTabBuilder builder) {
         return registerItemGroup(builder.getIdentifier(), builder);
     }
 
-    public RegistryResult<ComponentType<?>> registerDataComponentType(Identifier id, Supplier<ComponentType<?>> supplier) {
+    public RegistryResult<DataComponentType<?>> registerDataComponentType(Identifier id, Supplier<DataComponentType<?>> supplier) {
         return new RegistryResult<>(mcplr1_21.registryDataComponentType(id, supplier));
     }
 
-    public static void registerFuel(int time, ItemConvertible... item) {
+    public static void registerFuel(int time, ItemLike... item) {
         FuelRegistry.register(time, item);
     }
 

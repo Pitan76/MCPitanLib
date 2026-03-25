@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.tag.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IngredientUtil;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
@@ -30,7 +30,7 @@ public class RepairIngredientTag {
     private TagKey<Item> tag;
 
     public RepairIngredientTag(CompatIdentifier identifier) {
-        this.tag = TagKey.of(RegistryKeys.ITEM, identifier.toMinecraft());
+        this.tag = TagKey.create(Registries.ITEM, identifier.toMinecraft());
     }
 
     @Deprecated
@@ -45,14 +45,14 @@ public class RepairIngredientTag {
 
     @Deprecated
     public Ingredient getIngredient() {
-        return IngredientUtil.fromTagByIdentifier(tag.id());
+        return IngredientUtil.fromTagByIdentifier(tag.location());
     }
 
     public boolean contains(Item item) {
         if (item == null || tag == null)
             return false;
 
-        return ItemUtil.isInTag(item, CompatIdentifier.fromMinecraft(tag.id()));
+        return ItemUtil.isInTag(item, CompatIdentifier.fromMinecraft(tag.location()));
     }
 
     public boolean contains(ItemStack stack) {

@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
@@ -246,7 +246,7 @@ public class ItemUtil {
      * @return Translation key of the item.
      */
     public static String getTranslationKey(Item item) {
-        return item.getTranslationKey();
+        return item.getDescriptionId();
     }
 
     public static boolean hasRecipeRemainder(Item item) {
@@ -258,6 +258,6 @@ public class ItemUtil {
     }
 
     public static ItemStack getRecipeRemainderStack(Item item) {
-        return item.getRecipeRemainder();
+        return item.getCraftingRemainder();
     }
 }

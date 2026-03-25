@@ -1,28 +1,28 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.resource.language.LanguageManager;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.client.resources.language.LanguageManager;
 import net.pitan76.mcpitanlib.midohra.resource.ResourceManager;
 
 public class LanguageUtil {
     public static boolean hasTranslation(String key) {
-        return I18n.hasTranslation(key);
+        return I18n.exists(key);
     }
 
     public static String translate(String key) {
-        return I18n.translate(key);
+        return I18n.get(key);
     }
 
     public static String translate(String key, Object... args) {
-        return I18n.translate(key, args);
+        return I18n.get(key, args);
     }
 
     public static String translateWithFallback(String key, String fallback) {
-        return I18n.hasTranslation(key) ? I18n.translate(key) : fallback;
+        return I18n.exists(key) ? I18n.get(key) : fallback;
     }
 
     public static String translateWithFallback(String key, String fallback, Object... args) {
-        return I18n.hasTranslation(key) ? I18n.translate(key, args) : fallback;
+        return I18n.exists(key) ? I18n.get(key, args) : fallback;
     }
 
     public static LanguageManager getLanguageManager() {
@@ -30,15 +30,15 @@ public class LanguageUtil {
     }
 
     public static String getLanguage() {
-        return getLanguageManager().getLanguage();
+        return getLanguageManager().getSelected();
     }
 
     public static void setLanguage(String language) {
-        getLanguageManager().setLanguage(language);
+        getLanguageManager().setSelected(language);
     }
 
-    public static void reload(net.minecraft.resource.ResourceManager resourceManager) {
-        getLanguageManager().reload(resourceManager);
+    public static void reload(net.minecraft.server.packs.resources.ResourceManager resourceManager) {
+        getLanguageManager().onResourceManagerReload(resourceManager);
     }
 
     public static void reload(ResourceManager resourceManager) {

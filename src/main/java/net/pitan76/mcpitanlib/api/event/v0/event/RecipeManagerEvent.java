@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.event.v0.event;
 
-import net.minecraft.recipe.Recipe;
-import net.minecraft.resource.ResourceManager;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.profiler.Profiler;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.pitan76.mcpitanlib.api.recipe.CompatibleRecipeEntry;
 import net.pitan76.mcpitanlib.api.recipe.v2.CompatRecipeEntry;
 import net.pitan76.mcpitanlib.api.recipe.v3.CompatRecipe;
@@ -17,15 +17,15 @@ public class RecipeManagerEvent {
     private SortedMap<Identifier, Recipe<?>> sortedMap;
 
     public ResourceManager resourceManager;
-    public Profiler profiler;
+    public ProfilerFiller profiler;
 
-    public RecipeManagerEvent(SortedMap<Identifier, Recipe<?>> sortedMap, ResourceManager resourceManager, Profiler profiler) {
+    public RecipeManagerEvent(SortedMap<Identifier, Recipe<?>> sortedMap, ResourceManager resourceManager, ProfilerFiller profiler) {
         this.sortedMap = sortedMap;
         this.resourceManager = resourceManager;
         this.profiler = profiler;
     }
 
-    public Profiler getProfiler() {
+    public ProfilerFiller getProfiler() {
         return profiler;
     }
 

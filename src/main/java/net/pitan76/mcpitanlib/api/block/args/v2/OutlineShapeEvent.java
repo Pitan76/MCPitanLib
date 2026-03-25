@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.block.args.v2;
 
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.Item;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.item.Item;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
@@ -16,16 +16,16 @@ public class OutlineShapeEvent extends BaseEvent implements BlockStatePropertyHo
     public BlockState state;
     public BlockView world;
     public BlockPos pos;
-    public ShapeContext context;
+    public CollisionContext context;
 
-    public OutlineShapeEvent(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public OutlineShapeEvent(BlockState state, BlockView world, BlockPos pos, CollisionContext context) {
         this.state = state;
         this.world = world;
         this.pos = pos;
         this.context = context;
     }
 
-    public OutlineShapeEvent(net.minecraft.block.BlockState state, net.minecraft.world.BlockView world, net.minecraft.util.math.BlockPos pos, net.minecraft.block.ShapeContext context) {
+    public OutlineShapeEvent(net.minecraft.world.level.block.state.BlockState state, net.minecraft.world.level.BlockGetter world, net.minecraft.core.BlockPos pos, net.minecraft.world.phys.shapes.CollisionContext context) {
         this(BlockState.of(state), BlockView.of(world), BlockPos.of(pos), context);
     }
 
@@ -50,12 +50,12 @@ public class OutlineShapeEvent extends BaseEvent implements BlockStatePropertyHo
         return pos;
     }
 
-    public ShapeContext getContext() {
+    public CollisionContext getContext() {
         return context;
     }
 
     public boolean isHolding(Item item) {
-        return getContext().isHolding(item);
+        return getContext().isHoldingItem(item);
     }
 
     public boolean isHolding(ItemWrapper item) {

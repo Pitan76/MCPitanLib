@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.tag.v2.typed;
 
-import net.minecraft.item.Item;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.TagKey;
 import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKey;
 import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKeyType;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -18,11 +18,11 @@ public class ItemTagKey extends CompatTagKey<Item> {
     }
 
     public static ItemTagKey of(CompatIdentifier identifier) {
-        return new ItemTagKey(net.minecraft.registry.tag.TagKey.of(CompatTagKeyType.ITEM.getRegistryKey(), identifier.toMinecraft()));
+        return new ItemTagKey(net.minecraft.tags.TagKey.create(CompatTagKeyType.ITEM.getRegistryKey(), identifier.toMinecraft()));
     }
 
     public Ingredient asIngredient() {
-        return IngredientUtil.fromTagByIdentifier(getTagKey().id());
+        return IngredientUtil.fromTagByIdentifier(getTagKey().location());
     }
 
     public List<Item> values() {

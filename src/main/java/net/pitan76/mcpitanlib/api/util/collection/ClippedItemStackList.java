@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.collection;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.NonNullList;
 import net.pitan76.mcpitanlib.api.util.inventory.ClippedInventory;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import org.jetbrains.annotations.NotNull;
@@ -41,13 +41,13 @@ public class ClippedItemStackList extends ItemStackList {
     }
 
     @Override
-    public Inventory toInventory() {
+    public Container toInventory() {
         return ClippedInventory.of(list.toInventory(), start, end);
     }
 
     @Override
-    public DefaultedList<ItemStack> defaultedList() {
-        DefaultedList<ItemStack> clippedList = DefaultedList.ofSize(size(), ItemStackUtil.empty());
+    public NonNullList<ItemStack> defaultedList() {
+        NonNullList<ItemStack> clippedList = NonNullList.withSize(size(), ItemStackUtil.empty());
         for (int i = 0; i < size(); i++)
             clippedList.set(i, get(i));
 

@@ -1,33 +1,33 @@
 package net.pitan76.mcpitanlib.midohra.util.hit;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
 public class HitResult {
-    protected final net.minecraft.util.hit.HitResult raw;
+    protected final net.minecraft.world.phys.HitResult raw;
 
-    public HitResult(net.minecraft.util.hit.HitResult raw) {
+    public HitResult(net.minecraft.world.phys.HitResult raw) {
         this.raw = raw;
     }
 
-    public static HitResult of(net.minecraft.util.hit.HitResult raw) {
+    public static HitResult of(net.minecraft.world.phys.HitResult raw) {
         return new HitResult(raw);
     }
 
     @Deprecated
-    public net.minecraft.util.hit.HitResult getRaw() {
+    public net.minecraft.world.phys.HitResult getRaw() {
         return raw;
     }
 
     @Deprecated
-    public net.minecraft.util.hit.HitResult.Type getRawType() {
+    public net.minecraft.world.phys.HitResult.Type getRawType() {
         return getRaw().getType();
     }
 
-    public Vec3d getPos() {
-        return getRaw().getPos();
+    public Vec3 getPos() {
+        return getRaw().getLocation();
     }
 
     public double getX() {
@@ -46,8 +46,8 @@ public class HitResult {
         return HitResultType.of(this);
     }
 
-    public double squaredDistanceTo(Vec3d point) {
-        Vec3d hitPos = getPos();
+    public double squaredDistanceTo(Vec3 point) {
+        Vec3 hitPos = getPos();
         double dx = hitPos.x - point.x;
         double dy = hitPos.y - point.y;
         double dz = hitPos.z - point.z;
@@ -55,10 +55,10 @@ public class HitResult {
     }
 
     public double squaredDistanceTo(Entity entity) {
-        return getRaw().squaredDistanceTo(entity);
+        return getRaw().distanceTo(entity);
     }
 
-    public Vec3d pos() {
+    public Vec3 pos() {
         return getPos();
     }
 
@@ -79,8 +79,8 @@ public class HitResult {
             return Optional.of((BlockHitResult) this);
         }
 
-        if (raw instanceof net.minecraft.util.hit.BlockHitResult) {
-            return Optional.of(BlockHitResult.of((net.minecraft.util.hit.BlockHitResult) raw));
+        if (raw instanceof net.minecraft.world.phys.BlockHitResult) {
+            return Optional.of(BlockHitResult.of((net.minecraft.world.phys.BlockHitResult) raw));
         }
 
         return Optional.empty();

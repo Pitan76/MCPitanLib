@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.client.event.listener;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.Text;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
@@ -12,13 +12,13 @@ import java.util.List;
 public class ItemTooltipContext {
 
     public ItemStack stack;
-    public List<Text> texts;
+    public List<Component> texts;
     public Item.TooltipContext tooltipContext;
 
     @Deprecated
-    public TooltipType type;
+    public TooltipFlag type;
 
-    public ItemTooltipContext(ItemStack stack, List<Text> texts, Item.TooltipContext tooltipContext, TooltipType type) {
+    public ItemTooltipContext(ItemStack stack, List<Component> texts, Item.TooltipContext tooltipContext, TooltipFlag type) {
         this.stack = stack;
         this.texts = texts;
         this.tooltipContext = tooltipContext;
@@ -29,7 +29,7 @@ public class ItemTooltipContext {
         return stack;
     }
 
-    public List<Text> getTexts() {
+    public List<Component> getTexts() {
         return texts;
     }
 
@@ -38,15 +38,15 @@ public class ItemTooltipContext {
     }
 
     @Deprecated
-    public TooltipType getType() {
+    public TooltipFlag getType() {
         return type;
     }
 
-    public void addTooltip(Text text) {
+    public void addTooltip(Component text) {
         texts.add(text);
     }
 
-    public void addTooltip(List<Text> texts) {
+    public void addTooltip(List<Component> texts) {
         this.texts.addAll(texts);
     }
 

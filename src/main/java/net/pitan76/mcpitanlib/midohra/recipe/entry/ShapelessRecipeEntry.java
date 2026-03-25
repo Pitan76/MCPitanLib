@@ -1,30 +1,30 @@
 package net.pitan76.mcpitanlib.midohra.recipe.entry;
 
-import net.minecraft.recipe.Recipe;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.recipe.ShapelessRecipe;
 
 public class ShapelessRecipeEntry extends RecipeEntry {
-    private final net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> recipeEntry;
+    private final net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapelessRecipe> recipeEntry;
 
-    protected ShapelessRecipeEntry(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> recipeEntry) {
+    protected ShapelessRecipeEntry(net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapelessRecipe> recipeEntry) {
         super(null);
         this.recipeEntry = recipeEntry;
     }
 
-    public static ShapelessRecipeEntry _of(net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> recipeEntry) {
+    public static ShapelessRecipeEntry _of(net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapelessRecipe> recipeEntry) {
         return new ShapelessRecipeEntry(recipeEntry);
     }
 
-    public static ShapelessRecipeEntry of(net.minecraft.recipe.RecipeEntry<?> recipeEntry) {
-        return _of((net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe>) recipeEntry);
+    public static ShapelessRecipeEntry of(net.minecraft.world.item.crafting.RecipeHolder<?> recipeEntry) {
+        return _of((net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapelessRecipe>) recipeEntry);
     }
 
-    public static ShapelessRecipeEntry of(net.minecraft.recipe.ShapelessRecipe recipe, CompatIdentifier id) {
-        RegistryKey<Recipe<?>> key = RegistryKey.of(RegistryKeys.RECIPE, id.toMinecraft());
-        net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> recipeEntry = new net.minecraft.recipe.RecipeEntry<>(key, recipe);
+    public static ShapelessRecipeEntry of(net.minecraft.world.item.crafting.ShapelessRecipe recipe, CompatIdentifier id) {
+        ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, id.toMinecraft());
+        net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapelessRecipe> recipeEntry = new net.minecraft.world.item.crafting.RecipeHolder<>(key, recipe);
 
         return of(recipeEntry);
     }
@@ -34,12 +34,12 @@ public class ShapelessRecipeEntry extends RecipeEntry {
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> getRaw() {
+    public net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapelessRecipe> getRaw() {
         return recipeEntry;
     }
 
     @Override
-    public net.minecraft.recipe.RecipeEntry<net.minecraft.recipe.ShapelessRecipe> toMinecraft() {
+    public net.minecraft.world.item.crafting.RecipeHolder<net.minecraft.world.item.crafting.ShapelessRecipe> toMinecraft() {
         return getRaw();
     }
 
@@ -49,7 +49,7 @@ public class ShapelessRecipeEntry extends RecipeEntry {
     }
 
     @Override
-    public net.minecraft.recipe.ShapelessRecipe getRawRecipe() {
+    public net.minecraft.world.item.crafting.ShapelessRecipe getRawRecipe() {
         return getRaw().value();
     }
 }

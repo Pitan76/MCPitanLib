@@ -1,26 +1,26 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 
 public class TileCreateEvent extends BaseEvent {
 
     // ～1.16.5
-    private BlockView blockView;
+    private BlockGetter blockView;
 
-    public TileCreateEvent(BlockView blockView) {
+    public TileCreateEvent(BlockGetter blockView) {
         this.blockView = blockView;
         this.blockPos = null;
         this.blockState = null;
     }
 
-    public BlockView getBlockView() {
+    public BlockGetter getBlockView() {
         return blockView;
     }
 
-    public void setBlockView(BlockView blockView) {
+    public void setBlockView(BlockGetter blockView) {
         this.blockView = blockView;
     }
 

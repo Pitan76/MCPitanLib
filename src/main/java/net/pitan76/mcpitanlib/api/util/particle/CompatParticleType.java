@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util.particle;
 
-import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
@@ -21,11 +21,11 @@ public class CompatParticleType {
     }
 
     public boolean shouldAlwaysSpawn() {
-        return particleType.shouldAlwaysSpawn();
+        return particleType.getOverrideLimiter();
     }
 
     public Identifier getId() {
-        return Registries.PARTICLE_TYPE.getId(particleType);
+        return BuiltInRegistries.PARTICLE_TYPE.getKey(particleType);
     }
 
     public CompatIdentifier getCompatId() {

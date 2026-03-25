@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.state.property;
 
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.math.Direction;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.core.Direction;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 
 import java.util.function.Predicate;
@@ -12,7 +12,7 @@ public class DirectionProperty implements IProperty<Direction> {
     private final EnumProperty<Direction> property;
 
     public DirectionProperty(String name, Predicate<Direction> filter) {
-        this(EnumProperty.of(name, Direction.class, filter));
+        this(EnumProperty.create(name, Direction.class, filter));
     }
 
     public DirectionProperty(String name) {

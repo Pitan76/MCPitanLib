@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.test;
 
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
@@ -26,12 +26,12 @@ public class ExampleGuiItem extends CompatItem implements SimpleScreenHandlerFac
     }
 
     @Override
-    public Text getDisplayName(DisplayNameArgs args) {
+    public Component getDisplayName(DisplayNameArgs args) {
         return TextUtil.literal("Example Title");
     }
 
     @Override
-    public ScreenHandler createMenu(CreateMenuEvent e) {
+    public AbstractContainerMenu createMenu(CreateMenuEvent e) {
         return new ExampleScreenHandler(e);
     }
 }

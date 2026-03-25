@@ -1,33 +1,33 @@
 package net.pitan76.mcpitanlib.api.client.gui.widget;
 
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.input.CharInput;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
-public class CompatTextFieldWidget extends TextFieldWidget {
-    public CompatTextFieldWidget(TextRenderer textRenderer, int width, int height) {
+public class CompatTextFieldWidget extends EditBox {
+    public CompatTextFieldWidget(Font textRenderer, int width, int height) {
         this(textRenderer, width, height, TextUtil.empty());
     }
 
-    public CompatTextFieldWidget(TextRenderer textRenderer, int x, int y, int width, int height) {
+    public CompatTextFieldWidget(Font textRenderer, int x, int y, int width, int height) {
         this(textRenderer, x, y, width, height, TextUtil.empty());
     }
 
     // ----
 
-    public CompatTextFieldWidget(TextRenderer textRenderer, int width, int height, Text text) {
+    public CompatTextFieldWidget(Font textRenderer, int width, int height, Component text) {
         super(textRenderer, width, height, text);
     }
 
-    public CompatTextFieldWidget(TextRenderer textRenderer, int x, int y, int width, int height, Text text) {
+    public CompatTextFieldWidget(Font textRenderer, int x, int y, int width, int height, Component text) {
         super(textRenderer, x, y, width, height, text);
     }
 
-    public CompatTextFieldWidget(TextRenderer textRenderer, int x, int y, int width, int height, @Nullable TextFieldWidget copyFrom, Text text) {
+    public CompatTextFieldWidget(Font textRenderer, int x, int y, int width, int height, @Nullable EditBox copyFrom, Component text) {
         super(textRenderer, x, y, width, height, copyFrom, text);
     }
 
@@ -35,12 +35,12 @@ public class CompatTextFieldWidget extends TextFieldWidget {
 
     @Deprecated
     @Override
-    public void setDrawsBackground(boolean drawsBackground) {
+    public void setBordered(boolean drawsBackground) {
         callSetDrawsBackground(drawsBackground);
     }
 
     public void callSetDrawsBackground(boolean drawsBackground) {
-        super.setDrawsBackground(drawsBackground);
+        super.setBordered(drawsBackground);
     }
 
     @Deprecated
@@ -55,12 +55,12 @@ public class CompatTextFieldWidget extends TextFieldWidget {
 
     @Deprecated
     @Override
-    public void setFocusUnlocked(boolean focusUnlocked) {
+    public void setCanLoseFocus(boolean focusUnlocked) {
         callSetFocusUnlocked(focusUnlocked);
     }
 
     public void callSetFocusUnlocked(boolean focusUnlocked) {
-        super.setFocusUnlocked(focusUnlocked);
+        super.setCanLoseFocus(focusUnlocked);
     }
 
     @Deprecated
@@ -75,22 +75,22 @@ public class CompatTextFieldWidget extends TextFieldWidget {
 
     @Deprecated
     @Override
-    public void setText(String text) {
+    public void setValue(String text) {
         callSetText(text);
     }
 
     public void callSetText(String text) {
-        super.setText(text);
+        super.setValue(text);
     }
 
     @Deprecated
     @Override
-    public String getText() {
+    public String getValue() {
         return callGetText();
     }
 
     public String callGetText() {
-        return super.getText();
+        return super.getValue();
     }
 
     @Deprecated
@@ -115,31 +115,31 @@ public class CompatTextFieldWidget extends TextFieldWidget {
 
     @Deprecated
     @Override
-    public boolean keyPressed(KeyInput input) {
+    public boolean keyPressed(KeyEvent input) {
         return callKeyPressed(input.key(), input.scancode(), input.modifiers());
     }
 
     public boolean callKeyPressed(int keyCode, int scanCode, int modifiers) {
-        return super.keyPressed(new KeyInput(keyCode, scanCode, modifiers));
+        return super.keyPressed(new KeyEvent(keyCode, scanCode, modifiers));
     }
 
     @Deprecated
     @Override
-    public boolean keyReleased(KeyInput input) {
+    public boolean keyReleased(KeyEvent input) {
         return callKeyReleased(input.key(), input.scancode(), input.modifiers());
     }
 
     public boolean callKeyReleased(int keyCode, int scanCode, int modifiers) {
-        return super.keyReleased(new KeyInput(keyCode, scanCode, modifiers));
+        return super.keyReleased(new KeyEvent(keyCode, scanCode, modifiers));
     }
 
     @Deprecated
     @Override
-    public boolean charTyped(CharInput input) {
+    public boolean charTyped(CharacterEvent input) {
         return callCharTyped((char) input.codepoint(), input.modifiers());
     }
 
     public boolean callCharTyped(char chr, int modifiers) {
-        return super.charTyped(new CharInput(chr, modifiers));
+        return super.charTyped(new CharacterEvent(chr, modifiers));
     }
 }

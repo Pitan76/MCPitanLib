@@ -1,32 +1,32 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldView;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import org.jetbrains.annotations.Nullable;
 
 public class PickStackEvent {
 
     @Deprecated
-    public WorldView worldView;
+    public LevelReader worldView;
 
     @Deprecated
-    public BlockView blockView;
+    public BlockGetter blockView;
 
     public BlockPos pos;
     public BlockState state;
 
     public boolean includeData = true;
 
-    public PickStackEvent(WorldView world, BlockPos pos, BlockState state) {
+    public PickStackEvent(LevelReader world, BlockPos pos, BlockState state) {
         this.worldView = world;
         this.pos = pos;
         this.state = state;
     }
 
-    public PickStackEvent(BlockView world, BlockPos pos, BlockState state) {
+    public PickStackEvent(BlockGetter world, BlockPos pos, BlockState state) {
         this.blockView = world;
         this.pos = pos;
         this.state = state;
@@ -41,12 +41,12 @@ public class PickStackEvent {
     }
 
     @Nullable
-    public BlockView getBlockView() {
+    public BlockGetter getBlockView() {
         return blockView;
     }
 
     @Nullable
-    public WorldView getWorldView() {
+    public LevelReader getWorldView() {
         return worldView;
     }
 
@@ -71,12 +71,12 @@ public class PickStackEvent {
 
     public boolean isClient() {
         if (blockView != null)
-            return getBlockEntity().getWorld().isClient();
+            return getBlockEntity().getLevel().isClientSide();
         if (worldView != null)
-            return worldView.isClient();
+            return worldView.isClientSide();
 
         try {
-            net.minecraft.client.MinecraftClient.getInstance();
+            net.minecraft.client.Minecraft.getInstance();
             return true;
         } catch (Error e) {
             return false;

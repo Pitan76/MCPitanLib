@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.particle;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.particle.*;
 
 public class CompatParticleTypes {
@@ -109,8 +110,8 @@ public class CompatParticleTypes {
     public static final CompatParticleType SHRIEK = new CompatParticleType(ParticleTypes.SHRIEK);
     public static final CompatParticleType EGG_CRACK = new CompatParticleType(ParticleTypes.EGG_CRACK);
     public static final CompatParticleType DUST_PLUME = new CompatParticleType(ParticleTypes.DUST_PLUME);
-    public static final CompatParticleType TRIAL_SPAWNER_DETECTION = new CompatParticleType(ParticleTypes.TRIAL_SPAWNER_DETECTION);
-    public static final CompatParticleType TRIAL_SPAWNER_DETECTION_OMINOUS = new CompatParticleType(ParticleTypes.TRIAL_SPAWNER_DETECTION_OMINOUS);
+    public static final CompatParticleType TRIAL_SPAWNER_DETECTION = new CompatParticleType(ParticleTypes.TRIAL_SPAWNER_DETECTED_PLAYER);
+    public static final CompatParticleType TRIAL_SPAWNER_DETECTION_OMINOUS = new CompatParticleType(ParticleTypes.TRIAL_SPAWNER_DETECTED_PLAYER_OMINOUS);
     public static final CompatParticleType VAULT_CONNECTION = new CompatParticleType(ParticleTypes.VAULT_CONNECTION);
     public static final CompatParticleType DUST_PILLAR = new CompatParticleType(ParticleTypes.DUST_PILLAR);
     public static final CompatParticleType OMINOUS_SPAWNING = new CompatParticleType(ParticleTypes.OMINOUS_SPAWNING);

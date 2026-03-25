@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.util.math.RotationAxis;
+import com.mojang.math.Axis;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import org.joml.Quaternionf;
 
@@ -21,12 +21,12 @@ public class MathUtil {
 
     public static class RotationAxisType {
 
-        public static RotationAxisType POSITIVE_X = new RotationAxisType(RotationAxis.POSITIVE_X);
-        public static RotationAxisType POSITIVE_Y = new RotationAxisType(RotationAxis.POSITIVE_Y);
-        public static RotationAxisType POSITIVE_Z = new RotationAxisType(RotationAxis.POSITIVE_Z);
+        public static RotationAxisType POSITIVE_X = new RotationAxisType(Axis.XP);
+        public static RotationAxisType POSITIVE_Y = new RotationAxisType(Axis.YP);
+        public static RotationAxisType POSITIVE_Z = new RotationAxisType(Axis.ZP);
 
-        protected final RotationAxis axis;
-        protected RotationAxisType(RotationAxis axis) {
+        protected final Axis axis;
+        protected RotationAxisType(Axis axis) {
             this.axis = axis;
         }
     }

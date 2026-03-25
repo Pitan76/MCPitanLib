@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.util.particle.effect;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ItemStackParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.ParticleTypes;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
 
 // Use: ParticleEffectUtil
 public class ItemStackParticleEffectUtil {
@@ -12,11 +12,11 @@ public class ItemStackParticleEffectUtil {
         // Empty constructor
     }
 
-    public ItemStackParticleEffect create(ParticleType<ItemStackParticleEffect> type, ItemStack stack) {
-        return new ItemStackParticleEffect(type, stack);
+    public ItemParticleOption create(ParticleType<ItemParticleOption> type, ItemStack stack) {
+        return new ItemParticleOption(type, stack);
     }
 
-    public ItemStackParticleEffect createTypedItem(ItemStack stack) {
-        return new ItemStackParticleEffect(ParticleTypes.ITEM, stack);
+    public ItemParticleOption createTypedItem(ItemStack stack) {
+        return new ItemParticleOption(ParticleTypes.ITEM, stack);
     }
 }

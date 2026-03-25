@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
@@ -63,7 +63,7 @@ public interface ExtendBlockProvider {
      * @param options Options
      * @return ScreenHandler
      */
-    default ScreenHandler createScreenHandler(ScreenHandlerCreateEvent event, Options options) {
+    default AbstractContainerMenu createScreenHandler(ScreenHandlerCreateEvent event, Options options) {
         options.cancel = false;
         return null;
     }
@@ -72,7 +72,7 @@ public interface ExtendBlockProvider {
      * get screen title
      * @return Text
      */
-    default Text getScreenTitle() {
+    default Component getScreenTitle() {
         return TextUtil.literal("");
     }
 
