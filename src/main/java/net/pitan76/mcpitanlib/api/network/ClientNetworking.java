@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.network;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,6 +12,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.core.network.BufPayload;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientNetworking {
@@ -29,6 +31,7 @@ public class ClientNetworking {
 
     public static void registerReceiver(Identifier identifier, ClientNetworkHandler handler) {
         BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
+        registerC2SPayloadType(identifier);
 
         ClientPlayNetworking.registerGlobalReceiver(id, (payload, context) -> {
             FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.getData()));
@@ -47,11 +50,13 @@ public class ClientNetworking {
         void receive(Minecraft client, LocalPlayer player, FriendlyByteBuf buf);
     }
 
+    private static final List<Identifier> registeredList = new ArrayList<>();
 
-    public static void registerC2SType(CustomPacketPayload.Type<?> type, StreamCodec<? super RegistryFriendlyByteBuf, ?> codec, List<?> packetTransformers) {
-//        Objects.requireNonNull(type, "Cannot register a null type!");
-//        packetTransformers = Objects.requireNonNullElse(packetTransformers, List.of());
-//        C2S_CODECS.put(type.id(), (PacketCodec<ByteBuf, ?>) codec);
-//        C2S_TRANSFORMERS.put(type.id(), PacketTransformer.concat(packetTransformers));
+    public static void registerC2SPayloadType(Identifier identifier) {
+        if (registeredList.contains(identifier)) return;
+        registeredList.add(identifier);
+
+        BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
+        PayloadTypeRegistry.clientboundPlay().register(id, BufPayload.getCodec(id));
     }
 }

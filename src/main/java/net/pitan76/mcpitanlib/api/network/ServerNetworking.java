@@ -35,6 +35,7 @@ public class ServerNetworking {
 
     public static void registerReceiver(Identifier identifier, ServerNetworkHandler handler) {
         BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
+
         ServerPlayNetworking.registerGlobalReceiver(id, (payload, context) -> {
             FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.getData()));
 

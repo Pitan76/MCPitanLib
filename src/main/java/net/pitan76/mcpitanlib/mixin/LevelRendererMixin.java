@@ -10,10 +10,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.WorldBorderRenderer;
+import net.minecraft.client.renderer.chunk.ChunkSectionsToRender;
 import net.minecraft.client.renderer.culling.Frustum;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.state.level.LevelRenderState;
 import net.minecraft.client.renderer.state.level.WorldBorderRenderState;
 import net.minecraft.world.phys.Vec3;
@@ -22,6 +24,7 @@ import net.pitan76.mcpitanlib.api.client.event.WorldRenderRegistry;
 import net.pitan76.mcpitanlib.api.client.event.listener.*;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.joml.Vector4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,8 +39,6 @@ public abstract class LevelRendererMixin {
     @Shadow private int ticks;
 
     @Shadow public abstract boolean hasRenderedAllSections();
-
-    @Shadow @Nullable public abstract Frustum getCapturedFrustum();
 
     @Shadow @Final private Minecraft minecraft;
     @Shadow @Nullable private ClientLevel level;
@@ -65,20 +66,18 @@ public abstract class LevelRendererMixin {
     }
 
     @Inject(method = "renderLevel", at = @At("HEAD"))
-    private void beforeRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix, GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci) {
-        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, level, tickCounter, renderBlockOutline, camera, positionMatrix, matrix4f, projectionMatrix);
+    private void mcpitanlib$beforeRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraRenderState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, ChunkSectionsToRender chunkSectionsToRender, CallbackInfo ci) {
+        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, level, tickCounter, renderOutline, Minecraft.getInstance().gameRenderer.getMainCamera(), new Matrix4f(), new Matrix4f(), new Matrix4f());
     }
 
-    @ModifyExpressionValue(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;prepareCullFrustum(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/renderer/culling/Frustum;"))
-    private Frustum onSetupFrustum(Frustum frustum) {
-        mcpitanlib$contextCache.frustum = frustum;
-        return frustum;
-    }
+//    @ModifyExpressionValue(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;cullFrustum(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/renderer/culling/Frustum;"))
+//    private Frustum onSetupFrustum(Frustum frustum) {
+//        mcpitanlib$contextCache.frustum = frustum;
+//        return frustum;
+//    }
 
-
-    @WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WorldBorderRenderer;extract(Lnet/minecraft/world/level/border/WorldBorder;FLnet/minecraft/world/phys/Vec3;DLnet/minecraft/client/renderer/state/WorldBorderRenderState;)V"))
-    private void mcpitanlib$onWorldBorderExtraction(WorldBorderRenderer instance, WorldBorder worldBorder, float tickDelta, Vec3 vec3d, double d, WorldBorderRenderState worldBorderRenderState, Operation<Void> original) {
-        original.call(instance, worldBorder, tickDelta, vec3d, d, worldBorderRenderState);
+    @Inject(method = "renderLevel", at = @At("TAIL"))
+    private void mcpitanlib$onWorldRenderEnd(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor,boolean shouldRenderSky,ChunkSectionsToRender chunkSectionsToRender, CallbackInfo ci) {
         if (WorldRenderRegistry.isEmptyWorldRenderAfterLevelListeners) return;
 
         for (WorldRenderContextListener listener : WorldRenderRegistry.worldRenderAfterLevelListeners) {

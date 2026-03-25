@@ -113,4 +113,6 @@ public class WorldRenderContextImpl implements WorldRenderContext {
         this.tickDelta = tickCounter.getGameTimeDeltaTicks();
         this.frustum = gameRenderer.getMainCamera().getCapturedFrustum();
     }
+
+
 }
