@@ -228,7 +228,7 @@ public class ItemUtil {
      * @return Name of the item.
      */
     public static String getNameAsString(Item item) {
-        return item.getName().getString();
+        return item.getName(ItemStackUtil.getDefaultStack(item)).getString();
     }
 
     /**
@@ -237,7 +237,7 @@ public class ItemUtil {
      * @return Name of the item.
      */
     public static TextComponent getName(Item item) {
-        return new TextComponent(item.getName());
+        return new TextComponent(item.getName(ItemStackUtil.getDefaultStack(item)));
     }
 
     /**
@@ -258,6 +258,6 @@ public class ItemUtil {
     }
 
     public static ItemStack getRecipeRemainderStack(Item item) {
-        return item.getCraftingRemainder();
+        return item.getCraftingRemainder().create();
     }
 }

@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.core.registry;
 
+import net.fabricmc.fabric.api.registry.FuelValueEvents;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -10,7 +11,11 @@ public class FuelRegistry {
     }
 
     public static void register(int time, ItemLike... item) {
-        dev.architectury.registry.fuel.FuelRegistry.register(time, item);
+        FuelValueEvents.BUILD.register(((builder, context) -> {
+            for (ItemLike i : item) {
+                builder.add(i.asItem(), context.baseSmeltTime() * time);
+            }
+        }));
     }
 
     @Deprecated

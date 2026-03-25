@@ -19,7 +19,7 @@ public class ScreenHandlerUtil {
     }
 
     public static int calculateStackSize(Set<Slot> slots, int mode, ItemStack stack) {
-        return AbstractContainerMenu.getQuickCraftPlaceCount(slots, mode, stack);
+        return AbstractContainerMenu.getQuickCraftPlaceCount(slots.size(), mode, stack);
     }
 
     public static boolean canInsertItemIntoSlot(@Nullable Slot slot, ItemStack stack, boolean allowOverflow) {

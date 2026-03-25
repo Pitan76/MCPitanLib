@@ -12,7 +12,7 @@ import net.pitan76.mcpitanlib.api.event.ServerCommandEvent;
 
 public class CommandUtil {
     public static Item getItemArgument(String name, ServerCommandEvent e) {
-        return ItemArgument.getItem(e.getContext(), name).getItem();
+        return ItemArgument.getItem(e.getContext(), name).item().value();
     }
 
     public static Block getBlockArgument(String name, ServerCommandEvent e) {

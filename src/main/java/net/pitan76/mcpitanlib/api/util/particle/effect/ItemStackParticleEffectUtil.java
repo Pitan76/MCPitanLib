@@ -13,10 +13,10 @@ public class ItemStackParticleEffectUtil {
     }
 
     public ItemParticleOption create(ParticleType<ItemParticleOption> type, ItemStack stack) {
-        return new ItemParticleOption(type, stack);
+        return new ItemParticleOption(type, stack.getItem());
     }
 
     public ItemParticleOption createTypedItem(ItemStack stack) {
-        return new ItemParticleOption(ParticleTypes.ITEM, stack);
+        return new ItemParticleOption(ParticleTypes.ITEM, stack.getItem());
     }
 }
