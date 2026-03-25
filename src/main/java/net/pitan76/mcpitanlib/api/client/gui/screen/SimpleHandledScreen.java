@@ -40,7 +40,6 @@ public abstract class SimpleHandledScreen<S extends AbstractContainerMenu> exten
         fixScreen();
         this.handler = handler;
         this.title = title;
-
     }
 
     @Deprecated
@@ -102,7 +101,8 @@ public abstract class SimpleHandledScreen<S extends AbstractContainerMenu> exten
 
 
     public void callRenderBackground(RenderArgs args) {
-        super.extractBackground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        // TODO: 以前のバージョンではどう機能しているかチェックする必要がある。このバージョンで利用すると全体が暗くなる
+        //        super.extractBackground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
     public void callDrawMouseoverTooltip(DrawMouseoverTooltipArgs args) {
@@ -234,7 +234,7 @@ public abstract class SimpleHandledScreen<S extends AbstractContainerMenu> exten
     @Deprecated
     @Override
     public void extractMenuBackground(GuiGraphicsExtractor context) {
-        this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context, this), 0));
+        callRenderBackground(new RenderArgs(new DrawObjectDM(context, this), 0, 0, 0));
     }
 
     public void closeOverride() {
