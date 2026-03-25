@@ -131,7 +131,7 @@ if (System.getenv("MODRINTH_TOKEN") != null) {
     modrinth {
         token = System.getenv("MODRINTH_TOKEN")
         projectId = 'mcpitanlibarch'
-        versionNumber = project.mod_version + "-fabric"
+        versionNumber = info.mod_version + "-fabric-" + project.minecraft_version
         gameVersions = ["26.1"]
         versionType = 'beta'
         uploadFile = tasks.jar
