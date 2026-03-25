@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -22,7 +21,7 @@ public class PlayerUtil {
 
     public static List<Player> getPlayersByIP(MinecraftServer server, String ip) {
         List<Player> players = new ArrayList<>();
-        for (Player p: server.getPlayerList().getPlayersWithAddress(ip)) {
+        for (net.minecraft.world.entity.player.Player p: server.getPlayerList().getPlayersWithAddress(ip)) {
             players.add(new Player(p));
         }
         return players;
@@ -30,7 +29,7 @@ public class PlayerUtil {
 
     public static List<Player> getPlayers(MinecraftServer server) {
         List<Player> players = new ArrayList<>();
-        for (Player p : server.getPlayerList().getPlayers()) {
+        for (net.minecraft.world.entity.player.Player p : server.getPlayerList().getPlayers()) {
             players.add(new Player(p));
         }
         return players;

@@ -18,11 +18,11 @@ public class ChunkPos {
     }
 
     public static ChunkPos of(BlockPos pos) {
-        return of(new net.minecraft.world.level.ChunkPos(pos.toMinecraft()));
+        return of(net.minecraft.world.level.ChunkPos.containing(pos.toMinecraft()));
     }
 
     public static ChunkPos of(long pos) {
-        return of(new net.minecraft.world.level.ChunkPos(pos));
+        return of(net.minecraft.world.level.ChunkPos.unpack(pos));
     }
 
     public static ChunkPos fromRegion(int x, int z) {
@@ -42,11 +42,11 @@ public class ChunkPos {
     }
 
     public int getX() {
-        return getRaw().x;
+        return getRaw().x();
     }
 
     public int getZ() {
-        return getRaw().z;
+        return getRaw().z();
     }
 
     public int getOffsetX(int offsetX) {
@@ -110,7 +110,7 @@ public class ChunkPos {
     }
 
     public long toLong() {
-        return getRaw().toLong();
+        return getRaw().pack();
     }
 
     @Override

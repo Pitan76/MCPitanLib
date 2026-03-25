@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.level.Level;
@@ -58,7 +57,7 @@ public class PlayerManagerUtil {
      */
     public static List<Player> getPlayers(Level world) {
         List<Player> players = new ArrayList<>();
-        for (Player p : world.players()) {
+        for (net.minecraft.world.entity.player.Player p : world.players()) {
             players.add(new Player(p));
         }
         return players;

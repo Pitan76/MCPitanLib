@@ -7,16 +7,15 @@ import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.render.*;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.WorldBorderRenderer;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.state.WorldBorderRenderState;
-import net.minecraft.client.renderer.state.LevelRenderState;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.state.level.LevelRenderState;
+import net.minecraft.client.renderer.state.level.WorldBorderRenderState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.border.WorldBorder;
 import net.pitan76.mcpitanlib.api.client.event.WorldRenderRegistry;
@@ -41,7 +40,6 @@ public abstract class LevelRendererMixin {
     @Shadow @Nullable public abstract Frustum getCapturedFrustum();
 
     @Shadow @Final private Minecraft minecraft;
-    @Shadow @Final private LevelRenderState levelRenderState;
     @Shadow @Nullable private ClientLevel level;
     @Unique
     private final WorldRenderContextImpl mcpitanlib$contextCache = new WorldRenderContextImpl();
@@ -68,7 +66,7 @@ public abstract class LevelRendererMixin {
 
     @Inject(method = "renderLevel", at = @At("HEAD"))
     private void beforeRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix, GpuBufferSlice fogBuffer, Vector4f fogColor, boolean renderSky, CallbackInfo ci) {
-        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, levelRenderState, level, tickCounter, renderBlockOutline, camera, positionMatrix, matrix4f, projectionMatrix);
+        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, level, tickCounter, renderBlockOutline, camera, positionMatrix, matrix4f, projectionMatrix);
     }
 
     @ModifyExpressionValue(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;prepareCullFrustum(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/renderer/culling/Frustum;"))

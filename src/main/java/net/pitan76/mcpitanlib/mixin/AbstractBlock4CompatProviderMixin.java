@@ -1,17 +1,17 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.pitan76.mcpitanlib.api.block.CompatBlockRenderType;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider.Options;
 import net.pitan76.mcpitanlib.api.block.args.RenderTypeArgs;
@@ -27,11 +27,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(AbstractBlock.class)
+@Mixin(BlockBehaviour.class)
 public class AbstractBlock4CompatProviderMixin {
-    // TODO(Ravel): no target class
     @Inject(method = "getCollisionShape", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    private void mcpitanlib$inject_getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (this instanceof CompatBlockProvider) {
             CompatBlockProvider provider = (CompatBlockProvider) this;
             Options options = new Options();
@@ -41,9 +40,8 @@ public class AbstractBlock4CompatProviderMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getOutlineShape", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    @Inject(method = "getShape", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_getOutlineShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (this instanceof CompatBlockProvider) {
             CompatBlockProvider provider = (CompatBlockProvider) this;
             Options options = new Options();
@@ -53,9 +51,8 @@ public class AbstractBlock4CompatProviderMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getStateForNeighborUpdate", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random, CallbackInfoReturnable<BlockState> cir) {
+    @Inject(method = "updateShape", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_getStateForNeighborUpdate(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random, CallbackInfoReturnable<BlockState> cir) {
         if (this instanceof CompatBlockProvider) {
             CompatBlockProvider provider = (CompatBlockProvider) this;
             Options options = new Options();
@@ -65,9 +62,8 @@ public class AbstractBlock4CompatProviderMixin {
         }
     }
 
-    // TODO(Ravel): no target class
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_getRenderType(BlockState state, CallbackInfoReturnable<BlockRenderType> cir) {
+    private void mcpitanlib$inject_getRenderType(BlockState state, CallbackInfoReturnable<RenderShape> cir) {
         if (this instanceof CompatBlockProvider) {
             CompatBlockProvider provider = (CompatBlockProvider) this;
             Options options = new Options();
@@ -77,9 +73,8 @@ public class AbstractBlock4CompatProviderMixin {
         }
     }
 
-    // TODO(Ravel): no target class
     @Inject(method = "rotate", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_rotate(BlockState state, BlockRotation rotation, CallbackInfoReturnable<BlockState> cir) {
+    private void mcpitanlib$inject_rotate(BlockState state, Rotation rotation, CallbackInfoReturnable<BlockState> cir) {
         if (this instanceof CompatBlockProvider) {
             CompatBlockProvider provider = (CompatBlockProvider) this;
             Options options = new Options();
@@ -89,8 +84,7 @@ public class AbstractBlock4CompatProviderMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "isSideInvisible", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "skipRendering", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$inject_isSideInvisible(BlockState state, BlockState stateFrom, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof CompatBlockProvider) {
             CompatBlockProvider provider = (CompatBlockProvider) this;

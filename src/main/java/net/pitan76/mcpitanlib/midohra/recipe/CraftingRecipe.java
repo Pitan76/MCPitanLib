@@ -37,7 +37,7 @@ public class CraftingRecipe extends Recipe {
     }
 
     public net.minecraft.world.item.ItemStack craft(CraftingRecipeInputOrInventory input, World world) {
-        return getRaw().assemble(input.getRaw(), world.getRaw().registryAccess());
+        return getRaw().assemble(input.getRaw());
     }
 
     public ItemStack craftMidohra(CraftingRecipeInputOrInventory input, World world) {
@@ -45,11 +45,11 @@ public class CraftingRecipe extends Recipe {
     }
 
     public net.minecraft.world.item.ItemStack craft(CraftingRecipeInputOrInventory input, CompatRegistryLookup registryLookup) {
-        return getRaw().assemble(input.getRaw(), registryLookup.getRegistryLookup());
+        return getRaw().assemble(input.getRaw());
     }
 
     public net.minecraft.world.item.ItemStack craft(CraftingRecipeInputOrInventory input, net.minecraft.world.level.Level world) {
-        return getRaw().assemble(input.getRaw(), world.registryAccess());
+        return getRaw().assemble(input.getRaw());
     }
 
     public NonNullList<net.minecraft.world.item.ItemStack> getRecipeRemaindersDefaultedList(CraftingRecipeInputOrInventory input) {

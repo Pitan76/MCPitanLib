@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 @Mixin(ServerLevel.class)
@@ -19,7 +20,7 @@ public class ServerLevelTimer implements ServerWorldTimerAccess {
     private final List<TimerItem> mcpitanlib$timerItems = new ArrayList<>();
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void onTick(CallbackInfo ci) {
+    private void onTick(CallbackInfo ci, BooleanSupplier haveTime) {
         if (mcpitanlib$timerItems.isEmpty()) return;
         List<TimerItem> items = new ArrayList<>(mcpitanlib$timerItems);
 

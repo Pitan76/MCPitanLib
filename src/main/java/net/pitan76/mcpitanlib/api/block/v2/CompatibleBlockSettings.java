@@ -120,7 +120,7 @@ public class CompatibleBlockSettings extends net.pitan76.mcpitanlib.api.block.Co
         return this;
     }
 
-    public CompatibleBlockSettings postProcess(BlockBehaviour.StatePredicate predicate) {
+    public CompatibleBlockSettings postProcess(BlockBehaviour.PostProcess predicate) {
         super.postProcess(predicate);
         return this;
     }

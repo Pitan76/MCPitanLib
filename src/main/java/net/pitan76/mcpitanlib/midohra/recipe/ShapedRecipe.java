@@ -31,15 +31,15 @@ public class ShapedRecipe extends CraftingRecipe {
 
     @Deprecated
     public net.minecraft.world.item.ItemStack craft() {
-        return getRaw().assemble(null, null);
+        return getRaw().assemble(null);
     }
 
     public net.minecraft.world.item.ItemStack craft(CompatRegistryLookup registryLookup) {
-        return getRaw().assemble(null, registryLookup.getRegistryLookup());
+        return getRaw().assemble(null);
     }
 
     public net.minecraft.world.item.ItemStack craft(Level world) {
-        return getRaw().assemble(null, world.registryAccess());
+        return getRaw().assemble(null);
     }
 
     public net.minecraft.world.item.ItemStack craft(net.pitan76.mcpitanlib.midohra.world.World world) {

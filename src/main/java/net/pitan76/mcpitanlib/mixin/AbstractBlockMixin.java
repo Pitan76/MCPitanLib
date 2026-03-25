@@ -1,23 +1,23 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootWorldContext;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockProvider.Options;
 import net.pitan76.mcpitanlib.api.event.block.*;
@@ -30,12 +30,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
-// TODO(Ravel): can not resolve target class AbstractBlock
-@Mixin(AbstractBlock.class)
+@Mixin(BlockBehaviour.class)
 public class AbstractBlockMixin {
-    // TODO(Ravel): no target class
     @Inject(method = "getCollisionShape", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    private void mcpitanlib$inject_getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -45,9 +43,8 @@ public class AbstractBlockMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getOutlineShape", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    @Inject(method = "getShape", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_getOutlineShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -57,9 +54,8 @@ public class AbstractBlockMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "scheduledTick", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+    @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_scheduledTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random, CallbackInfo ci) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -69,34 +65,31 @@ public class AbstractBlockMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
+    @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
-            CompatActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, player.getActiveHand(), hit), options);
+            CompatActionResult returnValue = provider.onRightClick(new BlockUseEvent(state, world, pos, player, player.getUsedItemHand(), hit), options);
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue.toActionResult());
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "createScreenHandlerFactory", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_createScreenHandlerFactory(BlockState state, World world, BlockPos pos, CallbackInfoReturnable<NamedScreenHandlerFactory> cir) {
+    @Inject(method = "getMenuProvider", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_createScreenHandlerFactory(BlockState state, Level world, BlockPos pos, CallbackInfoReturnable<MenuProvider> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
-            NamedScreenHandlerFactory returnValue = new SimpleNamedScreenHandlerFactory((syncId, inventory, player) ->
+            SimpleMenuProvider returnValue = new SimpleMenuProvider((syncId, inventory, player) ->
                 provider.createScreenHandler(new ScreenHandlerCreateEvent(state, world, pos, syncId, inventory, player), options), provider.getScreenTitle());
             if (options.cancel && returnValue != null)
                 cir.setReturnValue(returnValue);
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved, CallbackInfo ci) {
+    @Inject(method = "affectNeighborsAfterRemoval", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_onStateReplaced(BlockState state, ServerLevel world, BlockPos pos, boolean moved, CallbackInfo ci) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -106,9 +99,8 @@ public class AbstractBlockMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getDroppedStacks", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_getDroppedStacks(BlockState state, LootWorldContext.Builder builder, CallbackInfoReturnable<List<ItemStack>> cir) {
+    @Inject(method = "getDrops", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_getDroppedStacks(BlockState state, LootParams.Builder builder, CallbackInfoReturnable<List<ItemStack>> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -119,8 +111,8 @@ public class AbstractBlockMixin {
     }
 
     // TODO(Ravel): no target class
-    @Inject(method = "canPathfindThrough", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$inject_canPathfindThrough(BlockState state, NavigationType type, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "isPathfindable", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$inject_canPathfindThrough(BlockState state, PathComputationType type, CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;
             Options options = new Options();
@@ -130,9 +122,8 @@ public class AbstractBlockMixin {
         }
     }
 
-    // TODO(Ravel): no target class
-    @Inject(method = "getPickStack", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$getPickStack(WorldView world, BlockPos pos, BlockState state, boolean includeData, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "getCloneItemStack", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$getPickStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData, CallbackInfoReturnable<ItemStack> cir) {
         // ExtendBlockProviderを実装している場合 (1.21.5からAbstractBlockに移転)
         if (this instanceof ExtendBlockProvider) {
             ExtendBlockProvider provider = (ExtendBlockProvider) this;

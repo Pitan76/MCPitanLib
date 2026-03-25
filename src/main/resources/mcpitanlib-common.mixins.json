@@ -13,7 +13,7 @@
     "ItemMixin",
     "ItemStackComponentizationFixMixin",
     "ItemStackMixin",
-    "ItemUsageContextMixin",
+    "UseOnContextMixin",
     "MinecraftServerTimer",
     "RecipeManagerMixin",
     "ServerWorldTimer"

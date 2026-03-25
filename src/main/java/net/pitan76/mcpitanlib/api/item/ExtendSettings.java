@@ -21,7 +21,7 @@ public class ExtendSettings extends Item.Properties {
     // identifier: Item ID
     @Deprecated
     public ExtendSettings addGroup(CreativeModeTab itemGroup, Identifier identifier) {
-        this.arch$tab(itemGroup);
+//        this.arch$tab(itemGroup);
         CreativeTabManager.addItem(itemGroup, identifier);
         return this;
     }

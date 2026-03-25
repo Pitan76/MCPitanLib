@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.StairsShape;
-import net.minecraft.state.property.*;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.core.Direction;
 import net.pitan76.mcpitanlib.api.event.block.AppendPropertiesArgs;

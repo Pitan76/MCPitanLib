@@ -107,8 +107,8 @@ public class CompatibleBlockSettings {
         return this;
     }
 
-    public CompatibleBlockSettings postProcess(BlockBehaviour.StatePredicate predicate) {
-        settings.hasPostProcess(predicate);
+    public CompatibleBlockSettings postProcess(BlockBehaviour.PostProcess predicate) {
+        settings.postProcess(predicate);
         return this;
     }
 

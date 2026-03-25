@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.recipe.*;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.profiling.ProfilerFiller;
