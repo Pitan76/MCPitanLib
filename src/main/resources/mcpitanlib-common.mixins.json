@@ -13,13 +13,13 @@
     "ItemMixin",
     "ItemStackComponentizationFixMixin",
     "ItemStackMixin",
-    "UseOnContextMixin",
     "MinecraftServerTimer",
     "RecipeManagerMixin",
-    "ServerWorldTimer"
+    "ServerLevelTimer",
+    "UseOnContextMixin"
   ],
   "client": [
-    "WorldRendererMixin"
+    "LevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

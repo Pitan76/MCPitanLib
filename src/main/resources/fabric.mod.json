@@ -30,13 +30,11 @@
     }
   },
   "mixins": [
-    "mcpitanlib.mixins.json",
     "mcpitanlib-common.mixins.json"
   ],
   "accessWidener": "mcpitanlib.accesswidener",
   "depends": {
-    "minecraft": ">1.21.10",
-    "fabricloader": "*",
-    "architectury": "*"
+    "minecraft": ">=26",
+    "fabricloader": "*"
   }
 }
