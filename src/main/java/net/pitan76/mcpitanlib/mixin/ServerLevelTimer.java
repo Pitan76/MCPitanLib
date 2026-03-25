@@ -20,7 +20,7 @@ public class ServerLevelTimer implements ServerWorldTimerAccess {
     private final List<TimerItem> mcpitanlib$timerItems = new ArrayList<>();
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void onTick(CallbackInfo ci, BooleanSupplier haveTime) {
+    private void onTick(BooleanSupplier haveTime, CallbackInfo ci) {
         if (mcpitanlib$timerItems.isEmpty()) return;
         List<TimerItem> items = new ArrayList<>(mcpitanlib$timerItems);
 
