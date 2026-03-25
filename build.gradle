@@ -1,6 +1,8 @@
 plugins {
     id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'
     id 'maven-publish'
+    id 'com.matthewprenger.cursegradle' version '1.5.0-SNAPSHOT' // FORK: maven.pitan76.net
+    id "com.modrinth.minotaur" version "2.+"
     id 'com.gradleup.shadow' version '9.4.0'
 }
 
@@ -102,6 +104,44 @@ shadowJar {
 jar {
     from("LICENSE") {
         rename { "${it}_${info.archives_base_name}" }
+    }
+}
+
+if (System.getenv("CURSEFORGE_TOKEN") != null) {
+    curseforge {
+        apiKey = System.getenv("CURSEFORGE_TOKEN")
+        project {
+            id = '682213'
+            changelog = info.changelog
+            releaseType = 'beta'
+            addGameVersion "Fabric"
+            addGameVersion "26.1"
+            relations {
+                requiredDependency 'fabric-api'
+                embeddedLibrary 'compatdatapacks'
+                embeddedLibrary 'legacyitemmodels'
+            }
+
+            mainArtifact(tasks.jar)
+        }
+    }
+}
+
+if (System.getenv("MODRINTH_TOKEN") != null) {
+    modrinth {
+        token = System.getenv("MODRINTH_TOKEN")
+        projectId = 'mcpitanlibarch'
+        versionNumber = project.mod_version + "-fabric"
+        gameVersions = ["26.1"]
+        versionType = 'beta'
+        uploadFile = tasks.jar
+        changelog = info.changelog
+        loaders = ["fabric"]
+        dependencies {
+            required.project "fabric-api"
+            embedded.project "compatdatapacks"
+            embedded.project "legacyitemmodels"
+        }
     }
 }
 
