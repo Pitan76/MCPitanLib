@@ -62,7 +62,7 @@ public class AbstractBlock4CompatProviderMixin {
         }
     }
 
-    @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getRenderShape", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$inject_getRenderType(BlockState state, CallbackInfoReturnable<RenderShape> cir) {
         if (this instanceof CompatBlockProvider) {
             CompatBlockProvider provider = (CompatBlockProvider) this;
