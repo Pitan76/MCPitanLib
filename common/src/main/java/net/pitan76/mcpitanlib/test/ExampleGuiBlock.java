@@ -18,7 +18,7 @@ public class ExampleGuiBlock extends CompatBlock implements SimpleScreenHandlerF
 
     @Override
     public CompatActionResult onRightClick(BlockUseEvent e) {
-        if (e.isClient())
+        if (!e.isClient())
             e.player.openGuiScreen(this);
 
         return e.success();
