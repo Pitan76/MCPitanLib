@@ -1,12 +1,12 @@
 package net.pitan76.mcpitanlib.api.tile;
 
 import com.mojang.datafixers.types.Type;
-import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.math.BlockPos;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 
 import java.util.ArrayList;

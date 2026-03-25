@@ -2,14 +2,14 @@ package net.pitan76.mcpitanlib.api.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.network.chat.Component;
@@ -31,7 +31,7 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
     public int width, height, backgroundWidth, backgroundHeight, x, y;
     public AbstractContainerMenu handler;
     public Font textRenderer;
-    public ItemRenderer itemRenderer;
+    public ItemModelResolver itemRenderer;
 
     public Component title;
     public Minecraft client;
@@ -58,7 +58,8 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
 
     @Deprecated
     @Override
-    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
+        super.extractBackground(context, mouseX, mouseY, delta);
         DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         drawBackgroundOverride(new DrawBackgroundArgs(drawObjectDM, delta, mouseX, mouseY));
     }
@@ -67,13 +68,13 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
 
     @Deprecated
     @Override
-    protected void renderLabels(GuiGraphics context, int mouseX, int mouseY) {
+    protected void extractLabels(GuiGraphicsExtractor context, int mouseX, int mouseY) {
         DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         drawForegroundOverride(new DrawForegroundArgs(drawObjectDM, mouseX, mouseY));
     }
 
     protected void drawForegroundOverride(DrawForegroundArgs args) {
-        super.renderLabels(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
+        super.extractLabels(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
     }
 
     public void callDrawTexture(DrawObjectDM drawObjectDM, Identifier texture, int x, int y, int u, int v, int width, int height) {
@@ -91,15 +92,15 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
 
 
     public void callRenderBackground(RenderArgs args) {
-        super.renderBackground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        super.extractMenuBackground(args.drawObjectDM.getContext());
     }
 
     public void callDrawMouseoverTooltip(DrawMouseoverTooltipArgs args) {
-        super.renderTooltip(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
+        super.extractTooltip(args.drawObjectDM.getContext(), args.mouseX, args.mouseY);
     }
 
     public void renderOverride(RenderArgs args) {
-        super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        super.extractRenderState(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
     public void resizeOverride(Minecraft client, int width, int height) {
@@ -130,7 +131,7 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
         this.x = super.leftPos; //(this.width - this.backgroundWidth) / 2;
         this.y = super.topPos; //(this.height - this.backgroundHeight) / 2;
         this.textRenderer = super.font;
-        this.itemRenderer = Minecraft.getInstance().getItemRenderer();
+        this.itemRenderer = Minecraft.getInstance().getItemModelResolver();
         this.width = super.width;
         this.height = super.height;
         if (super.minecraft == null)
@@ -153,7 +154,7 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
         this.textRenderer = textRenderer;
     }
 
-    public void setItemRenderer(ItemRenderer itemRenderer) {
+    public void setItemRenderer(ItemModelResolver itemRenderer) {
         this.itemRenderer = itemRenderer;
     }
 
@@ -187,7 +188,7 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
 
     @Deprecated
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         renderOverride(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
@@ -202,7 +203,7 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
         if (getBackgroundTexture() != null)
-            Screen.renderMenuBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), x, y, 0, 0, this.width, this.height);
+            Screen.extractMenuBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), x, y, 0, 0, this.width, this.height);
 
         RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, width, height);
@@ -222,7 +223,7 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
 
     @Deprecated
     @Override
-    public void renderMenuBackground(GuiGraphics context) {
+    public void extractMenuBackground(GuiGraphicsExtractor context) {
         this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context, this), 0));
     }
 

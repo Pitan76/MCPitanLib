@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.CreativeTabRegistry;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -82,16 +82,18 @@ public class CreativeTabBuilder {
      * @return ItemGroup
      */
     public CreativeModeTab build() {
-        return CreativeTabRegistry.create((builder -> {
-            if (displayName != null) builder.title(displayName);
-            else builder.title(TextUtil.translatable("itemGroup." + identifier.getNamespace() + "." + identifier.getPath()));
+        CreativeModeTab.Builder builder = FabricCreativeModeTab.builder();
 
-            if (iconSupplier != null) builder.icon(iconSupplier);
-            if (noRenderedName) builder.hideTitle();
-            if (noScrollbar) builder.noScrollBar();
-            if (special) builder.alignedRight();
-            if (texture != null) builder.backgroundTexture(IdentifierUtil.id(texture));
-        }));
+        if (displayName != null) builder.title(displayName);
+        else builder.title(TextUtil.translatable("itemGroup." + identifier.getNamespace() + "." + identifier.getPath()));
+
+        if (iconSupplier != null) builder.icon(iconSupplier);
+        if (noRenderedName) builder.hideTitle();
+        if (noScrollbar) builder.noScrollBar();
+        if (special) builder.alignedRight();
+        if (texture != null) builder.backgroundTexture(IdentifierUtil.id(texture));
+
+        return builder.build();
     }
 
     @SuppressWarnings("deprecation")

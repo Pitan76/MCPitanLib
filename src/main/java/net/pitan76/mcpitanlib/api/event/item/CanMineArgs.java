@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.event.item;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -22,7 +21,7 @@ public class CanMineArgs {
 
     public LivingEntity entity;
 
-    public CanMineArgs(BlockState state, Level world, BlockPos pos, Player miner) {
+    public CanMineArgs(BlockState state, Level world, BlockPos pos, net.minecraft.world.entity.player.Player miner) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -37,8 +36,8 @@ public class CanMineArgs {
         this.pos = pos;
         this.entity = entity;
 
-        if (entity instanceof Player) {
-            this.miner = new Player((Player) entity);
+        if (entity instanceof net.minecraft.world.entity.player.Player) {
+            this.miner = new Player((net.minecraft.world.entity.player.Player) entity);
         }
     }
 

@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.gui.args;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -8,9 +7,9 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 public class CreateMenuEvent {
     public int syncId;
     public Inventory playerInventory;
-    public Player player;
+    public net.minecraft.world.entity.player.Player player;
 
-    public CreateMenuEvent(int syncId, Inventory playerInventory, Player player) {
+    public CreateMenuEvent(int syncId, Inventory playerInventory, net.minecraft.world.entity.player.Player player) {
         this.syncId = syncId;
         this.playerInventory = playerInventory;
         this.player = player;
@@ -36,7 +35,7 @@ public class CreateMenuEvent {
         return playerInventory;
     }
 
-    public Player getPlayerEntity() {
+    public net.minecraft.world.entity.player.Player getPlayerEntity() {
         return player;
     }
 

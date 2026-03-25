@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.item.args;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -71,10 +70,10 @@ public class StoppedUsingArgs {
     }
 
     public boolean isPlayer() {
-        return user instanceof Player;
+        return user instanceof net.minecraft.world.entity.player.Player;
     }
 
     public Optional<Player> getPlayer() {
-        return isPlayer() ? Optional.of(new Player((Player) user)) : Optional.empty();
+        return isPlayer() ? Optional.of(new Player((net.minecraft.world.entity.player.Player) user)) : Optional.empty();
     }
 }

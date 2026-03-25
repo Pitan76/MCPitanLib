@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.recipe;
 
-import net.minecraft.recipe.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.BlastingRecipe;

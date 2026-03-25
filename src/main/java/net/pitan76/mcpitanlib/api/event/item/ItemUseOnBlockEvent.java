@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.event.item;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -30,11 +29,11 @@ public class ItemUseOnBlockEvent extends BaseEvent {
     public Level world;
     public BlockPos blockPos;
 
-    public ItemUseOnBlockEvent(Player player, InteractionHand hand, BlockHitResult hit) {
+    public ItemUseOnBlockEvent(net.minecraft.world.entity.player.Player player, InteractionHand hand, BlockHitResult hit) {
         this(player.level(), player, hand, player.getItemInHand(hand), hit);
     }
 
-    public ItemUseOnBlockEvent(Level world, @Nullable Player player, InteractionHand hand, ItemStack stack, BlockHitResult hit) {
+    public ItemUseOnBlockEvent(Level world, @Nullable net.minecraft.world.entity.player.Player player, InteractionHand hand, ItemStack stack, BlockHitResult hit) {
         if (player != null)
             this.player = new Player(player);
         this.hand = hand;

@@ -4,8 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.ContainerObjectSelectionList.Entry;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -75,7 +74,7 @@ public class SimpleListWidget extends ContainerObjectSelectionList<SimpleListWid
     */
 
     public void render(RenderArgs args) {
-        super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        super.extractWidgetRenderState(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
     @Environment(EnvType.CLIENT)
@@ -92,8 +91,8 @@ public class SimpleListWidget extends ContainerObjectSelectionList<SimpleListWid
 
         @Deprecated
         @Override
-        public void renderContent(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
-            widget.render(context, mouseX, mouseY, deltaTicks);
+        public void extractContent(GuiGraphicsExtractor context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+            widget.extractRenderState(context, mouseX, mouseY, deltaTicks);
         }
 
         @Deprecated

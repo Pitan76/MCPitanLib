@@ -1,10 +1,12 @@
 package net.pitan76.mcpitanlib.api.client.event;
 
-import dev.architectury.event.events.client.ClientTooltipEvent;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.pitan76.mcpitanlib.api.client.event.listener.ItemTooltipListener;
 
 public class ItemTooltipRegistry {
     public static void registerItemTooltip(ItemTooltipListener listener) {
-        ClientTooltipEvent.ITEM.register(listener::onTooltip);
+        ItemTooltipCallback.EVENT.register(((stack, tooltipContext, type, texts) -> {
+            listener.onTooltip(stack, texts, tooltipContext, type);
+        }));
     }
 }

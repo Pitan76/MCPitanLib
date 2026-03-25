@@ -1,26 +1,25 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import dev.architectury.event.events.client.ClientTickEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 
 public class ClientTickEventRegistry {
     public static void registerPost(Client client) {
-        ClientTickEvent.CLIENT_POST.register(client::tick);
+        ClientTickEvents.END_CLIENT_TICK.register(client::tick);
     }
 
     public static void registerPre(Client client) {
-        ClientTickEvent.CLIENT_PRE.register(client::tick);
+        ClientTickEvents.START_CLIENT_TICK.register(client::tick);
     }
 
     public static void registerLevelPost(ClientLevel world) {
-        ClientTickEvent.CLIENT_LEVEL_POST.register(world::tick);
+        ClientTickEvents.END_LEVEL_TICK.register(world::tick);
     }
 
     public static void registerLevelPre(ClientLevel world) {
-        ClientTickEvent.CLIENT_LEVEL_PRE.register(world::tick);
+        ClientTickEvents.START_LEVEL_TICK.register(world::tick);
     }
 
     @Environment(EnvType.CLIENT)

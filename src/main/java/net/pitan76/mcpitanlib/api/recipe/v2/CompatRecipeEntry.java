@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.recipe.v2;
 
-import net.minecraft.recipe.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;

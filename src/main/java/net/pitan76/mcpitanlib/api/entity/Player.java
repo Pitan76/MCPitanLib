@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.entity;
 
-import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponents;
@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.entity.player.Abilities;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -24,10 +23,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.Stat;
 import net.minecraft.stats.StatType;
-import net.minecraft.world.level.storage.TagValueInput;
-import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.resources.Identifier;
 import net.minecraft.core.NonNullList;
@@ -239,11 +235,11 @@ public class Player {
     }
 
     public void sendMessage(Component text) {
-        getEntity().displayClientMessage(text, false);
+        getEntity().sendSystemMessage(text);
     }
 
     public void sendActionBar(Component text) {
-        getEntity().displayClientMessage(text, true);
+        getEntity().sendOverlayMessage(text);
     }
 
     public void equipStack(EquipmentSlot slot, ItemStack stack) {

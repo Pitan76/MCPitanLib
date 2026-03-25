@@ -10,9 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.entity.*;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.item.ItemStack;
@@ -104,7 +102,7 @@ public class WorldUtil {
     }
 
     public static void playSound(Level world, @Nullable Player player, BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {
-        Player entity = player == null ? null : player.getEntity();
+        net.minecraft.world.entity.player.Player entity = player == null ? null : player.getEntity();
         world.playSound(entity, pos, sound, category, volume, pitch);
     }
 
@@ -298,7 +296,7 @@ public class WorldUtil {
 
     public static List<Player> getPlayers(Level world) {
         List<Player> players = new ArrayList<>();
-        for (Player player : world.players()) {
+        for (net.minecraft.world.entity.player.Player player : world.players()) {
             players.add(new Player(player));
         }
 
@@ -388,7 +386,7 @@ public class WorldUtil {
     }
 
     public static float getSkyAngle(Level world, float tickDelta) {
-        long timeOfDay = world.getDayTime();
+        long timeOfDay = world.getDefaultClockTime();
         float f = ((float)(timeOfDay % 24000L) + tickDelta) / 24000.0F - 0.25F;
         if (f < 0.0F) {
             f += 1.0F;
@@ -432,7 +430,7 @@ public class WorldUtil {
     }
 
     public static long getTimeOfDay(Level world) {
-        return world.getDayTime();
+        return world.getDefaultClockTime();
     }
 
     public static <T extends Entity> List<T> getEntitiesByClass(Level world, Class<T> entityClass, net.pitan76.mcpitanlib.midohra.util.math.Box box) {

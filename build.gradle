@@ -27,6 +27,10 @@ repositories {
     maven { url "https://maven.shedaniel.me/" }
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/mcpitanlib.accesswidener")
+}
+
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"

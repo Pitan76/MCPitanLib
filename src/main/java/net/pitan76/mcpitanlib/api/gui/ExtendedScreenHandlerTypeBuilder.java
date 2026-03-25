@@ -1,6 +1,11 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import dev.architectury.registry.menu.MenuRegistry;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuType;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -19,8 +24,13 @@ public class ExtendedScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
         this.factory = factory;
     }
 
+    public static StreamCodec<ByteBuf, FriendlyByteBuf> CODEC = ByteBufCodecs.BYTE_ARRAY.map(
+            (data) -> new FriendlyByteBuf(Unpooled.wrappedBuffer(data))
+            , (buf) -> ByteBufUtil.getBytes(buf.unwrap()));
+
     public MenuType<T> build() {
-        return MenuRegistry.ofExtended(factory::create);
+//        return MenuRegistry.ofExtended(factory::create);
+        return new ExtendedMenuType<>(factory::create, CODEC);
     }
 
     @FunctionalInterface

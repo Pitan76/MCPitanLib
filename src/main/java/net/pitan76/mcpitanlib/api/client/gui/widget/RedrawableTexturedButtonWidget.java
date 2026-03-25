@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.api.client.gui.widget;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button.OnPress;
 import net.minecraft.resources.Identifier;
 
 public class RedrawableTexturedButtonWidget extends CompatibleTexturedButtonWidget {
@@ -20,10 +18,6 @@ public class RedrawableTexturedButtonWidget extends CompatibleTexturedButtonWidg
         this.v = v;
         this.hoveredVOffset = hoveredVOffset;
         this.texture = texture;
-    }
-
-    public void renderButton(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.renderWidget(context, mouseX, mouseY, delta);
     }
 
     public void setTexture(Identifier texture) {

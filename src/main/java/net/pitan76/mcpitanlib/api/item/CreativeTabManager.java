@@ -1,13 +1,18 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.CreativeTabRegistry;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
+import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class CreativeTabManager {
@@ -67,16 +72,32 @@ public class CreativeTabManager {
     }
 
     public static void allRegister() {
+        if (!MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.isEmpty()) {
+            for (Map.Entry<ResourceKey<CreativeModeTab>, Identifier> entry : MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.entrySet()) {
+                CreativeModeTabEvents.modifyOutputEvent(entry.getKey()).register(entries -> {
+                    entries.accept(new ItemStack(ItemUtil.fromId(entry.getValue())));
+                });
+            }
+        }
+
         if (!bookingItems.isEmpty()) {
             for (BookingItem bookingItem : bookingItems) {
-                CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
+//                CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
+                ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ItemGroupUtil.toID(bookingItem.getItemGroup()));
+                CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
+                    entries.accept(new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
+                });
             }
             bookingItems = new ArrayList<>();
         }
 
         if (!bookingStacks.isEmpty()) {
             for (BookingStack bookingStack : bookingStacks) {
-                CreativeTabRegistry.appendBuiltinStack(bookingStack.getItemGroup(), bookingStack.stack);
+//                CreativeTabRegistry.appendBuiltinStack(bookingStack.getItemGroup(), bookingStack.stack);
+                ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ItemGroupUtil.toID(bookingStack.getItemGroup()));
+                CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
+                    entries.accept(bookingStack.stack);
+                });
             }
             bookingStacks = new ArrayList<>();
         }
@@ -86,7 +107,11 @@ public class CreativeTabManager {
         if (bookingItems.isEmpty()) return;
         for (BookingItem bookingItem : bookingItems) {
             if (!bookingItem.identifier.toString().equals(identifier.toString())) continue;
-            CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
+//            CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
+            ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ItemGroupUtil.toID(bookingItem.getItemGroup()));
+            CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
+                entries.accept(new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
+            });
             bookingItems.remove(bookingItem);
             break;
         }

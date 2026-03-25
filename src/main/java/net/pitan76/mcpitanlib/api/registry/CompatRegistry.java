@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.registry;
 
-import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.core.component.DataComponentType;
@@ -23,6 +22,7 @@ import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;

@@ -6,13 +6,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.render.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
@@ -42,7 +40,7 @@ public interface WorldRenderContext {
 
     GameRenderer getGameRenderer();
 
-    LightTexture getLightmapTextureManager();
+//    LightTexture getLightmapTextureManager();
 
     @Deprecated
     Matrix4f getProjectionMatrix();

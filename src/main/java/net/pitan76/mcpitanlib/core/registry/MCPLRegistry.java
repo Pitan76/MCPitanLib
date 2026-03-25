@@ -1,9 +1,8 @@
 package net.pitan76.mcpitanlib.core.registry;
 
-import com.google.common.base.Suppliers;
-import dev.architectury.registry.registries.Registrar;
-import dev.architectury.registry.registries.RegistrarManager;
-import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -16,68 +15,46 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.resources.Identifier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
 import java.util.function.Supplier;
 
 @Deprecated
 public class MCPLRegistry {
-
-    public Supplier<RegistrarManager> REGISTRIES;
-
-    public Registrar<Item> ITEMS;
-    public Registrar<Block> BLOCKS;
-    public Registrar<MenuType<?>> SCREEN_HANDLER_TYPE;
-    public Registrar<BlockEntityType<?>> BLOCK_ENTITY_TYPE;
-    public Registrar<EntityType<?>> ENTITY_TYPE;
-    public Registrar<SoundEvent> SOUND_EVENT;
-    public Registrar<Fluid> FLUID;
-    public Registrar<ParticleType<?>> PARTICLE_TYPE;
-    public Registrar<MobEffect> STATUS_EFFECT;
-
     public MCPLRegistry(String MOD_ID) {
-        REGISTRIES = Suppliers.memoize(() -> RegistrarManager.get(MOD_ID));
 
-        ITEMS = REGISTRIES.get().get(Registries.ITEM);
-        BLOCKS = REGISTRIES.get().get(Registries.BLOCK);
-        SCREEN_HANDLER_TYPE = REGISTRIES.get().get(Registries.MENU);
-        BLOCK_ENTITY_TYPE = REGISTRIES.get().get(Registries.BLOCK_ENTITY_TYPE);
-        ENTITY_TYPE = REGISTRIES.get().get(Registries.ENTITY_TYPE);
-        SOUND_EVENT = REGISTRIES.get().get(Registries.SOUND_EVENT);
-        FLUID = REGISTRIES.get().get(Registries.FLUID);
-        PARTICLE_TYPE = REGISTRIES.get().get(Registries.PARTICLE_TYPE);
-        STATUS_EFFECT = REGISTRIES.get().get(Registries.MOB_EFFECT);
     }
 
     public RegistrySupplier<Item> registryItem(Identifier id, Supplier<Item> supplier) {
-        return ITEMS.register(id, supplier);
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.ITEM, ResourceKey.create(Registries.ITEM, id), supplier.get()));
     }
 
     public RegistrySupplier<Block> registryBlock(Identifier id, Supplier<Block> supplier) {
-        return BLOCKS.register(id, supplier);
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.BLOCK, ResourceKey.create(Registries.BLOCK, id), supplier.get()));
     }
 
     public RegistrySupplier<MenuType<?>> registryScreenHandlerType(Identifier id, Supplier<MenuType<?>> supplier) {
-        return SCREEN_HANDLER_TYPE.register(id, supplier);
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.MENU, ResourceKey.create(Registries.MENU, id), supplier.get()));
     }
 
     public RegistrySupplier<BlockEntityType<?>> registryBlockEntityType(Identifier id, Supplier<BlockEntityType<?>> supplier) {
-        return BLOCK_ENTITY_TYPE.register(id, supplier);
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceKey.create(Registries.BLOCK_ENTITY_TYPE, id), supplier.get()));
     }
 
     public RegistrySupplier<EntityType<?>> registryEntityType(Identifier id, Supplier<EntityType<?>> supplier) {
-        return ENTITY_TYPE.register(id, supplier);
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.ENTITY_TYPE, ResourceKey.create(Registries.ENTITY_TYPE, id), supplier.get()));
     }
 
     public RegistrySupplier<SoundEvent> registrySoundEvent(Identifier id, Supplier<SoundEvent> supplier) {
-        return SOUND_EVENT.register(id, supplier);
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.SOUND_EVENT, ResourceKey.create(Registries.SOUND_EVENT, id), supplier.get()));
     }
 
     public RegistrySupplier<Fluid> registryFluid(Identifier id, Supplier<Fluid> supplier) {
-        return FLUID.register(id, supplier);
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.FLUID, ResourceKey.create(Registries.FLUID, id), supplier.get()));
     }
 
     public RegistrySupplier<ParticleType<?>> registryParticleType(Identifier id, Supplier<ParticleType<?>> supplier) {
-        return PARTICLE_TYPE.register(id, supplier);
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceKey.create(Registries.PARTICLE_TYPE, id), supplier.get()));
     }
 
     public RegistrySupplier<Enchantment> registryEnchantment(Identifier id, Supplier<Enchantment> supplier) {
@@ -86,7 +63,7 @@ public class MCPLRegistry {
     }
 
     public RegistrySupplier<MobEffect> registryStatusEffect(Identifier id, Supplier<MobEffect> supplier) {
-        return STATUS_EFFECT.register(id, supplier);
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.MOB_EFFECT, ResourceKey.create(Registries.MOB_EFFECT, id), supplier.get()));
     }
 
     public void allRegister1_16() {

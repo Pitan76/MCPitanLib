@@ -1,16 +1,18 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import dev.architectury.registry.menu.ExtendedMenuProvider;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuConstructor;
 import net.minecraft.network.chat.Component;
+import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import org.jetbrains.annotations.Nullable;
 
 @Deprecated
-public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider {
+public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider<FriendlyByteBuf> {
 
     private final Component name;
     private final MenuConstructor baseFactory;
@@ -23,11 +25,6 @@ public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider {
     }
 
     @Override
-    public void saveExtraData(FriendlyByteBuf buf) {
-        bufFactory.saveExtraData(buf);
-    }
-
-    @Override
     public Component getDisplayName() {
         return name;
     }
@@ -37,6 +34,13 @@ public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider {
     public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
         return baseFactory.createMenu(syncId, inv, player);
 
+    }
+
+    @Override
+    public FriendlyByteBuf getScreenOpeningData(ServerPlayer player) {
+        FriendlyByteBuf buf = PacketByteUtil.create();
+        bufFactory.saveExtraData(buf);
+        return buf;
     }
 
     @FunctionalInterface

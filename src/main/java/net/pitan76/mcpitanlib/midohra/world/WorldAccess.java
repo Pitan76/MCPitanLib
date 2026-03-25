@@ -4,7 +4,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundSource;
@@ -12,7 +11,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
-import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.api.util.world.WorldAccessUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
@@ -106,12 +104,12 @@ public class WorldAccess extends WorldView {
     }
 
     @Deprecated
-    public void playSound(Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {
+    public void playSound(net.minecraft.world.entity.player.Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {
         getRaw().playSound(playerEntity, pos, sound, category, volume, pitch);
     }
 
     @Deprecated
-    public void playSound(Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category) {
+    public void playSound(net.minecraft.world.entity.player.Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category) {
         getRaw().playSound(playerEntity, pos, sound, category);
     }
 

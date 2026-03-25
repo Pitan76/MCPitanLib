@@ -2,14 +2,12 @@ package net.pitan76.mcpitanlib.api.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.ItemStack;
@@ -110,7 +108,7 @@ public class ExtendBlock extends Block {
 
     @Override
     @Deprecated
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, net.minecraft.world.entity.player.Player player, BlockHitResult hit) {
         return onRightClick(new BlockUseEvent(state, world, pos, player, player.getUsedItemHand(), hit)).toActionResult();
     }
 
@@ -167,7 +165,7 @@ public class ExtendBlock extends Block {
 
     @Override
     @Deprecated
-    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
+    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, net.minecraft.world.entity.player.Player player) {
         return onBreak(new BlockBreakEvent(world, pos, state, player)).state;
     }
 
@@ -316,7 +314,7 @@ public class ExtendBlock extends Block {
 
     @Deprecated
     @Override
-    public void attack(BlockState state, Level world, BlockPos pos, Player player) {
+    public void attack(BlockState state, Level world, BlockPos pos, net.minecraft.world.entity.player.Player player) {
         onBlockBreakStart(new BlockBreakStartEvent(state, world, pos, new Player(player)));
     }
 

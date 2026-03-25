@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.event.block;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -18,7 +17,7 @@ public class BlockBreakEvent extends BaseEvent {
     public BlockState state;
     public Player player;
 
-    public BlockBreakEvent(Level world, BlockPos pos, BlockState state, Player player) {
+    public BlockBreakEvent(Level world, BlockPos pos, BlockState state, net.minecraft.world.entity.player.Player player) {
         this.world = world;
         this.pos = pos;
         this.state = state;
@@ -37,7 +36,7 @@ public class BlockBreakEvent extends BaseEvent {
         return player;
     }
 
-    public Player getPlayerEntity() {
+    public net.minecraft.world.entity.player.Player getPlayerEntity() {
         return player.getPlayerEntity();
     }
 

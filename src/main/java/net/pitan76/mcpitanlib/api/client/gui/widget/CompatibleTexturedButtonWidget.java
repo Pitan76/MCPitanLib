@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.client.gui.widget;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
@@ -61,7 +61,7 @@ public class CompatibleTexturedButtonWidget extends ImageButton {
     }
 
     @Override
-    public void renderContents(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         int i = v;
         if (this.createNarrationMessage().toString().isEmpty()) {
             i = v + hoveredVOffset * 2;
@@ -69,6 +69,6 @@ public class CompatibleTexturedButtonWidget extends ImageButton {
             i += hoveredVOffset;
         }
 
-        context.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), u, i, this.width, this.height, textureWidth, textureHeight);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), u, i, this.width, this.height, textureWidth, textureHeight);
     }
 }

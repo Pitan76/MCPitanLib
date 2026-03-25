@@ -1,12 +1,11 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
-import dev.architectury.event.events.client.ClientLifecycleEvent;
-import dev.architectury.registry.client.gui.MenuScreenRegistry;
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
-import dev.architectury.registry.client.particle.ParticleProviderRegistry;
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -17,7 +16,6 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
@@ -25,7 +23,6 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.world.entity.Entity;
@@ -47,10 +44,7 @@ import java.util.function.Supplier;
 @Environment(EnvType.CLIENT)
 public class ArchRegistryClient {
     public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(MenuType<? extends H> type, ScreenFactory<H, S> factory) {
-        ClientLifecycleEvent.CLIENT_SETUP.register((state) -> {
-
-        });
-        MenuScreenRegistry.registerScreenFactory(type, factory::create);
+        CompatRegistryClient.registerScreen(type, factory::create);
     }
 
     public interface ScreenFactory<H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> {
@@ -58,11 +52,11 @@ public class ArchRegistryClient {
     }
 
     public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, ParticleProvider<T> factory) {
-        ParticleProviderRegistry.register(type, factory);
+        CompatRegistryClient.registerParticle(type, factory);
     }
 
     public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
+        ParticleProviderRegistry.getInstance().register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
             @Override
             public TextureAtlas getAtlas() {
                 return spriteSet.getAtlas();
@@ -91,7 +85,7 @@ public class ArchRegistryClient {
     }
 
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererProvider<T> provider) {
-        EntityRendererRegistry.register(type, provider);
+        CompatRegistryClient.registerEntityRenderer(type, provider);
     }
 
     @FunctionalInterface
@@ -122,8 +116,8 @@ public class ArchRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.blockEntityRenderDispatcher(), ctx.blockRenderDispatcher(), ctx.itemRenderer(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font()
+        BlockEntityRenderers.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+                ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font()
         )));
     }
 
@@ -133,13 +127,13 @@ public class ArchRegistryClient {
 
         class Context {
             private final BlockEntityRenderDispatcher renderDispatcher;
-            private final BlockRenderDispatcher renderManager;
-            private final ItemRenderer itemRenderer;
+            private final BlockModelResolver renderManager;
+            private final ItemModelResolver itemRenderer;
             private final EntityRenderDispatcher entityRenderDispatcher;
             private final EntityModelSet layerRenderDispatcher;
             private final Font textRenderer;
 
-            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderDispatcher renderManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, EntityModelSet layerRenderDispatcher, Font textRenderer) {
+            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockModelResolver renderManager, ItemModelResolver itemRenderer, EntityRenderDispatcher entityRenderDispatcher, EntityModelSet layerRenderDispatcher, Font textRenderer) {
                 this.renderDispatcher = renderDispatcher;
                 this.renderManager = renderManager;
                 this.itemRenderer = itemRenderer;
@@ -152,7 +146,7 @@ public class ArchRegistryClient {
                 return this.renderDispatcher;
             }
 
-            public BlockRenderDispatcher getRenderManager() {
+            public BlockModelResolver getRenderManager() {
                 return this.renderManager;
             }
 
@@ -160,7 +154,7 @@ public class ArchRegistryClient {
                 return this.entityRenderDispatcher;
             }
 
-            public ItemRenderer getItemRenderer() {
+            public ItemModelResolver getItemRenderer() {
                 return this.itemRenderer;
             }
 
@@ -180,10 +174,10 @@ public class ArchRegistryClient {
 
 
     public static void registerRenderTypeBlock(RenderType layer, Block block) {
-        CompatRegistryClient2.registerRenderTypeBlock(layer, block);
+        CompatRegistryClient.registerRenderTypeBlock(layer, block);
     }
 
     public static void registerRenderTypeFluid(RenderType layer, Fluid fluid) {
-        CompatRegistryClient2.registerRenderTypeFluid(layer, fluid);
+        CompatRegistryClient.registerRenderTypeFluid(layer, fluid);
     }
 }

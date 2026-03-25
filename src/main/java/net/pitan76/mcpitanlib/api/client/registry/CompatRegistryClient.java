@@ -1,53 +1,52 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.registry.client.gui.MenuScreenRegistry;
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
-import dev.architectury.registry.client.particle.ParticleProviderRegistry;
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
-import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.color.block.BlockColorProvider;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
-import net.minecraft.client.item.ItemModelManager;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.model.TexturedModelData;
-import net.minecraft.client.particle.ParticleFactory;
-import net.minecraft.client.particle.SpriteProvider;
-import net.minecraft.client.render.BlockRenderLayer;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderLayers;
-import net.minecraft.client.render.block.BlockRenderManager;
-import net.minecraft.client.render.block.entity.BlockEntityRenderManager;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
-import net.minecraft.client.render.entity.EntityRenderManager;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.LoadedEntityModels;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.texture.PlayerSkinCache;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.texture.SpriteHolder;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.text.Text;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+import net.minecraft.client.color.block.BlockTintSource;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.renderer.PlayerSkinRenderCache;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.color.CompatBlockColorProvider;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
@@ -58,75 +57,75 @@ import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
 public class CompatRegistryClient {
-    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
+    public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(MenuType<? extends H> type, ScreenFactory<H, S> factory) {
         registerScreen(MCPitanLib.MOD_ID, type, factory);
     }
 
-    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
-        MenuScreenRegistry.registerScreenFactory(type, factory::create);
+    public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, MenuType<? extends H> type, ScreenFactory<H, S> factory) {
+        MenuScreens.register(type, factory::create);
     }
 
-    public interface ScreenFactory<H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> {
-        S create(H handler, PlayerInventory inventory, Text text);
+    public interface ScreenFactory<H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> {
+        S create(H handler, Inventory inventory, Component text);
     }
 
-    public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {
-        ParticleProviderRegistry.register(type, factory);
+    public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, ParticleProvider<T> factory) {
+        ParticleProviderRegistry.getInstance().register(type, factory);
     }
 
-    public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
+    public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
+        ParticleProviderRegistry.getInstance().register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
             @Override
-            public SpriteAtlasTexture getAtlas() {
+            public TextureAtlas getAtlas() {
                 return spriteSet.getAtlas();
             }
 
             @Override
-            public List<Sprite> getSprites() {
+            public List<TextureAtlasSprite> getSprites() {
                 return spriteSet.getSprites();
             }
 
             @Override
-            public Sprite getSprite(int age, int maxAge) {
-                return spriteSet.getSprite(age, maxAge);
+            public TextureAtlasSprite get(int age, int maxAge) {
+                return spriteSet.get(age, maxAge);
             }
 
             @Override
-            public Sprite getSprite(Random random) {
-                return spriteSet.getSprite(random);
+            public TextureAtlasSprite get(RandomSource random) {
+                return spriteSet.get(random);
             }
 
             @Override
-            public Sprite getFirst() {
-                return spriteSet.getFirst();
+            public TextureAtlasSprite first() {
+                return spriteSet.first();
             }
         }));
     }
 
-    public static void registerEntityModelLayer(EntityModelLayer layer, EntityModelLayerContext context) {
-        EntityModelLayerRegistry.register(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
+    public static void registerEntityModelLayer(ModelLayerLocation layer, EntityModelLayerContext context) {
+        ModelLayerRegistry.registerModelLayer(layer, () -> LayerDefinition.create(context.getData(), context.getWidth(), context.getHeight()));
     }
 
-    public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererFactory<T> provider) {
-        EntityRendererRegistry.register(type, provider);
+    public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererProvider<T> provider) {
+        EntityRenderers.register(type.get(), provider);
     }
 
     @FunctionalInterface
-    public interface DeferredParticleProvider<T extends ParticleEffect> {
-        ParticleFactory<T> create(ExtendedSpriteSet spriteSet);
+    public interface DeferredParticleProvider<T extends ParticleOptions> {
+        ParticleProvider<T> create(ExtendedSpriteSet spriteSet);
     }
 
-    public interface ExtendedSpriteSet extends SpriteProvider {
-        SpriteAtlasTexture getAtlas();
+    public interface ExtendedSpriteSet extends SpriteSet {
+        TextureAtlas getAtlas();
 
-        List<Sprite> getSprites();
+        List<TextureAtlasSprite> getSprites();
     }
 
     public static void registryClientSpriteAtlasTexture(Identifier identifier) {
         //registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, identifier);
     }
 
-    public static void registryClientSpriteAtlasTexture(Sprite sprite) {
+    public static void registryClientSpriteAtlasTexture(TextureAtlasSprite sprite) {
         //registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, sprite);
     }
 
@@ -134,13 +133,13 @@ public class CompatRegistryClient {
         // ～1.19.2
     }
 
-    public static void registryClientSprite(Identifier atlasId, Sprite sprite) {
+    public static void registryClientSprite(Identifier atlasId, TextureAtlasSprite sprite) {
         // ～1.19.2
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.renderDispatcher(), ctx.renderManager(), ctx.itemModelManager(), ctx.itemRenderer(), ctx.entityRenderDispatcher(), ctx.loadedEntityModels(), ctx.textRenderer(), ctx.spriteHolder(), ctx.playerSkinRenderCache()
+        BlockEntityRenderers.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+                ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.sprites(), ctx.playerSkinRenderCache()
         )));
     }
 
@@ -149,22 +148,20 @@ public class CompatRegistryClient {
         BlockEntityRenderer<T, S> create(Context ctx);
 
         class Context {
-            private final BlockEntityRenderManager renderDispatcher;
-            private final BlockRenderManager renderManager;
-            private final ItemModelManager itemModelManager;
-            private final ItemRenderer itemRenderer;
-            private final EntityRenderManager entityRenderDispatcher;
-            private final LoadedEntityModels layerRenderDispatcher;
-            private final TextRenderer textRenderer;
-            private final SpriteHolder spriteHolder;
+            private final BlockEntityRenderDispatcher renderDispatcher;
+            private final BlockModelResolver renderManager;
+            private final ItemModelResolver itemModelManager;
+            private final EntityRenderDispatcher entityRenderDispatcher;
+            private final EntityModelSet layerRenderDispatcher;
+            private final Font textRenderer;
+            private final SpriteGetter spriteHolder;
 
-            private final PlayerSkinCache playerSkinRenderCache;
+            private final PlayerSkinRenderCache playerSkinRenderCache;
 
-            public Context(BlockEntityRenderManager renderDispatcher, BlockRenderManager renderManager, ItemModelManager itemModelManager, ItemRenderer itemRenderer, EntityRenderManager entityRenderDispatcher, LoadedEntityModels layerRenderDispatcher, TextRenderer textRenderer, SpriteHolder spriteHolder, PlayerSkinCache playerSkinRenderCache) {
+            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockModelResolver renderManager, ItemModelResolver itemModelManager, EntityRenderDispatcher entityRenderDispatcher, EntityModelSet layerRenderDispatcher, Font textRenderer, SpriteGetter spriteHolder, PlayerSkinRenderCache playerSkinRenderCache) {
                 this.renderDispatcher = renderDispatcher;
                 this.renderManager = renderManager;
                 this.itemModelManager = itemModelManager;
-                this.itemRenderer = itemRenderer;
                 this.entityRenderDispatcher = entityRenderDispatcher;
                 this.layerRenderDispatcher = layerRenderDispatcher;
                 this.textRenderer = textRenderer;
@@ -172,90 +169,82 @@ public class CompatRegistryClient {
                 this.playerSkinRenderCache = playerSkinRenderCache;
             }
 
-            public BlockEntityRenderManager getRenderDispatcher() {
+            public BlockEntityRenderDispatcher getRenderDispatcher() {
                 return this.renderDispatcher;
             }
 
-            public BlockRenderManager getRenderManager() {
+            public BlockModelResolver getRenderManager() {
                 return this.renderManager;
             }
 
-            public EntityRenderManager getEntityRenderDispatcher() {
+            public EntityRenderDispatcher getEntityRenderDispatcher() {
                 return this.entityRenderDispatcher;
             }
 
-            public ItemModelManager getItemModelManager() {
+            public ItemModelResolver getItemModelManager() {
                 return itemModelManager;
             }
 
-            public ItemRenderer getItemRenderer() {
-                return this.itemRenderer;
-            }
-
-            public LoadedEntityModels getLayerRenderDispatcher() {
+            public EntityModelSet getLayerRenderDispatcher() {
                 return this.layerRenderDispatcher;
             }
 
-            public ModelPart getLayerModelPart(EntityModelLayer modelLayer) {
-                return this.layerRenderDispatcher.getModelPart(modelLayer);
+            public ModelPart getLayerModelPart(ModelLayerLocation modelLayer) {
+                return this.layerRenderDispatcher.bakeLayer(modelLayer);
             }
 
-            public TextRenderer getTextRenderer() {
+            public Font getTextRenderer() {
                 return this.textRenderer;
             }
 
-            public SpriteHolder getSpriteHolder() {
+            public SpriteGetter getSpriteHolder() {
                 return spriteHolder;
             }
 
-            public PlayerSkinCache getPlayerSkinRenderCache() {
+            public PlayerSkinRenderCache getPlayerSkinRenderCache() {
                 return playerSkinRenderCache;
             }
         }
     }
 
 
-    public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
-        BlockRenderLayer blockRenderLayer = null;
-        if (layer == RenderLayers.cutout()) {
-            blockRenderLayer = BlockRenderLayer.CUTOUT;
-        } else if (layer == RenderLayers.glintTranslucent()) {
-            blockRenderLayer = BlockRenderLayer.TRANSLUCENT;
-        } else if (layer == RenderLayers.solid()) {
-            blockRenderLayer = BlockRenderLayer.SOLID;
-        } else if (layer == RenderLayers.tripwire()) {
-            blockRenderLayer = BlockRenderLayer.TRIPWIRE;
+    public static void registerRenderTypeBlock(RenderType layer, Block block) {
+        ChunkSectionLayer blockRenderLayer = null;
+        if (layer == RenderTypes.cutoutMovingBlock()) {
+            blockRenderLayer = ChunkSectionLayer.CUTOUT;
+        } else if (layer == RenderTypes.glintTranslucent()) {
+            blockRenderLayer = ChunkSectionLayer.TRANSLUCENT;
+        } else if (layer == RenderTypes.solidMovingBlock()) {
+            blockRenderLayer = ChunkSectionLayer.SOLID;
         }
 
         if (blockRenderLayer == null) return;
 
-        RenderTypeRegistry.register(blockRenderLayer, block);
+//        ChunkSectionLayerMap.register(blockRenderLayer, block);
     }
 
-    public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
-        BlockRenderLayer blockRenderLayer = null;
-        if (layer == RenderLayers.cutout()) {
-            blockRenderLayer = BlockRenderLayer.CUTOUT;
-        } else if (layer == RenderLayers.glintTranslucent()) {
-            blockRenderLayer = BlockRenderLayer.TRANSLUCENT;
-        } else if (layer == RenderLayers.solid()) {
-            blockRenderLayer = BlockRenderLayer.SOLID;
-        } else if (layer == RenderLayers.tripwire()) {
-            blockRenderLayer = BlockRenderLayer.TRIPWIRE;
+    public static void registerRenderTypeFluid(RenderType layer, Fluid fluid) {
+        ChunkSectionLayer blockRenderLayer = null;
+        if (layer == RenderTypes.cutoutMovingBlock()) {
+            blockRenderLayer = ChunkSectionLayer.CUTOUT;
+        } else if (layer == RenderTypes.glintTranslucent()) {
+            blockRenderLayer = ChunkSectionLayer.TRANSLUCENT;
+        } else if (layer == RenderTypes.solidMovingBlock()) {
+            blockRenderLayer = ChunkSectionLayer.SOLID;
         }
 
         if (blockRenderLayer == null) return;
 
-        RenderTypeRegistry.register(blockRenderLayer, fluid);
+//        ChunkSectionLayerMap.register(blockRenderLayer, fluid);
     }
 
     public static void registerCutoutBlock(Block block) {
-        registerRenderTypeBlock(RenderLayers.cutout(), block);
+        registerRenderTypeBlock(RenderTypes.cutoutMovingBlock(), block);
     }
 
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
         BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.renderDispatcher(), ctx.renderManager(), ctx.itemModelManager(), ctx.itemRenderer(), ctx.entityRenderDispatcher(), ctx.loadedEntityModels(), ctx.textRenderer(), ctx.spriteHolder(), ctx.playerSkinRenderCache()
+                ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.sprites(), ctx.playerSkinRenderCache()
         )));
     }
 
@@ -267,15 +256,15 @@ public class CompatRegistryClient {
         registerRenderTypeFluid(layer.layer, fluid);
     }
 
-    public static void registerColorProviderBlock(BlockColorProvider provider, Block... blocks) {
+    public static void registerColorProviderBlock(List<BlockTintSource> provider, Block... blocks) {
         if (blocks == null || blocks.length == 0) {
-            ColorProviderRegistry.BLOCK.register(provider);
+            BlockColorRegistry.register(provider);
         } else {
-            ColorProviderRegistry.BLOCK.register(provider, blocks);
+            BlockColorRegistry.register(provider, blocks);
         }
     }
 
     public static void registerColorProviderBlock(CompatBlockColorProvider provider, Block... blocks) {
-        registerColorProviderBlock((BlockColorProvider) provider, blocks);
+        registerColorProviderBlock(provider.toTintSource(), blocks);
     }
 }

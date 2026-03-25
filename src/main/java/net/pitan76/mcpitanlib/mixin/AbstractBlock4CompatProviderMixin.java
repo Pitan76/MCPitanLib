@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-// TODO(Ravel): can not resolve target class AbstractBlock
 @Mixin(AbstractBlock.class)
 public class AbstractBlock4CompatProviderMixin {
     // TODO(Ravel): no target class

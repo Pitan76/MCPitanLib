@@ -8,7 +8,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.texture.TextureManager;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -46,8 +46,8 @@ public class ClientUtil {
         return getClient().font;
     }
 
-    public static ItemRenderer getItemRenderer() {
-        return getClient().getItemRenderer();
+    public static ItemModelResolver getItemRenderer() {
+        return getClient().getItemModelResolver();
     }
 
     public static ResourceManager getResourceManager() {

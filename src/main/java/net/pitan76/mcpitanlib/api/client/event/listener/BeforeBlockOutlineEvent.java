@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.client.event.listener;
 
+import net.minecraft.client.renderer.state.level.BlockOutlineRenderState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Camera;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.state.BlockOutlineRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;

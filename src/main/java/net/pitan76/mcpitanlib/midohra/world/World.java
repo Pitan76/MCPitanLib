@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.midohra.world;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvent;
@@ -116,13 +115,13 @@ public class World extends WorldAccess {
 
     @Deprecated
     @Override
-    public void playSound(Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category) {
+    public void playSound(net.minecraft.world.entity.player.Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category) {
         getRaw().playSound(playerEntity, pos, sound, category);
     }
 
     @Deprecated
     @Override
-    public void playSound(Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {
+    public void playSound(net.minecraft.world.entity.player.Player playerEntity, net.minecraft.core.BlockPos pos, SoundEvent sound, SoundSource category, float volume, float pitch) {
         getRaw().playSound(playerEntity, pos, sound, category, volume, pitch);
     }
 

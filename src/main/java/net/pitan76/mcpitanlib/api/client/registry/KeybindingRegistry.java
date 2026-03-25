@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
-import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.event.v0.ClientTickEventRegistry;
@@ -9,7 +9,7 @@ import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 
 public class KeybindingRegistry {
     public static void register(KeyMapping keyBinding) {
-        KeyMappingRegistry.register(keyBinding);
+        KeyMappingHelper.registerKeyMapping(keyBinding);
     }
 
     public static void register(KeyMapping keyBinding, ClientTickEventRegistry.Client client) {

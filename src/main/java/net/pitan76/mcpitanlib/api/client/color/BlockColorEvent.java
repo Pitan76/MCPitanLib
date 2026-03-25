@@ -1,21 +1,20 @@
 package net.pitan76.mcpitanlib.api.client.color;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockRenderView;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.pitan76.mcpitanlib.api.tile.RenderAttachmentBlockEntity;
 import net.pitan76.mcpitanlib.midohra.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockColorEvent {
     private final BlockState state;
-    private final BlockRenderView world;
+    private final BlockAndTintGetter world;
     private final BlockPos pos;
     private final int tintIndex;
 
-    public BlockColorEvent(BlockState state, @Nullable BlockRenderView world, @Nullable BlockPos pos, int tintIndex) {
+    public BlockColorEvent(BlockState state, @Nullable BlockAndTintGetter world, @Nullable BlockPos pos, int tintIndex) {
         this.state = state;
         this.world = world;
         this.pos = pos;
@@ -26,7 +25,7 @@ public class BlockColorEvent {
         return state;
     }
 
-    public BlockRenderView getWorld() {
+    public BlockAndTintGetter getWorld() {
         return world;
     }
 

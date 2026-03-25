@@ -1,10 +1,8 @@
 package net.pitan76.mcpitanlib.api.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.StairsShape;

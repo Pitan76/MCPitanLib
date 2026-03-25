@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.midohra.server;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.players.IpBanList;
 import net.minecraft.server.players.UserBanList;
 import net.minecraft.server.MinecraftServer;
@@ -88,7 +87,7 @@ public class PlayerManager {
     
     public List<Player> getPlayers() {
         List<Player> players = new ArrayList<>();
-        for (Player p : getRaw().getPlayers()) {
+        for (net.minecraft.world.entity.player.Player p : getRaw().getPlayers()) {
             players.add(new Player(p));
         }
         return players;

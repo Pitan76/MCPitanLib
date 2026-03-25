@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import dev.architectury.registry.menu.ExtendedMenuProvider;
-import dev.architectury.registry.menu.MenuRegistry;
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.MenuProvider;
@@ -33,15 +32,16 @@ public class ScreenHandlerUtil {
     }
 
     public static void openExtendedMenu(ServerPlayer player, MenuProvider provider, Consumer<FriendlyByteBuf> bufWriter) {
-        MenuRegistry.openExtendedMenu(player, provider, bufWriter);
+        // TODO: Fabric API does not support opening a menu with a bufWriter, so we need to find a way to do this.
+//        player.openMenu(player, provider, bufWriter);
     }
 
     public static void openExtendedMenu(ServerPlayer player, ExtendedMenuProvider provider) {
-        MenuRegistry.openExtendedMenu(player, provider);
+        player.openMenu(provider);
     }
 
     public static void openMenu(ServerPlayer player, MenuProvider provider) {
-        MenuRegistry.openMenu(player, provider);
+        player.openMenu(provider);
     }
 
     public static int getRawId(MenuType<?> type) {

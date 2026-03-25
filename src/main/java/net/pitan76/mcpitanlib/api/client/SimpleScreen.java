@@ -2,13 +2,13 @@ package net.pitan76.mcpitanlib.api.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.client.gui.widget.CompatibleTexturedButtonWidget;
@@ -24,7 +24,7 @@ public abstract class SimpleScreen extends Screen {
 
     public int width, height;
     public Font textRenderer;
-    public ItemRenderer itemRenderer;
+    public ItemModelResolver itemRenderer;
 
     public Component title;
     public Minecraft client;
@@ -58,17 +58,16 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public void renderBackground(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         renderBackground(new RenderArgs(new DrawObjectDM(context, this), mouseX, mouseY, delta));
     }
 
-
     public void renderBackground(RenderArgs args) {
-        super.renderBackground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        super.extractBackground(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
     public void render(RenderArgs args) {
-        super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        super.extractRenderState(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
 
     public void resizeOverride(Minecraft client, int width, int height) {
@@ -95,7 +94,7 @@ public abstract class SimpleScreen extends Screen {
 
     public void fixScreen() {
         this.textRenderer = super.font;
-        this.itemRenderer = Minecraft.getInstance().getItemRenderer();
+        this.itemRenderer = Minecraft.getInstance().getItemModelResolver();
         this.width = super.width;
         this.height = super.height;
         if (super.minecraft == null)
@@ -108,7 +107,7 @@ public abstract class SimpleScreen extends Screen {
         this.textRenderer = textRenderer;
     }
 
-    public void setItemRenderer(ItemRenderer itemRenderer) {
+    public void setItemRenderer(ItemModelResolver itemRenderer) {
         this.itemRenderer = itemRenderer;
     }
 
@@ -124,7 +123,7 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
         DrawObjectDM drawObjectDM = new DrawObjectDM(context, this);
         render(new RenderArgs(drawObjectDM, mouseX, mouseY, delta));
     }
@@ -139,7 +138,7 @@ public abstract class SimpleScreen extends Screen {
 
     public void renderBackgroundTexture(RenderBackgroundTextureArgs args) {
         if (getBackgroundTexture() != null)
-            Screen.renderMenuBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), 0, 0, 0, 0, this.width, this.height);
+            Screen.extractMenuBackgroundTexture(args.getDrawObjectDM().getContext(), getBackgroundTexture(), 0, 0, 0, 0, this.width, this.height);
 
         RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         callDrawTexture(args.drawObjectDM, getBackgroundTexture(), 0, 0, 0, 0, width, height);
@@ -159,7 +158,7 @@ public abstract class SimpleScreen extends Screen {
 
     @Deprecated
     @Override
-    public void renderMenuBackground(GuiGraphics context) {
+    public void extractMenuBackground(GuiGraphicsExtractor context) {
         this.renderBackgroundTexture(new RenderBackgroundTextureArgs(new DrawObjectDM(context, this), 0));
     }
 

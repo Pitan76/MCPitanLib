@@ -2,10 +2,8 @@ package net.pitan76.mcpitanlib.api.client.gui.widget;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
-import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
@@ -53,7 +51,7 @@ public class SimpleSliderWidget extends AbstractSliderButton {
     */
 
     public void render(RenderArgs args) {
-        super.render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        super.extractRenderState(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
     
     public void setValue(double value) {

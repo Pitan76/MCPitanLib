@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib;
+package net.pitan76.mcpitanlib.fabric;
 
 import net.fabricmc.api.ModInitializer;
 import net.pitan76.mcpitanlib.MCPitanLib;

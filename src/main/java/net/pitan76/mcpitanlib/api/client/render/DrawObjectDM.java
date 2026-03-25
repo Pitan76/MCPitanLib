@@ -1,23 +1,22 @@
 package net.pitan76.mcpitanlib.api.client.render;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil.RendererUtil;
-import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
 
 public class DrawObjectDM {
     private PoseStack stack;
     private Matrix3x2fStack matrix3x2fStack;
-    private GuiGraphics context;
+    private GuiGraphicsExtractor context;
 
     private Screen screen = null;
 
-    public DrawObjectDM(GuiGraphics context) {
+    public DrawObjectDM(GuiGraphicsExtractor context) {
         this.context = context;
         this.matrix3x2fStack = context.pose();
     }
@@ -30,12 +29,12 @@ public class DrawObjectDM {
         this.stack = stack;
     }
 
-    public DrawObjectDM(GuiGraphics context, Screen screen) {
+    public DrawObjectDM(GuiGraphicsExtractor context, Screen screen) {
         this(context);
         this.screen = screen;
     }
 
-    public GuiGraphics getContext() {
+    public GuiGraphicsExtractor getContext() {
         return context;
     }
 
@@ -47,7 +46,7 @@ public class DrawObjectDM {
         return screen;
     }
 
-    public void setContext(GuiGraphics context) {
+    public void setContext(GuiGraphicsExtractor context) {
         this.context = context;
     }
 

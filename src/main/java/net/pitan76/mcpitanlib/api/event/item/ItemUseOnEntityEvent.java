@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
@@ -17,7 +16,7 @@ public class ItemUseOnEntityEvent extends BaseEvent {
     public LivingEntity entity;
     public InteractionHand hand;
 
-    public ItemUseOnEntityEvent(ItemStack stack, Player user, LivingEntity entity, InteractionHand hand) {
+    public ItemUseOnEntityEvent(ItemStack stack, net.minecraft.world.entity.player.Player user, LivingEntity entity, InteractionHand hand) {
         this.stack = stack;
         this.user = new Player(user);
         this.hand = hand;

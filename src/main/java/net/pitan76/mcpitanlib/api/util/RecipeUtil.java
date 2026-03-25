@@ -1,17 +1,15 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.*;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.recipe.input.RecipeInput;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.recipe.CompatRecipeType;
 import net.pitan76.mcpitanlib.api.recipe.MatchGetter;
 import net.pitan76.mcpitanlib.api.recipe.input.CompatRecipeInput;
@@ -26,48 +24,51 @@ import java.util.List;
 import java.util.Optional;
 
 public class RecipeUtil {
-    public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, CompatibilityCraftingRecipeCategory category, ItemStack output, DefaultedList<Ingredient> input) {
-        return new ShapelessRecipe(group, CraftingRecipeCategory.valueOf(category.name()), output, input);
+    public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, CompatibilityCraftingRecipeCategory category, ItemStack output, NonNullList<Ingredient> input) {
+        CraftingRecipe.CraftingBookInfo craftingBookInfo = new CraftingRecipe.CraftingBookInfo(CraftingBookCategory.valueOf(category.name()), group);
+        Recipe.CommonInfo commonInfo = new Recipe.CommonInfo(false);
+        ItemStackTemplate outputTemplate = ItemStackTemplate.fromNonEmptyStack(output);
+        return new ShapelessRecipe(commonInfo, craftingBookInfo, outputTemplate, input);
     }
 
-    public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> input) {
+    public static ShapelessRecipe createShapelessRecipe(Identifier id, String group, ItemStack output, NonNullList<Ingredient> input) {
         return createShapelessRecipe(id, group, CompatibilityCraftingRecipeCategory.MISC, output, input);
     }
 
     @Deprecated
-    public static <C extends RecipeInput> ItemStack craft_2(Recipe<C> recipe, C inventory, World world) {
-        return recipe.craft(inventory, world.getRegistryManager());
+    public static <C extends RecipeInput> ItemStack craft_2(Recipe<C> recipe, C inventory, Level world) {
+        return recipe.assemble(inventory);
     }
 
     @Deprecated
-    public static <C extends RecipeInput> ItemStack getOutput_2(Recipe<C> recipe, World world) {
-        return craft_2(recipe, (C) CraftingRecipeInput.EMPTY, world);
+    public static <C extends RecipeInput> ItemStack getOutput_2(Recipe<C> recipe, Level world) {
+        return craft_2(recipe, (C) CraftingInput.EMPTY, world);
     }
 
-    public static ItemStack craft(Recipe<?> recipe, Inventory inventory, World world) {
+    public static ItemStack craft(Recipe<?> recipe, Container inventory, Level world) {
         if (inventory instanceof RecipeInput) {
             Recipe<RecipeInput> inputRecipe = (Recipe<RecipeInput>) recipe;
-            return inputRecipe.craft((RecipeInput) inventory, world.getRegistryManager());
+            return inputRecipe.assemble((RecipeInput) inventory);
         }
         return ItemStack.EMPTY;
     }
 
-    public static ItemStack getOutput(Recipe<?> recipe, World world) {
+    public static ItemStack getOutput(Recipe<?> recipe, Level world) {
         return getOutput(recipe, RegistryLookupUtil.getRegistryLookup(world));
     }
 
-    public static List<Recipe<?>> getAllRecipes(World world) {
-        RecipeManager iRecipeManager = getRecipeManager(world);
-        if (!(iRecipeManager instanceof ServerRecipeManager))
+    public static List<Recipe<?>> getAllRecipes(Level world) {
+        RecipeAccess iRecipeManager = getRecipeManager(world);
+        if (!(iRecipeManager instanceof RecipeManager))
             return new ArrayList<>();
 
-        ServerRecipeManager recipeManager = (ServerRecipeManager) iRecipeManager;
+        RecipeManager recipeManager = (RecipeManager) iRecipeManager;
 
-        Collection<RecipeEntry<?>> recipes = recipeManager.values();
+        Collection<RecipeHolder<?>> recipes = recipeManager.getRecipes();
         List<Recipe<?>> outRecipes = new ArrayList<>();
         for (Object recipeEntryObj : recipes) {
-            if (recipeEntryObj instanceof RecipeEntry) {
-                RecipeEntry<?> recipeEntry = (RecipeEntry<?>) recipeEntryObj;
+            if (recipeEntryObj instanceof RecipeHolder) {
+                RecipeHolder<?> recipeEntry = (RecipeHolder<?>) recipeEntryObj;
                 if (recipeEntry.value() instanceof Recipe) {
                     outRecipes.add(recipeEntry.value());
                 }
@@ -76,7 +77,7 @@ public class RecipeUtil {
         return outRecipes;
     }
 
-    public static List<CompatRecipeNonEntry<?>> getAllCompatRecipeEntry(World world) {
+    public static List<CompatRecipeNonEntry<?>> getAllCompatRecipeEntry(Level world) {
         List<Recipe<?>> recipes = getAllRecipes(world);
         List<CompatRecipeNonEntry<?>> outRecipes = new ArrayList<>();
         for (Recipe<?> recipe : recipes) {
@@ -93,53 +94,53 @@ public class RecipeUtil {
         return IdentifierUtil.id(recipe.getClass().hashCode() + "");
     }
 
-    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(RecipeManager iRecipeManager, CompatRecipeType<T> type, CompatRecipeInput<I> input, World world) {
-        if (!(iRecipeManager instanceof ServerRecipeManager))
+    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(RecipeAccess iRecipeManager, CompatRecipeType<T> type, CompatRecipeInput<I> input, Level world) {
+        if (!(iRecipeManager instanceof RecipeManager))
             return new CompatRecipeEntry<>(null);
 
-        ServerRecipeManager recipeManager = (ServerRecipeManager) iRecipeManager;
+        RecipeManager recipeManager = (RecipeManager) iRecipeManager;
 
-        Optional<RecipeEntry<T>> recipe = recipeManager.getFirstMatch(type.getType(), input.getInput(), world);
+        Optional<RecipeHolder<T>> recipe = recipeManager.getRecipeFor(type.getType(), input.getInput(), world);
         return recipe.map(CompatRecipeEntry::new).orElseGet(() -> new CompatRecipeEntry<>(null));
     }
 
-    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(RecipeManager iRecipeManager, CompatRecipeType<T> type, CompatRecipeInput<I> input, World world, CompatIdentifier identifier) {
-        if (!(iRecipeManager instanceof ServerRecipeManager))
+    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(RecipeAccess iRecipeManager, CompatRecipeType<T> type, CompatRecipeInput<I> input, Level world, CompatIdentifier identifier) {
+        if (!(iRecipeManager instanceof RecipeManager))
             return new CompatRecipeEntry<>(null);
 
-        ServerRecipeManager recipeManager = (ServerRecipeManager) iRecipeManager;
+        RecipeManager recipeManager = (RecipeManager) iRecipeManager;
 
-        Optional<RecipeEntry<T>> recipe = recipeManager.getFirstMatch(type.getType(), input.getInput(), world, RegistryKey.of(RegistryKeys.RECIPE, identifier.toMinecraft()));
+        Optional<RecipeHolder<T>> recipe = recipeManager.getRecipeFor(type.getType(), input.getInput(), world, ResourceKey.create(Registries.RECIPE, identifier.toMinecraft()));
         return recipe.map(CompatRecipeEntry::new).orElseGet(() -> new CompatRecipeEntry<>(null));
     }
 
-    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(World world, CompatRecipeType<T> type, CompatRecipeInput<I> input) {
+    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(Level world, CompatRecipeType<T> type, CompatRecipeInput<I> input) {
         return getFirstMatch(getRecipeManager(world), type, input, world);
     }
 
-    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(World world, CompatRecipeType<T> type, CompatRecipeInput<I> input, CompatIdentifier identifier) {
+    public static <I extends RecipeInput, T extends Recipe<I>> CompatRecipeEntry<T> getFirstMatch(Level world, CompatRecipeType<T> type, CompatRecipeInput<I> input, CompatIdentifier identifier) {
         return getFirstMatch(getRecipeManager(world), type, input, world, identifier);
     }
 
-    public static RecipeManager getRecipeManager(World world) {
-        return world.getRecipeManager();
+    public static RecipeAccess getRecipeManager(Level world) {
+        return world.recipeAccess();
     }
 
-    public Optional<RecipeEntry<?>> get(World world, CompatIdentifier id) {
+    public Optional<RecipeHolder<?>> get(Level world, CompatIdentifier id) {
         return get(getRecipeManager(world), id);
     }
 
-    public Optional<RecipeEntry<?>> get(RecipeManager iRecipeManager, CompatIdentifier id) {
-        if (!(iRecipeManager instanceof ServerRecipeManager))
+    public Optional<RecipeHolder<?>> get(RecipeAccess iRecipeManager, CompatIdentifier id) {
+        if (!(iRecipeManager instanceof RecipeManager))
             return Optional.empty();
-        ServerRecipeManager recipeManager = (ServerRecipeManager) iRecipeManager;
+        RecipeManager recipeManager = (RecipeManager) iRecipeManager;
 
-        return recipeManager.get(RegistryKey.of(RegistryKeys.RECIPE, id.toMinecraft()));
+        return recipeManager.byKey(ResourceKey.create(Registries.RECIPE, id.toMinecraft()));
     }
 
     public static <I extends RecipeInput, T extends Recipe<I>> MatchGetter<I, T> createCachedMatchGetter(RecipeType<T> type) {
         return (input, world) -> {
-            Optional<RecipeEntry<T>> optional = ServerRecipeManager.createCachedMatchGetter(type).getFirstMatch(input.getInput(), (ServerWorld) world);
+            Optional<RecipeHolder<T>> optional = RecipeManager.createCheck(type).getRecipeFor(input.getInput(), (ServerLevel) world);
             return optional.map(CompatRecipeEntry::new);
         };
     }
@@ -148,10 +149,10 @@ public class RecipeUtil {
         return createCachedMatchGetter(type.getType());
     }
 
-    public static DefaultedList<Ingredient> getInputs(Recipe<?> recipe) {
-        List<Ingredient> ingredients = recipe.getIngredientPlacement().getIngredients();
+    public static NonNullList<Ingredient> getInputs(Recipe<?> recipe) {
+        List<Ingredient> ingredients = recipe.placementInfo().ingredients();
 
-        DefaultedList<Ingredient> outIngredients = DefaultedList.ofSize(ingredients.size());
+        NonNullList<Ingredient> outIngredients = NonNullList.createWithCapacity(ingredients.size());
 
         for (int i = 0; i < ingredients.size(); i++) {
             outIngredients.set(i, ingredients.get(i));
@@ -160,12 +161,12 @@ public class RecipeUtil {
         return outIngredients;
     }
 
-    public static DefaultedList<Ingredient> getInputs(CompatRecipeEntry<?> recipeEntry) {
+    public static NonNullList<Ingredient> getInputs(CompatRecipeEntry<?> recipeEntry) {
         return getInputs(recipeEntry.getRecipe());
     }
 
     public static ItemStackList getInputsAsStack(Recipe<?> recipe) {
-        DefaultedList<Ingredient> ingredients = getInputs(recipe);
+        NonNullList<Ingredient> ingredients = getInputs(recipe);
         ItemStackList stacks = ItemStackList.ofSize(ingredients.size(), ItemStackUtil.empty());
         for (Ingredient ingredient : ingredients) {
             stacks.addAll(IngredientUtil.getMatchingStacksAsList(ingredient));
@@ -180,25 +181,25 @@ public class RecipeUtil {
     public static ItemStack getOutput(Recipe<?> recipe, CompatRegistryLookup registryLookup) {
         if (recipe instanceof ShapelessRecipe) {
             ShapelessRecipe shapelessRecipe = (ShapelessRecipe) recipe;
-            return shapelessRecipe.craft(CraftingRecipeInput.EMPTY, registryLookup.getRegistryLookup());
+            return shapelessRecipe.assemble(CraftingInput.EMPTY);
         }
 
         if (recipe instanceof ShapedRecipe) {
             ShapedRecipe shapedRecipe = (ShapedRecipe) recipe;
-            return shapedRecipe.craft(CraftingRecipeInput.EMPTY, registryLookup.getRegistryLookup());
+            return shapedRecipe.assemble(CraftingInput.EMPTY);
         }
 
         if (recipe instanceof CraftingRecipe) {
             CraftingRecipe craftingRecipe = (CraftingRecipe) recipe;
-            return craftingRecipe.craft(CraftingRecipeInput.EMPTY, registryLookup.getRegistryLookup());
+            return craftingRecipe.assemble(CraftingInput.EMPTY);
         }
 
-        if (recipe instanceof SpecialCraftingRecipe) {
-            SpecialCraftingRecipe specialCraftingRecipe = (SpecialCraftingRecipe) recipe;
-            return specialCraftingRecipe.craft(CraftingRecipeInput.EMPTY, registryLookup.getRegistryLookup());
+        if (recipe instanceof CustomRecipe) {
+            CustomRecipe specialCraftingRecipe = (CustomRecipe) recipe;
+            return specialCraftingRecipe.assemble(CraftingInput.EMPTY);
         }
 
-        return recipe.craft(null, registryLookup.getRegistryLookup());
+        return recipe.assemble(null);
     }
 
     public static ItemStack getOutput(CompatRecipeEntry<?> recipeEntry, CompatRegistryLookup registryLookup) {

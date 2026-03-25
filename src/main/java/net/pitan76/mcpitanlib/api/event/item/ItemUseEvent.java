@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
@@ -9,8 +8,6 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
-import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
-import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import net.pitan76.mcpitanlib.midohra.world.IWorldView;
 
@@ -21,7 +18,7 @@ public class ItemUseEvent extends BaseEvent {
     public InteractionHand hand;
     public ItemStack stack;
 
-    public ItemUseEvent(Level world, Player user, InteractionHand hand) {
+    public ItemUseEvent(Level world, net.minecraft.world.entity.player.Player user, InteractionHand hand) {
         this.world = world;
         this.user = new Player(user);
         this.hand = hand;

@@ -2,13 +2,10 @@ package net.pitan76.mcpitanlib.api.client.event.listener;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.render.*;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.state.LevelRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.multiplayer.ClientLevel;
 import com.mojang.math.Axis;
@@ -24,7 +21,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
     public float tickDelta;
     public Camera camera;
     public GameRenderer gameRenderer;
-    public LightTexture lightmapTextureManager;
+//    public LightTexture lightmapTextureManager;
     public Matrix4f projectionMatrix;
     public ClientLevel world;
     public boolean advancedTranslucency;
@@ -62,10 +59,10 @@ public class WorldRenderContextImpl implements WorldRenderContext {
         return gameRenderer;
     }
 
-    @Override
-    public LightTexture getLightmapTextureManager() {
-        return lightmapTextureManager;
-    }
+//    @Override
+//    public LightTexture getLightmapTextureManager() {
+//        return lightmapTextureManager;
+//    }
 
     @Override
     public Matrix4f getProjectionMatrix() {
@@ -95,7 +92,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
         return frustum;
     }
 
-    public void prepare(GameRenderer gameRenderer, LevelRenderer worldRenderer, LevelRenderState worldRenderState, @Nullable ClientLevel world, DeltaTracker tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix) {
+    public void prepare(GameRenderer gameRenderer, LevelRenderer worldRenderer, @Nullable ClientLevel world, DeltaTracker tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix) {
         this.gameRenderer = gameRenderer;
         this.worldRenderer = worldRenderer;
         this.world = world;
@@ -114,7 +111,6 @@ public class WorldRenderContextImpl implements WorldRenderContext {
 
         this.projectionMatrix = projectionMatrix;;
         this.tickDelta = tickCounter.getGameTimeDeltaTicks();
-        this.lightmapTextureManager = gameRenderer.lightTexture();
-        this.frustum = worldRenderer.getCapturedFrustum();
+        this.frustum = gameRenderer.getMainCamera().getCapturedFrustum();
     }
 }

@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.block;
 
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -17,7 +16,7 @@ public class ScreenHandlerCreateEvent extends BaseEvent {
     public Inventory inventory;
     public Player player;
 
-    public ScreenHandlerCreateEvent(BlockState state, Level world, BlockPos pos, int syncId, Inventory inventory, Player player) {
+    public ScreenHandlerCreateEvent(BlockState state, Level world, BlockPos pos, int syncId, Inventory inventory, net.minecraft.world.entity.player.Player player) {
         this.state = state;
         this.world = world;
         this.pos = pos;

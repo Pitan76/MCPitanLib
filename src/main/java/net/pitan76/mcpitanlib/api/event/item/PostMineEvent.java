@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -94,12 +93,12 @@ public class PostMineEvent extends BaseEvent {
     }
 
     public boolean isPlayer() {
-        return miner instanceof Player;
+        return miner instanceof net.minecraft.world.entity.player.Player;
     }
 
     public Player getPlayer() {
         if (isPlayer())
-            return new Player((Player) miner);
+            return new Player((net.minecraft.world.entity.player.Player) miner);
 
         return null;
     }

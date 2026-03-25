@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.event.item;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -18,7 +17,7 @@ public class CraftEvent {
         this.player = player;
     }
 
-    public CraftEvent(ItemStack stack, Level world, Player player) {
+    public CraftEvent(ItemStack stack, Level world, net.minecraft.world.entity.player.Player player) {
         this.stack = stack;
         this.world = world;
         this.player = new Player(player);
