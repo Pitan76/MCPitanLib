@@ -34,6 +34,7 @@ public class ServerNetworking {
     }
 
     public static void registerReceiver(Identifier identifier, ServerNetworkHandler handler) {
+        registerS2CPayloadType(identifier);
         BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
 
         ServerPlayNetworking.registerGlobalReceiver(id, (payload, context) -> {

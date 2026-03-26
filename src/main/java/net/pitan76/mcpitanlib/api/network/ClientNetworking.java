@@ -17,13 +17,7 @@ import java.util.List;
 
 public class ClientNetworking {
     public static void send(Identifier identifier, FriendlyByteBuf buf) {
-        /*
-        if (!C2S_TYPE.containsKey(identifier)) {
-            CustomPayload.Id type = new CustomPayload.Id<>(identifier);
-            C2S_TYPE.put(identifier, type);
-            //registerC2SType(type, NetworkAggregator.BufCustomPacketPayload.streamCodec(type), List.of());
-        }
-         */
+        registerC2SPayloadType(identifier);
 
         BufPayload payload = new BufPayload(buf, identifier);
         ClientPlayNetworking.send(payload);
