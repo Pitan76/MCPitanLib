@@ -101,15 +101,15 @@ public class CompatibleSlot extends Slot {
 
     @Override
     public boolean mayPickup(net.minecraft.world.entity.player.Player playerEntity) {
-        return canTakeItems(playerEntity);
+        return canTakeItems(new Player(playerEntity));
     }
 
     public boolean canInsert(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
         return super.mayPlace(stack.toMinecraft());
     }
 
-    public boolean canTakeItems(net.minecraft.world.entity.player.Player player) {
-        return super.mayPickup(player);
+    public boolean canTakeItems(Player player) {
+        return super.mayPickup(player.getEntity());
     }
 
     @Deprecated
