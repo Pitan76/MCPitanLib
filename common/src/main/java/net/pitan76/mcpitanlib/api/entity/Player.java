@@ -38,6 +38,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
+import net.pitan76.mcpitanlib.api.gui.v2.ExtendedScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
@@ -541,7 +542,28 @@ public class Player {
         sendMessage(textComponent.getText());
     }
 
-     public void sendActionBar(TextComponent textComponent) {
+    public void sendActionBar(TextComponent textComponent) {
         sendActionBar(textComponent.getText());
+    }
+
+
+    public void openExtendedMenu(ExtendedScreenHandlerFactory provider) {
+        this.openExtendedMenu((ExtendedMenuProvider) provider);
+    }
+
+    public void offerOrDrop(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        offerOrDrop(stack.toMinecraft());
+    }
+
+    public void insertStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        insertStack(stack.toMinecraft());
+    }
+
+    public void insertStack(int slot, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        insertStack(slot, stack.toMinecraft());
+    }
+
+    public void giveStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        giveStack(stack.toMinecraft());
     }
 }
