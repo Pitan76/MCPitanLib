@@ -151,7 +151,7 @@ public class Player {
             ScreenHandlerUtil.openExtendedMenu((ServerPlayer) this.getPlayerEntity(), provider);
     }
 
-    public void openExtendedMenu(ExtendedScreenHandlerFactory provider) {
+    public void openExtendedMenu(ExtendedNamedScreenHandlerFactory provider) {
         this.openExtendedMenu((ExtendedMenuProvider) provider);
     }
 
@@ -538,11 +538,11 @@ public class Player {
         sendMessage(textComponent.getText());
     }
 
-     public void sendActionBar(TextComponent textComponent) {
+    public void sendActionBar(TextComponent textComponent) {
         sendActionBar(textComponent.getText());
     }
 
-    public void openExtendedMenu(ExtendedNamedScreenHandlerFactory provider) {
+    public void openExtendedMenu(ExtendedScreenHandlerFactory provider) {
         this.openExtendedMenu((ExtendedMenuProvider) provider);
     }
 
