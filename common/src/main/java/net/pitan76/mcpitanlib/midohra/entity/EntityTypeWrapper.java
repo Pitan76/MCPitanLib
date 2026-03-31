@@ -75,7 +75,7 @@ public class EntityTypeWrapper {
 
     public EntityWrapper createEntity(ServerWorld world, SpawnReason spawnReason) {
         if (isEmpty()) return EntityWrapper.of();
-        return EntityWrapper.of(get().create(world.getRaw(), spawnReason.getRaw()));
+        return EntityWrapper.of(get().create(world.getRaw()));
     }
 
     public EntityWrapper createEntity(ServerWorld world) {

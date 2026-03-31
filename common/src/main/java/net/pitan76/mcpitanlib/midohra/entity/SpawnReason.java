@@ -15,13 +15,13 @@ public class SpawnReason {
     public static final SpawnReason REINFORCEMENT = of(net.minecraft.entity.SpawnReason.REINFORCEMENT);
     public static final SpawnReason TRIGGERED = of(net.minecraft.entity.SpawnReason.TRIGGERED);
     public static final SpawnReason BUCKET = of(net.minecraft.entity.SpawnReason.BUCKET);
-    public static final SpawnReason SPAWN_ITEM_USE = of(net.minecraft.entity.SpawnReason.SPAWN_ITEM_USE);
+    public static final SpawnReason SPAWN_ITEM_USE = of(net.minecraft.entity.SpawnReason.SPAWN_EGG);
     public static final SpawnReason COMMAND = of(net.minecraft.entity.SpawnReason.COMMAND);
     public static final SpawnReason DISPENSER = of(net.minecraft.entity.SpawnReason.DISPENSER);
     public static final SpawnReason PATROL = of(net.minecraft.entity.SpawnReason.PATROL);
     public static final SpawnReason TRIAL_SPAWNER = of(net.minecraft.entity.SpawnReason.TRIAL_SPAWNER);
-    public static final SpawnReason LOAD = of(net.minecraft.entity.SpawnReason.LOAD);
-    public static final SpawnReason DIMENSION_TRAVEL = of(net.minecraft.entity.SpawnReason.DIMENSION_TRAVEL);
+    public static final SpawnReason LOAD = of(net.minecraft.entity.SpawnReason.NATURAL);
+    public static final SpawnReason DIMENSION_TRAVEL = of(net.minecraft.entity.SpawnReason.NATURAL);
 
     protected SpawnReason(net.minecraft.entity.SpawnReason raw) {
         this.raw = raw;
