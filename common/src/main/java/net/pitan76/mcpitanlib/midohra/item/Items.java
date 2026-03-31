@@ -572,7 +572,7 @@ public class Items {
     public static ItemWrapper STRUCTURE_BLOCK = of(net.minecraft.item.Items.STRUCTURE_BLOCK);
     public static ItemWrapper JIGSAW = of(net.minecraft.item.Items.JIGSAW);
     public static ItemWrapper TURTLE_HELMET = of(net.minecraft.item.Items.TURTLE_HELMET);
-    public static ItemWrapper SCUTE = of(net.minecraft.item.Items.TURTLE_SCUTE);
+    public static ItemWrapper SCUTE = of(net.minecraft.item.Items.SCUTE);
     public static ItemWrapper FLINT_AND_STEEL = of(net.minecraft.item.Items.FLINT_AND_STEEL);
     public static ItemWrapper APPLE = of(net.minecraft.item.Items.APPLE);
     public static ItemWrapper BOW = of(net.minecraft.item.Items.BOW);
