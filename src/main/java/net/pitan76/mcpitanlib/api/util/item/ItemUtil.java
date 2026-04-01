@@ -258,6 +258,9 @@ public class ItemUtil {
     }
 
     public static ItemStack getRecipeRemainderStack(Item item) {
+        if (item.getCraftingRemainder() == null)
+            return ItemStackUtil.empty();
+
         return item.getCraftingRemainder().create();
     }
 }

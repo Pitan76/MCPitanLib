@@ -3,12 +3,17 @@ package net.pitan76.mcpitanlib.api.util;
 import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.NonNullList;
+import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +37,24 @@ public class ScreenHandlerUtil {
     }
 
     public static void openExtendedMenu(ServerPlayer player, MenuProvider provider, Consumer<FriendlyByteBuf> bufWriter) {
-        // TODO: Fabric API does not support opening a menu with a bufWriter, so we need to find a way to do this.
-//        player.openMenu(player, provider, bufWriter);
+        player.openMenu(new ExtendedMenuProvider<>() {
+            @Override
+            public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
+                return provider.createMenu(containerId, inventory, player);
+            }
+
+            @Override
+            public Component getDisplayName() {
+                return provider.getDisplayName();
+            }
+
+            @Override
+            public Object getScreenOpeningData(ServerPlayer player) {
+                FriendlyByteBuf buf = PacketByteUtil.create();
+                bufWriter.accept(buf);
+                return buf;
+            }
+        });
     }
 
     public static void openExtendedMenu(ServerPlayer player, ExtendedMenuProvider provider) {
