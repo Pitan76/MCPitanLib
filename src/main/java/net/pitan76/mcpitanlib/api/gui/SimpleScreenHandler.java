@@ -272,4 +272,12 @@ public class SimpleScreenHandler extends AbstractContainerMenu {
     public int callGetRevision() {
         return super.getStateId();
     }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getCursorStackM() {
+        return ScreenHandlerUtil.getCursorStackM(this);
+    }
+
+    public ItemStack callGetCursorStack() {
+        return ScreenHandlerUtil.getCursorStack(this);
+    }
 }

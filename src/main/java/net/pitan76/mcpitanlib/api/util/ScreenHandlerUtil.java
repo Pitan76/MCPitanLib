@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import org.jspecify.annotations.Nullable;
 
@@ -71,5 +72,21 @@ public class ScreenHandlerUtil {
 
     public static MenuType<?> fromIndex(int index) {
         return BuiltInRegistries.MENU.byId(index);
+    }
+
+    public static ItemStack getCursorStack(AbstractContainerMenu screenHandler) {
+        return screenHandler.getCarried();
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.item.ItemStack getCursorStackM(AbstractContainerMenu screenHandler) {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getCursorStack(screenHandler));
+    }
+
+    public static void setCursorStack(AbstractContainerMenu screenHandler, ItemStack stack) {
+        screenHandler.setCarried(stack);
+    }
+
+    public static void setCursorStackM(AbstractContainerMenu screenHandler, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        setCursorStack(screenHandler, stack.toMinecraft());
     }
 }
