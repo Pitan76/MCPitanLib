@@ -1,16 +1,13 @@
 package net.pitan76.mcpitanlib.mixin;
 
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.item.ItemUseAnimation;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
@@ -29,7 +26,6 @@ import net.pitan76.mcpitanlib.api.item.consume.CompatUseAction;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
-import net.pitan76.mcpitanlib.mixin.UseOnContextMixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -246,11 +242,11 @@ public class ItemMixin {
     }
 
     @Inject(method = "getCraftingRemainder", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$getRecipeRemainder(CallbackInfoReturnable<ItemStack> cir) {
+    private void mcpitanlib$getRecipeRemainder(CallbackInfoReturnable<ItemStackTemplate> cir) {
         if (this instanceof FixedRecipeRemainderItem) {
             ItemStack returnValue = ((FixedRecipeRemainderItem) this)
                     .getFixedRecipeRemainder(ItemStackUtil.create((Item) (Object) this));
-            cir.setReturnValue(returnValue);
+            cir.setReturnValue(ItemStackTemplate.fromNonEmptyStack(returnValue));
         }
     }
 }

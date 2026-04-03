@@ -54,12 +54,12 @@ dependencies {
     implementation("net.pitan76:legacyitemmodels-fabric:${rootProject.legacyitemmodels_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-//    implementation("net.pitan76:littleobffallback-fabric:${rootProject.littleobffallback_version}") {
-//        exclude(group: "net.fabricmc.fabric-api")
-//    }
+    implementation("net.pitan76:littleobffallback-fabric:${rootProject.littleobffallback_version}") {
+        changing = true
+    }
     include("net.pitan76:compatdatapacks76-fabric:${rootProject.compatdatapacks76_version}")
     include("net.pitan76:legacyitemmodels-fabric:${rootProject.legacyitemmodels_version}")
-//    include("net.pitan76:littleobffallback-fabric:${rootProject.littleobffallback_version}")
+    include("net.pitan76:littleobffallback-fabric:${rootProject.littleobffallback_version}")
 }
 
 processResources {
