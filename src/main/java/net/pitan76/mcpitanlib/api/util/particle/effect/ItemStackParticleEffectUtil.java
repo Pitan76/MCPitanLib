@@ -12,11 +12,11 @@ public class ItemStackParticleEffectUtil {
         // Empty constructor
     }
 
-    public ItemParticleOption create(ParticleType<ItemParticleOption> type, ItemStack stack) {
-        return new ItemParticleOption(type, stack.getItem());
+    public ParticleType<ItemParticleOption> create(ParticleType<ItemParticleOption> type, ItemStack stack) {
+        return new ItemParticleOption(type, stack.getItem()).getType();
     }
 
-    public ItemParticleOption createTypedItem(ItemStack stack) {
-        return new ItemParticleOption(ParticleTypes.ITEM, stack.getItem());
+    public ParticleType<ItemParticleOption> createTypedItem(ItemStack stack) {
+        return new ItemParticleOption(ParticleTypes.ITEM, stack.getItem()).getType();
     }
 }
