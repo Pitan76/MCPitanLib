@@ -1,7 +1,10 @@
 package net.pitan76.mcpitanlib.api.sound;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.world.entity.animal.chicken.ChickenSoundVariants;
+import net.minecraft.world.entity.animal.cow.CowSoundVariants;
 import net.minecraft.world.entity.animal.feline.CatSoundVariants;
+import net.minecraft.world.entity.animal.pig.PigSoundVariants;
 import net.minecraft.world.entity.animal.wolf.WolfSoundVariants;
 import net.minecraft.sounds.SoundEvents;
 
@@ -309,10 +312,10 @@ public class CompatSoundEvents {
     public static final CompatSoundEvent BLOCK_CHEST_CLOSE = new CompatSoundEvent(SoundEvents.CHEST_CLOSE);
     public static final CompatSoundEvent BLOCK_CHEST_LOCKED = new CompatSoundEvent(SoundEvents.CHEST_LOCKED);
     public static final CompatSoundEvent BLOCK_CHEST_OPEN = new CompatSoundEvent(SoundEvents.CHEST_OPEN);
-    public static final CompatSoundEvent ENTITY_CHICKEN_AMBIENT = new CompatSoundEvent(SoundEvents.CHICKEN_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).adultSounds().ambientSound());
-    public static final CompatSoundEvent ENTITY_CHICKEN_DEATH = new CompatSoundEvent(SoundEvents.CHICKEN_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).adultSounds().deathSound());
+    public static final CompatSoundEvent ENTITY_CHICKEN_AMBIENT = new CompatSoundEvent(SoundEvents.CHICKEN_SOUNDS.get(ChickenSoundVariants.SoundSet.CLASSIC).adultSounds().ambientSound());
+    public static final CompatSoundEvent ENTITY_CHICKEN_DEATH = new CompatSoundEvent(SoundEvents.CHICKEN_SOUNDS.get(ChickenSoundVariants.SoundSet.CLASSIC).adultSounds().deathSound());
     public static final CompatSoundEvent ENTITY_CHICKEN_EGG = new CompatSoundEvent(SoundEvents.CHICKEN_EGG);
-    public static final CompatSoundEvent ENTITY_CHICKEN_HURT = new CompatSoundEvent(SoundEvents.CHICKEN_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).adultSounds().hurtSound());
+    public static final CompatSoundEvent ENTITY_CHICKEN_HURT = new CompatSoundEvent(SoundEvents.CHICKEN_SOUNDS.get(ChickenSoundVariants.SoundSet.CLASSIC).adultSounds().hurtSound());
     public static final CompatSoundEvent ENTITY_CHICKEN_STEP = new CompatSoundEvent(SoundEvents.CHICKEN_STEP);
     public static final CompatSoundEvent BLOCK_CHISELED_BOOKSHELF_BREAK = new CompatSoundEvent(SoundEvents.CHISELED_BOOKSHELF_BREAK);
     public static final CompatSoundEvent BLOCK_CHISELED_BOOKSHELF_FALL = new CompatSoundEvent(SoundEvents.CHISELED_BOOKSHELF_FALL);
@@ -371,11 +374,11 @@ public class CompatSoundEvents {
     public static final CompatSoundEvent BLOCK_CORAL_BLOCK_HIT = new CompatSoundEvent(SoundEvents.CORAL_BLOCK_HIT);
     public static final CompatSoundEvent BLOCK_CORAL_BLOCK_PLACE = new CompatSoundEvent(SoundEvents.CORAL_BLOCK_PLACE);
     public static final CompatSoundEvent BLOCK_CORAL_BLOCK_STEP = new CompatSoundEvent(SoundEvents.CORAL_BLOCK_STEP);
-    public static final CompatSoundEvent ENTITY_COW_AMBIENT = new CompatSoundEvent(SoundEvents.COW_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).ambientSound());
-    public static final CompatSoundEvent ENTITY_COW_DEATH = new CompatSoundEvent(SoundEvents.COW_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).deathSound());
-    public static final CompatSoundEvent ENTITY_COW_HURT = new CompatSoundEvent(SoundEvents.COW_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).hurtSound());
+    public static final CompatSoundEvent ENTITY_COW_AMBIENT = new CompatSoundEvent(SoundEvents.COW_SOUNDS.get(CowSoundVariants.SoundSet.CLASSIC).ambientSound());
+    public static final CompatSoundEvent ENTITY_COW_DEATH = new CompatSoundEvent(SoundEvents.COW_SOUNDS.get(CowSoundVariants.SoundSet.CLASSIC).deathSound());
+    public static final CompatSoundEvent ENTITY_COW_HURT = new CompatSoundEvent(SoundEvents.COW_SOUNDS.get(CowSoundVariants.SoundSet.CLASSIC).hurtSound());
     public static final CompatSoundEvent ENTITY_COW_MILK = new CompatSoundEvent(SoundEvents.COW_MILK);
-    public static final CompatSoundEvent ENTITY_COW_STEP = new CompatSoundEvent(SoundEvents.COW_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).stepSound());
+    public static final CompatSoundEvent ENTITY_COW_STEP = new CompatSoundEvent(SoundEvents.COW_SOUNDS.get(CowSoundVariants.SoundSet.CLASSIC).stepSound());
     public static final CompatSoundEvent BLOCK_CRAFTER_CRAFT = new CompatSoundEvent(SoundEvents.CRAFTER_CRAFT);
     public static final CompatSoundEvent BLOCK_CRAFTER_FAIL = new CompatSoundEvent(SoundEvents.CRAFTER_FAIL);
     public static final CompatSoundEvent ENTITY_CREEPER_DEATH = new CompatSoundEvent(SoundEvents.CREEPER_DEATH);
@@ -1072,9 +1075,9 @@ public class CompatSoundEvents {
     public static final CompatSoundEvent ENTITY_PHANTOM_FLAP = new CompatSoundEvent(SoundEvents.PHANTOM_FLAP);
     public static final CompatSoundEvent ENTITY_PHANTOM_HURT = new CompatSoundEvent(SoundEvents.PHANTOM_HURT);
     public static final CompatSoundEvent ENTITY_PHANTOM_SWOOP = new CompatSoundEvent(SoundEvents.PHANTOM_SWOOP);
-    public static final CompatSoundEvent ENTITY_PIG_AMBIENT = new CompatSoundEvent(SoundEvents.PIG_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).adultSounds().ambientSound());
-    public static final CompatSoundEvent ENTITY_PIG_DEATH = new CompatSoundEvent(SoundEvents.PIG_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).adultSounds().deathSound());
-    public static final CompatSoundEvent ENTITY_PIG_HURT = new CompatSoundEvent(SoundEvents.PIG_SOUNDS.get(CatSoundVariants.SoundSet.CLASSIC).adultSounds().hurtSound());
+    public static final CompatSoundEvent ENTITY_PIG_AMBIENT = new CompatSoundEvent(SoundEvents.PIG_SOUNDS.get(PigSoundVariants.SoundSet.CLASSIC).adultSounds().ambientSound());
+    public static final CompatSoundEvent ENTITY_PIG_DEATH = new CompatSoundEvent(SoundEvents.PIG_SOUNDS.get(PigSoundVariants.SoundSet.CLASSIC).adultSounds().deathSound());
+    public static final CompatSoundEvent ENTITY_PIG_HURT = new CompatSoundEvent(SoundEvents.PIG_SOUNDS.get(PigSoundVariants.SoundSet.CLASSIC).adultSounds().hurtSound());
     public static final CompatSoundEvent ENTITY_PIG_SADDLE = new CompatSoundEvent(SoundEvents.PIG_SADDLE);
     public static final CompatSoundEvent ENTITY_PIG_STEP = new CompatSoundEvent(SoundEvents.PIG_STEP);
     public static final CompatSoundEvent ENTITY_PIGLIN_ADMIRING_ITEM = new CompatSoundEvent(SoundEvents.PIGLIN_ADMIRING_ITEM);
