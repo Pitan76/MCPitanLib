@@ -33,7 +33,8 @@ public class MCPLRegistry1_20 {
 
     public RegistrySupplier<CreativeModeTab> registryItemGroup(Identifier id, Supplier<CreativeModeTab> supplier) {
         ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, id);
-        RegistrySupplier<CreativeModeTab> itemGroup = new RegistrySupplier<>(Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, key, supplier.get()));
+        RegistrySupplier<CreativeModeTab> itemGroup =
+                new RegistrySupplier<>(Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, key, supplier.get()));
 //        RegistrySupplier<CreativeModeTab> itemGroup = ITEM_GROUP.register(id, supplier);
         REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.put(key, itemGroup);
         return itemGroup;
@@ -41,7 +42,8 @@ public class MCPLRegistry1_20 {
 
     public RegistrySupplier<CreativeModeTab> registryItemGroup(Identifier id, CreativeTabBuilder builder) {
         ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, id);
-        RegistrySupplier<CreativeModeTab> itemGroup = new RegistrySupplier<>(Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, key, builder.build()));
+        RegistrySupplier<CreativeModeTab> itemGroup =
+                new RegistrySupplier<>(Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, key, builder.build()));
 //        RegistrySupplier<CreativeModeTab> itemGroup = ITEM_GROUP.register(id, builder::build);
         REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.put(key, itemGroup);
         return itemGroup;

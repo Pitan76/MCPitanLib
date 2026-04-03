@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.api.item.equipment.EquippableComponentBuilder;
 import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
+import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
@@ -169,6 +170,11 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
 
         if (identifier != null) {
             settings.setId(ResourceKey.create(Registries.ITEM, identifier.toMinecraft()));
+
+            if (itemGroupId != null) {
+                ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, itemGroupId);
+                MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.put(key, identifier.toMinecraft());
+            }
         }
 
         return settings;
