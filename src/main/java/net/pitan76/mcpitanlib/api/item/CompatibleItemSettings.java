@@ -92,7 +92,7 @@ public class CompatibleItemSettings {
 //            });
 //                if (output instanceof Item.Settings settings)
 //            settings.arch$tab(itemGroup);
-            MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.put(key, _itemId);
+            MCPLRegistry1_20.addItemGroupItem(key, _itemId);
         }
 
         if (_itemId != null && !(this instanceof net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings)) {

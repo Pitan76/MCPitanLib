@@ -73,9 +73,9 @@ public class CreativeTabManager {
 
     public static void allRegister() {
         if (!MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.isEmpty()) {
-            for (Map.Entry<ResourceKey<CreativeModeTab>, Identifier> entry : MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.entrySet()) {
+            for (Map.Entry<ResourceKey<CreativeModeTab>, List<Identifier>> entry : MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.entrySet()) {
                 CreativeModeTabEvents.modifyOutputEvent(entry.getKey()).register(entries ->
-                        entries.accept(new ItemStack(ItemUtil.fromId(entry.getValue()))));
+                        entries.acceptAll(entry.getValue().stream().map(id -> new ItemStack(ItemUtil.fromId(id))).toList()));
             }
         }
 

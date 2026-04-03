@@ -9,7 +9,9 @@ import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -19,7 +21,15 @@ public class MCPLRegistry1_20 {
     public static final Map<ResourceKey<CreativeModeTab>, RegistrySupplier<CreativeModeTab>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new HashMap<>();
 
     @Deprecated
-    public static final Map<ResourceKey<CreativeModeTab>, Identifier> ITEM_GROUP_ITEM_ID_CACHE = new HashMap<>();
+    public static final Map<ResourceKey<CreativeModeTab>, List<Identifier>> ITEM_GROUP_ITEM_ID_CACHE = new HashMap<>();
+
+    public static void addItemGroupItem(ResourceKey<CreativeModeTab> itemGroup, Identifier itemId) {
+        if (!ITEM_GROUP_ITEM_ID_CACHE.containsKey(itemGroup)) {
+            ITEM_GROUP_ITEM_ID_CACHE.put(itemGroup, new ArrayList<>());
+        }
+
+        ITEM_GROUP_ITEM_ID_CACHE.get(itemGroup).add(itemId);
+    }
 
     private final MCPLRegistry mcplr;
 

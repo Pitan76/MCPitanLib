@@ -173,7 +173,7 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
 
             if (itemGroupId != null) {
                 ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, itemGroupId);
-                MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.put(key, identifier.toMinecraft());
+                MCPLRegistry1_20.addItemGroupItem(key, identifier.toMinecraft());
             }
         }
 
