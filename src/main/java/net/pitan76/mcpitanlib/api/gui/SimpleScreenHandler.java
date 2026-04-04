@@ -280,4 +280,28 @@ public class SimpleScreenHandler extends AbstractContainerMenu {
     public ItemStack callGetCursorStack() {
         return ScreenHandlerUtil.getCursorStack(this);
     }
+
+    public void setCursorStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        ScreenHandlerUtil.setCursorStackM(this, stack);
+    }
+
+    @Deprecated
+    @Override
+    public boolean canTakeItemForPickAll(ItemStack carried, Slot target) {
+        return canInsertIntoSlotOverride(net.pitan76.mcpitanlib.midohra.item.ItemStack.of(carried), target);
+    }
+
+    @Deprecated
+    @Override
+    public boolean canDragTo(Slot slot) {
+        return canInsertIntoSlotOverride(slot);
+    }
+
+    public boolean canInsertIntoSlotOverride(net.pitan76.mcpitanlib.midohra.item.ItemStack carried, Slot target) {
+        return super.canTakeItemForPickAll(carried.toMinecraft(), target);
+    }
+
+    public boolean canInsertIntoSlotOverride(Slot slot) {
+        return super.canDragTo(slot);
+    }
 }

@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.midohra.block.entity;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
 import java.util.function.Supplier;
 
@@ -17,6 +18,10 @@ public class SupplierBlockEntityTypeWrapper extends BlockEntityTypeWrapper {
     }
 
     public static SupplierBlockEntityTypeWrapper of(RegistryResult<BlockEntityType<?>> result) {
+        return new SupplierBlockEntityTypeWrapper(result::get);
+    }
+
+    public static SupplierBlockEntityTypeWrapper of(RegistrySupplier<BlockEntityType<?>> result) {
         return new SupplierBlockEntityTypeWrapper(result::get);
     }
 

@@ -4,7 +4,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
-public class CompatPlayerInventory {
+public class CompatPlayerInventory implements ICompatInventory {
     public Inventory inv;
 
     public CompatPlayerInventory(Inventory inv) {
@@ -37,6 +37,51 @@ public class CompatPlayerInventory {
 
     public Inventory getRaw() {
         return inv;
+    }
+
+    @Override
+    public int getContainerSize() {
+        return inv.getContainerSize();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inv.isEmpty();
+    }
+
+    @Override
+    public ItemStack getItem(int slot) {
+        return inv.getItem(slot);
+    }
+
+    @Override
+    public ItemStack removeItem(int slot, int count) {
+        return inv.removeItem(slot, count);
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        return inv.removeItemNoUpdate(slot);
+    }
+
+    @Override
+    public void setItem(int slot, ItemStack itemStack) {
+        inv.setItem(slot, itemStack);
+    }
+
+    @Override
+    public void setChanged() {
+        inv.setChanged();
+    }
+
+    @Override
+    public boolean stillValid(net.minecraft.world.entity.player.Player player) {
+        return inv.stillValid(player);
+    }
+
+    @Override
+    public void clearContent() {
+        inv.clearContent();
     }
 }
 

@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
+import net.pitan76.mcpitanlib.midohra.nbt.NbtCompound;
 
 public class BlockEntityDataUtil {
     public static CompoundTag getBlockEntityNbt(ItemStack stack) {
@@ -45,5 +46,29 @@ public class BlockEntityDataUtil {
 
     public static void removeBlockEntityNbt(ItemStack stack) {
         stack.remove(DataComponents.BLOCK_ENTITY_DATA);
+    }
+
+    public static boolean hasBlockEntityNbt(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return hasBlockEntityNbt(stack.toMinecraft());
+    }
+
+     public static NbtCompound getBlockEntityNbt(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return NbtCompound.of(getBlockEntityNbt(stack.toMinecraft()));
+    }
+
+    public static void setBlockEntityNbt(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, NbtCompound nbt) {
+        setBlockEntityNbt(stack.toMinecraft(), nbt.toMinecraft());
+    }
+
+    public static void removeBlockEntityNbt(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        removeBlockEntityNbt(stack.toMinecraft());
+    }
+
+    public static void readCompatBlockEntityNbtFromStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, CompatBlockEntity blockEntity) {
+        readCompatBlockEntityNbtFromStack(stack.toMinecraft(), blockEntity);
+    }
+
+    public static void writeCompatBlockEntityNbtToStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, CompatBlockEntity blockEntity) {
+        writeCompatBlockEntityNbtToStack(stack.toMinecraft(), blockEntity);
     }
 }

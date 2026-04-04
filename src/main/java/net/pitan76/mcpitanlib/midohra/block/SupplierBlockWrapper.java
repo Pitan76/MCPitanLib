@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.midohra.block;
 
 import net.minecraft.world.level.block.Block;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
 import java.util.function.Supplier;
 
@@ -17,6 +18,10 @@ public class SupplierBlockWrapper extends BlockWrapper {
     }
 
     public static SupplierBlockWrapper of(RegistryResult<Block> result) {
+        return new SupplierBlockWrapper(result::get);
+    }
+
+    public static SupplierBlockWrapper of(RegistrySupplier<Block> result) {
         return new SupplierBlockWrapper(result::get);
     }
 

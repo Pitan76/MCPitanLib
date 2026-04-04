@@ -133,4 +133,13 @@ public class BlockWrapper {
         }
         return Optional.empty();
     }
+
+    public float getHardness() {
+        if (isEmpty()) return 0;
+        return BlockUtil.getHardness(block);
+    }
+
+    public BlockStateM getDefaultStateM() {
+        return BlockStateM.of(get());
+    }
 }

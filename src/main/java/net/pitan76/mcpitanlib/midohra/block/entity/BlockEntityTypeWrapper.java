@@ -55,4 +55,22 @@ public class BlockEntityTypeWrapper {
 
         return SupplierBlockEntityWrapper.of(get().create(e.getBlockPos(), e.getBlockState()));
     }
+
+    @Override
+    public int hashCode() {
+        return isEmpty() ? 0 : get().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        BlockEntityTypeWrapper other = (BlockEntityTypeWrapper) obj;
+
+        if (isEmpty() && other.isEmpty()) return true;
+        if (isEmpty() || other.isEmpty()) return false;
+
+        return get().equals(other.get());
+    }
 }

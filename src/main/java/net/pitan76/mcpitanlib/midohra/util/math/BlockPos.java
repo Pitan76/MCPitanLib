@@ -135,4 +135,60 @@ public class BlockPos {
     public Vector3d toCenterVector3d() {
         return new Vector3d(getX() + 0.5, getY() + 0.5, getZ() + 0.5);
     }
+
+    public int getManhattanDistance(Vector3i other) {
+        return blockPos.distManhattan(other.toMinecraft());
+    }
+
+    public int getManhattanDistance(BlockPos other) {
+        return blockPos.distManhattan(other.toMinecraft());
+    }
+
+    public BlockPos up(int n) {
+        return new BlockPos(blockPos.above(n));
+    }
+
+    public BlockPos down(int n) {
+        return new BlockPos(blockPos.below(n));
+    }
+
+    public BlockPos north(int n) {
+        return new BlockPos(blockPos.north(n));
+    }
+
+    public BlockPos south(int n) {
+        return new BlockPos(blockPos.south(n));
+    }
+
+    public BlockPos east(int n) {
+        return new BlockPos(blockPos.east(n));
+    }
+
+    public BlockPos west(int n) {
+        return new BlockPos(blockPos.west(n));
+    }
+
+    public BlockPos[] getAllFaces() {
+        return new BlockPos[] {
+            up(), down(), north(), south(), east(), west()
+        };
+    }
+
+    public BlockPos[] getAllFaces(int n) {
+        return new BlockPos[] {
+            up(n), down(n), north(n), south(n), east(n), west(n)
+        };
+    }
+
+    public BlockPos[] getVerticalFaces() {
+        return new BlockPos[] {
+            up(), down()
+        };
+    }
+    
+    public BlockPos[] getHorizontalFaces() {
+        return new BlockPos[] {
+            north(), south(), east(), west()
+        };
+    }
 }

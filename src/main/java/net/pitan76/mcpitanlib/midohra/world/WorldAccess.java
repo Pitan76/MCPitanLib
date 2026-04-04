@@ -186,4 +186,16 @@ public class WorldAccess extends WorldView {
     public void spawnEntity(EntityWrapper entity) {
         spawnEntity(entity.get());
     }
+
+    public List<EntityWrapper> getMobs(Box box) {
+        return getEntitiesByClassM(net.minecraft.world.entity.Mob.class, box);
+    }
+
+    public List<EntityWrapper> getAnimals(Box box) {
+        return getEntitiesByClassM(net.minecraft.world.entity.animal.Animal.class, box);
+    }
+
+    public int getLuminance(BlockPos pos) {
+        return getBlockState(pos).getLuminance();
+    }
 }

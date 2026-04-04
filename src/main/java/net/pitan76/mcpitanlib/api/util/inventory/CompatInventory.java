@@ -16,7 +16,7 @@ import net.pitan76.mcpitanlib.midohra.nbt.NbtList;
 
 import java.util.List;
 
-public class CompatInventory extends SimpleContainer {
+public class CompatInventory extends SimpleContainer implements ICompatInventory {
     public CompatInventory(int size) {
         super(size);
     }
