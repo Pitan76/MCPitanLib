@@ -9,10 +9,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
 import net.pitan76.mcpitanlib.api.block.args.v2.CollisionShapeEvent;
 import net.pitan76.mcpitanlib.api.block.args.v2.OutlineShapeEvent;
-import net.pitan76.mcpitanlib.api.state.property.BooleanProperty;
-import net.pitan76.mcpitanlib.api.state.property.CompatProperties;
-import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
-import net.pitan76.mcpitanlib.api.state.property.EnumProperty;
+import net.pitan76.mcpitanlib.api.state.property.*;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 
 public class CompatStairsBlock extends net.pitan76.mcpitanlib.api.block.CompatStairsBlock {
@@ -21,6 +18,9 @@ public class CompatStairsBlock extends net.pitan76.mcpitanlib.api.block.CompatSt
     public static final EnumProperty<Half> HALF = CompatProperties.of(StairBlock.HALF);
     public static final EnumProperty<StairsShape> SHAPE = CompatProperties.of(StairBlock.SHAPE);
     public static final BooleanProperty WATERLOGGED = CompatProperties.of(StairBlock.WATERLOGGED);
+
+    public static final BlockHalfProperty COMPAT_HALF = BlockHalfProperty.ofRaw(StairBlock.HALF);
+    public static final StairShapeProperty COMPAT_SHAPE = StairShapeProperty.ofRaw(StairBlock.SHAPE);
 
     public CompatStairsBlock(net.minecraft.world.level.block.state.BlockState baseBlockState, CompatibleBlockSettings settings) {
         super(baseBlockState, settings);

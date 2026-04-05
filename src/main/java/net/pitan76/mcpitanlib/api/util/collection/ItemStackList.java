@@ -215,4 +215,8 @@ public class ItemStackList extends NonNullList<ItemStack> {
     public void set(int index, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
         set(index, stack.toMinecraft());
     }
+
+    public boolean isEmpty(int index) {
+        return get(index).isEmpty();
+    }
 }

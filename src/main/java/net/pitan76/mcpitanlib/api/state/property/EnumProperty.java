@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 public class EnumProperty<T extends Enum<T> & StringRepresentable> implements IProperty<T> {
 
-    private final net.minecraft.world.level.block.state.properties.EnumProperty property;
+    private final net.minecraft.world.level.block.state.properties.EnumProperty<T> property;
 
     public EnumProperty(String name, Class<T> type) {
         this(net.minecraft.world.level.block.state.properties.EnumProperty.create(name, type));
@@ -16,7 +16,7 @@ public class EnumProperty<T extends Enum<T> & StringRepresentable> implements IP
         this(net.minecraft.world.level.block.state.properties.EnumProperty.create(name, type, filter));
     }
 
-    public EnumProperty(net.minecraft.world.level.block.state.properties.EnumProperty property) {
+    public EnumProperty(net.minecraft.world.level.block.state.properties.EnumProperty<T> property) {
         this.property = property;
     }
 
@@ -29,12 +29,12 @@ public class EnumProperty<T extends Enum<T> & StringRepresentable> implements IP
     }
 
 
-    public static <T extends Enum<T> & StringRepresentable> EnumProperty<T> of(net.minecraft.world.level.block.state.properties.EnumProperty property) {
+    public static <T extends Enum<T> & StringRepresentable> EnumProperty<T> of(net.minecraft.world.level.block.state.properties.EnumProperty<T> property) {
         return new EnumProperty<>(property);
     }
 
     @Override
-    public net.minecraft.world.level.block.state.properties.EnumProperty getProperty() {
+    public net.minecraft.world.level.block.state.properties.EnumProperty<T> getProperty() {
         return property;
     }
 }

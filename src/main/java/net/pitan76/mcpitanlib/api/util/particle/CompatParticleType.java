@@ -31,4 +31,17 @@ public class CompatParticleType {
     public CompatIdentifier getCompatId() {
         return CompatIdentifier.fromMinecraft(getId());
     }
+
+    @Override
+    public int hashCode() {
+        return particleType.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CompatParticleType other = (CompatParticleType) obj;
+        return particleType.equals(other.particleType);
+    }
 }

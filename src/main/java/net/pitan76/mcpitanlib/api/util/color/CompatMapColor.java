@@ -91,4 +91,17 @@ public class CompatMapColor {
     public int getRenderColor(CompatBrightness brightness) {
         return color.calculateARGBColor(brightness.get());
     }
+
+    @Override
+    public int hashCode() {
+        return color.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CompatMapColor other = (CompatMapColor) obj;
+        return color.equals(other.color);
+    }
 }

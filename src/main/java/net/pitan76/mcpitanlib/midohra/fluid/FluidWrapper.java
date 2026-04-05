@@ -58,6 +58,10 @@ public class FluidWrapper {
     }
 
     public net.minecraft.world.level.material.Fluid gerOrDefault(net.minecraft.world.level.material.Fluid defaultFluid) {
+        return getOrDefault(defaultFluid);
+    }
+
+    public net.minecraft.world.level.material.Fluid getOrDefault(net.minecraft.world.level.material.Fluid defaultFluid) {
         return isEmpty() ? defaultFluid : get();
     }
 

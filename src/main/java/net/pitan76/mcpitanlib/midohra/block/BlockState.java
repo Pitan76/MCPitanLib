@@ -2,9 +2,13 @@ package net.pitan76.mcpitanlib.midohra.block;
 
 import net.minecraft.world.level.block.state.properties.Property;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
+import net.pitan76.mcpitanlib.api.state.property.BlockHalfProperty;
 import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
+import net.pitan76.mcpitanlib.api.state.property.StairShapeProperty;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
+import net.pitan76.mcpitanlib.api.util.block.properties.CompatBlockHalf;
+import net.pitan76.mcpitanlib.api.util.block.properties.CompatStairShape;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 import net.pitan76.mcpitanlib.midohra.world.World;
@@ -72,6 +76,14 @@ public class BlockState {
         return of(property.with(toMinecraft(), value.toMinecraft()));
     }
 
+    public BlockState with(BlockHalfProperty property, CompatBlockHalf value) {
+        return of(property.with(toMinecraft(), value.getBlockHalf()));
+    }
+
+    public BlockState with(StairShapeProperty property, CompatStairShape value) {
+        return of(property.with(toMinecraft(), value.getStairShape()));
+    }
+
     public <T extends Comparable<T>> BlockState cycle(Property<T> property) {
         return of(toMinecraft().cycle(property));
     }
@@ -96,6 +108,14 @@ public class BlockState {
         return net.pitan76.mcpitanlib.midohra.util.math.Direction.of(get(property.getProperty()));
     }
 
+    public CompatBlockHalf get(BlockHalfProperty property) {
+        return CompatBlockHalf.of(get(property.getProperty()));
+    }
+
+    public CompatStairShape get(StairShapeProperty property) {
+        return CompatStairShape.of(get(property.getProperty()));
+    }
+
     public <T extends Comparable<T>> boolean contains(Property<T> property) {
         return toMinecraft().hasProperty(property);
     }
@@ -105,6 +125,14 @@ public class BlockState {
     }
 
     public boolean contains(DirectionProperty property) {
+        return contains(property.getProperty());
+    }
+
+    public boolean contains(BlockHalfProperty property) {
+        return contains(property.getProperty());
+    }
+
+    public boolean contains(StairShapeProperty property) {
         return contains(property.getProperty());
     }
 

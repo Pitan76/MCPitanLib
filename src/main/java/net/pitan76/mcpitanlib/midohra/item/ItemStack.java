@@ -219,4 +219,44 @@ public class ItemStack {
     public List<TextComponent> getLoreM() {
         return getLore().stream().map(TextComponent::new).toList();
     }
+
+    @Override
+    public int hashCode() {
+        return stack.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        ItemStack other = (ItemStack) obj;
+        return stack.equals(other.stack);
+    }
+
+    /**
+     * instanceof check for the raw item of this stack.
+     * @param clazz the class of the item to check
+     * @return true if the raw item of this stack is an instance of the given class, false otherwise
+     */
+    public boolean instanceOf(Class<?> clazz) {
+        if (isEmpty()) return false;
+
+        return clazz.isInstance(getRawItem());
+    }
+
+    /**
+     * instanceof check for the raw item of this stack.
+     * @param wrapper the item to check
+     * @return true if the raw item of this stack is an instance of the given item, false otherwise
+     */
+    public boolean instanceOf(ItemWrapper wrapper) {
+        if (isEmpty()) return false;
+
+        Item item = wrapper.get();
+        if (item == null) return false;
+
+        Class<?> clazz = item.getClass();
+        return clazz.isInstance(getRawItem());
+    }
 }

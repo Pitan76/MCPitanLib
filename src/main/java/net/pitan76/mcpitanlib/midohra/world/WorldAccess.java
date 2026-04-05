@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.world;
 
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.entity.Entity;
@@ -188,11 +190,15 @@ public class WorldAccess extends WorldView {
     }
 
     public List<EntityWrapper> getMobs(Box box) {
-        return getEntitiesByClassM(net.minecraft.world.entity.Mob.class, box);
+        return getEntitiesByClassM(LivingEntity.class, box, entity -> entity.get() instanceof net.minecraft.world.entity.Mob);
+    }
+
+    public List<EntityWrapper> getMonsters(Box box) {
+        return getEntitiesByClassM(LivingEntity.class, box, entity -> entity.get() instanceof Enemy);
     }
 
     public List<EntityWrapper> getAnimals(Box box) {
-        return getEntitiesByClassM(net.minecraft.world.entity.animal.Animal.class, box);
+        return getEntitiesByClassM(LivingEntity.class, box, entity -> entity.get() instanceof net.minecraft.world.entity.animal.Animal);
     }
 
     public int getLuminance(BlockPos pos) {

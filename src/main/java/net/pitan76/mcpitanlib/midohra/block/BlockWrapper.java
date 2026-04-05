@@ -60,6 +60,10 @@ public class BlockWrapper {
     }
 
     public net.minecraft.world.level.block.Block gerOrDefault(net.minecraft.world.level.block.Block defaultItem) {
+        return getOrDefault(defaultItem);
+    }
+
+    public net.minecraft.world.level.block.Block getOrDefault(net.minecraft.world.level.block.Block defaultItem) {
         return isEmpty() ? defaultItem : get();
     }
 
