@@ -43,4 +43,17 @@ public class CompatDyeColor implements CompatStringIdentifiable {
     public String asString_compat() {
         return getName();
     }
+
+    @Override
+    public int hashCode() {
+        return color.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CompatDyeColor other = (CompatDyeColor) obj;
+        return color == other.color;
+    }
 }

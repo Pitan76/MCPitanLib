@@ -4,10 +4,13 @@ import net.minecraft.server.MinecraftServer;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.midohra.recipe.ServerRecipeManager;
 import net.pitan76.mcpitanlib.midohra.server.MCServer;
 import net.pitan76.mcpitanlib.midohra.server.PlayerManager;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+import net.pitan76.mcpitanlib.midohra.util.math.ChunkPos;
+import net.pitan76.mcpitanlib.midohra.world.chunk.ChunkTicketType;
 import net.pitan76.mcpitanlib.midohra.world.chunk.ServerChunkManager;
 
 public class ServerWorld extends World {
@@ -59,5 +62,13 @@ public class ServerWorld extends World {
     @Override
     public ServerRecipeManager getRecipeManager() {
         return ServerRecipeManager.of(this);
+    }
+
+    public void addTicket(ChunkTicketType<?> type, ChunkPos pos, int radius) {
+        WorldUtil.addTicket(getRaw(), type, pos.getRaw(), radius);
+    }
+
+    public void removeTicket(ChunkTicketType<?> type, ChunkPos pos, int radius) {
+        WorldUtil.removeTicket(getRaw(), type, pos.getRaw(), radius);
     }
 }
