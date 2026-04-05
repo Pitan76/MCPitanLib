@@ -7,11 +7,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.entity.ItemEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3i;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemEntityUtil {
     public static ItemEntity create(World world, double x, double y, double z, ItemStack stack) {
@@ -114,5 +117,21 @@ public class ItemEntityUtil {
 
     public static ItemEntity createWithSpawn(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.item.ItemStack stack, net.pitan76.mcpitanlib.midohra.util.math.Vector3i pos) {
         return createWithSpawn(world, stack, pos.toCenter());
+    }
+
+    public static List<ItemEntity> getEntities(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.Box box) {
+        return getEntities(world.getRaw(), box.toMinecraft());
+    }
+
+    public static List<ItemEntityWrapper> getEntityWrappers(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.Box box) {
+        return getEntities(world, box).stream().map(ItemEntityWrapper::of).collect(Collectors.toList());
+    }
+
+    public static void onPlayerCollision(ItemEntity itemEntity, Player player) {
+        itemEntity.onPlayerCollision(player.getEntity());
+    }
+
+    public static void onPlayerCollision(ItemEntityWrapper itemEntity, Player player) {
+        onPlayerCollision(itemEntity.get(), player);
     }
 }
