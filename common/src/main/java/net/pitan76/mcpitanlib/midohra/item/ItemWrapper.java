@@ -65,6 +65,10 @@ public class ItemWrapper {
     }
 
     public net.minecraft.item.Item gerOrDefault(net.minecraft.item.Item defaultItem) {
+        return getOrDefault(defaultItem);
+    }
+
+    public net.minecraft.item.Item getOrDefault(net.minecraft.item.Item defaultItem) {
         return isEmpty() ? defaultItem : get();
     }
 
