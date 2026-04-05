@@ -55,7 +55,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     implementation("net.pitan76:littleobffallback-fabric:${rootProject.littleobffallback_version}") {
-        changing = true
+        exclude(group: "net.fabricmc.fabric-api")
     }
     include("net.pitan76:compatdatapacks76-fabric:${rootProject.compatdatapacks76_version}")
     include("net.pitan76:legacyitemmodels-fabric:${rootProject.legacyitemmodels_version}")
@@ -100,12 +100,31 @@ java {
     withSourcesJar()
 }
 
-shadowJar {
+tasks.named("jar") {
+    archiveClassifier.set("dev-unshadowed")
+}
+
+tasks.named("shadowJar") {
+    dependsOn tasks.named("jar")
+
+    doFirst {
+        copy {
+            from zipTree(tasks.named("jar").get().archiveFile)
+            include "fabric.mod.json"
+            into project.sourceSets.main.output.resourcesDir
+        }
+    }
+
+    from(zipTree(tasks.named("jar").get().archiveFile)) {
+        include "META-INF/jars/**"
+    }
+
     relocate "org.yaml.snakeyaml", "net.pitan76.mcpitanlib.shadow.yaml.snakeyaml"
     configurations = [project.configurations.shadow]
     archiveClassifier.set("")
-}
 
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
 
 jar {
     from("LICENSE") {
@@ -122,13 +141,14 @@ if (System.getenv("CURSEFORGE_TOKEN") != null) {
             releaseType = 'beta'
             addGameVersion "Fabric"
             addGameVersion "26.1"
+            addGameVersion "26.1.1"
             relations {
                 requiredDependency 'fabric-api'
                 embeddedLibrary 'compatdatapacks'
                 embeddedLibrary 'legacyitemmodels'
             }
 
-            mainArtifact(tasks.jar)
+            mainArtifact(tasks.shadowJar)
         }
     }
 }
@@ -138,9 +158,9 @@ if (System.getenv("MODRINTH_TOKEN") != null) {
         token = System.getenv("MODRINTH_TOKEN")
         projectId = 'mcpitanlibarch'
         versionNumber = info.mod_version + "-fabric-" + rootProject.minecraft_version.toString()
-        gameVersions = ["26.1"]
+        gameVersions = ["26.1", "26.1.1"]
         versionType = 'beta'
-        uploadFile = tasks.jar
+        uploadFile = tasks.shadowJar
         changelog = info.changelog
         loaders = ["fabric"]
         dependencies {
