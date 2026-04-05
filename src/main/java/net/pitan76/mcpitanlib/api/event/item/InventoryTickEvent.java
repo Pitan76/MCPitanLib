@@ -6,10 +6,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.entity.EquipmentSlotUtil;
 import net.pitan76.mcpitanlib.api.util.entity.LivingEntityUtil;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 
 public class InventoryTickEvent extends BaseEvent {
     public ItemStack stack;
@@ -77,5 +80,37 @@ public class InventoryTickEvent extends BaseEvent {
 
     public EquipmentSlot getEquipmentSlot() {
         return equipmentSlot;
+    }
+
+    public ArmorEquipmentType getArmorEquipmentType() {
+        return EquipmentSlotUtil.getArmorEquipmentType(equipmentSlot);
+    }
+
+    public boolean isPlayer() {
+        return getEntity() instanceof net.minecraft.world.entity.player.Player;
+    }
+
+    public Player getPlayer() {
+        if (isPlayer()) {
+            return new Player((net.minecraft.world.entity.player.Player) getEntity());
+        } else {
+            return null;
+        }
+    }
+
+    public EntityWrapper getEntityWrapper() {
+        return EntityWrapper.of(getEntity());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStack());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.ServerWorld getServerWorldM() {
+        return net.pitan76.mcpitanlib.midohra.world.ServerWorld.of(getServerWorld());
     }
 }

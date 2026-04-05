@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.entity;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -7,7 +8,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
+import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.util.EntityUtil;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,5 +56,29 @@ public class LivingEntityUtil extends EntityUtil {
 
     public static void setEquippedStack(LivingEntity entity, EquipmentSlot slot, ItemStack stack) {
         entity.setItemSlot(slot, stack);
+    }
+
+    public static ItemStack getEquippedStack(LivingEntity entity, ArmorEquipmentType type) {
+        return getEquippedStack(entity, type.getSlot());
+    }
+
+    public static void setEquippedStack(LivingEntity entity, ArmorEquipmentType type, ItemStack stack) {
+        entity.setItemSlot(type.getSlot(), stack);
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.item.ItemStack getEquippedStack(EntityWrapper entity, ArmorEquipmentType slot) {
+        Entity e = entity.get();
+        if (e instanceof LivingEntity) {
+            return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getEquippedStack((LivingEntity) e, slot));
+        }
+
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.empty();
+    }
+
+    public static void setEquippedStack(EntityWrapper entity, ArmorEquipmentType slot, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        Entity e = entity.get();
+        if (e instanceof LivingEntity) {
+            setEquippedStack((LivingEntity) e, slot, stack.toMinecraft());
+        }
     }
 }

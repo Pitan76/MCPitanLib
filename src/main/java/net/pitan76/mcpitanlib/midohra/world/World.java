@@ -13,6 +13,7 @@ import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RegistryLookupUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.api.util.particle.CompatParticleType;
 import net.pitan76.mcpitanlib.api.util.particle.effect.CompatParticleEffect;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
@@ -209,5 +210,13 @@ public class World extends WorldAccess {
 
     public void spawnStack(ItemStack stack, BlockPos pos) {
         WorldUtil.spawnStack(getRaw(), pos.toMinecraft(), stack.toMinecraft());
+    }
+
+    public void addParticle(CompatParticleType type, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+        WorldUtil.addParticle(getRaw(), type, x, y, z, velocityX, velocityY, velocityZ);
+    }
+
+    public void addParticle(CompatParticleType type, Vector3d pos, Vector3d velocity) {
+        addParticle(type, pos.getX(), pos.getY(), pos.getZ(), velocity.getX(), velocity.getY(), velocity.getZ());
     }
 }
