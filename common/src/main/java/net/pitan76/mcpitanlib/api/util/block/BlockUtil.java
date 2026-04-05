@@ -232,4 +232,8 @@ public class BlockUtil {
     public static Block fromItem(ItemStack stack) {
         return BlockUtilV2.fromItem(stack);
     }
+
+    public static float getHardness(Block block) {
+        return block.getHardness();
+    }
 }
