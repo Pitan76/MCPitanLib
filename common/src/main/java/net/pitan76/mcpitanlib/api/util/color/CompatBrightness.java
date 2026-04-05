@@ -50,7 +50,7 @@ public class CompatBrightness {
 
     @Override
     public int hashCode() {
-        return brightness.hashCode();
+        return Integer.hashCode(brightness);
     }
 
     @Override
