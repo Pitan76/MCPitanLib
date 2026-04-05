@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.entity;
 
+import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
@@ -75,5 +76,9 @@ public class ItemEntityWrapper extends EntityWrapper {
 
     public void setToDefaultPickupDelay() {
         ItemEntityUtil.setToDefaultPickupDelay(get());
+    }
+
+    public void onPlayerCollision(Player player) {
+        ItemEntityUtil.onPlayerCollision(this, player);
     }
 }
