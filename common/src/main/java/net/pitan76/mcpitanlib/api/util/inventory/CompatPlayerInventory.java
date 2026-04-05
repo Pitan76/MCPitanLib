@@ -1,10 +1,11 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.Player;
 
-public class CompatPlayerInventory {
+public class CompatPlayerInventory implements ICompatInventory {
     public PlayerInventory inv;
 
     public CompatPlayerInventory(PlayerInventory inv) {
@@ -37,6 +38,51 @@ public class CompatPlayerInventory {
 
     public PlayerInventory getRaw() {
         return inv;
+    }
+
+    @Override
+    public int size() {
+        return inv.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inv.isEmpty();
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        return inv.getStack(slot);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int count) {
+        return inv.removeStack(slot, count);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        return inv.removeStack(slot);
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack itemStack) {
+        inv.setStack(slot, itemStack);
+    }
+
+    @Override
+    public void markDirty() {
+        inv.markDirty();
+    }
+
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        return inv.canPlayerUse(player);
+    }
+
+    @Override
+    public void clear() {
+        inv.clear();
     }
 }
 
