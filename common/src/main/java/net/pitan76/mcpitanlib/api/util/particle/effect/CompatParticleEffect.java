@@ -1,6 +1,8 @@
 package net.pitan76.mcpitanlib.api.util.particle.effect;
 
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleType;
+import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.util.particle.CompatParticleType;
 
 public class CompatParticleEffect {
@@ -17,7 +19,8 @@ public class CompatParticleEffect {
     }
 
     public static CompatParticleEffect of(CompatParticleType type) {
-        ParticleEffect options = type::getRaw;
+        ParticleEffect.Factory factory = type.getRaw().getParametersFactory();
+        ParticleEffect options = factory.read(type.getRaw(), PacketByteUtil.create());
         return new CompatParticleEffect(options);
     }
 
