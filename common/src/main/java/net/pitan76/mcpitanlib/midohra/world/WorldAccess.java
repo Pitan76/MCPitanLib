@@ -4,6 +4,10 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.Monster;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.MinecraftServer;
@@ -188,5 +192,17 @@ public class WorldAccess extends WorldView {
 
     public void spawnEntity(EntityWrapper entity) {
         spawnEntity(entity.get());
+    }
+
+    public List<EntityWrapper> getMobs(Box box) {
+        return getEntitiesByClassM(LivingEntity.class, box, entity -> entity.get() instanceof MobEntity);
+    }
+
+    public List<EntityWrapper> getMonsters(Box box) {
+        return getEntitiesByClassM(LivingEntity.class, box, entity -> entity.get() instanceof Monster);
+    }
+
+    public List<EntityWrapper> getAnimals(Box box) {
+        return getEntitiesByClassM(LivingEntity.class, box, entity -> entity.get() instanceof AnimalEntity);
     }
 }

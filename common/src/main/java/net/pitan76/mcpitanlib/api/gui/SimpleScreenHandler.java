@@ -273,4 +273,28 @@ public class SimpleScreenHandler extends ScreenHandler {
     public ItemStack callGetCursorStack() {
         return ScreenHandlerUtil.getCursorStack(this);
     }
+
+    public void setCursorStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        ScreenHandlerUtil.setCursorStackM(this, stack);
+    }
+
+    @Deprecated
+    @Override
+    public boolean canInsertIntoSlot(ItemStack carried, Slot target) {
+        return canInsertIntoSlotOverride(net.pitan76.mcpitanlib.midohra.item.ItemStack.of(carried), target);
+    }
+
+    @Deprecated
+    @Override
+    public boolean canInsertIntoSlot(Slot slot) {
+        return canInsertIntoSlotOverride(slot);
+    }
+
+    public boolean canInsertIntoSlotOverride(net.pitan76.mcpitanlib.midohra.item.ItemStack carried, Slot target) {
+        return super.canInsertIntoSlot(carried.toMinecraft(), target);
+    }
+
+    public boolean canInsertIntoSlotOverride(Slot slot) {
+        return super.canInsertIntoSlot(slot);
+    }
 }

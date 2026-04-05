@@ -42,17 +42,41 @@ public class BlockEntityTypeWrapper {
         return isPresent() && get().supports(state.getBlock().get());
     }
 
+    public boolean hasBlockEntity(BlockView world, BlockPos pos) {
+        if (isEmpty()) return false;
+        return get().get(world.getRaw(), pos.toMinecraft()) != null;
+    }
+
+
     public BlockEntityWrapper getBlockEntity(BlockView world, BlockPos pos) {
         if (isEmpty())
             return BlockEntityWrapper.EMPTY;
 
-        return SupplierBlockEntityWrapper.of(get().get(world.getRaw(), pos.toMinecraft()));
+        return BlockEntityWrapper.of(get().get(world.getRaw(), pos.toMinecraft()));
     }
 
     public BlockEntityWrapper createBlockEntity(TileCreateEvent e) {
         if (isEmpty())
             return BlockEntityWrapper.EMPTY;
 
-        return SupplierBlockEntityWrapper.of(get().instantiate());
+        return BlockEntityWrapper.of(get().instantiate());
+    }
+
+    @Override
+    public int hashCode() {
+        return isEmpty() ? 0 : get().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        BlockEntityTypeWrapper other = (BlockEntityTypeWrapper) obj;
+
+        if (isEmpty() && other.isEmpty()) return true;
+        if (isEmpty() || other.isEmpty()) return false;
+
+        return get().equals(other.get());
     }
 }

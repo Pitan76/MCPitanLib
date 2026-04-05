@@ -48,7 +48,16 @@ public class CompatBrightness {
         return brightness;
     }
 
+    @Override
+    public int hashCode() {
+        return brightness.hashCode();
+    }
 
-
-
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CompatBrightness other = (CompatBrightness) obj;
+        return brightness == other.brightness;
+    }
 }
