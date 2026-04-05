@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.util;
 
 import me.shedaniel.architectury.registry.MenuRegistry;
 import me.shedaniel.architectury.registry.menu.ExtendedMenuProvider;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -11,6 +12,8 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
+import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
+import net.pitan76.mcpitanlib.midohra.server.MCServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +59,22 @@ public class ScreenHandlerUtil {
     }
 
     public static ItemStack getCursorStack(ScreenHandler screenHandler) {
-        return screenHandler.getCursorStack();
+        if (PlatformUtil.isClient()) {
+            return ClientUtil.getClientPlayer().inventory.getCursorStack();
+        }
+        for (Slot slot : screenHandler.slots) {
+            if (slot.inventory instanceof PlayerInventory) {
+                PlayerInventory inventory = (PlayerInventory) slot.inventory;
+                return inventory.getCursorStack();
+            }
+        }
+        for (ItemStack tmp : screenHandler.getStacks()) {
+            if (tmp.getHolder() instanceof ServerPlayerEntity) {
+                ServerPlayerEntity player = (ServerPlayerEntity) tmp.getHolder();
+                return player.inventory.getCursorStack();
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
     public static net.pitan76.mcpitanlib.midohra.item.ItemStack getCursorStackM(ScreenHandler screenHandler) {
@@ -64,7 +82,24 @@ public class ScreenHandlerUtil {
     }
 
     public static void setCursorStack(ScreenHandler screenHandler, ItemStack stack) {
-        screenHandler.setCursorStack(stack);
+        if (PlatformUtil.isClient()) {
+            ClientUtil.getClientPlayer().inventory.setCursorStack(stack);
+            return;
+        }
+        for (Slot slot : screenHandler.slots) {
+            if (slot.inventory instanceof PlayerInventory) {
+                PlayerInventory inventory = (PlayerInventory) slot.inventory;
+                inventory.setCursorStack(stack);
+                return;
+            }
+        }
+        for (ItemStack tmp : screenHandler.getStacks()) {
+            if (tmp.getHolder() instanceof ServerPlayerEntity) {
+                ServerPlayerEntity player = (ServerPlayerEntity) tmp.getHolder();
+                player.inventory.setCursorStack(stack);
+                return;
+            }
+        }
     }
 
     public static void setCursorStackM(ScreenHandler screenHandler, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {

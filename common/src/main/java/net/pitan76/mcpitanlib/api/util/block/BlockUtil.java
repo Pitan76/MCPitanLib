@@ -234,6 +234,6 @@ public class BlockUtil {
     }
 
     public static float getHardness(Block block) {
-        return block.getHardness();
+        return block.getSlipperiness();
     }
 }

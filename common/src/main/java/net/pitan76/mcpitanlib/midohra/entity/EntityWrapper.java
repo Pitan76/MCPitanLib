@@ -333,7 +333,7 @@ public class EntityWrapper {
     }
 
     public ChunkPos getChunkPos() {
-        return ChunkPos.of(get().getChunkPos());
+        return ChunkPos.of(getBlockPos());
     }
 
     @Override

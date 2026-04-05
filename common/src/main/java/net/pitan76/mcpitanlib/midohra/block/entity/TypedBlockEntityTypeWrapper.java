@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.midohra.block.entity;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.BlockView;
@@ -31,6 +32,12 @@ public class TypedBlockEntityTypeWrapper<T extends BlockEntity> extends BlockEnt
 
     @Override
     public TypedBlockEntityWrapper<T> createBlockEntity(TileCreateEvent e) {
-        return TypedBlockEntityWrapper.ofRaw(get().instantiate(e.getBlockPos(), e.getBlockState()));
+        T blockEntity = get().instantiate();
+        if (e.getBlockView() instanceof World)
+            blockEntity.setLocation((World) e.getBlockView(), e.getBlockPos());
+        else
+            blockEntity.setPos(e.getBlockPos());
+
+        return TypedBlockEntityWrapper.ofRaw(blockEntity);
     }
 }
