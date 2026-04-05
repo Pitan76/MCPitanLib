@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.block.entity;
 
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.entity.BlockEntity;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 
@@ -17,6 +18,10 @@ public class SupplierBlockEntityWrapper extends BlockEntityWrapper {
     }
 
     public static SupplierBlockEntityWrapper of(RegistryResult<BlockEntity> result) {
+        return new SupplierBlockEntityWrapper(result::get);
+    }
+
+    public static SupplierBlockEntityWrapper of(RegistrySupplier<BlockEntity> result) {
         return new SupplierBlockEntityWrapper(result::get);
     }
 

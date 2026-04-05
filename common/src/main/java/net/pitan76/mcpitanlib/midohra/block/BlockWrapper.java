@@ -60,6 +60,10 @@ public class BlockWrapper {
     }
 
     public net.minecraft.block.Block gerOrDefault(net.minecraft.block.Block defaultItem) {
+        return getOrDefault(defaultItem);
+    }
+
+    public net.minecraft.block.Block getOrDefault(net.minecraft.block.Block defaultItem) {
         return isEmpty() ? defaultItem : get();
     }
 
@@ -132,5 +136,14 @@ public class BlockWrapper {
             return Optional.of((BuiltBlock) get());
         }
         return Optional.empty();
+    }
+
+    public float getHardness() {
+        if (isEmpty()) return 0;
+        return BlockUtil.getHardness(block);
+    }
+
+    public BlockStateM getDefaultStateM() {
+        return BlockStateM.of(get());
     }
 }
