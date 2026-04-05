@@ -141,4 +141,13 @@ public class Box {
     public Vector3i getMaxVector() {
         return new Vector3i((int) box.maxX, (int) box.maxY, (int) box.maxZ);
     }
+
+    public Box(Vector3d center, double sizeX, double sizeY, double sizeZ) {
+        this(center.getX() - sizeX / 2, center.getY() - sizeY / 2, center.getZ() - sizeZ / 2,
+                center.getX() + sizeX / 2, center.getY() + sizeY / 2, center.getZ() + sizeZ / 2);
+    }
+
+     public Box(Vector3d center, double size) {
+         this(center, size, size, size);
+     }
 }
