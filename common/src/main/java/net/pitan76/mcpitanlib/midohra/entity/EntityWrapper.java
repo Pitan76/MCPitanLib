@@ -6,8 +6,8 @@ import net.pitan76.mcpitanlib.api.entity.CompatEntity;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.EntityUtil;
-import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+import net.pitan76.mcpitanlib.midohra.util.math.ChunkPos;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 import net.pitan76.mcpitanlib.midohra.world.World;
@@ -330,5 +330,22 @@ public class EntityWrapper {
 
     public void spawn(World world) {
         world.spawnEntity(this);
+    }
+
+    public ChunkPos getChunkPos() {
+        return ChunkPos.of(get().getChunkPos());
+    }
+
+    @Override
+    public int hashCode() {
+        return get() != null ? get().hashCode() : 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        EntityWrapper other = (EntityWrapper) obj;
+        return get() != null && get().equals(other.get());
     }
 }
