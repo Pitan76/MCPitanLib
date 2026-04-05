@@ -34,6 +34,7 @@ import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffectInstance;
 import net.pitan76.mcpitanlib.api.gui.ExtendedNamedScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.gui.v2.ExtendedScreenHandlerFactory;
+import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
@@ -41,7 +42,9 @@ import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.api.util.entity.LivingEntityUtil;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
+import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -558,5 +561,21 @@ public class Player {
 
     public void giveStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
         giveStack(stack.toMinecraft());
+    }
+
+    public Vector3d getPosM() {
+        return Vector3d.of(getPos());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getBlockPosM() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(getBlockPos());
+    }
+
+    public ItemStack getEquippedStack(ArmorEquipmentType type) {
+        return LivingEntityUtil.getEquippedStack(getEntity(), type.getSlot());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getEquippedStackM(ArmorEquipmentType type) {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getEquippedStack(type));
     }
 }
