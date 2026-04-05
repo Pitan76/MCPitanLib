@@ -46,4 +46,28 @@ public class BlockEntityDataUtil {
     public static void removeBlockEntityNbt(ItemStack stack) {
         stack.remove(DataComponentTypes.BLOCK_ENTITY_DATA);
     }
+
+    public static boolean hasBlockEntityNbt(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return hasBlockEntityNbt(stack.toMinecraft());
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.nbt.NbtCompound getBlockEntityNbt(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(getBlockEntityNbt(stack.toMinecraft()));
+    }
+
+    public static void setBlockEntityNbt(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt) {
+        setBlockEntityNbt(stack.toMinecraft(), nbt.toMinecraft());
+    }
+
+    public static void removeBlockEntityNbt(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        removeBlockEntityNbt(stack.toMinecraft());
+    }
+
+    public static void readCompatBlockEntityNbtFromStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, CompatBlockEntity blockEntity) {
+        readCompatBlockEntityNbtFromStack(stack.toMinecraft(), blockEntity);
+    }
+
+    public static void writeCompatBlockEntityNbtToStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, CompatBlockEntity blockEntity) {
+        writeCompatBlockEntityNbtToStack(stack.toMinecraft(), blockEntity);
+    }
 }

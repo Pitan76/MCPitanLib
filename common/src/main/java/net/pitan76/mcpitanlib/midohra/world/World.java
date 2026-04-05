@@ -14,9 +14,12 @@ import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.RegistryLookupUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.api.util.particle.effect.CompatParticleEffect;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.mcpitanlib.midohra.recipe.RecipeManager;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
+import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
 import java.util.List;
 import java.util.Optional;
@@ -163,5 +166,49 @@ public class World extends WorldAccess {
 
     public Block getBlock(BlockPos pos) {
         return WorldUtil.getBlock(getRaw(), pos.toMinecraft());
+    }
+
+    public void addParticle(CompatParticleEffect effect, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+        WorldUtil.addParticle(getRaw(), effect.getRaw(), x, y, z, velocityX, velocityY, velocityZ);
+    }
+
+    public void addParticle(CompatParticleEffect effect, Vector3d pos, Vector3d velocity) {
+        addParticle(effect, pos.getX(), pos.getY(), pos.getZ(), velocity.getX(), velocity.getY(), velocity.getZ());
+    }
+
+    public boolean isRaining() {
+        return WorldUtil.isRaining(getRaw());
+    }
+
+    public boolean isThundering() {
+        return WorldUtil.isThundering(getRaw());
+    }
+
+    public boolean hasSkyLight() {
+        return WorldUtil.hasSkyLight(getRaw());
+    }
+
+    public boolean isSkyVisible(BlockPos pos) {
+        return WorldUtil.isSkyVisible(getRaw(), pos.toMinecraft());
+    }
+
+    public boolean isDay() {
+        return WorldUtil.isDay(getRaw());
+    }
+
+    public float getSkyAngle(float partialTicks) {
+        return WorldUtil.getSkyAngle(getRaw(), partialTicks);
+    }
+
+    public float getSkyAngle() {
+        return getSkyAngle(0);
+    }
+
+    public void dropStackOnBlock(BlockPos pos, ItemStack stack) {
+        WorldUtil.dropStackOnBlock(getRaw(), pos.toMinecraft(), stack.toMinecraft());
+    }
+
+    public void spawnStack(ItemStack stack, BlockPos pos) {
+        WorldUtil.spawnStack(getRaw(), pos.toMinecraft(), stack.toMinecraft());
     }
 }

@@ -43,15 +43,29 @@ public class ItemGroupWrapper {
 
     public CompatIdentifier getId() {
         if (isEmpty()) return CompatIdentifier.empty();
-        return ItemGroupUtil.toCompatID(itemGroup);
+        return ItemGroupUtil.toCompatID(get());
     }
 
     public ItemStack getIcon() {
         if (isEmpty()) return ItemStack.EMPTY;
-        return ItemStack.of(itemGroup.getIcon());
+        return ItemStack.of(get().getIcon());
     }
 
     public boolean rawEquals(ItemGroupWrapper other) {
-        return itemGroup == other.itemGroup;
+        return get() == other.get();
+    }
+
+    @Override
+    public int hashCode() {
+        return get() != null ? get().hashCode() : 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        ItemGroupWrapper other = (ItemGroupWrapper) obj;
+        return rawEquals(other);
     }
 }
