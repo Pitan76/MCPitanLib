@@ -16,7 +16,6 @@ import net.minecraft.sound.SoundEvent;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
 import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
-import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.math.random.CompatRandom;
 import net.pitan76.mcpitanlib.api.util.world.WorldAccessUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
@@ -203,5 +202,9 @@ public class WorldAccess extends WorldView {
 
     public List<EntityWrapper> getAnimals(Box box) {
         return getEntitiesByClassM(LivingEntity.class, box, entity -> entity.get() instanceof AnimalEntity);
+    }
+
+    public int getLuminance(BlockPos pos) {
+        return getBlockState(pos).getLuminance();
     }
 }
