@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.block.entity;
 
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
@@ -129,5 +130,31 @@ public class BlockEntityWrapper {
             return Optional.of((BuiltBlockEntity) get());
         }
         return Optional.empty();
+    }
+
+    /**
+     * instanceof check for the block entity of this wrapper.
+     * @param clazz the class of the block entity to check
+     * @return true if the block entity of this wrapper is an instance of the given class, false otherwise
+     */
+    public boolean instanceOf(Class<?> clazz) {
+        if (isEmpty()) return false;
+
+        return clazz.isInstance(get());
+    }
+
+    /**
+     * instanceof check for the block entity of this wrapper.
+     * @param wrapper the block entity to check
+     * @return true if the block entity of this wrapper is an instance of the given block entity, false otherwise
+     */
+    public boolean instanceOf(BlockEntityWrapper wrapper) {
+        if (isEmpty()) return false;
+
+        BlockEntity blockEntity = wrapper.get();
+        if (blockEntity == null) return false;
+
+        Class<?> clazz = blockEntity.getClass();
+        return clazz.isInstance(get());
     }
 }

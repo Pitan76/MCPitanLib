@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.minecraft.world.item.Item;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
@@ -161,5 +162,31 @@ public class ItemWrapper {
             return Optional.of((BuiltItem) get());
         }
         return Optional.empty();
+    }
+
+    /**
+     * instanceof check for the item of this wrapper.
+     * @param clazz the class of the item to check
+     * @return true if the item of this wrapper is an instance of the given class, false otherwise
+     */
+    public boolean instanceOf(Class<?> clazz) {
+        if (isEmpty()) return false;
+
+        return clazz.isInstance(get());
+    }
+
+    /**
+     * instanceof check for the item of this wrapper.
+     * @param wrapper the item to check
+     * @return true if the item of this wrapper is an instance of the given item, false otherwise
+     */
+    public boolean instanceOf(ItemWrapper wrapper) {
+        if (isEmpty()) return false;
+
+        Item item = wrapper.get();
+        if (item == null) return false;
+
+        Class<?> clazz = item.getClass();
+        return clazz.isInstance(get());
     }
 }

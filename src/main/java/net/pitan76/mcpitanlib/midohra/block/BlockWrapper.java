@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.block;
 
+import net.minecraft.world.level.block.Block;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
@@ -145,5 +146,31 @@ public class BlockWrapper {
 
     public BlockStateM getDefaultStateM() {
         return BlockStateM.of(get());
+    }
+
+    /**
+     * instanceof check for the block of this wrapper.
+     * @param clazz the class of the block to check
+     * @return true if the block of this wrapper is an instance of the given class, false otherwise
+     */
+    public boolean instanceOf(Class<?> clazz) {
+        if (isEmpty()) return false;
+
+        return clazz.isInstance(get());
+    }
+
+    /**
+     * instanceof check for the block of this wrapper.
+     * @param wrapper the block to check
+     * @return true if the block of this wrapper is an instance of the given block, false otherwise
+     */
+    public boolean instanceOf(BlockWrapper wrapper) {
+        if (isEmpty()) return false;
+
+        Block block = wrapper.get();
+        if (block == null) return false;
+
+        Class<?> clazz = block.getClass();
+        return clazz.isInstance(get());
     }
 }

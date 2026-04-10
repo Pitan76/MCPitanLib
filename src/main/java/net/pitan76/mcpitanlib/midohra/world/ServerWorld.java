@@ -71,4 +71,8 @@ public class ServerWorld extends World {
     public void removeTicket(ChunkTicketType<?> type, ChunkPos pos, int radius) {
         WorldUtil.removeTicket(getRaw(), type, pos.getRaw(), radius);
     }
+
+    public PersistentStateManager getPersistentStateManager() {
+        return getChunkManager().getPersistentStateManager();
+    }
 }
