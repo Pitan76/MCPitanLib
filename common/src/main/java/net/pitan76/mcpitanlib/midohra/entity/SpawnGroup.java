@@ -8,8 +8,8 @@ public class SpawnGroup implements CompatStringIdentifiable {
     public static final SpawnGroup MONSTER = of(net.minecraft.entity.SpawnGroup.MONSTER);
     public static final SpawnGroup CREATURE = of(net.minecraft.entity.SpawnGroup.CREATURE);
     public static final SpawnGroup AMBIENT = of(net.minecraft.entity.SpawnGroup.AMBIENT);
-    public static final SpawnGroup AXOLOTLS = of(net.minecraft.entity.SpawnGroup.AXOLOTLS);
-    public static final SpawnGroup UNDERGROUND_WATER_CREATURE = of(net.minecraft.entity.SpawnGroup.UNDERGROUND_WATER_CREATURE);
+    public static final SpawnGroup AXOLOTLS = of(net.minecraft.entity.SpawnGroup.CREATURE);
+    public static final SpawnGroup UNDERGROUND_WATER_CREATURE = of(net.minecraft.entity.SpawnGroup.CREATURE);
     public static final SpawnGroup WATER_CREATURE = of(net.minecraft.entity.SpawnGroup.WATER_CREATURE);
     public static final SpawnGroup WATER_AMBIENT = of(net.minecraft.entity.SpawnGroup.WATER_AMBIENT);
     public static final SpawnGroup MISC = of(net.minecraft.entity.SpawnGroup.MISC);
