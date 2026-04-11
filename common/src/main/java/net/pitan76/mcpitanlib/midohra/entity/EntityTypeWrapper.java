@@ -97,4 +97,9 @@ public class EntityTypeWrapper {
 
         return entityWrapper;
     }
+
+    public SpawnGroup getSpawnGroup() {
+        if (isEmpty()) return SpawnGroup.MISC;
+        return SpawnGroup.of(get().getSpawnGroup());
+    }
 }
