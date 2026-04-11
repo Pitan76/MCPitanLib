@@ -173,4 +173,18 @@ public class BlockWrapper {
         Class<?> clazz = block.getClass();
         return clazz.isInstance(get());
     }
+
+    public <T extends CompatBlock> T getCompatBlock(Class<T> clazz) {
+        if (isEmpty()) return null;
+        if (get() instanceof CompatBlock) {
+            CompatBlock compatBlock = (CompatBlock) get();
+            if (clazz.isInstance(compatBlock))
+                return clazz.cast(compatBlock);
+        }
+        return null;
+    }
+
+    public <T extends CompatBlock> Optional<T> toCompatBlock(Class<T> clazz) {
+        return Optional.ofNullable(getCompatBlock(clazz));
+    }
 }
