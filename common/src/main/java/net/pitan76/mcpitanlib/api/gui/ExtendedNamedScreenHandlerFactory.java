@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
@@ -9,6 +8,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuConstructor;
 import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.core.mc261.ExtendedMenuProvider;
 import org.jetbrains.annotations.Nullable;
 
 @Deprecated

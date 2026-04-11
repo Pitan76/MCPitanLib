@@ -1,15 +1,12 @@
 package net.pitan76.mcpitanlib.api.network;
 
 import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.pitan76.mcpitanlib.core.mc261.ClientPlayNetworking;
 import net.pitan76.mcpitanlib.core.network.BufPayload;
 
 import java.util.ArrayList;
@@ -27,16 +24,7 @@ public class ClientNetworking {
         BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
         registerC2SPayloadType(identifier);
 
-        ClientPlayNetworking.registerGlobalReceiver(id, (payload, context) -> {
-            FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.getData()));
-
-            LocalPlayer player = null;
-            if (context.player() instanceof LocalPlayer)
-                player = context.player();
-
-            handler.receive(Minecraft.getInstance(), player, buf);
-            buf.release();
-        });
+        ClientPlayNetworking.registerGlobalReceiver(id, handler);
     }
 
     @FunctionalInterface
@@ -50,7 +38,6 @@ public class ClientNetworking {
         if (registeredList.contains(identifier)) return;
         registeredList.add(identifier);
 
-        BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
-        PayloadTypeRegistry.clientboundPlay().register(id, BufPayload.getCodec(id));
+        ClientPlayNetworking.registerC2SPayloadType(identifier);
     }
 }

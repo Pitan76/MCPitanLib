@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -14,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.core.mc261.ExtendedMenuProvider;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;

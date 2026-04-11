@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.api.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponents;
@@ -45,6 +44,7 @@ import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.entity.LivingEntityUtil;
+import net.pitan76.mcpitanlib.core.mc261.ExtendedMenuProvider;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 

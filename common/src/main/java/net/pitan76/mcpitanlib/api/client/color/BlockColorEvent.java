@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.client.color;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.pitan76.mcpitanlib.api.tile.RenderAttachmentBlockEntity;
 import net.pitan76.mcpitanlib.midohra.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
@@ -72,15 +72,12 @@ public class BlockColorEvent {
         return getRenderDataD(getBlockEntity());
     }
 
+    @ExpectPlatform
     public static Object getRenderDataD(BlockEntity blockEntity) {
-        if (blockEntity instanceof RenderAttachmentBlockEntity) {
-            return ((RenderAttachmentBlockEntity) blockEntity).getCompatRenderData();
-        }
-
         if (blockEntity instanceof net.pitan76.mcpitanlib.api.tile.RenderDataBlockEntity) {
             return ((net.pitan76.mcpitanlib.api.tile.RenderDataBlockEntity) blockEntity).getCompatRenderData();
         }
 
-        return blockEntity.getRenderData();
+        return null;
     }
 }
