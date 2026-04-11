@@ -27,7 +27,7 @@ public class TypedEntityTypeWrapper<T extends Entity> extends EntityTypeWrapper 
     }
 
     public TypedEntityWrapper<T> createEntity(ServerWorld world, SpawnReason spawnReason) {
-        return TypedEntityWrapper.ofRaw(get().create(world.getRaw(), spawnReason.getRaw()));
+        return TypedEntityWrapper.ofRaw(get().create(world.getRaw()));
     }
 
     public TypedEntityWrapper<T> createEntity(ServerWorld world) {
