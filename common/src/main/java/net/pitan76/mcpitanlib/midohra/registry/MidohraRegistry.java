@@ -8,12 +8,15 @@ import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.entity.CompatEntity;
 import net.pitan76.mcpitanlib.api.entity.EntityTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.item.v2.ItemSettingsBuilder;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.tile.BlockEntityTypeBuilder;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.SupplierBlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.SupplierTypedBlockWrapper;
@@ -132,6 +135,30 @@ public class MidohraRegistry {
 
     public <T extends CompatEntity> TypedEntityTypeWrapper<T> registerEntityType(String id, EntityTypeBuilder<T> builder) {
         return registerEntityType(fixId(id), builder);
+    }
+
+    public ItemWrapper registerRawBlockItem(CompatIdentifier id, Supplier<Block> block, CompatibleItemSettings settings) {
+        return registerRawItem(id, () -> ItemUtil.create(block.get(), settings));
+    }
+
+    public ItemWrapper registerRawBlockItem(CompatIdentifier id, Supplier<Block> block, ItemSettingsBuilder builder) {
+        return registerRawBlockItem(id, block, builder.build(id));
+    }
+
+    public ItemWrapper registerBlockItem(CompatIdentifier id, BlockWrapper block, CompatibleItemSettings settings) {
+        return registerRawBlockItem(id, block::get, settings);
+    }
+
+    public ItemWrapper registerBlockItem(CompatIdentifier id, BlockWrapper block, ItemSettingsBuilder builder) {
+        return registerBlockItem(id, block, builder.build(id));
+    }
+
+    public ItemWrapper registerBlockItem(String id, BlockWrapper block, CompatibleItemSettings settings) {
+        return registerBlockItem(fixId(id), block, settings);
+    }
+
+    public ItemWrapper registerBlockItem(String id, BlockWrapper block, ItemSettingsBuilder builder) {
+        return registerBlockItem(fixId(id), block, builder);
     }
 
     /**

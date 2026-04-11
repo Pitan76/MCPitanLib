@@ -5,6 +5,7 @@ import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
 import net.pitan76.mcpitanlib.api.util.RegistryLookupUtil;
+import net.pitan76.mcpitanlib.api.util.world.TickerUtil;
 import net.pitan76.mcpitanlib.midohra.block.BlockState;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.easybuilder.built.BuiltBlockEntity;
@@ -156,5 +157,35 @@ public class BlockEntityWrapper {
 
         Class<?> clazz = blockEntity.getClass();
         return clazz.isInstance(get());
+    }
+
+    public <T extends CompatBlockEntity> T getCompatBlockEntity(Class<T> clazz) {
+        if (isEmpty()) return null;
+        if (get() instanceof CompatBlockEntity) {
+            CompatBlockEntity blockEntity = (CompatBlockEntity) get();
+            if (clazz.isInstance(blockEntity))
+                return clazz.cast(blockEntity);
+        }
+        return null;
+    }
+
+    public <T extends CompatBlockEntity> Optional<T> toCompatBlockEntity(Class<T> clazz) {
+        return Optional.ofNullable(getCompatBlockEntity(clazz));
+    }
+
+    public void tick() {
+        TickerUtil.tick(get());
+    }
+
+    public int getX() {
+        return getPos().getX();
+    }
+
+    public int getY() {
+        return getPos().getY();
+    }
+
+    public int getZ() {
+        return getPos().getZ();
     }
 }
