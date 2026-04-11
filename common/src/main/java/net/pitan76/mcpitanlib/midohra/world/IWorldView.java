@@ -25,4 +25,10 @@ public interface IWorldView {
     default FluidWrapper getFluid(net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
         return FluidWrapper.of(getFluidState(pos.toMinecraft()).getFluid());
     }
+
+    default net.pitan76.mcpitanlib.midohra.fluid.FluidState getFluidState(net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        return net.pitan76.mcpitanlib.midohra.fluid.FluidState.of(getFluidState(pos.toMinecraft()));
+    }
+
+    boolean isNull();
 }

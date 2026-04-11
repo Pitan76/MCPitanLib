@@ -8,6 +8,8 @@ import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.entity.CompatEntity;
 import net.pitan76.mcpitanlib.api.entity.EntityTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
+import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.tile.BlockEntityTypeBuilder;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
@@ -47,7 +49,8 @@ public class MidohraRegistry {
     }
 
     public ItemWrapper registerRawItem(CompatIdentifier id, Supplier<Item> supplier) {
-        return SupplierItemWrapper.of(registry.registerItem(id, supplier));
+        RegistryResult<Item> result = registry.registerItem(id, supplier);
+        return SupplierItemWrapper.of(result);
     }
 
     public ItemWrapper registerRawItem(String id, Supplier<Item> supplier) {
@@ -55,7 +58,8 @@ public class MidohraRegistry {
     }
 
     public <T extends CompatItem> TypedItemWrapper<T> registerItem(CompatIdentifier id, Supplier<T> supplier) {
-        return SupplierTypedItemWrapper.of(registerRawItem(id, supplier::get));
+        ItemWrapper wrapper = registerRawItem(id, supplier::get);
+        return SupplierTypedItemWrapper.of(wrapper);
     }
 
     public <T extends CompatItem> TypedItemWrapper<T> registerItem(String id, Supplier<T> supplier) {
@@ -63,7 +67,8 @@ public class MidohraRegistry {
     }
 
     public BlockWrapper registerRawBlock(CompatIdentifier id, Supplier<Block> supplier) {
-        return SupplierBlockWrapper.of(registry.registerBlock(id, supplier));
+        RegistryResult<Block> result = registry.registerBlock(id, supplier);
+        return SupplierBlockWrapper.of(result);
     }
 
     public BlockWrapper registerRawBlock(String id, Supplier<Block> supplier) {
@@ -71,7 +76,8 @@ public class MidohraRegistry {
     }
 
     public <T extends CompatBlock> TypedBlockWrapper<T> registerBlock(CompatIdentifier id, Supplier<T> supplier) {
-        return SupplierTypedBlockWrapper.of(registerRawBlock(id, supplier::get));
+        BlockWrapper wrapper = registerRawBlock(id, supplier::get);
+        return SupplierTypedBlockWrapper.of(wrapper);
     }
 
     public <T extends CompatBlock> TypedBlockWrapper<T> registerBlock(String id, Supplier<T> supplier) {
@@ -79,7 +85,8 @@ public class MidohraRegistry {
     }
 
     public BlockEntityTypeWrapper registerRawBlockEntityType(CompatIdentifier id, Supplier<BlockEntityType<?>> supplier) {
-        return SupplierBlockEntityTypeWrapper.of(registry.registerBlockEntityType(id, supplier));
+        RegistryResult<BlockEntityType<?>> result = registry.registerBlockEntityType(id, supplier);
+        return SupplierBlockEntityTypeWrapper.of(result);
     }
 
     public BlockEntityTypeWrapper registerRawBlockEntityType(String id, Supplier<BlockEntityType<?>> supplier) {
@@ -87,7 +94,8 @@ public class MidohraRegistry {
     }
 
     public <T extends CompatBlockEntity> BlockEntityTypeWrapper registerRawBlockEntityType(CompatIdentifier id, BlockEntityTypeBuilder<T> builder) {
-        return SupplierBlockEntityTypeWrapper.of(() -> registry.registerBlockEntityType(id, builder).get());
+        SupplierResult<BlockEntityType<T>> result = registry.registerBlockEntityType(id, builder);
+        return SupplierBlockEntityTypeWrapper.of(result::get);
     }
 
     public <T extends CompatBlockEntity> BlockEntityTypeWrapper registerRawBlockEntityType(String id, BlockEntityTypeBuilder<T> builder) {
@@ -95,11 +103,13 @@ public class MidohraRegistry {
     }
 
     public <T extends CompatBlockEntity> TypedBlockEntityTypeWrapper<T> registerBlockEntityType(CompatIdentifier id, BlockEntityTypeBuilder<T> builder) {
-        return SupplierTypedBlockEntityTypeWrapper.of(() -> (BlockEntityType<T>) registerRawBlockEntityType(id, builder).get());
+        BlockEntityTypeWrapper wrapper = registerRawBlockEntityType(id, builder);
+        return SupplierTypedBlockEntityTypeWrapper.of(() -> (BlockEntityType<T>) wrapper.get());
     }
 
     public EntityTypeWrapper registerRawEntityType(CompatIdentifier id, Supplier<EntityType<?>> supplier) {
-        return SupplierEntityTypeWrapper.of(registry.registerEntity(id, supplier));
+        RegistryResult<EntityType<?>> result = registry.registerEntity(id, supplier);
+        return SupplierEntityTypeWrapper.of(result);
     }
 
     public EntityTypeWrapper registerRawEntityType(String id, Supplier<EntityType<?>> supplier) {
@@ -107,7 +117,8 @@ public class MidohraRegistry {
     }
 
     public <T extends CompatEntity> EntityTypeWrapper registerRawEntityType(CompatIdentifier id, EntityTypeBuilder<T> builder) {
-        return SupplierEntityTypeWrapper.of(() -> registry.registerEntity(id, () -> builder.build()).get());
+        RegistryResult<EntityType<?>> result = registry.registerEntity(id, () -> builder.build());
+        return SupplierEntityTypeWrapper.of(result::get);
     }
 
     public <T extends CompatEntity> EntityTypeWrapper registerRawEntityType(String id, EntityTypeBuilder<T> builder) {
@@ -115,7 +126,8 @@ public class MidohraRegistry {
     }
 
     public <T extends CompatEntity> TypedEntityTypeWrapper<T> registerEntityType(CompatIdentifier id, EntityTypeBuilder<T> builder) {
-        return SupplierTypedEntityTypeWrapper.of(() -> (EntityType<T>) registerRawEntityType(id, builder).get());
+        EntityTypeWrapper wrapper = registerRawEntityType(id, builder);
+        return SupplierTypedEntityTypeWrapper.of(() -> (EntityType<T>) wrapper.get());
     }
 
     public <T extends CompatEntity> TypedEntityTypeWrapper<T> registerEntityType(String id, EntityTypeBuilder<T> builder) {
