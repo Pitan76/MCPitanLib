@@ -33,11 +33,11 @@ public class NbtInteger implements ElementConvertible {
     }
 
     public int getValue() {
-        return nbtInt.value();
+        return nbtInt.intValue();
     }
 
     public String asString() {
-        return nbtInt.asString().orElse("");
+        return nbtInt.asString();
     }
 
     @Override
