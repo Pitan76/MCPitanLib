@@ -9,6 +9,7 @@ import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.network.v2.args.ServerReceiveEvent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.network.CompatPacketByteBuf;
+import net.pitan76.mcpitanlib.midohra.server.MCServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,5 +94,21 @@ public class ServerNetworking {
 
     public static void sendAll(World world, CompatIdentifier id) {
         sendAll(world.getServer(), id, PacketByteUtil.create());
+    }
+
+    public static void sendAll(MCServer server, CompatIdentifier id, CompatPacketByteBuf buf) {
+        sendAll(server.getRaw(), id, buf);
+    }
+
+    public static void sendAll(MCServer server, CompatIdentifier id) {
+        sendAll(server.getRaw(), id);
+    }
+
+    public static void sendAll(net.pitan76.mcpitanlib.midohra.world.World world, CompatIdentifier id, CompatPacketByteBuf buf) {
+        sendAll(world.getRaw(), id, buf);
+    }
+
+    public static void sendAll(net.pitan76.mcpitanlib.midohra.world.World world, CompatIdentifier id) {
+        sendAll(world.getRaw(), id);
     }
 }

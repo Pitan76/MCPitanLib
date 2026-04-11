@@ -33,4 +33,12 @@ public class CompatItemRenderUtil {
 
         state.render(e.matrices, e.vertexConsumers, light, overlay);
     }
+
+    public static void renderItemFixed(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, BlockEntityRenderEvent<?> e, net.pitan76.mcpitanlib.midohra.world.World world) {
+        renderItemFixed(stack.toMinecraft(), e, world.toMinecraft());
+    }
+
+    public static void renderItem(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, CompatItemDisplayContext displayContext, BlockEntityRenderEvent<?> e, net.pitan76.mcpitanlib.midohra.world.World world) {
+        renderItem(stack.toMinecraft(), displayContext, e, world.toMinecraft());
+    }
 }
