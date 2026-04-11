@@ -92,4 +92,9 @@ public class EntityTypeWrapper {
 
         return EntityWrapper.of(get().create(world.getRaw(), consumer, pos.toMinecraft(), reason.getRaw(), alignPosition, invertY));
     }
+
+    public SpawnGroup getSpawnGroup() {
+        if (isEmpty()) return SpawnGroup.MISC;
+        return SpawnGroup.of(get().getSpawnGroup());
+    }
 }
