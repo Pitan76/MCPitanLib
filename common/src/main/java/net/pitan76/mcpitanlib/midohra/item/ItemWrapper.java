@@ -189,4 +189,18 @@ public class ItemWrapper {
         Class<?> clazz = item.getClass();
         return clazz.isInstance(get());
     }
+
+    public <T extends CompatItem> T getCompatItem(Class<T> clazz) {
+        if (isEmpty()) return null;
+        if (get() instanceof CompatItem) {
+            CompatItem compatItem = (CompatItem) get();
+            if (clazz.isInstance(compatItem))
+                return clazz.cast(compatItem);
+        }
+        return null;
+    }
+
+    public <T extends CompatItem> Optional<T> toCompatItem(Class<T> clazz) {
+        return Optional.ofNullable(getCompatItem(clazz));
+    }
 }
