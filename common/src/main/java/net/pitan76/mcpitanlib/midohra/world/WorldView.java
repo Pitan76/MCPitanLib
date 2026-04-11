@@ -82,4 +82,9 @@ public class WorldView implements IWorldView, RedstoneView {
         WorldView other = (WorldView) obj;
         return getRaw() != null ? getRaw().equals(other.getRaw()) : other.getRaw() == null;
     }
+
+    @Override
+    public boolean isNull() {
+        return getRaw() == null;
+    }
 }

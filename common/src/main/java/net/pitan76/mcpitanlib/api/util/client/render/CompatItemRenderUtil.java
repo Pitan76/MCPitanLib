@@ -24,4 +24,12 @@ public class CompatItemRenderUtil {
         ItemRenderer renderer = e.getItemRenderer() != null ? e.getItemRenderer() : MinecraftClient.getInstance().getItemRenderer();
         renderer.renderItem(stack, displayContext.getContext(), e.getLight(), e.getOverlay(), e.matrices, e.vertexConsumers, 0);
     }
+
+    public static void renderItemFixed(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, BlockEntityRenderEvent<?> e, net.pitan76.mcpitanlib.midohra.world.World world) {
+        renderItemFixed(stack.toMinecraft(), e, world.toMinecraft());
+    }
+
+    public static void renderItem(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, CompatItemDisplayContext displayContext, BlockEntityRenderEvent<?> e, net.pitan76.mcpitanlib.midohra.world.World world) {
+        renderItem(stack.toMinecraft(), displayContext, e, world.toMinecraft());
+    }
 }
