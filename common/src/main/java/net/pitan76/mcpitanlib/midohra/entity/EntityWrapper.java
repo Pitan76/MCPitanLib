@@ -374,4 +374,49 @@ public class EntityWrapper {
         Class<?> clazz = entity.getClass();
         return clazz.isInstance(get());
     }
+
+    public SpawnGroup getSpawnGroup() {
+        return SpawnGroup.of(get().getType().getCategory());
+    }
+
+    public <T extends CompatEntity> T getCompatEntity(Class<T> clazz) {
+        if (isEmpty()) return null;
+        if (get() instanceof CompatEntity) {
+            CompatEntity compatEntity = (CompatEntity) get();
+            if (clazz.isInstance(compatEntity))
+                return clazz.cast(compatEntity);
+        }
+        return null;
+    }
+
+    public <T extends CompatEntity> Optional<T> toCompatEntity(Class<T> clazz) {
+        return Optional.ofNullable(getCompatEntity(clazz));
+    }
+
+    public boolean isPlayerEntity() {
+        return get() instanceof net.minecraft.world.entity.player.Player;
+    }
+
+    public Optional<Player> toPlayer() {
+        if (isPlayerEntity()) {
+            return Optional.of(new Player((net.minecraft.world.entity.player.Player) get()));
+        }
+        return Optional.empty();
+    }
+
+    public void tick() {
+        get().tick();
+    }
+
+    public double getX() {
+        return getPos().getX();
+    }
+
+    public double getY() {
+        return getPos().getY();
+    }
+
+    public double getZ() {
+        return getPos().getZ();
+    }
 }
