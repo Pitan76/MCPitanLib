@@ -19,3 +19,4 @@ accessible    method   net/minecraft/screen/ScreenHandlerType <init> (Lnet/minec
 extendable    method   net/minecraft/screen/ScreenHandlerType <init> (Lnet/minecraft/screen/ScreenHandlerType$Factory;Lnet/minecraft/resource/featuretoggle/FeatureSet;)V
 
 accessible    method    net/minecraft/block/entity/BlockEntity    writeNbt    (Lnet/minecraft/nbt/NbtCompound;)V
+accessible    method    net/minecraft/entity/projectile/PersistentProjectileEntity    asItemStack    ()Lnet/minecraft/item/ItemStack;
