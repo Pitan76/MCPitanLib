@@ -38,4 +38,9 @@ public class BlockView implements IWorldView {
     public FluidState getFluidState(BlockPos pos) {
         return getRaw().getFluidState(pos);
     }
+
+    @Override
+    public boolean isNull() {
+        return getRaw() == null;
+    }
 }
