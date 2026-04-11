@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.particle.CompatParticleType;
 import net.pitan76.mcpitanlib.api.util.particle.effect.CompatParticleEffect;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.mcpitanlib.midohra.recipe.RecipeManager;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
@@ -219,5 +220,9 @@ public class World extends WorldAccess {
 
     public void addParticle(CompatParticleType type, Vector3d pos, Vector3d velocity) {
         addParticle(type, pos.getX(), pos.getY(), pos.getZ(), velocity.getX(), velocity.getY(), velocity.getZ());
+    }
+
+    public void sendEntityStatus(EntityWrapper entity, byte status) {
+        WorldUtil.sendEntityStatus(getRaw(), entity.get(), status);
     }
 }

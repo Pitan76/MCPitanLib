@@ -9,6 +9,7 @@ import net.pitan76.mcpitanlib.api.state.property.StairShapeProperty;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
 import net.pitan76.mcpitanlib.api.util.block.properties.CompatBlockHalf;
 import net.pitan76.mcpitanlib.api.util.block.properties.CompatStairShape;
+import net.pitan76.mcpitanlib.midohra.fluid.FluidState;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 import net.pitan76.mcpitanlib.midohra.world.World;
@@ -183,5 +184,9 @@ public class BlockState {
 
         BlockStateUtil.randomTick(this.toMinecraft(), world.getRaw(), pos.toRaw());
         return true;
+    }
+
+    public FluidState getFluidState() {
+        return FluidState.of(BlockStateUtil.getFluidState(this.toMinecraft()));
     }
 }
