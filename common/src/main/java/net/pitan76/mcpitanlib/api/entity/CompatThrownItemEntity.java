@@ -147,4 +147,12 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity implements
     public World getWorld() {
         return super.getWorld();
     }
+
+    public void setStack(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        callSetItem(stack.toMinecraft());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(callGetItem());
+    }
 }
