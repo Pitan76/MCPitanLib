@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.client.render.block.entity.event.BlockEntityRenderEvent;
+import net.pitan76.mcpitanlib.midohra.world.World;
 
 /**
  * Cross-version utility for rendering items in block entity renderers.
@@ -32,5 +33,13 @@ public class CompatItemRenderUtil {
         int overlay = e.getOverlay();
 
         state.submit(e.matrices, e.getQueue(), light, overlay, 0);
+    }
+
+    public static void renderItemFixed(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, BlockEntityRenderEvent<?> e, World world) {
+        renderItemFixed(stack.toMinecraft(), e, world.toMinecraft());
+    }
+
+    public static void renderItem(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, CompatItemDisplayContext displayContext, BlockEntityRenderEvent<?> e, World world) {
+        renderItem(stack.toMinecraft(), displayContext, e, world.toMinecraft());
     }
 }

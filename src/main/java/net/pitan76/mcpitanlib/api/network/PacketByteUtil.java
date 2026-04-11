@@ -254,6 +254,22 @@ public class PacketByteUtil {
     public static Tag readUnlimitedNbt(FriendlyByteBuf buf) {
         return buf.readNbt(NbtAccounter.unlimitedHeap());
     }
+
+    public static net.pitan76.mcpitanlib.midohra.nbt.NbtCompound readNbtM(FriendlyByteBuf buf) {
+        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(readNbt(buf));
+    }
+
+    public static FriendlyByteBuf writeNbt(FriendlyByteBuf buf, net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt) {
+        return writeNbt(buf, nbt.toMinecraft());
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.util.math.BlockPos readBlockPosM(FriendlyByteBuf buf) {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(readBlockPos(buf));
+    }
+
+    public static FriendlyByteBuf writeBlockPos(FriendlyByteBuf buf, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+        return writeBlockPos(buf, pos.toMinecraft());
+    }
 }
 
 

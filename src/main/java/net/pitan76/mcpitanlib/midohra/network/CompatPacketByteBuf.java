@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.midohra.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.midohra.nbt.NbtCompound;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 
 public class CompatPacketByteBuf extends FriendlyByteBuf {
@@ -112,5 +113,14 @@ public class CompatPacketByteBuf extends FriendlyByteBuf {
 
     public BlockPos readBlockPosMidohra() {
         return BlockPos.of(readBlockPos());
+    }
+
+    public NbtCompound readNbtM() {
+        return PacketByteUtil.readNbtM(this);
+    }
+
+    public CompatPacketByteBuf writeNbt(NbtCompound nbt) {
+        PacketByteUtil.writeNbt(this, nbt);
+        return this;
     }
 }
