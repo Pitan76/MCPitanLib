@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.midohra.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.pitan76.mcpitanlib.api.entity.CompatEntity;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
@@ -373,5 +374,50 @@ public class EntityWrapper {
 
         Class<?> clazz = entity.getClass();
         return clazz.isInstance(get());
+    }
+
+    public SpawnGroup getSpawnGroup() {
+        return SpawnGroup.of(get().getType().getSpawnGroup());
+    }
+
+    public <T extends CompatEntity> T getCompatEntity(Class<T> clazz) {
+        if (isEmpty()) return null;
+        if (get() instanceof CompatEntity) {
+            CompatEntity compatEntity = (CompatEntity) get();
+            if (clazz.isInstance(compatEntity))
+                return clazz.cast(compatEntity);
+        }
+        return null;
+    }
+
+    public <T extends CompatEntity> Optional<T> toCompatEntity(Class<T> clazz) {
+        return Optional.ofNullable(getCompatEntity(clazz));
+    }
+
+    public boolean isPlayerEntity() {
+        return get() instanceof PlayerEntity;
+    }
+
+    public Optional<Player> toPlayer() {
+        if (isPlayerEntity()) {
+            return Optional.of(new Player((PlayerEntity) get()));
+        }
+        return Optional.empty();
+    }
+
+    public void tick() {
+        get().tick();
+    }
+
+    public double getX() {
+        return getPos().getX();
+    }
+
+    public double getY() {
+        return getPos().getY();
+    }
+
+    public double getZ() {
+        return getPos().getZ();
     }
 }
