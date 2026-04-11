@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.api.transfer.fluid.v1.fabric;
+package net.pitan76.mcpitanlib.api.transfer.fluid.v1;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.world.level.material.Fluid;

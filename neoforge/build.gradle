@@ -4,7 +4,7 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    fabric()
+    neoForge()
 }
 
 loom {
@@ -12,18 +12,11 @@ loom {
 }
 
 configurations {
-    common {
-        canBeResolved = true
-        canBeConsumed = false
-    }
-    // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
-    shadowCommon {
-        canBeResolved = true
-        canBeConsumed = false
-    }
+    common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentFabric.extendsFrom common
+    developmentNeoForge.extendsFrom common
 
     apiElements {
         outgoing.artifacts.clear()
@@ -36,46 +29,33 @@ configurations {
 }
 
 dependencies {
-    implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    compileOnly "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
     shadowCommon 'org.yaml:snakeyaml:2.0'
 
-    api("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    include("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}")
+    include("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
 
-    implementation("net.pitan76:compatdatapacks76-fabric:${rootProject.compatdatapacks76_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    implementation("net.pitan76:legacyitemmodels-fabric:${rootProject.legacyitemmodels_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    implementation("net.pitan76:littleobffallback-fabric:${rootProject.littleobffallback_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    include("net.pitan76:compatdatapacks76-fabric:${rootProject.compatdatapacks76_version}")
-    include("net.pitan76:legacyitemmodels-fabric:${rootProject.legacyitemmodels_version}")
-    include("net.pitan76:littleobffallback-fabric:${rootProject.littleobffallback_version}")
+    include("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
+    include("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
 }
 
 processResources {
     inputs.property "version", project.version
 
-    filesMatching("fabric.mod.json") {
+    filesMatching("META-INF/neoforge.mods.toml") {
         expand "version": project.version
     }
 
-    project.version = project.version + "-fabric"
+    project.version = project.version + "-neoforge"
 }
 
 shadowJar {
     relocate "org.yaml.snakeyaml", "net.pitan76.mcpitanlib.shadow.yaml.snakeyaml"
 
+    exclude "fabric.mod.json"
     exclude "architectury.common.json"
 
     dependsOn(jar)
@@ -104,7 +84,7 @@ components.java {
 
 publishing {
     publications {
-        mavenFabric(MavenPublication) {
+        mavenNeoForge(MavenPublication) {
             artifactId = info.archives_base_name + "-" + project.name + "-" + rootProject.minecraft_version
             version = info.mod_version
             from components.java
@@ -121,17 +101,5 @@ publishing {
                 password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
             }
         }
-    }
-}
-
-tasks.runClient.doFirst {
-    def from = new File("../common/src/main/resources/mcpitanlib.accesswidener")
-    def to = new File("src/main/resources/mcpitanlib.accesswidener")
-    to.bytes = from.bytes
-}
-
-tasks.jar.doFirst {
-    if (file("src/main/resources/mcpitanlib.accesswidener").exists()) {
-        delete file("src/main/resources/mcpitanlib.accesswidener")
     }
 }
