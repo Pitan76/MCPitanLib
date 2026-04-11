@@ -348,4 +348,30 @@ public class EntityWrapper {
         EntityWrapper other = (EntityWrapper) obj;
         return get() != null && get().equals(other.get());
     }
+
+    /**
+     * instanceof check for the entity of this wrapper.
+     * @param clazz the class of the entity to check
+     * @return true if the raw item of this stack is an instance of the given class, false otherwise
+     */
+    public boolean instanceOf(Class<?> clazz) {
+        if (isEmpty()) return false;
+
+        return clazz.isInstance(get());
+    }
+
+    /**
+     * instanceof check for the entity of this wrapper.
+     * @param wrapper the entity to check
+     * @return true if the entity of this wrapper is an instance of the given entity, false otherwise
+     */
+    public boolean instanceOf(EntityWrapper wrapper) {
+        if (isEmpty()) return false;
+
+        Entity entity = wrapper.get();
+        if (entity == null) return false;
+
+        Class<?> clazz = entity.getClass();
+        return clazz.isInstance(get());
+    }
 }

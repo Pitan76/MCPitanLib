@@ -3,6 +3,8 @@ package net.pitan76.mcpitanlib.api.event.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
+import net.pitan76.mcpitanlib.midohra.util.hit.HitResultType;
 
 public class EntityHitEvent {
 
@@ -22,5 +24,13 @@ public class EntityHitEvent {
 
     public HitResult.Type getType() {
         return entityHitResult.getType();
+    }
+
+    public EntityWrapper getEntityWrapper() {
+        return EntityWrapper.of(getEntity());
+    }
+
+    public HitResultType getTypeM() {
+        return HitResultType.from(getType());
     }
 }

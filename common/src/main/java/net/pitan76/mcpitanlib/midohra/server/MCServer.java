@@ -2,9 +2,11 @@ package net.pitan76.mcpitanlib.midohra.server;
 
 import net.minecraft.server.MinecraftServer;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.PersistentStateUtil;
 import net.pitan76.mcpitanlib.api.util.ServerUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.midohra.resource.ResourceManager;
+import net.pitan76.mcpitanlib.midohra.world.PersistentStateManager;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 
 public class MCServer {
@@ -92,5 +94,9 @@ public class MCServer {
 
     public void execute(Runnable runnable) {
         ServerUtil.execute(getRaw(), runnable);
+    }
+
+    public PersistentStateManager getPersistentStateManager() {
+        return PersistentStateManager.of(PersistentStateUtil.getManagerFromServer(server));
     }
 }
