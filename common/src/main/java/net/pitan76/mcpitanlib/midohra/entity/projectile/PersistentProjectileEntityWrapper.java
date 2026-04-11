@@ -26,7 +26,7 @@ public class PersistentProjectileEntityWrapper<T extends PersistentProjectileEnt
     }
 
     public ItemStack getStack() {
-        return ItemStack.of(get().getItemStack());
+        return ItemStack.of(get().asItemStack());
     }
 
     public void setDamage(double damage) {
