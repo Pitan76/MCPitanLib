@@ -283,7 +283,7 @@ public class Player {
     }
 
     public float getPitch() {
-        return this.getEntity().getXRot(0);
+        return this.getEntity().getViewXRot(0);
     }
 
     public void playSound(SoundEvent event, SoundSource category, float volume, float pitch) {
