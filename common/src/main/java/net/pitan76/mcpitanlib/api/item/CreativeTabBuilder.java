@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -82,18 +82,12 @@ public class CreativeTabBuilder {
      * @return ItemGroup
      */
     public CreativeModeTab build() {
-        CreativeModeTab.Builder builder = FabricCreativeModeTab.builder();
+        return build(identifier, displayName, iconSupplier, noRenderedName, noScrollbar, special, texture);
+    }
 
-        if (displayName != null) builder.title(displayName);
-        else builder.title(TextUtil.translatable("itemGroup." + identifier.getNamespace() + "." + identifier.getPath()));
-
-        if (iconSupplier != null) builder.icon(iconSupplier);
-        if (noRenderedName) builder.hideTitle();
-        if (noScrollbar) builder.noScrollBar();
-        if (special) builder.alignedRight();
-        if (texture != null) builder.backgroundTexture(IdentifierUtil.id(texture));
-
-        return builder.build();
+    @ExpectPlatform
+    public static CreativeModeTab build(Identifier identifier, Component displayName, Supplier<ItemStack> iconSupplier, boolean noRenderedName, boolean noScrollbar, boolean special, String texture) {
+        throw new AssertionError();
     }
 
     @SuppressWarnings("deprecation")

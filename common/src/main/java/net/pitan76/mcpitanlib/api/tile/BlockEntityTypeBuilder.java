@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.tile;
 
 import com.mojang.datafixers.types.Type;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -49,9 +49,11 @@ public class BlockEntityTypeBuilder<T extends BlockEntity> {
     }
 
     @Deprecated
+    @ExpectPlatform
     public static <T extends BlockEntity> BlockEntityType<T> build(Type<?> type, BlockEntityTypeBuilder.Factory<? extends T> factory, Block... blocks) {
-        FabricBlockEntityTypeBuilder<T> builder = FabricBlockEntityTypeBuilder.create(factory::create, blocks);
-        return builder.build(type);
+//        FabricBlockEntityTypeBuilder<T> builder = FabricBlockEntityTypeBuilder.create(factory::create, blocks);
+//        return builder.build(type);
+        throw new AssertionError();
     }
 
     @FunctionalInterface
