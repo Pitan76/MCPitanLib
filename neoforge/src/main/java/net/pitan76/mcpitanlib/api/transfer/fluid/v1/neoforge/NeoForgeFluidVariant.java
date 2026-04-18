@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.transfer.fluid.v1.neoforge;
 
-import net.minecraft.fluid.Fluid;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
 

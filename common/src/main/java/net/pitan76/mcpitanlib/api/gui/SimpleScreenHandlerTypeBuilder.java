@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.gui;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
@@ -19,7 +19,12 @@ public class SimpleScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
     }
 
     public MenuType<T> build() {
-        return new MenuType<>(factory::create, FeatureFlags.VANILLA_SET);
+        return build(factory);
+    }
+
+    @ExpectPlatform
+    public static <T extends AbstractContainerMenu> MenuType<T> build(Factory<T> factory) {
+        throw new AssertionError();
     }
 
     @FunctionalInterface

@@ -7,6 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
@@ -16,6 +17,7 @@ import net.pitan76.mcpitanlib.core.network.BufPayload;
 import java.util.HashMap;
 import java.util.Map;
 
+@EventBusSubscriber(modid = "mcpitanlib")
 public class ClientPlayNetworkingImpl {
     public static void send(CustomPacketPayload payload) {
         ClientPacketDistributor.sendToServer(payload);

@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.transfer.fluid.v1.fabric;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.minecraft.fluid.Fluid;
+import net.minecraft.world.level.material.Fluid;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
 
 public class FabricFluidVariant implements IFluidVariant {
