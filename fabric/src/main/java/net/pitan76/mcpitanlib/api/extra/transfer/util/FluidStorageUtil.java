@@ -3,9 +3,9 @@ package net.pitan76.mcpitanlib.api.extra.transfer.util;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
@@ -19,36 +19,36 @@ public class FluidStorageUtil {
 
     public static void readNbt(SingleFluidStorage storage, NbtRWArgs args) {
         if (args instanceof ReadNbtArgs)
-            storage.readData(((ReadNbtArgs) args).view);
+            storage.readValue(((ReadNbtArgs) args).view);
     }
 
     public static void writeNbt(SingleFluidStorage storage, NbtRWArgs args) {
         if (args instanceof WriteNbtArgs)
-            storage.writeData(((WriteNbtArgs) args).view);
+            storage.writeValue(((WriteNbtArgs) args).view);
     }
 
-    public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.readData(NbtDataConverter.nbt2readData(nbt, registryLookup));
+    public static void readNbt(SingleFluidStorage storage, CompoundTag nbt, CompatRegistryLookup registryLookup) {
+        storage.readValue(NbtDataConverter.nbt2readData(nbt, registryLookup));
     }
 
-    public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, CompatRegistryLookup registryLookup) {
-        storage.writeData(NbtDataConverter.nbt2writeData(nbt, registryLookup));
+    public static void writeNbt(SingleFluidStorage storage, CompoundTag nbt, CompatRegistryLookup registryLookup) {
+        storage.writeValue(NbtDataConverter.nbt2writeData(nbt, registryLookup));
     }
 
     /**
      * @deprecated Use {@link #readNbt(SingleFluidStorage, NbtRWArgs)} instead
      */
     @Deprecated
-    public static void readNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
-        readNbt(storage, nbt, new CompatRegistryLookup(world.getRegistryManager()));
+    public static void readNbt(SingleFluidStorage storage, CompoundTag nbt, Level world) {
+        readNbt(storage, nbt, new CompatRegistryLookup(world.registryAccess()));
     }
 
     /**
      * @deprecated Use {@link #writeNbt(SingleFluidStorage, NbtRWArgs)} instead
      */
     @Deprecated
-    public static void writeNbt(SingleFluidStorage storage, NbtCompound nbt, World world) {
-        writeNbt(storage, nbt, new CompatRegistryLookup(world.getRegistryManager()));
+    public static void writeNbt(SingleFluidStorage storage, CompoundTag nbt, Level world) {
+        writeNbt(storage, nbt, new CompatRegistryLookup(world.registryAccess()));
     }
 
     public static long getAmount(SingleFluidStorage storage) {
@@ -77,14 +77,14 @@ public class FluidStorageUtil {
 
     public static void insert(SingleFluidStorage storage, FluidState fluidState, long maxAmount) {
         try (Transaction transaction = Transaction.openOuter()) {
-            insert(storage, FluidVariant.of(fluidState.getFluid()), maxAmount, transaction);
+            insert(storage, FluidVariant.of(fluidState.getType()), maxAmount, transaction);
             transaction.commit();
         }
     }
 
     public static void extract(SingleFluidStorage storage, FluidState fluidState, long maxAmount) {
         try (Transaction transaction = Transaction.openOuter()) {
-            extract(storage, FluidVariant.of(fluidState.getFluid()), maxAmount, transaction);
+            extract(storage, FluidVariant.of(fluidState.getType()), maxAmount, transaction);
             transaction.commit();
         }
     }

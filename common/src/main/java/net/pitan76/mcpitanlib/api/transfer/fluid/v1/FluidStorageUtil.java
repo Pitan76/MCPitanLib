@@ -1,16 +1,16 @@
 package net.pitan76.mcpitanlib.api.transfer.fluid.v1;
 
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.world.level.material.Fluid;
-import net.pitan76.mcpitanlib.api.transfer.fluid.v1.FabricFluidVariant;
 
 public class FluidStorageUtil {
+    @ExpectPlatform
     public static IFluidStorage withFixedCapacity(long capacity, Runnable onChange) {
-        return new FabricFluidStorage(SingleFluidStorage.withFixedCapacity(capacity, onChange));
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static IFluidVariant getVariant(Fluid fluid) {
-        return new FabricFluidVariant(FluidVariant.of(fluid));
+        throw new AssertionError();
     }
 }
