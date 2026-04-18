@@ -1,16 +1,10 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.color.block.BlockTintSource;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.block.BlockModelResolver;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,7 +14,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
@@ -46,7 +39,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.RandomSource;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.color.CompatBlockColorProvider;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
@@ -61,53 +53,33 @@ public class CompatRegistryClient {
         registerScreen(MCPitanLib.MOD_ID, type, factory);
     }
 
+    @ExpectPlatform
     public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, MenuType<? extends H> type, ScreenFactory<H, S> factory) {
-        MenuScreens.register(type, factory::create);
+        throw new AssertionError();
     }
 
     public interface ScreenFactory<H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> {
         S create(H handler, Inventory inventory, Component text);
     }
 
+    @ExpectPlatform
     public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, ParticleProvider<T> factory) {
-        ParticleProviderRegistry.getInstance().register(type, factory);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.getInstance().register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
-            @Override
-            public TextureAtlas getAtlas() {
-                return spriteSet.getAtlas();
-            }
-
-            @Override
-            public List<TextureAtlasSprite> getSprites() {
-                return spriteSet.getSprites();
-            }
-
-            @Override
-            public TextureAtlasSprite get(int age, int maxAge) {
-                return spriteSet.get(age, maxAge);
-            }
-
-            @Override
-            public TextureAtlasSprite get(RandomSource random) {
-                return spriteSet.get(random);
-            }
-
-            @Override
-            public TextureAtlasSprite first() {
-                return spriteSet.first();
-            }
-        }));
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerEntityModelLayer(ModelLayerLocation layer, EntityModelLayerContext context) {
-        ModelLayerRegistry.registerModelLayer(layer, () -> LayerDefinition.create(context.getData(), context.getWidth(), context.getHeight()));
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererProvider<T> provider) {
-        EntityRenderers.register(type.get(), provider);
+        throw new AssertionError();
     }
 
     @FunctionalInterface
@@ -137,10 +109,9 @@ public class CompatRegistryClient {
         // ～1.19.2
     }
 
+    @ExpectPlatform
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
-        BlockEntityRenderers.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.sprites(), ctx.playerSkinRenderCache()
-        )));
+        throw new AssertionError();
     }
 
     @FunctionalInterface
@@ -242,10 +213,9 @@ public class CompatRegistryClient {
         registerRenderTypeBlock(RenderTypes.cutoutMovingBlock(), block);
     }
 
+    @ExpectPlatform
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.sprites(), ctx.playerSkinRenderCache()
-        )));
+
     }
 
     public static void registerRenderTypeBlock(CompatRenderLayer layer, Block block) {
@@ -256,12 +226,9 @@ public class CompatRegistryClient {
         registerRenderTypeFluid(layer.layer, fluid);
     }
 
+    @ExpectPlatform
     public static void registerColorProviderBlock(List<BlockTintSource> provider, Block... blocks) {
-        if (blocks == null || blocks.length == 0) {
-            BlockColorRegistry.register(provider);
-        } else {
-            BlockColorRegistry.register(provider, blocks);
-        }
+        throw new AssertionError();
     }
 
     public static void registerColorProviderBlock(CompatBlockColorProvider provider, Block... blocks) {
