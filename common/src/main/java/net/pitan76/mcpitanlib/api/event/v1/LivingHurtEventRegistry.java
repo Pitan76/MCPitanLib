@@ -1,14 +1,15 @@
 package net.pitan76.mcpitanlib.api.event.v1;
 
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.pitan76.mcpitanlib.api.event.v0.event.LivingHurtEvent;
 
 public class LivingHurtEventRegistry {
+    @ExpectPlatform
     public static void register(LivingHurt livingHurt) {
-        ServerLivingEntityEvents.ALLOW_DAMAGE.register(livingHurt::hurt);
+
     }
 
     public interface LivingHurt {
