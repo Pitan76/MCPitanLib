@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.InteractionHand;
@@ -12,8 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 @Deprecated
 public class AttackEntityEventRegistry {
+    @ExpectPlatform
     public static void register(AttackEntity attackEntity) {
-        AttackEntityCallback.EVENT.register(attackEntity::attack);
+
     }
 
     public interface AttackEntity {
