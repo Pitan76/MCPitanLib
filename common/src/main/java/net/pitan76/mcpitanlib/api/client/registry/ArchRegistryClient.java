@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.client.registry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.block.BlockModelResolver;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -55,7 +54,7 @@ public class ArchRegistryClient {
     }
 
     public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.getInstance().register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
+        CompatRegistryClient.registerParticle(type, (spriteSet -> provider.create(new ExtendedSpriteSet() {
             @Override
             public TextureAtlas getAtlas() {
                 return spriteSet.getAtlas();
@@ -67,8 +66,8 @@ public class ArchRegistryClient {
             }
 
             @Override
-            public TextureAtlasSprite get(int age, int maxAge) {
-                return spriteSet.get(age, maxAge);
+            public TextureAtlasSprite get(int index, int max) {
+                return spriteSet.get(index, max);
             }
 
             @Override
@@ -80,7 +79,7 @@ public class ArchRegistryClient {
             public TextureAtlasSprite first() {
                 return spriteSet.first();
             }
-        }));
+        })));
     }
 
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererProvider<T> provider) {
@@ -115,9 +114,7 @@ public class ArchRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
-        BlockEntityRenderers.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font()
-        )));
+        CompatRegistryClient.registerBlockEntityRenderer(type, (ctx) -> provider.create(new BlockEntityRendererFactory.Context(ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer())));
     }
 
     @FunctionalInterface
