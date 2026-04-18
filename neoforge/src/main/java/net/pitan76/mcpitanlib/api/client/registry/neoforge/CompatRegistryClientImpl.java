@@ -36,15 +36,12 @@ import java.util.function.Supplier;
 
 @EventBusSubscriber(modid = "mcpitanlib", value = Dist.CLIENT)
 public class CompatRegistryClientImpl {
-    // ジェネリクス地獄を避けるため、「イベントが来たら実行する処理」をそのままListに溜め込みます
     private static final List<Consumer<RegisterMenuScreensEvent>> screenRegistrations = new ArrayList<>();
     private static final List<Consumer<RegisterParticleProvidersEvent>> particleRegistrations = new ArrayList<>();
     private static final List<Consumer<EntityRenderersEvent.RegisterLayerDefinitions>> layerRegistrations = new ArrayList<>();
     private static final List<Consumer<EntityRenderersEvent.RegisterRenderers>> rendererRegistrations = new ArrayList<>();
 
     public static Map<List<BlockTintSource>, Block[]> blockColorProviders = new HashMap<>();
-
-    // --- 登録メソッド（Listへの追加処理に変更） ---
 
     public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, MenuType<? extends H> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
         screenRegistrations.add(event -> event.register(type, factory::create));
@@ -84,7 +81,7 @@ public class CompatRegistryClientImpl {
     }
 
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
-        registerBlockEntityRenderer(type, provider); // 上と同じ処理に回す
+        registerBlockEntityRenderer(type, provider);
     }
 
     public static void registerColorProviderBlock(List<BlockTintSource> provider, Block... blocks) {

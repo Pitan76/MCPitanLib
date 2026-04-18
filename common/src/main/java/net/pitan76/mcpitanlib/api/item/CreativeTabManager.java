@@ -1,13 +1,14 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.Identifier;
-import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
+import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
+import net.pitan76.mcpitanlib.core.mc261.CreativeModeTabEventRegistry;
 import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 
 import java.util.ArrayList;
@@ -74,8 +75,7 @@ public class CreativeTabManager {
     public static void allRegister() {
         if (!MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.isEmpty()) {
             for (Map.Entry<ResourceKey<CreativeModeTab>, List<Identifier>> entry : MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.entrySet()) {
-                CreativeModeTabEvents.modifyOutputEvent(entry.getKey()).register(entries ->
-                        entries.acceptAll(entry.getValue().stream().map(id -> new ItemStack(ItemUtil.fromId(id))).toList()));
+                CreativeModeTabEventRegistry.addStacks(entry.getKey(), () -> entry.getValue().stream().map(id -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(id)))).toList());
             }
         }
 
@@ -83,9 +83,10 @@ public class CreativeTabManager {
             for (BookingItem bookingItem : bookingItems) {
 //                CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
                 ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ItemGroupUtil.toID(bookingItem.getItemGroup()));
-                CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
-                    entries.accept(new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
-                });
+                CreativeModeTabEventRegistry.addStack(key, () -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(bookingItem.identifier))));
+//                CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
+//                    entries.accept(new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
+//                });
             }
             bookingItems = new ArrayList<>();
         }
@@ -94,9 +95,10 @@ public class CreativeTabManager {
             for (BookingStack bookingStack : bookingStacks) {
 //                CreativeTabRegistry.appendBuiltinStack(bookingStack.getItemGroup(), bookingStack.stack);
                 ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ItemGroupUtil.toID(bookingStack.getItemGroup()));
-                CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
-                    entries.accept(bookingStack.stack);
-                });
+                CreativeModeTabEventRegistry.addStack(key, () -> bookingStack.stack);
+//                CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
+//                    entries.accept(bookingStack.stack);
+//                });
             }
             bookingStacks = new ArrayList<>();
         }
@@ -108,9 +110,10 @@ public class CreativeTabManager {
             if (!bookingItem.identifier.toString().equals(identifier.toString())) continue;
 //            CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
             ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ItemGroupUtil.toID(bookingItem.getItemGroup()));
-            CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
-                entries.accept(new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
-            });
+            CreativeModeTabEventRegistry.addStack(key, () -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(bookingItem.identifier))));
+//            CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
+//                entries.accept(new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
+//            });
             bookingItems.remove(bookingItem);
             break;
         }

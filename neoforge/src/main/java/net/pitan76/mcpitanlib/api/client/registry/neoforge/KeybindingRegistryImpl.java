@@ -9,7 +9,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-@EventBusSubscriber(modid = "mcpitanlib",value = Dist.CLIENT)
+@EventBusSubscriber(modid = "mcpitanlib", value = Dist.CLIENT)
 public class KeybindingRegistryImpl {
 
     private static final List<KeyMapping> keyMappings = new ArrayList<>();

@@ -1,12 +1,10 @@
 package net.pitan76.mcpitanlib.api.network;
 
-import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.Identifier;
+import net.pitan76.mcpitanlib.core.mc261.ServerPlayNetworking;
 import net.pitan76.mcpitanlib.core.network.BufPayload;
 
 import java.util.ArrayList;
@@ -37,14 +35,8 @@ public class ServerNetworking {
         registerS2CPayloadType(identifier);
         BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
 
-        ServerPlayNetworking.registerGlobalReceiver(id, (payload, context) -> {
-            FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.getData()));
-
-            ServerPlayer player = null;
-            if (context.player() instanceof ServerPlayer)
-                player = context.player();
-
-            handler.receive(context.player().level().getServer(), player, buf);
+        ServerPlayNetworking.registerGlobalReceiver(id, (server, player, buf) -> {
+            handler.receive(server, player, buf);
             buf.release();
         });
     }
@@ -52,11 +44,7 @@ public class ServerNetworking {
     private static final List<Identifier> registeredList = new ArrayList<>();
 
     public static void registerS2CPayloadType(Identifier identifier) {
-        if (registeredList.contains(identifier)) return;
-        registeredList.add(identifier);
-
-        BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
-        PayloadTypeRegistry.serverboundPlay().register(id, BufPayload.getCodec(id));
+        ServerPlayNetworking.registerS2CPayloadType(identifier);
     }
 
     @FunctionalInterface
