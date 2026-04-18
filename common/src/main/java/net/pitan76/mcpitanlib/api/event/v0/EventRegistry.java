@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,36 +42,39 @@ public class EventRegistry {
 
     public static class ServerLifecycle {
         // Architectury: LifecycleEvent
+        @ExpectPlatform
         public static void serverStarted(ServerState state) {
-            ServerLifecycleEvents.SERVER_STARTED.register(state::stateChanged);
+
         }
 
+        @ExpectPlatform
         public static void serverStarting(ServerState state) {
-            ServerLifecycleEvents.SERVER_STARTING.register(state::stateChanged);
+
         }
 
+        @ExpectPlatform
         public static void serverStopped(ServerState state) {
-            ServerLifecycleEvents.SERVER_STOPPED.register(state::stateChanged);
+
         }
 
+        @ExpectPlatform
         public static void serverStopping(ServerState state) {
-            ServerLifecycleEvents.SERVER_STOPPING.register(state::stateChanged);
+
         }
 
+        @ExpectPlatform
         public static void serverWorldLoad(ServerWorldState state) {
-            ServerLevelEvents.LOAD.register((_, level) -> state.act(level));
+
         }
 
+        @ExpectPlatform
         public static void serverWorldSave(ServerWorldState state) {
-            ServerLifecycleEvents.AFTER_SAVE.register((server, _, _) -> {
-                for (ServerLevel level : server.getAllLevels()) {
-                    state.act(level);
-                }
-            });
+
         }
 
+        @ExpectPlatform
         public static void serverWorldUnload(ServerWorldState state) {
-            ServerLevelEvents.UNLOAD.register((_, level) -> state.act(level));
+
         }
 
         public interface ServerState extends InstanceState<MinecraftServer> {
