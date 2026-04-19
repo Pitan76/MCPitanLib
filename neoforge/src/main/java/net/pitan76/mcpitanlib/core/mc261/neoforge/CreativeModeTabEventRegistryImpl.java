@@ -19,7 +19,7 @@ public class CreativeModeTabEventRegistryImpl {
 
     public static void addStack(ResourceKey<CreativeModeTab> key, Supplier<ItemStack> supplier) {
         tabModifiers.add(event -> {
-            if (event.getTabKey() == key) {
+            if (event.getTabKey().equals(key)) {
                 event.accept(supplier.get());
             }
         });
@@ -27,7 +27,7 @@ public class CreativeModeTabEventRegistryImpl {
 
     public static void addStacks(ResourceKey<CreativeModeTab> key, Supplier<List<ItemStack>> supplier) {
         tabModifiers.add(event -> {
-            if (event.getTabKey() == key) {
+            if (event.getTabKey().equals(key)) {
                 event.acceptAll(supplier.get());
             }
         });
