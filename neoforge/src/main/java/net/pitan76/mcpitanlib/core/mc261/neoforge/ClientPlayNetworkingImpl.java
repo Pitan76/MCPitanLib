@@ -50,12 +50,12 @@ public class ClientPlayNetworkingImpl {
         payloadTypeMap.put(identifier, id);
     }
 
-    @SubscribeEvent
-    public static void register(RegisterClientPayloadHandlersEvent event) {
-        for (Map.Entry<BufPayload.Type<BufPayload>, IPayloadHandler<BufPayload>> entry : handlerMap.entrySet()) {
-            event.register(entry.getKey(), entry.getValue());
-        }
-    }
+//    @SubscribeEvent
+//    public static void register(RegisterClientPayloadHandlersEvent event) {
+//        for (Map.Entry<BufPayload.Type<BufPayload>, IPayloadHandler<BufPayload>> entry : handlerMap.entrySet()) {
+//            event.register(entry.getKey(), entry.getValue());
+//        }
+//    }
 
     @SubscribeEvent
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
