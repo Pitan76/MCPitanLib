@@ -49,65 +49,68 @@ subprojects {
         implementation 'org.yaml:snakeyaml:2.0'
     }
 
-    if (name in "fabric,neoforge".split(",")) {
-        var modLoader = name
+    afterEvaluate {
 
-        if (System.getenv("CURSEFORGE_TOKEN") != null) {
-            curseforge {
-                apiKey = System.getenv("CURSEFORGE_TOKEN")
-                project {
-                    id = '682213'
-                    changelog = info.changelog
-                    releaseType = 'beta'
-                    if (modLoader == "fabric") {
-                        addGameVersion "Fabric"
-                    }
-                    if (modLoader == "forge") {
-                        addGameVersion "Forge"
-                    }
-                    if (modLoader == "neoforge") {
-                        addGameVersion "NeoForge"
-                    }
-                    addGameVersion "26.1"
-                    addGameVersion "26.1.1"
-                    addGameVersion "26.1.2"
+        if (name in "fabric,neoforge".split(",")) {
+            var modLoader = name
 
-                    relations {
+            if (System.getenv("CURSEFORGE_TOKEN") != null) {
+                curseforge {
+                    apiKey = System.getenv("CURSEFORGE_TOKEN")
+                    project {
+                        id = '682213'
+                        changelog = info.changelog
+                        releaseType = 'beta'
                         if (modLoader == "fabric") {
-                            requiredDependency "fabric-api"
+                            addGameVersion "Fabric"
+                        }
+                        if (modLoader == "forge") {
+                            addGameVersion "Forge"
+                        }
+                        if (modLoader == "neoforge") {
+                            addGameVersion "NeoForge"
+                        }
+                        addGameVersion "26.1"
+                        addGameVersion "26.1.1"
+                        addGameVersion "26.1.2"
+
+                        relations {
+                            if (modLoader == "fabric") {
+                                requiredDependency "fabric-api"
+                            }
+
+                            embeddedLibrary 'cloth-config'
+                            embeddedLibrary 'compatdatapacks'
+                            embeddedLibrary 'legacyitemmodels'
                         }
 
-                        embeddedLibrary 'cloth-config'
-                        embeddedLibrary 'compatdatapacks'
-                        embeddedLibrary 'legacyitemmodels'
+                        mainArtifact(tasks.named("shadowJar").get().archiveFile.get().asFile)
                     }
+                    options {
+                        forgeGradleIntegration = false
+                    }
+                }
 
-                    mainArtifact(tasks.jar)
-                }
-                options {
-                    forgeGradleIntegration = false
-                }
             }
 
-        }
-
-        if (System.getenv("MODRINTH_TOKEN") != null) {
-            modrinth {
-                token = System.getenv("MODRINTH_TOKEN")
-                projectId = 'mcpitanlibarch'
-                versionNumber = info.mod_version + "-" + modLoader
-                gameVersions = ["26.1", "26.1.1", "26.1.2"]
-                versionType = 'beta'
-                uploadFile = tasks.jar
-                changelog = info.changelog
-                loaders = [modLoader]
-                dependencies {
-                    if (modLoader == "fabric") {
-                        required.project "fabric-api" // Fabric API
+            if (System.getenv("MODRINTH_TOKEN") != null) {
+                modrinth {
+                    token = System.getenv("MODRINTH_TOKEN")
+                    projectId = 'mcpitanlibarch'
+                    versionNumber = info.mod_version + "-" + modLoader
+                    gameVersions = ["26.1", "26.1.1", "26.1.2"]
+                    versionType = 'beta'
+                    uploadFile = tasks.named("shadowJar").get().archiveFile.get().asFile
+                    changelog = info.changelog
+                    loaders = [modLoader]
+                    dependencies {
+                        if (modLoader == "fabric") {
+                            required.project "fabric-api" // Fabric API
+                        }
+                        embedded.project "cloth-config"
+                        embedded.project "compatdatapacks"
+                        embedded.project "legacyitemmodels"
                     }
-                    embedded.project "cloth-config"
-                    embedded.project "compatdatapacks"
-                    embedded.project "legacyitemmodels"
                 }
             }
         }
