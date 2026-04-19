@@ -19,9 +19,7 @@ public class MCPitanLibNeoForge {
             // TODO: re-implement outline rendering event
 //            nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEventBlock);
 //            nfBus.addListener(WorldRenderRegistryImpl::renderOutlineEvent);
-            nfBus.addListener(WorldRenderRegistryImpl::renderLevelStageEvent);
-            if (bus != null)
-                bus.addListener(CompatRegistryClientImpl::registerBlockColors);
+//            nfBus.addListener(WorldRenderRegistryImpl::renderLevelStageEvent);
         }
 
         MCPitanLib.init();
