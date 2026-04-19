@@ -18,6 +18,7 @@ import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityTypeWrapper;
 import org.jetbrains.annotations.Nullable;
 
 public class CompatBlockEntity extends BlockEntity {
@@ -178,5 +179,9 @@ public class CompatBlockEntity extends BlockEntity {
 
     public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraCachedState() {
         return net.pitan76.mcpitanlib.midohra.block.BlockState.of(callGetCachedState());
+    }
+
+    public CompatBlockEntity(BlockEntityTypeWrapper type, TileCreateEvent event) {
+        this(type.get(), event.getBlockPos(), event.getBlockState());
     }
 }

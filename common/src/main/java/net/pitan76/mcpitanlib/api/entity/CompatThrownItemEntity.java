@@ -16,6 +16,7 @@ import net.pitan76.mcpitanlib.api.event.entity.EntityHitEvent;
 import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
+import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.entity.IEntityM;
 
 public abstract class CompatThrownItemEntity extends ThrownItemEntity implements IEntityM {
@@ -154,5 +155,9 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity implements
 
     public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
         return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(callGetItem());
+    }
+
+    public CompatThrownItemEntity(EntityTypeWrapper type, net.pitan76.mcpitanlib.midohra.world.World world) {
+        this((EntityType<? extends ThrownItemEntity>) type.get(), world.toMinecraft());
     }
 }
