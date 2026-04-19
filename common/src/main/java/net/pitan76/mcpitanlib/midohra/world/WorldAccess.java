@@ -207,4 +207,8 @@ public class WorldAccess extends WorldView {
     public int getLuminance(BlockPos pos) {
         return getBlockState(pos).getLuminance();
     }
+
+    public List<EntityWrapper> getLivingEntities(Box box) {
+        return getEntitiesByClassM(LivingEntity.class, box);
+    }
 }
