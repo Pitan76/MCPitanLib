@@ -6,6 +6,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
@@ -134,5 +135,9 @@ public class CreativeTabBuilder {
      */
     public CreativeTabBuilder setIcon(SupplierItemWrapper item) {
         return setIcon(() -> item.createStack().toMinecraft());
+    }
+
+    public CreativeTabBuilder setDisplayName(TextComponent text) {
+        return setDisplayName(text.getText());
     }
 }
