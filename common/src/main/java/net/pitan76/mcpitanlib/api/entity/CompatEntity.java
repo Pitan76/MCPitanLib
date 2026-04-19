@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
+import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
 public class CompatEntity extends Entity {
@@ -132,4 +133,8 @@ public class CompatEntity extends Entity {
      public net.pitan76.mcpitanlib.midohra.world.ServerWorld getMidohraServerWorld() {
          return net.pitan76.mcpitanlib.midohra.world.ServerWorld.of(getServerWorld());
      }
+
+    public CompatEntity(EntityTypeWrapper type, net.pitan76.mcpitanlib.midohra.world.World world) {
+        super(type.get(), world.toMinecraft());
+    }
 }
