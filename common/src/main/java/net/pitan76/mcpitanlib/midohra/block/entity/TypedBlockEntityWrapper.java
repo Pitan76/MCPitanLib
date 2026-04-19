@@ -12,6 +12,11 @@ public class TypedBlockEntityWrapper<T extends BlockEntity> extends BlockEntityW
     }
 
     public static <T extends BlockEntity> TypedBlockEntityWrapper<T> of(BlockEntityWrapper wrapper) {
+        if (wrapper instanceof SupplierBlockEntityWrapper) {
+            SupplierBlockEntityWrapper supplierWrapper = (SupplierBlockEntityWrapper) wrapper;
+            return SupplierTypedBlockEntityWrapper.of(supplierWrapper);
+        }
+
         return new TypedBlockEntityWrapper<>((T) wrapper.get());
     }
 
