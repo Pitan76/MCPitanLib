@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.core.registry;
 
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
@@ -43,8 +41,7 @@ public class MCPLRegistry1_20 {
 
     public RegistrySupplier<CreativeModeTab> registryItemGroup(Identifier id, Supplier<CreativeModeTab> supplier) {
         ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, id);
-        RegistrySupplier<CreativeModeTab> itemGroup =
-                new RegistrySupplier<>(Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, key, supplier.get()));
+        RegistrySupplier<CreativeModeTab> itemGroup = Registry.registryItemGroup(id, supplier);
 //        RegistrySupplier<CreativeModeTab> itemGroup = ITEM_GROUP.register(id, supplier);
         REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.put(key, itemGroup);
         return itemGroup;
@@ -52,8 +49,8 @@ public class MCPLRegistry1_20 {
 
     public RegistrySupplier<CreativeModeTab> registryItemGroup(Identifier id, CreativeTabBuilder builder) {
         ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, id);
-        RegistrySupplier<CreativeModeTab> itemGroup =
-                new RegistrySupplier<>(Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, key, builder.build()));
+        RegistrySupplier<CreativeModeTab> itemGroup = Registry.registryItemGroup(id, builder::build);
+//                new RegistrySupplier<>(Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, key, builder.build()));
 //        RegistrySupplier<CreativeModeTab> itemGroup = ITEM_GROUP.register(id, builder::build);
         REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.put(key, itemGroup);
         return itemGroup;

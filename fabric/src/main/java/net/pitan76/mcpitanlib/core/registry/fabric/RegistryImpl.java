@@ -1,20 +1,24 @@
 package net.pitan76.mcpitanlib.core.registry.fabric;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.TicketType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.Fluid;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
+import net.pitan76.mcpitanlib.midohra.world.chunk.ChunkTicketType;
 
 import java.util.function.Supplier;
 
@@ -53,5 +57,17 @@ public class RegistryImpl {
 
     public static RegistrySupplier<MobEffect> registryStatusEffect(Identifier id, Supplier<MobEffect> supplier) {
         return new RegistrySupplier<>(Registry.register(BuiltInRegistries.MOB_EFFECT, ResourceKey.create(Registries.MOB_EFFECT, id), supplier.get()));
+    }
+
+    public static RegistrySupplier<CreativeModeTab> registryItemGroup(Identifier id, Supplier<CreativeModeTab> supplier) {
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ResourceKey.create(Registries.CREATIVE_MODE_TAB, id), supplier.get()));
+    }
+
+    public static RegistrySupplier<DataComponentType<?>> registryDataComponentType(Identifier id, Supplier<DataComponentType<?>> supplier) {
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ResourceKey.create(Registries.DATA_COMPONENT_TYPE, id), supplier.get()));
+    }
+
+    public static Supplier<ChunkTicketType<?>> registryChunkTicketType(Identifier id, Supplier<TicketType> supplier) {
+        return () -> ChunkTicketType.of(Registry.register(BuiltInRegistries.TICKET_TYPE, ResourceKey.create(Registries.TICKET_TYPE, id), supplier.get()));
     }
 }

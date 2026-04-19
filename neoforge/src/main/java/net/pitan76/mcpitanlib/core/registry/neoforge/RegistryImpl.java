@@ -1,14 +1,17 @@
 package net.pitan76.mcpitanlib.core.registry.neoforge;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.TicketType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -17,6 +20,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
+import net.pitan76.mcpitanlib.midohra.world.chunk.ChunkTicketType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -71,6 +75,19 @@ public class RegistryImpl {
 
     public static RegistrySupplier<MobEffect> registryStatusEffect(Identifier id, Supplier<MobEffect> supplier) {
         return register(Registries.MOB_EFFECT, id, supplier);
+    }
+
+    public static RegistrySupplier<CreativeModeTab> registryItemGroup(Identifier id, Supplier<CreativeModeTab> supplier) {
+        return register(Registries.CREATIVE_MODE_TAB, id, supplier);
+    }
+
+    public static RegistrySupplier<DataComponentType<?>> registryDataComponentType(Identifier id, Supplier<DataComponentType<?>> supplier) {
+        return register(Registries.DATA_COMPONENT_TYPE, id, supplier);
+    }
+
+    public static Supplier<ChunkTicketType<?>> registryChunkTicketType(Identifier id, Supplier<TicketType> supplier) {
+        RegistrySupplier<TicketType> supplier1 = register(Registries.TICKET_TYPE, id, supplier);
+        return () -> ChunkTicketType.of(supplier1.get());
     }
 
     @SubscribeEvent
