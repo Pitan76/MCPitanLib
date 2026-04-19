@@ -66,10 +66,10 @@ public class ClientPlayNetworkingImpl {
         });
 
         // ダミー
-        payloadTypeMap.forEach((_, type) -> {
-            if (!handlerMap.containsKey(type)) {
-                registrar.playToServer(type, BufPayload.getCodec(type), (_, _) -> {});
-            }
-        });
+//        payloadTypeMap.forEach((_, type) -> {
+//            if (!handlerMap.containsKey(type)) {
+//                registrar.playToServer(type, BufPayload.getCodec(type), (_, _) -> {});
+//            }
+//        });
     }
 }
