@@ -1,14 +1,15 @@
 package net.pitan76.mcpitanlib.api.util.inventory.args;
 
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
 
 public class InventoryWrapper implements ICompatInventory {
-    private final Inventory inventory;
+    private final Container inventory;
 
-    public InventoryWrapper(Inventory inventory) {
+    public InventoryWrapper(Container inventory) {
         this.inventory = inventory;
     }
 
@@ -16,7 +17,7 @@ public class InventoryWrapper implements ICompatInventory {
         return new InventoryWrapper(inventory);
     }
 
-    public Inventory getInventory() {
+    public Container getInventory() {
         return inventory;
     }
 
