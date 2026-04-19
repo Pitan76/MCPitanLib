@@ -50,6 +50,7 @@ import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.api.util.entity.LivingEntityUtil;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
 import net.pitan76.mcpitanlib.api.util.inventory.args.InventoryWrapper;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
@@ -601,7 +602,7 @@ public class Player {
     }
 
     public ICompatInventory getInventoryAsM() {
-        return InventoryWrapper.of(getInv());
+        return new CompatPlayerInventory(getInv());
     }
 
     public net.pitan76.mcpitanlib.midohra.item.ItemStack getMainHandStackAsM() {
