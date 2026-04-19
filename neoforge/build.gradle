@@ -40,6 +40,8 @@ dependencies {
 
     include("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
     include("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
+    include("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
+    include("net.pitan76:littleoldnamedfallback:${rootProject.littleoldnamedfallback_version}")
 }
 
 processResources {
