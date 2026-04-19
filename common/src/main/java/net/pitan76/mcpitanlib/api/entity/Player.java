@@ -52,7 +52,6 @@ import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.api.util.entity.LivingEntityUtil;
 import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
-import net.pitan76.mcpitanlib.api.util.inventory.args.InventoryWrapper;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
