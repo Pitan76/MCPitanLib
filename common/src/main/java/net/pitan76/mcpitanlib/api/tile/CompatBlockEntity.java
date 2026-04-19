@@ -176,6 +176,6 @@ public class CompatBlockEntity extends BlockEntity {
     }
 
     public CompatBlockEntity(BlockEntityTypeWrapper type, TileCreateEvent event) {
-        this(type.get(), event.getBlockPos(), event.getBlockState());
+        this(type.get(), event);
     }
 }
