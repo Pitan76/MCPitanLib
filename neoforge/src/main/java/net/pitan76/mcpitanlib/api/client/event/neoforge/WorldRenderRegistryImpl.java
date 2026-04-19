@@ -1,17 +1,20 @@
 package net.pitan76.mcpitanlib.api.client.event.neoforge;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.world.ClientWorld;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Camera;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent;
-import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContext;
 import net.pitan76.mcpitanlib.api.client.event.listener.WorldRenderContextListener;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.ArrayList;
@@ -26,18 +29,18 @@ public class WorldRenderRegistryImpl {
         for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
             boolean eventContinue = listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
                 @Override
-                public WorldRenderer getWorldRenderer() {
+                public LevelRenderer getWorldRenderer() {
                     return event.getLevelRenderer();
                 }
 
                 @Override
-                public MatrixStack getMatrixStack() {
-                    return new MatrixStack();
+                public PoseStack getMatrixStack() {
+                    return new PoseStack();
                 }
 
                 @Override
                 public float getTickDelta() {
-                    return ClientUtil.getClient().getRenderTickCounter().getDynamicDeltaTicks();
+                    return ClientUtil.getClient().getDeltaTracker().getGameTimeDeltaTicks();
                 }
 
                 @Override
@@ -47,12 +50,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public GameRenderer getGameRenderer() {
-                    return MinecraftClient.getInstance().gameRenderer;
-                }
-
-                @Override
-                public LightmapTextureManager getLightmapTextureManager() {
-                    return MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager();
+                    return ClientUtil.getClient().gameRenderer;
                 }
 
                 @Deprecated
@@ -62,8 +60,8 @@ public class WorldRenderRegistryImpl {
                 }
 
                 @Override
-                public ClientWorld getWorld() {
-                    return MinecraftClient.getInstance().world;
+                public ClientLevel getWorld() {
+                    return ClientUtil.getClient().level;
                 }
 
                 @Deprecated
@@ -73,15 +71,15 @@ public class WorldRenderRegistryImpl {
                 }
 
                 @Override
-                public VertexConsumerProvider getConsumers() {
-                    return ClientUtil.getClient().getBufferBuilders().getOutlineVertexConsumers();
+                public @Nullable MultiBufferSource getConsumers() {
+                    return ClientUtil.getClient().renderBuffers().bufferSource();
                 }
 
                 @Override
                 public Frustum getFrustum() {
-                    return event.getLevelRenderer().getCapturedFrustum();
+                    return ClientUtil.getClient().gameRenderer.getMainCamera().getCapturedFrustum();
                 }
-            }, event.getLevelRenderState().outlineRenderState));
+            }, event.getLevelRenderState().blockOutlineRenderState));
 
             if (!eventContinue) {
                 event.setCanceled(true);
@@ -157,12 +155,12 @@ public class WorldRenderRegistryImpl {
         for (WorldRenderContextListener listener : worldRenderAfterLevelListeners) {
             listener.render(new WorldRenderContext() {
                 @Override
-                public WorldRenderer getWorldRenderer() {
+                public LevelRenderer getWorldRenderer() {
                     return event.getLevelRenderer();
                 }
 
                 @Override
-                public MatrixStack getMatrixStack() {
+                public PoseStack getMatrixStack() {
                     return event.getPoseStack();
                 }
 
@@ -173,44 +171,38 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Camera getCamera() {
-                    return MinecraftClient.getInstance().gameRenderer.getCamera();
+                    return ClientUtil.getGameRenderer().getMainCamera();
                 }
 
                 @Override
                 public GameRenderer getGameRenderer() {
-                    return MinecraftClient.getInstance().gameRenderer;
+                    return ClientUtil.getGameRenderer();
                 }
 
-                @Override
-                public LightmapTextureManager getLightmapTextureManager() {
-                    return MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager();
-                }
-
-                @Deprecated
                 @Override
                 public Matrix4f getProjectionMatrix() {
-                    return event.getModelViewMatrix();
+                    return null;
                 }
 
                 @Override
-                public ClientWorld getWorld() {
-                    return MinecraftClient.getInstance().world;
+                public ClientLevel getWorld() {
+                    return ClientUtil.getWorld();
                 }
 
                 @Deprecated
                 @Override
                 public boolean isAdvancedTranslucency() {
-                    return event.getLevelRenderer().isTerrainRenderComplete();
+                    return false;
                 }
 
                 @Override
-                public VertexConsumerProvider getConsumers() {
-                    return MinecraftClient.getInstance().getBufferBuilders().getOutlineVertexConsumers();
+                public @Nullable MultiBufferSource getConsumers() {
+                    return ClientUtil.getClient().renderBuffers().bufferSource();
                 }
 
                 @Override
                 public Frustum getFrustum() {
-                    return event.getLevelRenderer().getCapturedFrustum();
+                    return ClientUtil.getGameRenderer().getMainCamera().getCapturedFrustum();
                 }
             });
         }

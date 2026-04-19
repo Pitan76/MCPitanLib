@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.tile.fabric;
 
-import net.fabricmc.fabric.api.blockview.v2.RenderDataBlockEntity;
+import net.fabricmc.fabric.api.blockgetter.v2.RenderDataBlockEntity;
 
 @Deprecated
 public interface RenderDataBlockEntityImpl extends RenderDataBlockEntity {
