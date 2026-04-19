@@ -30,15 +30,25 @@ import java.util.function.Supplier;
 @EventBusSubscriber(modid = "mcpitanlib")
 public class RegistryImpl {
 
-    private static final Map<ResourceKey<? extends Registry<?>>, Map<Identifier, Object>> PENDING_REGISTRIES = new HashMap<>();
+    private static class PendingEntry<T> {
+        final Supplier<T> factory;
+        final RegistrySupplier<T> wrapper;
+
+        PendingEntry(Supplier<T> factory, RegistrySupplier<T> wrapper) {
+            this.factory = factory;
+            this.wrapper = wrapper;
+        }
+    }
+
+    private static final Map<ResourceKey<? extends Registry<?>>, Map<Identifier, PendingEntry<?>>> PENDING_REGISTRIES = new HashMap<>();
 
     private static <T> RegistrySupplier<T> register(ResourceKey<@NotNull Registry<T>> registryKey, Identifier id, Supplier<T> supplier) {
-        T instance = supplier.get();
+        RegistrySupplier<T> registrySupplier = new RegistrySupplier<>();
 
         PENDING_REGISTRIES.computeIfAbsent(registryKey, _ -> new HashMap<>())
-                .put(id, instance);
+                .put(id, new PendingEntry<>(supplier, registrySupplier));
 
-        return new RegistrySupplier<>(instance);
+        return registrySupplier;
     }
 
     public static RegistrySupplier<Item> registryItem(Identifier id, Supplier<Item> supplier) {
@@ -96,10 +106,16 @@ public class RegistryImpl {
         ResourceKey<? extends Registry<?>> key = event.getRegistryKey();
 
         if (PENDING_REGISTRIES.containsKey(key)) {
-            Map<Identifier, Object> entries = PENDING_REGISTRIES.get(key);
+            Map<Identifier, PendingEntry<?>> entries = PENDING_REGISTRIES.get(key);
 
-            for (Map.Entry<Identifier, Object> entry : entries.entrySet()) {
-                event.register((ResourceKey) key, entry.getKey(), () -> entry.getValue());
+            for (Map.Entry<Identifier, PendingEntry<?>> mapEntry : entries.entrySet()) {
+                PendingEntry<?> pending = mapEntry.getValue();
+                event.register((ResourceKey) key, mapEntry.getKey(), () -> {
+                    Object instance = pending.factory.get();
+                    ((RegistrySupplier<Object>) pending.wrapper).set(instance);
+
+                    return instance;
+                });
             }
         }
     }
