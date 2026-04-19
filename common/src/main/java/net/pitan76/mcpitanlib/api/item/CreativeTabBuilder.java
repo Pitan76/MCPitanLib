@@ -11,6 +11,8 @@ import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
+import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
+import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
 
 import java.util.function.Supplier;
 
@@ -104,5 +106,33 @@ public class CreativeTabBuilder {
 
     public CompatIdentifier getCompatIdentifier() {
         return CompatIdentifier.fromMinecraft(identifier);
+    }
+
+    /**
+     * Set icon
+     * @param iconSupplier Icon supplier
+     * @return CreativeTabBuilder
+     */
+    public CreativeTabBuilder setIconM(Supplier<net.pitan76.mcpitanlib.midohra.item.ItemStack> iconSupplier) {
+        this.iconSupplier = () -> iconSupplier.get().toMinecraft();
+        return this;
+    }
+
+    /**
+     * Set icon (Already registered item only)
+     * @param item Item
+     * @return CreativeTabBuilder
+     */
+    public CreativeTabBuilder setIcon(ItemWrapper item) {
+        return setIcon(() -> item.createStack().toMinecraft());
+    }
+
+    /**
+     * Set icon (Already registered item only)
+     * @param item Item
+     * @return CreativeTabBuilder
+     */
+    public CreativeTabBuilder setIcon(SupplierItemWrapper item) {
+        return setIcon(() -> item.createStack().toMinecraft());
     }
 }

@@ -16,6 +16,11 @@ public class TypedItemWrapper<T extends Item> extends ItemWrapper {
     }
 
     public static <T extends Item> TypedItemWrapper<T> of(ItemWrapper wrapper) {
+        if (wrapper instanceof SupplierItemWrapper) {
+            SupplierItemWrapper supplierWrapper = (SupplierItemWrapper) wrapper;
+            return SupplierTypedItemWrapper.of(supplierWrapper);
+        }
+
         return new TypedItemWrapper<>((T) wrapper.get());
     }
 
