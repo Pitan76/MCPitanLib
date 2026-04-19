@@ -48,7 +48,10 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.api.util.entity.LivingEntityUtil;
+import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
+import net.pitan76.mcpitanlib.api.util.inventory.args.InventoryWrapper;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
@@ -549,7 +552,6 @@ public class Player {
         sendActionBar(textComponent.getText());
     }
 
-
     public void openExtendedMenu(ExtendedScreenHandlerFactory provider) {
         this.openExtendedMenu((ExtendedMenuProvider) provider);
     }
@@ -584,5 +586,37 @@ public class Player {
 
     public net.pitan76.mcpitanlib.midohra.item.ItemStack getEquippedStackM(ArmorEquipmentType type) {
         return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getEquippedStack(type));
+    }
+
+    public ItemStackList getMainAsM() {
+        return ItemStackList.of(getMain());
+    }
+
+    public ItemStackList getOffHandAsM() {
+        return ItemStackList.of(getOffHand());
+    }
+
+    public ItemStackList getArmorAsM() {
+        return ItemStackList.of(getArmor());
+    }
+
+    public ICompatInventory getInventoryAsM() {
+        return InventoryWrapper.of(getInv());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getMainHandStackAsM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getMainHandStack());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getOffHandStackAsM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getOffHandStack());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.Direction getHorizontalFacingM() {
+        return net.pitan76.mcpitanlib.midohra.util.math.Direction.of(getHorizontalFacing());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getCursorStackAsM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getCursorStack());
     }
 }

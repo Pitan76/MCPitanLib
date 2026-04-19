@@ -168,6 +168,6 @@ public abstract class CompatThrownItemEntity extends ThrownItemEntity implements
     }
 
     public CompatThrownItemEntity(EntityTypeWrapper type, net.pitan76.mcpitanlib.midohra.world.World world) {
-        this((EntityType<? extends ThrowableItemProjectile>) type.get(), world.toMinecraft());
+        this((EntityType<? extends ThrownItemEntity>) type.get(), world.toMinecraft());
     }
 }

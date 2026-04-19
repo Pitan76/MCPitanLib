@@ -141,7 +141,7 @@ public class BlockUseEvent extends BaseEvent {
         return ItemWrapper.of(getItem());
     }
 
-    public BlockUseEvent(net.pitan76.mcpitanlib.midohra.block.BlockState state, net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public BlockUseEvent(net.pitan76.mcpitanlib.midohra.block.BlockState state, net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, Player player, Hand hand, BlockHitResult hit) {
         this(state.toMinecraft(), world.toMinecraft(), pos.toMinecraft(), player.getEntity(), hand, hit);
     }
 }
