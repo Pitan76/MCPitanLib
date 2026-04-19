@@ -3,6 +3,7 @@ plugins {
     id "dev.architectury.loom-no-remap" version "1.14-SNAPSHOT" apply false
     id 'com.matthewprenger.cursegradle' version '1.5.0-SNAPSHOT' // FORK: maven.pitan76.net
     id "com.modrinth.minotaur" version "2.+"
+    id "com.gradleup.shadow" version "9.4.0"
 }
 
 architectury {
@@ -30,6 +31,7 @@ subprojects {
     apply plugin: "maven-publish"
     apply plugin: "com.modrinth.minotaur"
     apply plugin: "com.matthewprenger.cursegradle"
+    apply plugin: "com.gradleup.shadow"
 
     base {
         // Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
@@ -49,49 +51,51 @@ subprojects {
         implementation 'org.yaml:snakeyaml:2.0'
     }
 
-    afterEvaluate {
+    if (name in "fabric,neoforge".split(",")) {
+        var modLoader = name
 
-        if (name in "fabric,neoforge".split(",")) {
-            var modLoader = name
+        if (System.getenv("CURSEFORGE_TOKEN") != null) {
+            curseforge {
+                apiKey = System.getenv("CURSEFORGE_TOKEN")
+                project {
+                    id = '682213'
+                    changelog = info.changelog
+                    releaseType = 'beta'
+                    if (modLoader == "fabric") {
+                        addGameVersion "Fabric"
+                    }
+                    if (modLoader == "forge") {
+                        addGameVersion "Forge"
+                    }
+                    if (modLoader == "neoforge") {
+                        addGameVersion "NeoForge"
+                    }
+                    addGameVersion "26.1"
+                    addGameVersion "26.1.1"
+                    addGameVersion "26.1.2"
 
-            if (System.getenv("CURSEFORGE_TOKEN") != null) {
-                curseforge {
-                    apiKey = System.getenv("CURSEFORGE_TOKEN")
-                    project {
-                        id = '682213'
-                        changelog = info.changelog
-                        releaseType = 'beta'
+                    relations {
                         if (modLoader == "fabric") {
-                            addGameVersion "Fabric"
-                        }
-                        if (modLoader == "forge") {
-                            addGameVersion "Forge"
-                        }
-                        if (modLoader == "neoforge") {
-                            addGameVersion "NeoForge"
-                        }
-                        addGameVersion "26.1"
-                        addGameVersion "26.1.1"
-                        addGameVersion "26.1.2"
-
-                        relations {
-                            if (modLoader == "fabric") {
-                                requiredDependency "fabric-api"
-                            }
-
-                            embeddedLibrary 'cloth-config'
-                            embeddedLibrary 'compatdatapacks'
-                            embeddedLibrary 'legacyitemmodels'
+                            requiredDependency "fabric-api"
                         }
 
-                        mainArtifact(tasks.named("shadowJar").get().archiveFile.get().asFile)
+                        embeddedLibrary 'cloth-config'
+                        embeddedLibrary 'compatdatapacks'
+                        embeddedLibrary 'legacyitemmodels'
                     }
-                    options {
-                        forgeGradleIntegration = false
-                    }
+
+                    mainArtifact(shadowJar)
                 }
-
+                options {
+                    forgeGradleIntegration = false
+                }
             }
+
+        }
+
+
+        afterEvaluate {
+
 
             if (System.getenv("MODRINTH_TOKEN") != null) {
                 modrinth {
