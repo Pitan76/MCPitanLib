@@ -1,6 +1,8 @@
 package net.pitan76.mcpitanlib.midohra.util.shape;
 
 import net.minecraft.util.shape.VoxelShapes;
+import net.pitan76.mcpitanlib.api.util.VoxelShapeUtil;
+import net.pitan76.mcpitanlib.midohra.util.math.Box;
 import net.pitan76.mcpitanlib.midohra.util.math.Direction;
 
 public class VoxelShape {
@@ -73,5 +75,29 @@ public class VoxelShape {
             result = net.minecraft.util.shape.VoxelShapes.union(result, shape.raw());
         }
         return of(result);
+    }
+
+    public static VoxelShape cuboid(double x1, double y1, double z1, double x2, double y2, double z2) {
+        return of(VoxelShapeUtil.cuboid(x1, y1, z1, x2, y2, z2));
+    }
+
+    public static VoxelShape cuboid(double size) {
+        return of(VoxelShapeUtil.cuboid(size));
+    }
+
+    public static VoxelShape cuboid(double x1, double y1, double z1, double size) {
+        return of(VoxelShapeUtil.cuboid(x1, y1, z1, size));
+    }
+
+    public static VoxelShape centeredCuboid(double x, double y, double z, double size) {
+        return of(VoxelShapeUtil.centeredCuboid(x, y, z, size));
+    }
+
+    public static VoxelShape blockCuboid(double x1, double y1, double z1, double x2, double y2, double z2) {
+        return of(VoxelShapeUtil.blockCuboid(x1, y1, z1, x2, y2, z2));
+    }
+
+    public Box getBoundingBox() {
+        return new Box(VoxelShapeUtil.getBoundingBox(raw()));
     }
 }
