@@ -19,6 +19,11 @@ public class TypedEntityTypeWrapper<T extends Entity> extends EntityTypeWrapper 
     }
 
     public static <T extends Entity> TypedEntityTypeWrapper<T> of(EntityTypeWrapper wrapper) {
+        if (wrapper instanceof SupplierEntityTypeWrapper) {
+            SupplierEntityTypeWrapper supplierWrapper = (SupplierEntityTypeWrapper) wrapper;
+            return SupplierTypedEntityTypeWrapper.of(supplierWrapper);
+        }
+
         return new TypedEntityTypeWrapper<>((EntityType<T>) wrapper.get());
     }
 

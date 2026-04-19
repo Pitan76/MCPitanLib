@@ -6,8 +6,11 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
+import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
 
 import java.util.function.Supplier;
 
@@ -93,5 +96,41 @@ public class CreativeTabBuilder {
 
     public Identifier getIdentifier() {
         return identifier;
+    }
+
+    public CompatIdentifier getCompatIdentifier() {
+        return CompatIdentifier.fromMinecraft(identifier);
+    }
+
+    /**
+     * Set icon
+     * @param iconSupplier Icon supplier
+     * @return CreativeTabBuilder
+     */
+    public CreativeTabBuilder setIconM(Supplier<net.pitan76.mcpitanlib.midohra.item.ItemStack> iconSupplier) {
+        this.iconSupplier = () -> iconSupplier.get().toMinecraft();
+        return this;
+    }
+
+    /**
+     * Set icon (Already registered item only)
+     * @param item Item
+     * @return CreativeTabBuilder
+     */
+    public CreativeTabBuilder setIcon(ItemWrapper item) {
+        return setIcon(() -> item.createStack().toMinecraft());
+    }
+
+    /**
+     * Set icon (Already registered item only)
+     * @param item Item
+     * @return CreativeTabBuilder
+     */
+    public CreativeTabBuilder setIcon(SupplierItemWrapper item) {
+        return setIcon(() -> item.createStack().toMinecraft());
+    }
+
+    public CreativeTabBuilder setDisplayName(TextComponent text) {
+        return setDisplayName(text.getText());
     }
 }
