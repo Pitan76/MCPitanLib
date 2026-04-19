@@ -63,4 +63,26 @@ public class TileCreateEvent extends BaseEvent {
         return (blockState != null);
     }
     // ----
+
+    public TileCreateEvent(net.pitan76.mcpitanlib.midohra.util.math.BlockPos blockPos, net.pitan76.mcpitanlib.midohra.block.BlockState blockState) {
+        this.blockView = null;
+        this.blockPos = blockPos.toMinecraft();
+        this.blockState = blockState.toMinecraft();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getBlockPosM() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(getBlockPos());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getBlockStateM() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(getBlockState());
+    }
+
+    public void setBlockPos(net.pitan76.mcpitanlib.midohra.util.math.BlockPos blockPos) {
+        setBlockPos(blockPos.toMinecraft());
+    }
+
+    public void setBlockState(net.pitan76.mcpitanlib.midohra.block.BlockState blockState) {
+        setBlockState(blockState.toMinecraft());
+    }
 }
