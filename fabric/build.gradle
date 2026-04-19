@@ -84,6 +84,8 @@ shadowJar {
 
     configurations = [project.configurations.shadowCommon]
     archiveClassifier.set(null)
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 jar {
