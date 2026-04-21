@@ -93,10 +93,7 @@ subprojects {
 
         }
 
-
         afterEvaluate {
-
-
             if (System.getenv("MODRINTH_TOKEN") != null) {
                 modrinth {
                     token = System.getenv("MODRINTH_TOKEN")
