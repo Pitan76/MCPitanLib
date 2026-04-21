@@ -30,7 +30,6 @@
     }
   },
   "mixins": [
-    "mcpitanlib.mixins.json",
     "mcpitanlib-common.mixins.json"
   ],
   "accessWidener": "mcpitanlib.accesswidener",
