@@ -1,0 +1,1008 @@
+Subject: [PATCH] gradle
+---
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/CompatMatrix3x2fStack.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/CompatMatrix3x2fStack.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/CompatMatrix3x2fStack.java
+new file mode 100644
+--- /dev/null	(date 1777189056266)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/CompatMatrix3x2fStack.java	(date 1777189056266)
+@@ -0,0 +1,48 @@
++package net.pitan76.mcpitanlib.api.client.render;
++
++import net.pitan76.mcpitanlib.api.util.MathUtil;
++import org.joml.Matrix3x2fStack;
++
++public class CompatMatrix3x2fStack extends CompatMatrixStack {
++    private final Matrix3x2fStack matrices;
++
++    public CompatMatrix3x2fStack(Matrix3x2fStack matrices) {
++        super(null);
++        this.matrices = matrices;
++    }
++
++    @Deprecated
++    public Matrix3x2fStack get3x2fRaw() {
++        return matrices;
++    }
++
++    public CompatMatrix3x2fStack push() {
++        get3x2fRaw().pushMatrix();
++        return this;
++    }
++
++    public CompatMatrix3x2fStack pop() {
++        get3x2fRaw().popMatrix();
++        return this;
++    }
++
++    public CompatMatrix3x2fStack translate(double x, double y, double z) {
++        get3x2fRaw().translate((float) x, (float) y);
++        return this;
++    }
++
++    @Override
++    public CompatMatrixStack translate(float x, float y, float z) {
++        get3x2fRaw().translate(x, y);
++        return this;
++    }
++
++    public CompatMatrix3x2fStack scale(float x, float y, float z) {
++        get3x2fRaw().scale(x, y);
++        return this;
++    }
++
++    public CompatMatrix3x2fStack multiply(MathUtil.RotationAxisType type, float deg) {
++        return this;
++    }
++}
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/event/listener/WorldRenderContext.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/event/listener/WorldRenderContext.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/event/listener/WorldRenderContext.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/client/event/listener/WorldRenderContext.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/event/listener/WorldRenderContext.java	(date 1777189232790)
+@@ -19,6 +19,7 @@
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.world.phys.AABB;
+ import net.minecraft.world.phys.shapes.VoxelShape;
++import net.pitan76.mcpitanlib.api.client.render.CompatMatrixStack;
+ import net.pitan76.mcpitanlib.api.util.VoxelShapeUtil;
+ import net.pitan76.mcpitanlib.api.util.client.render.VertexRenderingUtil;
+ import net.pitan76.mcpitanlib.midohra.client.render.CameraWrapper;
+@@ -108,6 +109,10 @@
+         getMatrixStack().popPose();
+     }
+ 
++    default CompatMatrixStack getCompatMatrices() {
++        return CompatMatrixStack.of(getMatrixStack());
++    }
++
+     default Optional<VertexConsumer> getVertexConsumer() {
+         if (getConsumers() == null)
+             return Optional.empty();
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/util/math/MathUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/util/math/MathUtil.java b/common/src/main/java/net/pitan76/mcpitanlib/api/util/math/MathUtil.java
+new file mode 100644
+--- /dev/null	(date 1777189486869)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/util/math/MathUtil.java	(date 1777189486869)
+@@ -0,0 +1,41 @@
++package net.pitan76.mcpitanlib.api.util.math;
++
++import net.minecraft.util.Mth;
++
++public class MathUtil {
++    public static double clamp(double value, double min, double max) {
++        return Mth.clamp(value, min, max);
++    }
++
++    public static float clamp(float value, float min, float max) {
++        return Mth.clamp(value, min, max);
++    }
++
++    public static int clamp(int value, int min, int max) {
++        return Mth.clamp(value, min, max);
++    }
++
++    public static long clamp(long value, long min, long max) {
++        return Mth.clamp(value, min, max);
++    }
++
++    public static double lerp(double a, double b, double t) {
++        return Mth.lerp(t, a, b);
++    }
++
++    public static float lerp(float a, float b, float t) {
++        return Mth.lerp(t, a, b);
++    }
++
++    public static double inverseLerp(double a, double b, double value) {
++        return Mth.inverseLerp(a, b, value);
++    }
++
++    public static int hsvToRgb(float hue, float saturation, float value) {
++        return Mth.hsvToRgb(hue, saturation, value);
++    }
++
++    public static float hsvToArgb(float hue, float saturation, float value, int alpha) {
++        return Mth.hsvToArgb(hue, saturation, value, alpha);
++    }
++}
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseClickedArgs.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseClickedArgs.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseClickedArgs.java
+new file mode 100644
+--- /dev/null	(date 1777191810794)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseClickedArgs.java	(date 1777191810794)
+@@ -0,0 +1,26 @@
++package net.pitan76.mcpitanlib.api.client.render.handledscreen;
++
++import net.minecraft.client.input.MouseButtonInfo;
++
++public class MouseClickedArgs extends MouseButtonArgs {
++    public boolean doubleClick;
++
++    public MouseClickedArgs(double mouseX, double mouseY, MouseButtonInfo buttonInfo, boolean doubleClick) {
++        super(mouseX, mouseY, buttonInfo);
++        this.doubleClick = doubleClick;
++    }
++
++    public MouseClickedArgs(double mouseX, double mouseY, int button, boolean doubleClick) {
++        super(mouseX, mouseY, button);
++        this.doubleClick = doubleClick;
++    }
++
++    public MouseClickedArgs(double mouseX, double mouseY, int button) {
++        this(mouseX, mouseY, button, false);
++    }
++
++    @Deprecated
++    public boolean isDoubleClick() {
++        return doubleClick;
++    }
++}
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/CharEventArgs.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/CharEventArgs.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/CharEventArgs.java
+new file mode 100644
+--- /dev/null	(date 1777190665057)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/CharEventArgs.java	(date 1777190665057)
+@@ -0,0 +1,21 @@
++package net.pitan76.mcpitanlib.api.client.render.handledscreen;
++
++public class CharEventArgs {
++    private final int character;
++
++    public CharEventArgs(char character, int modifiers) {
++        this.character = character;
++    }
++
++    public CharEventArgs(int codepoint) {
++        this.character = codepoint;
++    }
++
++    public int getCharacter() {
++        return character;
++    }
++
++    public char getChar() {
++        return (char) character;
++    }
++}
+Index: common/src/main/java/net/pitan76/mcpitanlib/midohra/block/Blocks.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/midohra/block/Blocks.java b/common/src/main/java/net/pitan76/mcpitanlib/midohra/block/Blocks.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/midohra/block/Blocks.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/midohra/block/Blocks.java	(date 1777187815951)
+@@ -1,5 +1,10 @@
+ package net.pitan76.mcpitanlib.midohra.block;
+ 
++import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
++
++import java.util.List;
++import java.util.stream.Collectors;
++
+ public class Blocks {
+     public static BlockWrapper AIR = of(net.minecraft.world.level.block.Blocks.AIR);
+     public static BlockWrapper STONE = of(net.minecraft.world.level.block.Blocks.STONE);
+@@ -768,4 +773,8 @@
+     public static BlockWrapper of(net.minecraft.world.level.block.Block block) {
+         return BlockWrapper.of(block);
+     }
++
++    public static List<BlockWrapper> getBlocks() {
++        return BlockUtil.getBlocks().stream().map(BlockWrapper::of).collect(Collectors.toList());
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/gui/args/CreateMenuEvent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/gui/args/CreateMenuEvent.java b/common/src/main/java/net/pitan76/mcpitanlib/api/gui/args/CreateMenuEvent.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/gui/args/CreateMenuEvent.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/gui/args/CreateMenuEvent.java	(date 1777192306521)
+@@ -3,6 +3,7 @@
+ import net.minecraft.world.entity.player.Inventory;
+ import net.minecraft.world.level.Level;
+ import net.pitan76.mcpitanlib.api.entity.Player;
++import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
+ 
+ public class CreateMenuEvent {
+     public int syncId;
+@@ -54,4 +55,12 @@
+     public Level getWorld() {
+         return getPlayer().getWorld();
+     }
++
++    public CompatPlayerInventory getCompatPlayerInventory() {
++        return new CompatPlayerInventory(getPlayerInventory());
++    }
++
++    public net.pitan76.mcpitanlib.midohra.world.World getWorldM() {
++        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/network/PacketByteUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/network/PacketByteUtil.java b/common/src/main/java/net/pitan76/mcpitanlib/api/network/PacketByteUtil.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/network/PacketByteUtil.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/network/PacketByteUtil.java	(date 1777192630370)
+@@ -270,6 +270,18 @@
+     public static FriendlyByteBuf writeBlockPos(FriendlyByteBuf buf, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
+         return writeBlockPos(buf, pos.toMinecraft());
+     }
++
++    public static boolean isReadable(FriendlyByteBuf buf) {;
++        return buf.isReadable();
++    }
++
++    public static boolean isWritable(FriendlyByteBuf buf) {
++        return buf.isWritable();
++    }
++
++    public static boolean isReadable(FriendlyByteBuf buf, int size) {
++        return buf.isReadable(size);
++    }
+ }
+ 
+ 
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/CompatMatrixStack.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/CompatMatrixStack.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/CompatMatrixStack.java
+new file mode 100644
+--- /dev/null	(date 1777189232799)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/CompatMatrixStack.java	(date 1777189232799)
+@@ -0,0 +1,51 @@
++package net.pitan76.mcpitanlib.api.client.render;
++
++import net.pitan76.mcpitanlib.api.util.MathUtil;
++import net.pitan76.mcpitanlib.api.util.client.MatrixStackUtil;
++
++public class CompatMatrixStack {
++    private final com.mojang.blaze3d.vertex.PoseStack matrices;
++
++    public CompatMatrixStack(com.mojang.blaze3d.vertex.PoseStack matrices) {
++        this.matrices = matrices;
++    }
++
++    public static CompatMatrixStack of(com.mojang.blaze3d.vertex.PoseStack matrixStack) {
++        return new CompatMatrixStack(matrixStack);
++    }
++
++    @Deprecated
++    public com.mojang.blaze3d.vertex.PoseStack getRaw() {
++        return matrices;
++    }
++
++    public CompatMatrixStack push() {
++        MatrixStackUtil.push(getRaw());
++        return this;
++    }
++
++    public CompatMatrixStack pop() {
++        MatrixStackUtil.pop(getRaw());
++        return this;
++    }
++
++    public CompatMatrixStack translate(double x, double y, double z) {
++        MatrixStackUtil.translate(getRaw(), x, y, z);
++        return this;
++    }
++
++    public CompatMatrixStack translate(float x, float y, float z) {
++        getRaw().translate(x, y, z);
++        return this;
++    }
++
++    public CompatMatrixStack scale(float x, float y, float z) {
++        MatrixStackUtil.scale(getRaw(), x, y, z);
++        return this;
++    }
++
++    public CompatMatrixStack multiply(MathUtil.RotationAxisType type, float deg) {
++        MatrixStackUtil.multiply(getRaw(), type, deg);
++        return this;
++    }
++}
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/event/container/factory/ExtraDataArgs.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/event/container/factory/ExtraDataArgs.java b/common/src/main/java/net/pitan76/mcpitanlib/api/event/container/factory/ExtraDataArgs.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/event/container/factory/ExtraDataArgs.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/event/container/factory/ExtraDataArgs.java	(date 1777192460461)
+@@ -5,6 +5,7 @@
+ import net.pitan76.mcpitanlib.api.entity.Player;
+ import net.pitan76.mcpitanlib.api.event.BaseEvent;
+ import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
++import net.pitan76.mcpitanlib.midohra.network.CompatPacketByteBuf;
+ 
+ public class ExtraDataArgs extends BaseEvent {
+     public FriendlyByteBuf buf;
+@@ -52,4 +53,8 @@
+     public void writeVar(Object obj) {
+         PacketByteUtil.writeVar(getBuf(), obj);
+     }
++
++    public CompatPacketByteBuf getCompatBuf() {
++        return CompatPacketByteBuf.of(getBuf());
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/option/CompatKeyBinding.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/option/CompatKeyBinding.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/option/CompatKeyBinding.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/client/option/CompatKeyBinding.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/option/CompatKeyBinding.java	(date 1777187202278)
+@@ -1,6 +1,7 @@
+ package net.pitan76.mcpitanlib.api.client.option;
+ 
+ import net.minecraft.client.KeyMapping;
++import net.minecraft.client.input.KeyEvent;
+ import net.minecraft.network.chat.Component;
+ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+ 
+@@ -75,4 +76,8 @@
+     public KeyMapping getRaw() {
+         return keyBinding;
+     }
++
++    public boolean matches(int keyCode, int scanCode, int modifiers) {
++        return keyBinding.matches(new KeyEvent(keyCode, scanCode, modifiers));
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/gui/screen/SimpleHandledScreen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/gui/screen/SimpleHandledScreen.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/gui/screen/SimpleHandledScreen.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/client/gui/screen/SimpleHandledScreen.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/gui/screen/SimpleHandledScreen.java	(date 1777192065101)
+@@ -8,7 +8,9 @@
+ import net.minecraft.client.gui.narration.NarratableEntry;
+ import net.minecraft.client.gui.screens.Screen;
+ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
++import net.minecraft.client.input.CharacterEvent;
+ import net.minecraft.client.input.KeyEvent;
++import net.minecraft.client.input.MouseButtonEvent;
+ import net.minecraft.client.renderer.item.ItemModelResolver;
+ import net.minecraft.world.entity.player.Inventory;
+ import net.minecraft.world.inventory.AbstractContainerMenu;
+@@ -362,4 +364,54 @@
+     public Component getPlayerInvTitle() {
+         return playerInventoryTitle;
+     }
++
++    public boolean charTyped(CharEventArgs args) {
++        return super.charTyped(new CharacterEvent(args.getCharacter()));
++    }
++
++    @Deprecated
++    @Override
++    public boolean charTyped(CharacterEvent event) {
++        return charTyped(new CharEventArgs(event.codepoint()));
++    }
++
++    public boolean mouseScrolled(MouseScrolledArgs args) {
++        return super.mouseScrolled(args.getMouseX(), args.getMouseY(), args.getScrollX(), args.getScrollY());
++    }
++
++    @Deprecated
++    @Override
++    public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
++        return mouseScrolled(new MouseScrolledArgs(x, y, scrollX, scrollY));
++    }
++
++    public boolean mouseClicked(MouseClickedArgs args) {
++        return super.mouseClicked(new MouseButtonEvent(args.getX(), args.getY(), args.getButtonInfo()), args.isDoubleClick());
++    }
++
++    @Deprecated
++    @Override
++    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
++        return mouseClicked(new MouseClickedArgs(event.x(), event.y(), event.buttonInfo(), doubleClick));
++    }
++
++    public boolean mouseDragged(MouseDraggedArgs args) {
++        return super.mouseDragged(new MouseButtonEvent(args.getX(), args.getY(), args.getButtonInfo()), args.getDeltaX(), args.getDeltaY());
++    }
++
++    @Deprecated
++    @Override
++    public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
++        return mouseDragged(new MouseDraggedArgs(event.x(), event.y(), event.buttonInfo(), dx, dy));
++    }
++
++    public boolean mouseReleased(MouseReleasedArgs args) {
++        return super.mouseReleased(new MouseButtonEvent(args.getX(), args.getY(), args.getButtonInfo()));
++    }
++
++    @Deprecated
++    @Override
++    public boolean mouseReleased(MouseButtonEvent event) {
++        return mouseReleased(new MouseReleasedArgs(event.x(), event.y(), event.buttonInfo()));
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/DrawObjectDM.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/DrawObjectDM.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/DrawObjectDM.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/DrawObjectDM.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/DrawObjectDM.java	(date 1777189771891)
+@@ -9,6 +9,8 @@
+ import net.pitan76.mcpitanlib.api.util.client.ScreenUtil.RendererUtil;
+ import org.joml.Matrix3x2fStack;
+ 
++import java.util.List;
++
+ public class DrawObjectDM {
+     private PoseStack stack;
+     private Matrix3x2fStack matrix3x2fStack;
+@@ -86,6 +88,10 @@
+         RendererUtil.drawTooltip(this, text, x, y);
+     }
+ 
++    public void drawTooltip(List<TextComponent> texts, int x, int y) {
++        RendererUtil.drawTooltip2(this, texts, x, y);
++    }
++
+     public void drawBorder(int x, int y, int width, int height, int color) {
+         RendererUtil.drawBorder(this, x, y, width, height, color);
+     }
+@@ -97,4 +103,8 @@
+     public int getHeight() {
+         return hasScreen() ? screen.height : -1;
+     }
++
++    public CompatMatrixStack getMatrixStack() {
++        return new CompatMatrix3x2fStack(context.pose());
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseDraggedArgs.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseDraggedArgs.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseDraggedArgs.java
+new file mode 100644
+--- /dev/null	(date 1777191944644)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseDraggedArgs.java	(date 1777191944644)
+@@ -0,0 +1,29 @@
++package net.pitan76.mcpitanlib.api.client.render.handledscreen;
++
++import net.minecraft.client.input.MouseButtonInfo;
++
++public class MouseDraggedArgs extends MouseButtonArgs {
++
++    public final double dx;
++    public final double dy;
++
++    public MouseDraggedArgs(double mouseX, double mouseY, MouseButtonInfo buttonInfo, double dx, double dy) {
++        super(mouseX, mouseY, buttonInfo);
++        this.dx = dx;
++        this.dy = dy;
++    }
++
++    public MouseDraggedArgs(double mouseX, double mouseY, int button, double dx, double dy) {
++        super(mouseX, mouseY, button);
++        this.dx = dx;
++        this.dy = dy;
++    }
++
++    public double getDeltaX() {
++        return dx;
++    }
++
++    public double getDeltaY() {
++        return dy;
++    }
++}
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/util/client/ScreenUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/util/client/ScreenUtil.java b/common/src/main/java/net/pitan76/mcpitanlib/api/util/client/ScreenUtil.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/util/client/ScreenUtil.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/util/client/ScreenUtil.java	(date 1777189771870)
+@@ -16,9 +16,11 @@
+ import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
+ import net.pitan76.mcpitanlib.api.text.TextComponent;
+ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
++import net.pitan76.mcpitanlib.midohra.item.ItemStack;
+ import org.jetbrains.annotations.Nullable;
+ 
+ import java.util.List;
++import java.util.stream.Collectors;
+ 
+ @Environment(EnvType.CLIENT)
+ public class ScreenUtil {
+@@ -207,6 +209,74 @@
+         public static void drawTooltip(DrawObjectDM drawObjectDM, List<Component> texts, int x, int y) {
+             drawObjectDM.getContext().setComponentTooltipForNextFrame(getTextRenderer(), texts, x, y);
+         }
++
++        public static void drawTooltip2(DrawObjectDM drawObjectDM, List<TextComponent> texts, int x, int y) {
++            drawTooltip(drawObjectDM, texts.stream().map(TextComponent::getText).collect(Collectors.toList()), x, y);
++        }
++
++        public static void drawItem(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
++            drawItem(drawObjectDM, stack.toMinecraft(), x, y);
++        }
++
++        public static void drawItem(DrawObjectDM drawObjectDM, net.minecraft.world.item.ItemStack stack, int x, int y) {
++            drawObjectDM.getContext().item(stack, x, y);
++        }
++
++        public static void drawItem(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, int seed) {
++            drawItem(drawObjectDM, stack.toMinecraft(), x, y, seed);
++        }
++
++        public static void drawItem(DrawObjectDM drawObjectDM, net.minecraft.world.item.ItemStack stack, int x, int y, int seed) {
++            drawObjectDM.getContext().item(stack, x, y, seed);
++        }
++
++        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
++            drawItemWithoutEntity(drawObjectDM, stack.toMinecraft(), x, y);
++        }
++
++        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.world.item.ItemStack stack, int x, int y) {
++            drawObjectDM.getContext().fakeItem(stack, x, y, 0);
++        }
++
++        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, int seed) {
++            drawItemWithoutEntity(drawObjectDM, stack.toMinecraft(), x, y, seed);
++        }
++
++        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.world.item.ItemStack stack, int x, int y, int seed) {
++            drawObjectDM.getContext().fakeItem(stack, x, y, seed);
++        }
++
++        public static void drawItemInSlot(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
++            drawItemInSlot(drawObjectDM, stack.toMinecraft(), x, y);
++        }
++
++        public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.world.item.ItemStack stack, int x, int y) {
++            drawObjectDM.getContext().itemDecorations(getTextRenderer(), stack, x, y);
++        }
++
++        public static void drawItemInSlot(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, String countText) {
++            drawItemInSlot(drawObjectDM, stack.toMinecraft(), x, y, countText);
++        }
++
++        public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.world.item.ItemStack stack, int x, int y, String countText) {
++            drawObjectDM.getContext().itemDecorations(getTextRenderer(), stack, x, y, countText);
++        }
++
++        public static void enableScissor(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1) {
++            drawObjectDM.getContext().enableScissor(x0, y0, x1, y1);
++        }
++
++        public static void disableScissor(DrawObjectDM drawObjectDM) {
++            drawObjectDM.getContext().disableScissor();
++        }
++
++        public static void fill(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1, int color) {
++            drawObjectDM.getContext().fill(x0, y0, x1, y1, fixColor(color));
++        }
++
++        public static void fillGradient(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1, int color0, int color1) {
++            drawObjectDM.getContext().fillGradient(x0, y0, x1, y1, fixColor(color0), fixColor(color1));
++        }
+     }
+ 
+     public static int getWidth(Component text) {
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseScrolledArgs.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseScrolledArgs.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseScrolledArgs.java
+new file mode 100644
+--- /dev/null	(date 1777191460210)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseScrolledArgs.java	(date 1777191460210)
+@@ -0,0 +1,37 @@
++package net.pitan76.mcpitanlib.api.client.render.handledscreen;
++
++public class MouseScrolledArgs {
++    private final double mouseX;
++    private final double mouseY;
++    private final double scrollX;
++    private final double scrollY;
++    private final double amount;
++
++    public MouseScrolledArgs(double mouseX, double mouseY, double scrollX, double scrollY) {
++        this.mouseX = mouseX;
++        this.mouseY = mouseY;
++        this.scrollX = scrollX;
++        this.scrollY = scrollY;
++        this.amount = Math.sqrt(scrollX * scrollX + scrollY * scrollY);
++    }
++
++    public double getMouseX() {
++        return mouseX;
++    }
++
++    public double getMouseY() {
++        return mouseY;
++    }
++
++    public double getScrollX() {
++        return scrollX;
++    }
++
++    public double getScrollY() {
++        return scrollY;
++    }
++
++    public double getAmount() {
++        return amount;
++    }
++}
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/util/client/WindowUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/util/client/WindowUtil.java b/common/src/main/java/net/pitan76/mcpitanlib/api/util/client/WindowUtil.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/util/client/WindowUtil.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/util/client/WindowUtil.java	(date 1777187365008)
+@@ -39,4 +39,16 @@
+     public static void close() {
+         getWindow().close();
+     }
++
++    public static int getX() {
++        return getWindow().getX();
++    }
++
++    public static int getY() {
++        return getWindow().getY();
++    }
++
++    public static double getScaleFactor() {
++        return getWindow().getGuiScale();
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseReleasedArgs.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseReleasedArgs.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseReleasedArgs.java
+new file mode 100644
+--- /dev/null	(date 1777192065068)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseReleasedArgs.java	(date 1777192065068)
+@@ -0,0 +1,14 @@
++package net.pitan76.mcpitanlib.api.client.render.handledscreen;
++
++import net.minecraft.client.input.MouseButtonInfo;
++
++public class MouseReleasedArgs extends MouseButtonArgs {
++
++    public MouseReleasedArgs(double mouseX, double mouseY, MouseButtonInfo buttonInfo) {
++        super(mouseX, mouseY, buttonInfo);
++    }
++
++    public MouseReleasedArgs(double mouseX, double mouseY, int button) {
++        super(mouseX, mouseY, button);
++    }
++}
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseButtonArgs.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseButtonArgs.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseButtonArgs.java
+new file mode 100644
+--- /dev/null	(date 1777191810769)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/handledscreen/MouseButtonArgs.java	(date 1777191810769)
+@@ -0,0 +1,38 @@
++package net.pitan76.mcpitanlib.api.client.render.handledscreen;
++
++import net.minecraft.client.input.MouseButtonInfo;
++
++public class MouseButtonArgs {
++    public final double mouseX, mouseY;
++    public MouseButtonInfo buttonInfo = null;
++
++    public MouseButtonArgs(double mouseX, double mouseY, MouseButtonInfo buttonInfo) {
++        this.mouseX = mouseX;
++        this.mouseY = mouseY;
++        this.buttonInfo = buttonInfo;
++    }
++
++    public MouseButtonArgs(double mouseX, double mouseY, int button) {
++        this.mouseX = mouseX;
++        this.mouseY = mouseY;
++        this.buttonInfo = new MouseButtonInfo(button, 0);
++    }
++
++    public double getX() {
++        return mouseX;
++    }
++
++    public double getY() {
++        return mouseY;
++    }
++
++    public int getButton() {
++        if (getButtonInfo() == null) return -1;
++        return getButtonInfo().button();
++    }
++
++    @Deprecated
++    public MouseButtonInfo getButtonInfo() {
++        return buttonInfo;
++    }
++}
+Index: common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroupWrapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroupWrapper.java b/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroupWrapper.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroupWrapper.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroupWrapper.java	(date 1777189589604)
+@@ -1,8 +1,13 @@
+ package net.pitan76.mcpitanlib.midohra.item;
+ 
++import net.pitan76.mcpitanlib.api.text.TextComponent;
+ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+ import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
+ 
++import java.util.Collection;
++import java.util.Collections;
++import java.util.stream.Collectors;
++
+ public class ItemGroupWrapper {
+     private final net.minecraft.world.item.CreativeModeTab itemGroup;
+ 
+@@ -68,4 +73,40 @@
+         ItemGroupWrapper other = (ItemGroupWrapper) obj;
+         return rawEquals(other);
+     }
++
++    public ItemWrapper getIconItem() {
++        return getIcon().getItem();
++    }
++
++    public Type getType() {
++        if (get().getType().equals(net.minecraft.world.item.CreativeModeTab.Type.CATEGORY)) {
++            return Type.CATEGORY;
++        } else if (get().getType().equals(net.minecraft.world.item.CreativeModeTab.Type.INVENTORY)) {
++            return Type.INVENTORY;
++        } else if (get().getType().equals(net.minecraft.world.item.CreativeModeTab.Type.HOTBAR)) {
++            return Type.HOTBAR;
++        } else if (get().getType().equals(net.minecraft.world.item.CreativeModeTab.Type.SEARCH)) {
++            return Type.SEARCH;
++        }
++
++        return Type.EMPTY;
++    }
++
++    public Collection<ItemStack> getDisplayItems() {
++        if (isEmpty()) return Collections.emptyList();
++        return get().getDisplayItems().stream().map(ItemStack::of).collect(Collectors.toList());
++    }
++
++    public TextComponent getDisplayName() {
++        if (isEmpty()) return new TextComponent("");
++        return new TextComponent(get().getDisplayName());
++    }
++
++    public static enum Type {
++        EMPTY,
++        CATEGORY,
++        INVENTORY,
++        HOTBAR,
++        SEARCH,
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/midohra/network/CompatPacketByteBuf.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/midohra/network/CompatPacketByteBuf.java b/common/src/main/java/net/pitan76/mcpitanlib/midohra/network/CompatPacketByteBuf.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/midohra/network/CompatPacketByteBuf.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/midohra/network/CompatPacketByteBuf.java	(date 1777192630393)
+@@ -123,4 +123,21 @@
+         PacketByteUtil.writeNbt(this, nbt);
+         return this;
+     }
++
++    public CompatPacketByteBuf writeVar(Object obj) {
++        PacketByteUtil.writeVar(this, obj);
++        return this;
++    }
++
++    public boolean isReadable() {
++        return PacketByteUtil.isReadable(this);
++    }
++
++    public boolean isWritable() {
++        return PacketByteUtil.isWritable(this);
++    }
++
++    public boolean isReadable(int size) {
++        return PacketByteUtil.isReadable(this, size);
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroups.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroups.java b/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroups.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroups.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemGroups.java	(date 1777187815967)
+@@ -1,7 +1,11 @@
+ package net.pitan76.mcpitanlib.midohra.item;
+ 
++import net.minecraft.world.item.CreativeModeTabs;
+ import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
+ 
++import java.util.List;
++import java.util.stream.Collectors;
++
+ public class ItemGroups {
+     public static final ItemGroupWrapper BUILDING_BLOCKS = of(DefaultItemGroups.BUILDING_BLOCKS);
+     public static final ItemGroupWrapper COLORED_BLOCKS = of(DefaultItemGroups.COLORED_BLOCKS);
+@@ -27,4 +31,12 @@
+     private static ItemGroupWrapper of(net.minecraft.world.item.CreativeModeTab itemGroup) {
+         return ItemGroupWrapper.of(itemGroup);
+     }
++
++    public static List<ItemGroupWrapper> getGroupsToDisplay() {
++        return CreativeModeTabs.allTabs().stream().map(ItemGroupWrapper::of).collect(Collectors.toList());
++    }
++
++    public static List<ItemGroupWrapper> getGroups() {
++        return CreativeModeTabs.tabs().stream().map(ItemGroupWrapper::of).collect(Collectors.toList());
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemStack.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemStack.java b/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemStack.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemStack.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/ItemStack.java	(date 1777189962211)
+@@ -1,6 +1,7 @@
+ package net.pitan76.mcpitanlib.midohra.item;
+ 
+ import net.minecraft.world.item.Item;
++import net.minecraft.world.item.TooltipFlag;
+ import net.minecraft.world.level.ItemLike;
+ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.network.chat.Component;
+@@ -9,10 +10,12 @@
+ import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
+ import net.pitan76.mcpitanlib.api.text.TextComponent;
+ import net.pitan76.mcpitanlib.api.util.*;
++import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
+ import org.jetbrains.annotations.Nullable;
+ 
+ import java.util.List;
+ import java.util.Map;
++import java.util.stream.Collectors;
+ 
+ public class ItemStack {
+     private final net.minecraft.world.item.ItemStack stack;
+@@ -259,4 +262,9 @@
+         Class<?> clazz = item.getClass();
+         return clazz.isInstance(getRawItem());
+     }
++
++    public List<TextComponent> getTooltip() {
++        return stack.getTooltipLines(Item.TooltipContext.EMPTY, ClientUtil.getClientPlayer(), ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL)
++                .stream().map(TextComponent::new).collect(Collectors.toList());
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/midohra/item/Items.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/Items.java b/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/Items.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/Items.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/midohra/item/Items.java	(date 1777187815988)
+@@ -1,5 +1,10 @@
+ package net.pitan76.mcpitanlib.midohra.item;
+ 
++import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
++
++import java.util.List;
++import java.util.stream.Collectors;
++
+ public class Items {
+     public static ItemWrapper AIR = of(net.minecraft.world.item.Items.AIR);
+     public static ItemWrapper STONE = of(net.minecraft.world.item.Items.STONE);
+@@ -981,4 +986,8 @@
+     public static ItemWrapper of(net.minecraft.world.item.Item item) {
+         return ItemWrapper.of(item);
+     }
++
++    public static List<ItemWrapper> getItems() {
++        return ItemUtil.getItems().stream().map(ItemWrapper::of).collect(Collectors.toList());
++    }
+ }
+Index: common/src/main/java/net/pitan76/mcpitanlib/api/client/render/block/entity/event/BlockEntityRenderEvent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/block/entity/event/BlockEntityRenderEvent.java b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/block/entity/event/BlockEntityRenderEvent.java
+--- a/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/block/entity/event/BlockEntityRenderEvent.java	(revision 05711e295c85714a55d91cb74b7f90e41a911b05)
++++ b/common/src/main/java/net/pitan76/mcpitanlib/api/client/render/block/entity/event/BlockEntityRenderEvent.java	(date 1777189232766)
+@@ -13,6 +13,7 @@
+ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.core.BlockPos;
+ import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
++import net.pitan76.mcpitanlib.api.client.render.CompatMatrixStack;
+ import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
+ import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
+ import net.pitan76.mcpitanlib.api.client.render.block.entity.CompatBlockEntityRenderer;
+@@ -122,6 +123,10 @@
+         MatrixStackUtil.scale(matrices, x, y, z);
+     }
+ 
++    public CompatMatrixStack getCompatMatrices() {
++        return CompatMatrixStack.of(matrices);
++    }
++
+     public ItemModelResolver getItemRenderer() {
+         return ClientUtil.getItemRenderer();
+     }
