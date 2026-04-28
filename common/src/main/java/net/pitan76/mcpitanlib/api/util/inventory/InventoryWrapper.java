@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,7 +11,7 @@ public class InventoryWrapper implements ICompatInventory {
         this.inventory = inventory;
     }
 
-    public static InventoryWrapper of(Inventory inventory) {
+    public static InventoryWrapper of(Container inventory) {
         return new InventoryWrapper(inventory);
     }
 
