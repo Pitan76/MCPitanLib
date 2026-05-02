@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ExtendItem extends Item {
+public class ExtendItem extends Item implements ICompatItem {
 
     public ExtendItem(Settings settings) {
         super(settings);

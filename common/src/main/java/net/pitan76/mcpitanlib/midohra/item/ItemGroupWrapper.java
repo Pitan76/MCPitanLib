@@ -1,7 +1,17 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
+import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemGroupWrapper {
     private final net.minecraft.item.ItemGroup itemGroup;
@@ -67,5 +77,49 @@ public class ItemGroupWrapper {
 
         ItemGroupWrapper other = (ItemGroupWrapper) obj;
         return rawEquals(other);
+    }
+
+    public ItemWrapper getIconItem() {
+        return getIcon().getItem();
+    }
+
+    public Type getType() {
+        if (get() == ItemGroup.INVENTORY) {
+            return Type.INVENTORY;
+        } else if (get() == ItemGroup.HOTBAR) {
+            return Type.HOTBAR;
+        } else if (get() == ItemGroup.SEARCH) {
+            return Type.SEARCH;
+        } else if (get() != null) {
+            return Type.CATEGORY;
+        }
+
+        return Type.EMPTY;
+    }
+
+    public Collection<ItemStack> getDisplayItems() {
+        if (isEmpty()) return Collections.emptyList();
+        List<ItemStack> displayStacks = new ArrayList<>();
+
+        for (Item item : ItemUtil.getItems()) {
+            if (item.getGroup() == get()) {
+                displayStacks.add(ItemStack.of(item.getDefaultStack()));
+            }
+        }
+
+        return displayStacks;
+    }
+
+    public TextComponent getDisplayName() {
+        if (isEmpty()) return new TextComponent("");
+        return new TextComponent(get().getDisplayName());
+    }
+
+    public static enum Type {
+        EMPTY,
+        CATEGORY,
+        INVENTORY,
+        HOTBAR,
+        SEARCH,
     }
 }

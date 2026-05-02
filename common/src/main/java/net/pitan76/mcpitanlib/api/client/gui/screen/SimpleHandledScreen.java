@@ -373,4 +373,53 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     public Text getPlayerInvTitle() {
         return super.playerInventory.getName();
     }
+
+    public boolean charTyped(CharEventArgs args) {
+        return super.charTyped(args.getChar(), args.getModifiers());
+    }
+
+    @Override
+    public boolean charTyped(char chr, int modifiers) {
+        return charTyped(new CharEventArgs(chr, modifiers));
+    }
+
+    public boolean mouseScrolled(MouseScrolledArgs args) {
+        return super.mouseScrolled(args.getMouseX(), args.getMouseY(), args.getAmount());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseScrolled(double x, double y, double amount) {
+        return mouseScrolled(new MouseScrolledArgs(x, y, amount));
+    }
+
+    public boolean mouseClicked(MouseClickedArgs args) {
+        return super.mouseClicked(args.getX(), args.getY(), args.getButton());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return mouseClicked(new MouseClickedArgs(mouseX, mouseY, button));
+    }
+
+    public boolean mouseDragged(MouseDraggedArgs args) {
+        return super.mouseDragged(args.getX(), args.getY(), args.getButton(), args.getDeltaX(), args.getDeltaY());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        return mouseDragged(new MouseDraggedArgs(mouseX, mouseY, button, deltaX, deltaY));
+    }
+
+    public boolean mouseReleased(MouseReleasedArgs args) {
+        return super.mouseReleased(args.getX(), args.getY(), args.getButton());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        return mouseReleased(new MouseReleasedArgs(mouseX, mouseY, button));
+    }
 }

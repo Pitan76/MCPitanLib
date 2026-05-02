@@ -6,6 +6,9 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public interface IInventory extends Inventory {
 
     DefaultedList<ItemStack> getItems();
@@ -73,5 +76,9 @@ public interface IInventory extends Inventory {
     @Override
     default boolean canPlayerUse(PlayerEntity player) {
         return true;
+    }
+
+    default List<net.pitan76.mcpitanlib.midohra.item.ItemStack> getItemsM() {
+        return getItems().stream().map(net.pitan76.mcpitanlib.midohra.item.ItemStack::of).collect(Collectors.toList());
     }
 }
