@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Relative;
@@ -360,5 +361,9 @@ public class EntityUtil {
 
     public static void teleport(Entity entity, ServerLevel raw, BlockPos pos, float yaw, float pitch, boolean resetCamera) {
         teleport(entity, raw, pos.getX(), pos.getY(), pos.getZ(), yaw, pitch, resetCamera);
+    }
+
+    public static EntityType<?> getType(Entity entity) {
+        return entity.getType();
     }
 }

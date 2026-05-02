@@ -22,7 +22,7 @@ import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.entity.IEntityM;
 
-public abstract class CompatThrownItemEntity extends ThrowableItemProjectile implements IEntityM {
+public abstract class CompatThrownItemEntity extends ThrowableItemProjectile implements IEntityM, ICompatEntity {
 
     public CompatThrownItemEntity(EntityType<? extends ThrowableItemProjectile> entityType, Level world) {
         super(entityType, world);

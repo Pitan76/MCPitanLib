@@ -6,6 +6,9 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.NonNullList;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public interface IInventory extends Container {
 
     NonNullList<ItemStack> getItems();
@@ -73,5 +76,9 @@ public interface IInventory extends Container {
     @Override
     default boolean stillValid(Player player) {
         return true;
+    }
+
+    default List<net.pitan76.mcpitanlib.midohra.item.ItemStack> getItemsM() {
+        return getItems().stream().map(net.pitan76.mcpitanlib.midohra.item.ItemStack::of).collect(Collectors.toList());
     }
 }

@@ -19,6 +19,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.pitan76.mcpitanlib.api.client.render.CompatMatrixStack;
 import net.pitan76.mcpitanlib.api.util.VoxelShapeUtil;
 import net.pitan76.mcpitanlib.api.util.client.render.VertexRenderingUtil;
 import net.pitan76.mcpitanlib.midohra.client.render.CameraWrapper;
@@ -106,6 +107,10 @@ public interface WorldRenderContext {
 
     default void pop() {
         getMatrixStack().popPose();
+    }
+
+    default CompatMatrixStack getCompatMatrices() {
+        return CompatMatrixStack.of(getMatrixStack());
     }
 
     default Optional<VertexConsumer> getVertexConsumer() {

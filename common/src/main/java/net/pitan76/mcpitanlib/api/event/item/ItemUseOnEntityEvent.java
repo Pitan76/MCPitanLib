@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionHand;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
 public class ItemUseOnEntityEvent extends BaseEvent {
@@ -80,5 +81,9 @@ public class ItemUseOnEntityEvent extends BaseEvent {
 
     public ItemWrapper getItemWrapper() {
         return ItemWrapper.of(getItem());
+    }
+
+    public EntityWrapper getEntityWrapper() {
+        return EntityWrapper.of(getEntity());
     }
 }

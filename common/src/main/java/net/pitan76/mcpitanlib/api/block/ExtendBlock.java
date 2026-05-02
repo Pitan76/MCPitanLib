@@ -42,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ExtendBlock extends Block {
+public class ExtendBlock extends Block implements ICompatBlock {
     public CompatibleBlockSettings compatSettings;
 
     public ExtendBlock(Properties settings) {

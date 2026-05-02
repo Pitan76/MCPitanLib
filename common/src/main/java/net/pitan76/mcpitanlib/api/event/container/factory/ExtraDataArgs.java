@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.midohra.network.CompatPacketByteBuf;
 
 public class ExtraDataArgs extends BaseEvent {
     public FriendlyByteBuf buf;
@@ -51,5 +52,9 @@ public class ExtraDataArgs extends BaseEvent {
      */
     public void writeVar(Object obj) {
         PacketByteUtil.writeVar(getBuf(), obj);
+    }
+
+    public CompatPacketByteBuf getCompatBuf() {
+        return CompatPacketByteBuf.of(getBuf());
     }
 }

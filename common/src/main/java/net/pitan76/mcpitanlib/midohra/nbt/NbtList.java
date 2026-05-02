@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.nbt;
 
+import net.pitan76.mcpitanlib.api.util.NbtUtil;
+
 import java.util.AbstractList;
 import java.util.Optional;
 
@@ -106,5 +108,21 @@ public class NbtList extends AbstractList<NbtElement> implements ElementConverti
     @Override
     public NbtElement toElement() {
         return NbtElement.of(nbtList);
+    }
+
+    public static NbtList of() {
+        return new NbtList(NbtUtil.createNbtList());
+    }
+
+    public boolean add(ElementConvertible element) {
+        return add(element.toMinecraftNbtElement());
+    }
+
+    public void add(int index, ElementConvertible element) {
+        add(index, element.toMinecraftNbtElement());
+    }
+
+    public NbtElement set(int index, ElementConvertible element) {
+        return NbtElement.of(nbtList.set(index, element.toMinecraftNbtElement()));
     }
 }

@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.client.option;
 
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
@@ -74,5 +75,9 @@ public class CompatKeyBinding {
 
     public KeyMapping getRaw() {
         return keyBinding;
+    }
+
+    public boolean matches(int keyCode, int scanCode, int modifiers) {
+        return keyBinding.matches(new KeyEvent(keyCode, scanCode, modifiers));
     }
 }

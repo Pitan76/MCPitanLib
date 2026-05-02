@@ -152,4 +152,29 @@ public class NbtCompound implements ElementConvertible {
     public Optional<ItemStack> getSimpleItemStack(String key) {
         return NbtUtil.getSimpleItemStack(nbt, key).map(ItemStack::of);
     }
+
+    public NbtList getList(String key) {
+        return new NbtList(NbtUtil.getList(nbt, key));
+    }
+
+    public NbtList getList(String key, int type) {
+        return new NbtList(NbtUtil.getList(nbt, key, type));
+    }
+
+    public NbtList getNbtCompoundList(String key) {
+        return new NbtList(NbtUtil.getNbtCompoundList(nbt, key));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        NbtCompound that = (NbtCompound) obj;
+        return nbt.equals(that.nbt);
+    }
+
+    @Override
+    public int hashCode() {
+        return nbt.hashCode();
+    }
 }

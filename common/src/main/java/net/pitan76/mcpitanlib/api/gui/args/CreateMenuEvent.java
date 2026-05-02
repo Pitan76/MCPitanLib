@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.gui.args;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 
 public class CreateMenuEvent {
     public int syncId;
@@ -53,5 +54,13 @@ public class CreateMenuEvent {
 
     public Level getWorld() {
         return getPlayer().getWorld();
+    }
+
+    public CompatPlayerInventory getCompatPlayerInventory() {
+        return new CompatPlayerInventory(getPlayerInventory());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getWorldM() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
     }
 }

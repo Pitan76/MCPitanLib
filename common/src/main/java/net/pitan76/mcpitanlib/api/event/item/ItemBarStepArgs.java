@@ -13,4 +13,8 @@ public class ItemBarStepArgs {
     public ItemStack getStack() {
         return stack;
     }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(stack);
+    }
 }

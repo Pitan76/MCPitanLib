@@ -12,6 +12,7 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 
 public class ServerCommandEvent extends CommandEvent<CommandSourceStack> {
 
@@ -129,5 +130,13 @@ public class ServerCommandEvent extends CommandEvent<CommandSourceStack> {
 
     public void sendFailure(TextComponent message) {
         sendFailure(message.getText());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
+    }
+
+    public EntityWrapper getEntityWrapper() {
+        return EntityWrapper.of(getEntity());
     }
 }

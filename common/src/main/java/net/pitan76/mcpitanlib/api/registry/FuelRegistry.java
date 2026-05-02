@@ -23,7 +23,7 @@ public class FuelRegistry {
 
         Map<Supplier<ItemLike>, Integer> map = FUEL_MAP.get(namespace);
         for (Map.Entry<Supplier<ItemLike>, Integer> entry : map.entrySet()) {
-            net.pitan76.mcpitanlib.core.registry.FuelRegistry.register(entry.getValue(), entry.getKey().get());
+            net.pitan76.mcpitanlib.core.registry.FuelRegistry.register(entry.getValue(), entry.getKey());
         }
 
         FUEL_MAP.remove(namespace);

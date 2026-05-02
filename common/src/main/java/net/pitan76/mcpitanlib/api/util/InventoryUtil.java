@@ -199,4 +199,32 @@ public class InventoryUtil {
     public static void markDirty(Container inventory) {
         inventory.setChanged();
     }
+
+    public static net.pitan76.mcpitanlib.midohra.nbt.NbtCompound writeNbt(CompatRegistryLookup registryLookup, net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt, NonNullList<ItemStack> stacks, boolean setIfEmpty) {
+        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(writeNbt(registryLookup, nbt.toMinecraft(), stacks, setIfEmpty));
+    }
+
+     public static net.pitan76.mcpitanlib.midohra.nbt.NbtCompound writeNbt(CompatRegistryLookup registryLookup, net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt, NonNullList<ItemStack> stacks) {
+        return writeNbt(registryLookup, nbt, stacks, true);
+    }
+
+     public static void readNbt(CompatRegistryLookup registryLookup, net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt, NonNullList<ItemStack> stacks) {
+        readNbt(registryLookup, nbt.toMinecraft(), stacks);
+    }
+
+    public static net.pitan76.mcpitanlib.midohra.nbt.NbtCompound writeNbt(net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs args, net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt, NonNullList<ItemStack> stacks, boolean setIfEmpty) {
+        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(writeNbt(args, nbt.toMinecraft(), stacks, setIfEmpty));
+    }
+
+     public static net.pitan76.mcpitanlib.midohra.nbt.NbtCompound writeNbt(net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs args, net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt, NonNullList<ItemStack> stacks) {
+        return writeNbt(args, nbt, stacks, true);
+    }
+
+     public static void readNbt(net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs args, net.pitan76.mcpitanlib.midohra.nbt.NbtCompound nbt, NonNullList<ItemStack> stacks) {
+        readNbt(args, nbt.toMinecraft(), stacks);
+    }
+
+    public static boolean canMergeItems(net.pitan76.mcpitanlib.midohra.item.ItemStack first, net.pitan76.mcpitanlib.midohra.item.ItemStack second) {
+        return canMergeItems(first.toMinecraft(), second.toMinecraft());
+    }
 }

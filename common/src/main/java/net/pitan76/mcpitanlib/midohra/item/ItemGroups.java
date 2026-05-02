@@ -1,6 +1,10 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.minecraft.world.item.CreativeModeTabs;
 import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemGroups {
     public static final ItemGroupWrapper BUILDING_BLOCKS = of(DefaultItemGroups.BUILDING_BLOCKS);
@@ -26,5 +30,13 @@ public class ItemGroups {
 
     private static ItemGroupWrapper of(net.minecraft.world.item.CreativeModeTab itemGroup) {
         return ItemGroupWrapper.of(itemGroup);
+    }
+
+    public static List<ItemGroupWrapper> getGroupsToDisplay() {
+        return CreativeModeTabs.allTabs().stream().map(ItemGroupWrapper::of).collect(Collectors.toList());
+    }
+
+    public static List<ItemGroupWrapper> getGroups() {
+        return CreativeModeTabs.tabs().stream().map(ItemGroupWrapper::of).collect(Collectors.toList());
     }
 }

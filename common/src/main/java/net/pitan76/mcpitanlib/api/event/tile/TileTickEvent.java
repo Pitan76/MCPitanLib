@@ -9,6 +9,9 @@ import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
 import net.pitan76.mcpitanlib.midohra.world.IWorldView;
+import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
+
+import java.util.Optional;
 
 public class TileTickEvent<T extends BlockEntity> implements BlockStatePropertyHolder {
     public Level world;
@@ -88,5 +91,13 @@ public class TileTickEvent<T extends BlockEntity> implements BlockStatePropertyH
 
     public BlockWrapper getBlockWrapper() {
         return BlockWrapper.of(getBlock());
+    }
+
+    public Optional<ServerWorld> getOptionalServerWorld() {
+        return getMidohraWorld().toServerWorld();
+    }
+
+    public ServerWorld getServerWorld() {
+        return getOptionalServerWorld().orElse(null);
     }
 }

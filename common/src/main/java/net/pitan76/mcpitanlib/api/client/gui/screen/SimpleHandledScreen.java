@@ -8,7 +8,9 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -361,5 +363,55 @@ public abstract class SimpleHandledScreen<S extends AbstractContainerMenu> exten
 
     public Component getPlayerInvTitle() {
         return playerInventoryTitle;
+    }
+
+    public boolean charTyped(CharEventArgs args) {
+        return super.charTyped(new CharacterEvent(args.getCharacter()));
+    }
+
+    @Deprecated
+    @Override
+    public boolean charTyped(CharacterEvent event) {
+        return charTyped(new CharEventArgs(event.codepoint()));
+    }
+
+    public boolean mouseScrolled(MouseScrolledArgs args) {
+        return super.mouseScrolled(args.getMouseX(), args.getMouseY(), args.getScrollX(), args.getScrollY());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
+        return mouseScrolled(new MouseScrolledArgs(x, y, scrollX, scrollY));
+    }
+
+    public boolean mouseClicked(MouseClickedArgs args) {
+        return super.mouseClicked(new MouseButtonEvent(args.getX(), args.getY(), args.getButtonInfo()), args.isDoubleClick());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        return mouseClicked(new MouseClickedArgs(event.x(), event.y(), event.buttonInfo(), doubleClick));
+    }
+
+    public boolean mouseDragged(MouseDraggedArgs args) {
+        return super.mouseDragged(new MouseButtonEvent(args.getX(), args.getY(), args.getButtonInfo()), args.getDeltaX(), args.getDeltaY());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
+        return mouseDragged(new MouseDraggedArgs(event.x(), event.y(), event.buttonInfo(), dx, dy));
+    }
+
+    public boolean mouseReleased(MouseReleasedArgs args) {
+        return super.mouseReleased(new MouseButtonEvent(args.getX(), args.getY(), args.getButtonInfo()));
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseReleased(MouseButtonEvent event) {
+        return mouseReleased(new MouseReleasedArgs(event.x(), event.y(), event.buttonInfo()));
     }
 }

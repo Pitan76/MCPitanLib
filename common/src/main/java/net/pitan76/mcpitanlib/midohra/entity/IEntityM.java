@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.midohra.entity;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;

@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.block;
 
 import net.minecraft.world.level.block.Block;
+import net.pitan76.mcpitanlib.api.block.ICompatBlock;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
@@ -186,5 +187,19 @@ public class BlockWrapper {
 
     public <T extends CompatBlock> Optional<T> toCompatBlock(Class<T> clazz) {
         return Optional.ofNullable(getCompatBlock(clazz));
+    }
+
+    public <T extends ICompatBlock> T getICompatBlock(Class<T> clazz) {
+        if (isEmpty()) return null;
+        if (get() instanceof ICompatBlock) {
+            ICompatBlock compatBlock = (ICompatBlock) get();
+            if (clazz.isInstance(compatBlock))
+                return clazz.cast(compatBlock);
+        }
+        return null;
+    }
+
+    public <T extends ICompatBlock> Optional<T> toICompatBlock(Class<T> clazz) {
+        return Optional.ofNullable(getICompatBlock(clazz));
     }
 }

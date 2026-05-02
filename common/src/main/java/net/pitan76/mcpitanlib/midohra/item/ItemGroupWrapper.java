@@ -1,7 +1,12 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class ItemGroupWrapper {
     private final net.minecraft.world.item.CreativeModeTab itemGroup;
@@ -67,5 +72,41 @@ public class ItemGroupWrapper {
 
         ItemGroupWrapper other = (ItemGroupWrapper) obj;
         return rawEquals(other);
+    }
+
+    public ItemWrapper getIconItem() {
+        return getIcon().getItem();
+    }
+
+    public Type getType() {
+        if (get().getType().equals(net.minecraft.world.item.CreativeModeTab.Type.CATEGORY)) {
+            return Type.CATEGORY;
+        } else if (get().getType().equals(net.minecraft.world.item.CreativeModeTab.Type.INVENTORY)) {
+            return Type.INVENTORY;
+        } else if (get().getType().equals(net.minecraft.world.item.CreativeModeTab.Type.HOTBAR)) {
+            return Type.HOTBAR;
+        } else if (get().getType().equals(net.minecraft.world.item.CreativeModeTab.Type.SEARCH)) {
+            return Type.SEARCH;
+        }
+
+        return Type.EMPTY;
+    }
+
+    public Collection<ItemStack> getDisplayItems() {
+        if (isEmpty()) return Collections.emptyList();
+        return get().getDisplayItems().stream().map(ItemStack::of).collect(Collectors.toList());
+    }
+
+    public TextComponent getDisplayName() {
+        if (isEmpty()) return new TextComponent("");
+        return new TextComponent(get().getDisplayName());
+    }
+
+    public static enum Type {
+        EMPTY,
+        CATEGORY,
+        INVENTORY,
+        HOTBAR,
+        SEARCH,
     }
 }

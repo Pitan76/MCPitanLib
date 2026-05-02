@@ -270,6 +270,18 @@ public class PacketByteUtil {
     public static FriendlyByteBuf writeBlockPos(FriendlyByteBuf buf, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos) {
         return writeBlockPos(buf, pos.toMinecraft());
     }
+
+    public static boolean isReadable(FriendlyByteBuf buf) {;
+        return buf.isReadable();
+    }
+
+    public static boolean isWritable(FriendlyByteBuf buf) {
+        return buf.isWritable();
+    }
+
+    public static boolean isReadable(FriendlyByteBuf buf, int size) {
+        return buf.isReadable(size);
+    }
 }
 
 

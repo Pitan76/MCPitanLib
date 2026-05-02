@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.core.registry.neoforge;
 
+import com.google.common.base.Supplier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -11,18 +12,22 @@ import java.util.Map;
 
 @EventBusSubscriber(modid = "mcpitanlib")
 public class FuelRegistryImpl {
-    private static final Map<Item, Integer> FUEL_TIMES = new HashMap<>();
+    private static final Map<Supplier<ItemLike>, Integer> FUEL_TIMES = new HashMap<>();
 
-    public static void register(int time, ItemLike... items) {
+    public static void register(int time, Supplier<ItemLike> item) {
         int burnTimeTicks = 200 * time;
-        for (ItemLike itemLike : items) {
-            FUEL_TIMES.put(itemLike.asItem(), burnTimeTicks);
-        }
+        FUEL_TIMES.put(item, burnTimeTicks);
     }
 
     @SubscribeEvent
     public static void onFurnaceFuelBurnTime(FurnaceFuelBurnTimeEvent event) {
         Item item = event.getItemStack().getItem();
-        if (FUEL_TIMES.containsKey(item)) event.setBurnTime(FUEL_TIMES.get(item));
+        for (Map.Entry<Supplier<ItemLike>, Integer> entry : FUEL_TIMES.entrySet()) {
+            ItemLike itemLike = entry.getKey().get();
+            if (itemLike != null && itemLike.asItem().equals(item)) {
+                event.setBurnTime(entry.getValue());
+                break;
+            }
+        }
     }
 }

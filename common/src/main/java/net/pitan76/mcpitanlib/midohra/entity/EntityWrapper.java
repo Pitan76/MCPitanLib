@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.midohra.entity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.pitan76.mcpitanlib.api.entity.CompatEntity;
+import net.pitan76.mcpitanlib.api.entity.ICompatEntity;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.EntityUtil;
@@ -418,5 +419,55 @@ public class EntityWrapper {
 
     public double getZ() {
         return getPos().getZ();
+    }
+
+    public <T extends ICompatEntity> T getICompatEntity(Class<T> clazz) {
+        if (isEmpty()) return null;
+        if (get() instanceof ICompatEntity) {
+            ICompatEntity compatEntity = (ICompatEntity) get();
+            if (clazz.isInstance(compatEntity))
+                return clazz.cast(compatEntity);
+        }
+        return null;
+    }
+
+    public <T extends ICompatEntity> Optional<T> toICompatEntity(Class<T> clazz) {
+        return Optional.ofNullable(getICompatEntity(clazz));
+    }
+
+    public Vector3d getRotationVector() {
+        return Vector3d.of(EntityUtil.getRotationVector(get()));
+    }
+
+    public void setFallDistance(float fallDistance) {
+        EntityUtil.setFallDistance(get(), fallDistance);
+    }
+
+    public void setVelocityModified(boolean velocityModified) {
+        EntityUtil.setVelocityModified(get(), velocityModified);
+    }
+
+    public void setSwimming(boolean swimming) {
+        EntityUtil.setSwimming(get(), swimming);
+    }
+
+    public void setSprinting(boolean sprinting) {
+        EntityUtil.setSprinting(get(), sprinting);
+    }
+
+    public void setSneaking(boolean sneaking) {
+        EntityUtil.setSneaking(get(), sneaking);
+    }
+
+    public void setOnGround(boolean onGround) {
+        EntityUtil.setOnGround(get(), onGround);
+    }
+
+    public void setUuid(UUID uuid) {
+     EntityUtil.setUuid(get(), uuid);
+    }
+
+    public void setCustomName(String name) {
+        EntityUtil.setCustomName(get(), name);
     }
 }

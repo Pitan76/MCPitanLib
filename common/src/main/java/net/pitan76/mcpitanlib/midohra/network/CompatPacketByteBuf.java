@@ -123,4 +123,21 @@ public class CompatPacketByteBuf extends FriendlyByteBuf {
         PacketByteUtil.writeNbt(this, nbt);
         return this;
     }
+
+    public CompatPacketByteBuf writeVar(Object obj) {
+        PacketByteUtil.writeVar(this, obj);
+        return this;
+    }
+
+    public boolean isReadable() {
+        return PacketByteUtil.isReadable(this);
+    }
+
+    public boolean isWritable() {
+        return PacketByteUtil.isWritable(this);
+    }
+
+    public boolean isReadable(int size) {
+        return PacketByteUtil.isReadable(this, size);
+    }
 }

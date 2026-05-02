@@ -5,14 +5,22 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import java.util.function.Supplier;
+
 public class FuelRegistry {
     private FuelRegistry() {
 
     }
 
     @ExpectPlatform
-    public static void register(int time, ItemLike... item) {
+    public static void register(int time, Supplier<ItemLike> item) {
 
+    }
+
+    public static void register(int time, ItemLike... item) {
+        for (ItemLike i : item) {
+            register(time, () -> i);
+        }
     }
 
     @Deprecated

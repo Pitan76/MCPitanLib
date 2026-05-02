@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import net.minecraft.world.item.Item.Properties;
-import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.entity.Entity;
@@ -25,10 +23,9 @@ import net.pitan76.mcpitanlib.api.util.StackActionResult;
 import net.pitan76.mcpitanlib.core.Dummy;
 import net.pitan76.mcpitanlib.mixin.UseOnContextMixin;
 
-import java.util.List;
 import java.util.function.Consumer;
 
-public class ExtendItem extends Item {
+public class ExtendItem extends Item implements ICompatItem {
 
     public ExtendItem(Properties settings) {
         super(settings);
