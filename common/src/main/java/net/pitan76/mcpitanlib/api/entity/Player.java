@@ -47,6 +47,8 @@ import net.pitan76.mcpitanlib.api.util.entity.LivingEntityUtil;
 import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
 import net.pitan76.mcpitanlib.core.player.ItemCooldown;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
+import net.pitan76.mcpitanlib.midohra.server.MCServer;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
 import java.util.*;
@@ -605,5 +607,13 @@ public class Player {
 
     public net.pitan76.mcpitanlib.midohra.item.ItemStack getCursorStackAsM() {
         return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getCursorStack());
+    }
+
+    public EntityWrapper wrap() {
+        return EntityWrapper.of(getEntity());
+    }
+
+    public MCServer getServer() {
+        return getMidohraWorld().getMCServer();
     }
 }

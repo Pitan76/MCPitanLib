@@ -3,12 +3,14 @@ package net.pitan76.mcpitanlib.midohra.recipe;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.input.RecipeInput;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.mcpitanlib.midohra.recipe.input.RecipeInputOrInventory;
 import net.pitan76.mcpitanlib.midohra.recipe.input.TypedRecipeInputOrInventory;
 import net.pitan76.mcpitanlib.midohra.world.World;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Recipe {
     private final net.minecraft.recipe.Recipe<?> recipe;
@@ -87,5 +89,28 @@ public class Recipe {
 
     public List<Ingredient> getInputs() {
         return getRaw().getIngredientPlacement().getIngredients();
+    }
+
+    public ItemStack getOutput(World world) {
+        List<net.pitan76.mcpitanlib.midohra.recipe.Ingredient> ingredients = getInputs().stream()
+                .map(net.pitan76.mcpitanlib.midohra.recipe.Ingredient::of)
+                .collect(Collectors.toList());
+
+        CompatInventory inventory = new CompatInventory(ingredients.size());
+        for (int i = 0; i < ingredients.size(); i++) {
+            ItemStack stack = ingredients.get(i).getMatchingStacksAsMidohra()[0];
+            inventory.callSetStack(i, stack);
+        }
+
+        return craftMidohra(RecipeInputOrInventory.of(inventory), world);
+    }
+
+    private ItemStack cachedOutput = null;
+
+    public ItemStack getCachedOutput(World world) {
+        if (cachedOutput == null)
+            cachedOutput = getOutput(world);
+
+        return cachedOutput;
     }
 }

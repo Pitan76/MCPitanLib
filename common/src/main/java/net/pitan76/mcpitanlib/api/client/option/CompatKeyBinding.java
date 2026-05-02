@@ -54,4 +54,8 @@ public class CompatKeyBinding {
     public KeyBinding getRaw() {
         return keyBinding;
     }
+
+    public boolean matches(int keyCode, int scanCode, int modifiers) {
+        return keyBinding.matchesKey(keyCode, scanCode);
+    }
 }
