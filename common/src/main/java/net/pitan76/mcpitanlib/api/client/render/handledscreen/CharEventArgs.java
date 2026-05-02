@@ -18,4 +18,8 @@ public class CharEventArgs {
     public char getChar() {
         return (char) character;
     }
+
+    public int getModifiers() {
+        return 0;
+    }
 }
