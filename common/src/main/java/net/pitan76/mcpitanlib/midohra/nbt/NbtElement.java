@@ -117,4 +117,17 @@ public class NbtElement implements ElementConvertible {
         NbtInteger integer = asNbtInteger();
         return integer != null ? integer : defaultInteger;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        NbtElement that = (NbtElement) obj;
+        return nbt.equals(that.nbt);
+    }
+
+    @Override
+    public int hashCode() {
+        return nbt.hashCode();
+    }
 }

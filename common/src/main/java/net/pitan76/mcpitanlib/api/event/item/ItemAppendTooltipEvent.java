@@ -12,6 +12,7 @@ import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemAppendTooltipEvent extends BaseEvent {
     public ItemStack stack;
@@ -81,5 +82,17 @@ public class ItemAppendTooltipEvent extends BaseEvent {
 
     public void addTooltip(String text) {
         addTooltip(TextUtil.literal(text));
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getWorldM() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStack());
+    }
+
+    public List<TextComponent> getCompatTooltip() {
+        return getTooltip().stream().map(TextComponent::new).collect(Collectors.toList());
     }
 }
