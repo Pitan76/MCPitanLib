@@ -15,6 +15,9 @@ import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.BlockUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
+import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 
 public class PostMineEvent extends BaseEvent {
     public ItemStack stack;
@@ -120,5 +123,41 @@ public class PostMineEvent extends BaseEvent {
 
     public ItemStack getMainHandStack() {
         return miner.getMainHandStack();
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStack());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getMainHandStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getMainHandStack());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getWorldM() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getStateM() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(getState());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getPosM() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(getPos());
+    }
+
+    public BlockEntityWrapper getBlockEntityM() {
+        BlockEntity blockEntity = getBlockEntity();
+        if (blockEntity != null) {
+            return BlockEntityWrapper.of(blockEntity);
+        }
+        return null;
+    }
+
+    public EntityWrapper getMinerM() {
+        return EntityWrapper.of(getMiner());
+    }
+
+    public boolean stateIsOf(BlockWrapper block) {
+        return stateIsOf(block.get());
     }
 }

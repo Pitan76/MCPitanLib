@@ -8,7 +8,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.nbt.NbtTag;
 
-public class ExtendEntity extends Entity {
+public class ExtendEntity extends Entity implements ICompatEntity {
     public ExtendEntity(EntityType<?> type, World world) {
         super(type, world);
     }
