@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
@@ -312,7 +313,7 @@ public class EntityUtil {
         setPos(entity, pos.getX(), pos.getY(), pos.getZ());
     }
 
-     public static void setPos(Entity entity, Vector3d pos) {
+    public static void setPos(Entity entity, Vector3d pos) {
         setPos(entity, pos.getX(), pos.getY(), pos.getZ());
     }
 
@@ -357,5 +358,9 @@ public class EntityUtil {
 
     public static void teleport(Entity entity, ServerWorld raw, BlockPos pos, float yaw, float pitch, boolean resetCamera) {
         teleport(entity, raw, pos.getX(), pos.getY(), pos.getZ(), yaw, pitch, resetCamera);
+    }
+
+    public static EntityType<?> getType(Entity entity) {
+        return entity.getType();
     }
 }

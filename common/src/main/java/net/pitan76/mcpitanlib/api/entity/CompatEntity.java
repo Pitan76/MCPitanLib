@@ -16,7 +16,7 @@ import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
-public class CompatEntity extends Entity {
+public class CompatEntity extends Entity implements ICompatEntity {
     public CompatEntity(EntityType<?> type, World world) {
         super(type, world);
     }
