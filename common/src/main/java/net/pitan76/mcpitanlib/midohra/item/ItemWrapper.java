@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
 import net.minecraft.item.Item;
+import net.pitan76.mcpitanlib.api.item.ICompatItem;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
@@ -145,7 +146,7 @@ public class ItemWrapper {
     public static ItemWrapper of(String namespace, String path) {
         return of(CompatIdentifier.of(namespace, path));
     }
-    
+
     public static ItemWrapper of(CompatItem item) {
         return of((net.minecraft.item.Item) item);
     }
@@ -202,5 +203,19 @@ public class ItemWrapper {
 
     public <T extends CompatItem> Optional<T> toCompatItem(Class<T> clazz) {
         return Optional.ofNullable(getCompatItem(clazz));
+    }
+
+    public <T extends ICompatItem> T getICompatItem(Class<T> clazz) {
+        if (isEmpty()) return null;
+        if (get() instanceof ICompatItem) {
+            ICompatItem compatItem = (ICompatItem) get();
+            if (clazz.isInstance(compatItem))
+                return clazz.cast(compatItem);
+        }
+        return null;
+    }
+
+    public <T extends ICompatItem> Optional<T> toICompatItem(Class<T> clazz) {
+        return Optional.ofNullable(getICompatItem(clazz));
     }
 }

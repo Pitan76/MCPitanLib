@@ -16,9 +16,11 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.RedrawableTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public class ScreenUtil {
@@ -205,6 +207,74 @@ public class ScreenUtil {
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, List<Text> texts, int x, int y) {
             drawObjectDM.getContext().drawTooltip(getTextRenderer(), texts, x, y);
+        }
+
+        public static void drawTooltip2(DrawObjectDM drawObjectDM, List<TextComponent> texts, int x, int y) {
+            drawTooltip(drawObjectDM, texts.stream().map(TextComponent::getText).collect(Collectors.toList()), x, y);
+        }
+
+        public static void drawItem(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
+            drawItem(drawObjectDM, stack.toMinecraft(), x, y);
+        }
+
+        public static void drawItem(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
+            drawObjectDM.getContext().drawItem(stack, x, y);
+        }
+
+        public static void drawItem(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, int seed) {
+            drawItem(drawObjectDM, stack.toMinecraft(), x, y, seed);
+        }
+
+        public static void drawItem(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, int seed) {
+            drawObjectDM.getContext().drawItem(stack, x, y, seed);
+        }
+
+        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
+            drawItemWithoutEntity(drawObjectDM, stack.toMinecraft(), x, y);
+        }
+
+        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
+            drawObjectDM.getContext().drawItemWithoutEntity(stack, x, y, 0);
+        }
+
+        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, int seed) {
+            drawItemWithoutEntity(drawObjectDM, stack.toMinecraft(), x, y, seed);
+        }
+
+        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, int seed) {
+            drawObjectDM.getContext().drawItemWithoutEntity(stack, x, y, seed);
+        }
+
+        public static void drawItemInSlot(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
+            drawItemInSlot(drawObjectDM, stack.toMinecraft(), x, y);
+        }
+
+        public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
+            drawObjectDM.getContext().drawStackOverlay(getTextRenderer(), stack, x, y);
+        }
+
+        public static void drawItemInSlot(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, String countText) {
+            drawItemInSlot(drawObjectDM, stack.toMinecraft(), x, y, countText);
+        }
+
+        public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, String countText) {
+            drawObjectDM.getContext().drawStackOverlay(getTextRenderer(), stack, x, y, countText);
+        }
+
+        public static void enableScissor(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1) {
+            drawObjectDM.getContext().enableScissor(x0, y0, x1, y1);
+        }
+
+        public static void disableScissor(DrawObjectDM drawObjectDM) {
+            drawObjectDM.getContext().disableScissor();
+        }
+
+        public static void fill(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1, int color) {
+            drawObjectDM.getContext().fill(x0, y0, x1, y1, fixColor(color));
+        }
+
+        public static void fillGradient(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1, int color0, int color1) {
+            drawObjectDM.getContext().fillGradient(x0, y0, x1, y1, fixColor(color0), fixColor(color1));
         }
     }
 

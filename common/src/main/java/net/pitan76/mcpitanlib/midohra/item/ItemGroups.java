@@ -2,6 +2,9 @@ package net.pitan76.mcpitanlib.midohra.item;
 
 import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ItemGroups {
     public static final ItemGroupWrapper BUILDING_BLOCKS = of(DefaultItemGroups.BUILDING_BLOCKS);
     public static final ItemGroupWrapper COLORED_BLOCKS = of(DefaultItemGroups.COLORED_BLOCKS);
@@ -26,5 +29,13 @@ public class ItemGroups {
 
     private static ItemGroupWrapper of(net.minecraft.item.ItemGroup itemGroup) {
         return ItemGroupWrapper.of(itemGroup);
+    }
+
+    public static List<ItemGroupWrapper> getGroupsToDisplay() {
+        return net.minecraft.item.ItemGroups.getGroupsToDisplay().stream().map(ItemGroupWrapper::of).collect(Collectors.toList());
+    }
+
+    public static List<ItemGroupWrapper> getGroups() {
+        return net.minecraft.item.ItemGroups.getGroups().stream().map(ItemGroupWrapper::of).collect(Collectors.toList());
     }
 }

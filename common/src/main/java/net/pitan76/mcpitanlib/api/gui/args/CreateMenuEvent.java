@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 
 public class CreateMenuEvent {
     public int syncId;
@@ -54,5 +55,13 @@ public class CreateMenuEvent {
 
     public World getWorld() {
         return getPlayer().getWorld();
+    }
+
+    public CompatPlayerInventory getCompatPlayerInventory() {
+        return new CompatPlayerInventory(getPlayerInventory());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getWorldM() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(getWorld());
     }
 }
