@@ -6,7 +6,7 @@ import net.pitan76.mcpitanlib.api.event.item.*;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
-public interface ExtendItemProvider {
+public interface ExtendItemProvider extends ICompatItem {
 
     /**
      * item right click event

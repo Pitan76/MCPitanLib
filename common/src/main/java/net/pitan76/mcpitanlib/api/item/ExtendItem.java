@@ -26,7 +26,7 @@ import net.pitan76.mcpitanlib.mixin.ItemUsageContextMixin;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ExtendItem extends Item {
+public class ExtendItem extends Item implements ICompatItem {
 
     public ExtendItem(Settings settings) {
         super(settings);

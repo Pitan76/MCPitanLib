@@ -14,6 +14,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
+import net.pitan76.mcpitanlib.api.client.render.CompatMatrixStack;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
 import net.pitan76.mcpitanlib.api.client.render.block.entity.CompatBlockEntityRenderer;
@@ -121,6 +122,10 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
 
     public void scale(float x, float y, float z) {
         MatrixStackUtil.scale(matrices, x, y, z);
+    }
+
+    public CompatMatrixStack getCompatMatrices() {
+        return CompatMatrixStack.of(matrices);
     }
 
     public ItemRenderer getItemRenderer() {
