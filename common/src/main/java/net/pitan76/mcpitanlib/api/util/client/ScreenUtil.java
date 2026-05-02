@@ -9,7 +9,6 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -222,9 +221,7 @@ public class ScreenUtil {
         }
 
         public static void drawItem(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
-            MatrixStack matrixStack = RenderSystem.getModelViewStack();
-            matrixStack.translate(0.0F, 0.0F, 32.0F);
-            RenderSystem.applyModelViewMatrix();
+            RenderSystem.translatef(0.0F, 0.0F, 32.0F);
             drawObjectDM.getScreen().setZOffset(200);
 
             ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
@@ -239,14 +236,12 @@ public class ScreenUtil {
         }
 
         public static void drawItem(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, int seed) {
-            MatrixStack matrixStack = RenderSystem.getModelViewStack();
-            matrixStack.translate(0.0F, 0.0F, 32.0F);
-            RenderSystem.applyModelViewMatrix();
+            RenderSystem.translatef(0.0F, 0.0F, 32.0F);
             drawObjectDM.getScreen().setZOffset(200);
 
             ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
             itemRenderer.zOffset = 200.0F;
-            itemRenderer.renderInGuiWithOverrides(stack, x, y, seed);
+            itemRenderer.renderInGuiWithOverrides(stack, x, y);
             drawObjectDM.getScreen().setZOffset(0);
             itemRenderer.zOffset = 0.0F;
         }
@@ -256,9 +251,7 @@ public class ScreenUtil {
         }
 
         public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
-            MatrixStack matrixStack = RenderSystem.getModelViewStack();
-            matrixStack.translate(0.0F, 0.0F, 32.0F);
-            RenderSystem.applyModelViewMatrix();
+            RenderSystem.translatef(0.0F, 0.0F, 32.0F);
             drawObjectDM.getScreen().setZOffset(200);
 
             ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
@@ -273,14 +266,12 @@ public class ScreenUtil {
         }
 
         public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, int seed) {
-            MatrixStack matrixStack = RenderSystem.getModelViewStack();
-            matrixStack.translate(0.0F, 0.0F, 32.0F);
-            RenderSystem.applyModelViewMatrix();
+            RenderSystem.translatef(0.0F, 0.0F, 32.0F);
             drawObjectDM.getScreen().setZOffset(200);
 
             ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
             itemRenderer.zOffset = 200.0F;
-            itemRenderer.renderInGuiWithOverrides(stack, x, y, seed);
+            itemRenderer.renderInGuiWithOverrides(stack, x, y);
             drawObjectDM.getScreen().setZOffset(0);
             itemRenderer.zOffset = 0.0F;
         }
@@ -290,9 +281,7 @@ public class ScreenUtil {
         }
 
         public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
-            MatrixStack matrixStack = RenderSystem.getModelViewStack();
-            matrixStack.translate(0.0F, 0.0F, 32.0F);
-            RenderSystem.applyModelViewMatrix();
+            RenderSystem.translatef(0.0F, 0.0F, 32.0F);
             drawObjectDM.getScreen().setZOffset(200);
 
             ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
@@ -308,9 +297,7 @@ public class ScreenUtil {
         }
 
         public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, String countText) {
-            MatrixStack matrixStack = RenderSystem.getModelViewStack();
-            matrixStack.translate(0.0F, 0.0F, 32.0F);
-            RenderSystem.applyModelViewMatrix();
+            RenderSystem.translatef(0.0F, 0.0F, 32.0F);
             drawObjectDM.getScreen().setZOffset(200);
 
             ItemRenderer itemRenderer = ClientUtil.getItemRenderer();

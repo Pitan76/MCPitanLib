@@ -112,7 +112,7 @@ public class ItemGroupWrapper {
 
     public TextComponent getDisplayName() {
         if (isEmpty()) return new TextComponent("");
-        return new TextComponent(get().getDisplayName());
+        return new TextComponent(get().getName());
     }
 
     public static enum Type {
