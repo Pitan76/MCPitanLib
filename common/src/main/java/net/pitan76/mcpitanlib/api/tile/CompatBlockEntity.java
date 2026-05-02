@@ -21,7 +21,7 @@ import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityTypeWrapper;
 import org.jetbrains.annotations.Nullable;
 
-public class CompatBlockEntity extends BlockEntity {
+public class CompatBlockEntity extends BlockEntity implements ICompatBlockEntity {
     public CompatBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }

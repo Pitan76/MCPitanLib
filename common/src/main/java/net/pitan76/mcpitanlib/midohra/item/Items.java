@@ -1,5 +1,10 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Items {
     public static ItemWrapper AIR = of(net.minecraft.item.Items.AIR);
     public static ItemWrapper STONE = of(net.minecraft.item.Items.STONE);
@@ -980,5 +985,9 @@ public class Items {
 
     public static ItemWrapper of(net.minecraft.item.Item item) {
         return ItemWrapper.of(item);
+    }
+
+    public static List<ItemWrapper> getItems() {
+        return ItemUtil.getItems().stream().map(ItemWrapper::of).collect(Collectors.toList());
     }
 }

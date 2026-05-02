@@ -5,7 +5,13 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.mcpitanlib.api.gui.inventory.IInventory;
+import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
+import net.pitan76.mcpitanlib.api.util.InventoryUtil;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
+import net.pitan76.mcpitanlib.api.util.inventory.ICompatInventory;
+import net.pitan76.mcpitanlib.api.util.inventory.InventoryWrapper;
+import net.pitan76.mcpitanlib.midohra.nbt.NbtCompound;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -218,5 +224,23 @@ public class ItemStackList extends DefaultedList<ItemStack> {
 
     public boolean isEmpty(int index) {
         return get(index).isEmpty();
+    }
+
+    public void writeNbt(NbtCompound nbt, CompatRegistryLookup registryLookup) {
+        InventoryUtil.writeNbt(registryLookup, nbt, this);
+    }
+
+    public void readNbt(NbtCompound nbt, CompatRegistryLookup registryLookup) {
+        InventoryUtil.readNbt(registryLookup, nbt, this);
+    }
+
+    public static ItemStackList fromNbt(NbtCompound nbt, CompatRegistryLookup registryLookup, int size) {
+        ItemStackList list = ItemStackList.ofSize(size);
+        list.readNbt(nbt, registryLookup);
+        return list;
+    }
+
+    public ICompatInventory toCompatInventory() {
+        return InventoryWrapper.of(toInventory());
     }
 }

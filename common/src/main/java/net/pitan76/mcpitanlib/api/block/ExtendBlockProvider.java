@@ -13,7 +13,7 @@ import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.List;
 
-public interface ExtendBlockProvider {
+public interface ExtendBlockProvider extends ICompatBlock {
 
     /**
      * get collision voxel shape
