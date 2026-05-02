@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.client;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -7,6 +8,8 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -16,8 +19,11 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.RedrawableTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.core.util.DrawableHelper1192;
+import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public class ScreenUtil {
@@ -205,6 +211,130 @@ public class ScreenUtil {
 
         public static void drawTooltip(DrawObjectDM drawObjectDM, List<Text> texts, int x, int y) {
             drawTooltip(drawObjectDM, getTextRenderer(), texts, x, y);
+        }
+
+        public static void drawTooltip2(DrawObjectDM drawObjectDM, List<TextComponent> texts, int x, int y) {
+            drawTooltip(drawObjectDM, texts.stream().map(TextComponent::getText).collect(Collectors.toList()), x, y);
+        }
+
+        public static void drawItem(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
+            drawItem(drawObjectDM, stack.toMinecraft(), x, y);
+        }
+
+        public static void drawItem(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
+            MatrixStack matrixStack = RenderSystem.getModelViewStack();
+            matrixStack.translate(0.0F, 0.0F, 32.0F);
+            RenderSystem.applyModelViewMatrix();
+            drawObjectDM.getScreen().setZOffset(200);
+
+            ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
+            itemRenderer.zOffset = 200.0F;
+            itemRenderer.renderInGuiWithOverrides(stack, x, y);
+            drawObjectDM.getScreen().setZOffset(0);
+            itemRenderer.zOffset = 0.0F;
+        }
+
+        public static void drawItem(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, int seed) {
+            drawItem(drawObjectDM, stack.toMinecraft(), x, y, seed);
+        }
+
+        public static void drawItem(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, int seed) {
+            MatrixStack matrixStack = RenderSystem.getModelViewStack();
+            matrixStack.translate(0.0F, 0.0F, 32.0F);
+            RenderSystem.applyModelViewMatrix();
+            drawObjectDM.getScreen().setZOffset(200);
+
+            ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
+            itemRenderer.zOffset = 200.0F;
+            itemRenderer.renderInGuiWithOverrides(stack, x, y, seed);
+            drawObjectDM.getScreen().setZOffset(0);
+            itemRenderer.zOffset = 0.0F;
+        }
+
+        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
+            drawItemWithoutEntity(drawObjectDM, stack.toMinecraft(), x, y);
+        }
+
+        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
+            MatrixStack matrixStack = RenderSystem.getModelViewStack();
+            matrixStack.translate(0.0F, 0.0F, 32.0F);
+            RenderSystem.applyModelViewMatrix();
+            drawObjectDM.getScreen().setZOffset(200);
+
+            ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
+            itemRenderer.zOffset = 200.0F;
+            itemRenderer.renderInGuiWithOverrides(stack, x, y);
+            drawObjectDM.getScreen().setZOffset(0);
+            itemRenderer.zOffset = 0.0F;
+        }
+
+        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, int seed) {
+            drawItemWithoutEntity(drawObjectDM, stack.toMinecraft(), x, y, seed);
+        }
+
+        public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, int seed) {
+            MatrixStack matrixStack = RenderSystem.getModelViewStack();
+            matrixStack.translate(0.0F, 0.0F, 32.0F);
+            RenderSystem.applyModelViewMatrix();
+            drawObjectDM.getScreen().setZOffset(200);
+
+            ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
+            itemRenderer.zOffset = 200.0F;
+            itemRenderer.renderInGuiWithOverrides(stack, x, y, seed);
+            drawObjectDM.getScreen().setZOffset(0);
+            itemRenderer.zOffset = 0.0F;
+        }
+
+        public static void drawItemInSlot(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
+            drawItemInSlot(drawObjectDM, stack.toMinecraft(), x, y);
+        }
+
+        public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
+            MatrixStack matrixStack = RenderSystem.getModelViewStack();
+            matrixStack.translate(0.0F, 0.0F, 32.0F);
+            RenderSystem.applyModelViewMatrix();
+            drawObjectDM.getScreen().setZOffset(200);
+
+            ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
+            itemRenderer.zOffset = 200.0F;
+            itemRenderer.renderInGuiWithOverrides(stack, x, y);
+            itemRenderer.renderGuiItemOverlay(ClientUtil.getTextRenderer(), stack, x, y - (stack.isEmpty() ? 0 : 8));
+            drawObjectDM.getScreen().setZOffset(0);
+            itemRenderer.zOffset = 0.0F;
+        }
+
+        public static void drawItemInSlot(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, String countText) {
+            drawItemInSlot(drawObjectDM, stack.toMinecraft(), x, y, countText);
+        }
+
+        public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, String countText) {
+            MatrixStack matrixStack = RenderSystem.getModelViewStack();
+            matrixStack.translate(0.0F, 0.0F, 32.0F);
+            RenderSystem.applyModelViewMatrix();
+            drawObjectDM.getScreen().setZOffset(200);
+
+            ItemRenderer itemRenderer = ClientUtil.getItemRenderer();
+            itemRenderer.zOffset = 200.0F;
+            itemRenderer.renderInGuiWithOverrides(stack, x, y);
+            itemRenderer.renderGuiItemOverlay(ClientUtil.getTextRenderer(), stack, x, y - (stack.isEmpty() ? 0 : 8), countText);
+            drawObjectDM.getScreen().setZOffset(0);
+            itemRenderer.zOffset = 0.0F;
+        }
+
+        public static void enableScissor(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1) {
+            DrawableHelper.enableScissor(x0, y0, x1, y1);
+        }
+
+        public static void disableScissor(DrawObjectDM drawObjectDM) {
+            DrawableHelper.disableScissor();
+        }
+
+        public static void fill(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1, int color) {
+            DrawableHelper.fill(drawObjectDM.getStack(), x0, y0, x1, y1, color);
+        }
+
+        public static void fillGradient(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1, int color0, int color1) {
+            DrawableHelper1192.fillGradient2(drawObjectDM.getStack(), x0, y0, x1, y1, color0, color1);
         }
     }
 
