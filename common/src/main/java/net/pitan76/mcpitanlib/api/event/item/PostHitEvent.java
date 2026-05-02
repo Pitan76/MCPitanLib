@@ -4,6 +4,8 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 
 public class PostHitEvent extends BaseEvent {
     public ItemStack stack;
@@ -35,5 +37,21 @@ public class PostHitEvent extends BaseEvent {
      */
     public void damageStack(int amount, EquipmentSlot slot) {
         stack.damage(amount, attacker, slot);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack getStackM() {
+        return net.pitan76.mcpitanlib.midohra.item.ItemStack.of(getStack());
+    }
+
+    public EntityWrapper getAttackerM() {
+        return EntityWrapper.of(getAttacker());
+    }
+
+    public EntityWrapper getTargetM() {
+        return EntityWrapper.of(getTarget());
+    }
+
+    public void damageStack(int amount, ArmorEquipmentType type) {
+        damageStack(amount, type.getSlot());
     }
 }

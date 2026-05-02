@@ -10,6 +10,8 @@ import net.pitan76.mcpitanlib.api.util.client.ScreenUtil.RendererUtil;
 import org.joml.Matrix3x2f;
 import org.joml.Matrix3x2fStack;
 
+import java.util.List;
+
 public class DrawObjectDM {
     private MatrixStack stack;
     private Matrix3x2fStack matrix3x2fStack;
@@ -87,6 +89,10 @@ public class DrawObjectDM {
         RendererUtil.drawTooltip(this, text, x, y);
     }
 
+    public void drawTooltip(List<TextComponent> texts, int x, int y) {
+        RendererUtil.drawTooltip2(this, texts, x, y);
+    }
+
     public void drawBorder(int x, int y, int width, int height, int color) {
         RendererUtil.drawBorder(this, x, y, width, height, color);
     }
@@ -97,5 +103,9 @@ public class DrawObjectDM {
 
     public int getHeight() {
         return hasScreen() ? screen.height : -1;
+    }
+
+    public CompatMatrixStack getMatrixStack() {
+        return new CompatMatrix3x2fStack(context.getMatrices());
     }
 }

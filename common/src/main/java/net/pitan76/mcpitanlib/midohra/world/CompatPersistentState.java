@@ -7,6 +7,15 @@ import net.pitan76.mcpitanlib.midohra.nbt.NbtCompound;
 public abstract class CompatPersistentState extends CompatiblePersistentState {
 
     @Deprecated
+    public CompatPersistentState() {
+        super();
+    }
+
+    public CompatPersistentState(String name) {
+        super(name);
+    }
+
+    @Deprecated
     @Override
     public net.minecraft.nbt.NbtCompound writeNbt(WriteNbtArgs args) {
         return writeNbtM(args).toMinecraft();

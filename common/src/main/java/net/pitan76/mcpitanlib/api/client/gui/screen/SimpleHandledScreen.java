@@ -2,12 +2,10 @@ package net.pitan76.mcpitanlib.api.client.gui.screen;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.entity.player.PlayerInventory;
@@ -360,5 +358,55 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
 
     public Text getPlayerInvTitle() {
         return playerInventoryTitle;
+    }
+
+    public boolean charTyped(CharEventArgs args) {
+        return super.charTyped(new CharInput(args.getCharacter(), args.getModifiers()));
+    }
+
+    @Deprecated
+    @Override
+    public boolean charTyped(CharInput event) {
+        return charTyped(new CharEventArgs(event.codepoint()));
+    }
+
+    public boolean mouseScrolled(MouseScrolledArgs args) {
+        return super.mouseScrolled(args.getMouseX(), args.getMouseY(), args.getScrollX(), args.getScrollY());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
+        return mouseScrolled(new MouseScrolledArgs(x, y, scrollX, scrollY));
+    }
+
+    public boolean mouseClicked(MouseClickedArgs args) {
+        return super.mouseClicked(new Click(args.getX(), args.getY(), args.getButtonInfo()), args.isDoubleClick());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseClicked(Click event, boolean doubleClick) {
+        return mouseClicked(new MouseClickedArgs(event.x(), event.y(), event.buttonInfo(), doubleClick));
+    }
+
+    public boolean mouseDragged(MouseDraggedArgs args) {
+        return super.mouseDragged(new Click(args.getX(), args.getY(), args.getButtonInfo()), args.getDeltaX(), args.getDeltaY());
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseDragged(Click event, double dx, double dy) {
+        return mouseDragged(new MouseDraggedArgs(event.x(), event.y(), event.buttonInfo(), dx, dy));
+    }
+
+    public boolean mouseReleased(MouseReleasedArgs args) {
+        return super.mouseReleased(new Click(args.getX(), args.getY(), args.getButtonInfo()));
+    }
+
+    @Deprecated
+    @Override
+    public boolean mouseReleased(Click event) {
+        return mouseReleased(new MouseReleasedArgs(event.x(), event.y(), event.buttonInfo()));
     }
 }

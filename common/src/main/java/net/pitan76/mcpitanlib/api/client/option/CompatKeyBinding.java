@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.option;
 
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -74,5 +75,9 @@ public class CompatKeyBinding {
 
     public KeyBinding getRaw() {
         return keyBinding;
+    }
+
+    public boolean matches(int keyCode, int scanCode, int modifiers) {
+        return keyBinding.matchesKey(new KeyInput(keyCode, scanCode, modifiers));
     }
 }

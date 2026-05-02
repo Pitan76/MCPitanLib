@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.nbt.NbtTag;
 import net.pitan76.mcpitanlib.core.mc1216.NbtDataConverter;
 
-public class ExtendEntity extends Entity {
+public class ExtendEntity extends Entity implements ICompatEntity {
     public ExtendEntity(EntityType<?> type, World world) {
         super(type, world);
     }

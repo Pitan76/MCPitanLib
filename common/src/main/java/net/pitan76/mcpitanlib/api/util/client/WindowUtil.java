@@ -39,4 +39,16 @@ public class WindowUtil {
     public static void close() {
         getWindow().close();
     }
+
+    public static int getX() {
+        return getWindow().getX();
+    }
+
+    public static int getY() {
+        return getWindow().getY();
+    }
+
+    public static double getScaleFactor() {
+        return getWindow().getScaleFactor();
+    }
 }
