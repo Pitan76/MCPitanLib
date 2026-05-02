@@ -4,13 +4,21 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import java.util.function.Supplier;
+
 public class FuelRegistry {
     private FuelRegistry() {
 
     }
 
+    public static void register(int time, Supplier<ItemConvertible> item) {
+        dev.architectury.registry.fuel.FuelRegistry.register(time, item.get());
+    }
+
     public static void register(int time, ItemConvertible... item) {
-        dev.architectury.registry.fuel.FuelRegistry.register(time, item);
+        for (ItemConvertible i : item) {
+            register(time, () -> i);
+        }
     }
 
     @Deprecated

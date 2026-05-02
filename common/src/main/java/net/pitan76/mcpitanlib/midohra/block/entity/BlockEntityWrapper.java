@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.midohra.block.entity;
 import net.minecraft.block.entity.BlockEntity;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
+import net.pitan76.mcpitanlib.api.tile.ICompatBlockEntity;
 import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
 import net.pitan76.mcpitanlib.api.util.RegistryLookupUtil;
 import net.pitan76.mcpitanlib.api.util.world.TickerUtil;
@@ -187,5 +188,23 @@ public class BlockEntityWrapper {
 
     public int getZ() {
         return getPos().getZ();
+    }
+
+    public BlockEntityTypeWrapper getType() {
+        return BlockEntityTypeWrapper.of(BlockEntityUtil.getType(get()));
+    }
+
+    public <T extends ICompatBlockEntity> T getICompatBlockEntity(Class<T> clazz) {
+        if (isEmpty()) return null;
+        if (get() instanceof ICompatBlockEntity) {
+            ICompatBlockEntity blockEntity = (ICompatBlockEntity) get();
+            if (clazz.isInstance(blockEntity))
+                return clazz.cast(blockEntity);
+        }
+        return null;
+    }
+
+    public <T extends ICompatBlockEntity> Optional<T> toICompatBlockEntity(Class<T> clazz) {
+        return Optional.ofNullable(getICompatBlockEntity(clazz));
     }
 }
