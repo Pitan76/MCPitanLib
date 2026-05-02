@@ -10,6 +10,14 @@ loom {
     accessWidenerPath = file("src/main/resources/mcpitanlib.accesswidener")
 }
 
+tasks.shadowJar {
+    enabled = false
+}
+
+tasks.jar {
+    setArchiveClassifier(null)
+}
+
 publishing {
     publications {
         mavenCommon(MavenPublication) {
