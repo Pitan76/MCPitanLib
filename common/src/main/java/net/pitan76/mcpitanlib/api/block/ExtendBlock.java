@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
-public class ExtendBlock extends Block {
+public class ExtendBlock extends Block implements ICompatBlock {
     public CompatibleBlockSettings compatSettings;
 
     public ExtendBlock(Settings settings) {

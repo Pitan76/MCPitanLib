@@ -12,9 +12,11 @@ import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
+import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
+import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityTypeWrapper;
 import org.jetbrains.annotations.Nullable;
 
-public class CompatChestBlockEntity extends ChestBlockEntity {
+public class CompatChestBlockEntity extends ChestBlockEntity implements ICompatBlockEntity {
     protected CompatChestBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
         super(blockEntityType, blockPos, blockState);
     }
@@ -85,5 +87,25 @@ public class CompatChestBlockEntity extends ChestBlockEntity {
         // ----
 
         readNbt(new ReadNbtArgs(nbt));
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
+        return net.pitan76.mcpitanlib.midohra.world.World.of(BlockEntityUtil.getWorld(this));
+    }
+
+    public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getMidohraPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(BlockEntityUtil.getPos(this));
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraBlockState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(BlockEntityUtil.getBlockState(this));
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraCachedState() {
+        return net.pitan76.mcpitanlib.midohra.block.BlockState.of(BlockEntityUtil.getCachedState(this));
+    }
+
+    public CompatChestBlockEntity(BlockEntityTypeWrapper type, TileCreateEvent event) {
+        this(type.get(), event.getBlockPos(), event.getBlockState());
     }
 }

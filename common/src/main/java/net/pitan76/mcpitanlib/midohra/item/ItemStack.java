@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.nbt.NbtCompound;
@@ -9,10 +10,12 @@ import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.*;
+import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ItemStack {
     private final net.minecraft.item.ItemStack stack;
@@ -258,5 +261,34 @@ public class ItemStack {
 
         Class<?> clazz = item.getClass();
         return clazz.isInstance(getRawItem());
+    }
+
+    public List<TextComponent> getTooltip() {
+        return stack.getTooltip(ClientUtil.getClientPlayer(), ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipContext.Default.ADVANCED : TooltipContext.Default.NORMAL)
+                .stream().map(TextComponent::new).collect(Collectors.toList());
+    }
+
+    public <T> void putCustomNbt(String key, T value) {
+        CustomDataUtil.put(stack, key, value);
+    }
+
+    public void putCustomNbt(String key, net.pitan76.mcpitanlib.midohra.nbt.NbtCompound value) {
+        CustomDataUtil.put(stack, key, value.toMinecraft());
+    }
+
+    public <T> T getCustomNbt(String key, Class<T> clazz) {
+        return CustomDataUtil.get(stack, key, clazz);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.nbt.NbtCompound getCustomNbt(String key) {
+        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(CustomDataUtil.get(stack, key));
+    }
+
+    public boolean hasCustomNbt(String key) {
+        return CustomDataUtil.has(stack, key);
+    }
+
+    public void removeCustomNbt(String key) {
+        CustomDataUtil.remove(stack, key);
     }
 }

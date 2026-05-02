@@ -7,6 +7,8 @@ import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil.RendererUtil;
 
+import java.util.List;
+
 public class DrawObjectDM {
     private MatrixStack stack;
 
@@ -65,6 +67,10 @@ public class DrawObjectDM {
         RendererUtil.drawTooltip(this, text, x, y);
     }
 
+    public void drawTooltip(List<TextComponent> texts, int x, int y) {
+        RendererUtil.drawTooltip2(this, texts, x, y);
+    }
+
     public void drawBorder(int x, int y, int width, int height, int color) {
         RendererUtil.drawBorder(this, x, y, width, height, color);
     }
@@ -75,5 +81,9 @@ public class DrawObjectDM {
 
     public int getHeight() {
         return hasScreen() ? screen.height : -1;
+    }
+
+    public CompatMatrixStack getMatrixStack() {
+        return new CompatMatrixStack(stack);
     }
 }

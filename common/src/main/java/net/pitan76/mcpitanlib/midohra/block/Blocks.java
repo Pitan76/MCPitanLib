@@ -1,5 +1,10 @@
 package net.pitan76.mcpitanlib.midohra.block;
 
+import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Blocks {
     public static BlockWrapper AIR = of(net.minecraft.block.Blocks.AIR);
     public static BlockWrapper STONE = of(net.minecraft.block.Blocks.STONE);
@@ -767,5 +772,9 @@ public class Blocks {
 
     public static BlockWrapper of(net.minecraft.block.Block block) {
         return BlockWrapper.of(block);
+    }
+
+    public static List<BlockWrapper> getBlocks() {
+        return BlockUtil.getBlocks().stream().map(BlockWrapper::of).collect(Collectors.toList());
     }
 }
