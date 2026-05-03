@@ -81,4 +81,28 @@ public class FluidState {
         FluidState other = (FluidState) obj;
         return getRaw().equals(other.getRaw());
     }
+
+    public FluidState(FluidWrapper fluid) {
+        this.fluidState = fluid.getDefaultState();
+    }
+
+    public static FluidState of(FluidWrapper fluid) {
+        return new FluidState(fluid);
+    }
+
+    public static FluidState water() {
+        return of(Fluids.WATER);
+    }
+
+    public static FluidState lava() {
+        return of(Fluids.LAVA);
+    }
+
+    public static FluidState flowingWater() {
+        return of(Fluids.FLOWING_WATER);
+    }
+
+    public static FluidState flowingLava() {
+        return of(Fluids.FLOWING_LAVA);
+    }
 }

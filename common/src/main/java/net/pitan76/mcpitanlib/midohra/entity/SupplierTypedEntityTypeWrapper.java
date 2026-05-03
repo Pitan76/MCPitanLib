@@ -32,7 +32,7 @@ public class SupplierTypedEntityTypeWrapper<T extends Entity> extends TypedEntit
     }
 
     public SupplierEntityTypeWrapper asNonTyped() {
-        return SupplierEntityTypeWrapper.of(supplier::get);
+        return SupplierEntityTypeWrapper.of(this::get);
     }
 
     @Override

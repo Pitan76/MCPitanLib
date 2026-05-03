@@ -31,7 +31,7 @@ public class SupplierTypedBlockWrapper<T extends Block> extends TypedBlockWrappe
     }
 
     public SupplierBlockWrapper asNonTyped() {
-        return SupplierBlockWrapper.of(supplier::get);
+        return SupplierBlockWrapper.of(this::get);
     }
 
     @Override
