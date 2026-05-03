@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
-import net.minecraft.world.item.Item;
+import net.minecraft.item.Item;
 import net.pitan76.mcpitanlib.api.item.ICompatItem;
 
 public class ITypedItemWrapper<T extends ICompatItem> extends ItemWrapper {

@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.midohra.registry;
 
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.block.ICompatBlock;
 import net.pitan76.mcpitanlib.api.entity.CompatEntity;
 import net.pitan76.mcpitanlib.api.entity.EntityTypeBuilder;
