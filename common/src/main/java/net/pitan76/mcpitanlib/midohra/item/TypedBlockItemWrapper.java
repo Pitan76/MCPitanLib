@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.item.BlockItem;
+import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.midohra.block.TypedBlockWrapper;
 
 public class TypedBlockItemWrapper<T extends Block> extends ItemWrapper {
