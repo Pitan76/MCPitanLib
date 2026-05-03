@@ -31,7 +31,7 @@ public class SupplierTypedItemWrapper<T extends Item> extends TypedItemWrapper<T
     }
 
     public SupplierItemWrapper asNonTyped() {
-        return SupplierItemWrapper.of(supplier::get);
+        return SupplierItemWrapper.of(this::get);
     }
 
     @Override

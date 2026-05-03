@@ -623,4 +623,8 @@ public class Player {
     public MCServer getServer() {
         return getMidohraWorld().getMCServer();
     }
+
+    public Optional<net.pitan76.mcpitanlib.midohra.item.ItemStack> getCurrentHandItemM() {
+        return getCurrentHandItem().map(net.pitan76.mcpitanlib.midohra.item.ItemStack::of);
+    }
 }
