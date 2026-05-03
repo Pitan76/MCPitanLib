@@ -101,4 +101,8 @@ public class FluidWrapper {
         FluidWrapper other = (FluidWrapper) obj;
         return rawEquals(other);
     }
+
+    public net.pitan76.mcpitanlib.midohra.fluid.FluidState createFluidState() {
+        return net.pitan76.mcpitanlib.midohra.fluid.FluidState.of(getDefaultState());
+    }
 }
