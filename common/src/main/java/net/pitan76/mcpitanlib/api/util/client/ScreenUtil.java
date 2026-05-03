@@ -246,7 +246,7 @@ public class ScreenUtil {
         }
 
         public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
-            drawObjectDM.getContext().drawStackOverlay(getTextRenderer(), stack, x, y);
+            drawObjectDM.getContext().drawItemInSlot(getTextRenderer(), stack, x, y);
         }
 
         public static void drawItemInSlot(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, String countText) {
@@ -254,7 +254,7 @@ public class ScreenUtil {
         }
 
         public static void drawItemInSlot(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, String countText) {
-            drawObjectDM.getContext().drawStackOverlay(getTextRenderer(), stack, x, y, countText);
+            drawObjectDM.getContext().drawItemInSlot(getTextRenderer(), stack, x, y, countText);
         }
 
         public static void enableScissor(DrawObjectDM drawObjectDM, int x0, int y0, int x1, int y1) {
