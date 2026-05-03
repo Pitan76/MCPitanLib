@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.block;
 
-import net.minecraft.world.level.block.Block;
+import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.block.ICompatBlock;
 
 public class ITypedBlockWrapper<T extends ICompatBlock> extends BlockWrapper {
