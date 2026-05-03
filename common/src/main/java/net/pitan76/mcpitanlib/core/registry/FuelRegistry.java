@@ -13,7 +13,7 @@ public class FuelRegistry {
     }
 
     public static void register(int time, Supplier<ItemConvertible> item) {
-        me.shedaniel.architectury.registry.fuel.FuelRegistry.register(time, item);
+        me.shedaniel.architectury.registry.fuel.FuelRegistry.register(time, item.get());
     }
 
     public static void register(int time, ItemConvertible... item) {
