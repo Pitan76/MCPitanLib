@@ -3,7 +3,7 @@ package net.pitan76.mcpitanlib.midohra.item;
 import net.minecraft.item.Item;
 import net.pitan76.mcpitanlib.api.item.ICompatItem;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
-import dev.architectury.registry.registries.RegistrySupplier;
+import me.shedaniel.architectury.registry.RegistrySupplier;
 
 import java.util.function.Supplier;
 

@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.midohra.block.SupplierTypedBlockWrapper;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import me.shedaniel.architectury.registry.RegistrySupplier;
 
 import java.util.function.Supplier;
 
