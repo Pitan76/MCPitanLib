@@ -1,10 +1,11 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.item.BlockItem;
+import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
-import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.pitan76.mcpitanlib.midohra.block.SupplierTypedBlockWrapper;
+
+import dev.architectury.registry.registries.RegistrySupplier;
 
 import java.util.function.Supplier;
 
