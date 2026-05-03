@@ -3,12 +3,12 @@ package net.pitan76.mcpitanlib.midohra.block;
 import net.minecraft.block.Block;
 
 public class TypedBlockWrapper<T extends Block> extends BlockWrapper {
-    protected TypedBlockWrapper(T item) {
-        super(item);
+    protected TypedBlockWrapper(T block) {
+        super(block);
     }
 
-    public static <T extends Block> TypedBlockWrapper<T> ofRaw(T item) {
-        return new TypedBlockWrapper<>(item);
+    public static <T extends Block> TypedBlockWrapper<T> ofRaw(T block) {
+        return new TypedBlockWrapper<>(block);
     }
 
     public static <T extends Block> TypedBlockWrapper<T> of(BlockWrapper wrapper) {
