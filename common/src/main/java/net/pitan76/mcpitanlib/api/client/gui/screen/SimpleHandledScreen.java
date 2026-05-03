@@ -375,13 +375,13 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
     }
 
     public boolean mouseScrolled(MouseScrolledArgs args) {
-        return super.mouseScrolled(args.getMouseX(), args.getMouseY(), args.getScrollX(), args.getScrollY());
+        return super.mouseScrolled(args.getMouseX(), args.getMouseY(), args.getAmount());
     }
 
     @Deprecated
     @Override
-    public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
-        return mouseScrolled(new MouseScrolledArgs(x, y, scrollX, scrollY));
+    public boolean mouseScrolled(double x, double y, double amount) {
+        return mouseScrolled(new MouseScrolledArgs(x, y, amount));
     }
 
     public boolean mouseClicked(MouseClickedArgs args) {

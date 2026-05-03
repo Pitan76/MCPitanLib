@@ -15,6 +15,14 @@ public class MouseScrolledArgs {
         this.amount = Math.sqrt(scrollX * scrollX + scrollY * scrollY);
     }
 
+    public MouseScrolledArgs(double mouseX, double mouseY, double amount) {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        this.scrollX = 0;
+        this.scrollY = amount;
+        this.amount = amount;
+    }
+
     public double getMouseX() {
         return mouseX;
     }

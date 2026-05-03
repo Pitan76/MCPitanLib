@@ -16,7 +16,7 @@ public class MathUtil {
     }
 
     public static long clamp(long value, long min, long max) {
-        return MathHelper.clamp(value, min, max);
+        return (long) MathHelper.clamp(value, min, max);
     }
 
     public static double lerp(double a, double b, double t) {

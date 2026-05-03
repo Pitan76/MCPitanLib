@@ -230,7 +230,7 @@ public class ScreenUtil {
         }
 
         public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y) {
-            drawObjectDM.getContext().drawItemWithoutEntity(stack, x, y, 0);
+            drawObjectDM.getContext().drawItemWithoutEntity(stack, x, y);
         }
 
         public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y, int seed) {
@@ -238,7 +238,7 @@ public class ScreenUtil {
         }
 
         public static void drawItemWithoutEntity(DrawObjectDM drawObjectDM, net.minecraft.item.ItemStack stack, int x, int y, int seed) {
-            drawObjectDM.getContext().drawItemWithoutEntity(stack, x, y, seed);
+            drawObjectDM.getContext().drawItemWithoutEntity(stack, x, y);
         }
 
         public static void drawItemInSlot(DrawObjectDM drawObjectDM, ItemStack stack, int x, int y) {
