@@ -102,7 +102,7 @@ public class Recipe {
             inventory.callSetStack(i, stack);
         }
 
-        return craftMidohra(RecipeInputOrInventory.of(inventory), world);
+        return craftMidohra(TypedRecipeInputOrInventory._of(inventory), world);
     }
 
     private ItemStack cachedOutput = null;
