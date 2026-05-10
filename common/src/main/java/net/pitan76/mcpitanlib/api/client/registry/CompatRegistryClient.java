@@ -50,8 +50,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.color.CompatBlockColorProvider;
+import net.pitan76.mcpitanlib.api.client.gui.screen.SimpleHandledScreen;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
 import net.pitan76.mcpitanlib.api.client.render.EntityModelLayerContext;
+import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -62,12 +66,29 @@ public class CompatRegistryClient {
         registerScreen(MCPitanLib.MOD_ID, type, factory);
     }
 
+    public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(ScreenHandlerType<? extends H> type, ScreenFactory2<H, S> factory) {
+        registerScreen(MCPitanLib.MOD_ID, type, factory);
+    }
+
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
         MenuScreenRegistry.registerScreenFactory(type, factory::create);
     }
 
+    public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory2<H, S> factory) {
+        registerScreen(modId, type, factory);
+    }
+
     public interface ScreenFactory<H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> {
         S create(H handler, PlayerInventory inventory, Text text);
+    }
+
+    public interface ScreenFactory2<H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> extends ScreenFactory<H, S> {
+        @Override
+        default S create(H handler, PlayerInventory inventory, Text text) {
+            return create(handler, new CompatPlayerInventory(inventory), new TextComponent(text));
+        }
+
+        S create(H handler, CompatPlayerInventory inventory, TextComponent text);
     }
 
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {

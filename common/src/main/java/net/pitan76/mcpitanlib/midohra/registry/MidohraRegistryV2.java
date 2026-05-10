@@ -4,9 +4,13 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.block.Block;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
 import net.pitan76.mcpitanlib.api.block.ICompatBlock;
 import net.pitan76.mcpitanlib.api.entity.CompatEntity;
 import net.pitan76.mcpitanlib.api.entity.EntityTypeBuilder;
+import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
+import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.ICompatItem;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.v2.ItemSettingsBuilder;
@@ -17,11 +21,10 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.block.*;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.SupplierTypedBlockEntityTypeWrapper;
-import net.pitan76.mcpitanlib.midohra.block.entity.TypedBlockEntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.entity.EntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.entity.SupplierTypedEntityTypeWrapper;
-import net.pitan76.mcpitanlib.midohra.entity.TypedEntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.item.*;
+import net.pitan76.mcpitanlib.midohra.screen.SupplierTypedScreenHandlerTypeWrapper;
 
 import java.util.function.Supplier;
 
@@ -73,12 +76,12 @@ public class MidohraRegistryV2 {
         return registry.registerRawBlock(id, supplier);
     }
 
-    public <T extends ICompatBlock> ITypedBlockWrapper<T> registerBlock(CompatIdentifier id, Supplier<T> supplier) {
+    public <T extends ICompatBlock> SupplierITypedBlockWrapper<T> registerBlock(CompatIdentifier id, Supplier<T> supplier) {
         BlockWrapper wrapper = registerRawBlock(id, () -> (Block) supplier.get());
         return SupplierITypedBlockWrapper.of(wrapper);
     }
 
-    public <T extends ICompatBlock> ITypedBlockWrapper<T> registerBlock(String id, Supplier<T> supplier) {
+    public <T extends ICompatBlock> SupplierITypedBlockWrapper<T> registerBlock(String id, Supplier<T> supplier) {
         return registerBlock(fixId(id), supplier);
     }
 
@@ -98,7 +101,7 @@ public class MidohraRegistryV2 {
         return registry.registerRawBlockEntityType(id, builder);
     }
 
-    public <T extends CompatBlockEntity> TypedBlockEntityTypeWrapper<T> registerBlockEntityType0(CompatIdentifier id, BlockEntityTypeBuilder<T> builder) {
+    public <T extends CompatBlockEntity> SupplierTypedBlockEntityTypeWrapper<T> registerBlockEntityType0(CompatIdentifier id, BlockEntityTypeBuilder<T> builder) {
         BlockEntityTypeWrapper wrapper = registerRawBlockEntityType(id, builder);
         return SupplierTypedBlockEntityTypeWrapper.of(() -> (BlockEntityType<T>) wrapper.get());
     }
@@ -119,12 +122,12 @@ public class MidohraRegistryV2 {
         return registry.registerRawEntityType(id, builder);
     }
 
-    public <T extends CompatEntity> TypedEntityTypeWrapper<T> registerEntityType0(CompatIdentifier id, EntityTypeBuilder<T> builder) {
+    public <T extends CompatEntity> SupplierTypedEntityTypeWrapper<T> registerEntityType0(CompatIdentifier id, EntityTypeBuilder<T> builder) {
         EntityTypeWrapper wrapper = registerRawEntityType(id, builder);
         return SupplierTypedEntityTypeWrapper.of(() -> (EntityType<T>) wrapper.get());
     }
 
-    public <T extends CompatEntity> TypedEntityTypeWrapper<T> registerEntityType0(String id, EntityTypeBuilder<T> builder) {
+    public <T extends CompatEntity> SupplierTypedEntityTypeWrapper<T> registerEntityType0(String id, EntityTypeBuilder<T> builder) {
         return registerEntityType0(fixId(id), builder);
     }
 
@@ -150,6 +153,27 @@ public class MidohraRegistryV2 {
 
     public <T extends Block> SupplierTypedBlockItemWrapper<T> registerBlockItem(String id, BlockWrapper block, ItemSettingsBuilder builder) {
         return registerBlockItem(fixId(id), block, builder);
+    }
+
+    public <T extends ScreenHandler> SupplierTypedScreenHandlerTypeWrapper<T> registerRawScreenHandlerType(CompatIdentifier id, Supplier<ScreenHandlerType<T>> supplier) {
+        Supplier<ScreenHandlerType<T>> result = getCompatRegistry().registerScreenHandlerTypeSavingGenerics(id, supplier);
+        return SupplierTypedScreenHandlerTypeWrapper.of(result);
+    }
+
+    public <T extends ScreenHandler> SupplierTypedScreenHandlerTypeWrapper<T> registerScreenHandlerType(CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {
+        return registerRawScreenHandlerType(id, builder::build);
+    }
+
+    public <T extends ScreenHandler> SupplierTypedScreenHandlerTypeWrapper<T> registerScreenHandlerType(CompatIdentifier id, ExtendedScreenHandlerTypeBuilder<T> builder) {
+        return registerRawScreenHandlerType(id, builder::build);
+    }
+
+    public <T extends ScreenHandler> SupplierTypedScreenHandlerTypeWrapper<T> registerScreenHandlerType(String id, SimpleScreenHandlerTypeBuilder<T> builder) {
+        return registerScreenHandlerType(fixId(id), builder);
+    }
+
+    public <T extends ScreenHandler> SupplierTypedScreenHandlerTypeWrapper<T> registerScreenHandlerType(String id, ExtendedScreenHandlerTypeBuilder<T> builder) {
+        return registerScreenHandlerType(fixId(id), builder);
     }
 
     /**
