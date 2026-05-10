@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
+import net.pitan76.mcpitanlib.midohra.screen.TypedScreenHandlerTypeWrapper;
 
 public class SimpleScreenHandlerTypeBuilder<T extends ScreenHandler> {
 
@@ -20,6 +21,10 @@ public class SimpleScreenHandlerTypeBuilder<T extends ScreenHandler> {
 
     public ScreenHandlerType<T> build() {
         return MenuRegistry.of(factory::create);
+    }
+
+    public TypedScreenHandlerTypeWrapper<T> buildWrapper() {
+        return TypedScreenHandlerTypeWrapper.ofRaw(build());
     }
 
     @FunctionalInterface

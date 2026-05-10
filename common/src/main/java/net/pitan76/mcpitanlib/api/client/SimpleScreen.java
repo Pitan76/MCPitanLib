@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.KeyEventArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.client.render.screen.RenderBackgroundTextureArgs;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
@@ -34,6 +35,10 @@ public abstract class SimpleScreen extends Screen {
         super(title);
         fixScreen();
         this.title = title;
+    }
+
+    public SimpleScreen(TextComponent title) {
+        this(title.getText());
     }
 
     public <T extends Element & Drawable> T addDrawableChild_compatibility(T drawableElement) {
