@@ -7,12 +7,18 @@ import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawBackgroundArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawMouseoverTooltipArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 
 public abstract class SimpleInventoryScreen<S extends AbstractContainerMenu> extends SimpleHandledScreen<S> {
 
     public SimpleInventoryScreen(S handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
+    }
+
+    public SimpleInventoryScreen(S handler, CompatPlayerInventory inventory, TextComponent title) {
+        this(handler, inventory.getRaw(), title.getText());
     }
 
     public abstract Identifier getTexture();

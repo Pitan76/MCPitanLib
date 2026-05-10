@@ -13,6 +13,8 @@ import net.pitan76.mcpitanlib.api.gui.args.SlotClickEvent;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
 import net.pitan76.mcpitanlib.api.util.SlotUtil;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
+import net.pitan76.mcpitanlib.midohra.screen.ScreenHandlerTypeWrapper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -303,5 +305,33 @@ public class SimpleScreenHandler extends AbstractContainerMenu {
 
     public boolean canInsertIntoSlotOverride(Slot slot) {
         return super.canDragTo(slot);
+    }
+
+    /**
+     * Add player main inventory slots
+     * @param inventory target player inventory
+     * @param x start x
+     * @param y start y
+     */
+    protected List<Slot> addPlayerMainInventorySlots(CompatPlayerInventory inventory, int x, int y) {
+        return this.addPlayerMainInventorySlots(inventory.getRaw(), x, y);
+    }
+
+    /**
+     * Add player hotbar slots
+     * @param inventory target player inventory
+     * @param x start x
+     * @param y start y
+     */
+    protected List<Slot> addPlayerHotbarSlots(CompatPlayerInventory inventory, int x, int y) {
+        return this.addPlayerHotbarSlots(inventory.getRaw(), x, y);
+    }
+
+    protected SimpleScreenHandler(ScreenHandlerTypeWrapper type, int syncId) {
+        super(type.get(), syncId);
+    }
+
+    protected SimpleScreenHandler(ScreenHandlerTypeWrapper type, CreateMenuEvent e) {
+        this(type, e.getSyncId());
     }
 }

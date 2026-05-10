@@ -3,10 +3,11 @@ package net.pitan76.mcpitanlib.midohra.item;
 import net.minecraft.world.item.Item;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
+import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
 
 import java.util.function.Supplier;
 
-public class SupplierTypedItemWrapper<T extends Item> extends TypedItemWrapper<T> {
+public class SupplierTypedItemWrapper<T extends Item> extends TypedItemWrapper<T> implements INonTypedSupplier<SupplierItemWrapper> {
     private final Supplier<T> supplier;
 
     protected SupplierTypedItemWrapper(Supplier<T> supplier) {
@@ -30,6 +31,7 @@ public class SupplierTypedItemWrapper<T extends Item> extends TypedItemWrapper<T
         return new SupplierTypedItemWrapper<>(() -> (T) result.get());
     }
 
+    @Override
     public SupplierItemWrapper asNonTyped() {
         return SupplierItemWrapper.of(this::get);
     }

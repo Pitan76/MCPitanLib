@@ -4,10 +4,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
+import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
 
 import java.util.function.Supplier;
 
-public class SupplierTypedBlockEntityTypeWrapper<T extends BlockEntity> extends TypedBlockEntityTypeWrapper<T> {
+public class SupplierTypedBlockEntityTypeWrapper<T extends BlockEntity> extends TypedBlockEntityTypeWrapper<T> implements INonTypedSupplier<SupplierBlockEntityTypeWrapper> {
     private final Supplier<BlockEntityType<T>> supplier;
 
     protected SupplierTypedBlockEntityTypeWrapper(Supplier<BlockEntityType<T>> supplier) {
@@ -31,6 +32,7 @@ public class SupplierTypedBlockEntityTypeWrapper<T extends BlockEntity> extends 
         return new SupplierTypedBlockEntityTypeWrapper<>(() -> (BlockEntityType<T>) result.get());
     }
 
+    @Override
     public SupplierBlockEntityTypeWrapper asNonTyped() {
         return SupplierBlockEntityTypeWrapper.of(this::get);
     }

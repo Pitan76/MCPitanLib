@@ -11,6 +11,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
+import net.pitan76.mcpitanlib.midohra.screen.TypedScreenHandlerTypeWrapper;
 
 public class ExtendedScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
 
@@ -21,6 +22,10 @@ public class ExtendedScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
     }
 
     public ExtendedScreenHandlerTypeBuilder(Factory2<T> factory) {
+        this.factory = factory;
+    }
+
+    public ExtendedScreenHandlerTypeBuilder(Factory3<T> factory) {
         this.factory = factory;
     }
 
@@ -37,6 +42,10 @@ public class ExtendedScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
         throw new AssertionError();
     }
 
+    public TypedScreenHandlerTypeWrapper<T> buildWrapper() {
+        return TypedScreenHandlerTypeWrapper.ofRaw(build(factory));
+    }
+
     @FunctionalInterface
     public interface Factory<T extends AbstractContainerMenu> {
         T create(int syncId, Inventory inventory, FriendlyByteBuf buf);
@@ -49,6 +58,16 @@ public class ExtendedScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
         @Override
         default T create(int syncId, Inventory inventory, FriendlyByteBuf buf) {
             return create(new CreateMenuEvent(syncId, inventory), buf);
+        }
+    }
+
+    @FunctionalInterface
+    public interface Factory3<T extends AbstractContainerMenu> extends Factory2<T> {
+        T create(CreateMenuEvent e, net.pitan76.mcpitanlib.midohra.network.PacketByteBuf buf);
+
+        @Override
+        default T create(CreateMenuEvent e, FriendlyByteBuf buf) {
+            return create(e, net.pitan76.mcpitanlib.midohra.network.PacketByteBuf.of(buf));
         }
     }
 }

@@ -41,8 +41,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.color.CompatBlockColorProvider;
+import net.pitan76.mcpitanlib.api.client.gui.screen.SimpleHandledScreen;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
 import net.pitan76.mcpitanlib.api.client.render.EntityModelLayerContext;
+import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -53,13 +57,30 @@ public class CompatRegistryClient {
         registerScreen(MCPitanLib.MOD_ID, type, factory);
     }
 
+    public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & MenuAccess<H>> void registerScreen(MenuType<? extends H> type, ScreenFactory2<H, S> factory) {
+        registerScreen(MCPitanLib.MOD_ID, type, factory);
+    }
+
     @ExpectPlatform
     public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, MenuType<? extends H> type, ScreenFactory<H, S> factory) {
         throw new AssertionError();
     }
 
+    public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & MenuAccess<H>> void registerScreen(String modId, MenuType<? extends H> type, ScreenFactory2<H, S> factory) {
+        registerScreen(modId, type, factory);
+    }
+
     public interface ScreenFactory<H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> {
         S create(H handler, Inventory inventory, Component text);
+    }
+
+    public interface ScreenFactory2<H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & MenuAccess<H>> extends ScreenFactory<H, S> {
+        @Override
+        default S create(H handler, Inventory inventory, Component text) {
+            return create(handler, new CompatPlayerInventory(inventory), new TextComponent(text));
+        }
+
+        S create(H handler, CompatPlayerInventory inventory, TextComponent text);
     }
 
     @ExpectPlatform

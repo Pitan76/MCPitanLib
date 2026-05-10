@@ -5,6 +5,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
+import net.pitan76.mcpitanlib.midohra.screen.TypedScreenHandlerTypeWrapper;
 
 public class SimpleScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
 
@@ -20,6 +21,10 @@ public class SimpleScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
 
     public MenuType<T> build() {
         return build(factory);
+    }
+
+    public TypedScreenHandlerTypeWrapper<T> buildWrapper() {
+        return TypedScreenHandlerTypeWrapper.ofRaw(build(factory));
     }
 
     @ExpectPlatform

@@ -68,11 +68,11 @@ public class Recipe {
     }
 
     public <T extends RecipeInput> boolean matches(TypedRecipeInputOrInventory<T> input, World world) {
-        return ((net.minecraft.world.item.crafting.Recipe)getRaw()).matches(input.getRecipeInput(), world.getRaw());
+        return getRaw().matches(input.getRecipeInput(), world.getRaw());
     }
 
     public <T extends RecipeInput> net.minecraft.world.item.ItemStack craft(TypedRecipeInputOrInventory<T> input, World world) {
-        return ((net.minecraft.world.item.crafting.Recipe)getRaw()).assemble(input.getRecipeInput());
+        return getRaw().assemble(input.getRecipeInput());
     }
 
     public <T extends RecipeInput> ItemStack craftMidohra(TypedRecipeInputOrInventory<T> input, World world) {

@@ -5,7 +5,7 @@ import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.midohra.nbt.NbtCompound;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 
-public class CompatPacketByteBuf extends FriendlyByteBuf {
+public class CompatPacketByteBuf extends FriendlyByteBuf implements IByteBuf {
     public CompatPacketByteBuf(FriendlyByteBuf buf) {
         super(buf);
     }

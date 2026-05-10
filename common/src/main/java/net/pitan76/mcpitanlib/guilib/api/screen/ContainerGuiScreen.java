@@ -6,8 +6,10 @@ import net.pitan76.mcpitanlib.api.client.gui.screen.CompatInventoryScreen;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawBackgroundArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawForegroundArgs;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ScreenHandlerUtil;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 import net.pitan76.mcpitanlib.guilib.GuiTextures;
 import net.pitan76.mcpitanlib.guilib.api.container.ContainerGui;
 import net.pitan76.mcpitanlib.guilib.api.render.SlotRenderer;
@@ -27,6 +29,10 @@ public class ContainerGuiScreen<T extends ContainerGui> extends CompatInventoryS
             setTitleX(handler.getScreenTitleX());
         if (handler.getScreenTitleY() != -1)
             setTitleY(handler.getScreenTitleY());
+    }
+
+    public ContainerGuiScreen(T handler, CompatPlayerInventory inventory, TextComponent title) {
+        this(handler, inventory.getRaw(), title.getText());
     }
 
     @Override

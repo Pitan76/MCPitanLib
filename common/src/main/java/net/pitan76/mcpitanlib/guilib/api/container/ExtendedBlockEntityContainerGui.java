@@ -10,10 +10,10 @@ import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.guilib.api.ISimpleScreenInfo;
+import net.pitan76.mcpitanlib.midohra.network.IByteBuf;
+import net.pitan76.mcpitanlib.midohra.screen.ScreenHandlerTypeWrapper;
 
-public abstract class ExtendedBlockEntityContainerGui<T extends CompatBlockEntity> extends BlockEntityContainerGui implements ISimpleScreenInfo {
-
-    public T blockEntity;
+public abstract class ExtendedBlockEntityContainerGui<T extends CompatBlockEntity> extends BlockEntityContainerGui<T> implements ISimpleScreenInfo {
 
     public ExtendedBlockEntityContainerGui(MenuType<?> type, CreateMenuEvent e, FriendlyByteBuf buf) {
         this(type, e);
@@ -33,6 +33,18 @@ public abstract class ExtendedBlockEntityContainerGui<T extends CompatBlockEntit
 
     protected ExtendedBlockEntityContainerGui(MenuType<?> type, CreateMenuEvent e) {
         super(type, e);
+    }
+
+    public ExtendedBlockEntityContainerGui(ScreenHandlerTypeWrapper type, CreateMenuEvent e, IByteBuf buf) {
+        this(type.get(), e, buf.toCompat());
+    }
+
+    public ExtendedBlockEntityContainerGui(ScreenHandlerTypeWrapper type, CreateMenuEvent e, net.pitan76.mcpitanlib.midohra.network.PacketByteBuf buf) {
+        this(type.get(), e, buf.toCompat());
+    }
+
+    protected ExtendedBlockEntityContainerGui(ScreenHandlerTypeWrapper type, CreateMenuEvent e) {
+        this(type.get(), e);
     }
 
     public abstract void receiveSync(FriendlyByteBuf buf);

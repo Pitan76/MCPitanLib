@@ -5,10 +5,11 @@ import net.minecraft.world.level.block.Block;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.pitan76.mcpitanlib.midohra.block.SupplierTypedBlockWrapper;
+import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
 
 import java.util.function.Supplier;
 
-public class SupplierTypedBlockItemWrapper<T extends Block> extends TypedBlockItemWrapper<T> {
+public class SupplierTypedBlockItemWrapper<T extends Block> extends TypedBlockItemWrapper<T> implements INonTypedSupplier<SupplierItemWrapper> {
     private final Supplier<T> supplier;
 
     protected SupplierTypedBlockItemWrapper(Supplier<T> supplier) {
@@ -17,8 +18,8 @@ public class SupplierTypedBlockItemWrapper<T extends Block> extends TypedBlockIt
     }
 
     public static <T extends Block> SupplierTypedBlockItemWrapper<T> of(ItemWrapper wrapper) {
-        if (wrapper instanceof SupplierItemWrapper) {
-            return SupplierTypedBlockItemWrapper.of((SupplierItemWrapper) wrapper);
+        if (wrapper instanceof INonTypedSupplier) {
+            return SupplierTypedBlockItemWrapper.of(((INonTypedSupplier<SupplierItemWrapper>) wrapper));
         }
 
         return SupplierTypedBlockItemWrapper.of(() -> (T) wrapper.asBlock().get());
@@ -40,6 +41,11 @@ public class SupplierTypedBlockItemWrapper<T extends Block> extends TypedBlockIt
         return new SupplierTypedBlockItemWrapper<>(() -> (T) ((BlockItem) result.get()).getBlock());
     }
 
+    public static <T extends Block> SupplierTypedBlockItemWrapper<T> of(INonTypedSupplier<SupplierItemWrapper> result) {
+        return new SupplierTypedBlockItemWrapper<>(() -> (T) ((BlockItem) result.asNonTyped().get()).getBlock());
+    }
+
+    @Override
     public SupplierItemWrapper asNonTyped() {
         return SupplierItemWrapper.of(() -> get().asItem());
     }

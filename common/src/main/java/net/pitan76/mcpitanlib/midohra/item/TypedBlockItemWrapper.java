@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.midohra.item;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.pitan76.mcpitanlib.midohra.block.TypedBlockWrapper;
+import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
 
 public class TypedBlockItemWrapper<T extends Block> extends ItemWrapper {
     protected T block;
@@ -21,9 +22,8 @@ public class TypedBlockItemWrapper<T extends Block> extends ItemWrapper {
     }
 
     public static <T extends Block> TypedBlockItemWrapper<T> of(ItemWrapper wrapper) {
-        if (wrapper instanceof SupplierItemWrapper) {
-            SupplierItemWrapper supplierWrapper = (SupplierItemWrapper) wrapper;
-            return SupplierTypedBlockItemWrapper.of(supplierWrapper);
+        if (wrapper instanceof INonTypedSupplier) {
+            return SupplierTypedBlockItemWrapper.of((INonTypedSupplier<SupplierItemWrapper>) wrapper);
         }
 
         return TypedBlockItemWrapper.ofRaw((T) wrapper.asBlock().get());

@@ -5,6 +5,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.pitan76.mcpitanlib.midohra.block.SupplierBlockWrapper;
+import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +33,22 @@ public class BlockEntityTypeBuilder<T extends BlockEntity> extends net.pitan76.m
     }
 
     public static <T extends BlockEntity> BlockEntityTypeBuilder<T> createA(BlockEntityTypeBuilder.Factory<? extends T> factory, Supplier<Block> block) {
-        return new BlockEntityTypeBuilder<>(factory, blocks -> {
-            blocks.add(block.get());
-        });
+        return new BlockEntityTypeBuilder<>(factory, blocks -> blocks.add(block.get()));
     }
 
     public static <T extends BlockEntity> BlockEntityTypeBuilder<T> create(BlockEntityTypeBuilder.Factory<? extends T> factory, SupplierBlockWrapper wrapper) {
-        return new BlockEntityTypeBuilder<>(factory, blocks -> {
-            blocks.add(wrapper.get());
+        return new BlockEntityTypeBuilder<>(factory, blocks -> blocks.add(wrapper.get()));
+    }
+
+    public static <T extends BlockEntity> BlockEntityTypeBuilder<T> create(BlockEntityTypeBuilder.Factory<? extends T> factory, INonTypedSupplier<SupplierBlockWrapper> wrapper) {
+        return create(factory, wrapper.asNonTyped());
+    }
+
+    public static <T extends BlockEntity> BlockEntityTypeBuilder<T> create(BlockEntityTypeBuilder.Factory<? extends T> factory, INonTypedSupplier<SupplierBlockWrapper>... wrappers) {
+        return create(factory, blocks -> {
+            for (INonTypedSupplier<SupplierBlockWrapper> wrapper : wrappers) {
+                blocks.add(wrapper.asNonTyped().get());
+            }
         });
     }
 
