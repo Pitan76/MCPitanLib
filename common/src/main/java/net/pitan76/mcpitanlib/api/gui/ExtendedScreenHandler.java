@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.api.gui;
 
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerType;
+import net.pitan76.mcpitanlib.midohra.network.IByteBuf;
+import net.pitan76.mcpitanlib.midohra.screen.ScreenHandlerTypeWrapper;
 import org.jetbrains.annotations.Nullable;
 
 public class ExtendedScreenHandler extends SimpleScreenHandler {
@@ -11,5 +13,21 @@ public class ExtendedScreenHandler extends SimpleScreenHandler {
 
     protected ExtendedScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId) {
         super(type, syncId);
+    }
+
+    protected ExtendedScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId, IByteBuf buf) {
+        this(type, syncId, buf.toRaw());
+    }
+
+    protected ExtendedScreenHandler(ScreenHandlerTypeWrapper type, int syncId) {
+        this(type.get(), syncId);
+    }
+
+    protected ExtendedScreenHandler(ScreenHandlerTypeWrapper type, int syncId, IByteBuf buf) {
+        this(type.get(), syncId, buf);
+    }
+
+    protected ExtendedScreenHandler(ScreenHandlerTypeWrapper type, int syncId, net.pitan76.mcpitanlib.midohra.network.PacketByteBuf buf) {
+        this(type.get(), syncId, buf);
     }
 }

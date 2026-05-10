@@ -11,9 +11,12 @@ import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 import net.pitan76.mcpitanlib.guilib.api.container.SimpleContainerGui;
 import net.pitan76.mcpitanlib.guilib.api.screen.SimpleContainerGuiScreen;
+import net.pitan76.mcpitanlib.midohra.screen.SupplierTypedScreenHandlerTypeWrapper;
 
 import java.util.function.Supplier;
 
@@ -33,7 +36,32 @@ public class GuiRegistry {
 
     @Environment(EnvType.CLIENT)
     public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, ScreenHandlerType<T> type) {
-        CompatRegistryClient.registerScreen(id, type, SimpleContainerGuiScreen::new);
+        CompatRegistryClient.registerScreen(id, type, new CompatRegistryClient.ScreenFactory2<>() {
+            @Override
+            public SimpleContainerGuiScreen create(SimpleContainerGui handler, CompatPlayerInventory inventory, TextComponent text) {
+                return new SimpleContainerGuiScreen(handler, inventory, text);
+            }
+        });
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static <T extends ScreenHandler, U extends Screen & ScreenHandlerProvider<T>> void register(String id, SupplierResult<ScreenHandlerType<T>> type, CompatRegistryClient.ScreenFactory<T, U> factory) {
+        register(id, type.get(), factory);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, SupplierResult<ScreenHandlerType<T>> type) {
+        registerSimpleContainerGui(id, type.get());
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static <T extends ScreenHandler, U extends Screen & ScreenHandlerProvider<T>> void register(String id, SupplierTypedScreenHandlerTypeWrapper<T> type, CompatRegistryClient.ScreenFactory<T, U> factory) {
+        register(id, type.get(), factory);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, SupplierTypedScreenHandlerTypeWrapper<T> type) {
+        registerSimpleContainerGui(id, type.get());
     }
 
     public static <T extends ScreenHandler> SupplierResult<ScreenHandlerType<T>> register(CompatRegistryV2 registry, CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {
@@ -42,5 +70,13 @@ public class GuiRegistry {
 
     public static <T extends ScreenHandler> SupplierResult<ScreenHandlerType<T>> register(CompatRegistryV2 registry, CompatIdentifier id, ExtendedScreenHandlerTypeBuilder<T> builder) {
         return registry.registerScreenHandlerType(id, builder);
+    }
+
+    public static <T extends ScreenHandler> SupplierTypedScreenHandlerTypeWrapper<T> registerM(CompatRegistryV2 registry, CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {
+        return SupplierTypedScreenHandlerTypeWrapper.of(register(registry, id, builder));
+    }
+
+    public static <T extends ScreenHandler> SupplierTypedScreenHandlerTypeWrapper<T> registerM(CompatRegistryV2 registry, CompatIdentifier id, ExtendedScreenHandlerTypeBuilder<T> builder) {
+        return SupplierTypedScreenHandlerTypeWrapper.of(register(registry, id, builder));
     }
 }
