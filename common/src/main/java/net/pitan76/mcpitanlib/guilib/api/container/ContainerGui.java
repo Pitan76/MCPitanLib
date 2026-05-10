@@ -8,6 +8,7 @@ import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.guilib.api.IScreenInfo;
+import net.pitan76.mcpitanlib.midohra.screen.ScreenHandlerTypeWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,14 @@ public abstract class ContainerGui extends SimpleScreenHandler implements IScree
     }
 
     protected ContainerGui(ScreenHandlerType<?> type, CreateMenuEvent e) {
+        super(type, e);
+    }
+
+    protected ContainerGui(ScreenHandlerTypeWrapper type, int syncId) {
+        super(type, syncId);
+    }
+
+    protected ContainerGui(ScreenHandlerTypeWrapper type, CreateMenuEvent e) {
         super(type, e);
     }
 

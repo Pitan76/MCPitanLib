@@ -3,10 +3,11 @@ package net.pitan76.mcpitanlib.midohra.entity;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.entity.EntityType;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
 
 import java.util.function.Supplier;
 
-public class SupplierEntityTypeWrapper extends EntityTypeWrapper {
+public class SupplierEntityTypeWrapper extends EntityTypeWrapper implements INonTypedSupplier<SupplierEntityTypeWrapper> {
     private final Supplier<EntityType<?>> supplier;
 
     protected SupplierEntityTypeWrapper(Supplier<EntityType<?>> supplier) {
@@ -23,6 +24,11 @@ public class SupplierEntityTypeWrapper extends EntityTypeWrapper {
 
     public static SupplierEntityTypeWrapper of(RegistrySupplier<EntityType<?>> result) {
         return new SupplierEntityTypeWrapper(result::get);
+    }
+
+    @Override
+    public SupplierEntityTypeWrapper asNonTyped() {
+        return this;
     }
 
     @Override
