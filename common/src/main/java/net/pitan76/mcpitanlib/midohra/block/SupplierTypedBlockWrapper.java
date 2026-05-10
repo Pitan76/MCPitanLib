@@ -3,10 +3,11 @@ package net.pitan76.mcpitanlib.midohra.block;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
 
 import java.util.function.Supplier;
 
-public class SupplierTypedBlockWrapper<T extends Block> extends TypedBlockWrapper<T> {
+public class SupplierTypedBlockWrapper<T extends Block> extends TypedBlockWrapper<T> implements INonTypedSupplier<SupplierBlockWrapper> {
     private final Supplier<T> supplier;
 
     protected SupplierTypedBlockWrapper(Supplier<T> supplier) {
@@ -30,6 +31,7 @@ public class SupplierTypedBlockWrapper<T extends Block> extends TypedBlockWrappe
         return new SupplierTypedBlockWrapper<>(() -> (T) result.get());
     }
 
+    @Override
     public SupplierBlockWrapper asNonTyped() {
         return SupplierBlockWrapper.of(this::get);
     }

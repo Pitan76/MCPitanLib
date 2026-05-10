@@ -291,4 +291,12 @@ public class ItemStack {
     public void removeCustomNbt(String key) {
         CustomDataUtil.remove(stack, key);
     }
+
+    public boolean areItemsEqual(ItemStack other) {
+        return ItemStackUtil.areItemsEqual(this.stack, other.stack);
+    }
+
+    public boolean areNbtOrComponentEqual(ItemStack other) {
+        return ItemStackUtil.areNbtOrComponentEqual(this.stack, other.stack);
+    }
 }
