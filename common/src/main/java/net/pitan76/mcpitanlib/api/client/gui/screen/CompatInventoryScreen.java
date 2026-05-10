@@ -6,13 +6,19 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 import net.pitan76.mcpitanlib.guilib.api.render.SlotRenderer;
 
 public abstract class CompatInventoryScreen<S extends ScreenHandler> extends SimpleInventoryScreen<S> {
 
     public CompatInventoryScreen(S handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+    }
+
+    public CompatInventoryScreen(S handler, CompatPlayerInventory inventory, TextComponent title) {
+        this(handler, inventory.getRaw(), title.getText());
     }
 
     public abstract CompatIdentifier getCompatTexture();
