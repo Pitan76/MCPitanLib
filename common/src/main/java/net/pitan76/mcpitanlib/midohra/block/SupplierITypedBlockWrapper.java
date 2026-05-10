@@ -3,11 +3,12 @@ package net.pitan76.mcpitanlib.midohra.block;
 import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.block.ICompatBlock;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
 import dev.architectury.registry.registries.RegistrySupplier;
 
 import java.util.function.Supplier;
 
-public class SupplierITypedBlockWrapper<T extends ICompatBlock> extends ITypedBlockWrapper<T> {
+public class SupplierITypedBlockWrapper<T extends ICompatBlock> extends ITypedBlockWrapper<T> implements INonTypedSupplier<SupplierBlockWrapper> {
     private final Supplier<T> supplier;
 
     protected SupplierITypedBlockWrapper(Supplier<T> supplier) {
@@ -15,7 +16,7 @@ public class SupplierITypedBlockWrapper<T extends ICompatBlock> extends ITypedBl
         this.supplier = supplier;
     }
 
-    public static <T extends ICompatBlock> ITypedBlockWrapper<T> of(BlockWrapper wrapper) {
+    public static <T extends ICompatBlock> SupplierITypedBlockWrapper<T> of(BlockWrapper wrapper) {
         if (wrapper instanceof SupplierBlockWrapper) {
             SupplierBlockWrapper supplierWrapper = (SupplierBlockWrapper) wrapper;
             return SupplierITypedBlockWrapper.of(supplierWrapper);
@@ -40,6 +41,7 @@ public class SupplierITypedBlockWrapper<T extends ICompatBlock> extends ITypedBl
         return new SupplierITypedBlockWrapper<>(() -> (T) result.get());
     }
 
+    @Override
     public SupplierBlockWrapper asNonTyped() {
         return SupplierBlockWrapper.of(this::get);
     }
