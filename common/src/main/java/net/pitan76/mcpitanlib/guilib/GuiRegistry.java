@@ -11,7 +11,9 @@ import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 import net.pitan76.mcpitanlib.guilib.api.container.SimpleContainerGui;
 import net.pitan76.mcpitanlib.guilib.api.screen.SimpleContainerGuiScreen;
 import net.pitan76.mcpitanlib.midohra.screen.SupplierTypedScreenHandlerTypeWrapper;
@@ -34,7 +36,12 @@ public class GuiRegistry {
 
     @Environment(EnvType.CLIENT)
     public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, MenuType<T> type) {
-        CompatRegistryClient.registerScreen(id, type, SimpleContainerGuiScreen::new);
+        CompatRegistryClient.registerScreen(id, type, new CompatRegistryClient.ScreenFactory2<>() {
+            @Override
+            public SimpleContainerGuiScreen create(SimpleContainerGui handler, CompatPlayerInventory inventory, TextComponent text) {
+                return new SimpleContainerGuiScreen(handler, inventory, text);
+            }
+        });
     }
 
     @Environment(EnvType.CLIENT)
