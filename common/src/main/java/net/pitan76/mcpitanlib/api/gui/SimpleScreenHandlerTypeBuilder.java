@@ -5,6 +5,7 @@ import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
+import net.pitan76.mcpitanlib.midohra.screen.TypedScreenHandlerTypeWrapper;
 
 public class SimpleScreenHandlerTypeBuilder<T extends ScreenHandler> {
 
@@ -20,6 +21,10 @@ public class SimpleScreenHandlerTypeBuilder<T extends ScreenHandler> {
 
     public ScreenHandlerType<T> build() {
         return new ScreenHandlerType<>(factory::create, FeatureFlags.VANILLA_FEATURES);
+    }
+
+    public TypedScreenHandlerTypeWrapper<T> buildWrapper() {
+        return TypedScreenHandlerTypeWrapper.ofRaw(build());
     }
 
     @FunctionalInterface

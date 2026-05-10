@@ -3,10 +3,11 @@ package net.pitan76.mcpitanlib.midohra.block.entity;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.entity.BlockEntityType;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
 
 import java.util.function.Supplier;
 
-public class SupplierBlockEntityTypeWrapper extends BlockEntityTypeWrapper {
+public class SupplierBlockEntityTypeWrapper extends BlockEntityTypeWrapper implements INonTypedSupplier<SupplierBlockEntityTypeWrapper> {
     private final Supplier<BlockEntityType<?>> supplier;
 
     protected SupplierBlockEntityTypeWrapper(Supplier<BlockEntityType<?>> supplier) {
@@ -23,6 +24,11 @@ public class SupplierBlockEntityTypeWrapper extends BlockEntityTypeWrapper {
 
     public static SupplierBlockEntityTypeWrapper of(RegistrySupplier<BlockEntityType<?>> result) {
         return new SupplierBlockEntityTypeWrapper(result::get);
+    }
+
+    @Override
+    public SupplierBlockEntityTypeWrapper asNonTyped() {
+        return this;
     }
 
     @Override

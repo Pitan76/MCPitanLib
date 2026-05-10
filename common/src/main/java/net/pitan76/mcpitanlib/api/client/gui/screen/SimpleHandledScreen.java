@@ -23,6 +23,7 @@ import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatPlayerInventory;
 import net.pitan76.mcpitanlib.core.datafixer.Pair;
 
 public abstract class SimpleHandledScreen<S extends ScreenHandler> extends HandledScreen<S> {
@@ -40,6 +41,10 @@ public abstract class SimpleHandledScreen<S extends ScreenHandler> extends Handl
         this.handler = handler;
         this.title = title;
 
+    }
+
+    public SimpleHandledScreen(S handler, CompatPlayerInventory inventory, TextComponent title) {
+        this(handler, inventory.getRaw(), title.getText());
     }
 
     @Deprecated
