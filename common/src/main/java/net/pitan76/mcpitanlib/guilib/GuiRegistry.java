@@ -36,7 +36,7 @@ public class GuiRegistry {
 
     @Environment(EnvType.CLIENT)
     public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, ScreenHandlerType<T> type) {
-        CompatRegistryClient.registerScreen(id, type, new CompatRegistryClient.ScreenFactory2<>() {
+        CompatRegistryClient.registerScreen(id, type, new CompatRegistryClient.ScreenFactory2<SimpleContainerGui, SimpleContainerGuiScreen>() {
             @Override
             public SimpleContainerGuiScreen create(SimpleContainerGui handler, CompatPlayerInventory inventory, TextComponent text) {
                 return new SimpleContainerGuiScreen(handler, inventory, text);

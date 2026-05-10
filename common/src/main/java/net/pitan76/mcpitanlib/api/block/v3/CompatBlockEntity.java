@@ -10,7 +10,7 @@ import net.pitan76.mcpitanlib.midohra.nbt.NbtCompound;
 
 public class CompatBlockEntity extends net.pitan76.mcpitanlib.api.tile.CompatBlockEntity {
     public CompatBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+        super(type);
     }
 
     public CompatBlockEntity(BlockEntityType<?> type, TileCreateEvent event) {
