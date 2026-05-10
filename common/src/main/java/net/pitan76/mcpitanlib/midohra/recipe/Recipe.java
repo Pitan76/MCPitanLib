@@ -57,7 +57,7 @@ public class Recipe {
 
     public net.minecraft.item.ItemStack craft(RecipeInputOrInventory input, World world) {
         if (input instanceof TypedRecipeInputOrInventory) {
-            return craft(input, world);
+            return craft((TypedRecipeInputOrInventory) input, world);
         }
 
         return net.minecraft.item.ItemStack.EMPTY;
