@@ -4,6 +4,7 @@ import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
 import java.util.function.Supplier;
 
@@ -33,5 +34,17 @@ public class FuelRegistry {
 
     public static boolean isFuel(World world, ItemStack stack) {
         return AbstractFurnaceBlockEntity.canUseAsFuel(stack);
+    }
+
+    public static void register(int time, ItemWrapper item) {
+        register(time, item::get);
+    }
+
+    public static int get(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return get(world.toMinecraft(), stack.toMinecraft());
+    }
+
+    public static boolean isFuel(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
+        return isFuel(world.toMinecraft(), stack.toMinecraft());
     }
 }
