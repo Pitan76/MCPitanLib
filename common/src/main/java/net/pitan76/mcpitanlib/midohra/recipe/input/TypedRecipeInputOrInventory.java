@@ -1,10 +1,9 @@
 package net.pitan76.mcpitanlib.midohra.recipe.input;
 
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.recipe.input.RecipeInput;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,17 +27,17 @@ public class TypedRecipeInputOrInventory<T extends RecipeInput> extends RecipeIn
         }
 
         if (recipeInput.callSize() == 1) {
-            SingleStackRecipeInput singleStackInput = new SingleStackRecipeInput(recipeInput.getItem(0));
+            SingleRecipeInput singleStackInput = new SingleRecipeInput(recipeInput.getItem(0));
             return _of((T) singleStackInput);
         }
 
         if (recipeInput.callSize() == 4) {
-            CraftingRecipeInput craftingInput = CraftingRecipeInput.create(2, 2, recipeInput.callGetHeldStacks());
+            CraftingInput craftingInput = CraftingInput.of(2, 2, recipeInput.callGetHeldStacks());
             return _of((T) craftingInput);
         }
 
         if (recipeInput.callSize() == 9) {
-            CraftingRecipeInput craftingInput = CraftingRecipeInput.create(3, 3, recipeInput.callGetHeldStacks());
+            CraftingInput craftingInput = CraftingInput.of(3, 3, recipeInput.callGetHeldStacks());
             return _of((T) craftingInput);
         }
 
