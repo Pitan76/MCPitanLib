@@ -69,7 +69,7 @@ public class CompatRegistryClient {
     }
 
     public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory2<H, S> factory) {
-        registerScreen(modId, type, factory);
+        registerScreen(modId, type, (ScreenFactory<H, S>) factory);
     }
 
     public interface ScreenFactory<H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> {
