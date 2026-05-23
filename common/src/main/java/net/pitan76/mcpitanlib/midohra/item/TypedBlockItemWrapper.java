@@ -9,7 +9,7 @@ public class TypedBlockItemWrapper<T extends Block> extends ItemWrapper {
     protected T block;
 
     protected TypedBlockItemWrapper(T block) {
-        super(block.asItem());
+        super(block == null ? null : block.asItem());
         this.block = block;
     }
 
