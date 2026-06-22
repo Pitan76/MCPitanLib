@@ -6,7 +6,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -29,11 +28,11 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
     public T blockEntity;
     public float tickDelta;
     public PoseStack matrices;
-    public MultiBufferSource vertexConsumers;
+    public VertexConsumer vertexConsumers;
     int light;
     int overlay;
 
-    public BlockEntityRenderEvent(T blockEntity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+    public BlockEntityRenderEvent(T blockEntity, float tickDelta, PoseStack matrices, VertexConsumer vertexConsumers, int light, int overlay) {
         this.blockEntity = blockEntity;
         this.tickDelta = tickDelta;
         this.matrices = matrices;
@@ -46,16 +45,21 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
     private SubmitNodeCollector queue;
     private CameraRenderState cameraState;
 
+    public <S extends BlockEntityRenderState> BlockEntityRenderEvent(CompatBlockEntityRenderer renderer, S state, PoseStack matrices, VertexConsumer vertexConsumers, SubmitNodeCollector queue, CameraRenderState cameraState) {
+        this(state, matrices, vertexConsumers, queue, cameraState);
+        if (renderer instanceof net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) {
+            this.ctx = ((net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) renderer).ctx;
+        }
+    }
 
-    public <S extends BlockEntityRenderState> BlockEntityRenderEvent(S state, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState) {
+    public <S extends BlockEntityRenderState> BlockEntityRenderEvent(S state, PoseStack matrices, VertexConsumer vertexConsumers, SubmitNodeCollector queue, CameraRenderState cameraState) {
         this.state = state;
         this.queue = queue;
         this.cameraState = cameraState;
 
         this.matrices = matrices;
-        this.queue = queue;
-        this.cameraState = cameraState;
         this.tickDelta = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaTicks();
+
         BlockEntity blockEntity = state.blockEntityType.getBlockEntity(Minecraft.getInstance().level, state.blockPos);
         if (blockEntity instanceof CompatBlockEntity) {
             this.blockEntity = (T) blockEntity;
@@ -63,7 +67,11 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
             //throw new IllegalArgumentException("BlockEntityRenderEvent: BlockEntity is not an instance of CompatBlockEntity");
         }
 
-        this.vertexConsumers = Minecraft.getInstance().renderBuffers().bufferSource();
+        // submitCustomGeometryのコールバック内から渡されるVertexConsumerをそのまま保持する。
+        // 旧世代のMinecraft.getInstance().renderBuffers().bufferSource()相当の即時取得は
+        // この世代では構造的に不可能なため廃止した。
+        this.vertexConsumers = vertexConsumers;
+
         this.light = state.lightCoords;
         if (state.breakProgress != null)
             this.overlay = state.breakProgress.progress();
@@ -92,14 +100,28 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
     }
 
     public VertexConsumer getVertexConsumer(RenderType layer) {
-        return vertexConsumers.getBuffer(layer);
+        if (vertexConsumers != null) return vertexConsumers; // 旧世代、またはすでに取得済みのキャッシュ
+
+        if (queue == null) {
+            throw new IllegalStateException("No SubmitNodeCollector available to resolve VertexConsumer for " + layer);
+        }
+
+        // 遅延取得: ここで初めてsubmitCustomGeometryを発行し、コールバック内のVertexConsumerをキャッシュする
+        VertexConsumer[] holder = new VertexConsumer[1];
+        queue.submitCustomGeometry(matrices, layer, (pose, vertexConsumer) -> {
+            holder[0] = vertexConsumer;
+        });
+
+        // ここが問題: submitCustomGeometryのコールバックは即時実行ではない可能性がある
+        this.vertexConsumers = holder[0];
+        return this.vertexConsumers;
     }
 
     public VertexConsumer getVertexConsumer(CompatRenderLayer layer) {
         return getVertexConsumer(layer.raw());
     }
 
-    public MultiBufferSource getVertexConsumers() {
+    public VertexConsumer getVertexConsumers() {
         return vertexConsumers;
     }
 
@@ -169,15 +191,16 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
     @Deprecated
     public CompatRegistryClient.BlockEntityRendererFactory.Context ctx;
 
-    public BlockEntityRenderEvent(CompatBlockEntityRenderer renderer, T blockEntity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+    public BlockEntityRenderEvent(CompatBlockEntityRenderer renderer, T blockEntity, float tickDelta, PoseStack matrices, VertexConsumer vertexConsumers, int light, int overlay) {
         this(blockEntity, tickDelta, matrices, vertexConsumers, light, overlay);
         if (renderer instanceof net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) {
             this.ctx = ((net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) renderer).ctx;
         }
     }
 
+    @Deprecated
     public BlockEntityRenderEvent(CompatBlockEntityRenderer renderer, BlockEntityRenderState state, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState) {
-        this(state, matrices, queue, cameraState);
+        this(state, matrices, null, queue, cameraState);
         if (renderer instanceof net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) {
             this.ctx = ((net.pitan76.mcpitanlib.api.client.render.block.entity.v2.CompatBlockEntityRenderer<?>) renderer).ctx;
         }

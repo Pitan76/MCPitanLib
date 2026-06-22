@@ -64,7 +64,7 @@ public class CompatBlocks {
 
     public static final Block COAL_BLOCK = Blocks.COAL_BLOCK;
     public static final Block IRON_BLOCK = Blocks.IRON_BLOCK;
-    public static final Block COPPER_BLOCK = Blocks.COPPER_BLOCK;
+    public static final Block COPPER_BLOCK = Blocks.COPPER_BLOCK.waxed().unaffected();
     public static final Block GOLD_BLOCK = Blocks.GOLD_BLOCK;
     public static final Block DIAMOND_BLOCK = Blocks.DIAMOND_BLOCK;
     public static final Block REDSTONE_BLOCK = Blocks.REDSTONE_BLOCK;

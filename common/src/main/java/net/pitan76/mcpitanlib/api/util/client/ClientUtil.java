@@ -23,11 +23,11 @@ import java.util.Optional;
 
 public class ClientUtil {
     public static void setScreen(Screen screen) {
-        getClient().setScreen(screen);
+        getClient().setScreenAndShow(screen);
     }
 
     public static Screen getScreen() {
-        return getClient().screen;
+        return getClient().gui.screen();
     }
 
     public static Player getPlayer() {

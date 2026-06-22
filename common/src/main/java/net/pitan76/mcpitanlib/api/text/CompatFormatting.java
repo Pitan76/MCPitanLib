@@ -43,27 +43,55 @@ public class CompatFormatting implements CompatStringIdentifiable {
 
     @Override
     public String asString_compat() {
-        return formatting.getSerializedName();
+        return formatting.toString();
     }
 
     public boolean isColor() {
-        return formatting.isColor();
+        switch (formatting) {
+            case BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public boolean isModifier() {
-        return formatting.isFormat();
+        switch (formatting) {
+            case OBFUSCATED, BOLD, STRIKETHROUGH, UNDERLINE, ITALIC:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public char getCode() {
-        return formatting.getChar();
+        return formatting.toString().charAt(1);
     }
 
     public Integer getColorValue() {
-        return formatting.getColor();
+        switch (formatting) {
+            case BLACK: return 0x000000;
+            case DARK_BLUE: return 0x0000AA;
+            case DARK_GREEN: return 0x00AA00;
+            case DARK_AQUA: return 0x00AAAA;
+            case DARK_RED: return 0xAA0000;
+            case DARK_PURPLE: return 0xAA00AA;
+            case GOLD: return 0xFFAA00;
+            case GRAY: return 0xAAAAAA;
+            case DARK_GRAY: return 0x555555;
+            case BLUE: return 0x5555FF;
+            case GREEN: return 0x55FF55;
+            case AQUA: return 0x55FFFF;
+            case RED: return 0xFF5555;
+            case LIGHT_PURPLE: return 0xFF55FF;
+            case YELLOW: return 0xFFFF55;
+            case WHITE: return 0xFFFFFF;
+            default: return null; // Not a color
+        }
     }
 
     public int getColorIndex() {
-        return formatting.getId();
+        return getCode() - '0';
     }
 
     @Override

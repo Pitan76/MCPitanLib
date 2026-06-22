@@ -2,11 +2,12 @@ package net.pitan76.mcpitanlib.api.util.client;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.resources.language.LanguageManager;
+import net.minecraft.locale.Language;
 import net.pitan76.mcpitanlib.midohra.resource.ResourceManager;
 
 public class LanguageUtil {
     public static boolean hasTranslation(String key) {
-        return I18n.exists(key);
+        return Language.getInstance().has(key);
     }
 
     public static String translate(String key) {
@@ -18,11 +19,11 @@ public class LanguageUtil {
     }
 
     public static String translateWithFallback(String key, String fallback) {
-        return I18n.exists(key) ? I18n.get(key) : fallback;
+        return hasTranslation(key) ? I18n.get(key) : fallback;
     }
 
     public static String translateWithFallback(String key, String fallback, Object... args) {
-        return I18n.exists(key) ? I18n.get(key, args) : fallback;
+        return hasTranslation(key) ? I18n.get(key, args) : fallback;
     }
 
     public static LanguageManager getLanguageManager() {

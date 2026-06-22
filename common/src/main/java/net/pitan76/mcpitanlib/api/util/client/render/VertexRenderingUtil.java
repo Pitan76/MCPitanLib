@@ -1,14 +1,10 @@
 package net.pitan76.mcpitanlib.api.util.client.render;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.ShapeRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.phys.AABB;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
-
-import java.util.Optional;
 
 public class VertexRenderingUtil {
     public static void drawBox(PoseStack matrices, VertexConsumer buffer, double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {

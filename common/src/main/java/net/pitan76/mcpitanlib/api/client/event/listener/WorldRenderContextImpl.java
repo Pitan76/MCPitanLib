@@ -1,10 +1,10 @@
 package net.pitan76.mcpitanlib.api.client.event.listener;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -13,6 +13,8 @@ import net.minecraft.world.phys.Vec3;
 import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
+
+import java.util.function.Consumer;
 
 public class WorldRenderContextImpl implements WorldRenderContext {
 
@@ -25,7 +27,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
     public Matrix4f projectionMatrix;
     public ClientLevel world;
     public boolean advancedTranslucency;
-    public @Nullable MultiBufferSource consumers;
+    public @Nullable VertexConsumer consumers;
     public @Nullable Frustum frustum;
 
     @Override
@@ -46,7 +48,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
     @Override
     public Camera getCamera() {
         if (camera == null) {
-            return getGameRenderer().getMainCamera();
+            return getGameRenderer().mainCamera();
         }
         return camera;
     }
@@ -83,7 +85,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
     }
 
     @Override
-    public @Nullable MultiBufferSource getConsumers() {
+    public @Nullable VertexConsumer getConsumers() {
         return consumers;
     }
 
@@ -111,7 +113,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
 
         this.projectionMatrix = projectionMatrix;;
         this.tickDelta = tickCounter.getGameTimeDeltaTicks();
-        this.frustum = gameRenderer.getMainCamera().getCapturedFrustum();
+        this.frustum = gameRenderer.mainCamera().getCapturedFrustum();
     }
 
 

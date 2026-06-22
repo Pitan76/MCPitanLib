@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.entity;
 
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -9,6 +10,8 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.resources.ResourceKey;
 import net.pitan76.mcpitanlib.MCPitanLib;
+import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKey;
+import net.pitan76.mcpitanlib.api.tag.v2.CompatTagKeyType;
 
 import java.util.Optional;
 
@@ -21,7 +24,7 @@ public class EntityTypeBuilder<T extends Entity> {
     private boolean summonable;
     private boolean fireImmune;
     private boolean spawnableFarFromPlayer;
-    private ImmutableSet<Block> canSpawnBlocks;
+    private TagKey<Block> canSpawnBlocks;
     private int maxTrackDistance;
     private int trackTickInterval;
     private Boolean alwaysUpdateVelocity = null;
@@ -38,7 +41,7 @@ public class EntityTypeBuilder<T extends Entity> {
         spawnableFarFromPlayer = false;
         maxTrackDistance = 5;
         trackTickInterval = 3;
-        canSpawnBlocks = ImmutableSet.of();
+        canSpawnBlocks = CompatTagKey.of(CompatTagKeyType.BLOCK, MCPitanLib.compatId("empty_can_spawn_blocks")).getTagKey();
     }
 
     @Deprecated
@@ -104,7 +107,7 @@ public class EntityTypeBuilder<T extends Entity> {
     }
 
     public EntityTypeBuilder<T> setCanSpawnBlocks(ImmutableSet<Block> canSpawnBlocks) {
-        this.canSpawnBlocks = canSpawnBlocks;
+//        this.canSpawnBlocks = canSpawnBlocks;
         return this;
     }
 

@@ -232,7 +232,7 @@ public class CompatibleBlockSettings {
     }
 
     public CompatibleBlockSettings emissiveLighting(BlockBehaviour.StatePredicate predicate) {
-        settings.emissiveRendering(predicate);
+//        settings.emissiveRendering(predicate);
         return this;
     }
 

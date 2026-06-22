@@ -6,9 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -51,7 +49,7 @@ public interface WorldRenderContext {
     @Deprecated
     boolean isAdvancedTranslucency();
 
-    @Nullable MultiBufferSource getConsumers();
+    @Nullable VertexConsumer getConsumers();
     @Nullable Frustum getFrustum();
 
     @Environment(EnvType.CLIENT)
@@ -117,7 +115,7 @@ public interface WorldRenderContext {
         if (getConsumers() == null)
             return Optional.empty();
 
-        return Optional.of(Objects.requireNonNull(getConsumers()).getBuffer(RenderTypes.lines()));
+        return Optional.of(Objects.requireNonNull(getConsumers()));
     }
 
     default void drawBox(float red, float green, float blue, float alpha) {

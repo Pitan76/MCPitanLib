@@ -4,11 +4,14 @@ import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.chunk.ChunkSectionsToRender;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.BlockOutlineRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.state.level.LevelRenderState;
 import net.pitan76.mcpitanlib.api.client.event.WorldRenderRegistry;
@@ -36,29 +39,36 @@ public abstract class LevelRendererMixin {
     @Unique
     private final WorldRenderContextImpl mcpitanlib$contextCache = new WorldRenderContextImpl();
 
-    @Inject(method = "renderBlockOutline", at = @At("HEAD"), cancellable = true)
-    private void mcpitanlib$onRenderTargetBlockOutline(MultiBufferSource.BufferSource immediate, PoseStack matrices, boolean renderBlockOutline, LevelRenderState renderStates, CallbackInfo ci) {
+    @Inject(method = "submitBlockOutline", at = @At("HEAD"), cancellable = true)
+    private void mcpitanlib$onSubmitBlockOutline(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LevelRenderState levelRenderState, CallbackInfo ci) {
         if (WorldRenderRegistry.isEmptyBlockOutlineListeners) return;
 
-        mcpitanlib$contextCache.worldRenderer = (LevelRenderer)(Object) this;
-        mcpitanlib$contextCache.advancedTranslucency = hasRenderedAllSections();
-        mcpitanlib$contextCache.consumers = immediate;
-        mcpitanlib$contextCache.matrixStack = matrices;
-        mcpitanlib$contextCache.tickDelta = ticks;
+        BlockOutlineRenderState state = levelRenderState.blockOutlineRenderState; // Shadowで取得する想定
+        if (state == null) return;
 
-        BeforeBlockOutlineEvent event = new BeforeBlockOutlineEvent(mcpitanlib$contextCache, Minecraft.getInstance().hitResult);
+        RenderType renderType = RenderTypes.lines(); // 代表的なRenderTypeを仮で使う
 
-        for (BeforeBlockOutlineListener listener : WorldRenderRegistry.beforeBlockOutlineListeners) {
-            if (!listener.beforeBlockOutline(event)) {
-                ci.cancel();
-                return;
+        submitNodeCollector.submitCustomGeometry(poseStack, renderType, (pose, vertexConsumer) -> {
+            mcpitanlib$contextCache.worldRenderer = (LevelRenderer)(Object) this;
+            mcpitanlib$contextCache.advancedTranslucency = hasRenderedAllSections();
+            mcpitanlib$contextCache.consumers = vertexConsumer;
+            mcpitanlib$contextCache.matrixStack = poseStack;
+            mcpitanlib$contextCache.tickDelta = ticks;
+
+            BeforeBlockOutlineEvent event = new BeforeBlockOutlineEvent(mcpitanlib$contextCache, Minecraft.getInstance().hitResult);
+
+            for (BeforeBlockOutlineListener listener : WorldRenderRegistry.beforeBlockOutlineListeners) {
+                if (!listener.beforeBlockOutline(event)) {
+                    ci.cancel();
+                    return;
+                }
             }
-        }
+        });
     }
 
     @Inject(method = "renderLevel", at = @At("HEAD"))
     private void mcpitanlib$beforeRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraRenderState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, ChunkSectionsToRender chunkSectionsToRender, CallbackInfo ci) {
-        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, level, tickCounter, renderOutline, Minecraft.getInstance().gameRenderer.getMainCamera(), new Matrix4f(), new Matrix4f(), new Matrix4f());
+        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, level, tickCounter, renderOutline, Minecraft.getInstance().gameRenderer.mainCamera(), new Matrix4f(), new Matrix4f(), new Matrix4f());
     }
 
 //    @ModifyExpressionValue(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;cullFrustum(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/renderer/culling/Frustum;"))

@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.entity;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.PostSpawnProcessor;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.EntityTypeUtil;
@@ -90,7 +91,7 @@ public class EntityTypeWrapper {
             afterConsumer.accept(wrapper);
         } : null;
 
-        return EntityWrapper.of(get().create(world.getRaw(), consumer, pos.toMinecraft(), reason.getRaw(), alignPosition, invertY));
+        return EntityWrapper.of(get().create(world.getRaw(), consumer != null ? consumer::accept : PostSpawnProcessor.nop(), pos.toMinecraft(), reason.getRaw(), alignPosition, invertY));
     }
 
     public SpawnGroup getSpawnGroup() {

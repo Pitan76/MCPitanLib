@@ -77,7 +77,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Frustum getFrustum() {
-                    return ClientUtil.getClient().gameRenderer.getMainCamera().getCapturedFrustum();
+                    return ClientUtil.getClient().gameRenderer.mainCamera().getCapturedFrustum();
                 }
             }, event.getLevelRenderState().blockOutlineRenderState));
 
@@ -171,7 +171,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Camera getCamera() {
-                    return ClientUtil.getGameRenderer().getMainCamera();
+                    return ClientUtil.getGameRenderer().mainCamera();
                 }
 
                 @Override
@@ -202,7 +202,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Frustum getFrustum() {
-                    return ClientUtil.getGameRenderer().getMainCamera().getCapturedFrustum();
+                    return ClientUtil.getGameRenderer().mainCamera().getCapturedFrustum();
                 }
             });
         }

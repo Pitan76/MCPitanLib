@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.entity;
 
-import com.google.common.collect.ImmutableSet;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -17,12 +17,12 @@ public class ExtendEntityType<T extends Entity> extends EntityType<T> {
     private final Boolean alwaysUpdateVelocity;
 
     @Deprecated
-    public ExtendEntityType(EntityFactory<T> factory, MobCategory spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> canSpawnBlocks, EntityDimensions entityDimensions, float spawnBoxScale, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<ResourceKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
+    public ExtendEntityType(EntityFactory<T> factory, MobCategory spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, TagKey<Block> canSpawnBlocks, EntityDimensions entityDimensions, float spawnBoxScale, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<ResourceKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
         super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, spawnBoxScale, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_FLAGS, spawnGroup.isFriendly());
         this.alwaysUpdateVelocity = alwaysUpdateVelocity;
     }
 
-    public ExtendEntityType(EntityFactory<T> factory, MobCategory spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, ImmutableSet<Block> canSpawnBlocks, EntityDimensions entityDimensions, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<ResourceKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
+    public ExtendEntityType(EntityFactory<T> factory, MobCategory spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, TagKey<Block> canSpawnBlocks, EntityDimensions entityDimensions, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<ResourceKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
         super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, 5, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_FLAGS, spawnGroup.isFriendly());
         this.alwaysUpdateVelocity = alwaysUpdateVelocity;
     }

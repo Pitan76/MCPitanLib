@@ -1,10 +1,11 @@
 package net.pitan76.mcpitanlib.api.client.render.block.entity;
 
-import net.minecraft.client.renderer.MultiBufferSource;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.phys.Vec3;
 import net.pitan76.mcpitanlib.api.client.render.block.entity.event.BlockEntityRenderEvent;
@@ -14,13 +15,15 @@ import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 public interface CompatBlockEntityRenderer<T extends CompatBlockEntity, S extends BlockEntityRenderState> extends BlockEntityRenderer<T, S> {
     void render(BlockEntityRenderEvent<T> event);
 
-    default void render(T entity, float tickProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, Vec3 cameraPos) {
-        render(new BlockEntityRenderEvent<>(this, entity, tickProgress, matrices, vertexConsumers, light, overlay));
+    default void render(T entity, float tickProgress, PoseStack matrices, VertexConsumer vertexConsumer, int light, int overlay, Vec3 cameraPos) {
+        render(new BlockEntityRenderEvent<>(this, entity, tickProgress, matrices, vertexConsumer, light, overlay));
     }
 
     @Override
     default void submit(S state, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState) {
-        render(new BlockEntityRenderEvent<>(this, state, matrices, queue, cameraState));
+        queue.submitCustomGeometry(matrices, RenderTypes.lines(), (pose, vertexConsumer) -> {
+            render(new BlockEntityRenderEvent<>(this, state, matrices, vertexConsumer, queue, cameraState));
+        });
     }
 
     default boolean rendersOutsideBoundingBoxOverride(T blockEntity) {
