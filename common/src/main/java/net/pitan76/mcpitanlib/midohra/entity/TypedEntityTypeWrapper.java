@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.midohra.entity;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.PostSpawnProcessor;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
 import org.jspecify.annotations.Nullable;
@@ -45,6 +46,6 @@ public class TypedEntityTypeWrapper<T extends Entity> extends EntityTypeWrapper 
             afterConsumer.accept(wrapper);
         } : null;
 
-        return TypedEntityWrapper.ofRaw(get().create(world.getRaw(), consumer, pos.toMinecraft(), reason.getRaw(), alignPosition, invertY));
+        return TypedEntityWrapper.ofRaw(get().create(world.getRaw(), consumer != null ? consumer::accept : PostSpawnProcessor.nop(), pos.toMinecraft(), reason.getRaw(), alignPosition, invertY));
     }
 }
