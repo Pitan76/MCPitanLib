@@ -1,11 +1,11 @@
 package net.pitan76.mcpitanlib.api.client.event.neoforge;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -30,7 +30,7 @@ public class WorldRenderRegistryImpl {
             boolean eventContinue = listener.beforeBlockOutline(new BeforeBlockOutlineEvent(new WorldRenderContext() {
                 @Override
                 public LevelRenderer getWorldRenderer() {
-                    return event.getLevelRenderer();
+                    return ClientUtil.getWorldRenderer();
                 }
 
                 @Override
@@ -71,8 +71,8 @@ public class WorldRenderRegistryImpl {
                 }
 
                 @Override
-                public @Nullable MultiBufferSource getConsumers() {
-                    return ClientUtil.getClient().renderBuffers().bufferSource();
+                public @Nullable VertexConsumer getConsumers() {
+                    return null;
                 }
 
                 @Override
@@ -166,7 +166,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public float getTickDelta() {
-                    return event.getLevelRenderer().getTicks();
+                    return event.getLevelRenderState().gameTime;
                 }
 
                 @Override
@@ -196,8 +196,8 @@ public class WorldRenderRegistryImpl {
                 }
 
                 @Override
-                public @Nullable MultiBufferSource getConsumers() {
-                    return ClientUtil.getClient().renderBuffers().bufferSource();
+                public @Nullable VertexConsumer getConsumers() {
+                    return null;
                 }
 
                 @Override
