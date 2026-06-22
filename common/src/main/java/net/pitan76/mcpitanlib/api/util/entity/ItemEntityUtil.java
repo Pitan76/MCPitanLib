@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.util.entity;
 
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
@@ -56,7 +57,7 @@ public class ItemEntityUtil {
     }
 
     public static List<ItemEntity> getEntities(Level world, AABB box) {
-        return WorldUtil.getEntitiesByType(world, EntityType.ITEM, box);
+        return WorldUtil.getEntitiesByType(world, EntityTypes.ITEM, box);
     }
 
     public static ItemEntity createWithSpawn(Level world, ItemStack stack, double x, double y, double z) {

@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.util.math;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 public class BoxUtil {
     public static AABB createBox(double x1, double y1, double z1, double x2, double y2, double z2) {
@@ -25,7 +26,9 @@ public class BoxUtil {
     }
 
     public static AABB createBox(BlockPos pos1, BlockPos pos2) {
-        return new AABB(pos1.getCenter(), pos2.getCenter());
+        Vec3 begin = new Vec3(pos1.getX() + 0.5, pos1.getY() + 0.5, pos1.getZ() + 0.5);
+        Vec3 end = new Vec3(pos2.getX() + 0.5, pos2.getY() + 0.5, pos2.getZ() + 0.5);
+        return new AABB(begin, end);
     }
 
     public static AABB createBox(BlockPos pos, int size) {
