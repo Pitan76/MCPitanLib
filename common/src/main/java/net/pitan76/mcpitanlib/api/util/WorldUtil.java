@@ -94,7 +94,7 @@ public class WorldUtil {
     }
 
     public static void spawnExperienceOrb(Level world, BlockPos pos, int amount) {
-        spawnExperienceOrb(world, pos.getCenter(), amount);
+        spawnExperienceOrb(world, Vec3.atCenterOf(pos), amount);
     }
 
     public static void spawnEntity(Level world, Entity entity) {
