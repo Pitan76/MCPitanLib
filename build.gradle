@@ -70,9 +70,7 @@ subprojects {
                     if (modLoader == "neoforge") {
                         addGameVersion "NeoForge"
                     }
-                    addGameVersion "26.1"
-                    addGameVersion "26.1.1"
-                    addGameVersion "26.1.2"
+                    addGameVersion "26.2"
 
                     relations {
                         if (modLoader == "fabric") {
@@ -99,7 +97,7 @@ subprojects {
                     token = System.getenv("MODRINTH_TOKEN")
                     projectId = 'mcpitanlibarch'
                     versionNumber = info.mod_version + "-" + modLoader + "-" + project.minecraft_version
-                    gameVersions = ["26.1", "26.1.1", "26.1.2"]
+                    gameVersions = ["26.2"]
                     versionType = 'beta'
                     uploadFile = tasks.named("shadowJar").get().archiveFile.get().asFile
                     changelog = info.changelog
