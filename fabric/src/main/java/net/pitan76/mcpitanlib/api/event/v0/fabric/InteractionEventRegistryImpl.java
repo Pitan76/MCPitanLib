@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.event.v0.fabric;
 
-import net.fabricmc.fabric.api.event.client.player.ClientPlayerBlockBreakEvents;
-import net.fabricmc.fabric.api.event.client.player.ClientPreAttackCallback;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
@@ -23,16 +23,14 @@ public class InteractionEventRegistryImpl {
                 -> rightClickItem.click2(player, hand));
     }
 
+    @Environment(EnvType.CLIENT)
     public static void registerClientLeftClickAir(ClientLeftClickAir clientLeftClickAir) {
-        ClientPreAttackCallback.EVENT.register((_, player, _) -> {
-            clientLeftClickAir.click(player, player.getUsedItemHand());
-            return false;
-        });
+        ClientInteractionEventRegistry.registerClientLeftClickAir(clientLeftClickAir);
     }
 
+    @Environment(EnvType.CLIENT)
     public static void registerClientRightClickAir(ClientRightClickAir clientRightClickAir) {
-        ClientPlayerBlockBreakEvents.AFTER.register((_, player, _, _)
-                -> clientRightClickAir.click(player, player.getUsedItemHand()));
+        ClientInteractionEventRegistry.registerClientRightClickAir(clientRightClickAir);
     }
 
     public static void registerInteractEntity(InteractEntity interactEntity) {
