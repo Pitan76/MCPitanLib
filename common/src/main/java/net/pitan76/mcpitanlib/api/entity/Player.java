@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.entity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -389,9 +388,9 @@ public class Player {
     }
 
     @Environment(EnvType.CLIENT)
-    public Optional<LocalPlayer> getClientPlayer() {
-        if (getEntity() instanceof LocalPlayer)
-            return Optional.of((LocalPlayer) getEntity());
+    public Optional<net.minecraft.client.player.LocalPlayer> getClientPlayer() {
+        if (getEntity() instanceof net.minecraft.client.player.LocalPlayer)
+            return Optional.of((net.minecraft.client.player.LocalPlayer) getEntity());
 
         return Optional.empty();
     }
