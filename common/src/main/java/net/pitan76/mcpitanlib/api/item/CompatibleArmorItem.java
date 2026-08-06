@@ -11,11 +11,31 @@ public class CompatibleArmorItem extends Item implements CompatItemProvider {
     public CompatibleItemSettings settings;
 
     public CompatibleArmorItem(CompatibleArmorMaterial material, ArmorEquipmentType type, CompatibleItemSettings settings) {
-        super(settings.build().humanoidArmor(material.build(), type.getType()));
+        super(buildProperties(material, type, settings));
         this.type = type;
         this.material = material;
 
         this.settings = settings;
+    }
+
+    /**
+     * {@link CompatibleArmorMaterial#build()} passes 0 as the durability multiplier, so
+     * {@code humanoidArmor} ends up setting a max damage of 0 on every piece and the armor
+     * breaks on the first hit that damages it.
+     * <p>
+     * The multiplier cannot be recovered from the material either: it reports an absolute
+     * durability per slot while vanilla multiplies one shared value by a per slot constant, so
+     * no single multiplier reproduces all four. Apply the material's own value per item instead,
+     * after {@code humanoidArmor} has run.
+     */
+    private static Item.Properties buildProperties(CompatibleArmorMaterial material, ArmorEquipmentType type, CompatibleItemSettings settings) {
+        Item.Properties properties = settings.build().humanoidArmor(material.build(), type.getType());
+
+        int durability = material.getDurability(type);
+        if (durability > 0)
+            properties = properties.durability(durability);
+
+        return properties;
     }
 
     @Override
