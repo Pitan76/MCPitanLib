@@ -28,7 +28,7 @@ subprojects {
         version = rootProject.info.mod_version + "-" + name + "-" + rootProject.minecraft_version
         displayName = tasks.named("shadowJar").flatMap { it.archiveFileName }
         changelog = rootProject.info.changelog
-        // STABLE/BETA/ALPHAはpublishModsブロック内でのみ解決できるためここでマップ化する
+
         type = [STABLE: STABLE, BETA: BETA, ALPHA: ALPHA][releaseTypeName]
         modLoaders.add(name)
 
