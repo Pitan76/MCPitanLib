@@ -1,0 +1,80 @@
+name: Release
+
+# タグを打つとそのタグが指すブランチの内容でリリースする。
+# ブランチごとにMC/Javaバージョンが異なるが、値はすべてgradle.propertiesから読むので
+# このワークフローは全ブランチで同一のまま使える。
+#
+# タグ名はブランチ間で衝突しないようMCバージョンを含めること。例: v3.7.3-26.2
+#
+# 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "CurseForge/Modrinthへのアップロードを行わない"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read gradle.properties
+        id: props
+        run: |
+          get() { grep -E "^$1=" gradle.properties | head -1 | cut -d= -f2- | tr -d '\r'; }
+          # java_versionが未設定のブランチでも動くようにフォールバックする
+          # (1.26系以外はすべてGradle 8.8 + Java 21で動作確認済み)
+          java="$(get java_version)"
+          echo "java=${java:-21}" >> "$GITHUB_OUTPUT"
+          echo "minecraft=$(get minecraft_version)" >> "$GITHUB_OUTPUT"
+          echo "loaders=$(get publish_loaders)" >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ steps.props.outputs.java }}
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        run: ./gradlew build
+
+      # build/libsには過去のビルド成果物も残りうるため、Gradleに正確なパスを問い合わせる
+      - name: Collect artifacts
+        id: artifacts
+        run: |
+          ./gradlew -q printPublishFiles | tr -d '\r' > artifacts.txt
+          echo "--- artifacts ---"
+          cat artifacts.txt
+          test -s artifacts.txt || { echo "no artifacts found"; exit 1; }
+          while read -r f; do
+            test -f "$f" || { echo "missing artifact: $f"; exit 1; }
+          done < artifacts.txt
+
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "${GITHUB_REF_NAME}" \
+            --notes "Minecraft ${{ steps.props.outputs.minecraft }} / ${{ steps.props.outputs.loaders }}" \
+            --target "${GITHUB_SHA}" \
+            $(cat artifacts.txt | tr '\n' ' ')
+
+      - name: Publish to CurseForge / Modrinth
+        if: ${{ github.event_name == 'push' || !inputs.dry_run }}
+        env:
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: ./gradlew publishMods
