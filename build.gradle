@@ -54,7 +54,7 @@ subprojects {
         publishMods {
             file = tasks.named("shadowJar").flatMap { it.archiveFile }
             version = info.mod_version + "-" + name + "-" + rootProject.minecraft_version
-            displayName = info.archives_base_name + " " + info.mod_version + " (" + name + " " + rootProject.minecraft_version + ")"
+            displayName = tasks.named("shadowJar").flatMap { it.archiveFileName }
             changelog = info.changelog
             type = BETA
             modLoaders.add(name)
