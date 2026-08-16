@@ -112,6 +112,9 @@ gradle-app.setting
 
 **/build/
 
+# Eclipse build output
+**/bin/
+
 # Common working directory
 run/
 
