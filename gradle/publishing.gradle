@@ -10,6 +10,7 @@ def gameVersions = splitValue(rootProject.game_versions)
 def requiredDeps = splitValue(rootProject.findProperty("required_deps"))
 def requiredDepsFabric = splitValue(rootProject.findProperty("required_deps_fabric"))
 def embeddedDeps = splitValue(rootProject.findProperty("embedded_deps"))
+def jarTaskName = rootProject.publish_jar_task.trim()
 def releaseTypeName = rootProject.release_type.trim().toUpperCase()
 if (!(releaseTypeName in ["STABLE", "BETA", "ALPHA"])) {
     throw new GradleException("release_type must be STABLE, BETA or ALPHA but was '${rootProject.release_type}'")
@@ -24,9 +25,9 @@ subprojects {
     apply plugin: "me.modmuss50.mod-publish-plugin"
 
     publishMods {
-        file = tasks.named("shadowJar").flatMap { it.archiveFile }
+        file = tasks.named(jarTaskName).flatMap { it.archiveFile }
         version = rootProject.info.mod_version + "-" + name + "-" + rootProject.minecraft_version
-        displayName = tasks.named("shadowJar").flatMap { it.archiveFileName }
+        displayName = tasks.named(jarTaskName).flatMap { it.archiveFileName }
         changelog = rootProject.info.changelog
 
         type = [STABLE: STABLE, BETA: BETA, ALPHA: ALPHA][releaseTypeName]
