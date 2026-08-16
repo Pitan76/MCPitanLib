@@ -57,11 +57,17 @@ public abstract class LevelRendererMixin {
 
             BeforeBlockOutlineEvent event = new BeforeBlockOutlineEvent(mcpitanlib$contextCache, Minecraft.getInstance().hitResult);
 
-            for (BeforeBlockOutlineListener listener : WorldRenderRegistry.beforeBlockOutlineListeners) {
-                if (!listener.beforeBlockOutline(event)) {
-                    ci.cancel();
-                    return;
+            try {
+                for (BeforeBlockOutlineListener listener : WorldRenderRegistry.beforeBlockOutlineListeners) {
+                    if (!listener.beforeBlockOutline(event)) {
+                        ci.cancel();
+                        return;
+                    }
                 }
+            } finally {
+                // vertexConsumerはこのコールバックのスコープ内でのみ有効。
+                // 同フレーム後半のAfterLevelイベントに漏らさないよう必ず捨てる。
+                mcpitanlib$contextCache.consumers = null;
             }
         });
     }

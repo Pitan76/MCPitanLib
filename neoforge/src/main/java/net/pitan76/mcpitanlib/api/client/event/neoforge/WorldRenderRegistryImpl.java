@@ -56,7 +56,7 @@ public class WorldRenderRegistryImpl {
                 @Deprecated
                 @Override
                 public Matrix4f getProjectionMatrix() {
-                    return null;
+                    return new Matrix4f();
                 }
 
                 @Override
@@ -181,7 +181,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public Matrix4f getProjectionMatrix() {
-                    return null;
+                    return new Matrix4f();
                 }
 
                 @Override

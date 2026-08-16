@@ -68,6 +68,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
 
     @Override
     public Matrix4f getProjectionMatrix() {
+        if (projectionMatrix == null) return new Matrix4f();
         return projectionMatrix;
     }
 
@@ -95,6 +96,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
     }
 
     public void prepare(GameRenderer gameRenderer, LevelRenderer worldRenderer, @Nullable ClientLevel world, DeltaTracker tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix) {
+        this.consumers = null;
         this.gameRenderer = gameRenderer;
         this.worldRenderer = worldRenderer;
         this.world = world;
@@ -111,7 +113,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
 
         this.matrixStack.popPose();
 
-        this.projectionMatrix = projectionMatrix;;
+        this.projectionMatrix = projectionMatrix;
         this.tickDelta = tickCounter.getGameTimeDeltaTicks();
         this.frustum = gameRenderer.mainCamera().getCapturedFrustum();
     }
