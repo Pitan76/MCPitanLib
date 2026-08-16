@@ -49,17 +49,15 @@ subprojects {
     }
 
     if (name in "fabric,neoforge".split(",")) {
-        var modLoader = name
-
         apply plugin: "me.modmuss50.mod-publish-plugin"
 
         publishMods {
             file = tasks.named("shadowJar").flatMap { it.archiveFile }
-            version = info.mod_version + "-" + modLoader + "-" + rootProject.minecraft_version
-            displayName = info.archives_base_name + " " + info.mod_version + " (" + modLoader + " " + rootProject.minecraft_version + ")"
+            version = info.mod_version + "-" + name + "-" + rootProject.minecraft_version
+            displayName = info.archives_base_name + " " + info.mod_version + " (" + name + " " + rootProject.minecraft_version + ")"
             changelog = info.changelog
             type = BETA
-            modLoaders.add(modLoader)
+            modLoaders.add(name)
 
             if (providers.environmentVariable("CURSEFORGE_TOKEN").isPresent()) {
                 curseforge {
@@ -70,7 +68,7 @@ subprojects {
                     client = true
                     server = true
 
-                    if (modLoader == "fabric") {
+                    if (name == "fabric") {
                         requires("fabric-api")
                     }
                     embeds("cloth-config", "compatdatapacks", "legacyitemmodels")
@@ -83,7 +81,7 @@ subprojects {
                     projectId = "mcpitanlibarch"
                     minecraftVersions.add(rootProject.minecraft_version)
 
-                    if (modLoader == "fabric") {
+                    if (name == "fabric") {
                         requires("fabric-api")
                     }
                     embeds("cloth-config", "compatdatapacks", "legacyitemmodels")
