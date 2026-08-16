@@ -1,8 +1,7 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
-    id 'com.matthewprenger.cursegradle' version '1.+'
-    id "com.modrinth.minotaur" version "2.+"
+    id "me.modmuss50.mod-publish-plugin" version "2.2.0" apply false
 }
 
 architectury {
@@ -21,8 +20,6 @@ ext.info = loadProperties("$rootDir/info.properties")
 
 subprojects {
     apply plugin: "dev.architectury.loom"
-    apply plugin: "com.modrinth.minotaur"
-    apply plugin: "com.matthewprenger.cursegradle"
 
     loom {
         silentMojangMappingsLicense()
@@ -49,69 +46,6 @@ subprojects {
         implementation 'org.yaml:snakeyaml:2.0'
     }
 
-    if (name in "fabric,neoforge".split(",")) {
-        var modLoader = name
-
-        if (System.getenv("CURSEFORGE_TOKEN") != null) {
-            curseforge {
-                apiKey = System.getenv("CURSEFORGE_TOKEN")
-                project {
-                    id = '682213'
-                    changelog = info.changelog
-                    releaseType = 'beta'
-                    if (modLoader == "fabric") {
-                        addGameVersion "Fabric"
-                    }
-                    if (modLoader == "forge") {
-                        addGameVersion "Forge"
-                    }
-                    if (modLoader == "neoforge") {
-                        addGameVersion "NeoForge"
-                    }
-                    addGameVersion '1.21.4'
-
-                    relations {
-                        if (modLoader == "fabric") {
-                            requiredDependency "fabric-api"
-                        }
-
-                        requiredDependency 'architectury-api'
-                        embeddedLibrary 'cloth-config'
-                        embeddedLibrary 'compatdatapacks'
-                        embeddedLibrary 'legacyitemmodels'
-                    }
-
-                    mainArtifact(tasks.remapJar)
-                }
-                options {
-                    forgeGradleIntegration = false
-                }
-            }
-
-        }
-
-        if (System.getenv("MODRINTH_TOKEN") != null) {
-            modrinth {
-                token = System.getenv("MODRINTH_TOKEN")
-                projectId = 'mcpitanlibarch'
-                versionNumber = info.mod_version + "-" + modLoader
-                gameVersions = ['1.21.4']
-                versionType = 'beta'
-                uploadFile = tasks.remapJar
-                changelog = info.changelog
-                loaders = [modLoader]
-                dependencies {
-                    if (modLoader == "fabric") {
-                        required.project "fabric-api" // Fabric API
-                    }
-                    required.project "architectury-api"
-                    embedded.project "cloth-config"
-                    embedded.project "compatdatapacks"
-                    embedded.project "legacyitemmodels"
-                }
-            }
-        }
-    }
 }
 
 allprojects {
@@ -142,3 +76,5 @@ allprojects {
         withSourcesJar()
     }
 }
+
+apply from: "$rootDir/gradle/publishing.gradle"
