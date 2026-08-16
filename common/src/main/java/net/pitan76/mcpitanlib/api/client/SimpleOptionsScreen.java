@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.client;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.Options;
 import net.minecraft.network.chat.Component;
+import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 
 public class SimpleOptionsScreen extends SimpleScreen {
 
@@ -22,6 +23,6 @@ public class SimpleOptionsScreen extends SimpleScreen {
 
     @Override
     public void onClose() {
-        client.setScreenAndShow(this.parent);
+        ClientUtil.setScreen(this.parent);
     }
 }
