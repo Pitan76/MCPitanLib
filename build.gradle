@@ -48,51 +48,6 @@ subprojects {
         implementation 'org.yaml:snakeyaml:2.0'
     }
 
-    if (name in "fabric,neoforge".split(",")) {
-        apply plugin: "me.modmuss50.mod-publish-plugin"
-
-        publishMods {
-            file = tasks.named("shadowJar").flatMap { it.archiveFile }
-            version = info.mod_version + "-" + name + "-" + rootProject.minecraft_version
-            displayName = tasks.named("shadowJar").flatMap { it.archiveFileName }
-            changelog = info.changelog
-            type = BETA
-            modLoaders.add(name)
-
-            var curseforgeToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-            var modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
-
-            if (curseforgeToken.isPresent()) {
-                curseforge {
-                    accessToken = curseforgeToken
-                    projectId = "682213"
-                    minecraftVersions.add(rootProject.minecraft_version)
-
-                    client = true
-                    server = true
-
-                    if (name == "fabric") {
-                        requires("fabric-api")
-                    }
-                    embeds("cloth-config", "compatdatapacks", "legacyitemmodels")
-                }
-            }
-
-            if (modrinthToken.isPresent()) {
-                modrinth {
-                    accessToken = modrinthToken
-                    projectId = "mcpitanlibarch"
-                    minecraftVersions.add(rootProject.minecraft_version)
-
-                    if (name == "fabric") {
-                        requires("fabric-api")
-                    }
-                    embeds("cloth-config", "compatdatapacks", "legacyitemmodels")
-                }
-            }
-        }
-    }
-
     tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
         options.release = 25
@@ -104,3 +59,5 @@ subprojects {
         withSourcesJar()
     }
 }
+
+apply from: "$rootDir/gradle/publishing.gradle"

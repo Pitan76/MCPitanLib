@@ -1,0 +1,65 @@
+// CurseForge/Modrinth publish gradle script
+
+def splitValue = { String value ->
+    if (value == null) return []
+    return value.split(",").collect { it.trim() }.findAll { !it.isEmpty() }
+}
+
+def publishLoaders = splitValue(rootProject.publish_loaders)
+def gameVersions = splitValue(rootProject.game_versions)
+def requiredDeps = splitValue(rootProject.findProperty("required_deps"))
+def requiredDepsFabric = splitValue(rootProject.findProperty("required_deps_fabric"))
+def embeddedDeps = splitValue(rootProject.findProperty("embedded_deps"))
+def releaseTypeName = rootProject.release_type.trim().toUpperCase()
+if (!(releaseTypeName in ["STABLE", "BETA", "ALPHA"])) {
+    throw new GradleException("release_type must be STABLE, BETA or ALPHA but was '${rootProject.release_type}'")
+}
+if (gameVersions.isEmpty()) {
+    throw new GradleException("game_versions must not be empty")
+}
+
+subprojects {
+    if (!(name in publishLoaders)) return
+
+    apply plugin: "me.modmuss50.mod-publish-plugin"
+
+    publishMods {
+        file = tasks.named("shadowJar").flatMap { it.archiveFile }
+        version = rootProject.info.mod_version + "-" + name + "-" + rootProject.minecraft_version
+        displayName = tasks.named("shadowJar").flatMap { it.archiveFileName }
+        changelog = rootProject.info.changelog
+        // STABLE/BETA/ALPHAはpublishModsブロック内でのみ解決できるためここでマップ化する
+        type = [STABLE: STABLE, BETA: BETA, ALPHA: ALPHA][releaseTypeName]
+        modLoaders.add(name)
+
+        var curseforgeToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        var modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
+
+        var required = requiredDeps + (name == "fabric" ? requiredDepsFabric : [])
+
+        if (curseforgeToken.isPresent()) {
+            curseforge {
+                accessToken = curseforgeToken
+                projectId = "682213"
+                minecraftVersions.addAll(gameVersions)
+
+                client = true
+                server = true
+
+                required.each { requires(it) }
+                embeddedDeps.each { embeds(it) }
+            }
+        }
+
+        if (modrinthToken.isPresent()) {
+            modrinth {
+                accessToken = modrinthToken
+                projectId = "mcpitanlibarch"
+                minecraftVersions.addAll(gameVersions)
+
+                required.each { requires(it) }
+                embeddedDeps.each { embeds(it) }
+            }
+        }
+    }
+}
