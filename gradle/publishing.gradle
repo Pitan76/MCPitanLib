@@ -64,3 +64,13 @@ subprojects {
         }
     }
 }
+
+// CIがGitHub Releaseに添付するjarを特定するために使う。
+// build/libsには過去のビルドが残るためglobでは特定できない
+tasks.register("printPublishFiles") {
+    doLast {
+        subprojects.findAll { it.name in publishLoaders }.each {
+            println it.publishMods.file.get().asFile.absolutePath
+        }
+    }
+}
