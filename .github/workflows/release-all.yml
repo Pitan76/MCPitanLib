@@ -1,0 +1,134 @@
+name: Release All
+
+# 全バージョン一括リリース。
+# all-v3.7.3 のようなタグを打つと、1.* の全ブランチをビルドして
+# それぞれCurseForge/Modrinthへ配信し、全jarを1つのGitHub Releaseにまとめる。
+#
+# release.yml のトリガは "v*" なのでタグ名が衝突することはない。
+#
+# このワークフローは自分でブランチをcheckoutして回るため、タグを打つブランチにだけ
+# あればよい (1.26.2に置いてある)。
+#
+# 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN
+on:
+  push:
+    tags:
+      - "all-v*"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "CurseForge/Modrinthへのアップロードを行わない"
+        type: boolean
+        default: true
+      release_tag:
+        description: "GitHub Releaseを作る場合のタグ名 (空ならRelease作成なし)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-all
+  cancel-in-progress: false
+
+jobs:
+  # 対象ブランチと、各ブランチが必要とするJavaバージョンをgradle.propertiesから収集する
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.build.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: build
+        run: |
+          git fetch --quiet origin "+refs/heads/*:refs/remotes/origin/*"
+          entries=""
+          for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin \
+                        | grep -E '^origin/1\.' | sed 's|origin/||' | sort -Vr); do
+            props="$(git show "origin/$ref:gradle.properties" 2>/dev/null || true)"
+            [ -n "$props" ] || { echo "skip $ref (no gradle.properties)"; continue; }
+            get() { echo "$props" | grep -E "^$1=" | head -1 | cut -d= -f2- | tr -d '\r'; }
+            # java_versionはコンパイルターゲット(options.release)であって
+            # Gradleを動かすJDKではない。1.16.5は release=8 だがJDK21上でしかビルドが通らない。
+            # --release で下位ターゲットは出せるので、CIは常に21以上を使う
+            java="$(get java_version)"
+            java="${java:-21}"
+            [ "$java" -lt 21 ] 2>/dev/null && java=21
+            entries="${entries}{\"branch\":\"$ref\",\"java\":\"$java\",\"minecraft\":\"$(get minecraft_version)\"},"
+          done
+          matrix="{\"include\":[${entries%,}]}"
+          echo "$matrix" | tee /dev/stderr > matrix.json
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # 1ブランチ失敗しても他は続行する
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    name: ${{ matrix.branch }} (java ${{ matrix.java }})
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        run: ./gradlew build
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p out
+          ./gradlew -q printPublishFiles | tr -d '\r' > artifacts.txt
+          cat artifacts.txt
+          test -s artifacts.txt || { echo "no artifacts found"; exit 1; }
+          while read -r f; do
+            test -f "$f" || { echo "missing artifact: $f"; exit 1; }
+            cp "$f" out/
+          done < artifacts.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jars-${{ matrix.branch }}
+          path: out/*.jar
+          if-no-files-found: error
+
+      - name: Publish to CurseForge / Modrinth
+        if: ${{ github.event_name == 'push' || !inputs.dry_run }}
+        env:
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: ./gradlew publishMods
+
+  release:
+    needs: build
+    if: ${{ always() && (startsWith(github.ref, 'refs/tags/') || inputs.release_tag != '') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: jars-*
+          merge-multiple: true
+          path: jars
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.release_tag != '' && inputs.release_tag || github.ref_name }}
+        run: |
+          ls -la jars
+          # 一部ブランチが失敗していてもそこまでの成果物でリリースする。
+          # 何が入っているかはリリース本文で分かるようにする
+          notes=$(printf '%s\n' jars/*.jar | sed 's|jars/|- |')
+          gh release create "$TAG" --title "$TAG" --notes "$notes" jars/*.jar
