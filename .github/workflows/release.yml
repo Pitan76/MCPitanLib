@@ -1,11 +1,7 @@
 name: Release
 
 # タグを打つとそのタグが指すブランチの内容でリリースする。
-# ブランチごとにMC/Javaバージョンが異なるが、値はすべてgradle.propertiesから読むので
-# このワークフローは全ブランチで同一のまま使える。
-#
 # タグ名はMCバージョンを付けること。例: v3.7.3-26.2
-# サフィックスなしの v3.7.3 は release-all.yml (全ブランチ一括) のトリガになる。
 #
 # 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN
 on:
