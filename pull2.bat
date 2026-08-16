@@ -3,6 +3,8 @@ echo Fetching all branches from origin...
 git fetch origin
 
 echo Updating tracking branches without checkout...
+git fetch origin 1.26.2:1.26.2
+git fetch origin 1.26.1:1.26.1
 git fetch origin 1.21.11:1.21.11
 git fetch origin 1.21.9:1.21.9
 git fetch origin 1.21.6:1.21.6
