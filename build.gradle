@@ -61,16 +61,12 @@ subprojects {
             type = BETA
             modLoaders.add(modLoader)
 
-            // -PpublishDryRun を付けると実際にアップロードせずbuild/mod-publish-plugin/に成果物を書き出す
-            dryRun = providers.gradleProperty("publishDryRun").isPresent()
-
             if (providers.environmentVariable("CURSEFORGE_TOKEN").isPresent()) {
                 curseforge {
                     accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
                     projectId = "682213"
                     minecraftVersions.add(rootProject.minecraft_version)
 
-                    // CurseForgeがclient/serverの指定を必須化したため明示する
                     client = true
                     server = true
 
