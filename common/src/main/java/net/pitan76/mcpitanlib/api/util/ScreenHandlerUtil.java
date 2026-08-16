@@ -14,6 +14,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.core.mc261.ExtendedMenuProvider;
+import net.pitan76.mcpitanlib.core.mc261.MenuOpener;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class ScreenHandlerUtil {
     }
 
     public static void openExtendedMenu(ServerPlayer player, MenuProvider provider, Consumer<FriendlyByteBuf> bufWriter) {
-        player.openMenu(new ExtendedMenuProvider<>() {
+        MenuOpener.openExtendedMenu(player, new ExtendedMenuProvider<>() {
             @Override
             public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
                 return provider.createMenu(containerId, inventory, player);
@@ -59,7 +60,7 @@ public class ScreenHandlerUtil {
     }
 
     public static void openExtendedMenu(ServerPlayer player, ExtendedMenuProvider provider) {
-        player.openMenu(provider);
+        MenuOpener.openExtendedMenu(player, provider);
     }
 
     public static void openMenu(ServerPlayer player, MenuProvider provider) {
