@@ -59,9 +59,12 @@ subprojects {
             type = BETA
             modLoaders.add(name)
 
-            if (providers.environmentVariable("CURSEFORGE_TOKEN").isPresent()) {
+            var curseforgeToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+            var modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
+
+            if (curseforgeToken.isPresent()) {
                 curseforge {
-                    accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+                    accessToken = curseforgeToken
                     projectId = "682213"
                     minecraftVersions.add(rootProject.minecraft_version)
 
@@ -75,9 +78,9 @@ subprojects {
                 }
             }
 
-            if (providers.environmentVariable("MODRINTH_TOKEN").isPresent()) {
+            if (modrinthToken.isPresent()) {
                 modrinth {
-                    accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+                    accessToken = modrinthToken
                     projectId = "mcpitanlibarch"
                     minecraftVersions.add(rootProject.minecraft_version)
 
