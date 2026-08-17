@@ -31,13 +31,6 @@ public abstract class LevelRendererMixin {
     @Unique
     private final WorldRenderContextImpl mcpitanlib$contextCache = new WorldRenderContextImpl();
 
-    /** -Dmcpitanlib.debug=true で描画経路をログに出す。毎フレーム出ないよう一度だけ。 */
-    @Unique
-    private static final boolean mcpitanlib$DEBUG = Boolean.getBoolean("mcpitanlib.debug");
-    @Unique
-    private boolean mcpitanlib$loggedHook = false;
-    @Unique
-    private boolean mcpitanlib$loggedCallback = false;
 
     @Inject(method = "submitBlockOutline", at = @At("HEAD"), cancellable = true)
     private void mcpitanlib$onSubmitBlockOutline(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LevelRenderState levelRenderState, CallbackInfo ci) {
@@ -86,22 +79,9 @@ public abstract class LevelRendererMixin {
     // renderLevel -> submitBlockDestroyAnimation 26.1-
     @Inject(method = "submitBlockDestroyAnimation", at = @At("HEAD"))
     private void mcpitanlib$onWorldRenderEnd(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LevelRenderState levelRenderState, CallbackInfo ci) {
-        if (mcpitanlib$DEBUG && !mcpitanlib$loggedHook) {
-            mcpitanlib$loggedHook = true;
-            System.out.println("[MCPitanLib/Render] submitBlockDestroyAnimation hook reached. listeners="
-                    + WorldRenderRegistry.worldRenderAfterLevelListeners.size()
-                    + " isEmptyFlag=" + WorldRenderRegistry.isEmptyWorldRenderAfterLevelListeners);
-        }
-
         if (WorldRenderRegistry.isEmptyWorldRenderAfterLevelListeners) return;
 
         submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.lines(), (pose, vertexConsumer) -> {
-            if (mcpitanlib$DEBUG && !mcpitanlib$loggedCallback) {
-                mcpitanlib$loggedCallback = true;
-                System.out.println("[MCPitanLib/Render] submitCustomGeometry callback invoked. consumer="
-                        + vertexConsumer + " pose=" + pose.pose());
-            }
-
             PoseStack matrices = new PoseStack();
             matrices.mulPose(pose.pose());
 
