@@ -52,7 +52,7 @@ subprojects {
         if (modrinthToken.isPresent()) {
             modrinth {
                 accessToken = modrinthToken
-                projectId = "mcpitanlibarch"
+                projectId = "uNRoUnGT"
                 minecraftVersions.addAll(gameVersions)
 
                 required.each { requires(it) }
