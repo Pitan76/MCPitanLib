@@ -5,10 +5,12 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.chunk.ChunkSectionsToRender;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.state.level.LevelRenderState;
 import net.pitan76.mcpitanlib.api.client.event.WorldRenderRegistry;
@@ -56,8 +58,8 @@ public abstract class LevelRendererMixin {
         }
     }
 
-    @Inject(method = "render", at = @At("HEAD"))
-    private void mcpitanlib$beforeRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraRenderState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, CallbackInfo ci) {
+    @Inject(method = "renderLevel", at = @At("HEAD"))
+    private void mcpitanlib$beforeRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraRenderState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, ChunkSectionsToRender chunkSectionsToRender, CallbackInfo ci) {
         Minecraft minecraft = Minecraft.getInstance();
         mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, minecraft.level, tickCounter, renderOutline, minecraft.gameRenderer.getMainCamera(), new Matrix4f(), new Matrix4f(), new Matrix4f());
     }
@@ -68,12 +70,27 @@ public abstract class LevelRendererMixin {
 //        return frustum;
 //    }
 
-    @Inject(method = "render", at = @At("TAIL"))
-    private void mcpitanlib$onWorldRenderEnd(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, CallbackInfo ci) {
+    // renderLevel -> submitBlockDestroyAnimation 26.1-
+    @Inject(method = "submitBlockDestroyAnimation", at = @At("HEAD"))
+    private void mcpitanlib$onWorldRenderEnd(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LevelRenderState levelRenderState, CallbackInfo ci) {
         if (WorldRenderRegistry.isEmptyWorldRenderAfterLevelListeners) return;
 
-        for (WorldRenderContextListener listener : WorldRenderRegistry.worldRenderAfterLevelListeners) {
-            listener.render(mcpitanlib$contextCache);
-        }
+        submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.lines(), (pose, vertexConsumer) -> {
+            PoseStack matrices = new PoseStack();
+            matrices.mulPose(pose.pose());
+
+            mcpitanlib$contextCache.worldRenderer = (LevelRenderer) (Object) this;
+            mcpitanlib$contextCache.advancedTranslucency = hasRenderedAllSections();
+            mcpitanlib$contextCache.matrixStack = matrices;
+            mcpitanlib$contextCache.consumers = null;
+
+            try {
+                for (WorldRenderContextListener listener : WorldRenderRegistry.worldRenderAfterLevelListeners) {
+                    listener.render(mcpitanlib$contextCache);
+                }
+            } finally {
+                mcpitanlib$contextCache.consumers = null;
+            }
+        });
     }
 }
