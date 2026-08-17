@@ -21,9 +21,7 @@ public interface CompatBlockEntityRenderer<T extends CompatBlockEntity, S extend
 
     @Override
     default void submit(S state, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState) {
-        queue.submitCustomGeometry(matrices, RenderTypes.lines(), (pose, vertexConsumer) -> {
-            render(new BlockEntityRenderEvent<>(this, state, matrices, vertexConsumer, queue, cameraState));
-        });
+        render(new BlockEntityRenderEvent<>(this, state, matrices, null, queue, cameraState));
     }
 
     default boolean rendersOutsideBoundingBoxOverride(T blockEntity) {
