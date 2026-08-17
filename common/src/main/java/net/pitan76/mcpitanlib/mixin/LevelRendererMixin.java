@@ -79,6 +79,8 @@ public abstract class LevelRendererMixin {
         PoseStack matrices = new PoseStack();
 //        poseStack.mulPose(pose.pose());
 
+        // TODO: 26.2ではうまく動くのに26.1だけ動かないので今度調べる
+
         mcpitanlib$contextCache.worldRenderer = (LevelRenderer) (Object) this;
         mcpitanlib$contextCache.advancedTranslucency = hasRenderedAllSections();
         mcpitanlib$contextCache.matrixStack = matrices;
