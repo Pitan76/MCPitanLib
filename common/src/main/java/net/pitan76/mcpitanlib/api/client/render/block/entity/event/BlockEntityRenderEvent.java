@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.client.render.block.entity.event;
 
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -76,7 +77,7 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
         if (state.breakProgress != null)
             this.overlay = state.breakProgress.progress();
         else
-            this.overlay = 0;
+            this.overlay = OverlayTexture.NO_OVERLAY;
     }
 
     public T getBlockEntity() {
