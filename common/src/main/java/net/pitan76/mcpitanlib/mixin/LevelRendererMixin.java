@@ -75,12 +75,27 @@ public abstract class LevelRendererMixin {
 //        return frustum;
 //    }
 
-    @Inject(method = "render", at = @At("TAIL"))
-    private void mcpitanlib$onWorldRenderEnd(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, CallbackInfo ci) {
+    // renderLevel -> submitBlockDestroyAnimation 26.1-
+    @Inject(method = "submitBlockDestroyAnimation", at = @At("TAIL"))
+    private void mcpitanlib$onWorldRenderEnd(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LevelRenderState levelRenderState, CallbackInfo ci) {
         if (WorldRenderRegistry.isEmptyWorldRenderAfterLevelListeners) return;
 
-        for (WorldRenderContextListener listener : WorldRenderRegistry.worldRenderAfterLevelListeners) {
-            listener.render(mcpitanlib$contextCache);
-        }
+        submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.lines(), (pose, vertexConsumer) -> {
+            PoseStack matrices = new PoseStack();
+            matrices.mulPose(pose.pose());
+
+            mcpitanlib$contextCache.worldRenderer = (LevelRenderer) (Object) this;
+            mcpitanlib$contextCache.advancedTranslucency = hasRenderedAllSections();
+            mcpitanlib$contextCache.matrixStack = matrices;
+            mcpitanlib$contextCache.consumers = vertexConsumer;
+
+            try {
+                for (WorldRenderContextListener listener : WorldRenderRegistry.worldRenderAfterLevelListeners) {
+                    listener.render(mcpitanlib$contextCache);
+                }
+            } finally {
+                mcpitanlib$contextCache.consumers = null;
+            }
+        });
     }
 }
