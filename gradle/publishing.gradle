@@ -12,12 +12,9 @@ def requiredDepsFabric = splitValue(rootProject.findProperty("required_deps_fabr
 def embeddedDeps = splitValue(rootProject.findProperty("embedded_deps"))
 def jarTaskName = rootProject.publish_jar_task.trim()
 def releaseTypeName = rootProject.release_type.trim().toUpperCase()
-if (!(releaseTypeName in ["STABLE", "BETA", "ALPHA"])) {
-    throw new GradleException("release_type must be STABLE, BETA or ALPHA but was '${rootProject.release_type}'")
-}
-if (gameVersions.isEmpty()) {
-    throw new GradleException("game_versions must not be empty")
-}
+
+if (!(releaseTypeName in ["STABLE", "BETA", "ALPHA"])) throw new GradleException("release_type must be STABLE, BETA or ALPHA but was '${rootProject.release_type}'")
+if (gameVersions.isEmpty()) throw new GradleException("game_versions must not be empty")
 
 subprojects {
     if (!(name in publishLoaders)) return
@@ -65,8 +62,6 @@ subprojects {
     }
 }
 
-// CIがGitHub Releaseに添付するjarを特定するために使う。
-// build/libsには過去のビルドが残るためglobでは特定できない
 tasks.register("printPublishFiles") {
     doLast {
         subprojects.findAll { it.name in publishLoaders }.each {
