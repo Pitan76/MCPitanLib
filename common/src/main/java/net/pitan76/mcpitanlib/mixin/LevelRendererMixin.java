@@ -56,9 +56,10 @@ public abstract class LevelRendererMixin {
         }
     }
 
-    @Inject(method = "renderLevel", at = @At("HEAD"))
-    private void mcpitanlib$beforeRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraRenderState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, ChunkSectionsToRender chunkSectionsToRender, CallbackInfo ci) {
-        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, level, tickCounter, renderOutline, Minecraft.getInstance().gameRenderer.getMainCamera(), new Matrix4f(), new Matrix4f(), new Matrix4f());
+    @Inject(method = "render", at = @At("HEAD"))
+    private void mcpitanlib$beforeRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraRenderState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, CallbackInfo ci) {
+        Minecraft minecraft = Minecraft.getInstance();
+        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, minecraft.level, tickCounter, renderOutline, minecraft.gameRenderer.mainCamera(), new Matrix4f(), new Matrix4f(), new Matrix4f());
     }
 
 //    @ModifyExpressionValue(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;cullFrustum(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/renderer/culling/Frustum;"))
@@ -67,8 +68,8 @@ public abstract class LevelRendererMixin {
 //        return frustum;
 //    }
 
-    @Inject(method = "renderLevel", at = @At("TAIL"))
-    private void mcpitanlib$onWorldRenderEnd(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor,boolean shouldRenderSky,ChunkSectionsToRender chunkSectionsToRender, CallbackInfo ci) {
+    @Inject(method = "render", at = @At("TAIL"))
+    private void mcpitanlib$onWorldRenderEnd(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, CallbackInfo ci) {
         if (WorldRenderRegistry.isEmptyWorldRenderAfterLevelListeners) return;
 
         for (WorldRenderContextListener listener : WorldRenderRegistry.worldRenderAfterLevelListeners) {
