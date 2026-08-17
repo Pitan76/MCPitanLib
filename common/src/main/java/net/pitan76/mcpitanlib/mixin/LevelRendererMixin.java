@@ -75,22 +75,22 @@ public abstract class LevelRendererMixin {
     private void mcpitanlib$onWorldRenderEnd(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LevelRenderState levelRenderState, CallbackInfo ci) {
         if (WorldRenderRegistry.isEmptyWorldRenderAfterLevelListeners) return;
 
-        submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.lines(), (pose, vertexConsumer) -> {
-            PoseStack matrices = new PoseStack();
-            matrices.mulPose(pose.pose());
+//        submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.lines(), (pose, vertexConsumer) -> {
+        PoseStack matrices = new PoseStack();
+//        poseStack.mulPose(pose.pose());
 
-            mcpitanlib$contextCache.worldRenderer = (LevelRenderer) (Object) this;
-            mcpitanlib$contextCache.advancedTranslucency = hasRenderedAllSections();
-            mcpitanlib$contextCache.matrixStack = matrices;
-            mcpitanlib$contextCache.consumers = null;
+        mcpitanlib$contextCache.worldRenderer = (LevelRenderer) (Object) this;
+        mcpitanlib$contextCache.advancedTranslucency = hasRenderedAllSections();
+        mcpitanlib$contextCache.matrixStack = matrices;
+        mcpitanlib$contextCache.consumers = null;
 
-            try {
-                for (WorldRenderContextListener listener : WorldRenderRegistry.worldRenderAfterLevelListeners) {
-                    listener.render(mcpitanlib$contextCache);
-                }
-            } finally {
-                mcpitanlib$contextCache.consumers = null;
+        try {
+            for (WorldRenderContextListener listener : WorldRenderRegistry.worldRenderAfterLevelListeners) {
+                listener.render(mcpitanlib$contextCache);
             }
-        });
+        } finally {
+            mcpitanlib$contextCache.consumers = null;
+        }
+//        });
     }
 }
