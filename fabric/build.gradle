@@ -38,6 +38,9 @@ configurations {
 dependencies {
     implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     compileOnly "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    // Loomがfabric-apiのinjected interfaces (AttachmentTarget等) をMinecraftのjarに焼き込むため、
+    // 開発環境の実行時にもfabric-apiが必要になる。localRuntimeは publish されるPOMには含まれない。
+    localRuntime "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     common(project(path: ":common")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
