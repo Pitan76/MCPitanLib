@@ -42,11 +42,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID, value = Dist.CLIENT)
 public class CompatRegistryClientImpl {
 
-    public static Map<BlockColorProvider, Supplier<Block[]>> blockColorProviders = new HashMap<>();
+    public static Map<BlockColorProvider, Supplier<Block[]>> blockColorProviders = new ConcurrentHashMap<>();
 
     public static void registerColorProviderBlock(BlockColorProvider provider, Supplier<Block[]> blocks) {
         blockColorProviders.put(provider, blocks);
@@ -70,7 +72,7 @@ public class CompatRegistryClientImpl {
 
     // ---- Screen ----
 
-    private static final List<Consumer<RegisterMenuScreensEvent>> screens = new ArrayList<>();
+    private static final List<Consumer<RegisterMenuScreensEvent>> screens = new CopyOnWriteArrayList<>();
 
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
         // イベント発火時に解決する (登録時点ではまだ生成されていない)
@@ -86,7 +88,7 @@ public class CompatRegistryClientImpl {
 
     // ---- Particle ----
 
-    private static final List<Consumer<RegisterParticleProvidersEvent>> particles = new ArrayList<>();
+    private static final List<Consumer<RegisterParticleProvidersEvent>> particles = new CopyOnWriteArrayList<>();
 
     public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, ParticleFactory<T> factory) {
         particles.add(event -> event.registerSpecial(type.get(), factory));
@@ -138,7 +140,7 @@ public class CompatRegistryClientImpl {
 
     // ---- EntityModelLayer ----
 
-    private static final Map<EntityModelLayer, Supplier<TexturedModelData>> modelLayers = new HashMap<>();
+    private static final Map<EntityModelLayer, Supplier<TexturedModelData>> modelLayers = new ConcurrentHashMap<>();
 
     public static void registerEntityModelLayer(EntityModelLayer layer, Supplier<TexturedModelData> supplier) {
         modelLayers.put(layer, supplier);
@@ -153,7 +155,7 @@ public class CompatRegistryClientImpl {
 
     // ---- Renderer ----
 
-    private static final List<Consumer<EntityRenderersEvent.RegisterRenderers>> renderers = new ArrayList<>();
+    private static final List<Consumer<EntityRenderersEvent.RegisterRenderers>> renderers = new CopyOnWriteArrayList<>();
 
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererFactory<T> provider) {
         renderers.add(event -> event.registerEntityRenderer(type.get(), provider));

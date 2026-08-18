@@ -9,11 +9,12 @@ import net.pitan76.mcpitanlib.MCPitanLib;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID, value = Dist.CLIENT)
 public class KeybindingRegistryImpl {
 
-    private static final List<KeyBinding> keyBindings = new ArrayList<>();
+    private static final List<KeyBinding> keyBindings = new CopyOnWriteArrayList<>();
 
     public static void register(KeyBinding keyBinding) {
         keyBindings.add(keyBinding);
