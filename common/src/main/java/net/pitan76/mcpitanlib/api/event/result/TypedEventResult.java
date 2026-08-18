@@ -19,7 +19,8 @@ public class TypedEventResult<T> {
     }
 
     public static <T> TypedEventResult<T> stop(T value) {
-        return new TypedEventResult<>(ActionResult.FAIL, value);
+        // Architectury: interruptDefault() は asMinecraft() で PASS を返していたため合わせる
+        return new TypedEventResult<>(ActionResult.PASS, value);
     }
 
     public static <T> TypedEventResult<T> pass() {
