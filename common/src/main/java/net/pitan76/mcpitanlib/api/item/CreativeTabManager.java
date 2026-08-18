@@ -44,6 +44,15 @@ public class CreativeTabManager {
                 return itemGroupSupplier.get();
             return itemGroup;
         }
+
+        // 未登録のグループを参照した場合の例外を握りつぶす
+        public CreativeModeTab getItemGroupOrNull() {
+            try {
+                return getItemGroup();
+            } catch (Exception e) {
+                return null;
+            }
+        }
     }
 
     // グループ予約済みアイテムスタック
@@ -70,6 +79,15 @@ public class CreativeTabManager {
                 return itemGroupSupplier.get();
             return itemGroup;
         }
+
+        // 未登録のグループを参照した場合の例外を握りつぶす
+        public CreativeModeTab getItemGroupOrNull() {
+            try {
+                return getItemGroup();
+            } catch (Exception e) {
+                return null;
+            }
+        }
     }
 
     public static void allRegister() {
@@ -81,39 +99,46 @@ public class CreativeTabManager {
 
         if (!bookingItems.isEmpty()) {
             for (BookingItem bookingItem : bookingItems) {
-//                CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
-                ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ItemGroupUtil.toID(bookingItem.getItemGroup()));
-                CreativeModeTabEventRegistry.addStack(key, () -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(bookingItem.identifier))));
-//                CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
-//                    entries.accept(new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
-//                });
+                CreativeModeTabEventRegistry.addStackLazy(() -> resolveKey(bookingItem.getItemGroupOrNull()), () -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(bookingItem.identifier))));
             }
             bookingItems = new ArrayList<>();
         }
 
         if (!bookingStacks.isEmpty()) {
             for (BookingStack bookingStack : bookingStacks) {
-//                CreativeTabRegistry.appendBuiltinStack(bookingStack.getItemGroup(), bookingStack.stack);
-                ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ItemGroupUtil.toID(bookingStack.getItemGroup()));
-                CreativeModeTabEventRegistry.addStack(key, () -> bookingStack.stack);
-//                CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
-//                    entries.accept(bookingStack.stack);
-//                });
+                CreativeModeTabEventRegistry.addStackLazy(() -> resolveKey(bookingStack.getItemGroupOrNull()), () -> bookingStack.stack);
             }
             bookingStacks = new ArrayList<>();
         }
+    }
+
+    /**
+     * アイテムグループからResourceKeyを解決する。
+     * 未登録などで解決できない場合はnullを返す。
+     */
+    private static ResourceKey<CreativeModeTab> resolveKey(CreativeModeTab itemGroup) {
+        if (itemGroup == null) return null;
+
+        Identifier id;
+        try {
+            id = ItemGroupUtil.toID(itemGroup);
+        } catch (Exception e) {
+            return null;
+        }
+        if (id == null) return null;
+
+        return ResourceKey.create(Registries.CREATIVE_MODE_TAB, id);
     }
 
     public static void register(Identifier identifier) {
         if (bookingItems.isEmpty()) return;
         for (BookingItem bookingItem : bookingItems) {
             if (!bookingItem.identifier.toString().equals(identifier.toString())) continue;
-//            CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
-            ResourceKey<CreativeModeTab> key = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ItemGroupUtil.toID(bookingItem.getItemGroup()));
-            CreativeModeTabEventRegistry.addStack(key, () -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(bookingItem.identifier))));
-//            CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
-//                entries.accept(new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
-//            });
+
+            // この時点で解決できない場合は予約のまま残し、allRegister()で遅延登録する
+            if (resolveKey(bookingItem.getItemGroupOrNull()) == null) break;
+
+            CreativeModeTabEventRegistry.addStackLazy(() -> resolveKey(bookingItem.getItemGroupOrNull()), () -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(bookingItem.identifier))));
             bookingItems.remove(bookingItem);
             break;
         }

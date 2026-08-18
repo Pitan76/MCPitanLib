@@ -33,3 +33,6 @@ config = "mcpitanlib-common.mixins.json"
 
 [[mixins]]
 config = "mcpitanlib.mixins.json"
+
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"
