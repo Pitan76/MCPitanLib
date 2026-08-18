@@ -48,9 +48,11 @@ public class PayloadRegistry {
         for (Map.Entry<Identifier, CustomPayload.Id<BufPayload>> entry : TYPES.entrySet()) {
             CustomPayload.Id<BufPayload> id = entry.getValue();
 
-            registrar.playBidirectional(id, BufPayload.getCodec(id),
-                    CLIENT_HANDLERS.getOrDefault(entry.getKey(), NOOP),
-                    SERVER_HANDLERS.getOrDefault(entry.getKey(), NOOP));
+            IPayloadHandler<BufPayload> clientHandler = CLIENT_HANDLERS.getOrDefault(entry.getKey(), NOOP);
+            IPayloadHandler<BufPayload> serverHandler = SERVER_HANDLERS.getOrDefault(entry.getKey(), NOOP);
+
+            registrar.playToClient(id, BufPayload.getCodec(id), clientHandler);
+            registrar.playToServer(id, BufPayload.getCodec(id), serverHandler);
         }
     }
 }

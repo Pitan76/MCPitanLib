@@ -29,7 +29,7 @@ public class PlatformUtilImpl {
     }
 
     public static boolean isDevelopmentEnvironment() {
-        return !FMLEnvironment.isProduction();
+        return !FMLEnvironment.production;
     }
 
     public static Path getGameFolder() {

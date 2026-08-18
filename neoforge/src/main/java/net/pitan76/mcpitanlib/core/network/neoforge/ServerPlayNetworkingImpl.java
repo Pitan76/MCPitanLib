@@ -24,7 +24,7 @@ public class ServerPlayNetworkingImpl {
             MinecraftServer server = null;
             if (context.player() instanceof ServerPlayerEntity) {
                 player = (ServerPlayerEntity) context.player();
-                server = player.getEntityWorld().getServer();
+                server = player.getServer();
             }
 
             handler.receive(server, player, buf);

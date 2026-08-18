@@ -18,7 +18,6 @@ import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.texture.Sprite;
@@ -75,11 +74,6 @@ public class CompatRegistryClientImpl {
             public Sprite getSprite(Random random) {
                 return spriteSet.getSprite(random);
             }
-
-            @Override
-            public Sprite getFirst() {
-                return spriteSet.getFirst();
-            }
         }));
     }
 
@@ -91,7 +85,7 @@ public class CompatRegistryClientImpl {
         EntityRendererRegistry.register(type.get(), provider);
     }
 
-    public static <T extends BlockEntity, S extends BlockEntityRenderState> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T, S> factory) {
+    public static <T extends BlockEntity> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> factory) {
         BlockEntityRendererRegistry.register(type.get(), factory);
     }
 

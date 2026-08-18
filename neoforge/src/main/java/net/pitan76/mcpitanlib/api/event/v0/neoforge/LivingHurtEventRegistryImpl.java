@@ -21,7 +21,7 @@ public class LivingHurtEventRegistryImpl {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingIncomingDamageEvent event) {
-        if (event.getEntity().getEntityWorld().isClient()) return;
+        if (event.getEntity().getWorld().isClient()) return;
 
         for (LivingHurtEventRegistry.LivingHurt listener : listeners) {
             boolean allow = listener.hurt(event.getEntity(), event.getSource(), event.getAmount());
