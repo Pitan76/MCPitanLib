@@ -9,6 +9,11 @@ architectury {
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
+    runs {
+        configureEach {
+            vmArg "-Dneoforge.warnings.onlyin.hide=true"
+        }
+    }
     /*
     forge {
         convertAccessWideners = true
@@ -29,6 +34,12 @@ configurations {
     developmentNeoForge.extendsFrom common
 }
 
+repositories {
+    flatDir {
+        dirs 'run/mods'
+    }
+}
+
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
     // Remove the next line if you don't want to depend on the API
@@ -43,6 +54,12 @@ dependencies {
 
     include("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
     include("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
+
+    // Automatically load all local NeoForge mod jars from the run/mods directory in development
+    fileTree(dir: 'run/mods', include: '*.jar').each { File file ->
+        String nameWithoutExtension = file.name.take(file.name.lastIndexOf('.'))
+        modRuntimeOnly name: nameWithoutExtension
+    }
 }
 
 processResources {
