@@ -33,7 +33,8 @@ public class EventResult {
 
     public ActionResult toActionResult() {
         if (this == TRUE) return ActionResult.SUCCESS;
-        if (this == STOP) return ActionResult.FAIL;
+        // Architectury: interruptDefault() は asMinecraft() で PASS を返していたため合わせる
+        if (this == STOP) return ActionResult.PASS;
         if (this == PASS) return ActionResult.PASS;
         if (this == FALSE) return ActionResult.FAIL;
         throw new IllegalStateException("Unknown EventResult: " + this);
