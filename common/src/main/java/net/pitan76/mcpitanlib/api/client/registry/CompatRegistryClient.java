@@ -1,12 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
-import dev.architectury.registry.client.particle.ParticleProviderRegistry;
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
-import dev.architectury.registry.client.rendering.RenderTypeRegistry;
-import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -67,8 +61,9 @@ public class CompatRegistryClient {
         registerScreen(MCPitanLib.MOD_ID, type, factory);
     }
 
+    @ExpectPlatform
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
-        MenuRegistry.registerScreenFactory(type, factory::create);
+        throw new AssertionError();
     }
 
     public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory2<H, S> factory) {
@@ -88,40 +83,28 @@ public class CompatRegistryClient {
         S create(H handler, CompatPlayerInventory inventory, TextComponent text);
     }
 
+    @ExpectPlatform
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {
-        ParticleProviderRegistry.register(type, factory);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
-            @Override
-            public SpriteAtlasTexture getAtlas() {
-                return spriteSet.getAtlas();
-            }
-
-            @Override
-            public List<Sprite> getSprites() {
-                return spriteSet.getSprites();
-            }
-
-            @Override
-            public Sprite getSprite(int age, int maxAge) {
-                return spriteSet.getSprite(age, maxAge);
-            }
-
-            @Override
-            public Sprite getSprite(Random random) {
-                return spriteSet.getSprite(random);
-            }
-        }));
+        throw new AssertionError();
     }
 
     public static void registerEntityModelLayer(EntityModelLayer layer, EntityModelLayerContext context) {
-        EntityModelLayerRegistry.register(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
+        registerEntityModelLayer(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
     }
 
+    @ExpectPlatform
+    public static void registerEntityModelLayer(EntityModelLayer layer, Supplier<TexturedModelData> supplier) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererFactory<T> provider) {
-        EntityRendererRegistry.register(type, provider);
+        throw new AssertionError();
     }
 
     @FunctionalInterface
@@ -152,7 +135,7 @@ public class CompatRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+        registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
                 ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer()
         )));
     }
@@ -215,6 +198,11 @@ public class CompatRegistryClient {
     }
 
 
+    @ExpectPlatform
+    public static <T extends BlockEntity, S extends BlockEntityRenderState> void registerBlockEntityRendererRaw(BlockEntityType<T> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T, S> factory) {
+        throw new AssertionError();
+    }
+
     public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
         BlockRenderLayer blockRenderLayer = null;
         if (layer == RenderLayer.getCutout()) {
@@ -231,7 +219,7 @@ public class CompatRegistryClient {
 
         if (blockRenderLayer == null) return;
 
-        RenderTypeRegistry.register(blockRenderLayer, block);
+        registerRenderLayerBlock(blockRenderLayer, block);
     }
 
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
@@ -250,7 +238,21 @@ public class CompatRegistryClient {
 
         if (blockRenderLayer == null) return;
 
-        RenderTypeRegistry.register(blockRenderLayer, fluid);
+        registerRenderLayerFluid(blockRenderLayer, fluid);
+    }
+
+    /**
+     * 1.21.9以降、ブロックのレンダーレイヤーはモデルJSONの render_type で決まるため、
+     * プラットフォームによっては何もしない。
+     */
+    @ExpectPlatform
+    public static void registerRenderLayerBlock(BlockRenderLayer layer, Block block) {
+
+    }
+
+    @ExpectPlatform
+    public static void registerRenderLayerFluid(BlockRenderLayer layer, Fluid fluid) {
+
     }
 
     public static void registerCutoutBlock(Block block) {
@@ -258,7 +260,7 @@ public class CompatRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+        registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
                 ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer()
         )));
     }
