@@ -1,0 +1,94 @@
+package net.pitan76.mcpitanlib.api.event.v0.neoforge;
+
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.pitan76.mcpitanlib.MCPitanLib;
+import net.pitan76.mcpitanlib.api.event.result.EventResult;
+import net.pitan76.mcpitanlib.api.event.v0.InteractionEventRegistry.*;
+import net.pitan76.mcpitanlib.api.event.v0.event.ClickBlockEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@EventBusSubscriber(modid = MCPitanLib.MOD_ID)
+public class InteractionEventRegistryImpl {
+
+    private static final List<RightClickBlock> rightClickBlockListeners = new ArrayList<>();
+    private static final List<LeftClickBlock> leftClickBlockListeners = new ArrayList<>();
+    private static final List<RightClickItem> rightClickItemListeners = new ArrayList<>();
+    private static final List<ClientLeftClickAir> clientLeftClickAirListeners = new ArrayList<>();
+    private static final List<ClientRightClickAir> clientRightClickAirListeners = new ArrayList<>();
+    private static final List<InteractEntity> interactEntityListeners = new ArrayList<>();
+
+    public static void registerRightClickBlock(RightClickBlock rightClickBlock) {
+        rightClickBlockListeners.add(rightClickBlock);
+    }
+
+    public static void registerLeftClickBlock(LeftClickBlock leftClickBlock) {
+        leftClickBlockListeners.add(leftClickBlock);
+    }
+
+    public static void registerRightClickItem(RightClickItem rightClickItem) {
+        rightClickItemListeners.add(rightClickItem);
+    }
+
+    public static void registerClientLeftClickAir(ClientLeftClickAir clientLeftClickAir) {
+        clientLeftClickAirListeners.add(clientLeftClickAir);
+    }
+
+    public static void registerClientRightClickAir(ClientRightClickAir clientRightClickAir) {
+        clientRightClickAirListeners.add(clientRightClickAir);
+    }
+
+    public static void registerInteractEntity(InteractEntity interactEntity) {
+        interactEntityListeners.add(interactEntity);
+    }
+
+    @SubscribeEvent
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        for (RightClickBlock listener : rightClickBlockListeners) {
+            EventResult result = listener.click(new ClickBlockEvent(event.getEntity(), event.getHand(), event.getPos(), event.getFace()));
+            if (result != EventResult.pass()) {
+                event.setCanceled(true);
+                event.setCancellationResult(result.toActionResult());
+                return;
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+        for (LeftClickBlock listener : leftClickBlockListeners) {
+            listener.click(new ClickBlockEvent(event.getEntity(), event.getHand(), event.getPos(), event.getFace()));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        for (RightClickItem listener : rightClickItemListeners) {
+            listener.click2(event.getEntity(), event.getHand());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onClientLeftClickAir(PlayerInteractEvent.LeftClickEmpty event) {
+        for (ClientLeftClickAir listener : clientLeftClickAirListeners) {
+            listener.click(event.getEntity(), event.getHand());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onClientRightClickAir(PlayerInteractEvent.RightClickEmpty event) {
+        for (ClientRightClickAir listener : clientRightClickAirListeners) {
+            listener.click(event.getEntity(), event.getHand());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onInteractEntity(PlayerInteractEvent.EntityInteract event) {
+        for (InteractEntity listener : interactEntityListeners) {
+            listener.interact(event.getEntity(), event.getTarget(), event.getHand());
+        }
+    }
+}

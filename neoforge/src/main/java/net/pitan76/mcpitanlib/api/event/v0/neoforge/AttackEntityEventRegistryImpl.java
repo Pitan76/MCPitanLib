@@ -1,0 +1,40 @@
+package net.pitan76.mcpitanlib.api.event.v0.neoforge;
+
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import net.pitan76.mcpitanlib.MCPitanLib;
+import net.pitan76.mcpitanlib.api.event.v0.AttackEntityEventRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@EventBusSubscriber(modid = MCPitanLib.MOD_ID)
+public class AttackEntityEventRegistryImpl {
+
+    private static final List<AttackEntityEventRegistry.AttackEntity> listeners = new ArrayList<>();
+
+    public static void register(AttackEntityEventRegistry.AttackEntity attackEntity) {
+        listeners.add(attackEntity);
+    }
+
+    @SubscribeEvent
+    public static void onAttackEntity(AttackEntityEvent event) {
+        for (AttackEntityEventRegistry.AttackEntity listener : listeners) {
+            ActionResult result = listener.attack(
+                    event.getEntity(),
+                    event.getEntity().getEntityWorld(),
+                    Hand.MAIN_HAND,
+                    event.getTarget(),
+                    null
+            );
+
+            if (result != ActionResult.PASS) {
+                event.setCanceled(true);
+                return;
+            }
+        }
+    }
+}

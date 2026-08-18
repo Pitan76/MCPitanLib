@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.entity;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;

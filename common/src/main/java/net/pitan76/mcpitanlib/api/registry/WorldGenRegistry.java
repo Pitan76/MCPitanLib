@@ -1,10 +1,6 @@
 package net.pitan76.mcpitanlib.api.registry;
 
-import dev.architectury.registry.level.biome.BiomeModifications;
-import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -13,17 +9,13 @@ import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 
 import java.util.function.Supplier;
 
+// TODO: Add support for biome modifiers and other world gen related things
 public class WorldGenRegistry {
     protected String MOD_ID;
-
-    protected DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURE;
-    protected DeferredRegister<PlacedFeature> PLACED_FEATURE;
 
     @Deprecated
     public WorldGenRegistry(String MOD_ID) {
         this.MOD_ID = MOD_ID;
-        CONFIGURED_FEATURE = DeferredRegister.create(MOD_ID, RegistryKeys.CONFIGURED_FEATURE);
-        PLACED_FEATURE = DeferredRegister.create(MOD_ID, RegistryKeys.PLACED_FEATURE);
     }
 
     /**
@@ -46,8 +38,8 @@ public class WorldGenRegistry {
      * @return The result of the registration
      */
     public RegistryResult<ConfiguredFeature<?, ?>> registerFeature(Identifier id, Supplier<ConfiguredFeature<?, ?>> supplier) {
-        RegistrySupplier<ConfiguredFeature<?, ?>> feature = CONFIGURED_FEATURE.register(id, supplier);
-        return new RegistryResult<>(feature);
+        // TODO: Support datapack registry without Architectury API
+        return null;
     }
 
     /**
@@ -57,8 +49,8 @@ public class WorldGenRegistry {
      * @return The result of the registration
      */
     public RegistryResult<PlacedFeature> registerPlacedFeature(Identifier id, Supplier<PlacedFeature> supplier) {
-        RegistrySupplier<PlacedFeature> feature = PLACED_FEATURE.register(id, supplier);
-        return new RegistryResult<>(feature);
+        // TODO: Support datapack registry without Architectury API
+        return null;
     }
 
     /**
@@ -67,7 +59,7 @@ public class WorldGenRegistry {
      * @param feature The feature to replace
      */
     public static void replaceProperties(GenerationStep.Feature decoration, RegistrySupplier<PlacedFeature> feature) {
-        BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, feature));
+        // TODO: Support biome modification without Architectury API
     }
 
     public static void replaceProperties(GenerationStep.Feature decoration, RegistryResult<PlacedFeature> feature) {
@@ -80,7 +72,7 @@ public class WorldGenRegistry {
      * @param feature The feature to replace
      */
     public static void replaceProperties(GenerationStep.Feature decoration, PlacedFeature feature) {
-        BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature)));
+        // TODO: Support biome modification without Architectury API
     }
 
     /**
@@ -89,7 +81,7 @@ public class WorldGenRegistry {
      * @param feature The feature to add
      */
     public static void addProperties(GenerationStep.Feature decoration, RegistrySupplier<PlacedFeature> feature) {
-        BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, feature));
+        // TODO: Support biome modification without Architectury API
     }
 
     public static void addProperties(GenerationStep.Feature decoration, RegistryResult<PlacedFeature> feature) {
@@ -102,6 +94,6 @@ public class WorldGenRegistry {
      * @param feature The feature to add
      */
     public static void addProperties(GenerationStep.Feature decoration, PlacedFeature feature) {
-        BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature)));
+        // TODO: Support biome modification without Architectury API
     }
 }
