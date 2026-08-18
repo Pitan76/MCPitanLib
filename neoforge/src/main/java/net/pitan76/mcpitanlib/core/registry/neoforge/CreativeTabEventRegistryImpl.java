@@ -21,14 +21,14 @@ public class CreativeTabEventRegistryImpl {
     public static void addStack(RegistryKey<ItemGroup> key, Supplier<ItemStack> supplier) {
         tabModifiers.add(event -> {
             if (event.getTabKey().equals(key))
-                event.accept(supplier.get());
+                event.add(supplier.get());
         });
     }
 
     public static void addStacks(RegistryKey<ItemGroup> key, Supplier<List<ItemStack>> supplier) {
         tabModifiers.add(event -> {
             if (event.getTabKey().equals(key))
-                event.acceptAll(supplier.get());
+                event.addAll(supplier.get());
         });
     }
 
@@ -47,7 +47,7 @@ public class CreativeTabEventRegistryImpl {
                 if (key == null) return;
 
                 if (event.getTabKey().equals(key))
-                    event.accept(supplier.get());
+                    event.add(supplier.get());
             }
         });
     }
