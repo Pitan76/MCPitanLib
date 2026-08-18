@@ -78,7 +78,7 @@ public class InteractionEventRegistry {
     public interface InteractEntity {
         @SuppressWarnings("deprecation")
         default ActionResult interact(PlayerEntity var1, Entity var2, Hand var3) {
-            return interact(new Player(var1), var2, var3).toActionResult();
+            return interact(new Player(var1), var2, var3).toEventResult().toActionResult();
         }
 
         CompatActionResult interact(Player player, Entity entity, Hand hand);
