@@ -16,18 +16,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Deprecated
 public class MCPLRegistry1_20 {
     @Deprecated
-    public static final Map<ResourceKey<CreativeModeTab>, RegistrySupplier<CreativeModeTab>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new HashMap<>();
+    public static final Map<ResourceKey<CreativeModeTab>, RegistrySupplier<CreativeModeTab>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new ConcurrentHashMap<>();
 
     @Deprecated
-    public static final Map<ResourceKey<CreativeModeTab>, List<Identifier>> ITEM_GROUP_ITEM_ID_CACHE = new HashMap<>();
+    public static final Map<ResourceKey<CreativeModeTab>, List<Identifier>> ITEM_GROUP_ITEM_ID_CACHE = new ConcurrentHashMap<>();
 
     public static void addItemGroupItem(ResourceKey<CreativeModeTab> itemGroup, Identifier itemId) {
         if (!ITEM_GROUP_ITEM_ID_CACHE.containsKey(itemGroup)) {
-            ITEM_GROUP_ITEM_ID_CACHE.put(itemGroup, new ArrayList<>());
+            ITEM_GROUP_ITEM_ID_CACHE.put(itemGroup, new CopyOnWriteArrayList<>());
         }
 
         // 同じアイテムを二重に登録しない (supplierが複数回実行されることがある)

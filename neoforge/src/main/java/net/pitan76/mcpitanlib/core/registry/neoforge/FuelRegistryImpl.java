@@ -9,10 +9,11 @@ import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @EventBusSubscriber(modid = "mcpitanlib")
 public class FuelRegistryImpl {
-    private static final Map<Supplier<ItemLike>, Integer> FUEL_TIMES = new HashMap<>();
+    private static final Map<Supplier<ItemLike>, Integer> FUEL_TIMES = new ConcurrentHashMap<>();
 
     public static void register(int time, Supplier<ItemLike> item) {
         int burnTimeTicks = 200 * time;

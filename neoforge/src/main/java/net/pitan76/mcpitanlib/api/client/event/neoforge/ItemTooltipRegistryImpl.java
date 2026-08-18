@@ -6,9 +6,10 @@ import net.pitan76.mcpitanlib.api.client.event.listener.ItemTooltipListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ItemTooltipRegistryImpl {
-    private static final List<ItemTooltipListener> listeners = new ArrayList<>();
+    private static final List<ItemTooltipListener> listeners = new CopyOnWriteArrayList<>();
 
     public static void registerItemTooltip(ItemTooltipListener listener) {
         listeners.add(listener);

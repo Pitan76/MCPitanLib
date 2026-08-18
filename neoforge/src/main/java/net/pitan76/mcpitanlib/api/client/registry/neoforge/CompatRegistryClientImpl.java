@@ -33,15 +33,17 @@ import net.pitan76.mcpitanlib.api.client.render.EntityModelLayerContext;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 @EventBusSubscriber(modid = "mcpitanlib", value = Dist.CLIENT)
 public class CompatRegistryClientImpl {
-    private static final List<Consumer<RegisterMenuScreensEvent>> screenRegistrations = new ArrayList<>();
-    private static final List<Consumer<RegisterParticleProvidersEvent>> particleRegistrations = new ArrayList<>();
-    private static final List<Consumer<EntityRenderersEvent.RegisterLayerDefinitions>> layerRegistrations = new ArrayList<>();
-    private static final List<Consumer<EntityRenderersEvent.RegisterRenderers>> rendererRegistrations = new ArrayList<>();
+    private static final List<Consumer<RegisterMenuScreensEvent>> screenRegistrations = new CopyOnWriteArrayList<>();
+    private static final List<Consumer<RegisterParticleProvidersEvent>> particleRegistrations = new CopyOnWriteArrayList<>();
+    private static final List<Consumer<EntityRenderersEvent.RegisterLayerDefinitions>> layerRegistrations = new CopyOnWriteArrayList<>();
+    private static final List<Consumer<EntityRenderersEvent.RegisterRenderers>> rendererRegistrations = new CopyOnWriteArrayList<>();
 
-    public static Map<List<BlockTintSource>, Supplier<Block[]>> blockColorProviders = new HashMap<>();
+    public static Map<List<BlockTintSource>, Supplier<Block[]>> blockColorProviders = new ConcurrentHashMap<>();
 
     public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, Supplier<MenuType<? extends H>> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
         // イベント発火時に解決する (登録時点ではまだ生成されていない)

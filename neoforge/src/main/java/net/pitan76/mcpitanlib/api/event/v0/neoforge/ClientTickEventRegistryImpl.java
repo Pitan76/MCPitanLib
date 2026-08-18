@@ -11,14 +11,15 @@ import net.pitan76.mcpitanlib.api.event.v0.ClientTickEventRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = "mcpitanlib", value = Dist.CLIENT)
 public class ClientTickEventRegistryImpl {
 
-    private static final List<ClientTickEventRegistry.Client> preClients = new ArrayList<>();
-    private static final List<ClientTickEventRegistry.Client> postClients = new ArrayList<>();
-    private static final List<ClientTickEventRegistry.ClientLevel> preLevels = new ArrayList<>();
-    private static final List<ClientTickEventRegistry.ClientLevel> postLevels = new ArrayList<>();
+    private static final List<ClientTickEventRegistry.Client> preClients = new CopyOnWriteArrayList<>();
+    private static final List<ClientTickEventRegistry.Client> postClients = new CopyOnWriteArrayList<>();
+    private static final List<ClientTickEventRegistry.ClientLevel> preLevels = new CopyOnWriteArrayList<>();
+    private static final List<ClientTickEventRegistry.ClientLevel> postLevels = new CopyOnWriteArrayList<>();
 
     public static void registerPre(ClientTickEventRegistry.Client client) {
         preClients.add(client);

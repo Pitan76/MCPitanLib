@@ -9,11 +9,12 @@ import net.pitan76.mcpitanlib.api.event.v1.AttackEntityEventRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = "mcpitanlib")
 public class AttackEntityEventRegistryImpl {
 
-    private static final List<AttackEntityEventRegistry.AttackEntity> listeners = new ArrayList<>();
+    private static final List<AttackEntityEventRegistry.AttackEntity> listeners = new CopyOnWriteArrayList<>();
 
     public static void register(AttackEntityEventRegistry.AttackEntity attackEntity) {
         listeners.add(attackEntity);

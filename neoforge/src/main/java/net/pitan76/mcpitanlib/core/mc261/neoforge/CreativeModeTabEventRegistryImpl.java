@@ -11,11 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = "mcpitanlib")
 public class CreativeModeTabEventRegistryImpl {
 
-    private static final List<Consumer<BuildCreativeModeTabContentsEvent>> tabModifiers = new ArrayList<>();
+    private static final List<Consumer<BuildCreativeModeTabContentsEvent>> tabModifiers = new CopyOnWriteArrayList<>();
 
     public static void addStack(ResourceKey<CreativeModeTab> key, Supplier<ItemStack> supplier) {
         tabModifiers.add(event -> {
