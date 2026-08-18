@@ -8,11 +8,12 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = "mcpitanlib", value = Dist.CLIENT)
 public class KeybindingRegistryImpl {
 
-    private static final List<KeyMapping> keyMappings = new ArrayList<>();
+    private static final List<KeyMapping> keyMappings = new CopyOnWriteArrayList<>();
 
     public static void register(KeyMapping keyBinding) {
         keyMappings.add(keyBinding);

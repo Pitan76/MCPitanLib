@@ -15,11 +15,12 @@ import java.util.function.Consumer;
 
 import static net.pitan76.mcpitanlib.api.command.CommandRegistry.forArgsCmd;
 import static net.pitan76.mcpitanlib.api.command.CommandRegistry.latestCommandRegistryAccess;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = "mcpitanlib")
 public class CommandRegistryImpl {
 
-    private static final List<Consumer<RegisterCommandsEvent>> commandRegistrations = new ArrayList<>();
+    private static final List<Consumer<RegisterCommandsEvent>> commandRegistrations = new CopyOnWriteArrayList<>();
 
     public static void register(String name, LiteralCommand command) {
         commandRegistrations.add(event -> {

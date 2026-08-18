@@ -7,11 +7,12 @@ import net.pitan76.mcpitanlib.api.event.v0.LivingHurtEventRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = "mcpitanlib")
 public class LivingHurtEventRegistryImpl {
 
-    private static final List<LivingHurtEventRegistry.LivingHurt> listeners = new ArrayList<>();
+    private static final List<LivingHurtEventRegistry.LivingHurt> listeners = new CopyOnWriteArrayList<>();
 
     public static void register(LivingHurtEventRegistry.LivingHurt livingHurt) {
         listeners.add(livingHurt);

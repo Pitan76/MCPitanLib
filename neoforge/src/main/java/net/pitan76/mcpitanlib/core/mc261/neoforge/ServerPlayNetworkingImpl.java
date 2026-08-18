@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.core.network.BufPayload;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @EventBusSubscriber(modid = "mcpitanlib")
 public class ServerPlayNetworkingImpl {
@@ -25,8 +26,8 @@ public class ServerPlayNetworkingImpl {
         PacketDistributor.sendToPlayer(player, payload);
     }
 
-    private static final Map<BufPayload.Type<BufPayload>, IPayloadHandler<BufPayload>> handlerMap = new HashMap<>();
-    private static final Map<Identifier, BufPayload.Type<BufPayload>> payloadTypeMap = new HashMap<>();
+    private static final Map<BufPayload.Type<BufPayload>, IPayloadHandler<BufPayload>> handlerMap = new ConcurrentHashMap<>();
+    private static final Map<Identifier, BufPayload.Type<BufPayload>> payloadTypeMap = new ConcurrentHashMap<>();
 
     public static void registerGlobalReceiver(CustomPacketPayload.Type<BufPayload> id, ServerNetworking.ServerNetworkHandler handler) {
         handlerMap.put(id, (payload, context) -> {

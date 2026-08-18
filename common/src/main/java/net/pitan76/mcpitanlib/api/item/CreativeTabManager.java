@@ -15,10 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CreativeTabManager {
-    private static List<BookingItem> bookingItems = new ArrayList<>();
-    private static List<BookingStack> bookingStacks = new ArrayList<>();
+    private static List<BookingItem> bookingItems = new CopyOnWriteArrayList<>();
+    private static List<BookingStack> bookingStacks = new CopyOnWriteArrayList<>();
 
     // グループ予約済みアイテム
     public static class BookingItem {
@@ -95,14 +96,14 @@ public class CreativeTabManager {
             for (BookingItem bookingItem : bookingItems) {
                 CreativeModeTabEventRegistry.addStackLazy(() -> resolveKey(bookingItem.getItemGroupOrNull()), () -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(bookingItem.identifier))));
             }
-            bookingItems = new ArrayList<>();
+            bookingItems = new CopyOnWriteArrayList<>();
         }
 
         if (!bookingStacks.isEmpty()) {
             for (BookingStack bookingStack : bookingStacks) {
                 CreativeModeTabEventRegistry.addStackLazy(() -> resolveKey(bookingStack.getItemGroupOrNull()), () -> bookingStack.stack);
             }
-            bookingStacks = new ArrayList<>();
+            bookingStacks = new CopyOnWriteArrayList<>();
         }
     }
 

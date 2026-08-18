@@ -26,6 +26,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 
 @EventBusSubscriber(modid = "mcpitanlib")
 public class RegistryImpl {
@@ -40,13 +42,16 @@ public class RegistryImpl {
         }
     }
 
-    private static final Map<ResourceKey<? extends Registry<?>>, Map<Identifier, PendingEntry<?>>> PENDING_REGISTRIES = new HashMap<>();
+    // NeoForgeはmodを並列に構築するため、スレッドセーフにする必要がある
+    private static final Map<ResourceKey<? extends Registry<?>>, Map<Identifier, PendingEntry<?>>> PENDING_REGISTRIES = Collections.synchronizedMap(new LinkedHashMap<>());
 
     private static <T> RegistrySupplier<T> register(ResourceKey<@NotNull Registry<T>> registryKey, Identifier id, Supplier<T> supplier) {
         RegistrySupplier<T> registrySupplier = new RegistrySupplier<>();
 
-        PENDING_REGISTRIES.computeIfAbsent(registryKey, _ -> new HashMap<>())
-                .put(id, new PendingEntry<>(supplier, registrySupplier));
+        synchronized (PENDING_REGISTRIES) {
+            PENDING_REGISTRIES.computeIfAbsent(registryKey, k -> new LinkedHashMap<>())
+                    .put(id, new PendingEntry<>(supplier, registrySupplier));
+        }
 
         return registrySupplier;
     }
@@ -105,10 +110,13 @@ public class RegistryImpl {
     public static void onRegister(RegisterEvent event) {
         ResourceKey<? extends Registry<?>> key = event.getRegistryKey();
 
-        if (PENDING_REGISTRIES.containsKey(key)) {
-            Map<Identifier, PendingEntry<?>> entries = PENDING_REGISTRIES.get(key);
+        Map<Identifier, PendingEntry<?>> entries;
+        synchronized (PENDING_REGISTRIES) {
+            entries = PENDING_REGISTRIES.get(key);
+        }
 
-            for (Map.Entry<Identifier, PendingEntry<?>> mapEntry : entries.entrySet()) {
+        if (entries != null) {
+            for (Map.Entry<Identifier, PendingEntry<?>> mapEntry : new LinkedHashMap<>(entries).entrySet()) {
                 PendingEntry<?> pending = mapEntry.getValue();
                 event.register((ResourceKey) key, mapEntry.getKey(), () -> {
                     Object instance = pending.factory.get();
