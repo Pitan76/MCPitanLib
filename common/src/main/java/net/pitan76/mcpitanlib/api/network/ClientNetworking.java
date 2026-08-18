@@ -1,20 +1,27 @@
 package net.pitan76.mcpitanlib.api.network;
 
-import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-
-import static dev.architectury.networking.NetworkManager.Side.S2C;
+import net.pitan76.mcpitanlib.core.network.BufPayload;
+import net.pitan76.mcpitanlib.core.network.ClientPlayNetworking;
 
 public class ClientNetworking {
     public static void send(Identifier identifier, PacketByteBuf buf) {
-        NetworkManager.sendToServer(identifier, buf);
+        registerC2SPayloadType(identifier);
+
+        BufPayload payload = new BufPayload(buf, identifier);
+        ClientPlayNetworking.send(payload);
     }
 
     public static void registerReceiver(Identifier identifier, ClientNetworkHandler handler) {
-        NetworkManager.registerReceiver(S2C, identifier, ((buf, context) -> handler.receive(MinecraftClient.getInstance(), MinecraftClient.getInstance().player, buf)));
+        BufPayload.Id<BufPayload> id = BufPayload.id(identifier);
+        ClientPlayNetworking.registerGlobalReceiver(id, handler);
+    }
+
+    public static void registerC2SPayloadType(Identifier identifier) {
+        ClientPlayNetworking.registerC2SPayloadType(identifier);
     }
 
     @FunctionalInterface

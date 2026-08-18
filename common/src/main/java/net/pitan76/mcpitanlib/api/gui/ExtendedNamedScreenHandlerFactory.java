@@ -1,16 +1,18 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerFactory;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.core.screen.ExtendedMenuProvider;
 import org.jetbrains.annotations.Nullable;
 
 @Deprecated
-public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider {
+public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider<PacketByteBuf> {
 
     private final Text name;
     private final ScreenHandlerFactory baseFactory;
@@ -22,9 +24,15 @@ public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider {
         this.bufFactory = bufFactory;
     }
 
-    @Override
     public void saveExtraData(PacketByteBuf buf) {
         bufFactory.saveExtraData(buf);
+    }
+
+    @Override
+    public PacketByteBuf getScreenOpeningData(ServerPlayerEntity player) {
+        PacketByteBuf buf = PacketByteUtil.create();
+        saveExtraData(buf);
+        return buf;
     }
 
     @Override
@@ -36,7 +44,6 @@ public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider {
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         return baseFactory.createMenu(syncId, inv, player);
-
     }
 
     @FunctionalInterface
