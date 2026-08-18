@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.CreativeTabRegistry;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -8,7 +8,10 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
+import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
 
@@ -82,16 +85,20 @@ public class CreativeTabBuilder {
      * @return ItemGroup
      */
     public ItemGroup build() {
-        return CreativeTabRegistry.create((builder -> {
-            if (displayName != null) builder.displayName(displayName);
-            else builder.displayName(TextUtil.translatable("itemGroup." + identifier.getNamespace() + "." + identifier.getPath()));
+        return build(identifier, displayName, iconSupplier, noRenderedName, noScrollbar, special, texture);
+    }
 
-            if (iconSupplier != null) builder.icon(iconSupplier);
-            if (noRenderedName) builder.noRenderedName();
-            if (noScrollbar) builder.noScrollbar();
-            if (special) builder.special();
-            if (texture != null) builder.texture(texture);
-        }));
+    @ExpectPlatform
+    public static ItemGroup build(Identifier identifier, Text displayName, Supplier<ItemStack> iconSupplier, boolean noRenderedName, boolean noScrollbar, boolean special, String texture) {
+        throw new AssertionError();
+    }
+
+    @SuppressWarnings("deprecation")
+    public ItemGroupWrapper getBuiltWrapper() {
+        if (MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.containsKey(identifier))
+            return ItemGroupWrapper.of(MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(identifier).getOrNull());
+
+        return ItemGroupWrapper.of(build());
     }
 
     public Identifier getIdentifier() {
