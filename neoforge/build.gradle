@@ -9,6 +9,13 @@ architectury {
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    runs {
+        configureEach {
+            // NeoForge 26.1は@OnlyInを使う modに対して起動前に警告画面を出すため、開発環境では抑制する
+            vmArg "-Dneoforge.warnings.onlyin.hide=true"
+        }
+    }
 }
 
 configurations {
