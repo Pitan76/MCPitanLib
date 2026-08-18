@@ -30,6 +30,9 @@ public class MCPLRegistry1_20 {
             ITEM_GROUP_ITEM_ID_CACHE.put(itemGroup, new ArrayList<>());
         }
 
+        // 同じアイテムを二重に登録しない (supplierが複数回実行されることがある)
+        if (ITEM_GROUP_ITEM_ID_CACHE.get(itemGroup).contains(itemId)) return;
+
         ITEM_GROUP_ITEM_ID_CACHE.get(itemGroup).add(itemId);
 
         // allRegister()より後にアイテムが生成されるプラットフォームがあるため、ここで即時登録する
