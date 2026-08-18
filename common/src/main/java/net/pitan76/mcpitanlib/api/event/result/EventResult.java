@@ -5,16 +5,14 @@ import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 
 public class EventResult {
 
-    protected final dev.architectury.event.EventResult result;
-
-    private static final EventResult TRUE = new EventResult(dev.architectury.event.EventResult.interruptTrue());
-    private static final EventResult STOP = new EventResult(dev.architectury.event.EventResult.interruptDefault());
-    private static final EventResult PASS = new EventResult(dev.architectury.event.EventResult.pass());
-    private static final EventResult FALSE = new EventResult(dev.architectury.event.EventResult.interruptFalse());
+    private static final EventResult TRUE = new EventResult();
+    private static final EventResult STOP = new EventResult();
+    private static final EventResult PASS = new EventResult();
+    private static final EventResult FALSE = new EventResult();
 
 
-    protected EventResult(dev.architectury.event.EventResult result) {
-        this.result = result;
+    protected EventResult() {
+
     }
 
     public static EventResult success() {
@@ -33,13 +31,12 @@ public class EventResult {
         return FALSE;
     }
 
-    @Deprecated
-    public dev.architectury.event.EventResult getResult() {
-        return result;
-    }
-
     public ActionResult toActionResult() {
-        return result.asMinecraft();
+        if (this == TRUE) return ActionResult.SUCCESS;
+        if (this == STOP) return ActionResult.FAIL;
+        if (this == PASS) return ActionResult.PASS;
+        if (this == FALSE) return ActionResult.FAIL;
+        throw new IllegalStateException("Unknown EventResult: " + this);
     }
 
     public CompatActionResult toCompatActionResult() {

@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -85,9 +85,10 @@ public class CompatibleItemSettings {
     }
 
     public ExtendSettings build() {
-        if (itemGroupId != null) {
+        if (itemGroupId != null && _itemId != null) {
             RegistrySupplier<ItemGroup> itemGroup = MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(itemGroupId);
-            settings.arch$tab(itemGroup);
+            if (itemGroup != null)
+                CreativeTabManager.addItem(itemGroup::get, _itemId);
         }
 
         if (_itemId != null && !(this instanceof net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings)) {

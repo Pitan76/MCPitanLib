@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import dev.architectury.event.events.common.InteractionEvent;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -11,28 +11,34 @@ import net.pitan76.mcpitanlib.api.event.v0.event.ClickBlockEvent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 
 public class InteractionEventRegistry {
+    @ExpectPlatform
     public static void registerRightClickBlock(RightClickBlock rightClickBlock) {
-        InteractionEvent.RIGHT_CLICK_BLOCK.register((player, hand, pos, direction) -> rightClickBlock.click(new ClickBlockEvent(player, hand, pos, direction)).toActionResult());
+
     }
 
+    @ExpectPlatform
     public static void registerLeftClickBlock(LeftClickBlock leftClickBlock) {
-        InteractionEvent.LEFT_CLICK_BLOCK.register((player, hand, pos, direction) -> leftClickBlock.click(new ClickBlockEvent(player, hand, pos, direction)).toActionResult());
+
     }
 
+    @ExpectPlatform
     public static void registerRightClickItem(RightClickItem rightClickItem) {
-        InteractionEvent.RIGHT_CLICK_ITEM.register(rightClickItem::click);
+
     }
 
+    @ExpectPlatform
     public static void registerClientLeftClickAir(ClientLeftClickAir clientLeftClickAir) {
-        InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(clientLeftClickAir::click);
+
     }
 
+    @ExpectPlatform
     public static void registerClientRightClickAir(ClientRightClickAir clientRightClickAir) {
-        InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(clientRightClickAir::click);
+
     }
 
+    @ExpectPlatform
     public static void registerInteractEntity(InteractEntity interactEntity) {
-        InteractionEvent.INTERACT_ENTITY.register(interactEntity::interact);
+
     }
 
     // ----
@@ -46,7 +52,7 @@ public class InteractionEventRegistry {
     }
 
     public interface RightClickItem {
-        default ActionResult click(PlayerEntity var1, Hand var2) {
+        default ActionResult click2(PlayerEntity var1, Hand var2) {
             return click(new Player(var1), var2).toActionResult();
         }
 
@@ -71,8 +77,8 @@ public class InteractionEventRegistry {
 
     public interface InteractEntity {
         @SuppressWarnings("deprecation")
-        default dev.architectury.event.EventResult interact(PlayerEntity var1, Entity var2, Hand var3) {
-            return interact(new Player(var1), var2, var3).toEventResult().getResult();
+        default ActionResult interact(PlayerEntity var1, Entity var2, Hand var3) {
+            return interact(new Player(var1), var2, var3).toActionResult();
         }
 
         CompatActionResult interact(Player player, Entity entity, Hand hand);
