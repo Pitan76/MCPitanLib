@@ -10,10 +10,11 @@ import net.pitan76.mcpitanlib.MCPitanLib;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.concurrent.ConcurrentHashMap;
 
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID)
 public class FuelRegistryImpl {
-    private static final Map<Supplier<ItemConvertible>, Integer> FUEL_TIMES = new HashMap<>();
+    private static final Map<Supplier<ItemConvertible>, Integer> FUEL_TIMES = new ConcurrentHashMap<>();
 
     public static void register(int time, Supplier<ItemConvertible> item) {
         FUEL_TIMES.put(item, time);

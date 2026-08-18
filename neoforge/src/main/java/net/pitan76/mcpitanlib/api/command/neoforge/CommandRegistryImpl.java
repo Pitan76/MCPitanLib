@@ -15,13 +15,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Collections;
 
 @SuppressWarnings("deprecation")
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID)
 public class CommandRegistryImpl {
 
-    private static final Map<String, LiteralCommand> commands = new LinkedHashMap<>();
-    private static final List<LiteralArgumentBuilder<ServerCommandSource>> builders = new ArrayList<>();
+    private static final Map<String, LiteralCommand> commands = Collections.synchronizedMap(new LinkedHashMap<>());
+    private static final List<LiteralArgumentBuilder<ServerCommandSource>> builders = new CopyOnWriteArrayList<>();
 
     public static void register(String name, LiteralCommand command) {
         commands.put(name, command);

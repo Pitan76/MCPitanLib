@@ -12,6 +12,7 @@ import net.pitan76.mcpitanlib.core.network.BufPayload;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Collections;
 
 /**
  * NeoForgeではペイロードの登録をRegisterPayloadHandlersEventでまとめて行う必要があるため、
@@ -20,9 +21,9 @@ import java.util.Map;
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID)
 public class PayloadRegistry {
 
-    private static final Map<Identifier, CustomPayload.Id<BufPayload>> TYPES = new LinkedHashMap<>();
-    private static final Map<Identifier, IPayloadHandler<BufPayload>> CLIENT_HANDLERS = new LinkedHashMap<>();
-    private static final Map<Identifier, IPayloadHandler<BufPayload>> SERVER_HANDLERS = new LinkedHashMap<>();
+    private static final Map<Identifier, CustomPayload.Id<BufPayload>> TYPES = Collections.synchronizedMap(new LinkedHashMap<>());
+    private static final Map<Identifier, IPayloadHandler<BufPayload>> CLIENT_HANDLERS = Collections.synchronizedMap(new LinkedHashMap<>());
+    private static final Map<Identifier, IPayloadHandler<BufPayload>> SERVER_HANDLERS = Collections.synchronizedMap(new LinkedHashMap<>());
 
     private static final IPayloadHandler<BufPayload> NOOP = (payload, context) -> {};
 

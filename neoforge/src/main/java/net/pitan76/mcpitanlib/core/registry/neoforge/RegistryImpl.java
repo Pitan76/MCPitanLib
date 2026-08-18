@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collections;
 
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID)
 public class RegistryImpl {
@@ -40,13 +42,16 @@ public class RegistryImpl {
         }
     }
 
-    private static final Map<RegistryKey<? extends Registry<?>>, Map<Identifier, PendingEntry<?>>> PENDING_REGISTRIES = new HashMap<>();
+    // NeoForgeはmodを並列に構築するため、スレッドセーフにする必要がある
+    private static final Map<RegistryKey<? extends Registry<?>>, Map<Identifier, PendingEntry<?>>> PENDING_REGISTRIES = Collections.synchronizedMap(new LinkedHashMap<>());
 
     private static <T> RegistrySupplier<T> register(RegistryKey<Registry<T>> registryKey, Identifier id, Supplier<T> supplier) {
         RegistrySupplier<T> registrySupplier = new RegistrySupplier<>();
 
-        PENDING_REGISTRIES.computeIfAbsent(registryKey, key -> new LinkedHashMap<>())
-                .put(id, new PendingEntry<>(supplier, registrySupplier));
+        synchronized (PENDING_REGISTRIES) {
+            PENDING_REGISTRIES.computeIfAbsent(registryKey, key -> new LinkedHashMap<>())
+                    .put(id, new PendingEntry<>(supplier, registrySupplier));
+        }
 
         return registrySupplier;
     }
@@ -104,7 +109,11 @@ public class RegistryImpl {
     public static void onRegister(RegisterEvent event) {
         RegistryKey<? extends Registry<?>> key = event.getRegistryKey();
 
-        Map<Identifier, PendingEntry<?>> entries = PENDING_REGISTRIES.get(key);
+        Map<Identifier, PendingEntry<?>> entries;
+        synchronized (PENDING_REGISTRIES) {
+            Map<Identifier, PendingEntry<?>> found = PENDING_REGISTRIES.get(key);
+            entries = found == null ? null : new LinkedHashMap<>(found);
+        }
         if (entries == null) return;
 
         for (Map.Entry<Identifier, PendingEntry<?>> mapEntry : entries.entrySet()) {

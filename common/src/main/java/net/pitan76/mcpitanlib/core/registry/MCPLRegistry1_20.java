@@ -14,16 +14,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Deprecated
 public class MCPLRegistry1_20 {
     @Deprecated
-    public static final Map<Identifier, RegistrySupplier<ItemGroup>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new HashMap<>();
+    public static final Map<Identifier, RegistrySupplier<ItemGroup>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new ConcurrentHashMap<>();
 
-    public static final Map<RegistryKey<ItemGroup>, List<Identifier>> ITEM_GROUP_ITEM_ID_CACHE = new LinkedHashMap<>();
+    public static final Map<RegistryKey<ItemGroup>, List<Identifier>> ITEM_GROUP_ITEM_ID_CACHE = Collections.synchronizedMap(new LinkedHashMap<>());
 
     public static void addItemGroupItem(RegistryKey<ItemGroup> key, Identifier itemId) {
-        List<Identifier> ids = ITEM_GROUP_ITEM_ID_CACHE.computeIfAbsent(key, k -> new ArrayList<>());
+        List<Identifier> ids = ITEM_GROUP_ITEM_ID_CACHE.computeIfAbsent(key, k -> new CopyOnWriteArrayList<>());
 
         // 同じアイテムを二重に登録しない (supplierが複数回実行されることがある)
         if (ids.contains(itemId)) return;
