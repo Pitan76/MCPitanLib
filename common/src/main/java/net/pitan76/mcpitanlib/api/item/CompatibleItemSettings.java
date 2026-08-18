@@ -86,9 +86,7 @@ public class CompatibleItemSettings {
 
     public ExtendSettings build() {
         if (itemGroupId != null && _itemId != null) {
-            RegistrySupplier<ItemGroup> itemGroup = MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(itemGroupId);
-            if (itemGroup != null)
-                CreativeTabManager.addItem(itemGroup::get, _itemId);
+            MCPLRegistry1_20.addItemGroupItem(RegistryKey.of(RegistryKeys.ITEM_GROUP, itemGroupId), _itemId);
         }
 
         if (_itemId != null && !(this instanceof net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings)) {

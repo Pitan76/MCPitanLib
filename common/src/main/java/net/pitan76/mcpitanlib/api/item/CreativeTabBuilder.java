@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.CreativeTabRegistry;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -85,16 +85,12 @@ public class CreativeTabBuilder {
      * @return ItemGroup
      */
     public ItemGroup build() {
-        return CreativeTabRegistry.create((builder -> {
-            if (displayName != null) builder.displayName(displayName);
-            else builder.displayName(TextUtil.translatable("itemGroup." + identifier.getNamespace() + "." + identifier.getPath()));
+        return build(identifier, displayName, iconSupplier, noRenderedName, noScrollbar, special, texture);
+    }
 
-            if (iconSupplier != null) builder.icon(iconSupplier);
-            if (noRenderedName) builder.noRenderedName();
-            if (noScrollbar) builder.noScrollbar();
-            if (special) builder.special();
-            if (texture != null) builder.texture(IdentifierUtil.id(texture));
-        }));
+    @ExpectPlatform
+    public static ItemGroup build(Identifier identifier, Text displayName, Supplier<ItemStack> iconSupplier, boolean noRenderedName, boolean noScrollbar, boolean special, String texture) {
+        throw new AssertionError();
     }
 
     @SuppressWarnings("deprecation")
