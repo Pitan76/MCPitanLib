@@ -25,6 +25,7 @@ public class CreativeTabBuilder {
     private boolean noScrollbar = false;
     private boolean special = false;
     private String texture;
+    private ItemGroup builtGroup = null;
 
     @Deprecated
     // Recommend: create(identifier)
@@ -85,7 +86,9 @@ public class CreativeTabBuilder {
      * @return ItemGroup
      */
     public ItemGroup build() {
-        return build(identifier, displayName, iconSupplier, noRenderedName, noScrollbar, special, texture);
+        if (builtGroup != null) return builtGroup;
+        builtGroup = build(identifier, displayName, iconSupplier, noRenderedName, noScrollbar, special, texture);
+        return builtGroup;
     }
 
     @ExpectPlatform

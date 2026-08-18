@@ -9,6 +9,7 @@ import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
 import net.pitan76.mcpitanlib.core.registry.CreativeTabEventRegistry;
 import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,11 +117,20 @@ public class CreativeTabManager {
     private static RegistryKey<ItemGroup> resolveKey(ItemGroup itemGroup) {
         if (itemGroup == null) return null;
 
-        Identifier id;
-        try {
-            id = ItemGroupUtil.toID(itemGroup);
-        } catch (Exception e) {
-            return null;
+        Identifier id = null;
+        for (Map.Entry<Identifier, RegistrySupplier<ItemGroup>> entry : MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.entrySet()) {
+            if (entry.getValue() != null && entry.getValue().getOrNull() == itemGroup) {
+                id = entry.getKey();
+                break;
+            }
+        }
+
+        if (id == null) {
+            try {
+                id = ItemGroupUtil.toID(itemGroup);
+            } catch (Exception e) {
+                return null;
+            }
         }
         if (id == null) return null;
 
