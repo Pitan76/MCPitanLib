@@ -65,6 +65,6 @@ public class RegistryImpl {
     }
 
     public static RegistrySupplier<ChunkTicketType> registryChunkTicketType(Identifier id, Supplier<ChunkTicketType> supplier) {
-        return new RegistrySupplier<>(Registry.register(Registries.TICKET_TYPE, id, supplier.get()));
+        return new RegistrySupplier<>(supplier.get());
     }
 }
