@@ -18,7 +18,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.LoadedEntityModels;
+import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
@@ -41,7 +41,7 @@ import java.util.function.Supplier;
 @Environment(EnvType.CLIENT)
 public class ArchRegistryClient {
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
-        CompatRegistryClient.registerScreen(type, factory::create);
+        CompatRegistryClient.registerScreen(type, (CompatRegistryClient.ScreenFactory<H, S>) factory::create);
     }
 
     public interface ScreenFactory<H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> {
@@ -92,24 +92,20 @@ public class ArchRegistryClient {
     }
 
     public static void registryClientSpriteAtlasTexture(Identifier identifier) {
-        //registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, identifier);
     }
 
     public static void registryClientSpriteAtlasTexture(Sprite sprite) {
-        //registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, sprite);
     }
 
     public static void registryClientSprite(Identifier atlasId, Identifier identifier) {
-        // ～1.19.2
     }
 
     public static void registryClientSprite(Identifier atlasId, Sprite sprite) {
-        // ～1.19.2
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        CompatRegistryClient.registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer()
+        CompatRegistryClient.registerBlockEntityRenderer(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
 
@@ -122,10 +118,10 @@ public class ArchRegistryClient {
             private final BlockRenderManager renderManager;
             private final ItemRenderer itemRenderer;
             private final EntityRenderDispatcher entityRenderDispatcher;
-            private final LoadedEntityModels layerRenderDispatcher;
+            private final EntityModelLoader layerRenderDispatcher;
             private final TextRenderer textRenderer;
 
-            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, LoadedEntityModels layerRenderDispatcher, TextRenderer textRenderer) {
+            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, EntityModelLoader layerRenderDispatcher, TextRenderer textRenderer) {
                 this.renderDispatcher = renderDispatcher;
                 this.renderManager = renderManager;
                 this.itemRenderer = itemRenderer;
@@ -150,7 +146,7 @@ public class ArchRegistryClient {
                 return this.itemRenderer;
             }
 
-            public LoadedEntityModels getLayerRenderDispatcher() {
+            public EntityModelLoader getLayerRenderDispatcher() {
                 return this.layerRenderDispatcher;
             }
 

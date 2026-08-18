@@ -10,7 +10,6 @@ import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
-import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ParticleFactory;
@@ -22,7 +21,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.LoadedEntityModels;
+import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
@@ -63,10 +62,6 @@ public class CompatRegistryClient {
         registerScreen(modId, () -> type, factory);
     }
 
-    /**
-     * NeoForgeではScreenHandlerTypeの生成が遅延されるため、登録時点ではnullのことがある。
-     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
-     */
     @ExpectPlatform
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, ScreenFactory<H, S> factory) {
         throw new AssertionError();
@@ -97,10 +92,6 @@ public class CompatRegistryClient {
         registerParticle(() -> type, factory);
     }
 
-    /**
-     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
-     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
-     */
     @ExpectPlatform
     public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, ParticleFactory<T> factory) {
         throw new AssertionError();
@@ -110,10 +101,6 @@ public class CompatRegistryClient {
         registerParticle(() -> type, provider);
     }
 
-    /**
-     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
-     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
-     */
     @ExpectPlatform
     public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, DeferredParticleProvider<T> provider) {
         throw new AssertionError();
@@ -145,32 +132,24 @@ public class CompatRegistryClient {
     }
 
     public static void registryClientSpriteAtlasTexture(Identifier identifier) {
-        //registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, identifier);
     }
 
     public static void registryClientSpriteAtlasTexture(Sprite sprite) {
-        //registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, sprite);
     }
 
     public static void registryClientSprite(Identifier atlasId, Identifier identifier) {
-        // ～1.19.2
     }
 
     public static void registryClientSprite(Identifier atlasId, Sprite sprite) {
-        // ～1.19.2
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
         registerBlockEntityRenderer(() -> type, provider);
     }
 
-    /**
-     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
-     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
-     */
     public static <T extends BlockEntity> void registerBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> provider) {
         registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer()
+                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
 
@@ -181,16 +160,14 @@ public class CompatRegistryClient {
         class Context {
             private final BlockEntityRenderDispatcher renderDispatcher;
             private final BlockRenderManager renderManager;
-            private final ItemModelManager itemModelManager;
             private final ItemRenderer itemRenderer;
             private final EntityRenderDispatcher entityRenderDispatcher;
-            private final LoadedEntityModels layerRenderDispatcher;
+            private final EntityModelLoader layerRenderDispatcher;
             private final TextRenderer textRenderer;
 
-            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemModelManager itemModelManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, LoadedEntityModels layerRenderDispatcher, TextRenderer textRenderer) {
+            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, EntityModelLoader layerRenderDispatcher, TextRenderer textRenderer) {
                 this.renderDispatcher = renderDispatcher;
                 this.renderManager = renderManager;
-                this.itemModelManager = itemModelManager;
                 this.itemRenderer = itemRenderer;
                 this.entityRenderDispatcher = entityRenderDispatcher;
                 this.layerRenderDispatcher = layerRenderDispatcher;
@@ -209,15 +186,11 @@ public class CompatRegistryClient {
                 return this.entityRenderDispatcher;
             }
 
-            public ItemModelManager getItemModelManager() {
-                return itemModelManager;
-            }
-
             public ItemRenderer getItemRenderer() {
                 return this.itemRenderer;
             }
 
-            public LoadedEntityModels getLayerRenderDispatcher() {
+            public EntityModelLoader getLayerRenderDispatcher() {
                 return this.layerRenderDispatcher;
             }
 
@@ -231,15 +204,10 @@ public class CompatRegistryClient {
         }
     }
 
-
     public static <T extends BlockEntity> void registerBlockEntityRendererRaw(BlockEntityType<T> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T> factory) {
         registerBlockEntityRendererRaw(() -> type, factory);
     }
 
-    /**
-     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
-     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
-     */
     @ExpectPlatform
     public static <T extends BlockEntity> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T> factory) {
         throw new AssertionError();
@@ -263,13 +231,9 @@ public class CompatRegistryClient {
         registerCompatBlockEntityRenderer(() -> type, provider);
     }
 
-    /**
-     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
-     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
-     */
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> provider) {
         registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
-                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemModelManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLoadedEntityModels(), ctx.getTextRenderer()
+                ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
 
@@ -285,13 +249,9 @@ public class CompatRegistryClient {
         registerColorProviderBlock(provider, () -> blocks);
     }
 
-    /**
-     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
-     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
-     */
     @ExpectPlatform
     public static void registerColorProviderBlock(BlockColorProvider provider, Supplier<Block[]> blocks) {
-        throw new AssertionError("This method should be replaced by the platform implementation");
+        throw new AssertionError();
     }
 
     public static void registerColorProviderBlock(CompatBlockColorProvider provider, Block... blocks) {

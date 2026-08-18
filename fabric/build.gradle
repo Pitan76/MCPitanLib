@@ -43,11 +43,7 @@ dependencies {
     modImplementation("net.pitan76:compatdatapacks76-fabric:${rootProject.compatdatapacks76_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modImplementation("net.pitan76:legacyitemmodels-fabric:${rootProject.legacyitemmodels_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
     include("net.pitan76:compatdatapacks76-fabric:${rootProject.compatdatapacks76_version}")
-    include("net.pitan76:legacyitemmodels-fabric:${rootProject.legacyitemmodels_version}")
 }
 
 processResources {
