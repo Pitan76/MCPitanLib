@@ -91,12 +91,6 @@ public class CreativeTabManager {
     }
 
     public static void allRegister() {
-        if (!MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.isEmpty()) {
-            for (Map.Entry<ResourceKey<CreativeModeTab>, List<Identifier>> entry : MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.entrySet()) {
-                CreativeModeTabEventRegistry.addStacks(entry.getKey(), () -> entry.getValue().stream().map(id -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(id)))).toList());
-            }
-        }
-
         if (!bookingItems.isEmpty()) {
             for (BookingItem bookingItem : bookingItems) {
                 CreativeModeTabEventRegistry.addStackLazy(() -> resolveKey(bookingItem.getItemGroupOrNull()), () -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(bookingItem.identifier))));
