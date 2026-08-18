@@ -4,6 +4,8 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -22,10 +24,15 @@ public class CreativeTabEventRegistryImpl {
     }
 
     public static void addStackLazy(Supplier<RegistryKey<ItemGroup>> keySupplier, Supplier<ItemStack> supplier) {
-        // Fabricではアイテムグループが即時登録されるため、その場で解決できる
-        RegistryKey<ItemGroup> key = keySupplier.get();
-        if (key == null) return;
+        // 登録時点ではアイテムグループがまだ登録されていないことがあるため、イベント発火時に解決する
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.register((group, entries) -> {
+            RegistryKey<ItemGroup> key = keySupplier.get();
+            if (key == null) return;
 
-        addStack(key, supplier);
+            Identifier id = ItemGroupUtil.toID(group);
+            if (id == null || !key.getValue().equals(id)) return;
+
+            entries.add(supplier.get());
+        });
     }
 }
