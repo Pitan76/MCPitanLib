@@ -21,14 +21,17 @@ public class CreativeTabEventRegistryImpl {
     public static void addStack(RegistryKey<ItemGroup> key, Supplier<ItemStack> supplier) {
         tabModifiers.add(event -> {
             if (event.getTabKey().equals(key))
-                event.add(supplier.get());
+                add(event, supplier.get());
         });
     }
 
     public static void addStacks(RegistryKey<ItemGroup> key, Supplier<List<ItemStack>> supplier) {
         tabModifiers.add(event -> {
-            if (event.getTabKey().equals(key))
-                event.addAll(supplier.get());
+            if (event.getTabKey().equals(key)) {
+                for (ItemStack stack : supplier.get()) {
+                    add(event, stack);
+                }
+            }
         });
     }
 
@@ -47,9 +50,22 @@ public class CreativeTabEventRegistryImpl {
                 if (key == null) return;
 
                 if (event.getTabKey().equals(key))
-                    event.add(supplier.get());
+                    add(event, supplier.get());
             }
         });
+    }
+
+    /**
+     * NeoForgeは同じItemStackを二重に追加すると例外を投げるため、既に入っている場合は追加しない。
+     * <p>
+     * アイテムのsupplierが複数回実行されるなどして同じ登録が二重に積まれることがある。
+     */
+    private static void add(BuildCreativeModeTabContentsEvent event, ItemStack stack) {
+        if (stack == null || stack.isEmpty()) return;
+        if (event.getParentEntries().contains(stack)) return;
+        if (event.getSearchEntries().contains(stack)) return;
+
+        event.add(stack);
     }
 
     @SubscribeEvent

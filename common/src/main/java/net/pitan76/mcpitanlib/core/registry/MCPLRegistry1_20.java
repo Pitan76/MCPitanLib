@@ -23,7 +23,12 @@ public class MCPLRegistry1_20 {
     public static final Map<RegistryKey<ItemGroup>, List<Identifier>> ITEM_GROUP_ITEM_ID_CACHE = new LinkedHashMap<>();
 
     public static void addItemGroupItem(RegistryKey<ItemGroup> key, Identifier itemId) {
-        ITEM_GROUP_ITEM_ID_CACHE.computeIfAbsent(key, k -> new ArrayList<>()).add(itemId);
+        List<Identifier> ids = ITEM_GROUP_ITEM_ID_CACHE.computeIfAbsent(key, k -> new ArrayList<>());
+
+        // 同じアイテムを二重に登録しない (supplierが複数回実行されることがある)
+        if (ids.contains(itemId)) return;
+
+        ids.add(itemId);
 
         // allRegister()より後にアイテムが生成されるプラットフォームがあるため、ここで即時登録する
         CreativeTabEventRegistry.addStack(key, () -> new ItemStack(ItemUtil.fromId(itemId)));
