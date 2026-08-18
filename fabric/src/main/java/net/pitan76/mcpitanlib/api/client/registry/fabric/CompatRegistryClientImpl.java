@@ -41,20 +41,21 @@ public class CompatRegistryClientImpl {
         HandledScreens.register(type.get(), factory::create);
     }
 
-    public static void registerColorProviderBlock(BlockColorProvider provider, Block... blocks) {
-        if (blocks == null || blocks.length == 0) {
+    public static void registerColorProviderBlock(BlockColorProvider provider, Supplier<Block[]> blocks) {
+        Block[] array = blocks.get();
+        if (array == null || array.length == 0) {
             ColorProviderRegistry.BLOCK.register(provider);
         } else {
-            ColorProviderRegistry.BLOCK.register(provider, blocks);
+            ColorProviderRegistry.BLOCK.register(provider, array);
         }
     }
 
-    public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {
-        ParticleFactoryRegistry.getInstance().register(type, factory);
+    public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, ParticleFactory<T> factory) {
+        ParticleFactoryRegistry.getInstance().register(type.get(), factory);
     }
 
-    public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
-        ParticleFactoryRegistry.getInstance().register(type, (FabricSpriteProvider spriteSet) -> provider.create(new CompatRegistryClient.ExtendedSpriteSet() {
+    public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
+        ParticleFactoryRegistry.getInstance().register(type.get(), (FabricSpriteProvider spriteSet) -> provider.create(new CompatRegistryClient.ExtendedSpriteSet() {
             @Override
             public SpriteAtlasTexture getAtlas() {
                 return spriteSet.getAtlas();
@@ -90,8 +91,8 @@ public class CompatRegistryClientImpl {
         EntityRendererRegistry.register(type.get(), provider);
     }
 
-    public static <T extends BlockEntity, S extends BlockEntityRenderState> void registerBlockEntityRendererRaw(BlockEntityType<T> type, BlockEntityRendererFactory<T, S> factory) {
-        BlockEntityRendererRegistry.register(type, factory);
+    public static <T extends BlockEntity, S extends BlockEntityRenderState> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T, S> factory) {
+        BlockEntityRendererRegistry.register(type.get(), factory);
     }
 
     public static void registerRenderLayerBlock(BlockRenderLayer layer, Block block) {

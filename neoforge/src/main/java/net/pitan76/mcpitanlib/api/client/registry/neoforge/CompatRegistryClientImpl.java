@@ -46,9 +46,9 @@ import java.util.function.Supplier;
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID, value = Dist.CLIENT)
 public class CompatRegistryClientImpl {
 
-    public static Map<BlockColorProvider, Block[]> blockColorProviders = new HashMap<>();
+    public static Map<BlockColorProvider, Supplier<Block[]>> blockColorProviders = new HashMap<>();
 
-    public static void registerColorProviderBlock(BlockColorProvider provider, Block... blocks) {
+    public static void registerColorProviderBlock(BlockColorProvider provider, Supplier<Block[]> blocks) {
         blockColorProviders.put(provider, blocks);
     }
 
@@ -56,9 +56,9 @@ public class CompatRegistryClientImpl {
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
         if (blockColorProviders.isEmpty()) return;
 
-        for (Map.Entry<BlockColorProvider, Block[]> entry : blockColorProviders.entrySet()) {
+        for (Map.Entry<BlockColorProvider, Supplier<Block[]>> entry : blockColorProviders.entrySet()) {
             BlockColorProvider provider = entry.getKey();
-            Block[] blocks = entry.getValue();
+            Block[] blocks = entry.getValue().get();
 
             if (blocks == null || blocks.length == 0) {
                 event.register(provider);
@@ -88,12 +88,12 @@ public class CompatRegistryClientImpl {
 
     private static final List<Consumer<RegisterParticleProvidersEvent>> particles = new ArrayList<>();
 
-    public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {
-        particles.add(event -> event.registerSpecial(type, factory));
+    public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, ParticleFactory<T> factory) {
+        particles.add(event -> event.registerSpecial(type.get(), factory));
     }
 
-    public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
-        particles.add(event -> event.registerSpriteSet(type, spriteSet -> provider.create(wrap(spriteSet))));
+    public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
+        particles.add(event -> event.registerSpriteSet(type.get(), spriteSet -> provider.create(wrap(spriteSet))));
     }
 
     /**
@@ -159,8 +159,8 @@ public class CompatRegistryClientImpl {
         renderers.add(event -> event.registerEntityRenderer(type.get(), provider));
     }
 
-    public static <T extends BlockEntity, S extends BlockEntityRenderState> void registerBlockEntityRendererRaw(BlockEntityType<T> type, BlockEntityRendererFactory<T, S> factory) {
-        renderers.add(event -> event.registerBlockEntityRenderer(type, factory));
+    public static <T extends BlockEntity, S extends BlockEntityRenderState> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T, S> factory) {
+        renderers.add(event -> event.registerBlockEntityRenderer(type.get(), factory));
     }
 
     @SubscribeEvent
