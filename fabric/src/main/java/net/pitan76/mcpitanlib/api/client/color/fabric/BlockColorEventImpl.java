@@ -13,6 +13,10 @@ public class BlockColorEventImpl {
             return ((net.pitan76.mcpitanlib.api.tile.RenderDataBlockEntity) blockEntity).getCompatRenderData();
         }
 
-        return blockEntity.getRenderData();
+        if (blockEntity instanceof net.fabricmc.fabric.api.blockview.v2.RenderDataBlockEntity) {
+            return ((net.fabricmc.fabric.api.blockview.v2.RenderDataBlockEntity) blockEntity).getRenderData();
+        }
+
+        return null;
     }
 }
