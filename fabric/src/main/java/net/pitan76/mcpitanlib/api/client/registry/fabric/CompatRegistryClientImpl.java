@@ -34,16 +34,16 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class CompatRegistryClientImpl {
-    public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, MenuType<? extends H> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
-        MenuScreens.register(type, factory::create);
+    public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, Supplier<MenuType<? extends H>> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
+        MenuScreens.register(type.get(), factory::create);
     }
 
-    public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, ParticleProvider<T> factory) {
-        ParticleProviderRegistry.getInstance().register(type, factory);
+    public static <T extends ParticleOptions> void registerParticle(Supplier<ParticleType<T>> type, ParticleProvider<T> factory) {
+        ParticleProviderRegistry.getInstance().register(type.get(), factory);
     }
 
-    public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.getInstance().register(type, spriteSet -> provider.create(new CompatRegistryClient.ExtendedSpriteSet() {
+    public static <T extends ParticleOptions> void registerParticle(Supplier<ParticleType<T>> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
+        ParticleProviderRegistry.getInstance().register(type.get(), spriteSet -> provider.create(new CompatRegistryClient.ExtendedSpriteSet() {
             @Override
             public TextureAtlas getAtlas() {
                 return spriteSet.getAtlas();
@@ -79,23 +79,24 @@ public class CompatRegistryClientImpl {
         EntityRenderers.register(type.get(), provider);
     }
 
-    public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
-        BlockEntityRenderers.register(type, ctx -> provider.create(new CompatRegistryClient.BlockEntityRendererFactory.Context(
+    public static <T extends BlockEntity> void registerBlockEntityRenderer(Supplier<BlockEntityType<T>> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
+        BlockEntityRenderers.register(type.get(), ctx -> provider.create(new CompatRegistryClient.BlockEntityRendererFactory.Context(
                 ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.sprites(), ctx.playerSkinRenderCache()
         )));
     }
 
-    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new CompatRegistryClient.BlockEntityRendererFactory.Context(
+    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(Supplier<BlockEntityType<T>> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
+        BlockEntityRendererRegistry.register(type.get(), ctx -> provider.create(new CompatRegistryClient.BlockEntityRendererFactory.Context(
                 ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.sprites(), ctx.playerSkinRenderCache()
         )));
     }
 
-    public static void registerColorProviderBlock(List<BlockTintSource> provider, Block... blocks) {
-        if (blocks == null || blocks.length == 0) {
+    public static void registerColorProviderBlock(List<BlockTintSource> provider, Supplier<Block[]> blocks) {
+        Block[] array = blocks.get();
+        if (array == null || array.length == 0) {
             BlockColorRegistry.register(provider);
         } else {
-            BlockColorRegistry.register(provider, blocks);
+            BlockColorRegistry.register(provider, array);
         }
     }
 }

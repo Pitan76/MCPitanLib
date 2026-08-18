@@ -41,18 +41,19 @@ public class CompatRegistryClientImpl {
     private static final List<Consumer<EntityRenderersEvent.RegisterLayerDefinitions>> layerRegistrations = new ArrayList<>();
     private static final List<Consumer<EntityRenderersEvent.RegisterRenderers>> rendererRegistrations = new ArrayList<>();
 
-    public static Map<List<BlockTintSource>, Block[]> blockColorProviders = new HashMap<>();
+    public static Map<List<BlockTintSource>, Supplier<Block[]>> blockColorProviders = new HashMap<>();
 
-    public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, MenuType<? extends H> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
-        screenRegistrations.add(event -> event.register(type, factory::create));
+    public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, Supplier<MenuType<? extends H>> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
+        // イベント発火時に解決する (登録時点ではまだ生成されていない)
+        screenRegistrations.add(event -> event.register(type.get(), factory::create));
     }
 
-    public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, ParticleProvider<T> factory) {
-        particleRegistrations.add(event -> event.registerSpecial(type, factory));
+    public static <T extends ParticleOptions> void registerParticle(Supplier<ParticleType<T>> type, ParticleProvider<T> factory) {
+        particleRegistrations.add(event -> event.registerSpecial(type.get(), factory));
     }
 
-    public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
-        particleRegistrations.add(event -> event.registerSpriteSet(type, spriteSet -> provider.create(new CompatRegistryClient.ExtendedSpriteSet() {
+    public static <T extends ParticleOptions> void registerParticle(Supplier<ParticleType<T>> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
+        particleRegistrations.add(event -> event.registerSpriteSet(type.get(), spriteSet -> provider.create(new CompatRegistryClient.ExtendedSpriteSet() {
             @Override
             public TextureAtlas getAtlas() { return null; }
             @Override
@@ -74,17 +75,17 @@ public class CompatRegistryClientImpl {
         rendererRegistrations.add(event -> event.registerEntityRenderer(type.get(), provider));
     }
 
-    public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
-        rendererRegistrations.add(event -> event.registerBlockEntityRenderer(type, ctx -> provider.create(new CompatRegistryClient.BlockEntityRendererFactory.Context(
+    public static <T extends BlockEntity> void registerBlockEntityRenderer(Supplier<BlockEntityType<T>> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
+        rendererRegistrations.add(event -> event.registerBlockEntityRenderer(type.get(), ctx -> provider.create(new CompatRegistryClient.BlockEntityRendererFactory.Context(
                 ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.sprites(), ctx.playerSkinRenderCache()
         ))));
     }
 
-    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
+    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(Supplier<BlockEntityType<T>> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
         registerBlockEntityRenderer(type, provider);
     }
 
-    public static void registerColorProviderBlock(List<BlockTintSource> provider, Block... blocks) {
+    public static void registerColorProviderBlock(List<BlockTintSource> provider, Supplier<Block[]> blocks) {
         blockColorProviders.put(provider, blocks);
     }
 
@@ -120,9 +121,9 @@ public class CompatRegistryClientImpl {
     public static void onRegisterBlockColors(RegisterColorHandlersEvent.BlockTintSources event){
         if (blockColorProviders.isEmpty()) return;
 
-        for (Map.Entry<List<BlockTintSource>, Block[]> entry : blockColorProviders.entrySet()) {
+        for (Map.Entry<List<BlockTintSource>, Supplier<Block[]>> entry : blockColorProviders.entrySet()) {
             List<BlockTintSource> provider = entry.getKey();
-            Block[] blocks = entry.getValue();
+            Block[] blocks = entry.getValue().get();
 
             if (blocks == null || blocks.length == 0) {
                 event.register(provider);
