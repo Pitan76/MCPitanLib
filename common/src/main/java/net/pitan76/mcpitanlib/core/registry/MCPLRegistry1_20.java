@@ -1,11 +1,15 @@
 package net.pitan76.mcpitanlib.core.registry;
 
 import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -13,6 +17,12 @@ import java.util.function.Supplier;
 public class MCPLRegistry1_20 {
     @Deprecated
     public static final Map<Identifier, RegistrySupplier<ItemGroup>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new HashMap<>();
+
+    public static final Map<RegistryKey<ItemGroup>, List<Identifier>> ITEM_GROUP_ITEM_ID_CACHE = new LinkedHashMap<>();
+
+    public static void addItemGroupItem(RegistryKey<ItemGroup> key, Identifier itemId) {
+        ITEM_GROUP_ITEM_ID_CACHE.computeIfAbsent(key, k -> new ArrayList<>()).add(itemId);
+    }
 
     private final MCPLRegistry mcplr;
 
