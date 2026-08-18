@@ -140,19 +140,35 @@ public class CreativeTabManager {
 
     @Deprecated
     public static void addItem(CreativeModeTab itemGroup, Identifier identifier) {
-        bookingItems.add(new BookingItem(itemGroup, identifier));
+        registerLazy(new BookingItem(itemGroup, identifier));
     }
 
     @Deprecated
     public static void addStack(CreativeModeTab itemGroup, ItemStack stack) {
-        bookingStacks.add(new BookingStack(itemGroup, stack));
+        registerLazy(new BookingStack(itemGroup, stack));
     }
 
     public static void addItem(Supplier<CreativeModeTab> itemGroup, Identifier identifier) {
-        bookingItems.add(new BookingItem(itemGroup, identifier));
+        registerLazy(new BookingItem(itemGroup, identifier));
     }
 
     public static void addStack(Supplier<CreativeModeTab> itemGroup, ItemStack stack) {
-        bookingStacks.add(new BookingStack(itemGroup, stack));
+        registerLazy(new BookingStack(itemGroup, stack));
+    }
+
+    /**
+     * 予約せずその場で遅延登録する。
+     * <p>
+     * NeoForgeではアイテムの生成(=addItemの呼び出し)がallRegister()より後になるため、
+     * 予約を貯めてallRegister()でまとめて登録する方式では登録漏れになる。
+     */
+    private static void registerLazy(BookingItem bookingItem) {
+        CreativeModeTabEventRegistry.addStackLazy(() -> resolveKey(bookingItem.getItemGroupOrNull()),
+                () -> new ItemStack(ItemUtil.fromId(CompatIdentifier.fromMinecraft(bookingItem.identifier))));
+    }
+
+    private static void registerLazy(BookingStack bookingStack) {
+        CreativeModeTabEventRegistry.addStackLazy(() -> resolveKey(bookingStack.getItemGroupOrNull()),
+                () -> bookingStack.stack);
     }
 }

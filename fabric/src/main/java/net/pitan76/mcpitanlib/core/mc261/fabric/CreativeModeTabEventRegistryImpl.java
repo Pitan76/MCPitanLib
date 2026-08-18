@@ -1,9 +1,11 @@
 package net.pitan76.mcpitanlib.core.mc261.fabric;
 
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -18,10 +20,15 @@ public class CreativeModeTabEventRegistryImpl {
     }
 
     public static void addStackLazy(Supplier<ResourceKey<CreativeModeTab>> keySupplier, Supplier<ItemStack> supplier) {
-        // Fabricではアイテムグループが即時登録されるため、その場で解決できる
-        ResourceKey<CreativeModeTab> key = keySupplier.get();
-        if (key == null) return;
+        // 登録時点ではアイテムグループがまだ登録されていないことがあるため、イベント発火時に解決する
+        CreativeModeTabEvents.MODIFY_OUTPUT_ALL.register((group, output) -> {
+            ResourceKey<CreativeModeTab> key = keySupplier.get();
+            if (key == null) return;
 
-        addStack(key, supplier);
+            Identifier id = ItemGroupUtil.toID(group);
+            if (id == null || !key.location().equals(id)) return;
+
+            output.accept(supplier.get());
+        });
     }
 }
