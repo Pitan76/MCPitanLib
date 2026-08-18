@@ -1,13 +1,11 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.item.FoodComponent;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
-import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 
 import java.util.function.Supplier;
 
@@ -22,14 +20,11 @@ public class CompatibleItemSettings {
         return new CompatibleItemSettings();
     }
 
-    // ～1.19.2
     public CompatibleItemSettings addGroup(ItemGroup itemGroup) {
         settings.addGroup(itemGroup);
         return this;
     }
 
-    // 1.19.3～
-    // identifier: Item ID
     public CompatibleItemSettings addGroup(ItemGroup itemGroup, Identifier identifier) {
         settings.addGroup(itemGroup, identifier);
         return this;
@@ -56,7 +51,10 @@ public class CompatibleItemSettings {
     }
 
     public CompatibleItemSettings maxDamageIfAbsent(int maxDamage) {
-        settings.maxDamageIfAbsent(maxDamage);
+        try {
+            settings.maxDamage(maxDamage);
+        } catch (Exception ignored) {}
+
         return this;
     }
 
@@ -77,10 +75,6 @@ public class CompatibleItemSettings {
     }
 
     public ExtendSettings build() {
-        if (itemGroupId != null) {
-            RegistrySupplier<ItemGroup> itemGroup = MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(itemGroupId);
-            settings.arch$tab(itemGroup);
-        }
         return settings;
     }
 

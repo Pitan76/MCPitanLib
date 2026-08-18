@@ -1,0 +1,33 @@
+package net.pitan76.mcpitanlib.core.registry.neoforge;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.pitan76.mcpitanlib.MCPitanLib;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
+@EventBusSubscriber(modid = MCPitanLib.MOD_ID)
+public class FuelRegistryImpl {
+    private static final Map<Supplier<ItemConvertible>, Integer> FUEL_TIMES = new HashMap<>();
+
+    public static void register(int time, Supplier<ItemConvertible> item) {
+        FUEL_TIMES.put(item, time);
+    }
+
+    @SubscribeEvent
+    public static void onFurnaceFuelBurnTime(FurnaceFuelBurnTimeEvent event) {
+        Item item = event.getItemStack().getItem();
+        for (Map.Entry<Supplier<ItemConvertible>, Integer> entry : FUEL_TIMES.entrySet()) {
+            ItemConvertible itemConvertible = entry.getKey().get();
+            if (itemConvertible != null && itemConvertible.asItem().equals(item)) {
+                event.setBurnTime(entry.getValue());
+                break;
+            }
+        }
+    }
+}
