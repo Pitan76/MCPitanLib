@@ -36,7 +36,12 @@ public class GuiRegistry {
 
     @Environment(EnvType.CLIENT)
     public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, MenuType<T> type) {
-        CompatRegistryClient.registerScreen(id, type, new CompatRegistryClient.ScreenFactory2<>() {
+        registerSimpleContainerGui(id, () -> type);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, Supplier<MenuType<T>> type) {
+        CompatRegistryClient.registerScreen(id, () -> type.get(), new CompatRegistryClient.ScreenFactory2<>() {
             @Override
             public SimpleContainerGuiScreen create(SimpleContainerGui handler, CompatPlayerInventory inventory, TextComponent text) {
                 return new SimpleContainerGuiScreen(handler, inventory, text);
@@ -46,22 +51,22 @@ public class GuiRegistry {
 
     @Environment(EnvType.CLIENT)
     public static <T extends AbstractContainerMenu, U extends Screen & MenuAccess<T>> void register(String id, SupplierResult<MenuType<T>> type, CompatRegistryClient.ScreenFactory<T, U> factory) {
-        register(id, type.get(), factory);
+        CompatRegistryClient.registerScreen(id, () -> type.get(), factory);
     }
 
     @Environment(EnvType.CLIENT)
     public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, SupplierResult<MenuType<T>> type) {
-        registerSimpleContainerGui(id, type.get());
+        registerSimpleContainerGui(id, () -> type.get());
     }
 
     @Environment(EnvType.CLIENT)
     public static <T extends AbstractContainerMenu, U extends Screen & MenuAccess<T>> void register(String id, SupplierTypedScreenHandlerTypeWrapper<T> type, CompatRegistryClient.ScreenFactory<T, U> factory) {
-        register(id, type.get(), factory);
+        CompatRegistryClient.registerScreen(id, () -> type.get(), factory);
     }
 
     @Environment(EnvType.CLIENT)
     public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, SupplierTypedScreenHandlerTypeWrapper<T> type) {
-        registerSimpleContainerGui(id, type.get());
+        registerSimpleContainerGui(id, () -> type.get());
     }
 
     public static <T extends AbstractContainerMenu> SupplierResult<MenuType<T>> register(CompatRegistryV2 registry, CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {

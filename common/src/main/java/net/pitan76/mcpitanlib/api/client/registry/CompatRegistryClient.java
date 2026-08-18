@@ -61,12 +61,24 @@ public class CompatRegistryClient {
         registerScreen(MCPitanLib.MOD_ID, type, factory);
     }
 
-    @ExpectPlatform
     public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, MenuType<? extends H> type, ScreenFactory<H, S> factory) {
+        registerScreen(modId, () -> type, factory);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, Supplier<MenuType<? extends H>> type, ScreenFactory<H, S> factory) {
         throw new AssertionError();
     }
 
     public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & MenuAccess<H>> void registerScreen(String modId, MenuType<? extends H> type, ScreenFactory2<H, S> factory) {
+        registerScreen(modId, type, (ScreenFactory<H, S>) factory);
+    }
+
+    public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & MenuAccess<H>> void registerScreen(String modId, Supplier<MenuType<? extends H>> type, ScreenFactory2<H, S> factory) {
         registerScreen(modId, type, (ScreenFactory<H, S>) factory);
     }
 
@@ -83,13 +95,29 @@ public class CompatRegistryClient {
         S create(H handler, CompatPlayerInventory inventory, TextComponent text);
     }
 
-    @ExpectPlatform
     public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, ParticleProvider<T> factory) {
+        registerParticle(() -> type, factory);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <T extends ParticleOptions> void registerParticle(Supplier<ParticleType<T>> type, ParticleProvider<T> factory) {
         throw new AssertionError();
     }
 
-    @ExpectPlatform
     public static <T extends ParticleOptions> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
+        registerParticle(() -> type, provider);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <T extends ParticleOptions> void registerParticle(Supplier<ParticleType<T>> type, DeferredParticleProvider<T> provider) {
         throw new AssertionError();
     }
 
@@ -130,8 +158,16 @@ public class CompatRegistryClient {
         // ～1.19.2
     }
 
-    @ExpectPlatform
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
+        registerBlockEntityRenderer(() -> type, provider);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <T extends BlockEntity> void registerBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
         throw new AssertionError();
     }
 
@@ -234,8 +270,16 @@ public class CompatRegistryClient {
         registerRenderTypeBlock(RenderTypes.cutoutMovingBlock(), block);
     }
 
-    @ExpectPlatform
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
+        registerCompatBlockEntityRenderer(() -> type, provider);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
 
     }
 
@@ -247,8 +291,16 @@ public class CompatRegistryClient {
         registerRenderTypeFluid(layer.layer, fluid);
     }
 
-    @ExpectPlatform
     public static void registerColorProviderBlock(List<BlockTintSource> provider, Block... blocks) {
+        registerColorProviderBlock(provider, () -> blocks);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static void registerColorProviderBlock(List<BlockTintSource> provider, Supplier<Block[]> blocks) {
         throw new AssertionError();
     }
 
