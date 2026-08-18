@@ -28,13 +28,6 @@ versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.mcpitanlib]]
-modId = "architectury"
-type = "required"
-versionRange = "[19.0.0,)"
-ordering = "NONE"
-side = "BOTH"
-
 [[mixins]]
 config = "mcpitanlib-common.mixins.json"
 
