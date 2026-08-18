@@ -91,14 +91,6 @@ public class CreativeTabManager {
     }
 
     public static void allRegister() {
-        if (!MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.isEmpty()) {
-            for (Map.Entry<RegistryKey<ItemGroup>, List<Identifier>> entry : MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.entrySet()) {
-                CreativeTabEventRegistry.addStacks(entry.getKey(),
-                        () -> entry.getValue().stream().map(id -> new ItemStack(ItemUtil.fromId(id))).collect(Collectors.toList()));
-            }
-            MCPLRegistry1_20.ITEM_GROUP_ITEM_ID_CACHE.clear();
-        }
-
         if (!bookingItems.isEmpty()) {
             for (BookingItem bookingItem : bookingItems) {
                 CreativeTabEventRegistry.addStackLazy(() -> resolveKey(bookingItem.getItemGroupOrNull()),

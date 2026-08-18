@@ -1,9 +1,11 @@
 package net.pitan76.mcpitanlib.core.registry;
 
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
 import java.util.ArrayList;
@@ -22,6 +24,9 @@ public class MCPLRegistry1_20 {
 
     public static void addItemGroupItem(RegistryKey<ItemGroup> key, Identifier itemId) {
         ITEM_GROUP_ITEM_ID_CACHE.computeIfAbsent(key, k -> new ArrayList<>()).add(itemId);
+
+        // allRegister()より後にアイテムが生成されるプラットフォームがあるため、ここで即時登録する
+        CreativeTabEventRegistry.addStack(key, () -> new ItemStack(ItemUtil.fromId(itemId)));
     }
 
     private final MCPLRegistry mcplr;
