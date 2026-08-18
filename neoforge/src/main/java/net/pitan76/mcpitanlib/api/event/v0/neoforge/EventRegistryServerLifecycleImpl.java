@@ -13,18 +13,19 @@ import net.pitan76.mcpitanlib.api.event.v0.EventRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID)
 public class EventRegistryServerLifecycleImpl {
 
-    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStartedListeners = new ArrayList<>();
-    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStartingListeners = new ArrayList<>();
-    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStoppedListeners = new ArrayList<>();
-    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStoppingListeners = new ArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStartedListeners = new CopyOnWriteArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStartingListeners = new CopyOnWriteArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStoppedListeners = new CopyOnWriteArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStoppingListeners = new CopyOnWriteArrayList<>();
 
-    private static final List<EventRegistry.ServerLifecycle.ServerWorldState> worldLoadListeners = new ArrayList<>();
-    private static final List<EventRegistry.ServerLifecycle.ServerWorldState> worldSaveListeners = new ArrayList<>();
-    private static final List<EventRegistry.ServerLifecycle.ServerWorldState> worldUnloadListeners = new ArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerWorldState> worldLoadListeners = new CopyOnWriteArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerWorldState> worldSaveListeners = new CopyOnWriteArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerWorldState> worldUnloadListeners = new CopyOnWriteArrayList<>();
 
     public static void serverStarted(EventRegistry.ServerLifecycle.ServerState state) {
         serverStartedListeners.add(state);

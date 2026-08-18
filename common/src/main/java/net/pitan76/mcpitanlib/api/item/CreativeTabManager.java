@@ -15,10 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CreativeTabManager {
-    private static List<BookingItem> bookingItems = new ArrayList<>();
-    private static List<BookingStack> bookingStacks = new ArrayList<>();
+    private static List<BookingItem> bookingItems = new CopyOnWriteArrayList<>();
+    private static List<BookingStack> bookingStacks = new CopyOnWriteArrayList<>();
 
     // グループ予約済みアイテム
     public static class BookingItem {

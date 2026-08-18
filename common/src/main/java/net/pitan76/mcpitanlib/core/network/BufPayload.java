@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BufPayload implements CustomPayload {
 
@@ -35,7 +36,7 @@ public class BufPayload implements CustomPayload {
         return data;
     }
 
-    private static final Map<Id<BufPayload>, PacketCodec<PacketByteBuf, BufPayload>> CODEC_CACHE = new HashMap<>();
+    private static final Map<Id<BufPayload>, PacketCodec<PacketByteBuf, BufPayload>> CODEC_CACHE = new ConcurrentHashMap<>();
 
     public static PacketCodec<PacketByteBuf, BufPayload> getCodec(Id<BufPayload> id) {
         if (CODEC_CACHE.containsKey(id)) return CODEC_CACHE.get(id);

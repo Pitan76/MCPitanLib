@@ -9,12 +9,13 @@ import net.pitan76.mcpitanlib.api.event.v0.EventRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID)
 public class ServerConnectionEventImpl {
 
-    private static final List<EventRegistry.ServerConnection.PlayerJoin> joinListeners = new ArrayList<>();
-    private static final List<EventRegistry.ServerConnection.PlayerQuit> quitListeners = new ArrayList<>();
+    private static final List<EventRegistry.ServerConnection.PlayerJoin> joinListeners = new CopyOnWriteArrayList<>();
+    private static final List<EventRegistry.ServerConnection.PlayerQuit> quitListeners = new CopyOnWriteArrayList<>();
 
     public static void join(EventRegistry.ServerConnection.PlayerJoin state) {
         joinListeners.add(state);
