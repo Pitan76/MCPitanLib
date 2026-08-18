@@ -72,8 +72,9 @@ public class CompatRegistryClientImpl {
 
     private static final List<Consumer<RegisterMenuScreensEvent>> screens = new ArrayList<>();
 
-    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
-        screens.add(event -> event.register(type, factory::create));
+    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
+        // イベント発火時に解決する (登録時点ではまだ生成されていない)
+        screens.add(event -> event.register(type.get(), factory::create));
     }
 
     @SubscribeEvent

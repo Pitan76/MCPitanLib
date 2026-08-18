@@ -63,12 +63,24 @@ public class CompatRegistryClient {
         registerScreen(MCPitanLib.MOD_ID, type, factory);
     }
 
-    @ExpectPlatform
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
+        registerScreen(modId, () -> type, factory);
+    }
+
+    /**
+     * NeoForgeではScreenHandlerTypeの生成が遅延されるため、登録時点ではnullのことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, ScreenFactory<H, S> factory) {
         throw new AssertionError();
     }
 
     public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory2<H, S> factory) {
+        registerScreen(modId, type, (ScreenFactory<H, S>) factory);
+    }
+
+    public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, ScreenFactory2<H, S> factory) {
         registerScreen(modId, type, (ScreenFactory<H, S>) factory);
     }
 

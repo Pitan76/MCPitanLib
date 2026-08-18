@@ -37,8 +37,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class CompatRegistryClientImpl {
-    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
-        HandledScreens.register(type, factory::create);
+    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
+        HandledScreens.register(type.get(), factory::create);
     }
 
     public static void registerColorProviderBlock(BlockColorProvider provider, Block... blocks) {
