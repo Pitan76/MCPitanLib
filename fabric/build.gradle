@@ -115,13 +115,14 @@ publishing {
 }
 
 tasks.runClient.doFirst {
-    def from = new File("../common/src/main/resources/mcpitanlib.accesswidener")
-    def to = new File("src/main/resources/mcpitanlib.accesswidener")
+    def from = rootProject.file("common/src/main/resources/mcpitanlib.accesswidener")
+    def to = project.file("src/main/resources/mcpitanlib.accesswidener")
+    to.parentFile.mkdirs()
     to.bytes = from.bytes
 }
 
-tasks.remapJar.doFirst {
-    if (file("src/main/resources/mcpitanlib.accesswidener").exists()) {
-        delete file("src/main/resources/mcpitanlib.accesswidener")
+tasks.jar.doFirst {
+    if (project.file("src/main/resources/mcpitanlib.accesswidener").exists()) {
+        delete project.file("src/main/resources/mcpitanlib.accesswidener")
     }
 }
