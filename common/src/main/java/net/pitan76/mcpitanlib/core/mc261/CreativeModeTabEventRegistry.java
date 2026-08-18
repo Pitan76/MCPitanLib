@@ -18,4 +18,13 @@ public class CreativeModeTabEventRegistry {
     public static void addStacks(ResourceKey<CreativeModeTab> key, Supplier<List<ItemStack>> supplier) {
         throw new AssertionError();
     }
+
+    /**
+     * アイテムグループのキーを遅延解決して登録する。
+     * NeoForgeではアイテムグループの登録が遅延されるため、登録時点ではキーを解決できないことがある。
+     */
+    @ExpectPlatform
+    public static void addStackLazy(Supplier<ResourceKey<CreativeModeTab>> keySupplier, Supplier<ItemStack> supplier) {
+        throw new AssertionError();
+    }
 }

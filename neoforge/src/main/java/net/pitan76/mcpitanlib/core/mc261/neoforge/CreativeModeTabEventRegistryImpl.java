@@ -39,4 +39,24 @@ public class CreativeModeTabEventRegistryImpl {
             modifier.accept(event);
         }
     }
+
+    public static void addStackLazy(Supplier<ResourceKey<CreativeModeTab>> keySupplier, Supplier<ItemStack> supplier) {
+        // キーはイベント発火時に一度だけ解決する (登録時点ではアイテムグループが未登録の可能性があるため)
+        tabModifiers.add(new Consumer<BuildCreativeModeTabContentsEvent>() {
+            private ResourceKey<CreativeModeTab> key;
+            private boolean resolved = false;
+
+            @Override
+            public void accept(BuildCreativeModeTabContentsEvent event) {
+                if (!resolved) {
+                    key = keySupplier.get();
+                    resolved = true;
+                }
+                if (key == null) return;
+
+                if (event.getTabKey().equals(key))
+                    event.accept(supplier.get());
+            }
+        });
+    }
 }
