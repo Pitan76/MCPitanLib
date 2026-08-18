@@ -20,7 +20,7 @@ public class AttackEntityEventRegistry {
 
     public interface AttackEntity {
         default ActionResult attack(PlayerEntity player, World level, Hand hand, Entity target, @Nullable EntityHitResult result) {
-            return attack(new Player(player), level, target, hand, result).toActionResult();
+            return attack(new Player(player), level, target, hand, result).toEventResult().toActionResult();
         }
 
         CompatActionResult attack(Player player, World level, Entity target, Hand hand, @Nullable EntityHitResult result);
