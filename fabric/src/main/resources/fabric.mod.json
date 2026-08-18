@@ -36,6 +36,7 @@
   "accessWidener": "mcpitanlib.accesswidener",
   "depends": {
     "minecraft": ">1.20.6",
-    "fabricloader": "*"
+    "fabricloader": "*",
+    "fabric-api": "*"
   }
 }
