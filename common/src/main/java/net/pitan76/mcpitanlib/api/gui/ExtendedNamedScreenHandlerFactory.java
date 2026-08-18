@@ -7,12 +7,11 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.core.screen.ExtendedMenuProvider;
 import org.jetbrains.annotations.Nullable;
 
 @Deprecated
-public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider<PacketByteBuf> {
+public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider {
 
     private final Text name;
     private final ScreenHandlerFactory baseFactory;
@@ -29,10 +28,8 @@ public class ExtendedNamedScreenHandlerFactory implements ExtendedMenuProvider<P
     }
 
     @Override
-    public PacketByteBuf getScreenOpeningData(ServerPlayerEntity player) {
-        PacketByteBuf buf = PacketByteUtil.create();
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         saveExtraData(buf);
-        return buf;
     }
 
     @Override

@@ -110,7 +110,7 @@ publishing {
     }
 }
 
-tasks.runClient.doFirst {
+processResources.doFirst {
     def from = rootProject.file("common/src/main/resources/mcpitanlib.accesswidener")
     def to = project.file("src/main/resources/mcpitanlib.accesswidener")
     to.parentFile.mkdirs()

@@ -4,9 +4,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.neoforge.event.TickEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.event.v0.ClientTickEventRegistry;
 
@@ -39,36 +38,30 @@ public class ClientTickEventRegistryImpl {
     }
 
     @SubscribeEvent
-    public static void onClientTickPre(ClientTickEvent.Pre event) {
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
         MinecraftClient mc = MinecraftClient.getInstance();
-        for (ClientTickEventRegistry.Client listener : preClients) {
-            listener.tick(mc);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onClientTickPost(ClientTickEvent.Post event) {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        for (ClientTickEventRegistry.Client listener : postClients) {
-            listener.tick(mc);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onLevelTickPre(LevelTickEvent.Pre event) {
-        // LevelTickEventはサーバー側のワールドでも発火するため、クライアントワールドかどうかの判定が必須
-        if (event.getLevel() instanceof ClientWorld clientWorld) {
-            for (ClientTickEventRegistry.ClientLevel listener : preLevels) {
-                listener.tick(clientWorld);
+        if (event.phase == TickEvent.Phase.START) {
+            for (ClientTickEventRegistry.Client listener : preClients) {
+                listener.tick(mc);
+            }
+        } else if (event.phase == TickEvent.Phase.END) {
+            for (ClientTickEventRegistry.Client listener : postClients) {
+                listener.tick(mc);
             }
         }
     }
 
     @SubscribeEvent
-    public static void onLevelTickPost(LevelTickEvent.Post event) {
-        if (event.getLevel() instanceof ClientWorld clientWorld) {
-            for (ClientTickEventRegistry.ClientLevel listener : postLevels) {
-                listener.tick(clientWorld);
+    public static void onLevelTick(TickEvent.LevelTickEvent event) {
+        if (event.level instanceof ClientWorld clientWorld) {
+            if (event.phase == TickEvent.Phase.START) {
+                for (ClientTickEventRegistry.ClientLevel listener : preLevels) {
+                    listener.tick(clientWorld);
+                }
+            } else if (event.phase == TickEvent.Phase.END) {
+                for (ClientTickEventRegistry.ClientLevel listener : postLevels) {
+                    listener.tick(clientWorld);
+                }
             }
         }
     }

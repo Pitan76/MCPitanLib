@@ -11,7 +11,7 @@ public class MenuOpener {
      * 呼び出し側はローダーの違いを意識しなくてよい。
      */
     @ExpectPlatform
-    public static void openExtendedMenu(ServerPlayerEntity player, ExtendedMenuProvider<?> provider) {
+    public static void openExtendedMenu(ServerPlayerEntity player, ExtendedMenuProvider provider) {
 
     }
 }

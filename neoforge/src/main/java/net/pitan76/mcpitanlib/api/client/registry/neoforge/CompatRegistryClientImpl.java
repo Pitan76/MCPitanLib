@@ -26,7 +26,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.math.random.Random;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -44,7 +44,7 @@ import java.util.function.Supplier;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
-@EventBusSubscriber(modid = MCPitanLib.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = MCPitanLib.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class CompatRegistryClientImpl {
 
     public static Map<BlockColorProvider, Supplier<Block[]>> blockColorProviders = new ConcurrentHashMap<>();

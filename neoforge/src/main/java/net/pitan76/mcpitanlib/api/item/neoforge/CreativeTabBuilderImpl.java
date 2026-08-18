@@ -4,7 +4,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
 import java.util.function.Supplier;
@@ -21,7 +20,7 @@ public class CreativeTabBuilderImpl {
         if (noRenderedName) builder.noRenderedName();
         if (noScrollbar) builder.noScrollbar();
         if (special) builder.special();
-        if (texture != null) builder.texture(IdentifierUtil.id(texture));
+        if (texture != null) builder.texture(texture);
 
         return builder.build();
     }

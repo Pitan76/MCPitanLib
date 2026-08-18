@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.core.registry.fabric;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.component.ComponentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
@@ -12,7 +11,6 @@ import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
@@ -58,13 +56,5 @@ public class RegistryImpl {
 
     public static RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
         return new RegistrySupplier<>(Registry.register(Registries.ITEM_GROUP, id, supplier.get()));
-    }
-
-    public static RegistrySupplier<ComponentType<?>> registryDataComponentType(Identifier id, Supplier<ComponentType<?>> supplier) {
-        return new RegistrySupplier<>(Registry.register(Registries.DATA_COMPONENT_TYPE, id, supplier.get()));
-    }
-
-    public static RegistrySupplier<ChunkTicketType> registryChunkTicketType(Identifier id, Supplier<ChunkTicketType> supplier) {
-        return new RegistrySupplier<>(supplier.get());
     }
 }

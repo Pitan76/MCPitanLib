@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.core.registry;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.component.ComponentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
@@ -11,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
@@ -67,16 +65,6 @@ public class Registry {
 
     @ExpectPlatform
     public static RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static RegistrySupplier<ComponentType<?>> registryDataComponentType(Identifier id, Supplier<ComponentType<?>> supplier) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static RegistrySupplier<ChunkTicketType> registryChunkTicketType(Identifier id, Supplier<ChunkTicketType> supplier) {
         throw new AssertionError();
     }
 }

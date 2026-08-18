@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.core.registry.neoforge;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.component.ComponentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
@@ -13,11 +12,10 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
@@ -29,7 +27,7 @@ import java.util.function.Supplier;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Collections;
 
-@EventBusSubscriber(modid = MCPitanLib.MOD_ID)
+@EventBusSubscriber(modid = MCPitanLib.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class RegistryImpl {
 
     private static class PendingEntry<T> {
@@ -42,7 +40,6 @@ public class RegistryImpl {
         }
     }
 
-    // NeoForgeはmodを並列に構築するため、スレッドセーフにする必要がある
     private static final Map<RegistryKey<? extends Registry<?>>, Map<Identifier, PendingEntry<?>>> PENDING_REGISTRIES = Collections.synchronizedMap(new LinkedHashMap<>());
 
     private static <T> RegistrySupplier<T> register(RegistryKey<Registry<T>> registryKey, Identifier id, Supplier<T> supplier) {
@@ -94,14 +91,6 @@ public class RegistryImpl {
 
     public static RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
         return register(RegistryKeys.ITEM_GROUP, id, supplier);
-    }
-
-    public static RegistrySupplier<ComponentType<?>> registryDataComponentType(Identifier id, Supplier<ComponentType<?>> supplier) {
-        return register(RegistryKeys.DATA_COMPONENT_TYPE, id, supplier);
-    }
-
-    public static RegistrySupplier<ChunkTicketType> registryChunkTicketType(Identifier id, Supplier<ChunkTicketType> supplier) {
-        return new RegistrySupplier<>(supplier.get());
     }
 
     @SubscribeEvent

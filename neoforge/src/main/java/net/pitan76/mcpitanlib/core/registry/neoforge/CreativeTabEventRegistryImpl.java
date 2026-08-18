@@ -4,7 +4,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 
@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@EventBusSubscriber(modid = MCPitanLib.MOD_ID)
+@EventBusSubscriber(modid = MCPitanLib.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class CreativeTabEventRegistryImpl {
 
     private static final List<Consumer<BuildCreativeModeTabContentsEvent>> tabModifiers = new CopyOnWriteArrayList<>();
@@ -63,8 +63,6 @@ public class CreativeTabEventRegistryImpl {
      */
     private static void add(BuildCreativeModeTabContentsEvent event, ItemStack stack) {
         if (stack == null || stack.isEmpty()) return;
-        if (event.getParentEntries().contains(stack)) return;
-        if (event.getSearchEntries().contains(stack)) return;
 
         event.add(stack);
     }

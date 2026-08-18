@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.event.v1.neoforge;
 
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.event.v1.LivingHurtEventRegistry;
 
@@ -20,7 +20,7 @@ public class LivingHurtEventRegistryImpl {
     }
 
     @SubscribeEvent
-    public static void onLivingHurt(LivingIncomingDamageEvent event) {
+    public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity().getWorld().isClient()) return;
 
         for (LivingHurtEventRegistry.LivingHurt listener : listeners) {

@@ -43,8 +43,12 @@ public class BlockEntityTypeBuilder<T extends BlockEntity> {
         return build(null);
     }
 
-    @ExpectPlatform
     public BlockEntityType<T> build(Type<?> type) {
+        return build(this, type);
+    }
+
+    @ExpectPlatform
+    public static <T extends BlockEntity> BlockEntityType<T> build(BlockEntityTypeBuilder<T> builder, Type<?> type) {
         throw new AssertionError();
     }
 

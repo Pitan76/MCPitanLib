@@ -2,7 +2,7 @@ package net.pitan76.mcpitanlib.api.client.event.neoforge;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.event.listener.ItemTooltipListener;
@@ -22,7 +22,7 @@ public class ItemTooltipRegistryImpl {
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
         for (ItemTooltipListener listener : listeners) {
-            listener.onTooltip(event.getItemStack(), event.getToolTip(), event.getContext(), event.getFlags());
+            listener.onTooltip(event.getItemStack(), event.getToolTip(), event.getFlags());
         }
     }
 }

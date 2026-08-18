@@ -39,7 +39,7 @@ public class ScreenHandlerUtil {
     }
 
     public static void openExtendedMenu(ServerPlayerEntity player, NamedScreenHandlerFactory provider, Consumer<PacketByteBuf> bufWriter) {
-        MenuOpener.openExtendedMenu(player, new ExtendedMenuProvider<PacketByteBuf>() {
+        MenuOpener.openExtendedMenu(player, new ExtendedMenuProvider() {
             @Nullable
             @Override
             public ScreenHandler createMenu(int syncId, PlayerInventory inventory, PlayerEntity player) {
@@ -52,15 +52,13 @@ public class ScreenHandlerUtil {
             }
 
             @Override
-            public PacketByteBuf getScreenOpeningData(ServerPlayerEntity player) {
-                PacketByteBuf buf = PacketByteUtil.create();
+            public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
                 bufWriter.accept(buf);
-                return buf;
             }
         });
     }
 
-    public static void openExtendedMenu(ServerPlayerEntity player, ExtendedMenuProvider<?> provider) {
+    public static void openExtendedMenu(ServerPlayerEntity player, ExtendedMenuProvider provider) {
         MenuOpener.openExtendedMenu(player, provider);
     }
 
