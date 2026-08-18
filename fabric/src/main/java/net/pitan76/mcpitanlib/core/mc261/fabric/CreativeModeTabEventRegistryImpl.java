@@ -26,7 +26,7 @@ public class CreativeModeTabEventRegistryImpl {
             if (key == null) return;
 
             Identifier id = ItemGroupUtil.toID(group);
-            if (id == null || !key.location().equals(id)) return;
+            if (id == null || !key.identifier().equals(id)) return;
 
             output.accept(supplier.get());
         });
