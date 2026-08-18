@@ -1,6 +1,11 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import dev.architectury.registry.menu.MenuRegistry;
+import dev.architectury.injectables.annotations.ExpectPlatform;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
+import io.netty.buffer.Unpooled;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
@@ -24,12 +29,21 @@ public class ExtendedScreenHandlerTypeBuilder<T extends ScreenHandler> {
         this.factory = factory;
     }
 
+    public static PacketCodec<ByteBuf, PacketByteBuf> CODEC = PacketCodecs.BYTE_ARRAY.xmap(
+            (data) -> new PacketByteBuf(Unpooled.wrappedBuffer(data)),
+            (buf) -> ByteBufUtil.getBytes(buf.unwrap()));
+
     public ScreenHandlerType<T> build() {
-        return MenuRegistry.ofExtended(factory::create);
+        return build(factory);
+    }
+
+    @ExpectPlatform
+    public static <T extends ScreenHandler> ScreenHandlerType<T> build(Factory<T> factory) {
+        throw new AssertionError();
     }
 
     public TypedScreenHandlerTypeWrapper<T> buildWrapper() {
-        return TypedScreenHandlerTypeWrapper.ofRaw(build());
+        return TypedScreenHandlerTypeWrapper.ofRaw(build(factory));
     }
 
     @FunctionalInterface
