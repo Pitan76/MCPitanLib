@@ -11,10 +11,8 @@ public class FuelRegistry {
     private static final Map<String, Map<Supplier<ItemLike>, Integer>> FUEL_MAP = new HashMap<>();
 
     public static void register(Supplier<ItemLike> itemSupplier, int time, String namespace) {
-        Map<Supplier<ItemLike>, Integer> map = new HashMap<>();
-        map.put(itemSupplier, time);
-
-        FUEL_MAP.put(namespace, map);
+        // 同じnamespaceに複数登録できるようマージする
+        FUEL_MAP.computeIfAbsent(namespace, k -> new HashMap<>()).put(itemSupplier, time);
     }
 
     @Deprecated
