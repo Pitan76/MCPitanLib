@@ -1,4 +1,4 @@
-package net.pitan76.mcpitanlib.api.tile.fabric;
+package net.pitan76.mcpitanlib.api.tile.neoforge;
 
 import com.mojang.datafixers.types.Type;
 import net.minecraft.block.Block;

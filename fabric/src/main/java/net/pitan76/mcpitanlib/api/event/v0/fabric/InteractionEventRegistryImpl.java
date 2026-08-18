@@ -19,7 +19,10 @@ public class InteractionEventRegistryImpl {
     }
 
     public static void registerRightClickItem(RightClickItem rightClickItem) {
-        UseItemCallback.EVENT.register((player, world, hand) -> rightClickItem.click2(player, hand));
+        UseItemCallback.EVENT.register((player, world, hand) -> {
+            net.minecraft.util.ActionResult result = rightClickItem.click2(player, hand);
+            return new net.minecraft.util.TypedActionResult<>(result, player.getStackInHand(hand));
+        });
     }
 
     @Environment(EnvType.CLIENT)

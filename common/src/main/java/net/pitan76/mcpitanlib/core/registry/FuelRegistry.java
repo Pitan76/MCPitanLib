@@ -24,17 +24,22 @@ public class FuelRegistry {
         }
     }
 
-    @Deprecated
+    @ExpectPlatform
     public static int get(ItemStack stack) {
-        return 0;
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isFuel(ItemStack stack) {
+        throw new AssertionError();
     }
 
     public static int get(World world, ItemStack stack) {
-        return world.getFuelRegistry().getFuelTicks(stack);
+        return get(stack);
     }
 
     public static boolean isFuel(World world, ItemStack stack) {
-        return world.getFuelRegistry().isFuel(stack);
+        return isFuel(stack);
     }
 
     public static void register(int time, ItemWrapper item) {

@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.tile.v2;
 
 import com.mojang.datafixers.types.Type;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -13,8 +14,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class BlockEntityTypeBuilder<T extends BlockEntity> extends net.pitan76.mcpitanlib.api.tile.BlockEntityTypeBuilder<T> {
-    private final Factory<? extends T> factory;
-    private final Consumer<List<Block>> consumer;
+    public final Factory<? extends T> factory;
+    public final Consumer<List<Block>> consumer;
 
     public BlockEntityTypeBuilder(Factory<? extends T> factory, Consumer<List<Block>> blocks) {
         super(null, null);
@@ -68,11 +69,8 @@ public class BlockEntityTypeBuilder<T extends BlockEntity> extends net.pitan76.m
         return build(null);
     }
 
+    @ExpectPlatform
     public BlockEntityType<T> build(Type<?> type) {
-        List<Block> blocks = new ArrayList<>();
-        if (consumer != null)
-            consumer.accept(blocks);
-
-        return BlockEntityType.Builder.<T>create(factory::create, blocks.toArray(new Block[0])).build(type);
+        throw new AssertionError();
     }
 }

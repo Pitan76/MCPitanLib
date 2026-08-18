@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.core.registry.neoforge;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
@@ -30,5 +31,13 @@ public class FuelRegistryImpl {
                 break;
             }
         }
+    }
+
+    public static int get(ItemStack stack) {
+        return stack.getBurnTime(null);
+    }
+
+    public static boolean isFuel(ItemStack stack) {
+        return stack.getBurnTime(null) > 0;
     }
 }
