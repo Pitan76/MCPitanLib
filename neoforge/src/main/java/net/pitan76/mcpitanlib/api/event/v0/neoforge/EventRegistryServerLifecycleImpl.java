@@ -1,0 +1,112 @@
+package net.pitan76.mcpitanlib.api.event.v0.neoforge;
+
+import net.minecraft.server.world.ServerWorld;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.pitan76.mcpitanlib.MCPitanLib;
+import net.pitan76.mcpitanlib.api.event.v0.EventRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@EventBusSubscriber(modid = MCPitanLib.MOD_ID)
+public class EventRegistryServerLifecycleImpl {
+
+    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStartedListeners = new ArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStartingListeners = new ArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStoppedListeners = new ArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerState> serverStoppingListeners = new ArrayList<>();
+
+    private static final List<EventRegistry.ServerLifecycle.ServerWorldState> worldLoadListeners = new ArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerWorldState> worldSaveListeners = new ArrayList<>();
+    private static final List<EventRegistry.ServerLifecycle.ServerWorldState> worldUnloadListeners = new ArrayList<>();
+
+    public static void serverStarted(EventRegistry.ServerLifecycle.ServerState state) {
+        serverStartedListeners.add(state);
+    }
+
+    public static void serverStarting(EventRegistry.ServerLifecycle.ServerState state) {
+        serverStartingListeners.add(state);
+    }
+
+    public static void serverStopped(EventRegistry.ServerLifecycle.ServerState state) {
+        serverStoppedListeners.add(state);
+    }
+
+    public static void serverStopping(EventRegistry.ServerLifecycle.ServerState state) {
+        serverStoppingListeners.add(state);
+    }
+
+    public static void serverWorldLoad(EventRegistry.ServerLifecycle.ServerWorldState state) {
+        worldLoadListeners.add(state);
+    }
+
+    public static void serverWorldSave(EventRegistry.ServerLifecycle.ServerWorldState state) {
+        worldSaveListeners.add(state);
+    }
+
+    public static void serverWorldUnload(EventRegistry.ServerLifecycle.ServerWorldState state) {
+        worldUnloadListeners.add(state);
+    }
+
+    @SubscribeEvent
+    public static void onServerStarting(ServerStartingEvent event) {
+        for (EventRegistry.ServerLifecycle.ServerState listener : serverStartingListeners) {
+            listener.stateChanged(event.getServer());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerStarted(ServerStartedEvent event) {
+        for (EventRegistry.ServerLifecycle.ServerState listener : serverStartedListeners) {
+            listener.stateChanged(event.getServer());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        for (EventRegistry.ServerLifecycle.ServerState listener : serverStoppingListeners) {
+            listener.stateChanged(event.getServer());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerStopped(ServerStoppedEvent event) {
+        for (EventRegistry.ServerLifecycle.ServerState listener : serverStoppedListeners) {
+            listener.stateChanged(event.getServer());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelLoad(LevelEvent.Load event) {
+        // クライアント側のワールド読み込みでも発火するため、ServerWorldかどうかの判定が必要
+        if (event.getLevel() instanceof ServerWorld serverWorld) {
+            for (EventRegistry.ServerLifecycle.ServerWorldState listener : worldLoadListeners) {
+                listener.act(serverWorld);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelSave(LevelEvent.Save event) {
+        if (event.getLevel() instanceof ServerWorld serverWorld) {
+            for (EventRegistry.ServerLifecycle.ServerWorldState listener : worldSaveListeners) {
+                listener.act(serverWorld);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelUnload(LevelEvent.Unload event) {
+        if (event.getLevel() instanceof ServerWorld serverWorld) {
+            for (EventRegistry.ServerLifecycle.ServerWorldState listener : worldUnloadListeners) {
+                listener.act(serverWorld);
+            }
+        }
+    }
+}

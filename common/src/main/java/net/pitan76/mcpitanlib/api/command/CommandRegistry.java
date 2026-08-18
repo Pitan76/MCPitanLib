@@ -2,7 +2,7 @@ package net.pitan76.mcpitanlib.api.command;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import dev.architectury.event.events.common.CommandRegistrationEvent;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -16,37 +16,17 @@ public class CommandRegistry {
     @Deprecated
     public static CommandRegistryAccess latestCommandRegistryAccess;
 
+    @ExpectPlatform
     public static void register(String name, LiteralCommand command) {
-        CommandRegistrationEvent.EVENT.register((dispatcher, registry, environment) -> {
-            latestCommandRegistryAccess = registry;
 
-            CommandSettings settings = new CommandSettings();
-            command.init(settings);
-
-            LiteralArgumentBuilder<ServerCommandSource> builder = LiteralArgumentBuilder.<ServerCommandSource>literal(name).requires(settings::requires)
-                    .executes(context -> {
-                        ServerCommandEvent event = new ServerCommandEvent();
-                        event.setContext(context);
-                        command.execute(event);
-                        return command.isSuccess;
-                    });
-
-            forArgsCmd(command, builder);
-
-            //register(builder);
-            dispatcher.register(builder);
-        });
     }
 
+    @ExpectPlatform
     public static void register(LiteralArgumentBuilder<ServerCommandSource> builder) {
-        CommandRegistrationEvent.EVENT.register((dispatcher, registry, environment) -> {
-                    latestCommandRegistryAccess = registry;
-                    dispatcher.register(builder);
-                }
-        );
+
     }
 
-    private static <T extends ArgumentBuilder<ServerCommandSource, T>> void forArgsCmd(AbstractCommand<?> absCmd, ArgumentBuilder<ServerCommandSource, T> builder) {
+    public static <T extends ArgumentBuilder<ServerCommandSource, T>> void forArgsCmd(AbstractCommand<?> absCmd, ArgumentBuilder<ServerCommandSource, T> builder) {
 
         if (!absCmd.getArgumentCommands().isEmpty()) {
             // 引数コマンド

@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.block.ICompatBlock;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;
-import dev.architectury.registry.registries.RegistrySupplier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
 import java.util.function.Supplier;
 

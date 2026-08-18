@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.item.ItemGroup;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
