@@ -20,7 +20,7 @@ public class CreativeModeTabEventRegistryImpl {
     public static void addStack(ResourceKey<CreativeModeTab> key, Supplier<ItemStack> supplier) {
         tabModifiers.add(event -> {
             if (event.getTabKey().equals(key)) {
-                accept(event, supplier.get());
+                acceptStack(event, supplier.get());
             }
         });
     }
@@ -29,7 +29,7 @@ public class CreativeModeTabEventRegistryImpl {
         tabModifiers.add(event -> {
             if (event.getTabKey().equals(key)) {
                 for (ItemStack stack : supplier.get()) {
-                    accept(event, stack);
+                    acceptStack(event, stack);
                 }
             }
         });
@@ -40,7 +40,7 @@ public class CreativeModeTabEventRegistryImpl {
      * <p>
      * アイテムのsupplierが複数回実行されるなどして同じ登録が二重に積まれることがある。
      */
-    private static void accept(BuildCreativeModeTabContentsEvent event, ItemStack stack) {
+    private static void acceptStack(BuildCreativeModeTabContentsEvent event, ItemStack stack) {
         if (stack == null || stack.isEmpty()) return;
         if (event.getParentEntries().contains(stack)) return;
         if (event.getSearchEntries().contains(stack)) return;
@@ -70,7 +70,7 @@ public class CreativeModeTabEventRegistryImpl {
                 if (key == null) return;
 
                 if (event.getTabKey().equals(key))
-                    accept(event, supplier.get());
+                    acceptStack(event, supplier.get());
             }
         });
     }
