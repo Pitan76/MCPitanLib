@@ -10,6 +10,7 @@ import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.render.BlockRenderLayer;
+import net.minecraft.client.render.BlockRenderLayers;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -171,10 +172,10 @@ public class CompatRegistryClientImpl {
     // ---- RenderLayer ----
 
     public static void registerRenderLayerBlock(BlockRenderLayer layer, Block block) {
-        // NeoForgeではモデルJSONの render_type で決まるため何もしない
+        BlockRenderLayers.setRenderLayer(block, layer);
     }
 
     public static void registerRenderLayerFluid(BlockRenderLayer layer, Fluid fluid) {
-        // NeoForgeではモデルJSONの render_type で決まるため何もしない
+        BlockRenderLayers.setRenderLayer(fluid, layer);
     }
 }
