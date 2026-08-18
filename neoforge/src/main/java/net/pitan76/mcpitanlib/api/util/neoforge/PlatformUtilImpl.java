@@ -41,7 +41,7 @@ public class PlatformUtilImpl {
     }
 
     public static String getGameVersion() {
-        return SharedConstants.getGameVersion().name();
+        return SharedConstants.getGameVersion().getName();
     }
 
     public static boolean isFabric() {

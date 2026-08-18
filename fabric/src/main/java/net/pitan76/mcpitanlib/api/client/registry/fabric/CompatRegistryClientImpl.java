@@ -3,7 +3,7 @@ package net.pitan76.mcpitanlib.api.client.registry.fabric;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -16,7 +16,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.particle.ParticleFactory;
-import net.minecraft.client.render.BlockRenderLayer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -89,11 +89,11 @@ public class CompatRegistryClientImpl {
         BlockEntityRendererRegistry.register(type.get(), factory);
     }
 
-    public static void registerRenderLayerBlock(BlockRenderLayer layer, Block block) {
-        BlockRenderLayerMap.putBlock(block, layer);
+    public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
+        BlockRenderLayerMap.INSTANCE.putBlock(block, layer);
     }
 
-    public static void registerRenderLayerFluid(BlockRenderLayer layer, Fluid fluid) {
-        BlockRenderLayerMap.putFluid(fluid, layer);
+    public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
+        BlockRenderLayerMap.INSTANCE.putFluid(fluid, layer);
     }
 }
