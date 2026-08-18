@@ -1,14 +1,20 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.CreativeTabRegistry;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
+import net.pitan76.mcpitanlib.core.registry.CreativeTabEventRegistry;
+import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class CreativeTabManager {
     private static List<BookingItem> bookingItems = new ArrayList<>();
@@ -38,6 +44,15 @@ public class CreativeTabManager {
                 return itemGroupSupplier.get();
             return itemGroup;
         }
+
+        // 未登録のグループを参照した場合の例外を握りつぶす
+        public ItemGroup getItemGroupOrNull() {
+            try {
+                return getItemGroup();
+            } catch (Exception e) {
+                return null;
+            }
+        }
     }
 
     // グループ予約済みアイテムスタック
@@ -64,29 +79,63 @@ public class CreativeTabManager {
                 return itemGroupSupplier.get();
             return itemGroup;
         }
+
+        // 未登録のグループを参照した場合の例外を握りつぶす
+        public ItemGroup getItemGroupOrNull() {
+            try {
+                return getItemGroup();
+            } catch (Exception e) {
+                return null;
+            }
+        }
     }
 
     public static void allRegister() {
         if (!bookingItems.isEmpty()) {
             for (BookingItem bookingItem : bookingItems) {
-                CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
+                CreativeTabEventRegistry.addStackLazy(() -> resolveKey(bookingItem.getItemGroupOrNull()),
+                        () -> new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
             }
             bookingItems = new ArrayList<>();
         }
 
         if (!bookingStacks.isEmpty()) {
             for (BookingStack bookingStack : bookingStacks) {
-                CreativeTabRegistry.appendBuiltinStack(bookingStack.getItemGroup(), bookingStack.stack);
+                CreativeTabEventRegistry.addStackLazy(() -> resolveKey(bookingStack.getItemGroupOrNull()),
+                        () -> bookingStack.stack);
             }
             bookingStacks = new ArrayList<>();
         }
+    }
+
+    /**
+     * アイテムグループからRegistryKeyを解決する。
+     * 未登録などで解決できない場合はnullを返す。
+     */
+    private static RegistryKey<ItemGroup> resolveKey(ItemGroup itemGroup) {
+        if (itemGroup == null) return null;
+
+        Identifier id;
+        try {
+            id = ItemGroupUtil.toID(itemGroup);
+        } catch (Exception e) {
+            return null;
+        }
+        if (id == null) return null;
+
+        return RegistryKey.of(RegistryKeys.ITEM_GROUP, id);
     }
 
     public static void register(Identifier identifier) {
         if (bookingItems.isEmpty()) return;
         for (BookingItem bookingItem : bookingItems) {
             if (!bookingItem.identifier.toString().equals(identifier.toString())) continue;
-            CreativeTabRegistry.appendBuiltin(bookingItem.getItemGroup(), ItemUtil.fromId(bookingItem.identifier));
+
+            // この時点で解決できない場合は予約のまま残し、allRegister()で遅延登録する
+            if (resolveKey(bookingItem.getItemGroupOrNull()) == null) break;
+
+            CreativeTabEventRegistry.addStackLazy(() -> resolveKey(bookingItem.getItemGroupOrNull()),
+                    () -> new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
             bookingItems.remove(bookingItem);
             break;
         }
