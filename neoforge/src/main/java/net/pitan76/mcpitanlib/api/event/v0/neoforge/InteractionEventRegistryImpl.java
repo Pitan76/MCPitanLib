@@ -10,16 +10,17 @@ import net.pitan76.mcpitanlib.api.event.v0.event.ClickBlockEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID)
 public class InteractionEventRegistryImpl {
 
-    private static final List<RightClickBlock> rightClickBlockListeners = new ArrayList<>();
-    private static final List<LeftClickBlock> leftClickBlockListeners = new ArrayList<>();
-    private static final List<RightClickItem> rightClickItemListeners = new ArrayList<>();
-    private static final List<ClientLeftClickAir> clientLeftClickAirListeners = new ArrayList<>();
-    private static final List<ClientRightClickAir> clientRightClickAirListeners = new ArrayList<>();
-    private static final List<InteractEntity> interactEntityListeners = new ArrayList<>();
+    private static final List<RightClickBlock> rightClickBlockListeners = new CopyOnWriteArrayList<>();
+    private static final List<LeftClickBlock> leftClickBlockListeners = new CopyOnWriteArrayList<>();
+    private static final List<RightClickItem> rightClickItemListeners = new CopyOnWriteArrayList<>();
+    private static final List<ClientLeftClickAir> clientLeftClickAirListeners = new CopyOnWriteArrayList<>();
+    private static final List<ClientRightClickAir> clientRightClickAirListeners = new CopyOnWriteArrayList<>();
+    private static final List<InteractEntity> interactEntityListeners = new CopyOnWriteArrayList<>();
 
     public static void registerRightClickBlock(RightClickBlock rightClickBlock) {
         rightClickBlockListeners.add(rightClickBlock);

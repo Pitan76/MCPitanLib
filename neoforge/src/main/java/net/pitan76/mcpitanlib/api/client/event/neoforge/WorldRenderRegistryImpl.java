@@ -15,11 +15,12 @@ import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class WorldRenderRegistryImpl {
 
-    public static List<BeforeBlockOutlineListener> beforeBlockOutlineListeners = new ArrayList<>();
-    public static List<WorldRenderContextListener> worldRenderAfterLevelListeners = new ArrayList<>();
+    public static List<BeforeBlockOutlineListener> beforeBlockOutlineListeners = new CopyOnWriteArrayList<>();
+    public static List<WorldRenderContextListener> worldRenderAfterLevelListeners = new CopyOnWriteArrayList<>();
 
     public static void renderOutlineEventBlock(ExtractBlockOutlineRenderStateEvent event) {
         for (BeforeBlockOutlineListener listener : beforeBlockOutlineListeners) {
