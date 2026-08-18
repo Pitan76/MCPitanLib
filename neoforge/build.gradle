@@ -44,11 +44,16 @@ dependencies {
     shadowCommon 'org.yaml:snakeyaml:2.0'
 
     include("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
-
+    // include("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
     include("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
     include("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
-    include("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
     include("net.pitan76:littleoldnamedfallback:${rootProject.littleoldnamedfallback_version}")
+
+    // includeはjarへの同梱のみで開発環境のランタイムには載らないため、別途localRuntimeで読み込ませる
+    // littleoldnamedfallbackはneoforge 26.1.0.19-beta以上を要求するのでdevには入れない
+    localRuntime("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
+    localRuntime("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
+    localRuntime("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
 }
 
 processResources {
