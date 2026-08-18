@@ -20,7 +20,7 @@ public class CreativeModeTabEventRegistryImpl {
     public static void addStack(ResourceKey<CreativeModeTab> key, Supplier<ItemStack> supplier) {
         tabModifiers.add(event -> {
             if (event.getTabKey().equals(key)) {
-                event.accept(supplier.get());
+                accept(event, supplier.get());
             }
         });
     }
@@ -28,9 +28,24 @@ public class CreativeModeTabEventRegistryImpl {
     public static void addStacks(ResourceKey<CreativeModeTab> key, Supplier<List<ItemStack>> supplier) {
         tabModifiers.add(event -> {
             if (event.getTabKey().equals(key)) {
-                event.acceptAll(supplier.get());
+                for (ItemStack stack : supplier.get()) {
+                    accept(event, stack);
+                }
             }
         });
+    }
+
+    /**
+     * NeoForgeは同じItemStackを二重に追加すると例外を投げるため、既に入っている場合は追加しない。
+     * <p>
+     * アイテムのsupplierが複数回実行されるなどして同じ登録が二重に積まれることがある。
+     */
+    private static void accept(BuildCreativeModeTabContentsEvent event, ItemStack stack) {
+        if (stack == null || stack.isEmpty()) return;
+        if (event.getParentEntries().contains(stack)) return;
+        if (event.getSearchEntries().contains(stack)) return;
+
+        event.accept(stack);
     }
 
     @SubscribeEvent
@@ -55,7 +70,7 @@ public class CreativeModeTabEventRegistryImpl {
                 if (key == null) return;
 
                 if (event.getTabKey().equals(key))
-                    event.accept(supplier.get());
+                    accept(event, supplier.get());
             }
         });
     }
