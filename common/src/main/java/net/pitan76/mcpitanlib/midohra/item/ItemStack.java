@@ -6,11 +6,12 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.*;
-import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -281,7 +282,14 @@ public class ItemStack {
     }
 
     public net.pitan76.mcpitanlib.midohra.nbt.NbtCompound getCustomNbt(String key) {
-        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(CustomDataUtil.get(stack, key));
+        if (PlatformUtil.isClient()) {
+            return stack.getTooltipLines(net.minecraft.world.item.Item.TooltipContext.EMPTY, net.pitan76.mcpitanlib.api.util.client.ClientUtil.getClientPlayer(),
+                            net.pitan76.mcpitanlib.api.util.client.ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL)
+                    .stream().map(TextComponent::new).collect(Collectors.toList());
+        }
+
+        return stack.getTooltipLines(net.minecraft.world.item.Item.TooltipContext.EMPTY, null, TooltipFlag.Default.NORMAL)
+                .stream().map(TextComponent::new).collect(Collectors.toList());
     }
 
     public boolean hasCustomNbt(String key) {
