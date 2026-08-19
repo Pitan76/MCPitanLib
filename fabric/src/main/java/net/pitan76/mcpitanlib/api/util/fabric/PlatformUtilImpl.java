@@ -39,7 +39,9 @@ public class PlatformUtilImpl {
     }
 
     public static String getGameVersion() {
-        return FabricLoader.getInstance().getRawGameVersion();
+        return FabricLoader.getInstance().getModContainer("minecraft")
+                .map(modContainer -> modContainer.getMetadata().getVersion().getFriendlyString())
+                .orElse("");
     }
 
     public static boolean isFabric() {

@@ -234,7 +234,7 @@ public class CompatRegistryClient {
     }
 
 
-    public static <T extends BlockEntity, S extends BlockEntityRenderState> void registerBlockEntityRendererRaw(BlockEntityType<T> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T, S> factory) {
+    public static <T extends BlockEntity> void registerBlockEntityRendererRaw(BlockEntityType<T> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T> factory) {
         registerBlockEntityRendererRaw(() -> type, factory);
     }
 
@@ -243,7 +243,7 @@ public class CompatRegistryClient {
      * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
      */
     @ExpectPlatform
-    public static <T extends BlockEntity, S extends BlockEntityRenderState> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T, S> factory) {
+    public static <T extends BlockEntity> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T> factory) {
         throw new AssertionError();
     }
 

@@ -26,7 +26,7 @@ public class AttackEntityEventRegistryImpl {
         for (AttackEntityEventRegistry.AttackEntity listener : listeners) {
             ActionResult result = listener.attack(
                     event.getEntity(),
-                    event.getEntity().getEntityWorld(),
+                    event.getEntity().getWorld(),
                     Hand.MAIN_HAND,
                     event.getTarget(),
                     null

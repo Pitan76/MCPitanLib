@@ -12,7 +12,6 @@ import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.texture.Sprite;
@@ -124,10 +123,6 @@ public class CompatRegistryClientImpl {
                 return spriteSet.getSprite(random);
             }
 
-            @Override
-            public Sprite getFirst() {
-                return spriteSet.getFirst();
-            }
         };
     }
 
@@ -161,7 +156,7 @@ public class CompatRegistryClientImpl {
         renderers.add(event -> event.registerEntityRenderer(type.get(), provider));
     }
 
-    public static <T extends BlockEntity, S extends BlockEntityRenderState> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T, S> factory) {
+    public static <T extends BlockEntity> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> factory) {
         renderers.add(event -> event.registerBlockEntityRenderer(type.get(), factory));
     }
 

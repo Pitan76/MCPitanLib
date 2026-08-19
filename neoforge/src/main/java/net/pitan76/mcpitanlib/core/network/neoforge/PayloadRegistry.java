@@ -48,9 +48,14 @@ public class PayloadRegistry {
         for (Map.Entry<Identifier, CustomPayload.Id<BufPayload>> entry : TYPES.entrySet()) {
             CustomPayload.Id<BufPayload> id = entry.getValue();
 
-            registrar.playBidirectional(id, BufPayload.getCodec(id),
-                    CLIENT_HANDLERS.getOrDefault(entry.getKey(), NOOP),
-                    SERVER_HANDLERS.getOrDefault(entry.getKey(), NOOP));
+            IPayloadHandler<BufPayload> clientHandler = CLIENT_HANDLERS.getOrDefault(entry.getKey(), NOOP);
+            IPayloadHandler<BufPayload> serverHandler = SERVER_HANDLERS.getOrDefault(entry.getKey(), NOOP);
+
+            // このバージョンのplayBidirectionalはハンドラを1つしか受け取らないため、受信方向で振り分ける
+            registrar.playBidirectional(id, BufPayload.getCodec(id), (payload, context) -> {
+                if (context.flow().isClientbound()) clientHandler.handle(payload, context);
+                else serverHandler.handle(payload, context);
+            });
         }
     }
 }
