@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -42,32 +42,39 @@ public class EventRegistry {
 
     public static class ServerLifecycle {
         // Architectury: LifecycleEvent
+        @ExpectPlatform
         public static void serverStarted(ServerState state) {
-            LifecycleEvent.SERVER_STARTED.register(state::stateChanged);
+
         }
 
+        @ExpectPlatform
         public static void serverStarting(ServerState state) {
-            LifecycleEvent.SERVER_STARTING.register(state::stateChanged);
+
         }
 
+        @ExpectPlatform
         public static void serverStopped(ServerState state) {
-            LifecycleEvent.SERVER_STOPPED.register(state::stateChanged);
+
         }
 
+        @ExpectPlatform
         public static void serverStopping(ServerState state) {
-            LifecycleEvent.SERVER_STOPPING.register(state::stateChanged);
+
         }
 
+        @ExpectPlatform
         public static void serverWorldLoad(ServerWorldState state) {
-            LifecycleEvent.SERVER_LEVEL_LOAD.register(state::act);
+
         }
 
+        @ExpectPlatform
         public static void serverWorldSave(ServerWorldState state) {
-            LifecycleEvent.SERVER_LEVEL_SAVE.register(state::act);
+
         }
 
+        @ExpectPlatform
         public static void serverWorldUnload(ServerWorldState state) {
-            LifecycleEvent.SERVER_LEVEL_UNLOAD.register(state::act);
+
         }
 
         public interface ServerState extends InstanceState<MinecraftServer> {
