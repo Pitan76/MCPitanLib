@@ -43,6 +43,8 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     @Deprecated
     public CompatibleItemSettings setId(CompatIdentifier identifier) {
         this.identifier = identifier;
+        if (identifier != null)
+            this._itemId = identifier.toMinecraft();
         return this;
     }
 
