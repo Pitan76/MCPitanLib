@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.entity;
 
-import dev.architectury.registry.menu.ExtendedMenuProvider;
+import net.pitan76.mcpitanlib.core.screen.ExtendedMenuProvider;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -152,13 +152,13 @@ public class Player {
             ScreenHandlerUtil.openExtendedMenu((ServerPlayerEntity) this.getPlayerEntity(), provider, bufWriter);
     }
 
-    public void openExtendedMenu(ExtendedMenuProvider provider) {
+    public void openExtendedMenu(ExtendedMenuProvider<?> provider) {
         if (isServerPlayerEntity())
             ScreenHandlerUtil.openExtendedMenu((ServerPlayerEntity) this.getPlayerEntity(), provider);
     }
 
     public void openExtendedMenu(ExtendedNamedScreenHandlerFactory provider) {
-        this.openExtendedMenu((ExtendedMenuProvider) provider);
+        this.openExtendedMenu((ExtendedMenuProvider<?>) provider);
     }
 
     public void openMenu(NamedScreenHandlerFactory provider) {
@@ -549,7 +549,7 @@ public class Player {
 
 
     public void openExtendedMenu(ExtendedScreenHandlerFactory provider) {
-        this.openExtendedMenu((ExtendedMenuProvider) provider);
+        this.openExtendedMenu((ExtendedMenuProvider<?>) provider);
     }
 
     public void offerOrDrop(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
