@@ -1,29 +1,30 @@
 package net.pitan76.mcpitanlib.api.network;
 
-import dev.architectury.networking.NetworkManager;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-import static dev.architectury.networking.NetworkManager.Side.C2S;
-
 public class ServerNetworking {
+    @ExpectPlatform
     public static void send(ServerPlayerEntity player, Identifier identifier, PacketByteBuf buf) {
-        NetworkManager.sendToPlayer(player, identifier, buf);
+        throw new AssertionError();
     }
 
     public static void send(Iterable<ServerPlayerEntity> players, Identifier identifier, PacketByteBuf buf) {
-        NetworkManager.sendToPlayers(players, identifier, buf);
+        for (ServerPlayerEntity player : players) {
+            send(player, identifier, buf);
+        }
     }
-
 
     public static void sendAll(MinecraftServer server, Identifier identifier, PacketByteBuf buf) {
         send(server.getPlayerManager().getPlayerList(), identifier, buf);
     }
 
+    @ExpectPlatform
     public static void registerReceiver(Identifier identifier, ServerNetworkHandler handler) {
-        NetworkManager.registerReceiver(C2S, identifier, ((buf, context) -> handler.receive(context.getPlayer().getServer(), (ServerPlayerEntity) context.getPlayer(), buf)));
+        throw new AssertionError();
     }
 
     @FunctionalInterface

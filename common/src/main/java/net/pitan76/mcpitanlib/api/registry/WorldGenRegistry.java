@@ -1,8 +1,6 @@
 package net.pitan76.mcpitanlib.api.registry;
 
-import dev.architectury.registry.level.biome.BiomeModifications;
-import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.RegistrySupplier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -14,17 +12,13 @@ import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 
 import java.util.function.Supplier;
 
+// TODO: Add support for biome modifiers and other world gen related things
 public class WorldGenRegistry {
     protected String MOD_ID;
-
-    protected DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURE;
-    protected DeferredRegister<PlacedFeature> PLACED_FEATURE;
 
     @Deprecated
     public WorldGenRegistry(String MOD_ID) {
         this.MOD_ID = MOD_ID;
-        //CONFIGURED_FEATURE = DeferredRegister.create(MOD_ID, BuiltinRegistries.CONFIGURED_FEATURE);
-        //PLACED_FEATURE = DeferredRegister.create(MOD_ID, BuiltinRegistries.PLACED_FEATURE);
     }
 
     /**
@@ -70,7 +64,7 @@ public class WorldGenRegistry {
      * @param feature The feature to replace
      */
     public static void replaceProperties(GenerationStep.Feature decoration, RegistrySupplier<PlacedFeature> feature) {
-        BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature.getOrNull())));
+        // TODO: Support biome modification without Architectury API
     }
 
     public static void replaceProperties(GenerationStep.Feature decoration, RegistryResult<PlacedFeature> feature) {
@@ -83,7 +77,7 @@ public class WorldGenRegistry {
      * @param feature The feature to replace
      */
     public static void replaceProperties(GenerationStep.Feature decoration, PlacedFeature feature) {
-        BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature)));
+        // TODO: Support biome modification without Architectury API
     }
 
     /**
@@ -92,7 +86,7 @@ public class WorldGenRegistry {
      * @param feature The feature to add
      */
     public static void addProperties(GenerationStep.Feature decoration, RegistrySupplier<PlacedFeature> feature) {
-        BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature.getOrNull())));
+        // TODO: Support biome modification without Architectury API
     }
 
     public static void addProperties(GenerationStep.Feature decoration, RegistryResult<PlacedFeature> feature) {
@@ -105,6 +99,6 @@ public class WorldGenRegistry {
      * @param feature The feature to add
      */
     public static void addProperties(GenerationStep.Feature decoration, PlacedFeature feature) {
-        BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, RegistryEntry.of(feature)));
+        // TODO: Support biome modification without Architectury API
     }
 }
