@@ -103,7 +103,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public LightmapTextureManager getLightmapTextureManager() {
-                    return context.lightmapTextureManager();
+                    return getGameRenderer().getLightmapTextureManager();
                 }
 
                 @Override

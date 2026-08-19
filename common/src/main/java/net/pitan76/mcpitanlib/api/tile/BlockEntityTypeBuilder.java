@@ -1,6 +1,7 @@
 package net.pitan76.mcpitanlib.api.tile;
 
 import com.mojang.datafixers.types.Type;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,8 +14,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class BlockEntityTypeBuilder<T extends BlockEntity> {
-    private final Factory<? extends T> factory;
-    private final List<Block> blocks;
+    public final Factory<? extends T> factory;
+    public final List<Block> blocks;
 
     public BlockEntityTypeBuilder(Factory<? extends T> factory, List<Block> blocks) {
         this.factory = factory;
@@ -38,13 +39,17 @@ public class BlockEntityTypeBuilder<T extends BlockEntity> {
         return this;
     }
 
-
     public BlockEntityType<T> build() {
         return build(null);
     }
 
     public BlockEntityType<T> build(Type<?> type) {
-        return BlockEntityType.Builder.<T>create(factory::create, blocks.toArray(new Block[0])).build(type);
+        return build(this, type);
+    }
+
+    @ExpectPlatform
+    public static <T extends BlockEntity> BlockEntityType<T> build(BlockEntityTypeBuilder<T> builder, Type<?> type) {
+        throw new AssertionError();
     }
 
     @FunctionalInterface
