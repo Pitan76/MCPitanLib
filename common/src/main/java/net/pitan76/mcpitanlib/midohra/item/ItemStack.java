@@ -6,8 +6,6 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.TooltipFlag;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
@@ -265,7 +263,13 @@ public class ItemStack {
     }
 
     public List<TextComponent> getTooltip() {
-        return stack.getTooltip(ClientUtil.getClientPlayer(), ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipContext.ADVANCED : TooltipContext.BASIC)
+        if (PlatformUtil.isClient()) {
+            return stack.getTooltip(net.pitan76.mcpitanlib.api.util.client.ClientUtil.getClientPlayer(),
+                            net.pitan76.mcpitanlib.api.util.client.ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipContext.ADVANCED : TooltipContext.BASIC)
+                    .stream().map(TextComponent::new).collect(Collectors.toList());
+        }
+
+        return stack.getTooltip(null, TooltipContext.BASIC)
                 .stream().map(TextComponent::new).collect(Collectors.toList());
     }
 
@@ -282,14 +286,7 @@ public class ItemStack {
     }
 
     public net.pitan76.mcpitanlib.midohra.nbt.NbtCompound getCustomNbt(String key) {
-        if (PlatformUtil.isClient()) {
-            return stack.getTooltipLines(net.minecraft.world.item.Item.TooltipContext.EMPTY, net.pitan76.mcpitanlib.api.util.client.ClientUtil.getClientPlayer(),
-                            net.pitan76.mcpitanlib.api.util.client.ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL)
-                    .stream().map(TextComponent::new).collect(Collectors.toList());
-        }
-
-        return stack.getTooltipLines(net.minecraft.world.item.Item.TooltipContext.EMPTY, null, TooltipFlag.Default.NORMAL)
-                .stream().map(TextComponent::new).collect(Collectors.toList());
+        return net.pitan76.mcpitanlib.midohra.nbt.NbtCompound.of(CustomDataUtil.get(stack, key));
     }
 
     public boolean hasCustomNbt(String key) {
