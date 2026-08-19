@@ -1,12 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
-import dev.architectury.registry.client.particle.ParticleProviderRegistry;
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
-import dev.architectury.registry.client.rendering.RenderTypeRegistry;
-import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -27,7 +21,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
@@ -65,10 +58,23 @@ public class CompatRegistryClient {
     }
 
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
-        MenuRegistry.registerScreenFactory(type, factory::create);
+        registerScreen(modId, () -> type, factory);
+    }
+
+    /**
+     * NeoForgeではScreenHandlerTypeの生成が遅延されるため、登録時点ではnullのことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, ScreenFactory<H, S> factory) {
+        throw new AssertionError();
     }
 
     public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory2<H, S> factory) {
+        registerScreen(modId, type, (ScreenFactory<H, S>) factory);
+    }
+
+    public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, ScreenFactory2<H, S> factory) {
         registerScreen(modId, type, (ScreenFactory<H, S>) factory);
     }
 
@@ -86,39 +92,43 @@ public class CompatRegistryClient {
     }
 
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {
-        ParticleProviderRegistry.register(type, factory);
+        registerParticle(() -> type, factory);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, ParticleFactory<T> factory) {
+        throw new AssertionError();
     }
 
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
-            @Override
-            public SpriteAtlasTexture getAtlas() {
-                return spriteSet.getAtlas();
-            }
+        registerParticle(() -> type, provider);
+    }
 
-            @Override
-            public List<Sprite> getSprites() {
-                return spriteSet.getSprites();
-            }
-
-            @Override
-            public Sprite getSprite(int age, int maxAge) {
-                return spriteSet.getSprite(age, maxAge);
-            }
-
-            @Override
-            public Sprite getSprite(Random random) {
-                return spriteSet.getSprite(random);
-            }
-        }));
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, DeferredParticleProvider<T> provider) {
+        throw new AssertionError();
     }
 
     public static void registerEntityModelLayer(EntityModelLayer layer, EntityModelLayerContext context) {
-        EntityModelLayerRegistry.register(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
+        registerEntityModelLayer(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
     }
 
+    @ExpectPlatform
+    public static void registerEntityModelLayer(EntityModelLayer layer, Supplier<TexturedModelData> supplier) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererFactory<T> provider) {
-        EntityRendererRegistry.register(type, provider);
+        throw new AssertionError();
     }
 
     @FunctionalInterface
@@ -149,7 +159,15 @@ public class CompatRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+        registerBlockEntityRenderer(() -> type, provider);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    public static <T extends BlockEntity> void registerBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> provider) {
+        registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
                 ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
@@ -163,10 +181,10 @@ public class CompatRegistryClient {
             private final BlockRenderManager renderManager;
             private final ItemRenderer itemRenderer;
             private final EntityRenderDispatcher entityRenderDispatcher;
-            private final EntityModelLoader layerRenderDispatcher;
+            private final net.minecraft.client.render.entity.model.EntityModelLoader layerRenderDispatcher;
             private final TextRenderer textRenderer;
 
-            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, EntityModelLoader layerRenderDispatcher, TextRenderer textRenderer) {
+            public Context(BlockEntityRenderDispatcher renderDispatcher, BlockRenderManager renderManager, ItemRenderer itemRenderer, EntityRenderDispatcher entityRenderDispatcher, net.minecraft.client.render.entity.model.EntityModelLoader layerRenderDispatcher, TextRenderer textRenderer) {
                 this.renderDispatcher = renderDispatcher;
                 this.renderManager = renderManager;
                 this.itemRenderer = itemRenderer;
@@ -191,7 +209,7 @@ public class CompatRegistryClient {
                 return this.itemRenderer;
             }
 
-            public EntityModelLoader getLayerRenderDispatcher() {
+            public net.minecraft.client.render.entity.model.EntityModelLoader getLayerRenderDispatcher() {
                 return this.layerRenderDispatcher;
             }
 
@@ -206,12 +224,27 @@ public class CompatRegistryClient {
     }
 
 
-    public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
-        RenderTypeRegistry.register(layer, block);
+    public static <T extends BlockEntity> void registerBlockEntityRendererRaw(BlockEntityType<T> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T> factory) {
+        registerBlockEntityRendererRaw(() -> type, factory);
     }
 
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static <T extends BlockEntity> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T> factory) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
+
+    }
+
+    @ExpectPlatform
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
-        RenderTypeRegistry.register(layer, fluid);
+
     }
 
     public static void registerCutoutBlock(Block block) {
@@ -219,7 +252,15 @@ public class CompatRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+        registerCompatBlockEntityRenderer(() -> type, provider);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> provider) {
+        registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
                 ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
@@ -232,8 +273,16 @@ public class CompatRegistryClient {
         registerRenderTypeFluid(layer.layer, fluid);
     }
 
-    @ExpectPlatform
     public static void registerColorProviderBlock(BlockColorProvider provider, Block... blocks) {
+        registerColorProviderBlock(provider, () -> blocks);
+    }
+
+    /**
+     * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
+     * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     */
+    @ExpectPlatform
+    public static void registerColorProviderBlock(BlockColorProvider provider, Supplier<Block[]> blocks) {
         throw new AssertionError("This method should be replaced by the platform implementation");
     }
 

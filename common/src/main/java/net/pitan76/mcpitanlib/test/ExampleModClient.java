@@ -5,8 +5,8 @@ import net.pitan76.mcpitanlib.guilib.GuiRegistry;
 
 public class ExampleModClient {
     public static void init() {
-        CompatRegistryClient.registerScreen(ExampleMod.MOD_ID, ExampleMod.EXAMPLE_SCREENHANDLER.get(), ExampleScreen::new);
+        CompatRegistryClient.registerScreen(ExampleMod.MOD_ID, () -> ExampleMod.EXAMPLE_SCREENHANDLER.get(), ExampleScreen::new);
 
-        GuiRegistry.registerSimpleContainerGui(ExampleMod.MOD_ID, ExampleMod.EXAMPLE_CONTAINER_GUI.get());
+        GuiRegistry.registerSimpleContainerGui(ExampleMod.MOD_ID, ExampleMod.EXAMPLE_CONTAINER_GUI);
     }
 }
