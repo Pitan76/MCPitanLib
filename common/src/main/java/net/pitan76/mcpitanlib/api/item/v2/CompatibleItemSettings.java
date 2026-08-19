@@ -55,12 +55,15 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
 
     @Override
     public CompatibleItemSettings addGroup(CreativeTabBuilder itemGroup) {
-        super.addGroup(itemGroup);
+        if (identifier != null) {
+            net.pitan76.mcpitanlib.api.item.CreativeTabManager.addItem(itemGroup.getIdentifier(), identifier.toMinecraft());
+        }
         return this;
     }
 
     public CompatibleItemSettings addGroup(ItemGroupWrapper itemGroup) {
-        return addGroup(itemGroup.get());
+        super.addGroup(itemGroup, identifier);
+        return this;
     }
 
     @Override

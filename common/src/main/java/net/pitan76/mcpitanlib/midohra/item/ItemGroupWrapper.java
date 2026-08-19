@@ -11,17 +11,43 @@ import java.util.stream.Collectors;
 
 public class ItemGroupWrapper {
     private final net.minecraft.item.ItemGroup itemGroup;
+    private final java.util.function.Supplier<net.minecraft.item.ItemGroup> itemGroupSupplier;
+    private final net.minecraft.registry.RegistryKey<net.minecraft.item.ItemGroup> itemGroupKey;
 
     protected ItemGroupWrapper() {
         this.itemGroup = null;
+        this.itemGroupSupplier = null;
+        this.itemGroupKey = null;
     }
 
     protected ItemGroupWrapper(net.minecraft.item.ItemGroup itemGroup) {
         this.itemGroup = itemGroup;
+        this.itemGroupSupplier = null;
+        this.itemGroupKey = null;
+    }
+
+    protected ItemGroupWrapper(java.util.function.Supplier<net.minecraft.item.ItemGroup> itemGroupSupplier) {
+        this.itemGroup = null;
+        this.itemGroupSupplier = itemGroupSupplier;
+        this.itemGroupKey = null;
+    }
+
+    protected ItemGroupWrapper(net.minecraft.registry.RegistryKey<net.minecraft.item.ItemGroup> itemGroupKey) {
+        this.itemGroup = null;
+        this.itemGroupSupplier = null;
+        this.itemGroupKey = itemGroupKey;
     }
 
     public static ItemGroupWrapper of(net.minecraft.item.ItemGroup itemGroup) {
         return new ItemGroupWrapper(itemGroup);
+    }
+
+    public static ItemGroupWrapper of(java.util.function.Supplier<net.minecraft.item.ItemGroup> itemGroupSupplier) {
+        return new ItemGroupWrapper(itemGroupSupplier);
+    }
+
+    public static ItemGroupWrapper of(net.minecraft.registry.RegistryKey<net.minecraft.item.ItemGroup> itemGroupKey) {
+        return new ItemGroupWrapper(itemGroupKey);
     }
 
     public static ItemGroupWrapper of(CompatIdentifier id) {
@@ -40,11 +66,32 @@ public class ItemGroupWrapper {
     }
 
     public boolean isEmpty() {
-        return itemGroup == null;
+        return itemGroup == null && itemGroupSupplier == null && itemGroupKey == null;
     }
 
     public net.minecraft.item.ItemGroup get() {
-        return itemGroup;
+        if (itemGroup != null) return itemGroup;
+        if (itemGroupSupplier != null) return itemGroupSupplier.get();
+        if (itemGroupKey != null) return net.minecraft.registry.Registries.ITEM_GROUP.get(itemGroupKey);
+        return null;
+    }
+
+    public java.util.function.Supplier<net.minecraft.item.ItemGroup> getSupplier() {
+        if (itemGroupSupplier != null) return itemGroupSupplier;
+        if (itemGroupKey != null) return () -> net.minecraft.registry.Registries.ITEM_GROUP.get(itemGroupKey);
+        return () -> itemGroup;
+    }
+
+    public net.minecraft.registry.RegistryKey<net.minecraft.item.ItemGroup> getKey() {
+        if (itemGroupKey != null) return itemGroupKey;
+        if (itemGroup != null) return net.minecraft.registry.Registries.ITEM_GROUP.getKey(itemGroup).orElse(null);
+        if (itemGroupSupplier != null) {
+            try {
+                net.minecraft.item.ItemGroup group = itemGroupSupplier.get();
+                if (group != null) return net.minecraft.registry.Registries.ITEM_GROUP.getKey(group).orElse(null);
+            } catch (Exception ignored) {}
+        }
+        return null;
     }
 
     public CompatIdentifier getId() {

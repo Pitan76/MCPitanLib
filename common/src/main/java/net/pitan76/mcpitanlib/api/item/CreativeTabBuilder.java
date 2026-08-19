@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.CreativeTabRegistry;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -8,7 +8,10 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.core.registry.MCPLRegistry1_20;
+import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
 
@@ -22,6 +25,7 @@ public class CreativeTabBuilder {
     private boolean noScrollbar = false;
     private boolean special = false;
     private String texture;
+    private ItemGroup builtGroup = null;
 
     @Deprecated
     // Recommend: create(identifier)
@@ -82,16 +86,18 @@ public class CreativeTabBuilder {
      * @return ItemGroup
      */
     public ItemGroup build() {
-        return CreativeTabRegistry.create((builder -> {
-            if (displayName != null) builder.displayName(displayName);
-            else builder.displayName(TextUtil.translatable("itemGroup." + identifier.getNamespace() + "." + identifier.getPath()));
+        if (builtGroup != null) return builtGroup;
+        builtGroup = build(identifier, displayName, iconSupplier, noRenderedName, noScrollbar, special, texture);
+        return builtGroup;
+    }
 
-            if (iconSupplier != null) builder.icon(iconSupplier);
-            if (noRenderedName) builder.noRenderedName();
-            if (noScrollbar) builder.noScrollbar();
-            if (special) builder.special();
-            if (texture != null) builder.texture(texture);
-        }));
+    @ExpectPlatform
+    public static ItemGroup build(Identifier identifier, Text displayName, Supplier<ItemStack> iconSupplier, boolean noRenderedName, boolean noScrollbar, boolean special, String texture) {
+        throw new AssertionError();
+    }
+
+    public ItemGroupWrapper getBuiltWrapper() {
+        return ItemGroupWrapper.of(net.minecraft.registry.RegistryKey.of(net.minecraft.registry.RegistryKeys.ITEM_GROUP, identifier));
     }
 
     public Identifier getIdentifier() {

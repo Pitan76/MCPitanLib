@@ -5,10 +5,10 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderHighlightEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.client.event.RenderHighlightEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;
@@ -18,12 +18,13 @@ import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Mod.EventBusSubscriber(modid = MCPitanLib.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class WorldRenderRegistryImpl {
 
-    public static List<BeforeBlockOutlineListener> beforeBlockOutlineListeners = new ArrayList<>();
-    public static List<WorldRenderContextListener> worldRenderAfterLevelListeners = new ArrayList<>();
+    public static List<BeforeBlockOutlineListener> beforeBlockOutlineListeners = new CopyOnWriteArrayList<>();
+    public static List<WorldRenderContextListener> worldRenderAfterLevelListeners = new CopyOnWriteArrayList<>();
 
     @SubscribeEvent
     public static void renderOutlineEventBlock(RenderHighlightEvent.Block event) {
