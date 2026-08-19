@@ -30,11 +30,11 @@ public class FuelRegistry {
     }
 
     public static int get(World world, ItemStack stack) {
-        return world.getFuelRegistry().getFuelTicks(stack);
+        return 0;
     }
 
     public static boolean isFuel(World world, ItemStack stack) {
-        return world.getFuelRegistry().isFuel(stack);
+        return net.minecraft.block.entity.AbstractFurnaceBlockEntity.canUseAsFuel(stack);
     }
 
     public static void register(int time, ItemWrapper item) {

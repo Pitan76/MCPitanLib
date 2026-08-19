@@ -4,6 +4,8 @@ import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
@@ -16,6 +18,7 @@ public class CompatibleItemSettings {
     protected final ExtendSettings settings = new ExtendSettings();
 
     protected Identifier itemGroupId = null;
+    protected Identifier _itemId = null;
 
     @Deprecated
     public static CompatibleItemSettings of() {
