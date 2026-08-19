@@ -10,7 +10,6 @@ import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.item.stack.LoreUtil;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.*;
-import net.pitan76.mcpitanlib.api.util.client.ClientUtil;
 import net.pitan76.mcpitanlib.midohra.nbt.NbtCompound;
 import org.jetbrains.annotations.Nullable;
 
@@ -265,7 +264,13 @@ public class ItemStack {
     }
 
     public List<TextComponent> getTooltip() {
-        return stack.getTooltipLines(Item.TooltipContext.EMPTY, ClientUtil.getClientPlayer(), ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL)
+        if (PlatformUtil.isClient()) {
+            return stack.getTooltipLines(Item.TooltipContext.EMPTY, net.pitan76.mcpitanlib.api.util.client.ClientUtil.getClientPlayer(),
+                            net.pitan76.mcpitanlib.api.util.client.ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL)
+                    .stream().map(TextComponent::new).collect(Collectors.toList());
+        }
+
+        return stack.getTooltipLines(Item.TooltipContext.EMPTY, null, TooltipFlag.Default.NORMAL)
                 .stream().map(TextComponent::new).collect(Collectors.toList());
     }
 
