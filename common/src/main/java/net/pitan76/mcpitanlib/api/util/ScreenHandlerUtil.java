@@ -1,7 +1,12 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import dev.architectury.registry.menu.ExtendedMenuProvider;
-import dev.architectury.registry.menu.MenuRegistry;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.Text;
+import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.core.screen.ExtendedMenuProvider;
+import net.pitan76.mcpitanlib.core.screen.MenuOpener;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
@@ -34,15 +39,33 @@ public class ScreenHandlerUtil {
     }
 
     public static void openExtendedMenu(ServerPlayerEntity player, NamedScreenHandlerFactory provider, Consumer<PacketByteBuf> bufWriter) {
-        MenuRegistry.openExtendedMenu(player, provider, bufWriter);
+        MenuOpener.openExtendedMenu(player, new ExtendedMenuProvider<PacketByteBuf>() {
+            @Nullable
+            @Override
+            public ScreenHandler createMenu(int syncId, PlayerInventory inventory, PlayerEntity player) {
+                return provider.createMenu(syncId, inventory, player);
+            }
+
+            @Override
+            public Text getDisplayName() {
+                return provider.getDisplayName();
+            }
+
+            @Override
+            public PacketByteBuf getScreenOpeningData(ServerPlayerEntity player) {
+                PacketByteBuf buf = PacketByteUtil.create();
+                bufWriter.accept(buf);
+                return buf;
+            }
+        });
     }
 
-    public static void openExtendedMenu(ServerPlayerEntity player, ExtendedMenuProvider provider) {
-        MenuRegistry.openExtendedMenu(player, provider);
+    public static void openExtendedMenu(ServerPlayerEntity player, ExtendedMenuProvider<?> provider) {
+        MenuOpener.openExtendedMenu(player, provider);
     }
 
     public static void openMenu(ServerPlayerEntity player, NamedScreenHandlerFactory provider) {
-        MenuRegistry.openMenu(player, provider);
+        player.openHandledScreen(provider);
     }
 
     public static int getRawId(ScreenHandlerType<?> type) {

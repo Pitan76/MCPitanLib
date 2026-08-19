@@ -1,43 +1,59 @@
 package net.pitan76.mcpitanlib.core.registry;
 
-import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Deprecated
 public class MCPLRegistry1_20 {
     @Deprecated
-    public static final Map<Identifier, RegistrySupplier<ItemGroup>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new HashMap<>();
+    public static final Map<Identifier, RegistrySupplier<ItemGroup>> REGISTRY_SUPPLIER_ITEM_GROUP_CACHE = new ConcurrentHashMap<>();
+
+    public static final Map<RegistryKey<ItemGroup>, List<Identifier>> ITEM_GROUP_ITEM_ID_CACHE = Collections.synchronizedMap(new LinkedHashMap<>());
+
+    public static void addItemGroupItem(RegistryKey<ItemGroup> key, Identifier itemId) {
+        List<Identifier> ids = ITEM_GROUP_ITEM_ID_CACHE.computeIfAbsent(key, k -> new CopyOnWriteArrayList<>());
+
+        // 同じアイテムを二重に登録しない (supplierが複数回実行されることがある)
+        if (ids.contains(itemId)) return;
+
+        ids.add(itemId);
+
+        // allRegister()より後にアイテムが生成されるプラットフォームがあるため、ここで即時登録する
+        CreativeTabEventRegistry.addStack(key, () -> new ItemStack(ItemUtil.fromId(itemId)));
+    }
 
     private final MCPLRegistry mcplr;
 
-    protected DeferredRegister<ItemGroup> ITEM_GROUP;
-
     public MCPLRegistry1_20(MCPLRegistry mcplr, String MOD_ID) {
         this.mcplr = mcplr;
-        ITEM_GROUP = DeferredRegister.create(MOD_ID, RegistryKeys.ITEM_GROUP);
     }
 
     public void register() {
-        ITEM_GROUP.register();
+
     }
 
     public RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
-        RegistrySupplier<ItemGroup> itemGroup = ITEM_GROUP.register(id, supplier);
+        RegistrySupplier<ItemGroup> itemGroup = Registry.registryItemGroup(id, supplier);
         REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.put(id, itemGroup);
         return itemGroup;
     }
 
     public RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, CreativeTabBuilder builder) {
-        RegistrySupplier<ItemGroup> itemGroup = ITEM_GROUP.register(id, builder::build);
-        REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.put(id, itemGroup);
-        return itemGroup;
+        return registryItemGroup(id, builder::build);
     }
 }

@@ -28,9 +28,7 @@ configurations {
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modCompileOnly "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowBundle(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -117,13 +115,14 @@ publishing {
 }
 
 tasks.runClient.doFirst {
-    def from = new File("../common/src/main/resources/mcpitanlib.accesswidener")
-    def to = new File("src/main/resources/mcpitanlib.accesswidener")
+    def from = rootProject.file("common/src/main/resources/mcpitanlib.accesswidener")
+    def to = project.file("src/main/resources/mcpitanlib.accesswidener")
+    to.parentFile.mkdirs()
     to.bytes = from.bytes
 }
 
-tasks.remapJar.doFirst {
-    if (file("src/main/resources/mcpitanlib.accesswidener").exists()) {
-        delete file("src/main/resources/mcpitanlib.accesswidener")
+tasks.jar.doFirst {
+    if (project.file("src/main/resources/mcpitanlib.accesswidener").exists()) {
+        delete project.file("src/main/resources/mcpitanlib.accesswidener")
     }
 }
