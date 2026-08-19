@@ -11,6 +11,7 @@ import net.pitan76.mcpitanlib.api.entity.attribute.AttributeModifiersComponentBu
 import net.pitan76.mcpitanlib.api.entity.attribute.CompatAttributeModifiersComponent;
 import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
+import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
 import net.pitan76.mcpitanlib.api.item.ExtendSettings;
 import net.pitan76.mcpitanlib.api.item.equipment.CompatEquippableComponent;
 import net.pitan76.mcpitanlib.api.item.equipment.EquippableComponentBuilder;
@@ -19,6 +20,7 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
+import net.pitan76.mcpitanlib.midohra.item.SupplierItemGroupWrapper;
 
 import java.util.function.Supplier;
 
@@ -59,11 +61,17 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     @Override
     public CompatibleItemSettings addGroup(CreativeTabBuilder itemGroup) {
         super.addGroup(itemGroup);
+        if (this.identifier != null) {
+            CreativeTabManager.addItem(itemGroup.getIdentifier(), this.identifier.toMinecraft());
+        }
         return this;
     }
 
     public CompatibleItemSettings addGroup(ItemGroupWrapper itemGroup) {
-        return addGroup(itemGroup.get());
+        if (itemGroup instanceof SupplierItemGroupWrapper) {
+            return addGroup(((SupplierItemGroupWrapper) itemGroup)::get);
+        }
+        return addGroup(itemGroup::get);
     }
 
     @Override

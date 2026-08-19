@@ -80,12 +80,16 @@ public class CreativeTabBuilder {
         this.texture = texture;
     }
 
+    private ItemGroup builtGroup = null;
+
     /**
      * Build ItemGroup (If loader is forge, not recommended)
      * @return ItemGroup
      */
     public ItemGroup build() {
-        return build(identifier, displayName, iconSupplier, noRenderedName, noScrollbar, special, texture);
+        if (builtGroup != null) return builtGroup;
+        builtGroup = build(identifier, displayName, iconSupplier, noRenderedName, noScrollbar, special, texture);
+        return builtGroup;
     }
 
     @ExpectPlatform
