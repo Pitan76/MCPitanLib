@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.registry;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.ComponentType;
