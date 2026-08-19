@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import dev.architectury.registry.menu.MenuRegistry;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
@@ -10,7 +10,7 @@ import net.pitan76.mcpitanlib.midohra.screen.TypedScreenHandlerTypeWrapper;
 
 public class ExtendedScreenHandlerTypeBuilder<T extends ScreenHandler> {
 
-    private final Factory<T> factory;
+    public final Factory<T> factory;
 
     public ExtendedScreenHandlerTypeBuilder(Factory<T> factory) {
         this.factory = factory;
@@ -25,7 +25,12 @@ public class ExtendedScreenHandlerTypeBuilder<T extends ScreenHandler> {
     }
 
     public ScreenHandlerType<T> build() {
-        return MenuRegistry.ofExtended(factory::create);
+        return build(this);
+    }
+
+    @ExpectPlatform
+    public static <T extends ScreenHandler> ScreenHandlerType<T> build(ExtendedScreenHandlerTypeBuilder<T> builder) {
+        throw new AssertionError();
     }
 
     public TypedScreenHandlerTypeWrapper<T> buildWrapper() {

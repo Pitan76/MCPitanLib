@@ -1,8 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.platform.Platform;
-import dev.architectury.utils.Env;
 import net.fabricmc.api.EnvType;
 
 import java.io.File;
@@ -10,44 +8,53 @@ import java.nio.file.Path;
 import java.util.Collection;
 
 public class PlatformUtil {
+    @ExpectPlatform
     public static boolean isDevelopmentEnvironment() {
-        return Platform.isDevelopmentEnvironment();
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static boolean isFabric() {
-        return Platform.isFabric();
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static boolean isForge() {
-        return Platform.isForge();
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isNeoForge() {
+        throw new AssertionError();
     }
 
     @ExpectPlatform
     public static boolean isModLoaded(String id) {
-        return Platform.isModLoaded(id);
+        throw new AssertionError();
     }
 
     @ExpectPlatform
     public static boolean isClient() {
-        return Platform.getEnvironment() == Env.CLIENT;
+        throw new AssertionError();
     }
 
     @ExpectPlatform
     public static boolean isServer() {
-        return Platform.getEnvironment() == Env.SERVER;
+        throw new AssertionError();
     }
 
     @ExpectPlatform
     public static Path getConfigFolder() {
-        return Platform.getConfigFolder();
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static Path getGameFolder() {
-        return Platform.getGameFolder();
+        throw new AssertionError();
     }
 
     public static Path getModsFolder() {
-        return Platform.getModsFolder();
+        return getGameFolder().resolve("mods");
     }
 
     public static File getConfigFolderAsFile() {
@@ -62,15 +69,17 @@ public class PlatformUtil {
         return getModsFolder().toFile();
     }
 
+    @ExpectPlatform
     public static Collection<String> getModIds() {
-        return Platform.getModIds();
+        throw new AssertionError();
     }
 
     public static EnvType getEnv() {
-        return Platform.getEnv();
+        return isClient() ? EnvType.CLIENT : EnvType.SERVER;
     }
 
+    @ExpectPlatform
     public static String getGameVersion() {
-        return Platform.getMinecraftVersion();
+        throw new AssertionError();
     }
 }

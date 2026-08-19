@@ -5,6 +5,10 @@ import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 
 public class DefaultItemGroups {
+    public static ItemGroup get(net.minecraft.registry.RegistryKey<ItemGroup> key) {
+        return Registries.ITEM_GROUP.get(key);
+    }
+
     public static final ItemGroup BUILDING_BLOCKS = Registries.ITEM_GROUP.get(ItemGroups.BUILDING_BLOCKS);
     public static final ItemGroup COLORED_BLOCKS = Registries.ITEM_GROUP.get(ItemGroups.COLORED_BLOCKS); // if 1.19.2 and below, BUILDING_BLOCKS
     public static final ItemGroup NATURAL = Registries.ITEM_GROUP.get(ItemGroups.NATURAL); // if 1.19.2 and below, DECORATIONS

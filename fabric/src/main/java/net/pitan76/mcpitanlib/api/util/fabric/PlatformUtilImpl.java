@@ -4,6 +4,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class PlatformUtilImpl {
     public static boolean isClient() {
@@ -20,5 +22,37 @@ public class PlatformUtilImpl {
 
     public static boolean isModLoaded(String id) {
         return FabricLoader.getInstance().isModLoaded(id);
+    }
+
+    public static boolean isDevelopmentEnvironment() {
+        return FabricLoader.getInstance().isDevelopmentEnvironment();
+    }
+
+    public static Path getGameFolder() {
+        return FabricLoader.getInstance().getGameDir();
+    }
+
+    public static Collection<String> getModIds() {
+        return FabricLoader.getInstance().getAllMods().stream()
+                .map(modContainer -> modContainer.getMetadata().getId())
+                .collect(Collectors.toList());
+    }
+
+    public static String getGameVersion() {
+        return FabricLoader.getInstance().getModContainer("minecraft")
+                .map(mod -> mod.getMetadata().getVersion().getFriendlyString())
+                .orElse("1.21.6");
+    }
+
+    public static boolean isFabric() {
+        return true;
+    }
+
+    public static boolean isForge() {
+        return false;
+    }
+
+    public static boolean isNeoForge() {
+        return false;
     }
 }

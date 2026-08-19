@@ -44,28 +44,30 @@ public class ForgeFluidStorage implements IFluidStorage {
         return storage.isEmpty();
     }
 
+    private static FluidStack copyWithAmount(FluidStack stack, int amount) {
+        FluidStack copy = stack.copy();
+        copy.setAmount(amount);
+        return copy;
+    }
+
     @Override
     public long insert(IFluidVariant variant, long maxAmount, boolean simulate) {
-        FluidStack stack = ((ForgeFluidVariant) variant).raw.copy();
-        stack.setAmount((int) maxAmount);
-        if (simulate) {
-            return storage.fill(stack, IFluidHandler.FluidAction.SIMULATE);
-        }
+        FluidStack toFill = copyWithAmount(((ForgeFluidVariant) variant).raw, (int) maxAmount);
+        if (simulate)
+            return storage.fill(toFill, IFluidHandler.FluidAction.SIMULATE);
 
         onChange.run();
-        return storage.fill(stack, IFluidHandler.FluidAction.EXECUTE);
+        return storage.fill(toFill, IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override
     public long extract(IFluidVariant variant, long maxAmount, boolean simulate) {
-        FluidStack stack = ((ForgeFluidVariant) variant).raw.copy();
-        stack.setAmount((int) maxAmount);
-        if (simulate) {
-            return storage.drain(stack, IFluidHandler.FluidAction.SIMULATE).getAmount();
-        }
+        FluidStack toDrain = copyWithAmount(((ForgeFluidVariant) variant).raw, (int) maxAmount);
+        if (simulate)
+            return storage.drain(toDrain, IFluidHandler.FluidAction.SIMULATE).getAmount();
 
         onChange.run();
-        return storage.drain(stack, IFluidHandler.FluidAction.EXECUTE).getAmount();
+        return storage.drain(toDrain, IFluidHandler.FluidAction.EXECUTE).getAmount();
     }
 
     @Override

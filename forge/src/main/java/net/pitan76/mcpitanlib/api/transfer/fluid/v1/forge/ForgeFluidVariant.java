@@ -28,6 +28,6 @@ public class ForgeFluidVariant implements IFluidVariant {
 
     @Override
     public boolean isSame(Fluid fluid) {
-        return raw.getFluid().equals(fluid);
+        return raw.getFluid() == fluid;
     }
 }
