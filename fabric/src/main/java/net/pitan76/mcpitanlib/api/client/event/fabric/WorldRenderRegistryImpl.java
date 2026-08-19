@@ -15,62 +15,62 @@ import org.joml.Matrix4f;
 public class WorldRenderRegistryImpl {
     public static void registerWorldRenderBeforeBlockOutline(BeforeBlockOutlineListener listener) {
         WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register(((worldRenderContext, hitResult) -> listener.beforeBlockOutline(new BeforeBlockOutlineEvent(
-                new WorldRenderContext() {
-                    @Override
-                    public WorldRenderer getWorldRenderer() {
-                        return worldRenderContext.worldRenderer();
-                    }
+        new WorldRenderContext() {
+            @Override
+            public WorldRenderer getWorldRenderer() {
+                return worldRenderContext.worldRenderer();
+            }
 
-                    @Override
-                    public MatrixStack getMatrixStack() {
-                        return worldRenderContext.matrixStack();
-                    }
+            @Override
+            public MatrixStack getMatrixStack() {
+                return worldRenderContext.matrixStack();
+            }
 
-                    @Override
-                    public float getTickDelta() {
-                        return worldRenderContext.tickCounter().getTickDelta(true);
-                    }
+            @Override
+            public float getTickDelta() {
+                return worldRenderContext.tickCounter().getTickDelta(true);
+            }
 
-                    @Override
-                    public Camera getCamera() {
-                        return worldRenderContext.camera();
-                    }
+            @Override
+            public Camera getCamera() {
+                return worldRenderContext.camera();
+            }
 
-                    @Override
-                    public GameRenderer getGameRenderer() {
-                        return worldRenderContext.gameRenderer();
-                    }
+            @Override
+            public GameRenderer getGameRenderer() {
+                return worldRenderContext.gameRenderer();
+            }
 
-                    @Override
-                    public LightmapTextureManager getLightmapTextureManager() {
-                        return worldRenderContext.lightmapTextureManager();
-                    }
+            @Override
+            public LightmapTextureManager getLightmapTextureManager() {
+                return getGameRenderer().getLightmapTextureManager();
+            }
 
-                    @Override
-                    public Matrix4f getProjectionMatrix() {
-                        return worldRenderContext.projectionMatrix();
-                    }
+            @Override
+            public Matrix4f getProjectionMatrix() {
+                return worldRenderContext.projectionMatrix();
+            }
 
-                    @Override
-                    public ClientWorld getWorld() {
-                        return worldRenderContext.world();
-                    }
+            @Override
+            public ClientWorld getWorld() {
+                return worldRenderContext.world();
+            }
 
-                    @Override
-                    public boolean isAdvancedTranslucency() {
-                        return worldRenderContext.advancedTranslucency();
-                    }
+            @Override
+            public boolean isAdvancedTranslucency() {
+                return worldRenderContext.advancedTranslucency();
+            }
 
-                    @Override
-                    public @Nullable VertexConsumerProvider getConsumers() {
-                        return worldRenderContext.consumers();
-                    }
+            @Override
+            public @Nullable VertexConsumerProvider getConsumers() {
+                return worldRenderContext.consumers();
+            }
 
-                    @Override
-                    public @Nullable Frustum getFrustum() {
-                        return worldRenderContext.frustum();
-                    }
-                }, hitResult))));
+            @Override
+            public @Nullable Frustum getFrustum() {
+                return worldRenderContext.frustum();
+            }
+        }, hitResult))));
     }
 
     public static void registerWorldRenderAfterLevel(WorldRenderContextListener listener) {
@@ -103,7 +103,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public LightmapTextureManager getLightmapTextureManager() {
-                    return context.lightmapTextureManager();
+                    return getGameRenderer().getLightmapTextureManager();
                 }
 
                 @Override
