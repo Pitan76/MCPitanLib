@@ -69,6 +69,7 @@ public class CreativeTabEventRegistryImpl {
 
     @SubscribeEvent
     public static void onBuildCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
+        System.out.println("[MCPitanLib] onBuildCreativeTabContents called for tab: " + event.getTabKey().getValue() + ", modifiers count: " + tabModifiers.size());
         for (Consumer<BuildCreativeModeTabContentsEvent> modifier : tabModifiers) {
             modifier.accept(event);
         }

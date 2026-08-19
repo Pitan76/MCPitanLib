@@ -29,8 +29,13 @@ public class CreativeTabEventRegistryImpl {
             RegistryKey<ItemGroup> key = keySupplier.get();
             if (key == null) return;
 
-            Identifier id = ItemGroupUtil.toID(group);
-            if (id == null || !key.getValue().equals(id)) return;
+            RegistryKey<ItemGroup> groupKey = net.minecraft.registry.Registries.ITEM_GROUP.getKey(group).orElse(null);
+            if (groupKey == null) {
+                Identifier id = ItemGroupUtil.toID(group);
+                if (id == null || !key.getValue().equals(id)) return;
+            } else if (!key.equals(groupKey)) {
+                return;
+            }
 
             entries.add(supplier.get());
         });

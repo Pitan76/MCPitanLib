@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.item;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 
 import java.util.function.Supplier;
 
@@ -28,6 +29,15 @@ public class ExtendSettings extends Item.Settings {
     @Deprecated
     public ExtendSettings addGroup(Supplier<ItemGroup> itemGroup, Identifier identifier) {
         CreativeTabManager.addItem(itemGroup, identifier);
+        return this;
+    }
+
+    public ExtendSettings addGroup(ItemGroupWrapper itemGroup, Identifier identifier) {
+        if (itemGroup.getKey() != null) {
+            CreativeTabManager.addItem(itemGroup.getKey(), identifier);
+        } else {
+            CreativeTabManager.addItem(itemGroup.getSupplier(), identifier);
+        }
         return this;
     }
 }

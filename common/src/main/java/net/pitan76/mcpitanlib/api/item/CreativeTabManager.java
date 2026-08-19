@@ -29,6 +29,13 @@ public class CreativeTabManager {
         @Deprecated
         public Supplier<ItemGroup> itemGroupSupplier;
 
+        public RegistryKey<ItemGroup> itemGroupKey;
+
+        private BookingItem(RegistryKey<ItemGroup> itemGroupKey, Identifier identifier) {
+            this.itemGroupKey = itemGroupKey;
+            this.identifier = identifier;
+        }
+
         private BookingItem(Identifier itemGroupId, Identifier identifier) {
             this.itemGroupId = itemGroupId;
             this.identifier = identifier;
@@ -56,6 +63,7 @@ public class CreativeTabManager {
         }
 
         public RegistryKey<ItemGroup> getKey() {
+            if (itemGroupKey != null) return itemGroupKey;
             if (itemGroup != null) {
                 RegistryKey<ItemGroup> key = Registries.ITEM_GROUP.getKey(itemGroup).orElse(null);
                 if (key != null) return key;
@@ -84,6 +92,12 @@ public class CreativeTabManager {
         public ItemGroup itemGroup;
         @Deprecated
         public Supplier<ItemGroup> itemGroupSupplier;
+        public RegistryKey<ItemGroup> itemGroupKey;
+
+        private BookingStack(RegistryKey<ItemGroup> itemGroupKey, ItemStack stack) {
+            this.itemGroupKey = itemGroupKey;
+            this.stack = stack;
+        }
 
         private BookingStack(Identifier itemGroupId, ItemStack stack) {
             this.itemGroupId = itemGroupId;
@@ -112,6 +126,7 @@ public class CreativeTabManager {
         }
 
         public RegistryKey<ItemGroup> getKey() {
+            if (itemGroupKey != null) return itemGroupKey;
             if (itemGroup != null) {
                 RegistryKey<ItemGroup> key = Registries.ITEM_GROUP.getKey(itemGroup).orElse(null);
                 if (key != null) return key;
@@ -172,14 +187,18 @@ public class CreativeTabManager {
         for (BookingItem bookingItem : bookingItems) {
             if (!bookingItem.identifier.toString().equals(identifier.toString())) continue;
 
-            RegistryKey<ItemGroup> key = bookingItem.getKey();
-            // この時点で解決できない場合は予約のまま残し、allRegister()で遅延登録する
-            if (key == null) break;
-
-            CreativeTabEventRegistry.addStack(key, () -> new ItemStack(ItemUtil.fromId(bookingItem.identifier)));
+            registerLazy(bookingItem);
             bookingItems.remove(bookingItem);
             break;
         }
+    }
+
+    public static void addItem(RegistryKey<ItemGroup> itemGroupKey, Identifier identifier) {
+        registerLazy(new BookingItem(itemGroupKey, identifier));
+    }
+
+    public static void addStack(RegistryKey<ItemGroup> itemGroupKey, ItemStack stack) {
+        registerLazy(new BookingStack(itemGroupKey, stack));
     }
 
     public static void addItem(Identifier itemGroupId, Identifier identifier) {
