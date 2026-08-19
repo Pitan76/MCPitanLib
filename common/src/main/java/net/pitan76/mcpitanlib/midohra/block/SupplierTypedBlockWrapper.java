@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.midohra.block;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.block.Block;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.midohra.core.INonTypedSupplier;

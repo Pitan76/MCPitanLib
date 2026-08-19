@@ -1,48 +1,50 @@
 package net.pitan76.mcpitanlib.api.event.result;
 
-import dev.architectury.event.CompoundEventResult;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 
 public class TypedEventResult<T> {
-    protected final dev.architectury.event.CompoundEventResult<T> result;
+    protected final ActionResult result;
+    protected final T object;
 
-    protected TypedEventResult(dev.architectury.event.CompoundEventResult<T> result) {
+    protected TypedEventResult(ActionResult result, T object) {
         this.result = result;
+        this.object = object;
     }
 
     public static <T> TypedEventResult<T> success(T value) {
-        return new TypedEventResult<>(CompoundEventResult.interruptTrue(value));
+        return new TypedEventResult<>(ActionResult.SUCCESS, value);
     }
 
     public static <T> TypedEventResult<T> stop(T value) {
-        return new TypedEventResult<>(CompoundEventResult.interruptDefault(value));
+        // Architectury: interruptDefault() は asMinecraft() で PASS を返していたため合わせる
+        return new TypedEventResult<>(ActionResult.PASS, value);
     }
 
     public static <T> TypedEventResult<T> pass() {
-        return new TypedEventResult<>(CompoundEventResult.pass());
+        return new TypedEventResult<>(ActionResult.PASS, null);
     }
 
     public static <T> TypedEventResult<T> fail(T value) {
-        return new TypedEventResult<>(CompoundEventResult.interruptFalse(value));
+        return new TypedEventResult<>(ActionResult.FAIL, value);
     }
 
     @Deprecated
-    public dev.architectury.event.CompoundEventResult<T> getResult() {
+    public ActionResult getResult() {
         return result;
     }
 
     public ActionResult toActionResult() {
-        return result.result().asMinecraft();
+        return result;
     }
 
     public CompatActionResult toCompatActionResult() {
-        return CompatActionResult.of(result.result().asMinecraft());
+        return CompatActionResult.of(result);
     }
 
     public CompatActionResult toCompatActionResult(ItemStack stack) {
-        if (result.object() != stack)
+        if (object != stack)
             return toCompatActionResult();
 
         if (toActionResult() instanceof ActionResult.Success) {
