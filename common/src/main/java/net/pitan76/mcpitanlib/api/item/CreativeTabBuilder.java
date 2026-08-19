@@ -96,12 +96,8 @@ public class CreativeTabBuilder {
         throw new AssertionError();
     }
 
-    @SuppressWarnings("deprecation")
     public ItemGroupWrapper getBuiltWrapper() {
-        if (MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.containsKey(identifier))
-            return ItemGroupWrapper.of(MCPLRegistry1_20.REGISTRY_SUPPLIER_ITEM_GROUP_CACHE.get(identifier).getOrNull());
-
-        return ItemGroupWrapper.of(build());
+        return ItemGroupWrapper.of(net.minecraft.registry.RegistryKey.of(net.minecraft.registry.RegistryKeys.ITEM_GROUP, identifier));
     }
 
     public Identifier getIdentifier() {

@@ -85,6 +85,9 @@ public class CompatibleItemSettings {
     }
 
     public ExtendSettings build() {
+        if (itemGroupId != null) {
+            CreativeTabManager.addItem(itemGroupId, null);
+        }
         return settings;
     }
 
