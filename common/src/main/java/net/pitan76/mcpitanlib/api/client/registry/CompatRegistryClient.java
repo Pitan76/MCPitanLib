@@ -1,12 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
-import dev.architectury.registry.client.particle.ParticleProviderRegistry;
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
-import dev.architectury.registry.client.rendering.RenderTypeRegistry;
-import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -65,10 +59,19 @@ public class CompatRegistryClient {
     }
 
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
-        MenuRegistry.registerScreenFactory(type, factory::create);
+        registerScreen(modId, () -> type, factory);
+    }
+
+    @ExpectPlatform
+    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, ScreenFactory<H, S> factory) {
+        throw new AssertionError();
     }
 
     public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory2<H, S> factory) {
+        registerScreen(modId, type, (ScreenFactory<H, S>) factory);
+    }
+
+    public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, ScreenFactory2<H, S> factory) {
         registerScreen(modId, type, (ScreenFactory<H, S>) factory);
     }
 
@@ -86,39 +89,35 @@ public class CompatRegistryClient {
     }
 
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {
-        ParticleProviderRegistry.register(type, factory);
+        registerParticle(() -> type, factory);
+    }
+
+    @ExpectPlatform
+    public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, ParticleFactory<T> factory) {
+        throw new AssertionError();
     }
 
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
-            @Override
-            public SpriteAtlasTexture getAtlas() {
-                return spriteSet.getAtlas();
-            }
+        registerParticle(() -> type, provider);
+    }
 
-            @Override
-            public List<Sprite> getSprites() {
-                return spriteSet.getSprites();
-            }
-
-            @Override
-            public Sprite getSprite(int age, int maxAge) {
-                return spriteSet.getSprite(age, maxAge);
-            }
-
-            @Override
-            public Sprite getSprite(Random random) {
-                return spriteSet.getSprite(random);
-            }
-        }));
+    @ExpectPlatform
+    public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, DeferredParticleProvider<T> provider) {
+        throw new AssertionError();
     }
 
     public static void registerEntityModelLayer(EntityModelLayer layer, EntityModelLayerContext context) {
-        EntityModelLayerRegistry.register(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
+        registerEntityModelLayer(layer, () -> TexturedModelData.of(context.getData(), context.getWidth(), context.getHeight()));
     }
 
+    @ExpectPlatform
+    public static void registerEntityModelLayer(EntityModelLayer layer, Supplier<TexturedModelData> supplier) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererFactory<T> provider) {
-        EntityRendererRegistry.register(type, provider);
+        throw new AssertionError();
     }
 
     @FunctionalInterface
@@ -133,23 +132,23 @@ public class CompatRegistryClient {
     }
 
     public static void registryClientSpriteAtlasTexture(Identifier identifier) {
-        //registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, identifier);
     }
 
     public static void registryClientSpriteAtlasTexture(Sprite sprite) {
-        //registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, sprite);
     }
 
     public static void registryClientSprite(Identifier atlasId, Identifier identifier) {
-        // ～1.19.2
     }
 
     public static void registryClientSprite(Identifier atlasId, Sprite sprite) {
-        // ～1.19.2
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+        registerBlockEntityRenderer(() -> type, provider);
+    }
+
+    public static <T extends BlockEntity> void registerBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> provider) {
+        registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
                 ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
@@ -205,13 +204,23 @@ public class CompatRegistryClient {
         }
     }
 
-
-    public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
-        RenderTypeRegistry.register(layer, block);
+    public static <T extends BlockEntity> void registerBlockEntityRendererRaw(BlockEntityType<T> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T> factory) {
+        registerBlockEntityRendererRaw(() -> type, factory);
     }
 
+    @ExpectPlatform
+    public static <T extends BlockEntity> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, net.minecraft.client.render.block.entity.BlockEntityRendererFactory<T> factory) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
-        RenderTypeRegistry.register(layer, fluid);
+        throw new AssertionError();
     }
 
     public static void registerCutoutBlock(Block block) {
@@ -219,7 +228,11 @@ public class CompatRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRendererRegistry.register(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
+        registerCompatBlockEntityRenderer(() -> type, provider);
+    }
+
+    public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> provider) {
+        registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
                 ctx.getRenderDispatcher(), ctx.getRenderManager(), ctx.getItemRenderer(), ctx.getEntityRenderDispatcher(), ctx.getLayerRenderDispatcher(), ctx.getTextRenderer()
         )));
     }
@@ -232,9 +245,13 @@ public class CompatRegistryClient {
         registerRenderTypeFluid(layer.layer, fluid);
     }
 
-    @ExpectPlatform
     public static void registerColorProviderBlock(BlockColorProvider provider, Block... blocks) {
-        throw new AssertionError("This method should be replaced by the platform implementation");
+        registerColorProviderBlock(provider, () -> blocks);
+    }
+
+    @ExpectPlatform
+    public static void registerColorProviderBlock(BlockColorProvider provider, Supplier<Block[]> blocks) {
+        throw new AssertionError();
     }
 
     public static void registerColorProviderBlock(CompatBlockColorProvider provider, Block... blocks) {

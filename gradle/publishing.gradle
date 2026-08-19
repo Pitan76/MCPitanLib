@@ -9,6 +9,7 @@ def publishLoaders = splitValue(rootProject.publish_loaders)
 def gameVersions = splitValue(rootProject.game_versions)
 def requiredDeps = splitValue(rootProject.findProperty("required_deps"))
 def requiredDepsFabric = splitValue(rootProject.findProperty("required_deps_fabric"))
+def requiredDepsForge = splitValue(rootProject.findProperty("required_deps_forge"))
 def embeddedDeps = splitValue(rootProject.findProperty("embedded_deps"))
 def jarTaskName = rootProject.publish_jar_task.trim()
 def releaseTypeName = rootProject.release_type.trim().toUpperCase()
@@ -33,7 +34,7 @@ subprojects {
         var curseforgeToken = providers.environmentVariable("CURSEFORGE_TOKEN")
         var modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
 
-        var required = requiredDeps + (name == "fabric" ? requiredDepsFabric : [])
+        var required = requiredDeps + (name == "fabric" ? requiredDepsFabric : []) + (name == "forge" ? requiredDepsForge : [])
 
         if (curseforgeToken.isPresent()) {
             curseforge {

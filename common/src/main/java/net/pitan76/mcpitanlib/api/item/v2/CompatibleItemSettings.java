@@ -16,6 +16,7 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.CompatRarity;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroupWrapper;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
+import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
 
 import java.util.function.Supplier;
 
@@ -56,6 +57,7 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     @Override
     public CompatibleItemSettings addGroup(CreativeTabBuilder itemGroup) {
         super.addGroup(itemGroup);
+        CreativeTabManager.addItem(itemGroup.getIdentifier(), this.identifier.toMinecraft());
         return this;
     }
 
