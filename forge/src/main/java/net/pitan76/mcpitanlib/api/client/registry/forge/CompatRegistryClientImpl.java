@@ -73,17 +73,33 @@ public class CompatRegistryClientImpl {
 
     // ---- Screen ----
 
-    private static final List<Consumer<FMLClientSetupEvent>> screens = new CopyOnWriteArrayList<>();
+    private static final List<Runnable> screens = new CopyOnWriteArrayList<>();
+    private static volatile boolean clientSetupDone = false;
 
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
-        screens.add(event -> event.enqueueWork(() -> HandledScreens.register(type.get(), factory::create)));
+        Runnable task = () -> HandledScreens.register(type.get(), factory::create);
+
+        if (clientSetupDone) {
+            task.run();
+            return;
+        }
+
+        screens.add(task);
     }
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        for (Consumer<FMLClientSetupEvent> screen : screens) {
-            screen.accept(event);
-        }
+        // 他modもFMLClientSetupEventの中でregisterScreenを呼ぶため、
+        // リスナー内でリストを消化すると後から追加された分を取りこぼす。
+        // enqueueWorkはイベント配信が終わってから走るので、その中で走査する。
+        event.enqueueWork(() -> {
+            for (Runnable screen : screens) {
+                screen.run();
+            }
+
+            screens.clear();
+            clientSetupDone = true;
+        });
     }
 
     // ---- Particle ----
