@@ -38,8 +38,23 @@ public class Vector3d {
         return new Vector3d(vec.getX(), vec.getY(), vec.getZ());
     }
 
+    /**
+     * ブロック座標として扱うため切り捨て(floor)で変換する。
+     * 負の座標で1ズレるため、(int)キャストによる0方向への切り捨ては行わない。
+     */
     public Vector3i toInt() {
+        return new Vector3i((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z));
+    }
+
+    /**
+     * 0方向へ切り捨てて変換する (負の座標では{@link #toInt()}と結果が異なる)
+     */
+    public Vector3i toTruncatedInt() {
         return new Vector3i((int) x, (int) y, (int) z);
+    }
+
+    public BlockPos toBlockPos() {
+        return toInt().toPos();
     }
 
     public Vector3f toFloat() {
