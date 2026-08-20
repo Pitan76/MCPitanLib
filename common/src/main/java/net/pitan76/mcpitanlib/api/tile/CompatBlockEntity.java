@@ -6,25 +6,47 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
+import net.pitan76.mcpitanlib.api.event.tile.TileTickEvent;
 import net.pitan76.mcpitanlib.api.packet.UpdatePacketType;
+import net.pitan76.mcpitanlib.api.block.ExtendBlockEntityProvider;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityTypeWrapper;
 import org.jetbrains.annotations.Nullable;
 
-public class CompatBlockEntity extends BlockEntity implements ICompatBlockEntity {
+public class CompatBlockEntity extends BlockEntity implements ICompatBlockEntity, Tickable {
     public CompatBlockEntity(BlockEntityType<?> type) {
         super(type);
     }
 
     public CompatBlockEntity(BlockEntityType<?> type, TileCreateEvent event) {
         this(type);
+    }
+
+    /**
+     * 1.18以降はBlockEntityProvider#getTickerでtickされるが、1.16.5には無く、
+     * Tickableを実装したBlockEntityしかtickされない。
+     * ExtendBlockEntityTickerを実装している場合にそこへ流す。
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void tick() {
+        if (!(this instanceof ExtendBlockEntityTicker)) return;
+        if (world == null) return;
+
+        BlockState state = getCachedState();
+        if (state.getBlock() instanceof ExtendBlockEntityProvider
+                && !((ExtendBlockEntityProvider) state.getBlock()).isTick()) return;
+
+        ((ExtendBlockEntityTicker<CompatBlockEntity>) this)
+                .tick(new TileTickEvent<>(world, getPos(), state, this));
     }
 
     @Override

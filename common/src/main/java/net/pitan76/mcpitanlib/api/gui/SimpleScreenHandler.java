@@ -232,11 +232,17 @@ public class SimpleScreenHandler extends ScreenHandler {
         return super.getSlot(index);
     }
 
+    // 1.16.5のonSlotClickは戻り値を持つため、onSlotClick(SlotClickEvent)側の結果をここで受け取る。
+    // ここでsuperを呼ぶとoverrideOnSlotClickと二重に処理されるので呼ばない。
+    private ItemStack lastSlotClickResult = ItemStack.EMPTY;
+
     @Deprecated
     @Override
     public ItemStack onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
+        lastSlotClickResult = ItemStack.EMPTY;
         overrideOnSlotClick(slotIndex, button, actionType, new Player(player));
-        return super.onSlotClick(slotIndex, button, actionType, player);
+
+        return lastSlotClickResult;
     }
 
     public void overrideOnSlotClick(int slotIndex, int button, SlotActionType actionType, Player player) {
@@ -244,7 +250,7 @@ public class SimpleScreenHandler extends ScreenHandler {
     }
 
     public void onSlotClick(SlotClickEvent e) {
-        super.onSlotClick(e.slot, e.button, e.actionType, e.player.getEntity());
+        lastSlotClickResult = super.onSlotClick(e.slot, e.button, e.actionType, e.player.getEntity());
     }
 
     public void callSetCursorStack(ItemStack stack) {
