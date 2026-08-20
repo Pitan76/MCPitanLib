@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.tag;
 
-import me.shedaniel.architectury.hooks.TagHooks;
+import net.pitan76.mcpitanlib.core.tag.TagHooks;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.util.*;
