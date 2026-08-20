@@ -24,11 +24,13 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -168,5 +170,25 @@ public class CompatRegistryClientImpl {
 
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
         RenderLayers.setRenderLayer(fluid, layer);
+    }
+
+    private static final Map<Identifier, List<Identifier>> sprites = new ConcurrentHashMap<>();
+
+    public static void registryClientSprite(Identifier atlasId, Identifier identifier) {
+        sprites.computeIfAbsent(atlasId, k -> new CopyOnWriteArrayList<>()).add(identifier);
+    }
+
+    public static void registryClientSprite(Identifier atlasId, Sprite sprite) {
+        registryClientSprite(atlasId, sprite.getId());
+    }
+
+    @SubscribeEvent
+    public static void onTextureStitch(TextureStitchEvent.Pre event) {
+        List<Identifier> ids = sprites.get(event.getAtlas().getId());
+        if (ids == null) return;
+
+        for (Identifier id : ids) {
+            event.addSprite(id);
+        }
     }
 }

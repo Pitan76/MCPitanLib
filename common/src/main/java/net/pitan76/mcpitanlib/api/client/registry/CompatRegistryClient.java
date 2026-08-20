@@ -31,6 +31,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
@@ -133,15 +134,21 @@ public class CompatRegistryClient {
     }
 
     public static void registryClientSpriteAtlasTexture(Identifier identifier) {
+        registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, identifier);
     }
 
     public static void registryClientSpriteAtlasTexture(Sprite sprite) {
+        registryClientSprite(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, sprite);
     }
 
+    @ExpectPlatform
     public static void registryClientSprite(Identifier atlasId, Identifier identifier) {
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registryClientSprite(Identifier atlasId, Sprite sprite) {
+        throw new AssertionError();
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
