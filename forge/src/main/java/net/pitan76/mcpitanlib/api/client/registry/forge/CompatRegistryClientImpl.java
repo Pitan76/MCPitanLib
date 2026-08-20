@@ -55,7 +55,13 @@ public class CompatRegistryClientImpl {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                HandledScreens.register(type.get(), factory::create);
+                ScreenHandlerType<? extends H> resolved = type.get();
+
+                // 解決できないまま登録するとHandledScreensにnullキーが入り、
+                // 2件目で例外になって後続の登録がすべて巻き添えになる
+                if (resolved == null) return;
+
+                HandledScreens.register(resolved, factory::create);
             }
         };
 
@@ -75,8 +81,13 @@ public class CompatRegistryClientImpl {
         event.enqueueWork(new Runnable() {
             @Override
             public void run() {
+                // 1件の失敗で後続を巻き添えにしない
                 for (Runnable screen : screens) {
-                    screen.run();
+                    try {
+                        screen.run();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 screens.clear();
