@@ -50,6 +50,20 @@ public class ServerNetworking {
         sendAll(world.getServer(), id, buf);
     }
 
+    /**
+     * S2Cのペイロードタイプを登録する。
+     * <p>
+     * <b>MODの初期化時(共通初期化)に呼ぶこと。</b> 送信時に初めて登録しても、
+     * その時点ではプロトコルのコーデックが構築済みのため間に合わず、
+     * 専用サーバーで送信時にBufPayloadがDiscardedPayloadへキャストできずクラッシュする。
+     * (クライアント側はレシーバー登録時に登録されるため、シングルプレイでは表面化しない)
+     *
+     * @param id パケットのID
+     */
+    public static void registerS2CPayloadType(CompatIdentifier id) {
+        net.pitan76.mcpitanlib.api.network.ServerNetworking.registerS2CPayloadType(id.toMinecraft());
+    }
+
     public static void registerReceiver(CompatIdentifier id, Consumer<ServerReceiveEvent> consumer) {
         net.pitan76.mcpitanlib.api.network.ServerNetworking.registerReceiver(id.toMinecraft(), (server, player, buf) -> {
             consumer.accept(new ServerReceiveEvent(server, player, buf));
