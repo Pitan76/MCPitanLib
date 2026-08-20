@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class FuelRegistry {
@@ -26,11 +27,19 @@ public class FuelRegistry {
 
     @Deprecated
     public static int get(ItemStack stack) {
-        return 0;
+        return get(null, stack);
     }
 
+    private static Map<net.minecraft.item.Item, Integer> fuelTimeCache = null;
+
     public static int get(World world, ItemStack stack) {
-        return 0;
+        if (stack.isEmpty()) return 0;
+
+        // 1.21.1にはWorld#getFuelRegistryが存在しないため、バニラの燃料マップを参照する
+        if (fuelTimeCache == null)
+            fuelTimeCache = net.minecraft.block.entity.AbstractFurnaceBlockEntity.createFuelTimeMap();
+
+        return fuelTimeCache.getOrDefault(stack.getItem(), 0);
     }
 
     public static boolean isFuel(World world, ItemStack stack) {
