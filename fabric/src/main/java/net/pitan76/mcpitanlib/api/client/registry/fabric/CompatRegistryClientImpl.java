@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -29,6 +30,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 
@@ -95,5 +97,14 @@ public class CompatRegistryClientImpl {
 
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
         BlockRenderLayerMap.INSTANCE.putFluid(fluid, layer);
+    }
+
+    // arch除去でClientTextureStitchEventが使えなくなった分の代替
+    public static void registryClientSprite(Identifier atlasId, Identifier identifier) {
+        ClientSpriteRegistryCallback.event(atlasId).register((atlasTexture, registry) -> registry.register(identifier));
+    }
+
+    public static void registryClientSprite(Identifier atlasId, Sprite sprite) {
+        ClientSpriteRegistryCallback.event(atlasId).register((atlasTexture, registry) -> registry.register(sprite));
     }
 }
