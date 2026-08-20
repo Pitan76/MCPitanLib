@@ -47,9 +47,10 @@ dependencies {
 
     include("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
 
-    // includeはjarへの同梱のみで開発環境のランタイムには載らないため、別途localRuntimeで読み込ませる
-    localRuntime("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
-    localRuntime("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
+    // includeはjarへの同梱のみで開発環境のランタイムには載らないため、別途modLocalRuntimeで読み込ませる
+    // (localRuntimeだとremapされず、Mixinのターゲットが開発環境のマッピングと合わずに適用に失敗する)
+    modLocalRuntime("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
+    modLocalRuntime("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
 
     // Automatically load all local NeoForge mod jars from the run/mods directory in development
     fileTree(dir: 'run/mods', include: '*.jar').each { File file ->
