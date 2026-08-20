@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.item;
 
-import dev.architectury.registry.CreativeTabRegistry;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -29,6 +29,7 @@ public class CreativeTabBuilder {
     private boolean noScrollbar = false;
     private boolean special = false;
     private String texture;
+    private ItemGroup builtGroup = null;
 
     @Deprecated
     // Recommend: create(identifier)
@@ -91,14 +92,17 @@ public class CreativeTabBuilder {
      */
     public ItemGroup build() {
         if (itemGroupMap.containsKey(identifier)) return itemGroupMap.get(identifier);
-        ItemGroup itemGroup = CreativeTabRegistry.create(identifier, iconSupplier);
-        if (displayName != null) itemGroup.setName(displayName.getString());
-        if (noRenderedName) itemGroup.setName("");
-        if (noScrollbar) itemGroup.setNoScrollbar();
-        if (special) itemGroup.isSpecial();
-        if (texture != null) itemGroup.setTexture(texture);
+        ItemGroup itemGroup = build(identifier, displayName, iconSupplier, noRenderedName, noScrollbar, special, texture);
         itemGroupMap.put(identifier, itemGroup);
         return itemGroup;
+    }
+
+    /**
+     * 1.19.2ではItemGroup.Builderが無いため、ローダーごとに生成方法が異なる。
+     */
+    @ExpectPlatform
+    public static ItemGroup build(Identifier identifier, Text displayName, Supplier<ItemStack> iconSupplier, boolean noRenderedName, boolean noScrollbar, boolean special, String texture) {
+        throw new AssertionError();
     }
 
     public Identifier getIdentifier() {

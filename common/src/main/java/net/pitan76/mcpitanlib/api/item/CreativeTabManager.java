@@ -6,13 +6,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
 
 public class CreativeTabManager {
-    private static List<BookingItem> bookingItems = new ArrayList<>();
-    private static List<BookingStack> bookingStacks = new ArrayList<>();
+    private static List<BookingItem> bookingItems = new CopyOnWriteArrayList<>();
+    private static List<BookingStack> bookingStacks = new CopyOnWriteArrayList<>();
 
     // グループ予約済みアイテム
     public static class BookingItem {
@@ -71,14 +71,14 @@ public class CreativeTabManager {
             for (BookingItem bookingItem : bookingItems) {
                 bookingItem.getItemGroup().appendStacks(DefaultedList.copyOf(ItemStack.EMPTY, new ItemStack(ItemUtil.fromId(bookingItem.identifier))));
             }
-            bookingItems = new ArrayList<>();
+            bookingItems = new CopyOnWriteArrayList<>();
         }
 
         if (!bookingStacks.isEmpty()) {
             for (BookingStack bookingStack : bookingStacks) {
                 bookingStack.getItemGroup().appendStacks(DefaultedList.copyOf(ItemStack.EMPTY, bookingStack.stack));
             }
-            bookingStacks = new ArrayList<>();
+            bookingStacks = new CopyOnWriteArrayList<>();
         }
     }
 

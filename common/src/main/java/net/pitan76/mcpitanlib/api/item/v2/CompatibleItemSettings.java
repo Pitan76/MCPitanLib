@@ -60,7 +60,7 @@ public class CompatibleItemSettings extends net.pitan76.mcpitanlib.api.item.Comp
     }
 
     public CompatibleItemSettings addGroup(ItemGroupWrapper itemGroup) {
-        return addGroup(itemGroup.get());
+        return addGroup(itemGroup.getSupplier());
     }
 
     @Override

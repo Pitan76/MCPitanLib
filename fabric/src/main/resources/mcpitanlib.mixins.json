@@ -2,11 +2,13 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.pitan76.mcpitanlib.fabric.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_9",
   "mixins": [
-    "RecipeMixin"
+    "RecipeMixin",
+    "LivingEntityMixin"
   ],
   "client": [
+    "client.MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1

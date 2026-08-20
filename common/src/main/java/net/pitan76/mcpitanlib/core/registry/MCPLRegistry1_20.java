@@ -1,11 +1,16 @@
 package net.pitan76.mcpitanlib.core.registry;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
+import net.pitan76.mcpitanlib.api.util.ItemUtil;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
 import java.util.function.Supplier;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Deprecated
 public class MCPLRegistry1_20 {
