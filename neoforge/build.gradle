@@ -49,12 +49,9 @@ dependencies {
     include("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
     include("net.pitan76:littleoldnamedfallback:${rootProject.littleoldnamedfallback_version}")
 
-    // includeはjarへの同梱のみで開発環境のランタイムには載らないため、別途modLocalRuntimeで読み込ませる
-    // (localRuntimeだとremapされず、Mixinのターゲットが開発環境のマッピングと合わずに適用に失敗する)
-    // littleoldnamedfallbackはneoforge 26.1.0.19-beta以上を要求するのでdevには入れない
-    modLocalRuntime("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
-    modLocalRuntime("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
-    modLocalRuntime("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
+    localRuntime("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
+    localRuntime("net.pitan76:compatdatapacks76-neoforge:${rootProject.compatdatapacks76_version}")
+    localRuntime("net.pitan76:legacyitemmodels-neoforge:${rootProject.legacyitemmodels_version}")
 }
 
 processResources {
