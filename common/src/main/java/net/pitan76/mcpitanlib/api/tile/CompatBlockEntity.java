@@ -76,7 +76,16 @@ public class CompatBlockEntity extends BlockEntity implements ICompatBlockEntity
      */
     @Deprecated
     public void readNbtOverride(NbtCompound nbt) {
-        super.fromTag(getCachedState(), nbt);
+        super.fromTag(getStateForNbt(), nbt);
+    }
+
+    // チャンク読み込み時のfromTagはworldがまだ無く、getCachedState()がNPEになる。
+    // fromTagで渡された状態があればそちらを使う。
+    private BlockState nbtState;
+
+    private BlockState getStateForNbt() {
+        if (nbtState != null) return nbtState;
+        return world == null ? null : getCachedState();
     }
 
     // ----
@@ -95,11 +104,17 @@ public class CompatBlockEntity extends BlockEntity implements ICompatBlockEntity
     @Deprecated
     @Override
     public void fromTag(BlockState state, NbtCompound nbt) {
-        // deprecated
-        readNbtOverride(nbt);
-        // ----
+        nbtState = state;
 
-        readNbt(new ReadNbtArgs(nbt));
+        try {
+            // deprecated
+            readNbtOverride(nbt);
+            // ----
+
+            readNbt(new ReadNbtArgs(nbt));
+        } finally {
+            nbtState = null;
+        }
     }
 
     public boolean isClient() {
