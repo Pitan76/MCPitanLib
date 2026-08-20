@@ -17,8 +17,21 @@ public class ServerNetworkingImpl {
     public static void registerReceiver(Identifier identifier, final ServerNetworking.ServerNetworkHandler handler) {
         ServerPlayNetworking.registerGlobalReceiver(identifier, new ServerPlayNetworking.PlayChannelHandler() {
             @Override
-            public void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler networkHandler, PacketByteBuf buf, PacketSender responseSender) {
-                handler.receive(server, player, buf);
+            public void receive(final MinecraftServer server, final ServerPlayerEntity player, ServerPlayNetworkHandler networkHandler, PacketByteBuf buf, PacketSender responseSender) {
+                // ここはnettyのIOスレッドで呼ばれる。
+                // bufもこのメソッドを抜けると無効になるのでコピーしてからサーバースレッドへ渡す。
+                final PacketByteBuf copied = new PacketByteBuf(buf.copy());
+
+                server.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            handler.receive(server, player, copied);
+                        } finally {
+                            copied.release();
+                        }
+                    }
+                });
             }
         });
     }
