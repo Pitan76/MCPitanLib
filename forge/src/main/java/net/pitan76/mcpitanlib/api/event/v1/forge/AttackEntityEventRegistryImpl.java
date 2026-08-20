@@ -3,11 +3,14 @@ package net.pitan76.mcpitanlib.api.event.v1.forge;
 import net.minecraft.util.ActionResult;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.event.v1.AttackEntityEventRegistry;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@EventBusSubscriber(modid = MCPitanLib.MOD_ID)
 public class AttackEntityEventRegistryImpl {
     private static final List<AttackEntityEventRegistry.AttackEntity> attackEntities = new CopyOnWriteArrayList<AttackEntityEventRegistry.AttackEntity>();
 
