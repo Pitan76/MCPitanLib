@@ -218,7 +218,7 @@ public class Vector3i {
     }
 
     public long asLong() {
-        return ((long) x & 0xFFFFFFFFL) << 32 | ((long) y & 0xFFFFFFFFL) << 16 | ((long) z & 0xFFFFFFFFL);
+        return net.minecraft.util.math.BlockPos.asLong(x, y, z);
     }
 
     public net.pitan76.mcpitanlib.midohra.util.math.BlockPos toPos() {
