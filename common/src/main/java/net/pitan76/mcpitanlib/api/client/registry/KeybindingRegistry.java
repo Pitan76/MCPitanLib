@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
-import me.shedaniel.architectury.registry.KeyBindings;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.event.v0.ClientTickEventRegistry;
@@ -8,8 +8,9 @@ import net.pitan76.mcpitanlib.api.network.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 
 public class KeybindingRegistry {
+    @ExpectPlatform
     public static void register(KeyBinding keyBinding) {
-        KeyBindings.registerKeyBinding(keyBinding);
+        throw new AssertionError();
     }
 
     public static void register(KeyBinding keyBinding, ClientTickEventRegistry.Client client) {

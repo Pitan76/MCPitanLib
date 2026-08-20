@@ -1,7 +1,5 @@
 package net.pitan76.mcpitanlib.api.registry;
 
-import me.shedaniel.architectury.registry.BiomeModifications;
-import me.shedaniel.architectury.registry.DeferredRegister;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -13,8 +11,6 @@ import java.util.function.Supplier;
 
 public class WorldGenRegistry {
     protected String MOD_ID;
-
-    protected DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURE;
 
     @Deprecated
     public WorldGenRegistry(String MOD_ID) {
@@ -65,7 +61,7 @@ public class WorldGenRegistry {
      * @param feature The feature to replace
      */
     public static void replaceProperties(GenerationStep.Feature decoration, ConfiguredFeature<?, ?>  feature) {
-        BiomeModifications.replaceProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, feature));
+        // TODO: Support biome modification without Architectury API
     }
 
     /**
@@ -74,6 +70,6 @@ public class WorldGenRegistry {
      * @param feature The feature to add
      */
     public static void addProperties(GenerationStep.Feature decoration, ConfiguredFeature<?, ?>  feature) {
-        BiomeModifications.addProperties((ctx, mutable) -> mutable.getGenerationProperties().addFeature(decoration, feature));
+        // TODO: Support biome modification without Architectury API
     }
 }

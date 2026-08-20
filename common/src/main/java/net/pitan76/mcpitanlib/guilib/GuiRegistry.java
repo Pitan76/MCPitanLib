@@ -35,8 +35,23 @@ public class GuiRegistry {
     }
 
     @Environment(EnvType.CLIENT)
-    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, ScreenHandlerType<T> type) {
-        CompatRegistryClient.registerScreen(id, type, new CompatRegistryClient.ScreenFactory2<SimpleContainerGui, SimpleContainerGuiScreen>() {
+    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, final ScreenHandlerType<T> type) {
+        registerSimpleContainerGui(id, new Supplier<ScreenHandlerType<T>>() {
+            @Override
+            public ScreenHandlerType<T> get() {
+                return type;
+            }
+        });
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, final Supplier<ScreenHandlerType<T>> type) {
+        CompatRegistryClient.registerScreen(id, new Supplier<ScreenHandlerType<? extends SimpleContainerGui>>() {
+            @Override
+            public ScreenHandlerType<? extends SimpleContainerGui> get() {
+                return type.get();
+            }
+        }, new CompatRegistryClient.ScreenFactory2<SimpleContainerGui, SimpleContainerGuiScreen>() {
             @Override
             public SimpleContainerGuiScreen create(SimpleContainerGui handler, CompatPlayerInventory inventory, TextComponent text) {
                 return new SimpleContainerGuiScreen(handler, inventory, text);
@@ -45,23 +60,43 @@ public class GuiRegistry {
     }
 
     @Environment(EnvType.CLIENT)
-    public static <T extends ScreenHandler, U extends Screen & ScreenHandlerProvider<T>> void register(String id, SupplierResult<ScreenHandlerType<T>> type, CompatRegistryClient.ScreenFactory<T, U> factory) {
-        register(id, type.get(), factory);
+    public static <T extends ScreenHandler, U extends Screen & ScreenHandlerProvider<T>> void register(String id, final SupplierResult<ScreenHandlerType<T>> type, CompatRegistryClient.ScreenFactory<T, U> factory) {
+        CompatRegistryClient.registerScreen(id, new Supplier<ScreenHandlerType<? extends T>>() {
+            @Override
+            public ScreenHandlerType<? extends T> get() {
+                return type.get();
+            }
+        }, factory);
     }
 
     @Environment(EnvType.CLIENT)
-    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, SupplierResult<ScreenHandlerType<T>> type) {
-        registerSimpleContainerGui(id, type.get());
+    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, final SupplierResult<ScreenHandlerType<T>> type) {
+        registerSimpleContainerGui(id, new Supplier<ScreenHandlerType<T>>() {
+            @Override
+            public ScreenHandlerType<T> get() {
+                return type.get();
+            }
+        });
     }
 
     @Environment(EnvType.CLIENT)
-    public static <T extends ScreenHandler, U extends Screen & ScreenHandlerProvider<T>> void register(String id, SupplierTypedScreenHandlerTypeWrapper<T> type, CompatRegistryClient.ScreenFactory<T, U> factory) {
-        register(id, type.get(), factory);
+    public static <T extends ScreenHandler, U extends Screen & ScreenHandlerProvider<T>> void register(String id, final SupplierTypedScreenHandlerTypeWrapper<T> type, CompatRegistryClient.ScreenFactory<T, U> factory) {
+        CompatRegistryClient.registerScreen(id, new Supplier<ScreenHandlerType<? extends T>>() {
+            @Override
+            public ScreenHandlerType<? extends T> get() {
+                return type.get();
+            }
+        }, factory);
     }
 
     @Environment(EnvType.CLIENT)
-    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, SupplierTypedScreenHandlerTypeWrapper<T> type) {
-        registerSimpleContainerGui(id, type.get());
+    public static <T extends SimpleContainerGui> void registerSimpleContainerGui(String id, final SupplierTypedScreenHandlerTypeWrapper<T> type) {
+        registerSimpleContainerGui(id, new Supplier<ScreenHandlerType<T>>() {
+            @Override
+            public ScreenHandlerType<T> get() {
+                return type.get();
+            }
+        });
     }
 
     public static <T extends ScreenHandler> SupplierResult<ScreenHandlerType<T>> register(CompatRegistryV2 registry, CompatIdentifier id, SimpleScreenHandlerTypeBuilder<T> builder) {

@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.tag.v2.typed;
 
-import me.shedaniel.architectury.hooks.TagHooks;
+import net.pitan76.mcpitanlib.core.tag.TagHooks;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.tag.Tag;

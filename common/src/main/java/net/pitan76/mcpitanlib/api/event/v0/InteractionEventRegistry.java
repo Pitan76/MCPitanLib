@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import me.shedaniel.architectury.event.events.InteractionEvent;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -14,28 +14,34 @@ import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.StackActionResult;
 
 public class InteractionEventRegistry {
+    @ExpectPlatform
     public static void registerRightClickBlock(RightClickBlock rightClickBlock) {
-        InteractionEvent.RIGHT_CLICK_BLOCK.register((player, hand, pos, direction) -> rightClickBlock.click(new ClickBlockEvent(player, hand, pos, direction)).toActionResult());
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerLeftClickBlock(LeftClickBlock leftClickBlock) {
-        InteractionEvent.LEFT_CLICK_BLOCK.register((player, hand, pos, direction) -> leftClickBlock.click(new ClickBlockEvent(player, hand, pos, direction)).toActionResult());
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerRightClickItem(RightClickItem rightClickItem) {
-        InteractionEvent.RIGHT_CLICK_ITEM.register(rightClickItem::click);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerClientLeftClickAir(ClientLeftClickAir clientLeftClickAir) {
-        InteractionEvent.CLIENT_LEFT_CLICK_AIR.register(clientLeftClickAir::click);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerClientRightClickAir(ClientRightClickAir clientRightClickAir) {
-        InteractionEvent.CLIENT_RIGHT_CLICK_AIR.register(clientRightClickAir::click);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerInteractEntity(InteractEntity interactEntity) {
-        InteractionEvent.INTERACT_ENTITY.register(interactEntity::interact);
+        throw new AssertionError();
     }
 
     // ----

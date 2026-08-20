@@ -1,26 +1,30 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import me.shedaniel.architectury.event.events.client.ClientTickEvent;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 
 public class ClientTickEventRegistry {
+    @ExpectPlatform
     public static void registerPost(Client client) {
-        ClientTickEvent.CLIENT_POST.register(client::tick);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerPre(Client client) {
-        ClientTickEvent.CLIENT_PRE.register(client::tick);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerLevelPost(ClientLevel world) {
-        ClientTickEvent.CLIENT_WORLD_POST.register(world::tick);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerLevelPre(ClientLevel world) {
-        ClientTickEvent.CLIENT_WORLD_PRE.register(world::tick);
+        throw new AssertionError();
     }
 
     @Environment(EnvType.CLIENT)

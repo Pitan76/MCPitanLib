@@ -15,7 +15,7 @@ public abstract class CompatBlockEntityRenderer<T extends CompatBlockEntity> ext
         super(dispatcher);
     }
 
-    abstract void render(BlockEntityRenderEvent<T> event);
+    public abstract void render(BlockEntityRenderEvent<T> event);
 
     @Override
     public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {

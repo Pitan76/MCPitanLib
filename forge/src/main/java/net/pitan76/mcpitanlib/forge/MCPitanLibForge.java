@@ -7,6 +7,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.pitan76.mcpitanlib.MCPitanLib;
 
 @Mod(MCPitanLib.MOD_ID)
+@SuppressWarnings("deprecation")
 public class MCPitanLibForge {
     public MCPitanLibForge() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

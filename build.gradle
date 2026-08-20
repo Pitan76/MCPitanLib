@@ -68,6 +68,14 @@ allprojects {
         targetCompatibility = JavaVersion.toVersion(rootProject.java_version)
     }
 
+    // Gradle本体はJDK17以上が必要だが、runClient/runServerはjava_versionのJDKで動かす。
+    // -Dorg.gradle.java.home でJDK8を渡すとプラグインの解決に失敗するため、実行タスク側だけ切り替える。
+    tasks.withType(JavaExec).configureEach {
+        javaLauncher = javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(rootProject.java_version.toInteger())
+        }
+    }
+
     java {
         withSourcesJar()
     }

@@ -11,12 +11,32 @@ import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 
-public class CompatiblePickaxeItem extends PickaxeItem implements ExtendItemProvider {
+public class CompatiblePickaxeItem extends PickaxeItem implements ExtendItemProvider, CompatItemProvider {
+    public net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings settings;
+
+    public CompatiblePickaxeItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings settings) {
+        super(material.build(), attackDamage, attackSpeed, settings.build());
+        this.settings = settings;
+    }
+
+    public CompatiblePickaxeItem(int attackDamage, float attackSpeed, ToolMaterial material, net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings settings) {
+        super(material, attackDamage, attackSpeed, settings.build());
+        this.settings = settings;
+    }
+
+    @Override
+    public net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings getCompatSettings() {
+        return settings;
+    }
+
+    @Deprecated
     public CompatiblePickaxeItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatibleItemSettings settings) {
         super(material.build(), attackDamage, attackSpeed, settings.build());
     }
 
+    @Deprecated
     public CompatiblePickaxeItem(int attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
         super(material, attackDamage, attackSpeed, settings.build());
     }

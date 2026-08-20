@@ -1,6 +1,5 @@
 package net.pitan76.mcpitanlib.api.gui;
 
-import me.shedaniel.architectury.registry.MenuRegistry;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
@@ -20,7 +19,7 @@ public class SimpleScreenHandlerTypeBuilder<T extends ScreenHandler> {
     }
 
     public ScreenHandlerType<T> build() {
-        return MenuRegistry.of(factory::create);
+        return new ScreenHandlerType<>(factory::create);
     }
 
     public TypedScreenHandlerTypeWrapper<T> buildWrapper() {

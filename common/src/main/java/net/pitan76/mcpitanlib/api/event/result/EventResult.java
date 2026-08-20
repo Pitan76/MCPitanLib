@@ -5,16 +5,14 @@ import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 
 public class EventResult {
 
-    protected final me.shedaniel.architectury.event.EventResult result;
-
-    private static final EventResult TRUE = new EventResult(me.shedaniel.architectury.event.EventResult.interruptTrue());
-    private static final EventResult STOP = new EventResult(me.shedaniel.architectury.event.EventResult.interruptDefault());
-    private static final EventResult PASS = new EventResult(me.shedaniel.architectury.event.EventResult.pass());
-    private static final EventResult FALSE = new EventResult(me.shedaniel.architectury.event.EventResult.interruptFalse());
+    private static final EventResult TRUE = new EventResult();
+    private static final EventResult STOP = new EventResult();
+    private static final EventResult PASS = new EventResult();
+    private static final EventResult FALSE = new EventResult();
 
 
-    protected EventResult(me.shedaniel.architectury.event.EventResult result) {
-        this.result = result;
+    protected EventResult() {
+
     }
 
     public static EventResult success() {
@@ -33,25 +31,13 @@ public class EventResult {
         return FALSE;
     }
 
-    @Deprecated
-    public me.shedaniel.architectury.event.EventResult getResult() {
-        return result;
-    }
-
     public ActionResult toActionResult() {
-        if (this.equals(TRUE)) {
-            return ActionResult.SUCCESS;
-        }
-        if (this.equals(FALSE)) {
-            return ActionResult.FAIL;
-        }
-        if (this.equals(PASS)) {
-            return ActionResult.PASS;
-        }
-        if (this.equals(STOP)) {
-            return ActionResult.PASS;
-        }
-        return ActionResult.CONSUME;
+        if (this == TRUE) return ActionResult.SUCCESS;
+        // Architectury: interruptDefault() は asMinecraft() で PASS を返していたため合わせる
+        if (this == STOP) return ActionResult.PASS;
+        if (this == PASS) return ActionResult.PASS;
+        if (this == FALSE) return ActionResult.FAIL;
+        throw new IllegalStateException("Unknown EventResult: " + this);
     }
 
     public CompatActionResult toCompatActionResult() {

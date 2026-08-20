@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util;
 
-import me.shedaniel.architectury.registry.MenuRegistry;
-import me.shedaniel.architectury.registry.menu.ExtendedMenuProvider;
+import net.pitan76.mcpitanlib.core.screen.ExtendedMenuProvider;
+import net.pitan76.mcpitanlib.core.screen.MenuOpener;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -39,15 +39,15 @@ public class ScreenHandlerUtil {
     }
 
     public static void openExtendedMenu(ServerPlayerEntity player, NamedScreenHandlerFactory provider, Consumer<PacketByteBuf> bufWriter) {
-        MenuRegistry.openExtendedMenu(player, provider, bufWriter);
+        MenuOpener.openExtendedMenu(player, provider, bufWriter);
     }
 
     public static void openExtendedMenu(ServerPlayerEntity player, ExtendedMenuProvider provider) {
-        MenuRegistry.openExtendedMenu(player, provider);
+        MenuOpener.openExtendedMenu(player, provider);
     }
 
     public static void openMenu(ServerPlayerEntity player, NamedScreenHandlerFactory provider) {
-        MenuRegistry.openMenu(player, provider);
+        MenuOpener.openMenu(player, provider);
     }
 
     public static int getRawId(ScreenHandlerType<?> type) {

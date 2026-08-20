@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.core.registry;
 
-import me.shedaniel.architectury.registry.RegistrySupplier;
+import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;

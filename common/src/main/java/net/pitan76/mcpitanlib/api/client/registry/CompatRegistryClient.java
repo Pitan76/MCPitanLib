@@ -1,11 +1,6 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.registry.menu.MenuRegistry;
-import me.shedaniel.architectury.registry.BlockEntityRenderers;
-import me.shedaniel.architectury.registry.ParticleProviderRegistry;
-import me.shedaniel.architectury.registry.RenderTypes;
-import me.shedaniel.architectury.registry.entity.EntityRenderers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -59,7 +54,12 @@ public class CompatRegistryClient {
     }
 
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
-        MenuRegistry.registerScreenFactory(type, factory::create);
+        registerScreen(modId, () -> type, factory);
+    }
+
+    @ExpectPlatform
+    public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, ScreenFactory<H, S> factory) {
+        throw new AssertionError();
     }
 
     public static <H extends SimpleScreenHandler, S extends SimpleHandledScreen<H> & ScreenHandlerProvider<H>> void registerScreen(String modId, ScreenHandlerType<? extends H> type, ScreenFactory2<H, S> factory) {
@@ -79,36 +79,19 @@ public class CompatRegistryClient {
         S create(H handler, CompatPlayerInventory inventory, TextComponent text);
     }
 
+    @ExpectPlatform
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {
-        ParticleProviderRegistry.register(type, factory);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ArchRegistryClient.DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.register(type, spriteSet -> provider.create(new ArchRegistryClient.ExtendedSpriteSet() {
-            @Override
-            public SpriteAtlasTexture getAtlas() {
-                return spriteSet.getAtlas();
-            }
-
-            @Override
-            public List<Sprite> getSprites() {
-                return spriteSet.getSprites();
-            }
-
-            @Override
-            public Sprite getSprite(int age, int maxAge) {
-                return spriteSet.getSprite(age, maxAge);
-            }
-
-            @Override
-            public Sprite getSprite(Random random) {
-                return spriteSet.getSprite(random);
-            }
-        }));
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, Function<EntityRenderDispatcher, EntityRenderer<T>> factory) {
-        EntityRenderers.register((EntityType<T>) type.get(), factory);
+        throw new AssertionError();
     }
 
     @FunctionalInterface
@@ -139,7 +122,12 @@ public class CompatRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRenderers.registerRenderer(type, dispatcher -> provider.create(new BlockEntityRendererFactory.Context(dispatcher)));
+        registerBlockEntityRenderer(() -> type, provider);
+    }
+
+    @ExpectPlatform
+    public static <T extends BlockEntity> void registerBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> provider) {
+        throw new AssertionError();
     }
 
     @FunctionalInterface
@@ -159,12 +147,14 @@ public class CompatRegistryClient {
         }
     }
 
+    @ExpectPlatform
     public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
-        RenderTypes.register(layer, block);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
-        RenderTypes.register(layer, fluid);
+        throw new AssertionError();
     }
 
     public static void registerCutoutBlock(Block block) {
@@ -172,7 +162,7 @@ public class CompatRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRenderers.registerRenderer(type, dispatcher -> provider.create(new BlockEntityRendererFactory.Context(dispatcher)));
+        registerBlockEntityRenderer(type, provider);
     }
 
     public static void registerRenderTypeBlock(CompatRenderLayer layer, Block block) {

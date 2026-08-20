@@ -1,8 +1,10 @@
 package net.pitan76.mcpitanlib.api.command;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
+
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import me.shedaniel.architectury.event.events.CommandRegistrationEvent;
+
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.pitan76.mcpitanlib.api.command.argument.*;
@@ -28,10 +30,9 @@ public class CommandRegistry {
         register(builder);
     }
 
+    @ExpectPlatform
     public static void register(LiteralArgumentBuilder<ServerCommandSource> builder) {
-        CommandRegistrationEvent.EVENT.register((dispatcher, environment) ->
-                dispatcher.register(builder)
-        );
+        throw new AssertionError();
     }
 
     private static <T extends ArgumentBuilder<ServerCommandSource, T>> void forArgsCmd(AbstractCommand<?> absCmd, ArgumentBuilder<ServerCommandSource, T> builder) {

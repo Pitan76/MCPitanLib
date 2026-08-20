@@ -10,12 +10,25 @@ import net.pitan76.mcpitanlib.api.event.item.PostHitEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItemProvider;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 
-public class CompatibleShearsItem extends ShearsItem implements ExtendItemProvider {
+public class CompatibleShearsItem extends ShearsItem implements ExtendItemProvider, CompatItemProvider {
+    public net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings settings;
+
+    public CompatibleShearsItem(net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings settings) {
+        super(settings.build());
+        this.settings = settings;
+    }
+
+    @Override
+    public net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings getCompatSettings() {
+        return settings;
+    }
     public CompatibleShearsItem(Settings settings) {
         super(settings);
     }
 
+    @Deprecated
     public CompatibleShearsItem(CompatibleItemSettings settings) {
         this(settings.build());
     }

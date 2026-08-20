@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.core.registry;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
+
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
@@ -13,8 +15,9 @@ public class FuelRegistry {
 
     }
 
+    @ExpectPlatform
     public static void register(int time, Supplier<ItemConvertible> item) {
-        me.shedaniel.architectury.registry.fuel.FuelRegistry.register(time, item.get());
+        throw new AssertionError();
     }
 
     public static void register(int time, ItemConvertible... item) {
@@ -25,11 +28,16 @@ public class FuelRegistry {
 
     @Deprecated
     public static int get(ItemStack stack) {
-        return me.shedaniel.architectury.registry.fuel.FuelRegistry.get(stack);
+        return getBurnTime(stack);
     }
 
     public static int get(World world, ItemStack stack) {
-        return me.shedaniel.architectury.registry.fuel.FuelRegistry.get(stack);
+        return getBurnTime(stack);
+    }
+
+    @ExpectPlatform
+    public static int getBurnTime(ItemStack stack) {
+        throw new AssertionError();
     }
 
     public static boolean isFuel(World world, ItemStack stack) {

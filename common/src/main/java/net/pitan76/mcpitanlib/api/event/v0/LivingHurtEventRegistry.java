@@ -1,22 +1,24 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import dev.architectury.event.EventResult;
-import dev.architectury.event.events.common.EntityEvent;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.ActionResult;
+import net.pitan76.mcpitanlib.api.event.result.EventResult;
 import net.pitan76.mcpitanlib.api.event.v0.event.LivingHurtEvent;
 
+@Deprecated
 public class LivingHurtEventRegistry {
+    @ExpectPlatform
     public static void register(LivingHurt livingHurt) {
-        EntityEvent.LIVING_ATTACK.register(livingHurt::hurt);
+        throw new AssertionError();
     }
 
     public interface LivingHurt {
         default ActionResult hurt(LivingEntity var1, DamageSource var2, float var3) {
-            return EventResult.toActionResult(hurt(new LivingHurtEvent(var1, var2, var3)));
+            return hurt(new LivingHurtEvent(var1, var2, var3)).toActionResult();
         }
 
-        me.shedaniel.architectury.event.EventResult hurt(LivingHurtEvent event);
+        EventResult hurt(LivingHurtEvent event);
     }
 }
