@@ -389,10 +389,22 @@ public class Player {
 
     @Environment(EnvType.CLIENT)
     public Optional<net.minecraft.client.player.LocalPlayer> getClientPlayer() {
-        if (getEntity() instanceof net.minecraft.client.player.LocalPlayer)
-            return Optional.of((net.minecraft.client.player.LocalPlayer) getEntity());
+        return ClientPlayerHolder.get(getEntity());
+    }
 
-        return Optional.empty();
+    /**
+     * クライアント専用クラス(LocalPlayer)への参照をPlayer本体から切り離すためのホルダー。
+     * Player本体のバイトコードが直接参照していると、専用サーバーでPlayerクラスの検証時に
+     * NoClassDefFoundErrorになることがある。
+     */
+    @Environment(EnvType.CLIENT)
+    private static class ClientPlayerHolder {
+        private static Optional<net.minecraft.client.player.LocalPlayer> get(net.minecraft.world.entity.player.Player entity) {
+            if (entity instanceof net.minecraft.client.player.LocalPlayer)
+                return Optional.of((net.minecraft.client.player.LocalPlayer) entity);
+
+            return Optional.empty();
+        }
     }
 
     public void setVelocity(double x, double y, double z) {
