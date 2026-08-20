@@ -17,6 +17,8 @@
     "ServerWorldTimer"
   ],
   "client": [
+    "BlockClientMixin",
+    "ItemClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
