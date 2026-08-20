@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.entity;
 
-import me.shedaniel.architectury.registry.menu.ExtendedMenuProvider;
+import net.pitan76.mcpitanlib.core.screen.ExtendedMenuProvider;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
