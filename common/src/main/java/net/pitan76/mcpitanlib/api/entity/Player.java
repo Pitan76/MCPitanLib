@@ -380,10 +380,22 @@ public class Player {
 
     @Environment(EnvType.CLIENT)
     public Optional<ClientPlayerEntity> getClientPlayer() {
-        if (getEntity() instanceof ClientPlayerEntity)
-            return Optional.of((ClientPlayerEntity) getEntity());
+        return ClientPlayerHolder.get(getEntity());
+    }
 
-        return Optional.empty();
+    /**
+     * クライアント専用クラス(ClientPlayerEntity)への参照をPlayer本体から切り離すためのホルダー。
+     * Player本体のバイトコードが直接参照していると、専用サーバーでPlayerクラスの検証時に
+     * NoClassDefFoundErrorになることがある。
+     */
+    @Environment(EnvType.CLIENT)
+    private static class ClientPlayerHolder {
+        private static Optional<ClientPlayerEntity> get(PlayerEntity entity) {
+            if (entity instanceof ClientPlayerEntity)
+                return Optional.of((ClientPlayerEntity) entity);
+
+            return Optional.empty();
+        }
     }
 
     public void setVelocity(double x, double y, double z) {
