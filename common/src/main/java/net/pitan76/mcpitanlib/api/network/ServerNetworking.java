@@ -33,6 +33,12 @@ public class ServerNetworking {
         ServerPlayNetworking.registerGlobalReceiver(id, handler);
     }
 
+    /**
+     * S2Cのペイロードタイプを登録する。
+     * <p>
+     * <b>MODの初期化時(共通初期化)に呼ぶこと。</b> 送信時に初めて登録しても間に合わず、
+     * 専用サーバーでBufPayloadがDiscardedPayloadへキャストできずクラッシュする。
+     */
     public static void registerS2CPayloadType(Identifier identifier) {
         ServerPlayNetworking.registerS2CPayloadType(identifier);
     }
