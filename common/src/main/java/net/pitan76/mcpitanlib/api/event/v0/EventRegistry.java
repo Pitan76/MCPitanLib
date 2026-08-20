@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.api.event.v0;
 
-import me.shedaniel.architectury.event.events.LifecycleEvent;
+import net.pitan76.mcpitanlib.core.event.ServerLifecycleHooks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -43,31 +43,31 @@ public class EventRegistry {
     public static class ServerLifecycle {
         // Architectury: LifecycleEvent
         public static void serverStarted(ServerState state) {
-            LifecycleEvent.SERVER_STARTED.register(state::stateChanged);
+            ServerLifecycleHooks.serverStarted(state);
         }
 
         public static void serverStarting(ServerState state) {
-            LifecycleEvent.SERVER_STARTING.register(state::stateChanged);
+            ServerLifecycleHooks.serverStarting(state);
         }
 
         public static void serverStopped(ServerState state) {
-            LifecycleEvent.SERVER_STOPPED.register(state::stateChanged);
+            ServerLifecycleHooks.serverStopped(state);
         }
 
         public static void serverStopping(ServerState state) {
-            LifecycleEvent.SERVER_STOPPING.register(state::stateChanged);
+            ServerLifecycleHooks.serverStopping(state);
         }
 
         public static void serverWorldLoad(ServerWorldState state) {
-            LifecycleEvent.SERVER_WORLD_LOAD.register(state::act);
+            ServerLifecycleHooks.serverWorldLoad(state);
         }
 
         public static void serverWorldSave(ServerWorldState state) {
-            LifecycleEvent.SERVER_WORLD_SAVE.register(state::act);
+            ServerLifecycleHooks.serverWorldSave(state);
         }
 
         public static void serverWorldUnload(ServerWorldState state) {
-            LifecycleEvent.SERVER_WORLD_UNLOAD.register(state::act);
+            ServerLifecycleHooks.serverWorldUnload(state);
         }
 
         public interface ServerState extends InstanceState<MinecraftServer> {

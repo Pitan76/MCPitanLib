@@ -1,10 +1,5 @@
 package net.pitan76.mcpitanlib.api.client.registry;
 
-import dev.architectury.registry.menu.MenuRegistry;
-import me.shedaniel.architectury.registry.BlockEntityRenderers;
-import me.shedaniel.architectury.registry.ParticleProviderRegistry;
-import me.shedaniel.architectury.registry.RenderTypes;
-import me.shedaniel.architectury.registry.entity.EntityRenderers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -42,7 +37,7 @@ import java.util.function.Supplier;
 @Environment(EnvType.CLIENT)
 public class ArchRegistryClient {
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(ScreenHandlerType<? extends H> type, ScreenFactory<H, S> factory) {
-        MenuRegistry.registerScreenFactory(type, factory::create);
+        CompatRegistryClient.registerScreen(type, factory::create);
     }
 
     public interface ScreenFactory<H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> {
@@ -50,18 +45,18 @@ public class ArchRegistryClient {
     }
 
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {
-        ParticleProviderRegistry.register(type, factory);
+        CompatRegistryClient.registerParticle(type, factory);
     }
 
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, DeferredParticleProvider<T> provider) {
-        ParticleProviderRegistry.register(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
+        CompatRegistryClient.registerParticle(type, spriteSet -> provider.create(new ExtendedSpriteSet() {
             @Override
             public SpriteAtlasTexture getAtlas() {
                 return spriteSet.getAtlas();
             }
 
             @Override
-            public List<Sprite> getSprites() {
+            public java.util.List<Sprite> getSprites() {
                 return spriteSet.getSprites();
             }
 
@@ -78,7 +73,7 @@ public class ArchRegistryClient {
     }
 
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, Function<EntityRenderDispatcher, EntityRenderer<T>> factory) {
-        EntityRenderers.register((EntityType<T>) type.get(), factory);
+        CompatRegistryClient.registerEntityRenderer(type, factory);
     }
 
     @FunctionalInterface
@@ -109,7 +104,7 @@ public class ArchRegistryClient {
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
-        BlockEntityRenderers.registerRenderer(type, dispatcher -> provider.create(new BlockEntityRendererFactory.Context(dispatcher)));
+        CompatRegistryClient.registerBlockEntityRenderer(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(ctx.getRenderDispatcher())));
     }
 
     @FunctionalInterface
@@ -131,10 +126,10 @@ public class ArchRegistryClient {
 
 
     public static void registerRenderTypeBlock(RenderLayer layer, Block block) {
-        RenderTypes.register(layer, block);
+        CompatRegistryClient.registerRenderTypeBlock(layer, block);
     }
 
     public static void registerRenderTypeFluid(RenderLayer layer, Fluid fluid) {
-        RenderTypes.register(layer, fluid);
+        CompatRegistryClient.registerRenderTypeFluid(layer, fluid);
     }
 }
