@@ -35,8 +35,6 @@ public class CommandRegistryImpl {
 
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
-        CommandRegistry.latestCommandRegistryAccess = event.getBuildContext();
-
         for (Map.Entry<String, LiteralCommand> entry : commands.entrySet()) {
             LiteralCommand command = entry.getValue();
 

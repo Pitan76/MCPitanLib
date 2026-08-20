@@ -21,10 +21,10 @@ public class LivingHurtEventRegistryImpl {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntity().getWorld().isClient()) return;
+        if (event.getEntityLiving().getWorld().isClient()) return;
 
         for (LivingHurtEventRegistry.LivingHurt listener : listeners) {
-            boolean allow = listener.hurt(event.getEntity(), event.getSource(), event.getAmount());
+            boolean allow = listener.hurt(event.getEntityLiving(), event.getSource(), event.getAmount());
 
             if (!allow) {
                 event.setCanceled(true);

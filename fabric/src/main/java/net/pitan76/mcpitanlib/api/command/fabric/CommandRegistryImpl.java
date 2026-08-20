@@ -1,19 +1,16 @@
 package net.pitan76.mcpitanlib.api.command.fabric;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.server.command.ServerCommandSource;
 import net.pitan76.mcpitanlib.api.command.CommandRegistry;
 import net.pitan76.mcpitanlib.api.command.CommandSettings;
 import net.pitan76.mcpitanlib.api.command.LiteralCommand;
 import net.pitan76.mcpitanlib.api.event.ServerCommandEvent;
 
-@SuppressWarnings("deprecation")
 public class CommandRegistryImpl {
     public static void register(String name, LiteralCommand command) {
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            CommandRegistry.latestCommandRegistryAccess = registryAccess;
-
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
             CommandSettings settings = new CommandSettings();
             command.init(settings);
 
@@ -33,9 +30,6 @@ public class CommandRegistryImpl {
     }
 
     public static void register(LiteralArgumentBuilder<ServerCommandSource> builder) {
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            CommandRegistry.latestCommandRegistryAccess = registryAccess;
-            dispatcher.register(builder);
-        });
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> dispatcher.register(builder));
     }
 }

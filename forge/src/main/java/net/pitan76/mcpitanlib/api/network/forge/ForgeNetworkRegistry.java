@@ -32,7 +32,7 @@ public class ForgeNetworkRegistry {
         CHANNEL.messageBuilder(RawPacket.class, 0)
                 .encoder(RawPacket::encode)
                 .decoder(RawPacket::decode)
-                .consumerNetworkThread((packet, contextSupplier) -> {
+                .consumer((packet, contextSupplier) -> {
                     var context = contextSupplier.get();
                     context.enqueueWork(() -> {
                         Identifier id = packet.getId();

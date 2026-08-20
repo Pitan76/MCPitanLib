@@ -11,8 +11,6 @@ import net.minecraftforge.client.event.DrawSelectionEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.client.event.RenderHighlightEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineEvent;
 import net.pitan76.mcpitanlib.api.client.event.listener.BeforeBlockOutlineListener;

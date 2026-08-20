@@ -31,7 +31,7 @@ import net.minecraft.particle.ParticleType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.random.Random;
+import java.util.Random;
 import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 
 import java.util.List;

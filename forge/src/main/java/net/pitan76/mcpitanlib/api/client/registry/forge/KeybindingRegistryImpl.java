@@ -2,12 +2,12 @@ package net.pitan76.mcpitanlib.api.client.registry.forge;
 
 import net.minecraft.client.option.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -21,10 +21,11 @@ public class KeybindingRegistryImpl {
     }
 
     @SubscribeEvent
-    public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
-        for (KeyBinding keyBinding : keyBindings) {
-            event.register(keyBinding);
-        }
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            for (KeyBinding keyBinding : keyBindings) {
+                ClientRegistry.registerKeyBinding(keyBinding);
+            }
+        });
     }
 }
-

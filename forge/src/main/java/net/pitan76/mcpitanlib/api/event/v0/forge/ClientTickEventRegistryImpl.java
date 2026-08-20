@@ -52,8 +52,8 @@ public class ClientTickEventRegistryImpl {
     }
 
     @SubscribeEvent
-    public static void onLevelTick(TickEvent.LevelTickEvent event) {
-        if (event.level instanceof ClientWorld clientWorld) {
+    public static void onLevelTick(TickEvent.WorldTickEvent event) {
+        if (event.world instanceof ClientWorld clientWorld) {
             if (event.phase == TickEvent.Phase.START) {
                 for (ClientTickEventRegistry.ClientLevel listener : preLevels) {
                     listener.tick(clientWorld);

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.color.block.BlockColorProvider;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
@@ -25,7 +26,7 @@ import net.minecraft.particle.ParticleType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.random.Random;
+import java.util.Random;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -87,14 +88,14 @@ public class CompatRegistryClientImpl {
 
     // ---- Particle ----
 
-    private static final List<Consumer<RegisterParticleProvidersEvent>> particles = new CopyOnWriteArrayList<>();
+    private static final List<Runnable> particles = new CopyOnWriteArrayList<>();
 
     public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, ParticleFactory<T> factory) {
-        particles.add(event -> event.register(type.get(), factory));
+        particles.add(() -> MinecraftClient.getInstance().particleManager.registerFactory(type.get(), factory));
     }
 
     public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
-        particles.add(event -> event.register(type.get(), spriteSet -> provider.create(wrap(spriteSet))));
+        particles.add(() -> MinecraftClient.getInstance().particleManager.registerFactory(type.get(), spriteSet -> provider.create(wrap(spriteSet))));
     }
 
     private static CompatRegistryClient.ExtendedSpriteSet wrap(SpriteProvider spriteSet) {
@@ -122,9 +123,9 @@ public class CompatRegistryClientImpl {
     }
 
     @SubscribeEvent
-    public static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
-        for (Consumer<RegisterParticleProvidersEvent> particle : particles) {
-            particle.accept(event);
+    public static void onRegisterParticleProviders(ParticleFactoryRegisterEvent event) {
+        for (Runnable particle : particles) {
+            particle.run();
         }
     }
 

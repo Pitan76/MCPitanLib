@@ -49,7 +49,7 @@ public class InteractionEventRegistryImpl {
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         for (RightClickBlock listener : rightClickBlockListeners) {
-            EventResult result = listener.click(new ClickBlockEvent(event.getEntity(), event.getHand(), event.getPos(), event.getFace()));
+            EventResult result = listener.click(new ClickBlockEvent(event.getPlayer(), event.getHand(), event.getPos(), event.getFace()));
             if (result != EventResult.pass()) {
                 event.setCanceled(true);
                 event.setCancellationResult(result.toActionResult());
@@ -61,35 +61,35 @@ public class InteractionEventRegistryImpl {
     @SubscribeEvent
     public static void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
         for (LeftClickBlock listener : leftClickBlockListeners) {
-            listener.click(new ClickBlockEvent(event.getEntity(), event.getHand(), event.getPos(), event.getFace()));
+            listener.click(new ClickBlockEvent(event.getPlayer(), event.getHand(), event.getPos(), event.getFace()));
         }
     }
 
     @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         for (RightClickItem listener : rightClickItemListeners) {
-            listener.click2(event.getEntity(), event.getHand());
+            listener.click2(event.getPlayer(), event.getHand());
         }
     }
 
     @SubscribeEvent
     public static void onClientLeftClickAir(PlayerInteractEvent.LeftClickEmpty event) {
         for (ClientLeftClickAir listener : clientLeftClickAirListeners) {
-            listener.click(event.getEntity(), event.getHand());
+            listener.click(event.getPlayer(), event.getHand());
         }
     }
 
     @SubscribeEvent
     public static void onClientRightClickAir(PlayerInteractEvent.RightClickEmpty event) {
         for (ClientRightClickAir listener : clientRightClickAirListeners) {
-            listener.click(event.getEntity(), event.getHand());
+            listener.click(event.getPlayer(), event.getHand());
         }
     }
 
     @SubscribeEvent
     public static void onInteractEntity(PlayerInteractEvent.EntityInteract event) {
         for (InteractEntity listener : interactEntityListeners) {
-            listener.interact(event.getEntity(), event.getTarget(), event.getHand());
+            listener.interact(event.getPlayer(), event.getTarget(), event.getHand());
         }
     }
 }

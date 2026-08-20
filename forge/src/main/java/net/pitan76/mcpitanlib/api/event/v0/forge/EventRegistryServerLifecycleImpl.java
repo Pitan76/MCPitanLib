@@ -3,7 +3,7 @@ package net.pitan76.mcpitanlib.api.event.v0.forge;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -84,9 +84,9 @@ public class EventRegistryServerLifecycleImpl {
     }
 
     @SubscribeEvent
-    public static void onLevelLoad(LevelEvent.Load event) {
+    public static void onLevelLoad(WorldEvent.Load event) {
         // 繧ｯ繝ｩ繧､繧｢繝ｳ繝亥・縺ｮ繝ｯ繝ｼ繝ｫ繝芽ｪｭ縺ｿ霎ｼ縺ｿ縺ｧ繧ら匱轣ｫ縺吶ｋ縺溘ａ縲ヾerverWorld縺九←縺・°縺ｮ蛻､螳壹′蠢・ｦ・
-        if (event.getLevel() instanceof ServerWorld serverWorld) {
+        if (event.getWorld() instanceof ServerWorld serverWorld) {
             for (EventRegistry.ServerLifecycle.ServerWorldState listener : worldLoadListeners) {
                 listener.act(serverWorld);
             }
@@ -94,8 +94,8 @@ public class EventRegistryServerLifecycleImpl {
     }
 
     @SubscribeEvent
-    public static void onLevelSave(LevelEvent.Save event) {
-        if (event.getLevel() instanceof ServerWorld serverWorld) {
+    public static void onLevelSave(WorldEvent.Save event) {
+        if (event.getWorld() instanceof ServerWorld serverWorld) {
             for (EventRegistry.ServerLifecycle.ServerWorldState listener : worldSaveListeners) {
                 listener.act(serverWorld);
             }
@@ -103,8 +103,8 @@ public class EventRegistryServerLifecycleImpl {
     }
 
     @SubscribeEvent
-    public static void onLevelUnload(LevelEvent.Unload event) {
-        if (event.getLevel() instanceof ServerWorld serverWorld) {
+    public static void onLevelUnload(WorldEvent.Unload event) {
+        if (event.getWorld() instanceof ServerWorld serverWorld) {
             for (EventRegistry.ServerLifecycle.ServerWorldState listener : worldUnloadListeners) {
                 listener.act(serverWorld);
             }

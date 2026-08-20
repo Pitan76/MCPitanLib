@@ -38,9 +38,5 @@ public class MenuOpenerImpl {
             return delegate.createMenu(syncId, inventory, player);
         }
 
-        @Override
-        public boolean shouldCloseCurrentScreen() {
-            return delegate.shouldCloseCurrentScreen();
-        }
     }
 }

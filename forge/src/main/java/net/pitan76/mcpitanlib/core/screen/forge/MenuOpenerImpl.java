@@ -6,7 +6,7 @@ import net.pitan76.mcpitanlib.core.screen.ExtendedMenuProvider;
 
 public class MenuOpenerImpl {
     public static void openExtendedMenu(ServerPlayerEntity player, ExtendedMenuProvider provider) {
-        NetworkHooks.openScreen(player, provider, buf -> provider.writeScreenOpeningData(player, buf));
+        NetworkHooks.openGui(player, provider, buf -> provider.writeScreenOpeningData(player, buf));
     }
 }
 
