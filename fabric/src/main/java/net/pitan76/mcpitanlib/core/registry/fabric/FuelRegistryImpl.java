@@ -7,6 +7,6 @@ import java.util.function.Supplier;
 
 public class FuelRegistryImpl {
     public static void register(int time, Supplier<ItemLike> item) {
-        FuelValueEvents.BUILD.register((builder, context) -> builder.add(item.get(), context.baseSmeltTime() * time));
+        FuelValueEvents.BUILD.register((builder, context) -> builder.add(item.get(), time));
     }
 }

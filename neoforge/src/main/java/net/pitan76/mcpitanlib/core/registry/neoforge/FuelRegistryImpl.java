@@ -16,8 +16,7 @@ public class FuelRegistryImpl {
     private static final Map<Supplier<ItemLike>, Integer> FUEL_TIMES = new ConcurrentHashMap<>();
 
     public static void register(int time, Supplier<ItemLike> item) {
-        int burnTimeTicks = 200 * time;
-        FUEL_TIMES.put(item, burnTimeTicks);
+        FUEL_TIMES.put(item, time);
     }
 
     @SubscribeEvent
