@@ -34,6 +34,8 @@ dependencies {
 
     shadowCommon 'org.yaml:snakeyaml:2.0'
 
+    modRuntimeOnly "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+
     modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
