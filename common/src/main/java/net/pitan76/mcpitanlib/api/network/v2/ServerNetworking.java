@@ -50,6 +50,18 @@ public class ServerNetworking {
         sendAll(world.getServer(), id, buf);
     }
 
+    /**
+     * S2Cのペイロードタイプを登録する。
+     * <p>
+     * このバージョンでは何もしない (1.20.5以降との互換のために存在する)。
+     * 呼ぶ場合はMODの初期化時(共通初期化)に呼ぶこと。
+     *
+     * @param id パケットのID
+     */
+    public static void registerS2CPayloadType(CompatIdentifier id) {
+        net.pitan76.mcpitanlib.api.network.ServerNetworking.registerS2CPayloadType(id.toMinecraft());
+    }
+
     public static void registerReceiver(CompatIdentifier id, Consumer<ServerReceiveEvent> consumer) {
         net.pitan76.mcpitanlib.api.network.ServerNetworking.registerReceiver(id.toMinecraft(), (server, player, buf) -> {
             consumer.accept(new ServerReceiveEvent(server, player, buf));
