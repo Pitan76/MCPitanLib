@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
@@ -264,14 +266,25 @@ public class ItemStack {
     }
 
     public List<TextComponent> getTooltip() {
-        if (PlatformUtil.isClient()) {
+        if (PlatformUtil.isClient())
+            return ClientTooltipHolder.get(stack);
+
+        return stack.getTooltipLines(Item.TooltipContext.EMPTY, null, TooltipFlag.Default.NORMAL)
+                .stream().map(TextComponent::new).collect(Collectors.toList());
+    }
+
+    /**
+     * クライアント専用クラスへの参照をItemStack本体から切り離すためのホルダー。
+     * PlatformUtil.isClient()による実行時分岐だけでは、クラス検証の時点で
+     * クライアント専用クラスの解決が必要になり専用サーバーでNoClassDefFoundErrorになる。
+     */
+    @Environment(EnvType.CLIENT)
+    private static class ClientTooltipHolder {
+        private static List<TextComponent> get(net.minecraft.world.item.ItemStack stack) {
             return stack.getTooltipLines(Item.TooltipContext.EMPTY, net.pitan76.mcpitanlib.api.util.client.ClientUtil.getClientPlayer(),
                             net.pitan76.mcpitanlib.api.util.client.ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL)
                     .stream().map(TextComponent::new).collect(Collectors.toList());
         }
-
-        return stack.getTooltipLines(Item.TooltipContext.EMPTY, null, TooltipFlag.Default.NORMAL)
-                .stream().map(TextComponent::new).collect(Collectors.toList());
     }
 
     public <T> void putCustomNbt(String key, T value) {
