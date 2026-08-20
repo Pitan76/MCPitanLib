@@ -283,11 +283,11 @@ public class Player {
     }
 
     public float getYaw() {
-        return this.getEntity().getViewYRot(0);
+        return this.getEntity().getYRot();
     }
 
     public float getPitch() {
-        return this.getEntity().getViewXRot(0);
+        return this.getEntity().getXRot();
     }
 
     public void playSound(SoundEvent event, SoundSource category, float volume, float pitch) {
