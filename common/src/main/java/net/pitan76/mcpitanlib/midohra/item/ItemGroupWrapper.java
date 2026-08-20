@@ -15,17 +15,29 @@ import java.util.stream.Collectors;
 
 public class ItemGroupWrapper {
     private final net.minecraft.item.ItemGroup itemGroup;
+    private final java.util.function.Supplier<net.minecraft.item.ItemGroup> itemGroupSupplier;
 
     protected ItemGroupWrapper() {
         this.itemGroup = null;
+        this.itemGroupSupplier = null;
     }
 
     protected ItemGroupWrapper(net.minecraft.item.ItemGroup itemGroup) {
         this.itemGroup = itemGroup;
+        this.itemGroupSupplier = null;
+    }
+
+    protected ItemGroupWrapper(java.util.function.Supplier<net.minecraft.item.ItemGroup> itemGroupSupplier) {
+        this.itemGroup = null;
+        this.itemGroupSupplier = itemGroupSupplier;
     }
 
     public static ItemGroupWrapper of(net.minecraft.item.ItemGroup itemGroup) {
         return new ItemGroupWrapper(itemGroup);
+    }
+
+    public static ItemGroupWrapper of(java.util.function.Supplier<net.minecraft.item.ItemGroup> itemGroupSupplier) {
+        return new ItemGroupWrapper(itemGroupSupplier);
     }
 
     public static ItemGroupWrapper of(CompatIdentifier id) {
@@ -44,11 +56,18 @@ public class ItemGroupWrapper {
     }
 
     public boolean isEmpty() {
-        return itemGroup == null;
+        return itemGroup == null && itemGroupSupplier == null;
     }
 
     public net.minecraft.item.ItemGroup get() {
-        return itemGroup;
+        if (itemGroup != null) return itemGroup;
+        if (itemGroupSupplier != null) return itemGroupSupplier.get();
+        return null;
+    }
+
+    public java.util.function.Supplier<net.minecraft.item.ItemGroup> getSupplier() {
+        if (itemGroupSupplier != null) return itemGroupSupplier;
+        return () -> itemGroup;
     }
 
     public CompatIdentifier getId() {

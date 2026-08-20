@@ -2,7 +2,7 @@ package net.pitan76.mcpitanlib.api.command;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import dev.architectury.event.events.common.CommandRegistrationEvent;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.pitan76.mcpitanlib.api.command.argument.*;
@@ -11,30 +11,19 @@ import net.pitan76.mcpitanlib.api.event.*;
 import java.util.Map;
 
 public class CommandRegistry {
+
+
+    @ExpectPlatform
     public static void register(String name, LiteralCommand command) {
-        CommandSettings settings = new CommandSettings();
-        command.init(settings);
 
-        LiteralArgumentBuilder<ServerCommandSource> builder = LiteralArgumentBuilder.<ServerCommandSource>literal(name).requires(settings::requires)
-                .executes(context -> {
-                    ServerCommandEvent event = new ServerCommandEvent();
-                    event.setContext(context);
-                    command.execute(event);
-                    return command.isSuccess;
-                });
-
-        forArgsCmd(command, builder);
-
-        register(builder);
     }
 
+    @ExpectPlatform
     public static void register(LiteralArgumentBuilder<ServerCommandSource> builder) {
-        CommandRegistrationEvent.EVENT.register((dispatcher, environment) ->
-                dispatcher.register(builder)
-        );
+
     }
 
-    private static <T extends ArgumentBuilder<ServerCommandSource, T>> void forArgsCmd(AbstractCommand<?> absCmd, ArgumentBuilder<ServerCommandSource, T> builder) {
+    public static <T extends ArgumentBuilder<ServerCommandSource, T>> void forArgsCmd(AbstractCommand<?> absCmd, ArgumentBuilder<ServerCommandSource, T> builder) {
 
         if (!absCmd.getArgumentCommands().isEmpty()) {
             // 引数コマンド
