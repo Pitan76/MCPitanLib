@@ -37,7 +37,13 @@ import java.util.function.Supplier;
 public class CompatRegistryClientImpl {
 
     public static <H extends ScreenHandler, S extends Screen & ScreenHandlerProvider<H>> void registerScreen(String modId, Supplier<ScreenHandlerType<? extends H>> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
-        HandledScreens.register(type.get(), factory::create);
+        ScreenHandlerType<? extends H> resolved = type.get();
+
+        // 解決できないまま登録するとHandledScreensにnullキーが入り、
+        // 2件目で例外になって後続の登録が巻き添えになる
+        if (resolved == null) return;
+
+        HandledScreens.register(resolved, factory::create);
     }
 
     public static <T extends ParticleEffect> void registerParticle(ParticleType<T> type, ParticleFactory<T> factory) {
