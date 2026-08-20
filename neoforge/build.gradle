@@ -57,7 +57,7 @@ dependencies {
     // Automatically load all local NeoForge mod jars from the run/mods directory in development
     fileTree(dir: 'run/mods', include: '*.jar').each { File file ->
         String nameWithoutExtension = file.name.take(file.name.lastIndexOf('.'))
-        modRuntimeOnly name: nameWithoutExtension
+        modLocalRuntime name: nameWithoutExtension
     }
 }
 
