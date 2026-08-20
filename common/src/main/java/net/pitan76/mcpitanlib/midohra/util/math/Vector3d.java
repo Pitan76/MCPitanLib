@@ -225,6 +225,6 @@ public class Vector3d {
     }
 
     public long asLong() {
-        return ((long) x & 0xFFFFFFFFL) << 32 | ((long) y & 0xFFFFFFFFL) << 16 | ((long) z & 0xFFFFFFFFL);
+        return toInt().asLong();
     }
 }
