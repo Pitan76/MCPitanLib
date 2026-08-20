@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.midohra.item;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -263,14 +265,25 @@ public class ItemStack {
     }
 
     public List<TextComponent> getTooltip() {
-        if (PlatformUtil.isClient()) {
+        if (PlatformUtil.isClient())
+            return ClientTooltipHolder.get(stack);
+
+        return stack.getTooltip(null, TooltipContext.BASIC)
+                .stream().map(TextComponent::new).collect(Collectors.toList());
+    }
+
+    /**
+     * クライアント専用クラスへの参照をItemStack本体から切り離すためのホルダー。
+     * PlatformUtil.isClient()による実行時分岐だけでは、クラス検証の時点で
+     * クライアント専用クラスの解決が必要になり専用サーバーでNoClassDefFoundErrorになる。
+     */
+    @Environment(EnvType.CLIENT)
+    private static class ClientTooltipHolder {
+        private static List<TextComponent> get(net.minecraft.item.ItemStack stack) {
             return stack.getTooltip(net.pitan76.mcpitanlib.api.util.client.ClientUtil.getClientPlayer(),
                             net.pitan76.mcpitanlib.api.util.client.ClientUtil.getOptions().getRaw().advancedItemTooltips ? TooltipContext.ADVANCED : TooltipContext.BASIC)
                     .stream().map(TextComponent::new).collect(Collectors.toList());
         }
-
-        return stack.getTooltip(null, TooltipContext.BASIC)
-                .stream().map(TextComponent::new).collect(Collectors.toList());
     }
 
     public <T> void putCustomNbt(String key, T value) {
