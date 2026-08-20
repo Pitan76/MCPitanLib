@@ -55,7 +55,8 @@ public class MCPLRegistry {
     }
 
     public RegistrySupplier<Enchantment> registryEnchantment(Identifier id, Supplier<Enchantment> supplier) {
-        return ENCHANTMENT.register(id, supplier);
+        return null;
+        //return ENCHANTMENT.register(id, supplier);
     }
 
     public RegistrySupplier<StatusEffect> registryStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {

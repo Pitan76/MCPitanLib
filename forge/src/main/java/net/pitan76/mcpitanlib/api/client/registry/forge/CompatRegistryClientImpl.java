@@ -88,11 +88,11 @@ public class CompatRegistryClientImpl {
     private static final List<Consumer<RegisterParticleProvidersEvent>> particles = new CopyOnWriteArrayList<>();
 
     public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, ParticleFactory<T> factory) {
-        particles.add(event -> event.registerSpecial(type.get(), factory));
+        particles.add(event -> event.register(type.get(), factory));
     }
 
     public static <T extends ParticleEffect> void registerParticle(Supplier<ParticleType<T>> type, CompatRegistryClient.DeferredParticleProvider<T> provider) {
-        particles.add(event -> event.registerSpriteSet(type.get(), spriteSet -> provider.create(wrap(spriteSet))));
+        particles.add(event -> event.register(type.get(), spriteSet -> provider.create(wrap(spriteSet))));
     }
 
     private static CompatRegistryClient.ExtendedSpriteSet wrap(SpriteProvider spriteSet) {

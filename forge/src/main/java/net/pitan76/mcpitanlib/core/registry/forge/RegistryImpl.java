@@ -8,25 +8,26 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.RegisterEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Collections;
 
+/**
+ * Forgeはバニラのレジストリを凍結するため、mod構築時に直接registerすると
+ * "Registry is already frozen" で落ちる。RegisterEventまで登録を遅延させる。
+ */
 @EventBusSubscriber(modid = MCPitanLib.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class RegistryImpl {
 
@@ -40,6 +41,7 @@ public class RegistryImpl {
         }
     }
 
+    // 罠7: Forgeもmodを並列構築するのでスレッドセーフにする
     private static final Map<RegistryKey<? extends Registry<?>>, Map<Identifier, PendingEntry<?>>> PENDING_REGISTRIES = Collections.synchronizedMap(new LinkedHashMap<>());
 
     private static <T> RegistrySupplier<T> register(RegistryKey<Registry<T>> registryKey, Identifier id, Supplier<T> supplier) {
@@ -54,43 +56,44 @@ public class RegistryImpl {
     }
 
     public static RegistrySupplier<Item> registryItem(Identifier id, Supplier<Item> supplier) {
-        return register(RegistryKeys.ITEM, id, supplier);
+        return register(Registry.ITEM_KEY, id, supplier);
     }
 
     public static RegistrySupplier<Block> registryBlock(Identifier id, Supplier<Block> supplier) {
-        return register(RegistryKeys.BLOCK, id, supplier);
+        return register(Registry.BLOCK_KEY, id, supplier);
     }
 
     public static RegistrySupplier<ScreenHandlerType<?>> registryScreenHandlerType(Identifier id, Supplier<ScreenHandlerType<?>> supplier) {
-        return register(RegistryKeys.SCREEN_HANDLER, id, supplier);
+        return register(Registry.MENU_KEY, id, supplier);
     }
 
     public static RegistrySupplier<BlockEntityType<?>> registryBlockEntityType(Identifier id, Supplier<BlockEntityType<?>> supplier) {
-        return register(RegistryKeys.BLOCK_ENTITY_TYPE, id, supplier);
+        return register(Registry.BLOCK_ENTITY_TYPE_KEY, id, supplier);
     }
 
     public static RegistrySupplier<EntityType<?>> registryEntityType(Identifier id, Supplier<EntityType<?>> supplier) {
-        return register(RegistryKeys.ENTITY_TYPE, id, supplier);
+        return register(Registry.ENTITY_TYPE_KEY, id, supplier);
     }
 
     public static RegistrySupplier<SoundEvent> registrySoundEvent(Identifier id, Supplier<SoundEvent> supplier) {
-        return register(RegistryKeys.SOUND_EVENT, id, supplier);
+        return register(Registry.SOUND_EVENT_KEY, id, supplier);
     }
 
     public static RegistrySupplier<Fluid> registryFluid(Identifier id, Supplier<Fluid> supplier) {
-        return register(RegistryKeys.FLUID, id, supplier);
+        return register(Registry.FLUID_KEY, id, supplier);
     }
 
     public static RegistrySupplier<ParticleType<?>> registryParticleType(Identifier id, Supplier<ParticleType<?>> supplier) {
-        return register(RegistryKeys.PARTICLE_TYPE, id, supplier);
+        return register(Registry.PARTICLE_TYPE_KEY, id, supplier);
     }
 
     public static RegistrySupplier<StatusEffect> registryStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
-        return register(RegistryKeys.STATUS_EFFECT, id, supplier);
+        return register(Registry.MOB_EFFECT_KEY, id, supplier);
     }
 
+    // 1.19.2にはItemGroupのレジストリが無い (ItemGroupは配列で管理される)
     public static RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
-        return register(RegistryKeys.ITEM_GROUP, id, supplier);
+        return new RegistrySupplier<>(supplier.get());
     }
 
     @SubscribeEvent
@@ -116,4 +119,3 @@ public class RegistryImpl {
         }
     }
 }
-
