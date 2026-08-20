@@ -101,11 +101,11 @@ public class ArchRegistryClient {
     }
 
     public static void registryClientSprite(Identifier atlasId, Identifier identifier) {
-        ClientTextureStitchEvent.PRE.register(((atlas, spriteAdder) -> spriteAdder.accept(identifier)));
+        CompatRegistryClient.registryClientSprite(atlasId, identifier);
     }
 
     public static void registryClientSprite(Identifier atlasId, Sprite sprite) {
-        ClientTextureStitchEvent.PRE.register(((atlas, spriteAdder) -> spriteAdder.accept(sprite.getId())));
+        CompatRegistryClient.registryClientSprite(atlasId, sprite);
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(BlockEntityType<T> type, BlockEntityRendererFactory<T> provider) {
