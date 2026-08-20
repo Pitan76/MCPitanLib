@@ -1,20 +1,20 @@
 package net.pitan76.mcpitanlib.api.network;
 
-import dev.architectury.networking.NetworkManager;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
-import static dev.architectury.networking.NetworkManager.Side.S2C;
-
 public class ClientNetworking {
+    @ExpectPlatform
     public static void send(Identifier identifier, PacketByteBuf buf) {
-        NetworkManager.sendToServer(identifier, buf);
+        throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static void registerReceiver(Identifier identifier, ClientNetworkHandler handler) {
-        NetworkManager.registerReceiver(S2C, identifier, ((buf, context) -> handler.receive(MinecraftClient.getInstance(), MinecraftClient.getInstance().player, buf)));
+        throw new AssertionError();
     }
 
     @FunctionalInterface
