@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import net.minecraft.nbt.ByteTag;
@@ -35,6 +36,52 @@ public class NbtUtil {
      */
     public static CompoundTag create() {
         return new CompoundTag();
+    }
+
+    /**
+     * NbtCompoundをSNBT (文字列化されたNBT) に変換する。
+     * @param nbt NbtCompound
+     * @return SNBT
+     */
+    public static String toSnbt(CompoundTag nbt) {
+        return toSnbt((Tag) nbt);
+    }
+
+    /**
+     * NbtElementをSNBT (文字列化されたNBT) に変換する。
+     * @param element NbtElement
+     * @return SNBT
+     */
+    public static String toSnbt(Tag element) {
+        return element.toString();
+    }
+
+    /**
+     * SNBT (文字列化されたNBT) をNbtCompoundに変換する。
+     * パースに失敗した場合はIllegalArgumentExceptionを投げる。
+     * @param snbt SNBT
+     * @return NbtCompound
+     */
+    public static CompoundTag fromSnbt(String snbt) {
+        try {
+            return TagParser.parseCompoundFully(snbt);
+        } catch (CommandSyntaxException e) {
+            throw new IllegalArgumentException("Failed to parse SNBT: " + snbt, e);
+        }
+    }
+
+    /**
+     * SNBT (文字列化されたNBT) をNbtCompoundに変換する。
+     * パースに失敗した場合はOptional.empty()を返す。
+     * @param snbt SNBT
+     * @return NbtCompound
+     */
+    public static Optional<CompoundTag> tryFromSnbt(String snbt) {
+        try {
+            return Optional.of(TagParser.parseCompoundFully(snbt));
+        } catch (CommandSyntaxException e) {
+            return Optional.empty();
+        }
     }
 
     /**
