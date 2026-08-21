@@ -6,7 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.pitan76.mcpitanlib.api.transfer.energy.v1.IEnergyStorage;
@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 /**
  * NeoForgeではCapabilityでエネルギーを扱うため、常に利用できる。
  */
-@EventBusSubscriber(modid = "mcpitanlib")
+@EventBusSubscriber(modid = "mcpitanlib", bus = EventBusSubscriber.Bus.MOD)
 public class EnergyStorageUtilImpl {
 
     private static final List<Consumer<RegisterCapabilitiesEvent>> registrations = new CopyOnWriteArrayList<>();
