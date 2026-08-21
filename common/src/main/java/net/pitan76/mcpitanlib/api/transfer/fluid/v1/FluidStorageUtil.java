@@ -13,4 +13,24 @@ public class FluidStorageUtil {
     public static IFluidVariant getVariant(Fluid fluid) {
         throw new AssertionError();
     }
+
+    /**
+     * バケツ1杯分の量。
+     * Fabricはdroplet (81000)、NeoForgeはmB (1000) で単位が異なるため、
+     * 流体量はこの値を基準に計算すること。
+     * @return バケツ1杯分の量
+     */
+    @ExpectPlatform
+    public static long bucketAmount() {
+        throw new AssertionError();
+    }
+
+    /**
+     * バケツn杯分の量。
+     * @param buckets バケツの数
+     * @return 量
+     */
+    public static long buckets(double buckets) {
+        return (long) (bucketAmount() * buckets);
+    }
 }
