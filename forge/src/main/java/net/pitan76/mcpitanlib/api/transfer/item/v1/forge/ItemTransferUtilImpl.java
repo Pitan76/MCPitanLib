@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +18,7 @@ public class ItemTransferUtilImpl {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity == null) return 0;
 
-        IItemHandler handler = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, side).resolve().orElse(null);
+        IItemHandler handler = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).resolve().orElse(null);
         if (handler == null) return 0;
 
         // 既存のスロットに寄せてから空きスロットを使うので、バニラのホッパーに近い挙動になる
