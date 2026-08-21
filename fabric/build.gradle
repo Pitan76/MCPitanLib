@@ -24,6 +24,17 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     // Remove the next line if you don't want to depend on the API
 
+    // FabricにはNeoForgeのCapabilityに相当する標準のエネルギーAPIが無いため、
+    // 事実上の標準であるTeam Reborn Energyに対応する。
+    // ただし必須依存にはしないのでcompileOnlyかつJiJもしない。
+    // 実行時はteam_reborn_energyの有無を見て分岐する (EnergyStorageUtilImplを参照)
+    modCompileOnly("teamreborn:energy:${rootProject.team_reborn_energy_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    modLocalRuntime("teamreborn:energy:${rootProject.team_reborn_energy_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
