@@ -58,7 +58,7 @@ public class CompatBlockRotation implements CompatStringIdentifiable {
 
     public static List<CompatBlockRotation> shuffled(CompatRandom random) {
         List<CompatBlockRotation> rotations = new ArrayList<>();
-        for (BlockRotation rotation : BlockRotation.randomRotationOrder(random.getMcRandom())) {
+        for (BlockRotation rotation : BlockRotation.randomRotationOrder(random.getJavaRandom())) {
             rotations.add(of(rotation));
         }
         return rotations;

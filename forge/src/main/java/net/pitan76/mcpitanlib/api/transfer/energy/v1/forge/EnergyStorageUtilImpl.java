@@ -6,7 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -46,7 +46,7 @@ public class EnergyStorageUtilImpl {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity == null) return null;
 
-        net.minecraftforge.energy.IEnergyStorage handler = blockEntity.getCapability(ForgeCapabilities.ENERGY, side).resolve().orElse(null);
+        net.minecraftforge.energy.IEnergyStorage handler = blockEntity.getCapability(CapabilityEnergy.ENERGY, side).resolve().orElse(null);
         if (handler == null) return null;
 
         return new ForgeEnergyStorage(handler);
@@ -88,7 +88,7 @@ public class EnergyStorageUtilImpl {
             @NotNull
             @Override
             public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
-                if (capability != ForgeCapabilities.ENERGY) return LazyOptional.empty();
+                if (capability != CapabilityEnergy.ENERGY) return LazyOptional.empty();
 
                 IEnergyStorage storage = provider.apply(blockEntity, side);
                 if (storage == null) return LazyOptional.empty();
