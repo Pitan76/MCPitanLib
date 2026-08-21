@@ -5,6 +5,8 @@ import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.state.property.*;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
 import net.pitan76.mcpitanlib.api.util.block.properties.*;
+import net.pitan76.mcpitanlib.api.util.math.CompatBlockMirror;
+import net.pitan76.mcpitanlib.api.util.math.CompatBlockRotation;
 import net.pitan76.mcpitanlib.midohra.fluid.FluidState;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
@@ -59,6 +61,14 @@ public class BlockState {
 
     public net.minecraft.world.level.block.state.BlockState toMinecraft() {
         return state;
+    }
+
+    public BlockState rotate(CompatBlockRotation rotation) {
+        return of(BlockStateUtil.rotate(toMinecraft(), rotation));
+    }
+
+    public BlockState mirror(CompatBlockMirror mirror) {
+        return of(BlockStateUtil.mirror(toMinecraft(), mirror));
     }
 
     public <T extends Comparable<T>, V extends T> BlockState with(Property<T> property, V value) {
