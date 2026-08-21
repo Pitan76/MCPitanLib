@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.nbt;
 
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtSizeTracker;
 import net.minecraft.nbt.NbtIo;
 
 import java.io.DataInput;
@@ -22,19 +21,19 @@ public class NbtIoUtil {
 
     /**
      * 非圧縮のNBTファイルを読み込む。
-     * @param path ファイルパス
+     * @param file ファイル
      * @return NbtCompound
      */
-    public static NbtCompound read(Path path) throws IOException {
-        return NbtIo.read(path);
+    public static NbtCompound read(File file) throws IOException {
+        return NbtIo.read(file);
     }
 
-    public static NbtCompound read(File file) throws IOException {
-        return read(file.toPath());
+    public static NbtCompound read(Path path) throws IOException {
+        return read(path.toFile());
     }
 
     public static NbtCompound read(DataInput input) throws IOException {
-        return NbtIo.readCompound(input, NbtSizeTracker.ofUnlimitedBytes());
+        return NbtIo.read(input);
     }
 
     public static NbtCompound read(InputStream input) throws IOException {
@@ -44,18 +43,18 @@ public class NbtIoUtil {
     /**
      * 非圧縮のNBTファイルへ書き出す。
      * @param nbt NbtCompound
-     * @param path ファイルパス
+     * @param file ファイル
      */
-    public static void write(NbtCompound nbt, Path path) throws IOException {
-        NbtIo.write(nbt, path);
+    public static void write(NbtCompound nbt, File file) throws IOException {
+        NbtIo.write(nbt, file);
     }
 
-    public static void write(NbtCompound nbt, File file) throws IOException {
-        write(nbt, file.toPath());
+    public static void write(NbtCompound nbt, Path path) throws IOException {
+        write(nbt, path.toFile());
     }
 
     public static void write(NbtCompound nbt, DataOutput output) throws IOException {
-        NbtIo.writeCompound(nbt, output);
+        NbtIo.write(nbt, output);
     }
 
     public static void write(NbtCompound nbt, OutputStream output) throws IOException {
@@ -64,32 +63,32 @@ public class NbtIoUtil {
 
     /**
      * gzip圧縮されたNBTファイルを読み込む。
-     * @param path ファイルパス
+     * @param file ファイル
      * @return NbtCompound
      */
-    public static NbtCompound readCompressed(Path path) throws IOException {
-        return NbtIo.readCompressed(path, NbtSizeTracker.ofUnlimitedBytes());
+    public static NbtCompound readCompressed(File file) throws IOException {
+        return NbtIo.readCompressed(file);
     }
 
-    public static NbtCompound readCompressed(File file) throws IOException {
-        return readCompressed(file.toPath());
+    public static NbtCompound readCompressed(Path path) throws IOException {
+        return readCompressed(path.toFile());
     }
 
     public static NbtCompound readCompressed(InputStream input) throws IOException {
-        return NbtIo.readCompressed(input, NbtSizeTracker.ofUnlimitedBytes());
+        return NbtIo.readCompressed(input);
     }
 
     /**
      * gzip圧縮してNBTファイルへ書き出す。
      * @param nbt NbtCompound
-     * @param path ファイルパス
+     * @param file ファイル
      */
-    public static void writeCompressed(NbtCompound nbt, Path path) throws IOException {
-        NbtIo.writeCompressed(nbt, path);
+    public static void writeCompressed(NbtCompound nbt, File file) throws IOException {
+        NbtIo.writeCompressed(nbt, file);
     }
 
-    public static void writeCompressed(NbtCompound nbt, File file) throws IOException {
-        writeCompressed(nbt, file.toPath());
+    public static void writeCompressed(NbtCompound nbt, Path path) throws IOException {
+        writeCompressed(nbt, path.toFile());
     }
 
     public static void writeCompressed(NbtCompound nbt, OutputStream output) throws IOException {
