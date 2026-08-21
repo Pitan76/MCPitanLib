@@ -2,6 +2,11 @@ package net.pitan76.mcpitanlib.midohra.nbt;
 
 import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
+import net.pitan76.mcpitanlib.api.util.nbt.NbtIoUtil;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import net.pitan76.mcpitanlib.api.util.nbt.NbtIoUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 
 import java.util.Optional;
@@ -25,6 +30,43 @@ public class NbtCompound implements ElementConvertible {
 
     public NbtCompound copy() {
         return new NbtCompound(NbtUtil.copy(nbt));
+    }
+
+    /**
+     * SNBT (文字列化されたNBT) からNbtCompoundを作成する。
+     * パースに失敗した場合はIllegalArgumentExceptionを投げる。
+     */
+    public static NbtCompound fromSnbt(String snbt) {
+        return of(NbtUtil.fromSnbt(snbt));
+    }
+
+    /**
+     * SNBT (文字列化されたNBT) からNbtCompoundを作成する。
+     * パースに失敗した場合はOptional.empty()を返す。
+     */
+    public static Optional<NbtCompound> tryFromSnbt(String snbt) {
+        return NbtUtil.tryFromSnbt(snbt).map(NbtCompound::of);
+    }
+
+    /**
+     * SNBT (文字列化されたNBT) に変換する。
+     */
+    public String toSnbt() {
+        return NbtUtil.toSnbt(nbt);
+    }
+
+    /**
+     * gzip圧縮されたNBTファイルから読み込む。
+     */
+    public static NbtCompound read(Path path) throws IOException {
+        return of(NbtIoUtil.readCompressed(path));
+    }
+
+    /**
+     * gzip圧縮してNBTファイルへ書き出す。
+     */
+    public void write(Path path) throws IOException {
+        NbtIoUtil.writeCompressed(nbt, path);
     }
 
     public boolean has(String key) {

@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
@@ -23,6 +24,52 @@ public class NbtUtil {
      */
     public static NbtCompound create() {
         return new NbtCompound();
+    }
+
+    /**
+     * NbtCompoundをSNBT (文字列化されたNBT) に変換する。
+     * @param nbt NbtCompound
+     * @return SNBT
+     */
+    public static String toSnbt(NbtCompound nbt) {
+        return toSnbt((NbtElement) nbt);
+    }
+
+    /**
+     * NbtElementをSNBT (文字列化されたNBT) に変換する。
+     * @param element NbtElement
+     * @return SNBT
+     */
+    public static String toSnbt(NbtElement element) {
+        return element.toString();
+    }
+
+    /**
+     * SNBT (文字列化されたNBT) をNbtCompoundに変換する。
+     * パースに失敗した場合はIllegalArgumentExceptionを投げる。
+     * @param snbt SNBT
+     * @return NbtCompound
+     */
+    public static NbtCompound fromSnbt(String snbt) {
+        try {
+            return StringNbtReader.readCompound(snbt);
+        } catch (CommandSyntaxException e) {
+            throw new IllegalArgumentException("Failed to parse SNBT: " + snbt, e);
+        }
+    }
+
+    /**
+     * SNBT (文字列化されたNBT) をNbtCompoundに変換する。
+     * パースに失敗した場合はOptional.empty()を返す。
+     * @param snbt SNBT
+     * @return NbtCompound
+     */
+    public static Optional<NbtCompound> tryFromSnbt(String snbt) {
+        try {
+            return Optional.of(StringNbtReader.readCompound(snbt));
+        } catch (CommandSyntaxException e) {
+            return Optional.empty();
+        }
     }
 
     /**
