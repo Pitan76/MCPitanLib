@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.core.registry.forge;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
@@ -34,7 +35,7 @@ public class FuelRegistryImpl {
     }
 
     public static int get(ItemStack stack) {
-        return stack.getBurnTime(null);
+        return ForgeHooks.getBurnTime(stack, null);
     }
 
     public static boolean isFuel(ItemStack stack) {
