@@ -39,7 +39,7 @@ public class FuelRegistryImpl {
     }
 
     public static boolean isFuel(ItemStack stack) {
-        return stack.getBurnTime(null) > 0;
+        return get(stack) > 0;
     }
 }
 
