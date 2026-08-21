@@ -1,18 +1,13 @@
 package net.pitan76.mcpitanlib.api.transfer.energy.v1.neoforge;
 
-import net.neoforged.neoforge.transfer.energy.EnergyHandler;
-import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import net.pitan76.mcpitanlib.api.transfer.energy.v1.IEnergyStorage;
 
 /**
- * IEnergyStorageをNeoForgeのEnergyHandlerとして公開するためのラッパー。
+ * MCPitanLibのIEnergyStorageをNeoForgeのIEnergyStorageとして公開するためのラッパー。
  * <p>
  * {@link NeoForgeEnergyStorage} でない独自実装を登録した場合のフォールバック。
- * IEnergyStorage側がトランザクションを持たないため、ここでの操作は即時確定になる。
- * トランザクションを正しく扱いたい場合は
- * {@code EnergyStorageUtil#create} が返すストレージを登録すること。
  */
-public class NeoForgeWrappedEnergyHandler implements EnergyHandler {
+public class NeoForgeWrappedEnergyHandler implements net.neoforged.neoforge.energy.IEnergyStorage {
 
     public final IEnergyStorage storage;
 
@@ -21,26 +16,36 @@ public class NeoForgeWrappedEnergyHandler implements EnergyHandler {
     }
 
     @Override
-    public long getAmountAsLong() {
-        return storage.getAmount();
-    }
-
-    @Override
-    public long getCapacityAsLong() {
-        return storage.getCapacity();
-    }
-
-    @Override
-    public int insert(int maxAmount, TransactionContext transaction) {
+    public int receiveEnergy(int maxAmount, boolean simulate) {
         if (!storage.supportsInsertion()) return 0;
 
-        return (int) storage.insert(maxAmount, false);
+        return (int) storage.insert(maxAmount, simulate);
     }
 
     @Override
-    public int extract(int maxAmount, TransactionContext transaction) {
+    public int extractEnergy(int maxAmount, boolean simulate) {
         if (!storage.supportsExtraction()) return 0;
 
-        return (int) storage.extract(maxAmount, false);
+        return (int) storage.extract(maxAmount, simulate);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return (int) storage.getAmount();
+    }
+
+    @Override
+    public int getMaxEnergyStored() {
+        return (int) storage.getCapacity();
+    }
+
+    @Override
+    public boolean canExtract() {
+        return storage.supportsExtraction();
+    }
+
+    @Override
+    public boolean canReceive() {
+        return storage.supportsInsertion();
     }
 }
