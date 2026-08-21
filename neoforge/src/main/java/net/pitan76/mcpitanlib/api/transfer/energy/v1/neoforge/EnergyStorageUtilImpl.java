@@ -1,15 +1,14 @@
 package net.pitan76.mcpitanlib.api.transfer.energy.v1.neoforge;
 
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.pitan76.mcpitanlib.api.transfer.energy.v1.IEnergyStorage;
 import net.pitan76.mcpitanlib.api.util.LoggerUtil;
 import org.jetbrains.annotations.Nullable;
@@ -38,12 +37,12 @@ public class EnergyStorageUtilImpl {
     }
 
     public static IEnergyStorage create(long capacity, long maxInsert, long maxExtract) {
-        return new NeoForgeEnergyStorage(new net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler(toInt(capacity), toInt(maxInsert), toInt(maxExtract)));
+        return new NeoForgeEnergyStorage(new net.neoforged.neoforge.energy.EnergyStorage(toInt(capacity), toInt(maxInsert), toInt(maxExtract)));
     }
 
     @Nullable
     public static IEnergyStorage getEnergyStorage(World world, BlockPos pos, @Nullable Direction side) {
-        EnergyHandler handler = world.getCapability(Capabilities.Energy.BLOCK, pos, side);
+        net.neoforged.neoforge.energy.IEnergyStorage handler = world.getCapability(Capabilities.EnergyStorage.BLOCK, pos, side);
         if (handler == null) return null;
 
         return new NeoForgeEnergyStorage(handler);
@@ -56,7 +55,7 @@ public class EnergyStorageUtilImpl {
             return;
         }
 
-        registrations.add(event -> event.registerBlockEntity(Capabilities.Energy.BLOCK, type, (blockEntity, direction) -> {
+        registrations.add(event -> event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, (blockEntity, direction) -> {
             IEnergyStorage storage = provider.apply(blockEntity, direction);
             if (storage == null) return null;
 
@@ -74,10 +73,10 @@ public class EnergyStorageUtilImpl {
     }
 
     /**
-     * IEnergyStorageをNeoForgeのEnergyHandlerに変換する。
+     * MCPitanLibのIEnergyStorageをNeoForgeのIEnergyStorageに変換する。
      * ラッパー越しの二重変換を避けるため、元がNeoForgeEnergyStorageならそのまま取り出す。
      */
-    public static EnergyHandler toRaw(IEnergyStorage storage) {
+    public static net.neoforged.neoforge.energy.IEnergyStorage toRaw(IEnergyStorage storage) {
         if (storage instanceof NeoForgeEnergyStorage)
             return ((NeoForgeEnergyStorage) storage).getRaw();
 
