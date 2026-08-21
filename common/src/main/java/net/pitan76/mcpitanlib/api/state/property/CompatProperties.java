@@ -46,8 +46,8 @@ public class CompatProperties {
     public static final EnumProperty<SlabType> SLAB_TYPE = new EnumProperty<>(BlockStateProperties.SLAB_TYPE);
     public static final EnumProperty<ChestType> CHEST_TYPE = new EnumProperty<>(BlockStateProperties.CHEST_TYPE);
     public static final EnumProperty<PistonType> PISTON_TYPE = new EnumProperty<>(BlockStateProperties.PISTON_TYPE);
-    public static final EnumProperty<Direction.Axis> AXIS = new EnumProperty<>(BlockStateProperties.AXIS);
-    public static final EnumProperty<Direction.Axis> HORIZONTAL_AXIS = new EnumProperty<>(BlockStateProperties.HORIZONTAL_AXIS);
+    public static final AxisProperty AXIS = new AxisProperty(BlockStateProperties.AXIS);
+    public static final AxisProperty HORIZONTAL_AXIS = new AxisProperty(BlockStateProperties.HORIZONTAL_AXIS);
     public static final EnumProperty<ComparatorMode> COMPARATOR_MODE = new EnumProperty<>(BlockStateProperties.MODE_COMPARATOR);
 
     public static IProperty<?> of(Property<?> property) {
@@ -104,8 +104,8 @@ public class CompatProperties {
         if (property.equals(BlockStateProperties.SLAB_TYPE)) return (EnumProperty) SLAB_TYPE;
         if (property.equals(BlockStateProperties.CHEST_TYPE)) return (EnumProperty) CHEST_TYPE;
         if (property.equals(BlockStateProperties.PISTON_TYPE)) return (EnumProperty) PISTON_TYPE;
-        if (property.equals(BlockStateProperties.AXIS)) return (EnumProperty) AXIS;
-        if (property.equals(BlockStateProperties.HORIZONTAL_AXIS)) return (EnumProperty) HORIZONTAL_AXIS;
+        if (property.equals(BlockStateProperties.AXIS)) return (EnumProperty<T>) EnumProperty.of(AXIS.getProperty());
+        if (property.equals(BlockStateProperties.HORIZONTAL_AXIS)) return (EnumProperty<T>) EnumProperty.of(HORIZONTAL_AXIS.getProperty());
         if (property.equals(BlockStateProperties.MODE_COMPARATOR)) return (EnumProperty) COMPARATOR_MODE;
 
         return new EnumProperty<>(property);
@@ -118,5 +118,12 @@ public class CompatProperties {
         if (property == BlockStateProperties.VERTICAL_DIRECTION) return VERTICAL_DIRECTION;
 
         return new DirectionProperty(property);
+    }
+
+    public static AxisProperty ofAxis(net.minecraft.world.level.block.state.properties.EnumProperty<Direction.Axis> property) {
+        if (property == BlockStateProperties.AXIS) return AXIS;
+        if (property == BlockStateProperties.HORIZONTAL_AXIS) return HORIZONTAL_AXIS;
+
+        return new AxisProperty(property);
     }
 }

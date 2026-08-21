@@ -4,7 +4,9 @@ import net.pitan76.mcpitanlib.api.registry.CompatRegistryLookup;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
@@ -163,6 +165,10 @@ public class NbtCompound implements ElementConvertible {
 
     public NbtList getNbtCompoundList(String key) {
         return new NbtList(NbtUtil.getNbtCompoundList(nbt, key));
+    }
+
+    public Set<String> getKeys() {
+        return NbtUtil.getKeys(nbt);
     }
 
     @Override
