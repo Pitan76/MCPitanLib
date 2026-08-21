@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.BlockHitResult;
@@ -21,6 +22,8 @@ import net.minecraft.world.level.redstone.Orientation;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.util.block.BlockHitResultUtil;
+import net.pitan76.mcpitanlib.api.util.math.CompatBlockMirror;
+import net.pitan76.mcpitanlib.api.util.math.CompatBlockRotation;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
 
 public class BlockStateUtil {
@@ -100,6 +103,18 @@ public class BlockStateUtil {
 
     public static BlockState rotate(BlockState state, Rotation rotation) {
         return state.rotate(rotation);
+    }
+
+    public static BlockState rotate(BlockState state, CompatBlockRotation rotation) {
+        return rotate(state, rotation.getRaw());
+    }
+
+    public static BlockState mirror(BlockState state, Mirror mirror) {
+        return state.mirror(mirror);
+    }
+
+    public static BlockState mirror(BlockState state, CompatBlockMirror mirror) {
+        return mirror(state, mirror.getRaw());
     }
 
     public static net.pitan76.mcpitanlib.midohra.block.BlockState getMidohraDefaultState(Block block) {
