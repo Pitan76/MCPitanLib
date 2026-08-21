@@ -2,13 +2,9 @@ package net.pitan76.mcpitanlib.midohra.block;
 
 import net.minecraft.world.level.block.state.properties.Property;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
-import net.pitan76.mcpitanlib.api.state.property.BlockHalfProperty;
-import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
-import net.pitan76.mcpitanlib.api.state.property.IProperty;
-import net.pitan76.mcpitanlib.api.state.property.StairShapeProperty;
+import net.pitan76.mcpitanlib.api.state.property.*;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
-import net.pitan76.mcpitanlib.api.util.block.properties.CompatBlockHalf;
-import net.pitan76.mcpitanlib.api.util.block.properties.CompatStairShape;
+import net.pitan76.mcpitanlib.api.util.block.properties.*;
 import net.pitan76.mcpitanlib.midohra.fluid.FluidState;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 import net.pitan76.mcpitanlib.midohra.world.ServerWorld;
@@ -85,6 +81,30 @@ public class BlockState {
         return of(property.with(toMinecraft(), value.getStairShape()));
     }
 
+    public BlockState with(SlabTypeProperty property, CompatSlabType value) {
+        return of(property.with(toMinecraft(), value.getSlabType()));
+    }
+
+    public BlockState with(BedPartProperty property, CompatBedPart value) {
+        return of(property.with(toMinecraft(), value.getBedPart()));
+    }
+
+    public BlockState with(ChestTypeProperty property, CompatChestType value) {
+        return of(property.with(toMinecraft(), value.getChestType()));
+    }
+
+    public BlockState with(PistonTypeProperty property, CompatPistonType value) {
+        return of(property.with(toMinecraft(), value.getPistonType()));
+    }
+
+    public BlockState with(DoorHingeProperty property, CompatDoorHinge value) {
+        return of(property.with(toMinecraft(), value.getDoorHinge()));
+    }
+
+    public BlockState with(DoubleBlockHalfProperty property, CompatDoubleBlockHalf value) {
+        return of(property.with(toMinecraft(), value.getDoubleBlockHalf()));
+    }
+
     public <T extends Comparable<T>> BlockState cycle(Property<T> property) {
         return of(toMinecraft().cycle(property));
     }
@@ -117,6 +137,30 @@ public class BlockState {
         return CompatStairShape.of(get(property.getProperty()));
     }
 
+    public CompatSlabType get(SlabTypeProperty property) {
+        return CompatSlabType.of(get(property.getProperty()));
+    }
+
+    public CompatBedPart get(BedPartProperty property) {
+        return CompatBedPart.of(get(property.getProperty()));
+    }
+
+    public CompatChestType get(ChestTypeProperty property) {
+        return CompatChestType.of(get(property.getProperty()));
+    }
+
+    public CompatPistonType get(PistonTypeProperty property) {
+        return CompatPistonType.of(get(property.getProperty()));
+    }
+
+    public CompatDoorHinge get(DoorHingeProperty property) {
+        return CompatDoorHinge.of(get(property.getProperty()));
+    }
+
+    public CompatDoubleBlockHalf get(DoubleBlockHalfProperty property) {
+        return CompatDoubleBlockHalf.of(get(property.getProperty()));
+    }
+
     public <T extends Comparable<T>> boolean contains(Property<T> property) {
         return toMinecraft().hasProperty(property);
     }
@@ -134,6 +178,30 @@ public class BlockState {
     }
 
     public boolean contains(StairShapeProperty property) {
+        return contains(property.getProperty());
+    }
+
+    public boolean contains(SlabTypeProperty property) {
+        return contains(property.getProperty());
+    }
+
+    public boolean contains(BedPartProperty property) {
+        return contains(property.getProperty());
+    }
+
+    public boolean contains(ChestTypeProperty property) {
+        return contains(property.getProperty());
+    }
+
+    public boolean contains(PistonTypeProperty property) {
+        return contains(property.getProperty());
+    }
+
+    public boolean contains(DoorHingeProperty property) {
+        return contains(property.getProperty());
+    }
+
+    public boolean contains(DoubleBlockHalfProperty property) {
         return contains(property.getProperty());
     }
 
