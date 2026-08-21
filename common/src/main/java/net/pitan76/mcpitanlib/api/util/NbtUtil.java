@@ -52,7 +52,7 @@ public class NbtUtil {
      */
     public static NbtCompound fromSnbt(String snbt) {
         try {
-            return StringNbtReader.readCompound(snbt);
+            return StringNbtReader.parse(snbt);
         } catch (CommandSyntaxException e) {
             throw new IllegalArgumentException("Failed to parse SNBT: " + snbt, e);
         }
@@ -66,7 +66,7 @@ public class NbtUtil {
      */
     public static Optional<NbtCompound> tryFromSnbt(String snbt) {
         try {
-            return Optional.of(StringNbtReader.readCompound(snbt));
+            return Optional.of(StringNbtReader.parse(snbt));
         } catch (CommandSyntaxException e) {
             return Optional.empty();
         }
