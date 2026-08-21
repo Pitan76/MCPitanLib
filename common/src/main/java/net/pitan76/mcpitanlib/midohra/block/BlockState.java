@@ -7,6 +7,8 @@ import net.pitan76.mcpitanlib.api.state.property.DirectionProperty;
 import net.pitan76.mcpitanlib.api.state.property.IProperty;
 import net.pitan76.mcpitanlib.api.state.property.StairShapeProperty;
 import net.pitan76.mcpitanlib.api.util.BlockStateUtil;
+import net.pitan76.mcpitanlib.api.util.math.CompatBlockMirror;
+import net.pitan76.mcpitanlib.api.util.math.CompatBlockRotation;
 import net.pitan76.mcpitanlib.api.util.block.properties.CompatBlockHalf;
 import net.pitan76.mcpitanlib.api.util.block.properties.CompatStairShape;
 import net.pitan76.mcpitanlib.midohra.fluid.FluidState;
@@ -63,6 +65,14 @@ public class BlockState {
 
     public net.minecraft.block.BlockState toMinecraft() {
         return state;
+    }
+
+    public BlockState rotate(CompatBlockRotation rotation) {
+        return of(BlockStateUtil.rotate(toMinecraft(), rotation));
+    }
+
+    public BlockState mirror(CompatBlockMirror mirror) {
+        return of(BlockStateUtil.mirror(toMinecraft(), mirror));
     }
 
     public <T extends Comparable<T>, V extends T> BlockState with(Property<T> property, V value) {
