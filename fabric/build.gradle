@@ -47,6 +47,13 @@ dependencies {
     compileOnly "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     localRuntime "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
+    compileOnly("teamreborn:energy:${rootProject.team_reborn_energy_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    localRuntime("teamreborn:energy:${rootProject.team_reborn_energy_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+
     common(project(path: ":common")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
