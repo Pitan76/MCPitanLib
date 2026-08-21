@@ -137,4 +137,8 @@ public class CompatRandom {
     public net.minecraft.util.RandomSource getMcRandom() {
         return mcRandom;
     }
+
+    public <T> T choose(T[] array) {
+        return array[nextInt(array.length)];
+    }
 }

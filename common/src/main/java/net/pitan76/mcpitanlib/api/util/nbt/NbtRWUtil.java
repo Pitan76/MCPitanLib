@@ -138,4 +138,8 @@ public class NbtRWUtil {
     public static CompoundTag getCompound(ReadNbtArgs args, String key) {
         return args.view.read(key, CompoundTag.CODEC).orElse(NbtUtil.create());
     }
+
+    public static boolean has(NbtRWArgs args, String key) {
+        return NbtUtil.has(args.getNbt(), key);
+    }
 }

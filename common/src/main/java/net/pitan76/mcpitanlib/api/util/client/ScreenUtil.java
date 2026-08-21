@@ -16,6 +16,7 @@ import net.pitan76.mcpitanlib.api.client.gui.widget.RedrawableTexturedButtonWidg
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectDM;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -290,5 +291,13 @@ public class ScreenUtil {
         } else {
             return color;
         }
+    }
+
+    public static int getWidth(TextComponent text) {
+        return getWidth(text.getText());
+    }
+
+    public static int getWidth(String text) {
+        return getWidth(TextUtil.literal(text));
     }
 }
