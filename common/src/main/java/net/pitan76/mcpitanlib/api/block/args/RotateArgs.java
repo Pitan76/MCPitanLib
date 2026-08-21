@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.block.args;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.Direction;
+import net.pitan76.mcpitanlib.api.util.math.CompatBlockRotation;
 import net.pitan76.mcpitanlib.midohra.holder.BlockStatePropertyHolder;
 
 public class RotateArgs implements BlockStatePropertyHolder {
@@ -21,6 +22,14 @@ public class RotateArgs implements BlockStatePropertyHolder {
 
     public BlockRotation getRawRotation() {
         return rotation;
+    }
+
+    public CompatBlockRotation getRotation() {
+        return CompatBlockRotation.of(rotation);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.block.BlockState getRotatedBlockState() {
+        return getBlockState().rotate(getRotation());
     }
 
     @Override
