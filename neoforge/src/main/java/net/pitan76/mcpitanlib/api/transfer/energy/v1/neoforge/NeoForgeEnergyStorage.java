@@ -1,54 +1,54 @@
 package net.pitan76.mcpitanlib.api.transfer.energy.v1.neoforge;
 
-import net.neoforged.neoforge.transfer.energy.EnergyHandler;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.pitan76.mcpitanlib.api.transfer.energy.v1.IEnergyStorage;
 
 /**
- * NeoForgeのEnergyHandlerをIEnergyStorageとして扱うためのラッパー。
+ * NeoForgeのIEnergyStorageをMCPitanLibのIEnergyStorageとして扱うためのラッパー。
  */
 public class NeoForgeEnergyStorage implements IEnergyStorage {
 
-    public final EnergyHandler handler;
+    public final net.neoforged.neoforge.energy.IEnergyStorage handler;
 
-    public NeoForgeEnergyStorage(EnergyHandler handler) {
+    public NeoForgeEnergyStorage(net.neoforged.neoforge.energy.IEnergyStorage handler) {
         this.handler = handler;
     }
 
-    public EnergyHandler getRaw() {
+    public net.neoforged.neoforge.energy.IEnergyStorage getRaw() {
         return handler;
     }
 
     @Override
     public long getAmount() {
-        return handler.getAmountAsLong();
+        return handler.getEnergyStored();
     }
 
     @Override
     public long getCapacity() {
-        return handler.getCapacityAsLong();
+        return handler.getMaxEnergyStored();
     }
 
     @Override
     public long insert(long maxAmount, boolean simulate) {
-        try (Transaction transaction = Transaction.open(null)) {
-            long inserted = handler.insert(toInt(maxAmount), transaction);
-            if (!simulate) transaction.commit();
-            return inserted;
-        }
+        return handler.receiveEnergy(toInt(maxAmount), simulate);
     }
 
     @Override
     public long extract(long maxAmount, boolean simulate) {
-        try (Transaction transaction = Transaction.open(null)) {
-            long extracted = handler.extract(toInt(maxAmount), transaction);
-            if (!simulate) transaction.commit();
-            return extracted;
-        }
+        return handler.extractEnergy(toInt(maxAmount), simulate);
+    }
+
+    @Override
+    public boolean supportsInsertion() {
+        return handler.canReceive();
+    }
+
+    @Override
+    public boolean supportsExtraction() {
+        return handler.canExtract();
     }
 
     /**
-     * NeoForgeのEnergyHandlerはintで扱うため、範囲を丸める。
+     * NeoForgeのIEnergyStorageはintで扱うため、範囲を丸める。
      */
     private static int toInt(long amount) {
         if (amount > Integer.MAX_VALUE) return Integer.MAX_VALUE;
