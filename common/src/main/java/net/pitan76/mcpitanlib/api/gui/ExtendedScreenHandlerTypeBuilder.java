@@ -67,6 +67,8 @@ public class ExtendedScreenHandlerTypeBuilder<T extends AbstractContainerMenu> {
 
         @Override
         default T create(CreateMenuEvent e, FriendlyByteBuf buf) {
+            if (buf == null) return create(e, (net.pitan76.mcpitanlib.midohra.network.PacketByteBuf) null);
+
             return create(e, net.pitan76.mcpitanlib.midohra.network.PacketByteBuf.of(buf));
         }
     }
