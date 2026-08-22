@@ -16,6 +16,7 @@ import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 import net.pitan76.mcpitanlib.api.client.render.CompatMatrixStack;
 import net.pitan76.mcpitanlib.api.client.render.CompatRenderLayer;
 import net.pitan76.mcpitanlib.api.client.render.DrawObjectMV;
+import net.pitan76.mcpitanlib.api.client.render.RecordingVertexConsumer;
 import net.pitan76.mcpitanlib.api.client.render.block.entity.CompatBlockEntityRenderer;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
 import net.pitan76.mcpitanlib.api.util.MathUtil;
@@ -24,6 +25,9 @@ import net.pitan76.mcpitanlib.api.util.client.MatrixStackUtil;
 import net.pitan76.mcpitanlib.api.util.client.render.CompatItemRenderUtil;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
     public T blockEntity;
@@ -45,6 +49,8 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
     private BlockEntityRenderState state;
     private SubmitNodeCollector queue;
     private CameraRenderState cameraState;
+
+    private final Map<RenderType, RecordingVertexConsumer> recordedLayers = new HashMap<>();
 
     public <S extends BlockEntityRenderState> BlockEntityRenderEvent(CompatBlockEntityRenderer renderer, S state, PoseStack matrices, VertexConsumer vertexConsumers, SubmitNodeCollector queue, CameraRenderState cameraState) {
         this(state, matrices, vertexConsumers, queue, cameraState);
@@ -107,15 +113,15 @@ public class BlockEntityRenderEvent<T extends CompatBlockEntity> {
             throw new IllegalStateException("No SubmitNodeCollector available to resolve VertexConsumer for " + layer);
         }
 
-        // 遅延取得: ここで初めてsubmitCustomGeometryを発行し、コールバック内のVertexConsumerをキャッシュする
-        VertexConsumer[] holder = new VertexConsumer[1];
-        queue.submitCustomGeometry(matrices, layer, (pose, vertexConsumer) -> {
-            holder[0] = vertexConsumer;
-        });
+        RecordingVertexConsumer recorded = recordedLayers.get(layer);
+        if (recorded != null) return recorded;
 
-        // ここが問題: submitCustomGeometryのコールバックは即時実行ではない可能性がある
-        this.vertexConsumers = holder[0];
-        return this.vertexConsumers;
+        RecordingVertexConsumer recorder = new RecordingVertexConsumer();
+        recordedLayers.put(layer, recorder);
+
+        queue.submitCustomGeometry(matrices, layer, (pose, vertexConsumer) -> recorder.replay(vertexConsumer));
+
+        return recorder;
     }
 
     public VertexConsumer getVertexConsumer(CompatRenderLayer layer) {
