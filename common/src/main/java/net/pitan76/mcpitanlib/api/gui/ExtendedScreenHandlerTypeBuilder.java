@@ -58,6 +58,8 @@ public class ExtendedScreenHandlerTypeBuilder<T extends ScreenHandler> {
 
         @Override
         default T create(CreateMenuEvent e, PacketByteBuf buf) {
+            if (buf == null) return create(e, (net.pitan76.mcpitanlib.midohra.network.PacketByteBuf) null);
+
             return create(e, net.pitan76.mcpitanlib.midohra.network.PacketByteBuf.of(buf));
         }
     }
