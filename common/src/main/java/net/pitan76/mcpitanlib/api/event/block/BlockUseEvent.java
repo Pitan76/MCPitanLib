@@ -41,6 +41,20 @@ public class BlockUseEvent extends BaseEvent {
         return hit;
     }
 
+    /**
+     * @return the hit result as a midohra BlockHitResult
+     */
+    public net.pitan76.mcpitanlib.midohra.util.hit.BlockHitResult getMidohraHit() {
+        return net.pitan76.mcpitanlib.midohra.util.hit.BlockHitResult.of(hit);
+    }
+
+    /**
+     * @return the side of the block that was clicked
+     */
+    public net.pitan76.mcpitanlib.midohra.util.math.Direction getSide() {
+        return getMidohraHit().getSideM();
+    }
+
     public ItemStack getStack() {
         return stack;
     }

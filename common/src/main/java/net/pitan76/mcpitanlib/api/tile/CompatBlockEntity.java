@@ -29,6 +29,14 @@ public class CompatBlockEntity extends BlockEntity implements ICompatBlockEntity
         this(type, event.getBlockPos(), event.getBlockState());
     }
 
+    public CompatBlockEntity(BlockEntityTypeWrapper type, BlockPos pos, BlockState state) {
+        this(type.get(), pos, state);
+    }
+
+    public CompatBlockEntity(BlockEntityTypeWrapper type, net.pitan76.mcpitanlib.midohra.util.math.BlockPos pos, net.pitan76.mcpitanlib.midohra.block.BlockState state) {
+        this(type.get(), pos.toMinecraft(), state.toMinecraft());
+    }
+
     @Nullable
     @Override
     @Deprecated
