@@ -8,6 +8,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraft.block.entity.BlockEntityType;
+import net.pitan76.mcpitanlib.api.transfer.item.v1.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemTransferUtilImpl {
@@ -24,5 +26,16 @@ public class ItemTransferUtilImpl {
 
             return (int) inserted;
         }
+    }
+
+    @Nullable
+    public static IItemHandler getItemHandler(World world, BlockPos pos, @Nullable Direction side) {
+        Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, pos, side);
+        if (storage == null) return null;
+
+        return new FabricItemHandler(storage);
+    }
+
+    public static void registerInventory(BlockEntityType<?> type) {
     }
 }

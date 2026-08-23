@@ -1,13 +1,34 @@
 package net.pitan76.mcpitanlib.api.transfer.fluid.v1.neoforge;
 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.Fluid;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.pitan76.mcpitanlib.api.util.LoggerUtil;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidStorage;
 import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
 
+@EventBusSubscriber(modid = "mcpitanlib")
 public class FluidStorageUtilImpl {
+
+    private static final List<Consumer<RegisterCapabilitiesEvent>> registrations = new CopyOnWriteArrayList<>();
+    private static boolean registered = false;
+
     public static IFluidStorage withFixedCapacity(long capacity, Runnable onChange) {
         return new NeoForgeFluidStorage(new FluidTank((int) capacity), onChange);
     }
@@ -18,5 +39,36 @@ public class FluidStorageUtilImpl {
 
     public static long bucketAmount() {
         return FluidType.BUCKET_VOLUME;
+    }
+
+    @Nullable
+    public static net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidHandler getFluidHandler(World world, BlockPos pos, @Nullable Direction side) {
+        net.neoforged.neoforge.fluids.capability.IFluidHandler handler = world.getCapability(Capabilities.FluidHandler.BLOCK, pos, side);
+        if (handler == null) return null;
+
+        return new NeoForgeFluidHandler(handler);
+    }
+
+    public static void registerFluidStorage(BlockEntityType<?> type, BiFunction<BlockEntity, Direction, IFluidStorage> provider) {
+        if (registered) {
+            LoggerUtil.warn(LoggerUtil.getLogger(FluidStorageUtilImpl.class),
+                    "registerFluidStorage was called after RegisterCapabilitiesEvent. The registration is ignored: " + type);
+            return;
+        }
+
+        registrations.add(event -> event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type, (blockEntity, direction) -> {
+            IFluidStorage storage = provider.apply(blockEntity, direction);
+            if (!(storage instanceof NeoForgeFluidStorage)) return null;
+
+            return ((NeoForgeFluidStorage) storage).storage;
+        }));
+    }
+
+    @SubscribeEvent
+    public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+        for (Consumer<RegisterCapabilitiesEvent> registration : registrations) {
+            registration.accept(event);
+        }
+        registered = true;
     }
 }
