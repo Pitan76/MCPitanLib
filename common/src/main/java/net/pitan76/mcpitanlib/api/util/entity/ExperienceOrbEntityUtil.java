@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.util.entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -18,7 +18,7 @@ public class ExperienceOrbEntityUtil {
     }
 
     public static List<ExperienceOrb> getEntities(Level world, AABB box) {
-        return WorldUtil.getEntitiesByType(world, EntityTypes.EXPERIENCE_ORB, box);
+        return WorldUtil.getEntitiesByType(world, EntityType.EXPERIENCE_ORB, box);
     }
 
     public static List<ExperienceOrb> getEntities(net.pitan76.mcpitanlib.midohra.world.World world, net.pitan76.mcpitanlib.midohra.util.math.Box box) {
