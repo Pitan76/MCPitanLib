@@ -36,6 +36,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
+import net.pitan76.mcpitanlib.api.util.LoggerUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -147,11 +148,17 @@ public class CompatRegistryClientImpl {
 
     private static final List<Consumer<EntityRenderersEvent.RegisterRenderers>> renderers = new CopyOnWriteArrayList<>();
 
+    // RegisterRenderersが発火済みかどうか (発火後に積まれた登録要求は反映されないので警告を出す)
+    private static volatile boolean renderersRegistered = false;
+
     public static <T extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends T>> type, EntityRendererFactory<T> provider) {
         renderers.add(event -> event.registerEntityRenderer(type.get(), provider));
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRendererRaw(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> factory) {
+        if (renderersRegistered)
+            LoggerUtil.getLogger("mcpitanlib").warn("registerBlockEntityRenderer was called after RegisterRenderers had already fired. This renderer will not be registered. Call it at mod construction time (the same place as initScreens()).");
+
         renderers.add(event -> event.registerBlockEntityRenderer(type.get(), factory));
     }
 
@@ -160,6 +167,7 @@ public class CompatRegistryClientImpl {
         for (Consumer<EntityRenderersEvent.RegisterRenderers> renderer : renderers) {
             renderer.accept(event);
         }
+        renderersRegistered = true;
     }
 
     // ---- RenderLayer ----

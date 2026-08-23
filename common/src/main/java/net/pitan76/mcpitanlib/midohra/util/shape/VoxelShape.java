@@ -24,6 +24,10 @@ public class VoxelShape {
         return voxelShape;
     }
 
+    public net.minecraft.util.shape.VoxelShape toMinecraft() {
+        return voxelShape;
+    }
+
     public boolean isEmpty() {
         return raw().isEmpty();
     }
