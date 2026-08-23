@@ -258,6 +258,19 @@ public class CompatRegistryClient {
     /**
      * NeoForgeでは登録が遅延されるため、呼び出し時点ではまだ生成されていないことがある。
      * 実際に使うタイミングまで解決を遅らせるためSupplierで受け取る。
+     * <p>
+     * <b>呼び出しタイミングの制約:</b>
+     * Forge/NeoForgeではここで積んだ登録要求を{@code EntityRenderersEvent.RegisterRenderers}でまとめて流すため、
+     * このメソッドは<b>MOD構築時（{@code initScreens()}などと同じ場所）に呼ぶ必要がある</b>。
+     * {@code FMLClientSetupEvent}の{@code enqueueWork}など、RegisterRenderers発火より後から呼ぶと登録されない。
+     * <p>
+     * MOD構築時点では{@code BlockEntityType}がまだ解決されていないため、必ずこのSupplier版を使うこと。
+     * <pre>{@code
+     * CompatRegistryClient.registerCompatBlockEntityRenderer(
+     *         () -> (BlockEntityType<ExampleTile>) Tiles.EXAMPLE.getOrNull(), ExampleRenderer::new);
+     * }</pre>
+     * <p>
+     * Fabricは即時登録なので、Fabricだけで確認してもこの制約には気付けない。
      */
     public static <T extends BlockEntity> void registerCompatBlockEntityRenderer(Supplier<BlockEntityType<T>> type, BlockEntityRendererFactory<T> provider) {
         registerBlockEntityRendererRaw(type, ctx -> provider.create(new BlockEntityRendererFactory.Context(
