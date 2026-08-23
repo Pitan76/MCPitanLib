@@ -114,18 +114,9 @@ public class BlockWrapper {
         return get() != null ? get().hashCode() : 0;
     }
 
-    /**
-     * 同じブロックを指しているかどうかを比較する。サブクラス同士でも成立する。
-     * <p>
-     * registry2.registerBlock(...)が返すSupplierITypedBlockWrapperと、world.getBlockState(pos).getBlock()が返す素のBlockWrapperのように、
-     * 取得経路によって実際の型が違っても、同じブロックを指していればtrueになる。
-     * @param obj 比較対象
-     * @return 同じものを指していればtrue
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        // サブクラス（Supplier版・Typed版など）同士でも成立させるため、getClass()ではなくinstanceofで判定する
         if (!(obj instanceof BlockWrapper)) return false;
         BlockWrapper other = (BlockWrapper) obj;
         return rawEquals(other);
