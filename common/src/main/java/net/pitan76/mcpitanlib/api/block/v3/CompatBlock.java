@@ -29,11 +29,11 @@ public class CompatBlock extends net.pitan76.mcpitanlib.api.block.v2.CompatBlock
     }
 
     public VoxelShape getCollisionShapeM(CollisionShapeEvent e) {
-        return VoxelShape.of(super.getCollisionShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context));
+        return super.getCollisionShapeM(e);
     }
 
     public VoxelShape getOutlineShapeM(OutlineShapeEvent e) {
-        return VoxelShape.of(super.getOutlineShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context));
+        return super.getOutlineShapeM(e);
     }
 
     public FluidState getFluidStateM(FluidStateArgs args) {
@@ -43,18 +43,24 @@ public class CompatBlock extends net.pitan76.mcpitanlib.api.block.v2.CompatBlock
     @Override
     @Deprecated
     public net.minecraft.util.shape.VoxelShape getCollisionShape(CollisionShapeEvent e) {
-        return getCollisionShapeM(e).raw();
+        VoxelShape shape = getCollisionShapeM(e);
+        if (shape != null) return shape.raw();
+        return super.getCollisionShape(e);
     }
 
     @Override
     @Deprecated
     public net.minecraft.util.shape.VoxelShape getOutlineShape(OutlineShapeEvent e) {
-        return getOutlineShapeM(e).raw();
+        VoxelShape shape = getOutlineShapeM(e);
+        if (shape != null) return shape.raw();
+        return super.getOutlineShape(e);
     }
 
     @Override
     @Deprecated
     public net.minecraft.fluid.FluidState getFluidState(FluidStateArgs args) {
-        return getFluidStateM(args).getRaw();
+        FluidState state = getFluidStateM(args);
+        if (state != null) return state.getRaw();
+        return super.getFluidState(args);
     }
 }
