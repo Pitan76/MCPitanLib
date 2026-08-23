@@ -54,7 +54,7 @@ public class CompatProperties {
     public static final DoubleBlockHalfProperty DOUBLE_BLOCK_HALF = new DoubleBlockHalfProperty(BlockStateProperties.DOUBLE_BLOCK_HALF);
     public static final AxisProperty AXIS = new AxisProperty(BlockStateProperties.AXIS);
     public static final AxisProperty HORIZONTAL_AXIS = new AxisProperty(BlockStateProperties.HORIZONTAL_AXIS);
-    public static final EnumProperty<ComparatorMode> COMPARATOR_MODE = new EnumProperty<>(BlockStateProperties.MODE_COMPARATOR);
+    public static final ComparatorModeProperty COMPARATOR_MODE = new ComparatorModeProperty(BlockStateProperties.MODE_COMPARATOR);
 
     public static IProperty<?> of(Property<?> property) {
         if (property instanceof net.minecraft.world.level.block.state.properties.IntegerProperty) {
@@ -173,6 +173,11 @@ public class CompatProperties {
     public static DoorHingeProperty ofDoorHinge(net.minecraft.world.level.block.state.properties.EnumProperty<DoorHingeSide> property) {
         if (property == BlockStateProperties.DOOR_HINGE) return DOOR_HINGE;
         return new DoorHingeProperty(property);
+    }
+
+    public static ComparatorModeProperty ofComparatorMode(net.minecraft.world.level.block.state.properties.EnumProperty<ComparatorMode> property) {
+        if (property == BlockStateProperties.MODE_COMPARATOR) return COMPARATOR_MODE;
+        return new ComparatorModeProperty(property);
     }
 
     public static DoubleBlockHalfProperty ofDoubleBlockHalf(net.minecraft.world.level.block.state.properties.EnumProperty<DoubleBlockHalf> property) {

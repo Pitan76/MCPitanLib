@@ -29,6 +29,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 import net.pitan76.mcpitanlib.api.client.render.EntityModelLayerContext;
+import net.pitan76.mcpitanlib.api.util.LoggerUtil;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -44,6 +45,9 @@ public class CompatRegistryClientImpl {
     private static final List<Consumer<EntityRenderersEvent.RegisterRenderers>> rendererRegistrations = new CopyOnWriteArrayList<>();
 
     public static Map<List<BlockTintSource>, Supplier<Block[]>> blockColorProviders = new ConcurrentHashMap<>();
+
+    // RegisterRenderersが発火済みかどうか (発火後に積まれた登録要求は反映されないので警告を出す)
+    private static volatile boolean renderersRegistered = false;
 
     public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(String modId, Supplier<MenuType<? extends H>> type, CompatRegistryClient.ScreenFactory<H, S> factory) {
         // イベント発火時に解決する (登録時点ではまだ生成されていない)
@@ -78,6 +82,9 @@ public class CompatRegistryClientImpl {
     }
 
     public static <T extends BlockEntity> void registerBlockEntityRenderer(Supplier<BlockEntityType<T>> type, CompatRegistryClient.BlockEntityRendererFactory<T, BlockEntityRenderState> provider) {
+        if (renderersRegistered)
+            LoggerUtil.getLogger("mcpitanlib").warn("registerBlockEntityRenderer was called after RegisterRenderers had already fired. This renderer will not be registered. Call it at mod construction time (the same place as initScreens()).");
+
         rendererRegistrations.add(event -> event.registerBlockEntityRenderer(type.get(), ctx -> provider.create(new CompatRegistryClient.BlockEntityRendererFactory.Context(
                 ctx.blockEntityRenderDispatcher(), ctx.blockModelResolver(), ctx.itemModelResolver(), ctx.entityRenderer(), ctx.entityModelSet(), ctx.font(), ctx.sprites(), ctx.playerSkinRenderCache()
         ))));
@@ -117,6 +124,7 @@ public class CompatRegistryClientImpl {
         for (Consumer<EntityRenderersEvent.RegisterRenderers> reg : rendererRegistrations) {
             reg.accept(event);
         }
+        renderersRegistered = true;
     }
 
     @SubscribeEvent

@@ -5,6 +5,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
+import net.pitan76.mcpitanlib.api.client.gui.widget.CompatTextFieldWidget;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
@@ -75,5 +76,21 @@ public class TextFieldUtil {
 
     public static EditBox create(Font renderer, int width, int height) {
         return new EditBox(renderer, width, height, TextUtil.empty());
+    }
+
+    public static CompatTextFieldWidget createCompat(Font renderer, int x, int y, int width, int height, Component text) {
+        return new CompatTextFieldWidget(renderer, x, y, width, height, text);
+    }
+
+    public static CompatTextFieldWidget createCompat(Font renderer, int width, int height, Component text) {
+        return new CompatTextFieldWidget(renderer, width, height, text);
+    }
+
+    public static CompatTextFieldWidget createCompat(Font renderer, int x, int y, int width, int height) {
+        return new CompatTextFieldWidget(renderer, x, y, width, height);
+    }
+
+    public static CompatTextFieldWidget createCompat(Font renderer, int width, int height) {
+        return new CompatTextFieldWidget(renderer, width, height);
     }
 }

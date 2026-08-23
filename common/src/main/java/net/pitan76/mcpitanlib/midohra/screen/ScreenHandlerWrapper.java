@@ -65,7 +65,7 @@ public class ScreenHandlerWrapper {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof ScreenHandlerWrapper)) return false;
 
         ScreenHandlerWrapper other = (ScreenHandlerWrapper) obj;
         if (isEmpty() && other.isEmpty()) return true;
