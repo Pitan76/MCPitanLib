@@ -6,31 +6,19 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.IPayloadHandler;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.pitan76.mcpitanlib.api.network.ServerNetworking;
 import net.pitan76.mcpitanlib.core.network.BufPayload;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-@EventBusSubscriber(modid = "mcpitanlib")
 public class ServerPlayNetworkingImpl {
 
     public static void send(ServerPlayer player, CustomPacketPayload payload) {
         PacketDistributor.sendToPlayer(player, payload);
     }
 
-    private static final Map<BufPayload.Type<BufPayload>, IPayloadHandler<BufPayload>> handlerMap = new ConcurrentHashMap<>();
-    private static final Map<Identifier, BufPayload.Type<BufPayload>> payloadTypeMap = new ConcurrentHashMap<>();
-
     public static void registerGlobalReceiver(CustomPacketPayload.Type<BufPayload> id, ServerNetworking.ServerNetworkHandler handler) {
-        handlerMap.put(id, (payload, context) -> {
+        NetworkPayloadRegistry.registerType(id.id());
+        NetworkPayloadRegistry.serverHandlerMap.put(id.id(), (payload, context) -> {
             FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.getData()));
 
             ServerPlayer player = null;
@@ -47,23 +35,6 @@ public class ServerPlayNetworkingImpl {
     }
 
     public static void registerS2CPayloadType(Identifier identifier) {
-        if (payloadTypeMap.containsKey(identifier)) return;
-        BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
-        payloadTypeMap.put(identifier, id);
-    }
-
-    @SubscribeEvent
-    public static void registerPayloads(RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1").optional();
-
-        Map<Identifier, BufPayload.Type<BufPayload>> types = new HashMap<>(payloadTypeMap);
-        handlerMap.keySet().forEach(type -> types.putIfAbsent(type.id(), type));
-
-        types.forEach((id, type) -> {
-            IPayloadHandler<BufPayload> handler = handlerMap.get(type);
-            if (handler == null) handler = (payload, context) -> {};
-
-            registrar.playBidirectional(type, BufPayload.getCodec(type), handler);
-        });
+        NetworkPayloadRegistry.registerType(identifier);
     }
 }
