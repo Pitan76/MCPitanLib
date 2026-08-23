@@ -97,6 +97,14 @@ public class BlockWrapper {
         return BlockState.of(get());
     }
 
+    /**
+     * Check if the block of this wrapper is a fluid block (e.g. water, lava).
+     * @return true if the block is a fluid block
+     */
+    public boolean isFluidBlock() {
+        return instanceOf(net.minecraft.block.FluidBlock.class);
+    }
+
     public boolean rawEquals(BlockWrapper block) {
         return get() == block.get();
     }
@@ -106,10 +114,19 @@ public class BlockWrapper {
         return get() != null ? get().hashCode() : 0;
     }
 
+    /**
+     * 同じブロックを指しているかどうかを比較する。サブクラス同士でも成立する。
+     * <p>
+     * registry2.registerBlock(...)が返すSupplierITypedBlockWrapperと、world.getBlockState(pos).getBlock()が返す素のBlockWrapperのように、
+     * 取得経路によって実際の型が違っても、同じブロックを指していればtrueになる。
+     * @param obj 比較対象
+     * @return 同じものを指していればtrue
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        // サブクラス（Supplier版・Typed版など）同士でも成立させるため、getClass()ではなくinstanceofで判定する
+        if (!(obj instanceof BlockWrapper)) return false;
         BlockWrapper other = (BlockWrapper) obj;
         return rawEquals(other);
     }
