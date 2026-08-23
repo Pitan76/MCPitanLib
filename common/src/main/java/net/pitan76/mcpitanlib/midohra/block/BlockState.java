@@ -165,7 +165,6 @@ public class BlockState {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        // サブクラス同士でも成立させるため、getClass()ではなくinstanceofで判定する
         if (!(obj instanceof BlockState)) return false;
         BlockState state = (BlockState) obj;
         if (isEmpty() || state.isEmpty()) return isEmpty() && state.isEmpty();

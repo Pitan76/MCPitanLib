@@ -225,4 +225,16 @@ public class World extends WorldAccess {
     public void sendEntityStatus(EntityWrapper entity, byte status) {
         WorldUtil.sendEntityStatus(getRaw(), entity.get(), status);
     }
+
+    public net.pitan76.mcpitanlib.midohra.world.chunk.ChunkWrapper getChunk(BlockPos pos) {
+        return net.pitan76.mcpitanlib.midohra.world.chunk.ChunkWrapper.of(this, pos);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.chunk.ChunkWrapper getChunk(int chunkX, int chunkZ) {
+        return net.pitan76.mcpitanlib.midohra.world.chunk.ChunkWrapper.of(this, chunkX, chunkZ);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.chunk.ChunkSectionWrapper getChunkSection(BlockPos pos) {
+        return getChunk(pos).getSectionAt(pos);
+    }
 }
