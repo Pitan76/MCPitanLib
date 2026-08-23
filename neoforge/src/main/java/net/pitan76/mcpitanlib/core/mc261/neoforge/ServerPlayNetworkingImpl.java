@@ -54,17 +54,16 @@ public class ServerPlayNetworkingImpl {
 
     @SubscribeEvent
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1");
+        final PayloadRegistrar registrar = event.registrar("1").optional();
 
-        handlerMap.forEach((type, handler) -> {
-            registrar.playToServer(type, BufPayload.getCodec(type), handler);
+        Map<Identifier, BufPayload.Type<BufPayload>> types = new HashMap<>(payloadTypeMap);
+        handlerMap.keySet().forEach(type -> types.putIfAbsent(type.id(), type));
+
+        types.forEach((id, type) -> {
+            IPayloadHandler<BufPayload> handler = handlerMap.get(type);
+            if (handler == null) handler = (payload, context) -> {};
+
+            registrar.playBidirectional(type, BufPayload.getCodec(type), handler);
         });
-
-        // ダミー
-//        payloadTypeMap.forEach((_, type) -> {
-//            if (!handlerMap.containsKey(type)) {
-//                registrar.playToClient(type, BufPayload.getCodec(type), (_, _) -> {});
-//            }
-//        });
     }
 }

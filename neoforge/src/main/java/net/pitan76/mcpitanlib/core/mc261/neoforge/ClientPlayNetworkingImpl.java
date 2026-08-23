@@ -10,7 +10,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
-import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -51,26 +50,18 @@ public class ClientPlayNetworkingImpl {
         payloadTypeMap.put(identifier, id);
     }
 
-//    @SubscribeEvent
-//    public static void register(RegisterClientPayloadHandlersEvent event) {
-//        for (Map.Entry<BufPayload.Type<BufPayload>, IPayloadHandler<BufPayload>> entry : handlerMap.entrySet()) {
-//            event.register(entry.getKey(), entry.getValue());
-//        }
-//    }
-
     @SubscribeEvent
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1");
+        final PayloadRegistrar registrar = event.registrar("1").optional();
 
-        payloadTypeMap.forEach((_, type) -> {
-            registrar.playToClient(type, BufPayload.getCodec(type), handlerMap.get(type));
+        Map<Identifier, BufPayload.Type<BufPayload>> types = new HashMap<>(payloadTypeMap);
+        handlerMap.keySet().forEach(type -> types.putIfAbsent(type.id(), type));
+
+        types.forEach((id, type) -> {
+            IPayloadHandler<BufPayload> handler = handlerMap.get(type);
+            if (handler == null) handler = (payload, context) -> {};
+
+            registrar.playBidirectional(type, BufPayload.getCodec(type), (payload, context) -> {}, handler);
         });
-
-        // ダミー
-//        payloadTypeMap.forEach((_, type) -> {
-//            if (!handlerMap.containsKey(type)) {
-//                registrar.playToServer(type, BufPayload.getCodec(type), (_, _) -> {});
-//            }
-//        });
     }
 }
