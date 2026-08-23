@@ -35,6 +35,17 @@ public class BlockStateUtil {
         return state.isAir();
     }
 
+    /**
+     * Check if the block of the state is a fluid block (e.g. water, lava).
+     * Note: This is not the same as {@code !state.getFluidState().isEmpty()},
+     * because waterlogged blocks also have a fluid state.
+     * @param state BlockState to check.
+     * @return true if the block is an instance of FluidBlock.
+     */
+    public static boolean isFluidBlock(BlockState state) {
+        return state.getBlock() instanceof net.minecraft.block.FluidBlock;
+    }
+
     public static boolean isOpaque(BlockState state) {
         return state.isOpaque();
     }

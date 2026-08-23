@@ -115,7 +115,20 @@ public class CompatBlock extends ExtendBlock {
     }
 
     public VoxelShape getOutlineShape(OutlineShapeEvent e) {
+        net.pitan76.mcpitanlib.midohra.util.shape.VoxelShape shape = getOutlineShapeM(e);
+        if (shape != null) return shape.toMinecraft();
+
         return super.getOutlineShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context);
+    }
+
+    /**
+     * Override this instead of {@link #getOutlineShape(OutlineShapeEvent)} to return a midohra VoxelShape.
+     * @param e OutlineShapeEvent
+     * @return midohra VoxelShape (null to fall back to the default shape)
+     */
+    @Nullable
+    public net.pitan76.mcpitanlib.midohra.util.shape.VoxelShape getOutlineShapeM(OutlineShapeEvent e) {
+        return null;
     }
 
     @Override
@@ -130,7 +143,20 @@ public class CompatBlock extends ExtendBlock {
     }
 
     public VoxelShape getCollisionShape(CollisionShapeEvent e) {
+        net.pitan76.mcpitanlib.midohra.util.shape.VoxelShape shape = getCollisionShapeM(e);
+        if (shape != null) return shape.toMinecraft();
+
         return super.getCollisionShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context);
+    }
+
+    /**
+     * Override this instead of {@link #getCollisionShape(CollisionShapeEvent)} to return a midohra VoxelShape.
+     * @param e CollisionShapeEvent
+     * @return midohra VoxelShape (null to fall back to the default shape)
+     */
+    @Nullable
+    public net.pitan76.mcpitanlib.midohra.util.shape.VoxelShape getCollisionShapeM(CollisionShapeEvent e) {
+        return null;
     }
 
     @Deprecated
