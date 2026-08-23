@@ -89,7 +89,7 @@ public class HitResult {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof HitResult)) return false;
         HitResult other = (HitResult) obj;
         return getRaw().equals(other.getRaw());
     }

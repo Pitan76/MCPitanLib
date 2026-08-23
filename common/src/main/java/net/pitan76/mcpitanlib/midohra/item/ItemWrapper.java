@@ -127,7 +127,7 @@ public class ItemWrapper {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof ItemWrapper)) return false;
         ItemWrapper item = (ItemWrapper) obj;
         return rawEquals(item);
     }

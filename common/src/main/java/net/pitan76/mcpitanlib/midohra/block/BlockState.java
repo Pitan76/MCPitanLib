@@ -44,6 +44,16 @@ public class BlockState {
         return isEmpty() || BlockStateUtil.isAir(toMinecraft());
     }
 
+    /**
+     * Check if this state's block is a fluid block (e.g. water, lava).
+     * Note: This is not the same as {@code !getFluidState().isEmpty()},
+     * because waterlogged blocks also have a fluid state.
+     * @return true if the block is a fluid block
+     */
+    public boolean isFluidBlock() {
+        return !isEmpty() && BlockStateUtil.isFluidBlock(toMinecraft());
+    }
+
     public CompatBlockSoundGroup getSoundGroup() {
         return BlockStateUtil.getCompatSoundGroup(toMinecraft());
     }
@@ -217,14 +227,17 @@ public class BlockState {
 
     @Override
     public int hashCode() {
-        return toMinecraft().hashCode();
+        return isEmpty() ? 0 : toMinecraft().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        // サブクラス同士でも成立させるため、getClass()ではなくinstanceofで判定する
+        if (!(obj instanceof BlockState)) return false;
         BlockState state = (BlockState) obj;
+        if (isEmpty() || state.isEmpty()) return isEmpty() && state.isEmpty();
+
         return toMinecraft().equals(state.toMinecraft());
     }
 
