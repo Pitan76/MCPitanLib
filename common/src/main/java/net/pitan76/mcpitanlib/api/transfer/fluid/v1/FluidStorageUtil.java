@@ -1,7 +1,15 @@
 package net.pitan76.mcpitanlib.api.transfer.fluid.v1;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.Fluid;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.BiFunction;
 
 public class FluidStorageUtil {
     @ExpectPlatform
@@ -32,5 +40,36 @@ public class FluidStorageUtil {
      */
     public static long buckets(double buckets) {
         return (long) (bucketAmount() * buckets);
+    }
+
+    /**
+     * 指定した位置の流体タンクを取得する。他MODの機械も対象になる。
+     * @param side 面 (nullで面を指定しない)
+     * @return 流体タンク (存在しない場合はnull)
+     */
+    @ExpectPlatform
+    @Nullable
+    public static IFluidHandler getFluidHandler(Level world, BlockPos pos, @Nullable Direction side) {
+        throw new AssertionError();
+    }
+
+    /**
+     * BlockEntityTypeに流体タンクを紐付ける。
+     * 渡せるのは {@link #withFixedCapacity} で作ったタンクのみ。
+     */
+    @ExpectPlatform
+    public static void registerFluidStorage(BlockEntityType<?> type, BiFunction<BlockEntity, Direction, IFluidStorage> provider) {
+        throw new AssertionError();
+    }
+
+    @Nullable
+    public static IFluidHandler getFluidHandler(Level world, BlockPos pos) {
+        return getFluidHandler(world, pos, null);
+    }
+
+    @Nullable
+    public static IFluidHandler getFluidHandler(BlockEntity blockEntity, @Nullable Direction side) {
+        if (blockEntity == null || blockEntity.getLevel() == null) return null;
+        return getFluidHandler(blockEntity.getLevel(), blockEntity.getBlockPos(), side);
     }
 }
