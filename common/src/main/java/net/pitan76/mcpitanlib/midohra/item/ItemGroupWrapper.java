@@ -116,7 +116,7 @@ public class ItemGroupWrapper {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof ItemGroupWrapper)) return false;
 
         ItemGroupWrapper other = (ItemGroupWrapper) obj;
         return rawEquals(other);
