@@ -5,6 +5,7 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
+import net.pitan76.mcpitanlib.api.client.gui.widget.CompatTextFieldWidget;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.RenderArgs;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
@@ -75,5 +76,21 @@ public class TextFieldUtil {
 
     public static TextFieldWidget create(TextRenderer renderer, int width, int height) {
         return new TextFieldWidget(renderer, width, height, TextUtil.empty());
+    }
+
+    public static CompatTextFieldWidget createCompat(TextRenderer renderer, int x, int y, int width, int height, Text text) {
+        return new CompatTextFieldWidget(renderer, x, y, width, height, text);
+    }
+
+    public static CompatTextFieldWidget createCompat(TextRenderer renderer, int width, int height, Text text) {
+        return new CompatTextFieldWidget(renderer, width, height, text);
+    }
+
+    public static CompatTextFieldWidget createCompat(TextRenderer renderer, int x, int y, int width, int height) {
+        return new CompatTextFieldWidget(renderer, x, y, width, height);
+    }
+
+    public static CompatTextFieldWidget createCompat(TextRenderer renderer, int width, int height) {
+        return new CompatTextFieldWidget(renderer, width, height);
     }
 }

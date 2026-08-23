@@ -110,7 +110,7 @@ public class BlockEntityWrapper {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof BlockEntityWrapper)) return false;
         BlockEntityWrapper blockEntity = (BlockEntityWrapper) obj;
         return get() == blockEntity.get();
     }
