@@ -52,7 +52,7 @@ public class ScreenHandlerTypeWrapper {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof ScreenHandlerTypeWrapper)) return false;
 
         ScreenHandlerTypeWrapper other = (ScreenHandlerTypeWrapper) obj;
         if (isEmpty() && other.isEmpty()) return true;
