@@ -29,11 +29,11 @@ public class CompatBlock extends net.pitan76.mcpitanlib.api.block.v2.CompatBlock
     }
 
     public VoxelShape getCollisionShapeM(CollisionShapeEvent e) {
-        return VoxelShape.of(super.getCollisionShape(e));
+        return VoxelShape.of(super.getCollisionShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context));
     }
 
     public VoxelShape getOutlineShapeM(OutlineShapeEvent e) {
-        return VoxelShape.of(super.getOutlineShape(e));
+        return VoxelShape.of(super.getOutlineShape(e.state.toMinecraft(), e.world.getRaw(), e.pos.toMinecraft(), e.context));
     }
 
     public FluidState getFluidStateM(FluidStateArgs args) {
