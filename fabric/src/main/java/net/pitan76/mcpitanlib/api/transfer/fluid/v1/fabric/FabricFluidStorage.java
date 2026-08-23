@@ -44,28 +44,22 @@ public class FabricFluidStorage implements IFluidStorage {
 
     @Override
     public long insert(IFluidVariant variant, long maxAmount, boolean simulate) {
-        if (simulate)
-            return storage.insert(((FabricFluidVariant) variant).raw, maxAmount, Transaction.openOuter());
-
-        long inserted = 0;
         try (Transaction transaction = Transaction.openOuter()) {
-            inserted += storage.insert(((FabricFluidVariant) variant).raw, maxAmount, transaction);
-            transaction.commit();
+            long inserted = storage.insert(((FabricFluidVariant) variant).raw, maxAmount, transaction);
+            if (!simulate) transaction.commit();
+
+            return inserted;
         }
-        return inserted;
     }
 
     @Override
     public long extract(IFluidVariant variant, long maxAmount, boolean simulate) {
-        if (simulate)
-            return storage.extract(((FabricFluidVariant) variant).raw, maxAmount, Transaction.openOuter());
-
-        long extracted = 0;
         try (Transaction transaction = Transaction.openOuter()) {
-            extracted += storage.extract(((FabricFluidVariant) variant).raw, maxAmount, transaction);
-            transaction.commit();
+            long extracted = storage.extract(((FabricFluidVariant) variant).raw, maxAmount, transaction);
+            if (!simulate) transaction.commit();
+
+            return extracted;
         }
-        return extracted;
     }
 
     @Override

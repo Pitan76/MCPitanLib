@@ -5,6 +5,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -61,5 +63,36 @@ public class ItemTransferUtil {
      */
     public static boolean canMoveToNeighbor(World world, BlockPos pos, Direction direction, ItemStack stack) {
         return moveToNeighbor(world, pos, direction, stack, true) >= stack.getCount();
+    }
+
+    /**
+     * 指定した位置のインベントリを取得する。
+     * @param side 面 (nullで面を指定しない)
+     * @return インベントリ (存在しない場合はnull)
+     */
+    @ExpectPlatform
+    @Nullable
+    public static IItemHandler getItemHandler(World world, BlockPos pos, @Nullable Direction side) {
+        throw new AssertionError();
+    }
+
+    /**
+     * Containerを実装したBlockEntityを、見えるインベントリとして公開する。
+     * FabricはContainerを自動で拾うため何もしない。
+     */
+    @ExpectPlatform
+    public static void registerInventory(BlockEntityType<?> type) {
+        throw new AssertionError();
+    }
+
+    @Nullable
+    public static IItemHandler getItemHandler(World world, BlockPos pos) {
+        return getItemHandler(world, pos, null);
+    }
+
+    @Nullable
+    public static IItemHandler getItemHandler(BlockEntity blockEntity, @Nullable Direction side) {
+        if (blockEntity == null || blockEntity.getWorld() == null) return null;
+        return getItemHandler(blockEntity.getWorld(), blockEntity.getPos(), side);
     }
 }
