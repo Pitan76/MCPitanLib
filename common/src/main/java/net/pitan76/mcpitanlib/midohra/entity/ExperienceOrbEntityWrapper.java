@@ -17,9 +17,6 @@ public class ExperienceOrbEntityWrapper extends EntityWrapper {
         return (ExperienceOrb) super.get();
     }
 
-    /**
-     * @return the amount of experience this orb gives
-     */
     public int getExperienceAmount() {
         if (isEmpty()) return 0;
 
