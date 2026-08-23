@@ -346,7 +346,7 @@ public class EntityWrapper {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof EntityWrapper)) return false;
         EntityWrapper other = (EntityWrapper) obj;
         return get() != null && get().equals(other.get());
     }

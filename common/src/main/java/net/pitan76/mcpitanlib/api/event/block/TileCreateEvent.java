@@ -70,6 +70,18 @@ public class TileCreateEvent extends BaseEvent {
         this.blockState = blockState.toMinecraft();
     }
 
+    public TileCreateEvent(net.pitan76.mcpitanlib.midohra.world.BlockView blockView) {
+        this(blockView.toMinecraft());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.world.BlockView getBlockViewM() {
+        return net.pitan76.mcpitanlib.midohra.world.BlockView.of(getBlockView());
+    }
+
+    public void setBlockView(net.pitan76.mcpitanlib.midohra.world.BlockView blockView) {
+        setBlockView(blockView.toMinecraft());
+    }
+
     public net.pitan76.mcpitanlib.midohra.util.math.BlockPos getBlockPosM() {
         return net.pitan76.mcpitanlib.midohra.util.math.BlockPos.of(getBlockPos());
     }

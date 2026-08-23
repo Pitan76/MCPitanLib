@@ -25,6 +25,15 @@ public class BlockUtil {
     }
 
     /**
+     * Check if the block is a fluid block (e.g. water, lava).
+     * @param block Block to check.
+     * @return true if the block is an instance of FluidBlock.
+     */
+    public static boolean isFluidBlock(Block block) {
+        return net.pitan76.mcpitanlib.api.util.BlockUtil.isFluidBlock(block);
+    }
+
+    /**
      * Get block from CompatIdentifier.
      * @param id CompatIdentifier of the block.
      * @return Block of the CompatIdentifier.

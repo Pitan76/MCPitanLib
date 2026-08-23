@@ -35,6 +35,15 @@ public class BlockUtil {
     }
 
     /**
+     * Check if the block is a fluid block (e.g. water, lava).
+     * @param block Block to check.
+     * @return true if the block is an instance of FluidBlock.
+     */
+    public static boolean isFluidBlock(Block block) {
+        return block instanceof net.minecraft.block.FluidBlock;
+    }
+
+    /**
      * Check if the block is in the tag. (MCPitanLib TagKey)
      * @param block Block to check.
      * @param tagKey TagKey of the tag.

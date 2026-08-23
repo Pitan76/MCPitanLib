@@ -52,7 +52,7 @@ public class BlockEntityTypeBuilder<T extends BlockEntity> {
 
         @Deprecated
         default T create() {
-            return create(new TileCreateEvent(null));
+            return create(new TileCreateEvent((net.minecraft.world.BlockView) null));
         }
     }
 }

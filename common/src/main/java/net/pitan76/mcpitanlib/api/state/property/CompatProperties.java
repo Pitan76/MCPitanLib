@@ -43,7 +43,7 @@ public class CompatProperties {
     public static final EnumProperty<PistonType> PISTON_TYPE = new EnumProperty<>(Properties.PISTON_TYPE);
     public static final EnumProperty<Direction.Axis> AXIS = new EnumProperty<>(Properties.AXIS);
     public static final EnumProperty<Direction.Axis> HORIZONTAL_AXIS = new EnumProperty<>(Properties.HORIZONTAL_AXIS);
-    public static final EnumProperty<ComparatorMode> COMPARATOR_MODE = new EnumProperty<>(Properties.COMPARATOR_MODE);
+    public static final ComparatorModeProperty COMPARATOR_MODE = new ComparatorModeProperty(Properties.COMPARATOR_MODE);
 
     public static IProperty<?> of(Property<?> property) {
         if (property instanceof net.minecraft.state.property.IntProperty) {
@@ -112,5 +112,10 @@ public class CompatProperties {
         if (property == Properties.HOPPER_FACING) return HOPPER_FACING;
 
         return new DirectionProperty(property);
+    }
+
+    public static ComparatorModeProperty ofComparatorMode(net.minecraft.state.property.EnumProperty<ComparatorMode> property) {
+        if (property == Properties.COMPARATOR_MODE) return COMPARATOR_MODE;
+        return new ComparatorModeProperty(property);
     }
 }

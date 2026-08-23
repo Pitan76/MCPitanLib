@@ -49,6 +49,11 @@ public class CompatBlockEntity extends BlockEntity implements ICompatBlockEntity
                 .tick(new TileTickEvent<>(world, getPos(), state, this));
     }
 
+    public CompatBlockEntity(BlockEntityTypeWrapper type) {
+        this(type.get());
+    }
+
+    @Nullable
     @Override
     @Deprecated
     public BlockEntityUpdateS2CPacket toUpdatePacket() {

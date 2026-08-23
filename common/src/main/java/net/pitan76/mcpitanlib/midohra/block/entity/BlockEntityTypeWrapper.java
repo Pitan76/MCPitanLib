@@ -70,7 +70,7 @@ public class BlockEntityTypeWrapper {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof BlockEntityTypeWrapper)) return false;
 
         BlockEntityTypeWrapper other = (BlockEntityTypeWrapper) obj;
 

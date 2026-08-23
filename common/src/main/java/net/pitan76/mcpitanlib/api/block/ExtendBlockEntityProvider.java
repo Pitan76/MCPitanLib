@@ -34,10 +34,29 @@ public interface ExtendBlockEntityProvider extends BlockEntityProvider {
      */
     @Nullable
     default BlockEntity createBlockEntity(TileCreateEvent event) {
+        net.pitan76.mcpitanlib.api.tile.CompatBlockEntity compatBlockEntity = createCompatBlockEntity(event);
+        if (compatBlockEntity != null) return compatBlockEntity;
+
         if (getBlockEntityType() == null) return null;
 
         // return new ...BlockEntity(world)
         return getBlockEntityType().instantiate();
+    }
+
+    /**
+     * create instance of CompatBlockEntity
+     * Override this instead of {@link #createBlockEntity(TileCreateEvent)} if you don't want to touch the vanilla BlockEntity class.
+     * @param event TileCreateEvent
+     * @return CompatBlockEntity (null to fall back to {@link #createBlockEntity(TileCreateEvent)}'s default behavior)
+     *
+     * <pre>{@code
+     * public CompatBlockEntity createCompatBlockEntity(TileCreateEvent e) {
+     *    return new ExampleBlockEntity(e); // ExampleBlockEntity extends CompatBlockEntity
+     * }</pre>
+     */
+    @Nullable
+    default net.pitan76.mcpitanlib.api.tile.CompatBlockEntity createCompatBlockEntity(TileCreateEvent event) {
+        return null;
     }
 
     @Nullable
