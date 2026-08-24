@@ -1,7 +1,6 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
 import net.minecraft.block.Block;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 
 /**
@@ -43,21 +42,22 @@ public enum CompatMiningLevel {
     }
 
     public TagKey<Block> getInverseTag() {
-        switch (this) {
-            case WOOD:
-                return BlockTags.INCORRECT_FOR_WOODEN_TOOL;
-            case STONE:
-                return BlockTags.INCORRECT_FOR_STONE_TOOL;
-            case IRON:
-                return BlockTags.INCORRECT_FOR_IRON_TOOL;
-            case GOLD:
-                return BlockTags.INCORRECT_FOR_GOLD_TOOL;
-            case DIAMOND:
-                return BlockTags.INCORRECT_FOR_DIAMOND_TOOL;
-            case NETHERITE:
-                return BlockTags.INCORRECT_FOR_NETHERITE_TOOL;
-            default:
-                return BlockTags.INCORRECT_FOR_WOODEN_TOOL;
-        }
+        return null;
+//        switch (this) {
+//            case WOOD:
+//                return BlockTags.INCORRECT_FOR_WOODEN_TOOL;
+//            case STONE:
+//                return BlockTags.INCORRECT_FOR_STONE_TOOL;
+//            case IRON:
+//                return BlockTags.INCORRECT_FOR_IRON_TOOL;
+//            case GOLD:
+//                return BlockTags.INCORRECT_FOR_GOLD_TOOL;
+//            case DIAMOND:
+//                return BlockTags.INCORRECT_FOR_DIAMOND_TOOL;
+//            case NETHERITE:
+//                return BlockTags.INCORRECT_FOR_NETHERITE_TOOL;
+//            default:
+//                return BlockTags.INCORRECT_FOR_WOODEN_TOOL;
+//        }
     }
 }
