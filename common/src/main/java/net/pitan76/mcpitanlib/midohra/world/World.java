@@ -73,6 +73,10 @@ public class World extends WorldAccess {
         return WorldUtil.getBottomY(getRaw());
     }
 
+    public net.pitan76.mcpitanlib.api.util.CompatIdentifier getDimensionId() {
+        return WorldUtil.getDimensionId(getRaw());
+    }
+
     public long getDimensionHeight() {
         return WorldUtil.getDimensionHeight(getRaw());
     }
