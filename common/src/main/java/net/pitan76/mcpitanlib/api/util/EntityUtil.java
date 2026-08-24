@@ -3,6 +3,8 @@ package net.pitan76.mcpitanlib.api.util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.world.ServerWorld;
@@ -365,14 +367,25 @@ public class EntityUtil {
     }
 
     public static void setStepHeight(Entity entity, float stepHeight) {
-        entity.stepHeight = stepHeight;
+        EntityAttributeInstance instance = getStepHeightAttribute(entity);
+        if (instance == null) return;
+        instance.setBaseValue(stepHeight);
     }
 
     public static float getStepHeight(Entity entity) {
-        return entity.stepHeight;
+        return entity.getStepHeight();
     }
 
     public static float getDefaultStepHeight(Entity entity) {
-        return entity instanceof net.minecraft.entity.player.PlayerEntity ? 0.6F : 0.0F;
+        EntityAttributeInstance instance = getStepHeightAttribute(entity);
+        if (instance == null) return 0.0F;
+
+        return (float) instance.getAttribute().value().getDefaultValue();
+    }
+
+    private static EntityAttributeInstance getStepHeightAttribute(Entity entity) {
+        if (!(entity instanceof LivingEntity)) return null;
+
+        return ((LivingEntity) entity).getAttributeInstance(EntityAttributes.STEP_HEIGHT);
     }
 }
