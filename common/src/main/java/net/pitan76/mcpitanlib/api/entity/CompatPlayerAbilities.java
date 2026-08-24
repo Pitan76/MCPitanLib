@@ -36,51 +36,51 @@ public class CompatPlayerAbilities {
     }
 
     public boolean isInvulnerable() {
-        return player.getAbilities().invulnerable;
+        return getAbilities().invulnerable;
     }
 
     public void setInvulnerable(boolean invulnerable) {
-        player.getAbilities().invulnerable = invulnerable;
+        getAbilities().invulnerable = invulnerable;
     }
 
     public boolean allowFlying() {
-        return player.getAbilities().allowFlying;
+        return getAbilities().allowFlying;
     }
 
     public void setAllowFlying(boolean allowFlying) {
-        player.getAbilities().allowFlying = allowFlying;
+        getAbilities().allowFlying = allowFlying;
     }
 
     public boolean isFlying() {
-        return player.getAbilities().flying;
+        return getAbilities().flying;
     }
 
     public void setFlying(boolean flying) {
-        player.getAbilities().flying = flying;
+        getAbilities().flying = flying;
     }
 
     public boolean canModifyWorld() {
-        return player.getAbilities().allowModifyWorld;
+        return getAbilities().allowModifyWorld;
     }
 
     public void setCanModifyWorld(boolean allowModifyWorld) {
-        player.getAbilities().allowModifyWorld = allowModifyWorld;
+        getAbilities().allowModifyWorld = allowModifyWorld;
     }
 
     public float getFlySpeed() {
-        return player.getAbilities().getFlySpeed();
+        return getAbilities().getFlySpeed();
     }
 
     public void setFlySpeed(float flySpeed) {
-        player.getAbilities().setFlySpeed(flySpeed);
+        getAbilities().setFlySpeed(flySpeed);
     }
 
     public float getWalkSpeed() {
-        return player.getAbilities().getWalkSpeed();
+        return getAbilities().getWalkSpeed();
     }
 
     public void setWalkSpeed(float walkSpeed) {
-        player.getAbilities().setWalkSpeed(walkSpeed);
+        getAbilities().setWalkSpeed(walkSpeed);
     }
 
     /**
