@@ -9,6 +9,8 @@ import net.pitan76.mcpitanlib.midohra.nbt.NbtCompound;
 import net.pitan76.mcpitanlib.midohra.nbt.NbtElement;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
 
+import java.util.UUID;
+
 public class PacketByteBuf implements IByteBuf {
     private final CompatPacketByteBuf buf;
 
@@ -262,5 +264,50 @@ public class PacketByteBuf implements IByteBuf {
 
     public TextComponent readText() {
         return new TextComponent(PacketByteUtil.readText(getBuf()));
+    }
+
+    public int capacity() {
+        return getBuf().capacity();
+    }
+
+    public int maxCapacity() {
+        return getBuf().maxCapacity();
+    }
+
+    public PacketByteBuf ensureWritable(int minWritableBytes) {
+        getBuf().ensureWritable(minWritableBytes);
+        return this;
+    }
+
+    public PacketByteBuf clear() {
+        getBuf().clear();
+        return this;
+    }
+
+    public int readableBytes() {
+        return getBuf().readableBytes();
+    }
+
+    public int writableBytes() {
+        return getBuf().writableBytes();
+    }
+
+    public PacketByteBuf writeBytes(byte[] src, int srcIndex, int length) {
+        getBuf().writeBytes(src, srcIndex, length);
+        return this;
+    }
+
+    public PacketByteBuf readBytes(byte[] dst, int dstIndex, int length) {
+        getBuf().readBytes(dst, dstIndex, length);
+        return this;
+    }
+
+    public PacketByteBuf writeUuid(UUID uuid) {
+        PacketByteUtil.writeUuid(getBuf(), uuid);
+        return this;
+    }
+
+    public UUID readUuid() {
+        return PacketByteUtil.readUuid(getBuf());
     }
 }

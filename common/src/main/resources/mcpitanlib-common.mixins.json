@@ -13,6 +13,7 @@
     "ItemMixin",
     "ItemStackComponentizationFixMixin",
     "ItemStackMixin",
+    "PlayerEntityMixin",
     "MinecraftServerTimer",
     "RecipeManagerMixin",
     "ServerLevelTimer",

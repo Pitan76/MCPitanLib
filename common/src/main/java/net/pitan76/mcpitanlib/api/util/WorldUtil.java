@@ -72,6 +72,13 @@ public class WorldUtil {
         return world.isClientSide();
     }
 
+    /**
+     * ディメンションID (例: minecraft:overworld) を返す。
+     */
+    public static CompatIdentifier getDimensionId(Level world) {
+        return CompatIdentifier.fromMinecraft(world.dimension().identifier());
+    }
+
     public static void scheduleBlockTick(Level world, BlockPos pos, Block block, int delay) {
         world.scheduleTick(pos, block, delay);
     }

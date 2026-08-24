@@ -7,6 +7,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Relative;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
@@ -365,5 +367,28 @@ public class EntityUtil {
 
     public static EntityType<?> getType(Entity entity) {
         return entity.getType();
+    }
+
+    public static void setStepHeight(Entity entity, float stepHeight) {
+        AttributeInstance instance = getStepHeightAttribute(entity);
+        if (instance == null) return;
+        instance.setBaseValue(stepHeight);
+    }
+
+    public static float getStepHeight(Entity entity) {
+        return getStepHeightAttribute(entity) != null ? (float) getStepHeightAttribute(entity).getValue() : 0.0F;
+    }
+
+    public static float getDefaultStepHeight(Entity entity) {
+        AttributeInstance instance = getStepHeightAttribute(entity);
+        if (instance == null) return 0.0F;
+
+        return (float) instance.getAttribute().value().getDefaultValue();
+    }
+
+    private static AttributeInstance getStepHeightAttribute(Entity entity) {
+        if (!(entity instanceof LivingEntity)) return null;
+
+        return ((LivingEntity) entity).getAttribute(Attributes.STEP_HEIGHT);
     }
 }
