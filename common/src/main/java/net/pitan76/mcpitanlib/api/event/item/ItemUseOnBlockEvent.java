@@ -116,6 +116,10 @@ public class ItemUseOnBlockEvent extends BaseEvent {
         return hit.getSide();
     }
 
+    public net.pitan76.mcpitanlib.midohra.util.math.Direction getSideM() {
+        return net.pitan76.mcpitanlib.midohra.util.math.Direction.of(getSide());
+    }
+
     public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {
         return net.pitan76.mcpitanlib.midohra.world.World.of(world);
     }

@@ -71,6 +71,10 @@ public class WorldAccess extends WorldView {
         return BlockEntityWrapper.of(WorldAccessUtil.getBlockEntity(getRaw(), pos.toMinecraft()));
     }
 
+    public boolean hasBlockEntity(BlockPos pos) {
+        return WorldAccessUtil.getBlockEntity(getRaw(), pos.toMinecraft()) != null;
+    }
+
     public <T extends BlockEntity> Optional<T> getRawBlockEntity(BlockPos pos, BlockEntityType<T> type) {
         return WorldAccessUtil.getBlockEntity(getRaw(), pos.toMinecraft(), type);
     }
