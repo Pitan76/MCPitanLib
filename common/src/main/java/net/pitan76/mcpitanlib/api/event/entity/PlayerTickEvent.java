@@ -22,7 +22,7 @@ public class PlayerTickEvent extends BaseEvent {
     }
 
     public World getWorld() {
-        return player.getWorld();
+        return player.world;
     }
 
     public net.pitan76.mcpitanlib.midohra.world.World getMidohraWorld() {

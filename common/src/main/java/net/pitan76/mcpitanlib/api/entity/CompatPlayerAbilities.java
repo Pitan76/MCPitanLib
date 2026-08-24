@@ -28,7 +28,7 @@ public class CompatPlayerAbilities {
 
     @Deprecated
     public PlayerAbilities getAbilities() {
-        return player.getAbilities();
+        return player.abilities;
     }
 
     public boolean isCreativeMode() {
