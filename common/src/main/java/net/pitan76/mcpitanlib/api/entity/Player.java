@@ -196,8 +196,13 @@ public class Player {
         return getEntity().getUuid();
     }
 
+    @Deprecated
     public PlayerAbilities getAbilities() {
         return getEntity().getAbilities();
+    }
+
+    public CompatPlayerAbilities getCompatAbilities() {
+        return CompatPlayerAbilities.of(getEntity());
     }
 
     /**
