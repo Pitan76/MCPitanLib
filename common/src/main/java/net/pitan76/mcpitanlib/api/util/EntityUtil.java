@@ -369,9 +369,7 @@ public class EntityUtil {
     }
 
     public static void setStepHeight(Entity entity, float stepHeight) {
-        EntityAttributeInstance instance = getStepHeightAttribute(entity);
-        if (instance == null) return;
-        instance.setBaseValue(stepHeight);
+        entity.setStepHeight(stepHeight);
     }
 
     public static float getStepHeight(Entity entity) {
@@ -379,15 +377,6 @@ public class EntityUtil {
     }
 
     public static float getDefaultStepHeight(Entity entity) {
-        EntityAttributeInstance instance = getStepHeightAttribute(entity);
-        if (instance == null) return 0.0F;
-
-        return (float) instance.getAttribute().value().getDefaultValue();
-    }
-
-    private static EntityAttributeInstance getStepHeightAttribute(Entity entity) {
-        if (!(entity instanceof LivingEntity)) return null;
-
-        return ((LivingEntity) entity).getAttributeInstance(EntityAttributes.STEP_HEIGHT);
+        return 0;
     }
 }
