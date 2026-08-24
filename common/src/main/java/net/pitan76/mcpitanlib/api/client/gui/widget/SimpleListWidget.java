@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
 public class SimpleListWidget extends ContainerObjectSelectionList<SimpleListWidget.WidgetEntry> {
@@ -92,7 +93,14 @@ public class SimpleListWidget extends ContainerObjectSelectionList<SimpleListWid
         @Deprecated
         @Override
         public void extractContent(GuiGraphicsExtractor context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+            widget.setX(getContentX() + (getContentWidth() - widget.getWidth()) / 2);
+            widget.setY(getContentY());
             widget.extractRenderState(context, mouseX, mouseY, deltaTicks);
+        }
+
+        @Override
+        public void visitWidgets(Consumer<AbstractWidget> consumer) {
+            consumer.accept(widget);
         }
 
         @Deprecated

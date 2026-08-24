@@ -54,7 +54,12 @@ public class SimpleSliderWidget extends AbstractSliderButton {
         super.extractRenderState(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
     }
     
+    @Override
     public void setValue(double value) {
+        super.setValue(value);
+    }
+
+    public void setRawValue(double value) {
         super.value = value;
     }
     
