@@ -386,6 +386,6 @@ public class EntityUtil {
     private static EntityAttributeInstance getStepHeightAttribute(Entity entity) {
         if (!(entity instanceof LivingEntity)) return null;
 
-        return ((LivingEntity) entity).getAttributeInstance(EntityAttributes.STEP_HEIGHT);
+        return ((LivingEntity) entity).getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT);
     }
 }
