@@ -114,10 +114,13 @@ public interface WorldRenderContext {
     }
 
     default Optional<VertexConsumer> getVertexConsumer() {
-        if (getConsumers() == null)
+        MultiBufferSource consumers =
+                getConsumers() != null ? getConsumers() : Minecraft.getInstance().renderBuffers().bufferSource();
+
+        if (consumers == null)
             return Optional.empty();
 
-        return Optional.of(Objects.requireNonNull(getConsumers()).getBuffer(RenderTypes.lines()));
+        return Optional.of(consumers.getBuffer(RenderTypes.lines()));
     }
 
     default void drawBox(float red, float green, float blue, float alpha) {
@@ -128,21 +131,23 @@ public interface WorldRenderContext {
     }
 
     default void drawBox(AABB box, float red, float green, float blue, float alpha) {
+        if (box == null) return;
+        drawBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ, red, green, blue, alpha);
+    }
+
+    default void drawBox(net.pitan76.mcpitanlib.midohra.util.math.Box box, float red, float green, float blue, float alpha) {
+        if (box == null) return;
+        drawBox(box.toMinecraft(), red, green, blue, alpha);
+    }
+
+    default void drawBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {
         Optional<VertexConsumer> vertexConsumer = getVertexConsumer();
 
         if (!vertexConsumer.isPresent())
             return;
 
         VertexConsumer consumer = vertexConsumer.get();
-
-        double x1 = box.minX;
-        double y1 = box.minY;
-        double z1 = box.minZ;
-        double x2 = box.maxX;
-        double y2 = box.maxY;
-        double z2 = box.maxZ;
-
-        VertexRenderingUtil.drawBox(getMatrixStack(), consumer, x1, y1, z1, x2, y2, z2, red, green, blue, alpha);
+        VertexRenderingUtil.drawBox(getMatrixStack(), consumer, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);
     }
 
     default CameraWrapper getCameraWrapper() {
