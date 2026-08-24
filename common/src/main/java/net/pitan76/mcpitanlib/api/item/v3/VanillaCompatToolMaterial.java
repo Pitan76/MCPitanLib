@@ -49,7 +49,7 @@ public class VanillaCompatToolMaterial implements CompatToolMaterial {
         if (tag == ToolMaterial.WOOD.incorrectBlocksForDrops()) return 0;
         if (tag == ToolMaterial.STONE.incorrectBlocksForDrops()) return 1;
         if (tag == ToolMaterial.IRON.incorrectBlocksForDrops()) return 2;
-        if (tag == ToolMaterial.GOLD.incorrectBlocksForDrops()) return 2;
+        if (tag == ToolMaterial.GOLD.incorrectBlocksForDrops()) return 0;
         if (tag == ToolMaterial.DIAMOND.incorrectBlocksForDrops()) return 3;
         if (tag == ToolMaterial.NETHERITE.incorrectBlocksForDrops()) return 4;
         return -1;

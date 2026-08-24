@@ -25,6 +25,10 @@ public class BlockState {
         return new BlockState(state);
     }
 
+    public static BlockState empty() {
+        return of((net.minecraft.world.level.block.state.BlockState) null);
+    }
+
     public static BlockState of(net.minecraft.world.level.block.Block block) {
         if (block == null)
             return of((net.minecraft.world.level.block.state.BlockState) null);

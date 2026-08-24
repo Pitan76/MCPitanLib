@@ -31,23 +31,7 @@ public interface CompatibleToolMaterial {
     }
 
     public static TagKey<Block> level2inverseTag(int level) {
-        switch (level) {
-            case 1:
-                return BlockTags.INCORRECT_FOR_WOODEN_TOOL;
-            case 2:
-                return BlockTags.INCORRECT_FOR_STONE_TOOL;
-            case 3:
-                return BlockTags.INCORRECT_FOR_IRON_TOOL;
-            case 4:
-                return BlockTags.INCORRECT_FOR_GOLD_TOOL;
-            case 5:
-                return BlockTags.INCORRECT_FOR_DIAMOND_TOOL;
-            case 6:
-                return BlockTags.INCORRECT_FOR_NETHERITE_TOOL;
-
-            default:
-                return BlockTags.INCORRECT_FOR_WOODEN_TOOL;
-        }
+        return CompatMiningLevel.fromLevel(level).getInverseTag();
     }
 
     @Deprecated
