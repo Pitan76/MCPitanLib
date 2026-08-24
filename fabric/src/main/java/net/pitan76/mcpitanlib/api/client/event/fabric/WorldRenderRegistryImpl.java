@@ -84,7 +84,7 @@ public class WorldRenderRegistryImpl {
 
                 @Override
                 public MatrixStack getMatrixStack() {
-                    return context.matrices();
+                    return new MatrixStack();
                 }
 
                 @Override

@@ -94,18 +94,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
         this.world = world;
         this.camera = camera;
         this.matrixStack = new MatrixStack();
-        this.matrixStack.multiplyPositionMatrix(projectionMatrix);
-        this.matrixStack.push();
-
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
-        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-
-        Vec3d camPos = camera.getCameraPos();
-        matrixStack.translate(-camPos.x, -camPos.y, -camPos.z);
-
-        this.matrixStack.pop();
-
-        this.projectionMatrix = projectionMatrix;;
+        this.projectionMatrix = projectionMatrix;
         this.tickDelta = tickCounter.getDynamicDeltaTicks();
         this.lightmapTextureManager = gameRenderer.getLightmapTextureManager();
         this.frustum = worldRenderer.getCapturedFrustum();
