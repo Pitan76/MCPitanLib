@@ -369,11 +369,11 @@ public class EntityUtil {
     }
 
     public static void setStepHeight(Entity entity, float stepHeight) {
-        entity.setStepHeight(stepHeight);
+        entity.stepHeight = stepHeight;
     }
 
     public static float getStepHeight(Entity entity) {
-        return entity.getStepHeight();
+        return entity.stepHeight;
     }
 
     public static float getDefaultStepHeight(Entity entity) {

@@ -1,7 +1,7 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
 import net.minecraft.block.Block;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.tag.TagKey;
 
 /**
  * ツールの採掘レベル。
