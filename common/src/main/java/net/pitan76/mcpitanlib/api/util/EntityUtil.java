@@ -363,4 +363,16 @@ public class EntityUtil {
     public static EntityType<?> getType(Entity entity) {
         return entity.getType();
     }
+
+    public static void setStepHeight(Entity entity, float stepHeight) {
+        entity.stepHeight = stepHeight;
+    }
+
+    public static float getStepHeight(Entity entity) {
+        return entity.stepHeight;
+    }
+
+    public static float getDefaultStepHeight(Entity entity) {
+        return entity instanceof net.minecraft.entity.player.PlayerEntity ? 0.6F : 0.0F;
+    }
 }

@@ -12,6 +12,7 @@
     "ItemMixin",
     "ItemStackMixin",
     "ItemUsageContextMixin",
+    "PlayerEntityMixin",
     "MinecraftServerTimer",
     "ServerWorldTimer"
   ],
