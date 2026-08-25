@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 /**
  * エネルギーの相互運用を行うユーティリティ。
@@ -19,20 +20,15 @@ import java.util.function.BiFunction;
  */
 public class EnergyStorageUtil {
 
-    /**
-     * この環境でエネルギーAPIが利用できるかどうか。
-     */
     @ExpectPlatform
     public static boolean isSupported() {
         throw new AssertionError();
     }
 
     /**
-     * 単純なエネルギーストレージを作成する。
-     * @param capacity 容量
-     * @param maxInsert 一度に挿入できる最大量
-     * @param maxExtract 一度に取り出せる最大量
-     * @return エネルギーストレージ (利用できない場合はnull)
+     * @param maxInsert 1tickあたりに挿入できる最大量
+     * @param maxExtract 1tickあたりに取り出せる最大量
+     * @return 利用できない場合はnull
      */
     @ExpectPlatform
     @Nullable
@@ -41,11 +37,8 @@ public class EnergyStorageUtil {
     }
 
     /**
-     * 指定した位置のエネルギーストレージを取得する。他MODの機械も対象になる。
-     * @param world ワールド
-     * @param pos 位置
+     * 他MODの機械も対象になる。
      * @param side 面 (nullで面を指定しない)
-     * @return エネルギーストレージ (存在しない場合はnull)
      */
     @ExpectPlatform
     @Nullable
@@ -53,21 +46,26 @@ public class EnergyStorageUtil {
         throw new AssertionError();
     }
 
-    /**
-     * BlockEntityの登録時にエネルギーストレージを紐付ける。
-     * @param type BlockEntityType
-     * @param provider BlockEntityと面からエネルギーストレージを返す関数
-     */
     @ExpectPlatform
     public static void registerEnergyStorage(BlockEntityType<?> type, BiFunction<BlockEntity, Direction, IEnergyStorage> provider) {
         throw new AssertionError();
     }
 
     /**
-     * 他MODのBlockEntityへエネルギーを直接注入する。
-     * @param blockEntity 対象のBlockEntity
-     * @param amount 注入する最大量
-     * @param side 面 (nullで面を指定しない)
+     * Forge / NeoForge ではBlockEntityTypeがDeferredRegister経由で登録されるため、
+     * MOD初期化時点ではまだインスタンスが存在しない。
+     * {@code RegistryResult#getOrNull()} をそのまま渡すとnullになり、
+     * <b>何も登録されないまま黙って素通りする</b>ので、その場合はこちらを使うこと。
+     * <p>
+     * supplierは登録が実際に必要になるタイミング (Fabricでは即時、Forge/NeoForgeではCapability登録時) に評価される。
+     *
+     */
+    @ExpectPlatform
+    public static void registerEnergyStorageLazy(Supplier<BlockEntityType<?>> typeSupplier, BiFunction<BlockEntity, Direction, IEnergyStorage> provider) {
+        throw new AssertionError();
+    }
+
+    /**
      * @return 実際に注入された量
      */
     @ExpectPlatform
@@ -75,26 +73,17 @@ public class EnergyStorageUtil {
         throw new AssertionError();
     }
 
-    /**
-     * 指定した位置のエネルギーストレージを取得する。
-     */
     @Nullable
     public static IEnergyStorage getEnergyStorage(Level world, BlockPos pos) {
         return getEnergyStorage(world, pos, null);
     }
 
-    /**
-     * BlockEntityのエネルギーストレージを取得する。
-     */
     @Nullable
     public static IEnergyStorage getEnergyStorage(BlockEntity blockEntity, @Nullable Direction side) {
         if (blockEntity == null || blockEntity.getLevel() == null) return null;
         return getEnergyStorage(blockEntity.getLevel(), blockEntity.getBlockPos(), side);
     }
 
-    /**
-     * 他MODのBlockEntityへエネルギーを直接注入する。
-     */
     public static long addEnergyToForeignTile(BlockEntity blockEntity, long amount) {
         return addEnergyToForeignTile(blockEntity, amount, null);
     }

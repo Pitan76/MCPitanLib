@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.transfer.energy.v1;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
@@ -28,19 +29,20 @@ public class EnergyLookup {
     protected EnergyLookup() {
     }
 
-    /**
-     * この環境でエネルギーAPIが利用できるかどうか。
-     */
     public boolean isSupported() {
         return EnergyStorageUtil.isSupported();
     }
 
     /**
-     * 指定した位置のエネルギーストレージを探す。他MODの機械も対象になる。
-     * @param world ワールド
-     * @param pos 位置
-     * @param side 面 (nullで面を指定しない)
-     * @return エネルギーストレージ (見つからない場合はnull)
+     * 他MODの機械も対象になる。
+     * <p>
+     * <b>sideは原則として必ず渡すこと。</b> nullは「面を指定しない」を意味するが、
+     * 面ごとにストレージを持つ機械 (TechRebornのケーブル等) は面なしのアクセスを想定しておらず、
+     * 他MOD側で例外が発生しうる。MCPitanLibはnull面で取得したストレージについては
+     * 例外を握り潰すが、正確な値が返る保証は無い。
+     * 隣接ブロックとやり取りする場合は接触面 ({@code dir.getOpposite()}) を渡すこと。
+     *
+     * @param side 面 (nullで面を指定しない。非推奨)
      */
     @Nullable
     public IEnergyStorage find(World world, BlockPos pos, @Nullable Direction side) {
@@ -67,25 +69,34 @@ public class EnergyLookup {
         return EnergyStorageUtil.getEnergyStorage(blockEntity, side);
     }
 
-    /**
-     * BlockEntityTypeにエネルギーストレージを紐付ける。
-     * @param provider BlockEntityと面からエネルギーストレージを返す関数
-     * @param type BlockEntityType
-     */
     public void registerForBlockEntity(BiFunction<BlockEntity, net.minecraft.core.Direction, IEnergyStorage> provider, BlockEntityType<?> type) {
         EnergyStorageUtil.registerEnergyStorage(type, provider);
     }
 
-    /**
-     * BlockEntityTypeにエネルギーストレージを紐付ける。
-     */
     public void registerForBlockEntityWrapper(BiFunction<BlockEntityWrapper, Direction, IEnergyStorage> provider, BlockEntityTypeWrapper type) {
-        registerForBlockEntity((blockEntity, direction) ->
-                provider.apply(BlockEntityWrapper.of(blockEntity), direction == null ? null : Direction.of(direction)), type.get());
+        EnergyStorageUtil.registerEnergyStorageLazy(type::get, (blockEntity, direction) ->
+                provider.apply(BlockEntityWrapper.of(blockEntity), direction == null ? null : Direction.of(direction)));
     }
 
     /**
-     * 他MODのBlockEntityへエネルギーを直接注入する。
+     * Forge / NeoForge ではBlockEntityTypeがMOD初期化時点ではまだ解決されていないため、
+     * {@code registerForBlockEntity(provider, result.getOrNull())} と書くと
+     * nullになって<b>何も登録されないまま黙って素通りする</b>。
+     * {@link RegistryResult} を持っている場合は必ずこちらを使うこと。
+     */
+    public void registerForBlockEntity(BiFunction<BlockEntity, net.minecraft.core.Direction, IEnergyStorage> provider, RegistryResult<BlockEntityType<?>> type) {
+        EnergyStorageUtil.registerEnergyStorageLazy(type::getOrNull, provider);
+    }
+
+    /**
+     * @see #registerForBlockEntity(BiFunction, RegistryResult)
+     */
+    public void registerForBlockEntityWrapper(BiFunction<BlockEntityWrapper, Direction, IEnergyStorage> provider, RegistryResult<BlockEntityType<?>> type) {
+        registerForBlockEntity((blockEntity, direction) ->
+                provider.apply(BlockEntityWrapper.of(blockEntity), direction == null ? null : Direction.of(direction)), type);
+    }
+
+    /**
      * @return 実際に注入された量
      */
     public long addEnergyToForeignTile(BlockEntity blockEntity, long amount, @Nullable net.minecraft.core.Direction side) {

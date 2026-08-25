@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 import java.util.function.Consumer;
 
 /**
@@ -46,35 +47,65 @@ public class EnergyStorageUtilImpl {
         EnergyHandler handler = world.getCapability(Capabilities.Energy.BLOCK, pos, side);
         if (handler == null) return null;
 
-        return new NeoForgeEnergyStorage(handler);
+        return fromRaw(handler);
     }
 
     public static void registerEnergyStorage(BlockEntityType<?> type, BiFunction<BlockEntity, Direction, IEnergyStorage> provider) {
-        if (registered) {
+        if (type == null) {
             LoggerUtil.warn(LoggerUtil.getLogger(EnergyStorageUtilImpl.class),
-                    "registerEnergyStorage was called after RegisterCapabilitiesEvent. The registration is ignored: " + type);
+                    "registerEnergyStorage was called with a null BlockEntityType. "
+                            + "On NeoForge the BlockEntityType is not resolved yet during mod initialization; "
+                            + "use registerEnergyStorageLazy (or EnergyLookup#registerForBlockEntity with a RegistryResult) instead.");
             return;
         }
 
-        registrations.add(event -> event.registerBlockEntity(Capabilities.Energy.BLOCK, type, (blockEntity, direction) -> {
-            IEnergyStorage storage = provider.apply(blockEntity, direction);
-            if (storage == null) return null;
+        registerEnergyStorageLazy(() -> type, provider);
+    }
 
-            return toRaw(storage);
-        }));
+    public static void registerEnergyStorageLazy(Supplier<BlockEntityType<?>> typeSupplier, BiFunction<BlockEntity, Direction, IEnergyStorage> provider) {
+        if (registered) {
+            LoggerUtil.warn(LoggerUtil.getLogger(EnergyStorageUtilImpl.class),
+                    "registerEnergyStorage was called after RegisterCapabilitiesEvent. The registration is ignored.");
+            return;
+        }
+
+        registrations.add(event -> {
+            BlockEntityType<?> type = typeSupplier.get();
+            if (type == null) {
+                LoggerUtil.warn(LoggerUtil.getLogger(EnergyStorageUtilImpl.class),
+                        "The BlockEntityType is still unresolved at RegisterCapabilitiesEvent. The registration is ignored.");
+                return;
+            }
+
+            event.registerBlockEntity(Capabilities.Energy.BLOCK, type, (blockEntity, direction) -> {
+                IEnergyStorage storage = provider.apply(blockEntity, direction);
+                if (storage == null) return null;
+
+                return toRaw(storage);
+            });
+        });
     }
 
     public static long addEnergyToForeignTile(BlockEntity blockEntity, long amount, @Nullable Direction side) {
         if (blockEntity == null || blockEntity.getLevel() == null) return 0;
 
         IEnergyStorage storage = getEnergyStorage(blockEntity.getLevel(), blockEntity.getBlockPos(), side);
-        if (storage == null || !storage.supportsInsertion()) return 0;
+        if (storage == null || !storage.canInsertEnergy()) return 0;
 
-        return storage.insert(amount);
+        return storage.insertEnergy(amount);
     }
 
     /**
-     * IEnergyStorageをNeoForgeのEnergyHandlerに変換する。
+     * MCPitanLibを使うMODが登録したストレージは、往復変換で情報が落ちないよう中身をそのまま返す。
+     */
+    public static IEnergyStorage fromRaw(EnergyHandler handler) {
+        if (handler instanceof NeoForgeWrappedEnergyHandler)
+            return ((NeoForgeWrappedEnergyHandler) handler).storage;
+
+        return new NeoForgeEnergyStorage(handler);
+    }
+
+    /**
      * ラッパー越しの二重変換を避けるため、元がNeoForgeEnergyStorageならそのまま取り出す。
      */
     public static EnergyHandler toRaw(IEnergyStorage storage) {

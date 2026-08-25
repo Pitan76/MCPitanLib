@@ -10,6 +10,7 @@ import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public class FluidStorageUtil {
     @ExpectPlatform
@@ -59,6 +60,18 @@ public class FluidStorageUtil {
      */
     @ExpectPlatform
     public static void registerFluidStorage(BlockEntityType<?> type, BiFunction<BlockEntity, Direction, IFluidStorage> provider) {
+        throw new AssertionError();
+    }
+
+    /**
+     * Forge / NeoForge ではBlockEntityTypeがDeferredRegister経由で登録されるため、
+     * MOD初期化時点ではまだインスタンスが存在しない。
+     * {@code RegistryResult#getOrNull()} をそのまま渡すとnullになり、
+     * <b>何も登録されないまま黙って素通りする</b>ので、その場合はこちらを使うこと。
+     *
+     */
+    @ExpectPlatform
+    public static void registerFluidStorageLazy(Supplier<BlockEntityType<?>> typeSupplier, BiFunction<BlockEntity, Direction, IFluidStorage> provider) {
         throw new AssertionError();
     }
 
