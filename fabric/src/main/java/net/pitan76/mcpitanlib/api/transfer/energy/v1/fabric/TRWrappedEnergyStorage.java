@@ -1,20 +1,16 @@
 package net.pitan76.mcpitanlib.api.transfer.energy.v1.fabric;
 
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.pitan76.mcpitanlib.api.transfer.energy.v1.IEnergyStorage;
 import team.reborn.energy.api.EnergyStorage;
 
 /**
- * IEnergyStorage を Team Reborn Energy の EnergyStorage として公開するためのラッパー。
- * <p>
- * {@link FabricEnergyStorage} でない独自実装を登録した場合のフォールバック。
- * IEnergyStorage 側がトランザクションを持たないため、ここでの操作は即時確定になる。
- * トランザクションを正しく扱いたい場合は
- * {@code EnergyStorageUtil#create} が返すストレージを登録すること。
- * <p>
- * このクラスは Team Reborn Energy が導入されている場合のみロードされる。
+ * ケーブルは毎tick「入れてみて駄目なら中断する」トランザクションを開くため、
+ * 中断を無視して即時確定すると挿入が残り、発電機を繋いでいないのに満充電になる。
+ * {@link SnapshotParticipant} で残量を退避し、中断時は元に戻す。
  */
-public class TRWrappedEnergyStorage implements EnergyStorage {
+public class TRWrappedEnergyStorage extends SnapshotParticipant<Long> implements EnergyStorage {
 
     public final IEnergyStorage storage;
 
@@ -24,31 +20,60 @@ public class TRWrappedEnergyStorage implements EnergyStorage {
 
     @Override
     public long insert(long maxAmount, TransactionContext transaction) {
-        return storage.insert(maxAmount, false);
+        if (maxAmount <= 0 || !storage.canInsertEnergy()) return 0;
+
+        updateSnapshots(transaction);
+        return storage.insertEnergy(maxAmount, false);
     }
 
     @Override
     public long extract(long maxAmount, TransactionContext transaction) {
-        return storage.extract(maxAmount, false);
+        if (maxAmount <= 0 || !storage.canExtractEnergy()) return 0;
+
+        updateSnapshots(transaction);
+        return storage.extractEnergy(maxAmount, false);
+    }
+
+    @Override
+    protected Long createSnapshot() {
+        return storage.getEnergyStored();
+    }
+
+    @Override
+    protected void readSnapshot(Long snapshot) {
+        long current = storage.getEnergyStored();
+        if (current == snapshot) return;
+
+        if (storage.supportsSetEnergyStored()) {
+            storage.setEnergyStored(snapshot);
+            return;
+        }
+
+        // setEnergyStoredが使えない場合は差分を打ち消す
+        if (current > snapshot) {
+            storage.extractEnergy(current - snapshot, false);
+        } else {
+            storage.insertEnergy(snapshot - current, false);
+        }
     }
 
     @Override
     public long getAmount() {
-        return storage.getAmount();
+        return storage.getEnergyStored();
     }
 
     @Override
     public long getCapacity() {
-        return storage.getCapacity();
+        return storage.getCapacityEnergy();
     }
 
     @Override
     public boolean supportsInsertion() {
-        return storage.supportsInsertion();
+        return storage.canInsertEnergy();
     }
 
     @Override
     public boolean supportsExtraction() {
-        return storage.supportsExtraction();
+        return storage.canExtractEnergy();
     }
 }
