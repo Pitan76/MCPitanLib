@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.transfer.fluid.v1;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityTypeWrapper;
 import net.pitan76.mcpitanlib.midohra.block.entity.BlockEntityWrapper;
 import net.pitan76.mcpitanlib.midohra.util.math.BlockPos;
@@ -65,8 +66,18 @@ public class FluidLookup {
         FluidStorageUtil.registerFluidStorage(type, provider);
     }
 
+    /**
+     * Forge / NeoForge ではBlockEntityTypeがMOD初期化時点ではまだ解決されていないため、
+     * {@code registerForBlockEntity(provider, result.getOrNull())} と書くと
+     * nullになって<b>何も登録されないまま黙って素通りする</b>。
+     * {@link RegistryResult} を持っている場合は必ずこちらを使うこと。
+     */
+    public void registerForBlockEntity(BiFunction<BlockEntity, net.minecraft.core.Direction, IFluidStorage> provider, RegistryResult<BlockEntityType<?>> type) {
+        FluidStorageUtil.registerFluidStorageLazy(type::getOrNull, provider);
+    }
+
     public void registerForBlockEntityWrapper(BiFunction<BlockEntityWrapper, Direction, IFluidStorage> provider, BlockEntityTypeWrapper type) {
-        registerForBlockEntity((blockEntity, direction) ->
-                provider.apply(BlockEntityWrapper.of(blockEntity), direction == null ? null : Direction.of(direction)), type.get());
+        FluidStorageUtil.registerFluidStorageLazy(type::get, (blockEntity, direction) ->
+                provider.apply(BlockEntityWrapper.of(blockEntity), direction == null ? null : Direction.of(direction)));
     }
 }
