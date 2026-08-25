@@ -3,8 +3,6 @@ package net.pitan76.mcpitanlib.api.transfer.energy.v1.neoforge;
 import net.pitan76.mcpitanlib.api.transfer.energy.v1.IEnergyStorage;
 
 /**
- * MCPitanLibのIEnergyStorageをNeoForgeのIEnergyStorageとして公開するためのラッパー。
- * <p>
  * {@link NeoForgeEnergyStorage} でない独自実装を登録した場合のフォールバック。
  */
 public class NeoForgeWrappedEnergyHandler implements net.neoforged.neoforge.energy.IEnergyStorage {
@@ -17,35 +15,35 @@ public class NeoForgeWrappedEnergyHandler implements net.neoforged.neoforge.ener
 
     @Override
     public int receiveEnergy(int maxAmount, boolean simulate) {
-        if (!storage.supportsInsertion()) return 0;
+        if (!storage.canInsertEnergy()) return 0;
 
-        return (int) storage.insert(maxAmount, simulate);
+        return (int) storage.insertEnergy(maxAmount, simulate);
     }
 
     @Override
     public int extractEnergy(int maxAmount, boolean simulate) {
-        if (!storage.supportsExtraction()) return 0;
+        if (!storage.canExtractEnergy()) return 0;
 
-        return (int) storage.extract(maxAmount, simulate);
+        return (int) storage.extractEnergy(maxAmount, simulate);
     }
 
     @Override
     public int getEnergyStored() {
-        return (int) storage.getAmount();
+        return (int) storage.getEnergyStored();
     }
 
     @Override
     public int getMaxEnergyStored() {
-        return (int) storage.getCapacity();
+        return (int) storage.getCapacityEnergy();
     }
 
     @Override
     public boolean canExtract() {
-        return storage.supportsExtraction();
+        return storage.canExtractEnergy();
     }
 
     @Override
     public boolean canReceive() {
-        return storage.supportsInsertion();
+        return storage.canInsertEnergy();
     }
 }
