@@ -50,10 +50,8 @@ public class NeoForgeEnergyStorage implements IEnergyStorage {
     }
 
     private static Transaction openTransaction() {
-        TransactionContext current = Transaction.getCurrentOpenedTransaction();
-        if (current != null) return Transaction.open(current);
-
-        return Transaction.openRoot();
+        // 引数nullでルート、開いているものがあればネストになる
+        return Transaction.open(Transaction.getCurrentOpenedTransaction());
     }
 
     /**
