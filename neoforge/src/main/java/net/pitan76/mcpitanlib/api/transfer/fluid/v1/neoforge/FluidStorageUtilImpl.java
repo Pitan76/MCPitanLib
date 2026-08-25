@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 import java.util.function.Consumer;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -53,18 +54,39 @@ public class FluidStorageUtilImpl {
     }
 
     public static void registerFluidStorage(BlockEntityType<?> type, BiFunction<BlockEntity, Direction, IFluidStorage> provider) {
-        if (registered) {
+        if (type == null) {
             LoggerUtil.warn(LoggerUtil.getLogger(FluidStorageUtilImpl.class),
-                    "registerFluidStorage was called after RegisterCapabilitiesEvent. The registration is ignored: " + type);
+                    "registerFluidStorage was called with a null BlockEntityType. "
+                            + "On NeoForge the BlockEntityType is not resolved yet during mod initialization; "
+                            + "use registerFluidStorageLazy (or FluidLookup#registerForBlockEntity with a RegistryResult) instead.");
             return;
         }
 
-        registrations.add(event -> event.registerBlockEntity(Capabilities.Fluid.BLOCK, type, (blockEntity, direction) -> {
-            IFluidStorage storage = provider.apply(blockEntity, direction);
-            if (!(storage instanceof NeoForgeFluidStorage)) return null;
+        registerFluidStorageLazy(() -> type, provider);
+    }
 
-            return ((NeoForgeFluidStorage) storage).handler;
-        }));
+    public static void registerFluidStorageLazy(Supplier<BlockEntityType<?>> typeSupplier, BiFunction<BlockEntity, Direction, IFluidStorage> provider) {
+        if (registered) {
+            LoggerUtil.warn(LoggerUtil.getLogger(FluidStorageUtilImpl.class),
+                    "registerFluidStorage was called after RegisterCapabilitiesEvent. The registration is ignored.");
+            return;
+        }
+
+        registrations.add(event -> {
+            BlockEntityType<?> type = typeSupplier.get();
+            if (type == null) {
+                LoggerUtil.warn(LoggerUtil.getLogger(FluidStorageUtilImpl.class),
+                        "The BlockEntityType is still unresolved at RegisterCapabilitiesEvent. The registration is ignored.");
+                return;
+            }
+
+            event.registerBlockEntity(Capabilities.Fluid.BLOCK, type, (blockEntity, direction) -> {
+                IFluidStorage storage = provider.apply(blockEntity, direction);
+                if (!(storage instanceof NeoForgeFluidStorage)) return null;
+
+                return ((NeoForgeFluidStorage) storage).handler;
+            });
+        });
     }
 
     @SubscribeEvent

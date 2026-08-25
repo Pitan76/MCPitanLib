@@ -1,66 +1,143 @@
 package net.pitan76.mcpitanlib.api.transfer.energy.v1;
 
+import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
+import net.pitan76.mcpitanlib.api.util.nbt.NbtRWUtil;
+
 /**
  * プラットフォーム間で共通のエネルギーストレージ。
- * Fabricでは Team Reborn Energy、NeoForgeでは Capability の実装に橋渡しされる。
- * <p>
- * Fabricでは Team Reborn Energy が導入されていない場合があるため、
- * このインターフェースを取得する側は null を許容すること。
  */
 public interface IEnergyStorage {
-    long getAmount();
 
-    long getCapacity();
+    long getEnergyStored();
 
-    /**
-     * エネルギーを挿入する。
-     * @param maxAmount 挿入する最大量
-     * @param simulate trueの場合は実際には挿入しない
-     * @return 実際に挿入された量
-     */
-    long insert(long maxAmount, boolean simulate);
+    long getCapacityEnergy();
 
-    /**
-     * エネルギーを取り出す。
-     * @param maxAmount 取り出す最大量
-     * @param simulate trueの場合は実際には取り出さない
-     * @return 実際に取り出された量
-     */
-    long extract(long maxAmount, boolean simulate);
+    long insertEnergy(long amount, boolean simulate);
 
-    default long insert(long maxAmount) {
-        return insert(maxAmount, false);
-    }
+    long extractEnergy(long amount, boolean simulate);
 
-    default long extract(long maxAmount) {
-        return extract(maxAmount, false);
-    }
-
-    default boolean supportsInsertion() {
+    default boolean canInsertEnergy() {
         return true;
     }
 
-    default boolean supportsExtraction() {
+    default boolean canExtractEnergy() {
         return true;
     }
 
-    default boolean isEmpty() {
-        return getAmount() <= 0;
+    default long getMaxInputEnergy() {
+        if (!canInsertEnergy()) return 0;
+
+        return insertEnergy(Long.MAX_VALUE, true);
     }
 
-    default boolean isFull() {
-        return getAmount() >= getCapacity();
+    default long getMaxOutputEnergy() {
+        if (!canExtractEnergy()) return 0;
+
+        return extractEnergy(Long.MAX_VALUE, true);
     }
 
-    default long getSpace() {
-        return getCapacity() - getAmount();
+    default long getInsertableEnergy() {
+        if (!canInsertEnergy()) return 0;
+
+        return insertEnergy(getMaxInputEnergy(), true);
     }
 
-    default boolean canInsert(long amount) {
-        return insert(amount, true) == amount;
+    default long getExtractableEnergy() {
+        if (!canExtractEnergy()) return 0;
+
+        return extractEnergy(getMaxOutputEnergy(), true);
     }
 
-    default boolean canExtract(long amount) {
-        return extract(amount, true) == amount;
+    default boolean supportsSetEnergyStored() {
+        return false;
     }
+
+    /**
+     * @throws UnsupportedOperationException {@link #supportsSetEnergyStored()} がfalseの場合
+     */
+    default void setEnergyStored(long energy) {
+        throw new UnsupportedOperationException("setEnergyStored is not supported by " + getClass().getName());
+    }
+
+    /**
+     * ケーブル等の導管かどうか。
+     */
+    default boolean isEnergyConduit() {
+        return false;
+    }
+
+    /**
+     * @param check trueなら {@link #canInsertEnergy()} を尊重する
+     */
+    default long insertEnergy(long amount, boolean simulate, boolean check) {
+        if (check && !canInsertEnergy()) return 0;
+
+        return insertEnergy(amount, simulate);
+    }
+
+    /**
+     * @param check trueなら {@link #canExtractEnergy()} を尊重する
+     */
+    default long extractEnergy(long amount, boolean simulate, boolean check) {
+        if (check && !canExtractEnergy()) return 0;
+
+        return extractEnergy(amount, simulate);
+    }
+
+    default long insertEnergy(long amount) {
+        return insertEnergy(amount, false);
+    }
+
+    default long extractEnergy(long amount) {
+        return extractEnergy(amount, false);
+    }
+
+    default boolean isFullEnergy() {
+        return getEnergyStored() >= getCapacityEnergy();
+    }
+
+    default boolean isEmptyEnergy() {
+        return getEnergyStored() <= 0;
+    }
+
+    default boolean hasEnergy() {
+        return !isEmptyEnergy();
+    }
+
+    default boolean isNotEmptyEnergy() {
+        return !isEmptyEnergy();
+    }
+
+    default boolean isNotFullEnergy() {
+        return !isFullEnergy();
+    }
+
+    default long getUsableCapacity() {
+        return getCapacityEnergy() - getEnergyStored();
+    }
+
+    default boolean canInsertEnergyFully(long amount) {
+        return insertEnergy(amount, true) == amount;
+    }
+
+    default boolean canExtractEnergyFully(long amount) {
+        return extractEnergy(amount, true) == amount;
+    }
+
+    default boolean canInsertAnyEnergy() {
+        return getInsertableEnergy() > 0;
+    }
+
+    default boolean canExtractAnyEnergy() {
+        return getExtractableEnergy() > 0;
+    }
+
+    default void writeEnergyNbt(WriteNbtArgs args, String key) {
+        NbtRWUtil.putLong(args, key, getEnergyStored());
+    }
+
+    default void writeEnergyNbt(WriteNbtArgs args) {
+        writeEnergyNbt(args, "energy");
+    }
+
 }
