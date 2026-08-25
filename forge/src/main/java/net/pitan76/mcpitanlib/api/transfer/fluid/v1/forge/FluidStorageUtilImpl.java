@@ -19,8 +19,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
@@ -31,6 +34,8 @@ import net.pitan76.mcpitanlib.api.transfer.fluid.v1.IFluidVariant;
 public class FluidStorageUtilImpl {
 
     private static final Map<BlockEntityType<?>, BiFunction<BlockEntity, Direction, IFluidStorage>> providers = new ConcurrentHashMap<>();
+
+    private static final List<Object[]> pending = new CopyOnWriteArrayList<>();
 
     public static IFluidStorage withFixedCapacity(long capacity, Runnable onChange) {
         return new ForgeFluidStorage(new FluidTank((int) capacity), onChange);
@@ -57,11 +62,37 @@ public class FluidStorageUtilImpl {
     }
 
     public static void registerFluidStorage(BlockEntityType<?> type, BiFunction<BlockEntity, Direction, IFluidStorage> provider) {
+        if (type == null) return;
+
         providers.put(type, provider);
+    }
+
+    public static void registerFluidStorageLazy(Supplier<BlockEntityType<?>> typeSupplier, BiFunction<BlockEntity, Direction, IFluidStorage> provider) {
+        BlockEntityType<?> type = typeSupplier.get();
+        if (type != null) {
+            registerFluidStorage(type, provider);
+            return;
+        }
+
+        pending.add(new Object[]{typeSupplier, provider});
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void flushPending() {
+        if (pending.isEmpty()) return;
+
+        for (Object[] entry : pending) {
+            BlockEntityType<?> type = ((Supplier<BlockEntityType<?>>) entry[0]).get();
+            if (type == null) continue;
+
+            pending.remove(entry);
+            providers.put(type, (BiFunction<BlockEntity, Direction, IFluidStorage>) entry[1]);
+        }
     }
 
     @SubscribeEvent
     public static void onAttachCapabilities(AttachCapabilitiesEvent<BlockEntity> event) {
+        flushPending();
         if (providers.isEmpty()) return;
 
         BlockEntity blockEntity = event.getObject();
