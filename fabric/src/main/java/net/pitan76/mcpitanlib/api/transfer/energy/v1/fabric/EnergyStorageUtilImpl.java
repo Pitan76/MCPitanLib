@@ -10,6 +10,7 @@ import net.pitan76.mcpitanlib.api.transfer.energy.v1.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 /**
  * FabricにはNeoForgeのCapabilityに相当する標準のエネルギーAPIが無いため、
@@ -51,13 +52,19 @@ public class EnergyStorageUtilImpl {
         TREnergySupport.registerEnergyStorage(type, provider);
     }
 
+    public static void registerEnergyStorageLazy(Supplier<BlockEntityType<?>> typeSupplier, BiFunction<BlockEntity, Direction, IEnergyStorage> provider) {
+        if (!isSupported()) return;
+
+        TREnergySupport.registerEnergyStorageLazy(typeSupplier, provider);
+    }
+
     public static long addEnergyToForeignTile(BlockEntity blockEntity, long amount, @Nullable Direction side) {
         if (!isSupported()) return 0;
         if (blockEntity == null || blockEntity.getWorld() == null) return 0;
 
         IEnergyStorage storage = getEnergyStorage(blockEntity.getWorld(), blockEntity.getPos(), side);
-        if (storage == null || !storage.supportsInsertion()) return 0;
+        if (storage == null || !storage.canInsertEnergy()) return 0;
 
-        return storage.insert(amount);
+        return storage.insertEnergy(amount);
     }
 }
