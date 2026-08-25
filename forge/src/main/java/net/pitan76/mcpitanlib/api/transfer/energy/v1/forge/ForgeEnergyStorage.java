@@ -18,33 +18,47 @@ public class ForgeEnergyStorage implements IEnergyStorage {
     }
 
     @Override
-    public long getAmount() {
+    public long getEnergyStored() {
         return handler.getEnergyStored();
     }
 
     @Override
-    public long getCapacity() {
+    public long getCapacityEnergy() {
         return handler.getMaxEnergyStored();
     }
 
     @Override
-    public long insert(long maxAmount, boolean simulate) {
-        return handler.receiveEnergy(toInt(maxAmount), simulate);
+    public long insertEnergy(long amount, boolean simulate) {
+        if (amount <= 0) return 0;
+
+        return handler.receiveEnergy(toInt(amount), simulate);
     }
 
     @Override
-    public long extract(long maxAmount, boolean simulate) {
-        return handler.extractEnergy(toInt(maxAmount), simulate);
+    public long extractEnergy(long amount, boolean simulate) {
+        if (amount <= 0) return 0;
+
+        return handler.extractEnergy(toInt(amount), simulate);
     }
 
     @Override
-    public boolean supportsInsertion() {
+    public boolean canInsertEnergy() {
         return handler.canReceive();
     }
 
     @Override
-    public boolean supportsExtraction() {
+    public boolean canExtractEnergy() {
         return handler.canExtract();
+    }
+
+    @Override
+    public long getMaxInputEnergy() {
+        return insertEnergy(Integer.MAX_VALUE, true);
+    }
+
+    @Override
+    public long getMaxOutputEnergy() {
+        return extractEnergy(Integer.MAX_VALUE, true);
     }
 
     /**
