@@ -19,8 +19,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 /**
  * ForgeではCapabilityでエネルギーを扱うため、常に利用できる。
@@ -32,6 +35,11 @@ import java.util.function.BiFunction;
 public class EnergyStorageUtilImpl {
 
     private static final Map<BlockEntityType<?>, BiFunction<BlockEntity, Direction, IEnergyStorage>> providers = new ConcurrentHashMap<>();
+
+    /**
+     * BlockEntityTypeがまだ解決されていない登録要求。AttachCapabilitiesEvent時に解決する。
+     */
+    private static final List<Object[]> pending = new CopyOnWriteArrayList<>();
 
     public static boolean isSupported() {
         return true;
@@ -49,20 +57,55 @@ public class EnergyStorageUtilImpl {
         net.minecraftforge.energy.IEnergyStorage handler = blockEntity.getCapability(CapabilityEnergy.ENERGY, side).resolve().orElse(null);
         if (handler == null) return null;
 
-        return new ForgeEnergyStorage(handler);
+        return fromRaw(handler);
     }
 
     public static void registerEnergyStorage(BlockEntityType<?> type, BiFunction<BlockEntity, Direction, IEnergyStorage> provider) {
+        if (type == null) return;
+
         providers.put(type, provider);
+    }
+
+    public static void registerEnergyStorageLazy(Supplier<BlockEntityType<?>> typeSupplier, BiFunction<BlockEntity, Direction, IEnergyStorage> provider) {
+        BlockEntityType<?> type = typeSupplier.get();
+        if (type != null) {
+            registerEnergyStorage(type, provider);
+            return;
+        }
+
+        pending.add(new Object[]{typeSupplier, provider});
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void flushPending() {
+        if (pending.isEmpty()) return;
+
+        for (Object[] entry : pending) {
+            BlockEntityType<?> type = ((Supplier<BlockEntityType<?>>) entry[0]).get();
+            if (type == null) continue;
+
+            pending.remove(entry);
+            providers.put(type, (BiFunction<BlockEntity, Direction, IEnergyStorage>) entry[1]);
+        }
     }
 
     public static long addEnergyToForeignTile(BlockEntity blockEntity, long amount, @Nullable Direction side) {
         if (blockEntity == null || blockEntity.getWorld() == null) return 0;
 
         IEnergyStorage storage = getEnergyStorage(blockEntity.getWorld(), blockEntity.getPos(), side);
-        if (storage == null || !storage.supportsInsertion()) return 0;
+        if (storage == null || !storage.canInsertEnergy()) return 0;
 
-        return storage.insert(amount);
+        return storage.insertEnergy(amount);
+    }
+
+    /**
+     * MCPitanLibを使うMODが登録したストレージは、往復変換で情報が落ちないよう中身をそのまま返す。
+     */
+    public static IEnergyStorage fromRaw(net.minecraftforge.energy.IEnergyStorage handler) {
+        if (handler instanceof ForgeWrappedEnergyStorage)
+            return ((ForgeWrappedEnergyStorage) handler).storage;
+
+        return new ForgeEnergyStorage(handler);
     }
 
     /**
@@ -78,6 +121,7 @@ public class EnergyStorageUtilImpl {
 
     @SubscribeEvent
     public static void onAttachCapabilities(AttachCapabilitiesEvent<BlockEntity> event) {
+        flushPending();
         if (providers.isEmpty()) return;
 
         BlockEntity blockEntity = event.getObject();
