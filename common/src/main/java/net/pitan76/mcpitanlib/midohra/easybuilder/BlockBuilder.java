@@ -19,6 +19,7 @@ import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
+import net.pitan76.mcpitanlib.midohra.registry.MidohraRegistryV2;
 import net.pitan76.mcpitanlib.api.sound.CompatBlockSoundGroup;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -93,6 +94,14 @@ public class BlockBuilder {
 
     public SupplierBlockWrapper build(CommonModInitializer initializer, CompatIdentifier id) {
         return build(initializer.registry, id);
+    }
+
+    public SupplierBlockWrapper build(MidohraRegistryV2 registry) {
+        return build(registry.getCompatRegistry());
+    }
+
+    public SupplierBlockWrapper build(MidohraRegistryV2 registry, CompatIdentifier id) {
+        return build(registry.getCompatRegistry(), id);
     }
 
     public Pair<SupplierBlockWrapper, SupplierItemWrapper> buildWithItem(CompatRegistryV2 registry, CompatibleItemSettings settings) {
