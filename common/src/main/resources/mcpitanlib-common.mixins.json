@@ -15,6 +15,7 @@
     "PlayerEntityMixin",
     "MinecraftServerTimer",
     "RecipeManagerMixin",
+    "ResourceFinderMixin",
     "ServerWorldTimer"
   ],
   "client": [

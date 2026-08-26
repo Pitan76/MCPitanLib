@@ -5,6 +5,7 @@ import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.v2.BlockSettingsBuilder;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
+import net.pitan76.mcpitanlib.midohra.registry.MidohraRegistryV2;
 import net.pitan76.mcpitanlib.api.util.BlockEntityTypeUtil;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.block.SupplierBlockWrapper;
@@ -57,6 +58,14 @@ public class BlockWithBlockEntityBuilder extends BlockBuilder {
 
     public SupplierBlockWrapper build(CommonModInitializer initializer, CompatIdentifier id) {
         return build(initializer.registry, id);
+    }
+
+    public SupplierBlockWrapper build(MidohraRegistryV2 registry) {
+        return build(registry.getCompatRegistry());
+    }
+
+    public SupplierBlockWrapper build(MidohraRegistryV2 registry, CompatIdentifier id) {
+        return build(registry.getCompatRegistry(), id);
     }
 
     public static BlockWithBlockEntityBuilder of(CompatIdentifier id) {
