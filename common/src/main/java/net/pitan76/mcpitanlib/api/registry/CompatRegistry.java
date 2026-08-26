@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.potion.Potion;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -133,6 +134,10 @@ public class CompatRegistry {
 
     public RegistryResult<StatusEffect> registerStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
         return new RegistryResult<>(mcplr.registryStatusEffect(id, supplier));
+    }
+
+    public RegistryResult<Potion> registerPotion(Identifier id, Supplier<Potion> supplier) {
+        return new RegistryResult<>(mcplr.registryPotion(id, supplier));
     }
 
     public RegistryResult<ItemGroup> registerItemGroup(Identifier id, Supplier<ItemGroup> supplier) {

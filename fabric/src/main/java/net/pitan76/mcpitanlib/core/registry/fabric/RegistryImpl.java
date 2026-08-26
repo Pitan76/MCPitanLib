@@ -3,7 +3,9 @@ package net.pitan76.mcpitanlib.core.registry.fabric;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.potion.Potion;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -51,6 +53,14 @@ public class RegistryImpl {
 
     public static RegistrySupplier<StatusEffect> registryStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
         return new RegistrySupplier<>(Registry.register(Registry.STATUS_EFFECT, id, supplier.get()));
+    }
+
+    public static RegistrySupplier<Potion> registryPotion(Identifier id, Supplier<Potion> supplier) {
+        return new RegistrySupplier<>(Registry.register(Registry.POTION, id, supplier.get()));
+    }
+
+    public static RegistrySupplier<Enchantment> registryEnchantment(Identifier id, Supplier<Enchantment> supplier) {
+        return new RegistrySupplier<>(Registry.register(Registry.ENCHANTMENT, id, supplier.get()));
     }
 
     // 1.19.2にはItemGroupのレジストリが無い (ItemGroupは配列で管理される)
