@@ -77,6 +77,34 @@ public class EnchantmentWrapper {
         return getEntry(world).map(entry -> net.minecraft.enchantment.EnchantmentHelper.getLevel(entry, stack)).orElse(0);
     }
 
+    // ------------------------------------------------------------------
+    // midohra版
+    // ------------------------------------------------------------------
+
+    public Optional<RegistryEntry.Reference<Enchantment>> getEntry(net.pitan76.mcpitanlib.midohra.world.World world) {
+        return getEntry(world.getRaw());
+    }
+
+    public boolean isPresent(net.pitan76.mcpitanlib.midohra.world.World world) {
+        return isPresent(world.getRaw());
+    }
+
+    public Optional<Enchantment> get(net.pitan76.mcpitanlib.midohra.world.World world) {
+        return get(world.getRaw());
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack createEnchantedBook(net.pitan76.mcpitanlib.midohra.world.World world, int level) {
+        return createEnchantedBook(world.getRaw(), level);
+    }
+
+    public net.pitan76.mcpitanlib.midohra.item.ItemStack createEnchantedBook(net.pitan76.mcpitanlib.midohra.world.World world) {
+        return createEnchantedBook(world, 1);
+    }
+
+    public int getLevel(net.pitan76.mcpitanlib.midohra.item.ItemStack stack, net.pitan76.mcpitanlib.midohra.world.World world) {
+        return getLevel(stack.toMinecraft(), world.getRaw());
+    }
+
     @Override
     public String toString() {
         return getId().toString();

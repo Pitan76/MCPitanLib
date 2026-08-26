@@ -5,6 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -80,5 +81,17 @@ public class StatusEffectInstantEvent extends BaseEvent {
 
     public double getProximity() {
         return proximity;
+    }
+
+    public EntityWrapper getTargetWrapper() {
+        return EntityWrapper.of(target);
+    }
+
+    public EntityWrapper getSourceWrapper() {
+        return source == null ? EntityWrapper.of() : EntityWrapper.of(source);
+    }
+
+    public EntityWrapper getAttackerWrapper() {
+        return attacker == null ? EntityWrapper.of() : EntityWrapper.of(attacker);
     }
 }

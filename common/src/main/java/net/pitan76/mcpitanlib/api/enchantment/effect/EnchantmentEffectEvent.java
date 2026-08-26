@@ -71,6 +71,10 @@ public class EnchantmentEffectEvent extends BaseEvent {
         return pos;
     }
 
+    public net.pitan76.mcpitanlib.midohra.util.math.Vector3d getMidohraPos() {
+        return net.pitan76.mcpitanlib.midohra.util.math.Vector3d.of(pos);
+    }
+
     public EnchantmentEffectContext getContext() {
         return context;
     }

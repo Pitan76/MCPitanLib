@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.event.effect;
 
 import net.minecraft.entity.LivingEntity;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 
 /**
  * 効果が付与された瞬間に呼ばれる。
@@ -18,6 +19,10 @@ public class StatusEffectAppliedEvent extends BaseEvent {
 
     public LivingEntity getEntity() {
         return entity;
+    }
+
+    public EntityWrapper getEntityWrapper() {
+        return EntityWrapper.of(entity);
     }
 
     public int getAmplifier() {

@@ -24,7 +24,12 @@ import net.pitan76.mcpitanlib.api.potion.BrewingRecipeUtil;
 import net.pitan76.mcpitanlib.api.potion.PotionBuilder;
 import net.pitan76.mcpitanlib.midohra.enchantment.EnchantmentWrapper;
 import net.pitan76.mcpitanlib.midohra.entity.effect.SupplierStatusEffectWrapper;
+import net.pitan76.mcpitanlib.api.text.TextComponent;
+import net.pitan76.mcpitanlib.api.util.CompatRarity;
+import net.pitan76.mcpitanlib.midohra.easybuilder.ItemBuilder;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
+import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
+import net.pitan76.mcpitanlib.midohra.registry.MidohraRegistryV2;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;
 import net.pitan76.mcpitanlib.midohra.potion.SupplierPotionWrapper;
 
@@ -52,6 +57,9 @@ public class ExampleMod extends CommonModInitializer {
     public static CompatIdentifier EXAMPLE_GUI_BLOCK_ID = _id("example_gui_block");
     public static CompatIdentifier EXAMPLE_CONTAINER_GUI_ITEM_ID = _id("example_container_gui_item");
 
+    public static MidohraRegistryV2 registry2;
+    public static SupplierItemWrapper EXAMPLE_BUILDER_ITEM;
+
     public static SupplierStatusEffectWrapper EXAMPLE_EFFECT;
     public static SupplierPotionWrapper EXAMPLE_POTION;
     public static EnchantmentWrapper EXAMPLE_ENCHANTMENT;
@@ -60,6 +68,14 @@ public class ExampleMod extends CommonModInitializer {
     public void init() {
         INSTANCE = this;
         registry = super.registry;
+        registry2 = MidohraRegistryV2.of(registry);
+
+        // en: Register an item with the builder. , ja: builderでアイテムを登録します。
+        EXAMPLE_BUILDER_ITEM = registry2.registerItem(ItemBuilder.of(_id("example_builder_item"))
+                .maxCount(16)
+                .rarity(CompatRarity.RARE)
+                .group(ItemGroups.INGREDIENTS)
+                .addTooltip(TextComponent.literal("Built with ItemBuilder")));
 
         // en: Register all items, blocks and others. , ja: 全てのアイテム、ブロック、その他を登録します。
         EXAMPLE_SCREENHANDLER = registry.registerScreenHandlerType(compatId("example_gui"), new SimpleScreenHandlerTypeBuilder<>(ExampleScreenHandler::new));

@@ -4,6 +4,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.event.BaseEvent;
+import net.pitan76.mcpitanlib.midohra.entity.EntityWrapper;
 
 /**
  * 効果が持続中、毎tick呼ばれる。
@@ -34,6 +35,10 @@ public class StatusEffectUpdateEvent extends BaseEvent {
 
     public LivingEntity getEntity() {
         return entity;
+    }
+
+    public EntityWrapper getEntityWrapper() {
+        return EntityWrapper.of(entity);
     }
 
     /**
