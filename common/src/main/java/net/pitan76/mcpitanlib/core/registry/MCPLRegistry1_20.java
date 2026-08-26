@@ -8,8 +8,6 @@ import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
