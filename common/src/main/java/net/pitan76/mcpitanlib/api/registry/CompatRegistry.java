@@ -6,6 +6,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
@@ -137,6 +138,10 @@ public class CompatRegistry {
 
     public RegistryResult<MobEffect> registerStatusEffect(Identifier id, Supplier<MobEffect> supplier) {
         return new RegistryResult<>(mcplr.registryStatusEffect(id, supplier));
+    }
+
+    public RegistryResult<Potion> registerPotion(Identifier id, Supplier<Potion> supplier) {
+        return new RegistryResult<>(mcplr.registryPotion(id, supplier));
     }
 
     public RegistryResult<CreativeModeTab> registerItemGroup(Identifier id, Supplier<CreativeModeTab> supplier) {

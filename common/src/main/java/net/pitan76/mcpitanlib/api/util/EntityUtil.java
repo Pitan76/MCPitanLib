@@ -106,6 +106,46 @@ public class EntityUtil {
         return entity.isOnFire();
     }
 
+    /**
+     * 凍結しうるエンティティかどうか。ストレイなど寒さに強いMobはfalse。
+     */
+    public static boolean canFreeze(Entity entity) {
+        return entity.canFreeze();
+    }
+
+    /**
+     * 凍結ダメージが入る状態かどうか。
+     */
+    public static boolean isFrozen(Entity entity) {
+        return entity.isFullyFrozen();
+    }
+
+    public static int getFrozenTicks(Entity entity) {
+        return entity.getTicksFrozen();
+    }
+
+    public static void setFrozenTicks(Entity entity, int ticks) {
+        entity.setTicksFrozen(ticks);
+    }
+
+    /**
+     * 現在の凍結時間に加算する。凍結しないエンティティには何もしない。
+     * @return 実際に加算した場合はtrue
+     */
+    public static boolean addFrozenTicks(Entity entity, int ticks) {
+        if (!canFreeze(entity)) return false;
+
+        setFrozenTicks(entity, getFrozenTicks(entity) + ticks);
+        return true;
+    }
+
+    /**
+     * 凍結ダメージが入り始めるまでの時間 (tick)。
+     */
+    public static int getMinFreezeDamageTicks(Entity entity) {
+        return entity.getTicksRequiredToFreeze();
+    }
+
     public static void setInvisible(Entity entity, boolean invisible) {
         entity.setInvisible(invisible);
     }

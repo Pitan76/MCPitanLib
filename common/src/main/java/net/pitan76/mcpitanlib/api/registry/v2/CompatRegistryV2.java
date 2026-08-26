@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
@@ -17,6 +18,13 @@ import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
+import net.pitan76.mcpitanlib.api.entity.effect.StatusEffectBuilder;
+import net.pitan76.mcpitanlib.api.datapack.VirtualDatapack;
+import net.pitan76.mcpitanlib.api.enchantment.EnchantmentBuilder;
+import net.pitan76.mcpitanlib.api.potion.PotionBuilder;
+import net.pitan76.mcpitanlib.midohra.enchantment.EnchantmentWrapper;
+import net.pitan76.mcpitanlib.midohra.entity.effect.SupplierStatusEffectWrapper;
+import net.pitan76.mcpitanlib.midohra.potion.SupplierPotionWrapper;
 import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
@@ -140,13 +148,49 @@ public class CompatRegistryV2 {
         return cr1.registerParticleType(id.toMinecraft(), supplier);
     }
 
+    /**
+     * @deprecated CompatEnchantmentは既存のエンチャントを参照するためのラッパーで、新規登録には使えない。
+     * {@link #registerEnchantment(EnchantmentBuilder)} を使うこと。
+     */
+    @Deprecated
     public RegistryResult<Enchantment> registerEnchantment(CompatIdentifier id, Supplier<CompatEnchantment> supplier) {
         return cr1.registerEnchantment(id.toMinecraft(), () -> supplier.get().getEnchantment(null));
     }
 
+    /**
+     * このバージョンではエンチャントがデータパックレジストリにあるため、
+     * builderの内容をJSONにして {@link VirtualDatapack} 経由で読ませる。
+     */
+    public EnchantmentWrapper registerEnchantment(EnchantmentBuilder builder) {
+        VirtualDatapack.register("enchantment", builder.id, builder.toJson());
+
+        return EnchantmentWrapper.of(builder.id);
+    }
+
+    /**
+     * @deprecated CompatStatusEffectは既存の効果を参照するためのラッパーで、新規登録には使えない。
+     */
+    @Deprecated
     public RegistryResult<MobEffect> registryStatusEffect(CompatIdentifier id, Supplier<CompatStatusEffect> supplier) {
         return cr1.registerStatusEffect(id.toMinecraft(), () -> supplier.get().getStatusEffect(null));
     }
+
+    public RegistryResult<MobEffect> registerStatusEffect(CompatIdentifier id, Supplier<? extends MobEffect> supplier) {
+        return cr1.registerStatusEffect(id.toMinecraft(), supplier::get);
+    }
+
+    public SupplierStatusEffectWrapper registerStatusEffect(StatusEffectBuilder builder) {
+        return builder.build(this);
+    }
+
+    public RegistryResult<Potion> registerPotion(CompatIdentifier id, Supplier<Potion> supplier) {
+        return cr1.registerPotion(id.toMinecraft(), supplier);
+    }
+
+    public SupplierPotionWrapper registerPotion(PotionBuilder builder) {
+        return builder.build(this);
+    }
+
 
     public RegistryResult<CreativeModeTab> registerItemGroup(CompatIdentifier id, Supplier<CreativeModeTab> supplier) {
         return cr1.registerItemGroup(id.toMinecraft(), supplier);
