@@ -17,6 +17,8 @@ MCPitanLibはライブラリです。 1つのjarで複数のMCバージョンを
 - クリエイティブタブの追加
 - GUIの追加
 - サウンドの追加
+- ポーションの追加
+- エンチャントの追加
 
 となります。
 
@@ -77,6 +79,8 @@ It aims to be cross-version and cross-platform.
 - Adding creative tabs
 - Adding GUIs
 - Adding sounds
+- Adding potions
+- Adding enchantments
 
 ### Required MOD
 - MOD Loader
