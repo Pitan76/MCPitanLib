@@ -65,6 +65,19 @@ public class EnchantmentBuilder {
      */
     public String rawEffects;
 
+    /**
+     * 明示指定された希少度。未指定なら {@link #weight} から導出する。
+     */
+    public CompatEnchantmentRarity rarity;
+
+    /**
+     * 明示指定された対象。未指定なら {@link #supportedItems} から導出する。
+     */
+    public CompatEnchantmentTarget target;
+
+    private boolean weightSet = false;
+    private boolean supportedItemsSet = false;
+
     private final List<String> effectEntries = new ArrayList<>();
 
     public EnchantmentBuilder(CompatIdentifier id) {
@@ -86,6 +99,7 @@ public class EnchantmentBuilder {
 
     public EnchantmentBuilder supportedItems(String supportedItems) {
         this.supportedItems = supportedItems;
+        this.supportedItemsSet = true;
         return this;
     }
 
@@ -99,7 +113,64 @@ public class EnchantmentBuilder {
      */
     public EnchantmentBuilder weight(int weight) {
         this.weight = weight;
+        this.weightSet = true;
         return this;
+    }
+
+    /**
+     * 希少度で指定する。1.21以降では対応するweightとして扱われる。
+     * {@link #weight(int)} を併用した場合はそちらが優先される。
+     */
+    public EnchantmentBuilder rarity(CompatEnchantmentRarity rarity) {
+        this.rarity = rarity;
+        return this;
+    }
+
+    /**
+     * 付与できるアイテムの種類で指定する。1.21以降では対応するアイテムタグとして扱われる。
+     * {@link #supportedItems(String)} を併用した場合はそちらが優先される。
+     */
+    public EnchantmentBuilder target(CompatEnchantmentTarget target) {
+        this.target = target;
+        return this;
+    }
+
+    /**
+     * 実際に使うweight。明示指定 > rarityからの導出 > 既定値。
+     */
+    public int getWeight() {
+        if (weightSet) return weight;
+        if (rarity != null) return rarity.getWeight();
+
+        return weight;
+    }
+
+    /**
+     * 実際に使うsupported_items。明示指定 > targetからの導出 > 既定値。
+     */
+    public String getSupportedItems() {
+        if (supportedItemsSet) return supportedItems;
+        if (target != null) return target.getTag();
+
+        return supportedItems;
+    }
+
+    /**
+     * 実際に使う希少度。明示指定 > weightからの導出。
+     */
+    public CompatEnchantmentRarity getRarity() {
+        if (rarity != null) return rarity;
+
+        return CompatEnchantmentRarity.fromWeight(getWeight());
+    }
+
+    /**
+     * 実際に使う対象。明示指定 > supported_itemsからの導出。
+     */
+    public CompatEnchantmentTarget getTarget() {
+        if (target != null) return target;
+
+        return CompatEnchantmentTarget.fromTag(getSupportedItems());
     }
 
     public EnchantmentBuilder maxLevel(int maxLevel) {
@@ -222,10 +293,10 @@ public class EnchantmentBuilder {
     public String toJson() {
         List<String> lines = new ArrayList<>();
         lines.add("  " + quote("description") + ": {" + quote("translate") + ": " + quote(getTranslationKey()) + "}");
-        lines.add("  " + quote("supported_items") + ": " + toJsonValue(supportedItems));
+        lines.add("  " + quote("supported_items") + ": " + toJsonValue(getSupportedItems()));
         if (primaryItems != null)
             lines.add("  " + quote("primary_items") + ": " + toJsonValue(primaryItems));
-        lines.add("  " + quote("weight") + ": " + weight);
+        lines.add("  " + quote("weight") + ": " + getWeight());
         lines.add("  " + quote("max_level") + ": " + maxLevel);
         lines.add("  " + quote("min_cost") + ": {" + quote("base") + ": " + minCostBase + ", " + quote("per_level_above_first") + ": " + minCostPerLevel + "}");
         lines.add("  " + quote("max_cost") + ": {" + quote("base") + ": " + maxCostBase + ", " + quote("per_level_above_first") + ": " + maxCostPerLevel + "}");
