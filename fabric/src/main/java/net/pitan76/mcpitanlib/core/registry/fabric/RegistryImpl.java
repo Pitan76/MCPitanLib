@@ -64,6 +64,11 @@ public class RegistryImpl {
         return new RegistrySupplier<>(Registry.register(BuiltInRegistries.POTION, ResourceKey.create(Registries.POTION, id), supplier.get()));
     }
 
+    public static RegistrySupplier<com.mojang.serialization.MapCodec<? extends net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect>> registryEnchantmentEntityEffectType(
+            Identifier id, Supplier<com.mojang.serialization.MapCodec<? extends net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect>> supplier) {
+        return new RegistrySupplier<>(Registry.register(BuiltInRegistries.ENCHANTMENT_ENTITY_EFFECT_TYPE, ResourceKey.create(Registries.ENCHANTMENT_ENTITY_EFFECT_TYPE, id), supplier.get()));
+    }
+
     public static RegistrySupplier<CreativeModeTab> registryItemGroup(Identifier id, Supplier<CreativeModeTab> supplier) {
         return new RegistrySupplier<>(Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ResourceKey.create(Registries.CREATIVE_MODE_TAB, id), supplier.get()));
     }

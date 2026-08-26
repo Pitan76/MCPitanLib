@@ -73,6 +73,12 @@ public class Registry {
     }
 
     @ExpectPlatform
+    public static RegistrySupplier<com.mojang.serialization.MapCodec<? extends net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect>> registryEnchantmentEntityEffectType(
+            Identifier id, Supplier<com.mojang.serialization.MapCodec<? extends net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect>> supplier) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
     public static RegistrySupplier<CreativeModeTab> registryItemGroup(Identifier id, Supplier<CreativeModeTab> supplier) {
         throw new AssertionError();
     }

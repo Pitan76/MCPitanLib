@@ -297,6 +297,44 @@ public class EntityWrapper {
         return true;
     }
 
+    /**
+     * 凍結しうるエンティティかどうか。ストレイなど寒さに強いMobはfalse。
+     */
+    public boolean canFreeze() {
+        return EntityUtil.canFreeze(get());
+    }
+
+    /**
+     * 凍結ダメージが入る状態かどうか。
+     */
+    public boolean isFrozen() {
+        return EntityUtil.isFrozen(get());
+    }
+
+    public int getFrozenTicks() {
+        return EntityUtil.getFrozenTicks(get());
+    }
+
+    public boolean setFrozenTicks(int ticks) {
+        EntityUtil.setFrozenTicks(get(), ticks);
+        return true;
+    }
+
+    /**
+     * 現在の凍結時間に加算する。凍結しないエンティティには何もしない。
+     * @return 実際に加算した場合はtrue
+     */
+    public boolean addFrozenTicks(int ticks) {
+        return EntityUtil.addFrozenTicks(get(), ticks);
+    }
+
+    /**
+     * 凍結ダメージが入り始めるまでの時間 (tick)。
+     */
+    public int getMinFreezeDamageTicks() {
+        return EntityUtil.getMinFreezeDamageTicks(get());
+    }
+
     public boolean setCustomNameVisible(boolean visible) {
         EntityUtil.setCustomNameVisible(get(), visible);
         return true;

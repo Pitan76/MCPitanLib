@@ -2,6 +2,8 @@ package net.pitan76.mcpitanlib.api.enchantment;
 
 import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.datapack.VirtualDatapack;
+import net.pitan76.mcpitanlib.api.enchantment.effect.EnchantmentEffectHandler;
+import net.pitan76.mcpitanlib.api.enchantment.effect.EnchantmentEffects;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.enchantment.EnchantmentWrapper;
@@ -16,6 +18,9 @@ import java.util.List;
  * このbuilderは内容をJSONに書き出して {@link VirtualDatapack} に載せ、
  * データパックに置いたのと同じように読ませる。
  * レジストリに直接登録できるバージョンでは、そのまま登録する実装に差し替わる。
+ * <p>
+ * 効果はバニラが用意した型しか書けないが、{@link #onPostAttack} などに渡したJavaの処理は
+ * {@link EnchantmentEffects} 経由で呼ばれるので、凍結のような任意の処理も書ける。
  */
 public class EnchantmentBuilder {
 
@@ -59,6 +64,8 @@ public class EnchantmentBuilder {
      * effectsの中身をそのまま書きたい場合に使う。JSONオブジェクトの中身 (波括弧なし) を渡す。
      */
     public String rawEffects;
+
+    private final List<String> effectEntries = new ArrayList<>();
 
     public EnchantmentBuilder(CompatIdentifier id) {
         this.id = id;
@@ -149,62 +156,112 @@ public class EnchantmentBuilder {
         return this;
     }
 
+    /**
+     * 攻撃を当てたときに走る処理。凍結や追加の状態異常などはここに書く。
+     */
+    public EnchantmentBuilder onPostAttack(EnchantmentEffectHandler handler) {
+        return onPostAttack("attacker", "victim", handler);
+    }
+
+    /**
+     * @param enchanted エンチャントが付いた装備を持っている側 (attacker / victim / damaging_entity)
+     * @param affected 効果を受ける側
+     */
+    public EnchantmentBuilder onPostAttack(String enchanted, String affected, EnchantmentEffectHandler handler) {
+        String effect = customEffectJson(registerHandler("post_attack_" + effectEntries.size(), handler));
+        effectEntries.add("    " + quote("minecraft:post_attack") + ": [{"
+                + quote("enchanted") + ": " + quote(enchanted) + ", "
+                + quote("affected") + ": " + quote(affected) + ", "
+                + quote("effect") + ": " + effect + "}]");
+
+        return this;
+    }
+
+    /**
+     * 装備している間、一定間隔で走る処理。
+     */
+    public EnchantmentBuilder onTick(EnchantmentEffectHandler handler) {
+        String effect = customEffectJson(registerHandler("tick_" + effectEntries.size(), handler));
+        effectEntries.add("    " + quote("minecraft:tick") + ": " + effect);
+
+        return this;
+    }
+
+    /**
+     * ブロックを壊したときに走る処理。
+     */
+    public EnchantmentBuilder onHitBlock(EnchantmentEffectHandler handler) {
+        String effect = customEffectJson(registerHandler("hit_block_" + effectEntries.size(), handler));
+        effectEntries.add("    " + quote("minecraft:hit_block") + ": " + effect);
+
+        return this;
+    }
+
+    private CompatIdentifier registerHandler(String suffix, EnchantmentEffectHandler handler) {
+        CompatIdentifier handlerId = CompatIdentifier.of(id.getNamespace(), id.getPath() + "/" + suffix);
+        EnchantmentEffects.register(handlerId, handler);
+
+        return handlerId;
+    }
+
+    private static String customEffectJson(CompatIdentifier handlerId) {
+        return "{" + quote("type") + ": " + quote(EnchantmentEffects.CUSTOM_TYPE_ID.toString())
+                + ", " + quote("id") + ": " + quote(handlerId.toString()) + "}";
+    }
+
+    private static String quote(String value) {
+        return '"' + value + '"';
+    }
+
     public String getTranslationKey() {
         if (translationKey != null) return translationKey;
 
         return "enchantment." + id.getNamespace() + "." + id.getPath();
     }
 
-    /**
-     * エンチャント本にしか付けない場合はエンチャントテーブルに出す必要が無いので、
-     * weightを0にして宝物扱いにする。
-     */
-    public EnchantmentBuilder treasureOnly() {
-        this.weight = 1;
-
-        return this;
-    }
-
     public String toJson() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        sb.append("  \"description\": {\"translate\": \"").append(getTranslationKey()).append("\"},\n");
-        sb.append("  \"supported_items\": ").append(toJsonValue(supportedItems)).append(",\n");
+        List<String> lines = new ArrayList<>();
+        lines.add("  " + quote("description") + ": {" + quote("translate") + ": " + quote(getTranslationKey()) + "}");
+        lines.add("  " + quote("supported_items") + ": " + toJsonValue(supportedItems));
         if (primaryItems != null)
-            sb.append("  \"primary_items\": ").append(toJsonValue(primaryItems)).append(",\n");
-        sb.append("  \"weight\": ").append(weight).append(",\n");
-        sb.append("  \"max_level\": ").append(maxLevel).append(",\n");
-        sb.append("  \"min_cost\": {\"base\": ").append(minCostBase).append(", \"per_level_above_first\": ").append(minCostPerLevel).append("},\n");
-        sb.append("  \"max_cost\": {\"base\": ").append(maxCostBase).append(", \"per_level_above_first\": ").append(maxCostPerLevel).append("},\n");
-        sb.append("  \"anvil_cost\": ").append(anvilCost).append(",\n");
+            lines.add("  " + quote("primary_items") + ": " + toJsonValue(primaryItems));
+        lines.add("  " + quote("weight") + ": " + weight);
+        lines.add("  " + quote("max_level") + ": " + maxLevel);
+        lines.add("  " + quote("min_cost") + ": {" + quote("base") + ": " + minCostBase + ", " + quote("per_level_above_first") + ": " + minCostPerLevel + "}");
+        lines.add("  " + quote("max_cost") + ": {" + quote("base") + ": " + maxCostBase + ", " + quote("per_level_above_first") + ": " + maxCostPerLevel + "}");
+        lines.add("  " + quote("anvil_cost") + ": " + anvilCost);
         if (exclusiveSet != null)
-            sb.append("  \"exclusive_set\": ").append(toJsonValue(exclusiveSet)).append(",\n");
-        if (rawEffects != null)
-            sb.append("  \"effects\": {").append(rawEffects).append("},\n");
+            lines.add("  " + quote("exclusive_set") + ": " + toJsonValue(exclusiveSet));
 
-        sb.append("  \"slots\": [");
-        List<String> used = slots.isEmpty() ? List.of("mainhand") : slots;
-        for (int i = 0; i < used.size(); i++) {
-            if (i > 0) sb.append(", ");
-            sb.append('"').append(used.get(i)).append('"');
+        if (rawEffects != null || !effectEntries.isEmpty()) {
+            List<String> parts = new ArrayList<>(effectEntries);
+            if (rawEffects != null) parts.add("    " + rawEffects);
+            lines.add("  " + quote("effects") + ": {" + System.lineSeparator() + String.join("," + System.lineSeparator(), parts) + System.lineSeparator() + "  }");
         }
-        sb.append("]\n");
-        sb.append("}\n");
 
-        return sb.toString();
+        List<String> usedSlots = slots.isEmpty() ? List.of("mainhand") : slots;
+        StringBuilder slotJson = new StringBuilder("  " + quote("slots") + ": [");
+        for (int i = 0; i < usedSlots.size(); i++) {
+            if (i > 0) slotJson.append(", ");
+            slotJson.append(quote(usedSlots.get(i)));
+        }
+        slotJson.append(']');
+        lines.add(slotJson.toString());
+
+        return "{" + System.lineSeparator() + String.join("," + System.lineSeparator(), lines) + System.lineSeparator() + "}";
     }
 
     /**
      * タグ (#付き) と単一IDはそのまま文字列、カンマ区切りは配列として書き出す。
      */
     private static String toJsonValue(String value) {
-        if (!value.contains(",")) return "\"" + value + "\"";
+        if (!value.contains(",")) return quote(value);
 
         String[] split = value.split(",");
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < split.length; i++) {
             if (i > 0) sb.append(", ");
-            sb.append('"').append(split[i].trim()).append('"');
+            sb.append(quote(split[i].trim()));
         }
         sb.append(']');
 
