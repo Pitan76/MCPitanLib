@@ -108,8 +108,8 @@ jobs:
       - name: Publish to GitHub Packages
         if: ${{ github.event_name == 'push' || !inputs.dry_run }}
         env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: PTOM76
+          GITHUB_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
         run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
 
       - name: Publish to CurseForge / Modrinth
