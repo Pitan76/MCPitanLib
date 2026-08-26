@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Potion;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -92,6 +93,10 @@ public class RegistryImpl {
 
     public static RegistrySupplier<Potion> registryPotion(Identifier id, Supplier<Potion> supplier) {
         return register(RegistryKeys.POTION, id, supplier);
+    }
+
+    public static RegistrySupplier<Enchantment> registryEnchantment(Identifier id, Supplier<Enchantment> supplier) {
+        return register(RegistryKeys.ENCHANTMENT, id, supplier);
     }
 
     public static RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {

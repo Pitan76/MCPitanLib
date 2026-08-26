@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Potion;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -66,6 +67,11 @@ public class Registry {
 
     @ExpectPlatform
     public static RegistrySupplier<Potion> registryPotion(Identifier id, Supplier<Potion> supplier) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static RegistrySupplier<Enchantment> registryEnchantment(Identifier id, Supplier<Enchantment> supplier) {
         throw new AssertionError();
     }
 
