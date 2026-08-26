@@ -17,8 +17,15 @@ MCPitanLibはライブラリです。 1つのjarで複数のMCバージョンを
 - クリエイティブタブの追加
 - GUIの追加
 - サウンドの追加
-- ポーションの追加
+- ポーション / 醸造レシピの追加
 - エンチャントの追加
+- レシピ / カスタムレシピタイプの追加
+- コマンドの追加
+- パケット / ネットワーク
+- イベントリスナー
+- エネルギー/流体/アイテム転送API
+- タグ / テキスト / スタイル / NBT / コンポーネント
+- タイマー / タスクスケジューラー
 
 となります。
 
@@ -77,10 +84,17 @@ It aims to be cross-version and cross-platform.
 - Adding entities
 - Adding block entities
 - Adding creative tabs
-- Adding GUIs
+- Adding GUIs / screens / menu handlers
 - Adding sounds
-- Adding potions
+- Adding potions & brewing recipes
 - Adding enchantments
+- Adding custom recipes & recipe types
+- Adding commands
+- Custom packets & networking
+- Event listeners
+- Energy, fluid & item transfer API
+- Tag, Text, Style, NBT, Component
+- Timers & task schedulers
 
 ### Required MOD
 - MOD Loader
