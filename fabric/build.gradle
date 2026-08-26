@@ -30,9 +30,11 @@ dependencies {
     // 実行時はteam_reborn_energyの有無を見て分岐する (EnergyStorageUtilImplを参照)
     modCompileOnly("teamreborn:energy:${rootProject.team_reborn_energy_version}") {
         exclude(group: "net.fabricmc.fabric-api")
+        exclude(group: "net.fabricmc", module: "fabric-loader")
     }
     modLocalRuntime("teamreborn:energy:${rootProject.team_reborn_energy_version}") {
         exclude(group: "net.fabricmc.fabric-api")
+        exclude(group: "net.fabricmc", module: "fabric-loader")
     }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
