@@ -7,6 +7,7 @@ import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.item.v2.ItemSettingsBuilder;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
+import net.pitan76.mcpitanlib.midohra.registry.MidohraRegistryV2;
 import net.pitan76.mcpitanlib.api.tag.item.RepairIngredientTag;
 import net.pitan76.mcpitanlib.api.text.TextComponent;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
@@ -71,6 +72,14 @@ public class ItemBuilder {
 
     public SupplierItemWrapper build(CommonModInitializer initializer, CompatIdentifier id) {
         return build(initializer.registry, id);
+    }
+
+    public SupplierItemWrapper build(MidohraRegistryV2 registry) {
+        return build(registry.getCompatRegistry());
+    }
+
+    public SupplierItemWrapper build(MidohraRegistryV2 registry, CompatIdentifier id) {
+        return build(registry.getCompatRegistry(), id);
     }
 
     public ItemBuilder maxCount(int maxCount) {

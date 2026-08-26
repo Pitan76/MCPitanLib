@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.potion.Potion;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleType;
@@ -60,6 +61,10 @@ public class MCPLRegistry {
 
     public RegistrySupplier<StatusEffect> registryStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
         return Registry.registryStatusEffect(id, supplier);
+    }
+
+    public RegistrySupplier<Potion> registryPotion(Identifier id, Supplier<Potion> supplier) {
+        return Registry.registryPotion(id, supplier);
     }
 
     public void allRegister1_16() {

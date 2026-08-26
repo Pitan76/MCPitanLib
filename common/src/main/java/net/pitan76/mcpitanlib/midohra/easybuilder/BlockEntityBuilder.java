@@ -7,6 +7,7 @@ import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.registry.result.SupplierResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
+import net.pitan76.mcpitanlib.midohra.registry.MidohraRegistryV2;
 import net.pitan76.mcpitanlib.api.tile.BlockEntityTypeBuilder;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.block.BlockWrapper;
@@ -53,6 +54,14 @@ public class BlockEntityBuilder {
             throw new IllegalStateException("BlockEntity id is not set. hint: use build(CompatRegistryV2, CompatIdentifier, BlockWrapper...)");
 
         return build(registry, id, blocks);
+    }
+
+    public BlockEntityTypeWrapper build(MidohraRegistryV2 registry, CompatIdentifier id, BlockWrapper... blocks) {
+        return build(registry.getCompatRegistry(), id, blocks);
+    }
+
+    public BlockEntityTypeWrapper build(MidohraRegistryV2 registry, BlockWrapper... blocks) {
+        return build(registry.getCompatRegistry(), blocks);
     }
 
     public BlockEntityBuilder onInit(BiConsumer<BlockEntityWrapper, BlockEntityBuilder> onInit) {

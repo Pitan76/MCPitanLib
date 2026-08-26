@@ -100,6 +100,42 @@ public class EntityUtil {
         return entity.isOnFire();
     }
 
+    /**
+     * 凍結しうるエンティティかどうか。
+     * このバージョンには粉雪による凍結が存在しないため常にfalse。
+     */
+    public static boolean canFreeze(Entity entity) {
+        return false;
+    }
+
+    /**
+     * このバージョンには凍結が存在しないため常にfalse。
+     */
+    public static boolean isFrozen(Entity entity) {
+        return false;
+    }
+
+    public static int getFrozenTicks(Entity entity) {
+        return 0;
+    }
+
+    /**
+     * このバージョンには凍結が存在しないため何もしない。
+     */
+    public static void setFrozenTicks(Entity entity, int ticks) {
+    }
+
+    /**
+     * このバージョンには凍結が存在しないため常にfalse。
+     */
+    public static boolean addFrozenTicks(Entity entity, int ticks) {
+        return false;
+    }
+
+    public static int getMinFreezeDamageTicks(Entity entity) {
+        return 0;
+    }
+
     public static void setInvisible(Entity entity, boolean invisible) {
         entity.setInvisible(invisible);
     }

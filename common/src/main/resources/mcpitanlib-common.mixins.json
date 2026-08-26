@@ -8,6 +8,7 @@
     "AbstractBlockMixin",
     "Block4CompatProviderMixin",
     "BlockInvoker",
+    "BrewingRecipeRegistryInvoker",
     "BlockMixin",
     "ItemMixin",
     "ItemStackMixin",
