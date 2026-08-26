@@ -72,6 +72,12 @@ public class Registry {
     }
 
     @ExpectPlatform
+    public static RegistrySupplier<com.mojang.serialization.MapCodec<? extends net.minecraft.enchantment.effect.EnchantmentEntityEffect>> registryEnchantmentEntityEffectType(
+            Identifier id, Supplier<com.mojang.serialization.MapCodec<? extends net.minecraft.enchantment.effect.EnchantmentEntityEffect>> supplier) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
     public static RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
         throw new AssertionError();
     }

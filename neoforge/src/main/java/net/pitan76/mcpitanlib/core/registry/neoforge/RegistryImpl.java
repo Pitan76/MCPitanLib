@@ -97,6 +97,11 @@ public class RegistryImpl {
         return register(RegistryKeys.POTION, id, supplier);
     }
 
+    public static RegistrySupplier<com.mojang.serialization.MapCodec<? extends net.minecraft.enchantment.effect.EnchantmentEntityEffect>> registryEnchantmentEntityEffectType(
+            Identifier id, Supplier<com.mojang.serialization.MapCodec<? extends net.minecraft.enchantment.effect.EnchantmentEntityEffect>> supplier) {
+        return register(RegistryKeys.ENCHANTMENT_ENTITY_EFFECT_TYPE, id, supplier);
+    }
+
     public static RegistrySupplier<ItemGroup> registryItemGroup(Identifier id, Supplier<ItemGroup> supplier) {
         return register(RegistryKeys.ITEM_GROUP, id, supplier);
     }

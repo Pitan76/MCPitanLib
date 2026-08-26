@@ -29,15 +29,25 @@ public abstract class ResourceFinderMixin {
     @Final
     private String directoryName;
 
+    /**
+     * findResourcesが返すMapのキーはリソースID (ns:name) ではなく
+     * リソースパス (ns:<dir>/<name>.json)。呼び出し側がtoResourceIdでIDに戻すので、
+     * 差し込むときも同じ形にしておかないとIDが壊れる。
+     */
+    @Shadow
+    public abstract Identifier toResourcePath(Identifier id);
+
     @Inject(method = "findResources", at = @At("RETURN"), cancellable = true)
     private void mcpitanlib$findResources(net.minecraft.resource.ResourceManager manager, CallbackInfoReturnable<Map<Identifier, Resource>> cir) {
         if (!VirtualDatapack.has(directoryName)) return;
 
         Map<Identifier, Resource> result = new HashMap<>(cir.getReturnValue());
         for (Map.Entry<Identifier, String> entry : VirtualDatapack.get(directoryName).entrySet()) {
-            if (result.containsKey(entry.getKey())) continue;
+            Identifier path = toResourcePath(entry.getKey());
+            // 実ファイルのデータパックがある場合はそちらを優先する
+            if (result.containsKey(path)) continue;
 
-            result.put(entry.getKey(), mcpitanlib$createResource(entry.getValue()));
+            result.put(path, mcpitanlib$createResource(entry.getValue()));
         }
 
         cir.setReturnValue(result);
@@ -49,11 +59,12 @@ public abstract class ResourceFinderMixin {
 
         Map<Identifier, List<Resource>> result = new HashMap<>(cir.getReturnValue());
         for (Map.Entry<Identifier, String> entry : VirtualDatapack.get(directoryName).entrySet()) {
-            if (result.containsKey(entry.getKey())) continue;
+            Identifier path = toResourcePath(entry.getKey());
+            if (result.containsKey(path)) continue;
 
             List<Resource> resources = new ArrayList<>();
             resources.add(mcpitanlib$createResource(entry.getValue()));
-            result.put(entry.getKey(), resources);
+            result.put(path, resources);
         }
 
         cir.setReturnValue(result);
