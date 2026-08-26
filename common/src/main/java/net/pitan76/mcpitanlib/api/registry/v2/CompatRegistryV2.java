@@ -19,7 +19,10 @@ import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
 import net.pitan76.mcpitanlib.api.entity.effect.StatusEffectBuilder;
+import net.pitan76.mcpitanlib.api.datapack.VirtualDatapack;
+import net.pitan76.mcpitanlib.api.enchantment.EnchantmentBuilder;
 import net.pitan76.mcpitanlib.api.potion.PotionBuilder;
+import net.pitan76.mcpitanlib.midohra.enchantment.EnchantmentWrapper;
 import net.pitan76.mcpitanlib.midohra.entity.effect.SupplierStatusEffectWrapper;
 import net.pitan76.mcpitanlib.midohra.potion.SupplierPotionWrapper;
 import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
@@ -145,8 +148,23 @@ public class CompatRegistryV2 {
         return cr1.registerParticleType(id.toMinecraft(), supplier);
     }
 
+    /**
+     * @deprecated CompatEnchantmentは既存のエンチャントを参照するためのラッパーで、新規登録には使えない。
+     * {@link #registerEnchantment(EnchantmentBuilder)} を使うこと。
+     */
+    @Deprecated
     public RegistryResult<Enchantment> registerEnchantment(CompatIdentifier id, Supplier<CompatEnchantment> supplier) {
         return cr1.registerEnchantment(id.toMinecraft(), () -> supplier.get().getEnchantment(null));
+    }
+
+    /**
+     * このバージョンではエンチャントがデータパックレジストリにあるため、
+     * builderの内容をJSONにして {@link VirtualDatapack} 経由で読ませる。
+     */
+    public EnchantmentWrapper registerEnchantment(EnchantmentBuilder builder) {
+        VirtualDatapack.register("enchantment", builder.id, builder.toJson());
+
+        return EnchantmentWrapper.of(builder.id);
     }
 
     /**
