@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.potion.Potion;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -17,6 +18,10 @@ import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
+import net.pitan76.mcpitanlib.api.entity.effect.StatusEffectBuilder;
+import net.pitan76.mcpitanlib.api.potion.PotionBuilder;
+import net.pitan76.mcpitanlib.midohra.entity.effect.SupplierStatusEffectWrapper;
+import net.pitan76.mcpitanlib.midohra.potion.SupplierPotionWrapper;
 import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
@@ -144,8 +149,29 @@ public class CompatRegistryV2 {
         return cr1.registerEnchantment(id.toMinecraft(), () -> supplier.get().getEnchantment(null));
     }
 
+    /**
+     * @deprecated CompatStatusEffectは既存の効果を参照するためのラッパーで、新規登録には使えない。
+     * {@link #registerStatusEffect(CompatIdentifier, Supplier)} を使うこと。
+     */
+    @Deprecated
     public RegistryResult<StatusEffect> registryStatusEffect(CompatIdentifier id, Supplier<CompatStatusEffect> supplier) {
         return cr1.registerStatusEffect(id.toMinecraft(), () -> supplier.get().getStatusEffect(null));
+    }
+
+    public RegistryResult<StatusEffect> registerStatusEffect(CompatIdentifier id, Supplier<? extends StatusEffect> supplier) {
+        return cr1.registerStatusEffect(id.toMinecraft(), supplier::get);
+    }
+
+    public SupplierStatusEffectWrapper registerStatusEffect(StatusEffectBuilder builder) {
+        return builder.build(this);
+    }
+
+    public RegistryResult<Potion> registerPotion(CompatIdentifier id, Supplier<Potion> supplier) {
+        return cr1.registerPotion(id.toMinecraft(), supplier);
+    }
+
+    public SupplierPotionWrapper registerPotion(PotionBuilder builder) {
+        return builder.build(this);
     }
 
     public RegistryResult<ItemGroup> registerItemGroup(CompatIdentifier id, Supplier<ItemGroup> supplier) {
