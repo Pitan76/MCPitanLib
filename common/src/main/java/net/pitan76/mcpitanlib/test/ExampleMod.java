@@ -19,6 +19,8 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.guilib.GuiRegistry;
 import net.pitan76.mcpitanlib.api.entity.effect.StatusEffectBuilder;
+import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantmentRarity;
+import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantmentTarget;
 import net.pitan76.mcpitanlib.api.enchantment.EnchantmentBuilder;
 import net.pitan76.mcpitanlib.api.potion.BrewingRecipeUtil;
 import net.pitan76.mcpitanlib.api.potion.PotionBuilder;
@@ -124,8 +126,8 @@ public class ExampleMod extends CommonModInitializer {
         // ja: 仮想データパック経由でエンチャントを登録します。
         // en: Freezes the target on hit. , ja: 攻撃を当てた相手を凍結させます。
         EXAMPLE_ENCHANTMENT = EnchantmentBuilder.of(_id("example_enchantment"))
-                .supportedItems("#minecraft:enchantable/weapon")
-                .weight(2)
+                .target(CompatEnchantmentTarget.WEAPON)
+                .rarity(CompatEnchantmentRarity.RARE)
                 .maxLevel(3)
                 .anvilCost(2)
                 .minCost(5, 8)

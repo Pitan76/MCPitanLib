@@ -21,7 +21,7 @@ public class ExtendEnchantment extends Enchantment {
     public final EnchantmentBuilder builder;
 
     public ExtendEnchantment(EnchantmentBuilder builder) {
-        super(toRarity(builder.weight), toTarget(builder.supportedItems), toSlots(builder.slots));
+        super(toRarity(builder.getRarity()), toTarget(builder.getTarget()), toSlots(builder.slots));
         this.builder = builder;
     }
 
@@ -52,38 +52,50 @@ public class ExtendEnchantment extends Enchantment {
                 user.getMainHandStack(), target, target.getPos()));
     }
 
-    /**
-     * 1.21以降のweightに相当するものが無いので、近いRarityに割り当てる。
-     */
-    public static Rarity toRarity(int weight) {
-        if (weight >= 10) return Rarity.COMMON;
-        if (weight >= 5) return Rarity.UNCOMMON;
-        if (weight >= 2) return Rarity.RARE;
-
-        return Rarity.VERY_RARE;
+    public static Rarity toRarity(CompatEnchantmentRarity rarity) {
+        switch (rarity) {
+            case COMMON:
+                return Rarity.COMMON;
+            case UNCOMMON:
+                return Rarity.UNCOMMON;
+            case RARE:
+                return Rarity.RARE;
+            default:
+                return Rarity.VERY_RARE;
+        }
     }
 
-    /**
-     * 1.21以降のアイテムタグ指定を、このバージョンのEnchantmentTargetに割り当てる。
-     */
-    public static EnchantmentTarget toTarget(String supportedItems) {
-        if (supportedItems == null) return EnchantmentTarget.BREAKABLE;
-
-        String value = supportedItems.toLowerCase();
-        if (value.contains("weapon") || value.contains("sword")) return EnchantmentTarget.WEAPON;
-        if (value.contains("armor")) return EnchantmentTarget.ARMOR;
-        if (value.contains("head")) return EnchantmentTarget.ARMOR_HEAD;
-        if (value.contains("chest")) return EnchantmentTarget.ARMOR_CHEST;
-        if (value.contains("leg")) return EnchantmentTarget.ARMOR_LEGS;
-        if (value.contains("foot") || value.contains("boots")) return EnchantmentTarget.ARMOR_FEET;
-        if (value.contains("mining") || value.contains("digger") || value.contains("tool")) return EnchantmentTarget.DIGGER;
-        if (value.contains("crossbow")) return EnchantmentTarget.CROSSBOW;
-        if (value.contains("bow")) return EnchantmentTarget.BOW;
-        if (value.contains("trident")) return EnchantmentTarget.TRIDENT;
-        if (value.contains("fishing")) return EnchantmentTarget.FISHING_ROD;
-        if (value.contains("wearable")) return EnchantmentTarget.WEARABLE;
-
-        return EnchantmentTarget.BREAKABLE;
+    public static EnchantmentTarget toTarget(CompatEnchantmentTarget target) {
+        switch (target) {
+            case ARMOR:
+                return EnchantmentTarget.ARMOR;
+            case ARMOR_HEAD:
+                return EnchantmentTarget.ARMOR_HEAD;
+            case ARMOR_CHEST:
+                return EnchantmentTarget.ARMOR_CHEST;
+            case ARMOR_LEGS:
+                return EnchantmentTarget.ARMOR_LEGS;
+            case ARMOR_FEET:
+                return EnchantmentTarget.ARMOR_FEET;
+            case WEAPON:
+                return EnchantmentTarget.WEAPON;
+            case DIGGER:
+                return EnchantmentTarget.DIGGER;
+            case FISHING_ROD:
+                return EnchantmentTarget.FISHING_ROD;
+            case TRIDENT:
+                return EnchantmentTarget.TRIDENT;
+            case BOW:
+                return EnchantmentTarget.BOW;
+            case WEARABLE:
+                return EnchantmentTarget.WEARABLE;
+            case CROSSBOW:
+                return EnchantmentTarget.CROSSBOW;
+            case VANISHABLE:
+                return EnchantmentTarget.VANISHABLE;
+            default:
+                return EnchantmentTarget.BREAKABLE;
+        }
     }
 
     public static EquipmentSlot[] toSlots(java.util.List<String> slots) {
