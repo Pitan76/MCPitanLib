@@ -11,8 +11,6 @@ import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.core.mc261.CreativeModeTabEventRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
