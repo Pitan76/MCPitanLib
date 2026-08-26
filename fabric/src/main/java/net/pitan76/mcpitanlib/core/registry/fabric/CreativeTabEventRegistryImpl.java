@@ -5,6 +5,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public class CreativeTabEventRegistryImpl {
 
             Identifier id = ItemGroupUtil.toID(group);
             if (id == null || !key.getValue().equals(id)) return;
+
+            ItemStack stack = supplier.get();
+            if (stack == null || ItemStackUtil.isEmpty(stack)) return;
 
             entries.add(supplier.get());
         });
