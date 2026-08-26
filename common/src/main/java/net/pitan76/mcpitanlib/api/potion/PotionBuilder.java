@@ -12,6 +12,7 @@ import net.pitan76.mcpitanlib.midohra.potion.SupplierPotionWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * カスタムポーションを組み立てる。
@@ -24,7 +25,7 @@ public class PotionBuilder {
 
     public CompatIdentifier id;
     public String baseName;
-    public final List<StatusEffectInstance> effects = new ArrayList<>();
+    public final List<Supplier<StatusEffectInstance>> effectSuppliers = new ArrayList<>();
 
     public PotionBuilder(CompatIdentifier id) {
         this.id = id;
@@ -45,7 +46,7 @@ public class PotionBuilder {
     }
 
     public PotionBuilder effect(StatusEffectInstance effect) {
-        effects.add(effect);
+        effectSuppliers.add(() -> effect);
         return this;
     }
 
@@ -66,7 +67,8 @@ public class PotionBuilder {
     }
 
     public PotionBuilder effect(net.pitan76.mcpitanlib.midohra.entity.effect.StatusEffectWrapper effect, int duration, int amplifier) {
-        return effect(effect.getEntry(), duration, amplifier);
+        effectSuppliers.add(() -> new StatusEffectInstance(effect.getEntry(), duration, amplifier));
+        return this;
     }
 
     public PotionBuilder effect(net.pitan76.mcpitanlib.midohra.entity.effect.StatusEffectWrapper effect, int duration) {
@@ -74,7 +76,8 @@ public class PotionBuilder {
     }
 
     public PotionBuilder effect(RegistryResult<net.minecraft.entity.effect.StatusEffect> effect, int duration, int amplifier) {
-        return effect(PotionUtil.toEffectEntry(effect), duration, amplifier);
+        effectSuppliers.add(() -> new StatusEffectInstance(PotionUtil.toEffectEntry(effect), duration, amplifier));
+        return this;
     }
 
     public PotionBuilder effect(RegistryResult<net.minecraft.entity.effect.StatusEffect> effect, int duration) {
@@ -82,11 +85,15 @@ public class PotionBuilder {
     }
 
     private PotionBuilder effect(net.minecraft.registry.entry.RegistryEntry<net.minecraft.entity.effect.StatusEffect> entry, int duration, int amplifier) {
-        return effect(new StatusEffectInstance(entry, duration, amplifier));
+        effectSuppliers.add(() -> new StatusEffectInstance(entry, duration, amplifier));
+        return this;
     }
 
     public Potion create() {
-        return new Potion(baseName, effects.toArray(new StatusEffectInstance[0]));
+        StatusEffectInstance[] effects = effectSuppliers.stream()
+                .map(Supplier::get)
+                .toArray(StatusEffectInstance[]::new);
+        return new Potion(baseName, effects);
     }
 
     public SupplierPotionWrapper build(CompatRegistryV2 registry) {
