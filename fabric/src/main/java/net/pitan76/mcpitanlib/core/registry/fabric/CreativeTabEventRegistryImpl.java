@@ -1,5 +1,7 @@
 package net.pitan76.mcpitanlib.core.registry.fabric;
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class CreativeTabEventRegistryImpl {
-    private static final com.google.common.collect.Multimap<Identifier, Supplier<ItemStack>> APPENDS = com.google.common.collect.MultimapBuilder.hashKeys().arrayListValues().build();
+    private static final Multimap<Identifier, Supplier<ItemStack>> APPENDS = MultimapBuilder.hashKeys().arrayListValues().build();
 
     static {
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register((group, entries) -> {
@@ -19,9 +21,9 @@ public class CreativeTabEventRegistryImpl {
             if (id != null && APPENDS.containsKey(id)) {
                 for (Supplier<ItemStack> supplier : APPENDS.get(id)) {
                     ItemStack stack = supplier.get();
-                    if (stack != null && !stack.isEmpty()) {
-                        entries.add(stack);
-                    }
+                    if (stack == null || stack.isEmpty()) continue;
+
+                    entries.add(stack);
                 }
             }
         });
@@ -31,9 +33,9 @@ public class CreativeTabEventRegistryImpl {
         APPENDS.put(key.getValue(), supplier);
         ItemGroupEvents.modifyEntriesEvent(key).register(entries -> {
             ItemStack stack = supplier.get();
-            if (stack != null && !stack.isEmpty()) {
-                entries.add(stack);
-            }
+            if (stack == null || stack.isEmpty()) return;
+
+            entries.add(stack);
         });
     }
 
@@ -44,9 +46,9 @@ public class CreativeTabEventRegistryImpl {
         });
         ItemGroupEvents.modifyEntriesEvent(key).register(entries -> {
             for (ItemStack stack : supplier.get()) {
-                if (stack != null && !stack.isEmpty()) {
-                    entries.add(stack);
-                }
+                if (stack == null || stack.isEmpty()) continue;
+
+                entries.add(stack);
             }
         });
     }
@@ -60,9 +62,9 @@ public class CreativeTabEventRegistryImpl {
             if (id == null || !key.getValue().equals(id)) return;
 
             ItemStack stack = supplier.get();
-            if (stack != null && !stack.isEmpty()) {
-                entries.add(stack);
-            }
+            if (stack == null || stack.isEmpty()) return;
+
+            entries.add(stack);
         });
     }
 }
