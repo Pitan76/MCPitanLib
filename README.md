@@ -34,11 +34,11 @@ MCPitanLibはライブラリです。 1つのjarで複数のMCバージョンを
   - [FabricMC](https://fabricmc.net/)
   - [Minecraft Forge](https://files.minecraftforge.net/)
   - [NeoForge](https://neoforged.net/)
-- Architectury API ([CurseForge](https://www.curseforge.com/minecraft/mc-mods/architectury-api) | [Modrinth](https://modrinth.com/mod/architectury-api))
 
 ### ダウンロード
 - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
 - [Modrinth](https://modrinth.com/mod/mcpitanlibarch)
+- [ModParks](https://modparks.pitan76.net/projects/mcpitanlib)
 
 ### 使い方
 `build.gradle`に以下のように記述してください。
@@ -101,11 +101,11 @@ It aims to be cross-version and cross-platform.
   - [FabricMC](https://fabricmc.net/)
   - [Minecraft Forge](https://files.minecraftforge.net/)
   - [NeoForge](https://neoforged.net/)
-- [Architectury API](https://www.curseforge.com/minecraft/mc-mods/architectury-api) ([CurseForge](https://www.curseforge.com/minecraft/mc-mods/architectury-api) | [Modrinth](https://modrinth.com/mod/architectury-api))
 
 ### Download
 - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcpitanlibarch)
 - [Modrinth](https://modrinth.com/mod/mcpitanlibarch)
+- [ModParks](https://modparks.pitan76.net/projects/mcpitanlib)
 
 ### How to use
 Write as follows in `build.gradle`.
