@@ -82,4 +82,21 @@ public class EnchantmentUtil {
         if (nbt.contains("StoredEnchantments"))
             stack.removeSubNbt("StoredEnchantments");
     }
+
+    /**
+     * 指定したエンチャントが付いたエンチャントの本を作る。
+     * データパックにそのエンチャントが無い場合は、素の本を返す。
+     */
+    public static ItemStack createEnchantedBook(net.pitan76.mcpitanlib.midohra.enchantment.EnchantmentWrapper enchantment, @Nullable World world, int level) {
+        ItemStack stack = new ItemStack(net.minecraft.item.Items.ENCHANTED_BOOK);
+
+        enchantment.getEntry(world).ifPresent(entry ->
+                net.minecraft.item.EnchantedBookItem.addEnchantment(stack, new net.minecraft.enchantment.EnchantmentLevelEntry(entry, level)));
+
+        return stack;
+    }
+
+    public static ItemStack createEnchantedBook(net.pitan76.mcpitanlib.midohra.enchantment.EnchantmentWrapper enchantment, @Nullable World world) {
+        return createEnchantedBook(enchantment, world, 1);
+    }
 }
