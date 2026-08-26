@@ -16,6 +16,7 @@
     "PlayerEntityMixin",
     "MinecraftServerTimer",
     "RecipeManagerMixin",
+    "ResourceFinderMixin",
     "ServerLevelTimer",
     "UseOnContextMixin"
   ],

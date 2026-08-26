@@ -97,9 +97,6 @@ public class PotionBuilder {
         return build(initializer.registry);
     }
 
-    /**
-     * {@link RegistryResult} が欲しい場合はこちら。
-     */
     public RegistryResult<Potion> rawBuild(CompatRegistryV2 registry) {
         return registry.registerPotion(id, this::create);
     }

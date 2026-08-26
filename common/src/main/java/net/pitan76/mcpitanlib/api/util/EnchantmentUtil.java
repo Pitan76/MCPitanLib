@@ -79,4 +79,26 @@ public class EnchantmentUtil {
     public static void removeEnchantment(ItemStack stack) {
         stack.remove(DataComponents.ENCHANTMENTS);
     }
+
+    /**
+     * 指定したエンチャントが付いたエンチャントの本を作る。
+     * データパックにそのエンチャントが無い場合は、素の本を返す。
+     */
+    public static ItemStack createEnchantedBook(net.pitan76.mcpitanlib.midohra.enchantment.EnchantmentWrapper enchantment, @Nullable Level world, int level) {
+        ItemStack stack = new ItemStack(net.minecraft.world.item.Items.ENCHANTED_BOOK);
+        if (world == null) return stack;
+
+        enchantment.getEntry(world).ifPresent(entry -> {
+            net.minecraft.world.item.enchantment.ItemEnchantments.Mutable builder =
+                    new net.minecraft.world.item.enchantment.ItemEnchantments.Mutable(net.minecraft.world.item.enchantment.ItemEnchantments.EMPTY);
+            builder.set(entry, level);
+            stack.set(net.minecraft.core.component.DataComponents.STORED_ENCHANTMENTS, builder.toImmutable());
+        });
+
+        return stack;
+    }
+
+    public static ItemStack createEnchantedBook(net.pitan76.mcpitanlib.midohra.enchantment.EnchantmentWrapper enchantment, @Nullable Level world) {
+        return createEnchantedBook(enchantment, world, 1);
+    }
 }
