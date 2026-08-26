@@ -4,6 +4,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 
 import java.util.ArrayList;
@@ -69,13 +70,16 @@ public class CreativeTabManager {
     public static void allRegister() {
         if (!bookingItems.isEmpty()) {
             for (BookingItem bookingItem : bookingItems) {
-                bookingItem.getItemGroup().appendStacks(DefaultedList.copyOf(ItemStack.EMPTY, new ItemStack(ItemUtil.fromId(bookingItem.identifier))));
+                ItemStack stack = new ItemStack(ItemUtil.fromId(bookingItem.identifier));
+                if (ItemStackUtil.isEmpty(stack)) continue;
+                bookingItem.getItemGroup().appendStacks(DefaultedList.copyOf(ItemStack.EMPTY, stack));
             }
             bookingItems = new ArrayList<>();
         }
 
         if (!bookingStacks.isEmpty()) {
             for (BookingStack bookingStack : bookingStacks) {
+                if (ItemStackUtil.isEmpty(bookingStack.stack)) continue;
                 bookingStack.getItemGroup().appendStacks(DefaultedList.copyOf(ItemStack.EMPTY, bookingStack.stack));
             }
             bookingStacks = new ArrayList<>();
@@ -86,7 +90,10 @@ public class CreativeTabManager {
         if (bookingItems.isEmpty()) return;
         for (BookingItem bookingItem : bookingItems) {
             if (!bookingItem.identifier.toString().equals(identifier.toString())) continue;
-            bookingItem.getItemGroup().appendStacks(DefaultedList.copyOf(ItemStack.EMPTY, new ItemStack(ItemUtil.fromId(bookingItem.identifier))));
+            ItemStack stack = new ItemStack(ItemUtil.fromId(bookingItem.identifier));
+            if (ItemStackUtil.isEmpty(stack)) continue;
+
+            bookingItem.getItemGroup().appendStacks(DefaultedList.copyOf(ItemStack.EMPTY, stack));
             bookingItems.remove(bookingItem);
             break;
         }
