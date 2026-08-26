@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -90,6 +91,10 @@ public class RegistryImpl {
 
     public static RegistrySupplier<MobEffect> registryStatusEffect(Identifier id, Supplier<MobEffect> supplier) {
         return register(Registries.MOB_EFFECT, id, supplier);
+    }
+
+    public static RegistrySupplier<Potion> registryPotion(Identifier id, Supplier<Potion> supplier) {
+        return register(Registries.POTION, id, supplier);
     }
 
     public static RegistrySupplier<CreativeModeTab> registryItemGroup(Identifier id, Supplier<CreativeModeTab> supplier) {

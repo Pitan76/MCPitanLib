@@ -5,6 +5,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.item.Item;
 import net.minecraft.core.particles.ParticleType;
@@ -60,6 +61,10 @@ public class MCPLRegistry {
 
     public RegistrySupplier<MobEffect> registryStatusEffect(Identifier id, Supplier<MobEffect> supplier) {
         return Registry.registryStatusEffect(id, supplier);
+    }
+
+    public RegistrySupplier<Potion> registryPotion(Identifier id, Supplier<Potion> supplier) {
+        return Registry.registryPotion(id, supplier);
     }
 
     public void allRegister1_16() {

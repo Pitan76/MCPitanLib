@@ -7,6 +7,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -63,6 +64,11 @@ public class Registry {
 
     @ExpectPlatform
     public static RegistrySupplier<MobEffect> registryStatusEffect(Identifier id, Supplier<MobEffect> supplier) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static RegistrySupplier<Potion> registryPotion(Identifier id, Supplier<Potion> supplier) {
         throw new AssertionError();
     }
 

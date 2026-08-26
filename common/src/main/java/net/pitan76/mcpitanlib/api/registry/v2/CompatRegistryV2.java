@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
@@ -17,6 +18,10 @@ import net.minecraft.resources.Identifier;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.entity.effect.CompatStatusEffect;
+import net.pitan76.mcpitanlib.api.entity.effect.StatusEffectBuilder;
+import net.pitan76.mcpitanlib.api.potion.PotionBuilder;
+import net.pitan76.mcpitanlib.midohra.entity.effect.SupplierStatusEffectWrapper;
+import net.pitan76.mcpitanlib.midohra.potion.SupplierPotionWrapper;
 import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandlerTypeBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
@@ -147,6 +152,23 @@ public class CompatRegistryV2 {
     public RegistryResult<MobEffect> registryStatusEffect(CompatIdentifier id, Supplier<CompatStatusEffect> supplier) {
         return cr1.registerStatusEffect(id.toMinecraft(), () -> supplier.get().getStatusEffect(null));
     }
+
+    public RegistryResult<MobEffect> registerStatusEffect(CompatIdentifier id, Supplier<? extends MobEffect> supplier) {
+        return cr1.registerStatusEffect(id.toMinecraft(), supplier::get);
+    }
+
+    public SupplierStatusEffectWrapper registerStatusEffect(StatusEffectBuilder builder) {
+        return builder.build(this);
+    }
+
+    public RegistryResult<Potion> registerPotion(CompatIdentifier id, Supplier<Potion> supplier) {
+        return cr1.registerPotion(id.toMinecraft(), supplier);
+    }
+
+    public SupplierPotionWrapper registerPotion(PotionBuilder builder) {
+        return builder.build(this);
+    }
+
 
     public RegistryResult<CreativeModeTab> registerItemGroup(CompatIdentifier id, Supplier<CreativeModeTab> supplier) {
         return cr1.registerItemGroup(id.toMinecraft(), supplier);
