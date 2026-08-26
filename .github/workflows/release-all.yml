@@ -27,6 +27,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 concurrency:
   group: release-all
@@ -103,6 +104,13 @@ jobs:
           name: jars-${{ matrix.branch }}
           path: out/*.jar
           if-no-files-found: error
+
+      - name: Publish to GitHub Packages
+        if: ${{ github.event_name == 'push' || !inputs.dry_run }}
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
 
       - name: Publish to CurseForge / Modrinth
         if: ${{ github.event_name == 'push' || !inputs.dry_run }}
