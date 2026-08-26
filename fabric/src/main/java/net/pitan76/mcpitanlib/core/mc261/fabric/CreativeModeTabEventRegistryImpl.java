@@ -13,11 +13,21 @@ import java.util.function.Supplier;
 
 public class CreativeModeTabEventRegistryImpl {
     public static void addStack(ResourceKey<CreativeModeTab> key, Supplier<ItemStack> supplier) {
-        CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> entries.accept(supplier.get()));
+        CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
+            ItemStack stack = supplier.get();
+            if (stack == null || ItemStackUtil.isEmpty(stack)) return;
+
+            entries.accept(stack);
+        });
     }
 
     public static void addStacks(ResourceKey<CreativeModeTab> key, Supplier<List<ItemStack>> supplier) {
-        CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> entries.acceptAll(supplier.get()));
+        CreativeModeTabEvents.modifyOutputEvent(key).register(entries -> {
+            for (ItemStack stack : supplier.get()) {
+                if (stack == null || ItemStackUtil.isEmpty(stack)) continue;
+                entries.accept(stack);
+            }
+        });
     }
 
     public static void addStackLazy(Supplier<ResourceKey<CreativeModeTab>> keySupplier, Supplier<ItemStack> supplier) {
