@@ -28,6 +28,26 @@ import net.pitan76.mcpitanlib.midohra.screen.SupplierTypedScreenHandlerTypeWrapp
 
 import java.util.function.Supplier;
 
+import net.pitan76.mcpitanlib.api.enchantment.EnchantmentBuilder;
+import net.pitan76.mcpitanlib.api.entity.effect.StatusEffectBuilder;
+import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
+import net.pitan76.mcpitanlib.api.potion.PotionBuilder;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundEvent;
+import net.pitan76.mcpitanlib.midohra.easybuilder.BlockBuilder;
+import net.pitan76.mcpitanlib.midohra.easybuilder.BlockEntityBuilder;
+import net.pitan76.mcpitanlib.midohra.easybuilder.BlockWithBlockEntityBuilder;
+import net.pitan76.mcpitanlib.midohra.easybuilder.ItemBuilder;
+import net.pitan76.mcpitanlib.midohra.enchantment.EnchantmentWrapper;
+import net.pitan76.mcpitanlib.midohra.entity.effect.SupplierStatusEffectWrapper;
+import net.pitan76.mcpitanlib.midohra.fluid.SupplierFluidWrapper;
+import net.pitan76.mcpitanlib.midohra.item.SupplierItemGroupWrapper;
+import net.pitan76.mcpitanlib.midohra.item.SupplierItemWrapper;
+import net.pitan76.mcpitanlib.midohra.potion.SupplierPotionWrapper;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.potion.Potion;
+
 public class MidohraRegistryV2 {
     protected final MidohraRegistry registry;
 
@@ -49,6 +69,98 @@ public class MidohraRegistryV2 {
 
     public CompatRegistryV2 getCompatRegistry() {
         return getMidohraRegistryV1().getCompatRegistry();
+    }
+
+    // ------------------------------------------------------------------
+    // easybuilder
+    // ------------------------------------------------------------------
+
+    public SupplierItemWrapper registerItem(ItemBuilder builder) {
+        return builder.build(getCompatRegistry());
+    }
+
+    public SupplierItemWrapper registerItem(ItemBuilder builder, CompatIdentifier id) {
+        return builder.build(getCompatRegistry(), id);
+    }
+
+    public SupplierBlockWrapper registerBlock(BlockBuilder builder) {
+        return builder.build(getCompatRegistry());
+    }
+
+    public SupplierBlockWrapper registerBlock(BlockBuilder builder, CompatIdentifier id) {
+        return builder.build(getCompatRegistry(), id);
+    }
+
+    public SupplierBlockWrapper registerBlock(BlockWithBlockEntityBuilder builder) {
+        return builder.build(getCompatRegistry());
+    }
+
+    public SupplierBlockWrapper registerBlock(BlockWithBlockEntityBuilder builder, CompatIdentifier id) {
+        return builder.build(getCompatRegistry(), id);
+    }
+
+    public BlockEntityTypeWrapper registerBlockEntityType(BlockEntityBuilder builder, CompatIdentifier id, BlockWrapper... blocks) {
+        return builder.build(getCompatRegistry(), id, blocks);
+    }
+
+    public BlockEntityTypeWrapper registerBlockEntityType(BlockEntityBuilder builder, BlockWrapper... blocks) {
+        return builder.build(getCompatRegistry(), blocks);
+    }
+
+    // ------------------------------------------------------------------
+    // その他のレジストリ
+    // ------------------------------------------------------------------
+
+    public SupplierItemGroupWrapper registerRawItemGroup(CompatIdentifier id, Supplier<ItemGroup> supplier) {
+        return SupplierItemGroupWrapper.of(getCompatRegistry().registerItemGroup(id, supplier));
+    }
+
+    public SupplierItemGroupWrapper registerItemGroup(CreativeTabBuilder builder) {
+        return SupplierItemGroupWrapper.of(getCompatRegistry().registerItemGroup(builder));
+    }
+
+    public SupplierFluidWrapper registerRawFluid(CompatIdentifier id, Supplier<Fluid> supplier) {
+        return SupplierFluidWrapper.of(getCompatRegistry().registerFluid(id, supplier));
+    }
+
+    public SupplierFluidWrapper registerRawFluid(String id, Supplier<Fluid> supplier) {
+        return registerRawFluid(fixId(id), supplier);
+    }
+
+    public SupplierStatusEffectWrapper registerRawStatusEffect(CompatIdentifier id, Supplier<? extends StatusEffect> supplier) {
+        return SupplierStatusEffectWrapper.of(getCompatRegistry().registerStatusEffect(id, supplier)::get);
+    }
+
+    public SupplierStatusEffectWrapper registerStatusEffect(StatusEffectBuilder builder) {
+        return builder.build(getCompatRegistry());
+    }
+
+    public SupplierPotionWrapper registerRawPotion(CompatIdentifier id, Supplier<Potion> supplier) {
+        return SupplierPotionWrapper.of(getCompatRegistry().registerPotion(id, supplier)::get);
+    }
+
+    public SupplierPotionWrapper registerPotion(PotionBuilder builder) {
+        return builder.build(getCompatRegistry());
+    }
+
+    public EnchantmentWrapper registerEnchantment(EnchantmentBuilder builder) {
+        return builder.build(getCompatRegistry());
+    }
+
+    public CompatSoundEvent registerSoundEvent(CompatIdentifier id) {
+        return getCompatRegistry().registerCompatSoundEvent(id);
+    }
+
+    public CompatSoundEvent registerSoundEvent(CompatIdentifier id, float distanceToTravel) {
+        return getCompatRegistry().registerCompatSoundEvent(id, distanceToTravel);
+    }
+
+    /**
+     * かまどの燃料として登録する。
+     * @param time 燃焼時間 (tick)
+     */
+    public void registerFuel(ItemWrapper item, int time) {
+        getCompatRegistry().registerFuel(item::get, time);
     }
 
     public ItemWrapper registerRawItem(CompatIdentifier id, Supplier<Item> supplier) {

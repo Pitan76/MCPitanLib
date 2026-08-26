@@ -10,6 +10,7 @@ package net.pitan76.mcpitanlib;
 import net.minecraft.util.Identifier;
 import net.pitan76.easyapi.config.Config;
 import net.pitan76.easyapi.config.JsonConfig;
+import net.pitan76.mcpitanlib.api.enchantment.effect.EnchantmentEffects;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
@@ -45,6 +46,7 @@ public class MCPitanLib {
     public static void init() {
         configInit();
         MPLGuiLib.init();
+        EnchantmentEffects.init();
 
         if (PlatformUtil.isDevelopmentEnvironment() || (config.has("debugMode") && config.getBoolean("debugMode"))) {
             System.out.println("MCPitanLib: Debug Mode");
