@@ -5,6 +5,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.item.ItemGroupUtil;
 
 import java.util.List;
@@ -28,7 +29,9 @@ public class CreativeModeTabEventRegistryImpl {
             Identifier id = ItemGroupUtil.toID(group);
             if (id == null || !key.identifier().equals(id)) return;
 
-            output.accept(supplier.get());
+            ItemStack stack = supplier.get();
+            if (stack == null || ItemStackUtil.isEmpty(stack)) return;
+            output.accept(stack);
         });
     }
 }
