@@ -12,6 +12,7 @@ import net.pitan76.mcpitanlib.midohra.potion.SupplierPotionWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * カスタムポーションを組み立てる。
@@ -24,7 +25,7 @@ public class PotionBuilder {
 
     public CompatIdentifier id;
     public String baseName;
-    public final List<MobEffectInstance> effects = new ArrayList<>();
+    public final List<Supplier<MobEffectInstance>> effectSuppliers = new ArrayList<>();
 
     public PotionBuilder(CompatIdentifier id) {
         this.id = id;
@@ -45,7 +46,7 @@ public class PotionBuilder {
     }
 
     public PotionBuilder effect(MobEffectInstance effect) {
-        effects.add(effect);
+        effectSuppliers.add(() -> effect);
         return this;
     }
 
@@ -66,7 +67,8 @@ public class PotionBuilder {
     }
 
     public PotionBuilder effect(net.pitan76.mcpitanlib.midohra.entity.effect.StatusEffectWrapper effect, int duration, int amplifier) {
-        return effect(effect.getEntry(), duration, amplifier);
+        effectSuppliers.add(() -> new MobEffectInstance(effect.getEntry(), duration, amplifier));
+        return this;
     }
 
     public PotionBuilder effect(net.pitan76.mcpitanlib.midohra.entity.effect.StatusEffectWrapper effect, int duration) {
@@ -74,7 +76,8 @@ public class PotionBuilder {
     }
 
     public PotionBuilder effect(RegistryResult<net.minecraft.world.effect.MobEffect> effect, int duration, int amplifier) {
-        return effect(PotionUtil.toEffectEntry(effect), duration, amplifier);
+        effectSuppliers.add(() -> new MobEffectInstance(PotionUtil.toEffectEntry(effect), duration, amplifier));
+        return this;
     }
 
     public PotionBuilder effect(RegistryResult<net.minecraft.world.effect.MobEffect> effect, int duration) {
@@ -82,11 +85,15 @@ public class PotionBuilder {
     }
 
     private PotionBuilder effect(net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> entry, int duration, int amplifier) {
-        return effect(new MobEffectInstance(entry, duration, amplifier));
+        effectSuppliers.add(() -> new MobEffectInstance(entry, duration, amplifier));
+        return this;
     }
 
     public Potion create() {
-        return new Potion(baseName, effects.toArray(new MobEffectInstance[0]));
+        MobEffectInstance[] effects = effectSuppliers.stream()
+                .map(Supplier::get)
+                .toArray(MobEffectInstance[]::new);
+        return new Potion(baseName, effects);
     }
 
     public SupplierPotionWrapper build(CompatRegistryV2 registry) {
