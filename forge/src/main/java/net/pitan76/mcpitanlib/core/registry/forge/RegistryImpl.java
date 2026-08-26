@@ -4,6 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.potion.Potion;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -89,6 +91,14 @@ public class RegistryImpl {
 
     public static RegistrySupplier<StatusEffect> registryStatusEffect(Identifier id, Supplier<StatusEffect> supplier) {
         return register(Registry.MOB_EFFECT_KEY, id, supplier);
+    }
+
+    public static RegistrySupplier<Potion> registryPotion(Identifier id, Supplier<Potion> supplier) {
+        return register(Registry.POTION_KEY, id, supplier);
+    }
+
+    public static RegistrySupplier<Enchantment> registryEnchantment(Identifier id, Supplier<Enchantment> supplier) {
+        return register(Registry.ENCHANTMENT_KEY, id, supplier);
     }
 
     // 1.19.2にはItemGroupのレジストリが無い (ItemGroupは配列で管理される)
