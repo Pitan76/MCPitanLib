@@ -44,8 +44,10 @@ public class BufPayload implements CustomPayload {
         return createCodec(id);
     }
 
+    public static final int MAX_DATA_SIZE = 1024 * 1024 * 32; // 32MB
+
     private static PacketCodec<PacketByteBuf, BufPayload> createCodec(Id<BufPayload> id) {
-        PacketCodec<PacketByteBuf, BufPayload> codec = PacketCodecs.BYTE_ARRAY.xmap((data) -> new BufPayload(data, id), BufPayload::getData).cast();
+        PacketCodec<PacketByteBuf, BufPayload> codec = PacketCodecs.byteArray(MAX_DATA_SIZE).xmap((data) -> new BufPayload(data, id), BufPayload::getData).cast();
         CODEC_CACHE.put(id, codec);
         return codec;
     }
