@@ -13,12 +13,18 @@ import java.util.function.Supplier;
 
 public class CreativeTabEventRegistryImpl {
     public static void addStack(RegistryKey<ItemGroup> key, Supplier<ItemStack> supplier) {
-        ItemGroupEvents.modifyEntriesEvent(key).register(entries -> entries.add(supplier.get()));
+        ItemGroupEvents.modifyEntriesEvent(key).register(entries -> {
+            ItemStack stack = supplier.get();
+            if (stack == null || ItemStackUtil.isEmpty(stack)) return;
+
+            entries.add(stack);
+        });
     }
 
     public static void addStacks(RegistryKey<ItemGroup> key, Supplier<List<ItemStack>> supplier) {
         ItemGroupEvents.modifyEntriesEvent(key).register(entries -> {
             for (ItemStack stack : supplier.get()) {
+                if (stack == null || ItemStackUtil.isEmpty(stack)) continue;
                 entries.add(stack);
             }
         });
