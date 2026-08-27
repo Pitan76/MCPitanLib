@@ -2,7 +2,6 @@ package net.pitan76.mcpitanlib.core.mc261.fabric;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -30,7 +29,6 @@ public class ClientPlayNetworkingImpl {
     }
 
     public static void registerC2SPayloadType(Identifier identifier) {
-        BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
-        PayloadTypeRegistry.clientboundPlay().register(id, BufPayload.getCodec(id));
+        PayloadTypeRegistryUtil.registerBoth(identifier);
     }
 }
