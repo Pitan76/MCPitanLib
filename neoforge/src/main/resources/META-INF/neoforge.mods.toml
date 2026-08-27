@@ -24,7 +24,7 @@ side = "BOTH"
 [[dependencies.mcpitanlib]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.2,)"
 ordering = "NONE"
 side = "BOTH"
 
