@@ -104,8 +104,7 @@ public class BrewingRecipeUtil {
 
     /**
      * 醸造の入力として使えるアイテムを追加する。
-     *
-     * @deprecated 26.3 では「醸造できる器」という概念がレシピ側に吸収されたため、
+     * 26.3 では「醸造できる器」という概念がレシピ側に吸収されたため、
      * 単体では意味を持たない。{@link #registerPotionRecipe} / {@link #registerItemRecipe} を使うこと。
      */
     public static void registerPotionType(ItemWrapper item) {
