@@ -432,7 +432,7 @@ public class Player {
      * Returns the current {@link ItemStack} in the {@link Player}'s hand, or offhand if the
      * main hand is empty.
      *
-     * @return {@code ItemStack} that the {@link Player} is holding. Can be {@link null}.
+     * @return {@code ItemStack} that the {@link Player} is holding. Can be {@code null}.
      */
     public Optional<ItemStack> getCurrentHandItem() {
         boolean playerIsHoldingInMainHand = !getMainHandStack().isEmpty();
