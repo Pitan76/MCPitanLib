@@ -3,7 +3,9 @@ name: Release
 # タグを打つとそのタグが指すブランチの内容でリリースする。
 # タグ名はMCバージョンを付けること。例: v3.7.3-26.2
 #
-# 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN
+# 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN,
+#               SONATYPE_USERNAME, SONATYPE_PASSWORD (Central PortalのUser Token),
+#               GPG_KEY (armoredの秘密鍵), GPG_PASSPHRASE
 on:
   push:
     tags:
@@ -77,6 +79,16 @@ jobs:
             --notes "Minecraft ${{ steps.props.outputs.minecraft }} / ${{ steps.props.outputs.loaders }}" \
             --target "${GITHUB_SHA}" \
             $(cat artifacts.txt | tr '\n' ' ')
+
+      - name: Publish to Maven Central (deploy + Portalへ引き渡し)
+        if: ${{ github.event_name == 'push' || !inputs.dry_run }}
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: ./gradlew publishToCentral
+
 
       - name: Publish to CurseForge / Modrinth
         if: ${{ github.event_name == 'push' || !inputs.dry_run }}
