@@ -42,7 +42,7 @@ public class CompatMapCodec<T> {
     }
 
     public static <B extends Block> RecordCodecBuilder<B, BlockBehaviour.Properties> createSettingsCodec() {
-        return BlockBehaviour.Properties.CODEC.fieldOf("properties").forGetter(BlockBehaviour::properties);
+        return MapCodec.unitCodec(BlockBehaviour.Properties::of).fieldOf("properties").forGetter(BlockBehaviour::properties);
     }
 
     public static <B extends Block> CompatMapCodec<B> createCodec(Function<BlockBehaviour.Properties, B> blockFromSettings) {

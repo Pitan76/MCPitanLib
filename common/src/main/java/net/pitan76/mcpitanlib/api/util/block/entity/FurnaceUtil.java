@@ -11,6 +11,7 @@ import net.pitan76.mcpitanlib.api.recipe.MatchGetter;
 import net.pitan76.mcpitanlib.api.recipe.input.CompatRecipeInput;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.recipe.input.SingleStackRecipeInputUtil;
+import net.pitan76.mcpitanlib.core.registry.FuelRegistry;
 
 public class FurnaceUtil {
     public static int getDefaultCookTime() {
@@ -22,7 +23,7 @@ public class FurnaceUtil {
     }
 
     public static boolean canUseAsFuel(ItemStack stack, Level world) {
-        return world.fuelValues().isFuel(stack);
+        return FuelRegistry.isFuel(world, stack);
     }
 
     public static void tick(Level world, BlockPos pos, AbstractFurnaceBlockEntity blockEntity) {

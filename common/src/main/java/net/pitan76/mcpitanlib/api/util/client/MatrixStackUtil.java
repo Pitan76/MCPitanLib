@@ -7,7 +7,7 @@ import static net.pitan76.mcpitanlib.api.util.MathUtil.getRotationDegrees;
 
 public class MatrixStackUtil {
     public static void multiply(PoseStack matrixStack, MathUtil.RotationAxisType type, float deg) {
-        matrixStack.mulPose(getRotationDegrees(type, deg));
+        matrixStack.rotate(getRotationDegrees(type, deg));
     }
 
     public static void push(PoseStack matrices) {

@@ -152,13 +152,13 @@ public abstract class SimpleScreen extends Screen {
     @Deprecated
     @Override
     public boolean keyReleased(KeyEvent keyInput) {
-        return this.keyReleased(new KeyEventArgs(keyInput.key(), keyInput.scancode(), keyInput.modifiers()));
+        return this.keyReleased(new KeyEventArgs(keyInput.key(), keyInput.keycode(), keyInput.modifiers()));
     }
 
     @Deprecated
     @Override
     public boolean keyPressed(KeyEvent keyInput) {
-        return this.keyPressed(new KeyEventArgs(keyInput.key(), keyInput.scancode(), keyInput.modifiers()));
+        return this.keyPressed(new KeyEventArgs(keyInput.key(), keyInput.keycode(), keyInput.modifiers()));
     }
 
     @Deprecated

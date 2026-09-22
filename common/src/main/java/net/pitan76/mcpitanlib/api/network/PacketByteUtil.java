@@ -12,6 +12,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
@@ -28,7 +29,12 @@ public class PacketByteUtil {
     }
 
     public static <K, V> Map<K, V> readMap(FriendlyByteBuf buf, Function<FriendlyByteBuf, K> keyParser, Function<FriendlyByteBuf, V> valueParser) {
-        return buf.readMap(keyParser::apply, valueParser::apply);
+        int size = buf.readVarInt();
+        Map<K, V> map = new HashMap<>(Math.max(16, size));
+        for (int i = 0; i < size; i++) {
+            map.put(keyParser.apply(buf), valueParser.apply(buf));
+        }
+        return map;
     }
 
     public static <K, V> void writeMap(FriendlyByteBuf buf, Map<K, V> map) {
@@ -36,7 +42,11 @@ public class PacketByteUtil {
     }
 
     public static <K, V> void writeMap(FriendlyByteBuf buf, Map<K, V> map, BiConsumer<FriendlyByteBuf, K> keySerializer, BiConsumer<FriendlyByteBuf, V> valueSerializer) {
-        buf.writeMap(map, keySerializer::accept, valueSerializer::accept);
+        buf.writeVarInt(map.size());
+        map.forEach((key, value) -> {
+            keySerializer.accept(buf, key);
+            valueSerializer.accept(buf, value);
+        });
     }
 
     public static void writeVar(FriendlyByteBuf buf, Object obj) {

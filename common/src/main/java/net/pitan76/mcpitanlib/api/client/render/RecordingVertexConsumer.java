@@ -56,6 +56,12 @@ public class RecordingVertexConsumer implements VertexConsumer {
     }
 
     @Override
+    public VertexConsumer setUv3(float u, float v) {
+        operations.add(consumer -> consumer.setUv3(u, v));
+        return this;
+    }
+
+    @Override
     public VertexConsumer setUv1(int u, int v) {
         operations.add(consumer -> consumer.setUv1(u, v));
         return this;

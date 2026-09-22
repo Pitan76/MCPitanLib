@@ -69,13 +69,7 @@ public class CompatPillarBlock extends RotatedPillarBlock implements CompatBlock
         return CompatBlockProvider.super.getPlacementState(args, options);
     }
 
-    @Deprecated
-    @Override
-    public MapCodec<? extends RotatedPillarBlock> codec() {
-        return getCompatCodec().getCodec();
-    }
-
     public CompatMapCodec<? extends RotatedPillarBlock> getCompatCodec() {
-        return CompatMapCodec.of(super.codec());
+        return CompatMapCodec.of();
     }
 }

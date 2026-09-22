@@ -74,14 +74,8 @@ public class CompatSlabBlock extends SlabBlock implements CompatBlockProvider {
         return CompatBlockProvider.super.getPlacementState(args, options);
     }
 
-    @Deprecated
-    @Override
-    public MapCodec<? extends SlabBlock> codec() {
-        return getCompatCodec().getCodec();
-    }
-
     public CompatMapCodec<? extends SlabBlock> getCompatCodec() {
-        return CompatMapCodec.of(super.codec());
+        return CompatMapCodec.of();
     }
 
     @Deprecated

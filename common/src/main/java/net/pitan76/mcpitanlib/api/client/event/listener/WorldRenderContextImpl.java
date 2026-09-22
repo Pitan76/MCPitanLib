@@ -106,8 +106,8 @@ public class WorldRenderContextImpl implements WorldRenderContext {
         this.matrixStack.mulPose(projectionMatrix);
         this.matrixStack.pushPose();
 
-        matrixStack.mulPose(Axis.YP.rotationDegrees(-camera.yRot()));
-        matrixStack.mulPose(Axis.XP.rotationDegrees(camera.xRot()));
+        matrixStack.rotate(Axis.YP.rotationDegrees(-camera.yRot()));
+        matrixStack.rotate(Axis.XP.rotationDegrees(camera.xRot()));
 
         Vec3 camPos = camera.position();
         matrixStack.translate(-camPos.x, -camPos.y, -camPos.z);

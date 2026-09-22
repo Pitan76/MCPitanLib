@@ -18,12 +18,12 @@ public class ExtendEntityType<T extends Entity> extends EntityType<T> {
 
     @Deprecated
     public ExtendEntityType(EntityFactory<T> factory, MobCategory spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, TagKey<Block> canSpawnBlocks, EntityDimensions entityDimensions, float spawnBoxScale, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<ResourceKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
-        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, spawnBoxScale, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_FLAGS, spawnGroup.isFriendly());
+        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, spawnBoxScale, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_FLAGS, spawnGroup.isFriendly(), alwaysUpdateVelocity == null || alwaysUpdateVelocity);
         this.alwaysUpdateVelocity = alwaysUpdateVelocity;
     }
 
     public ExtendEntityType(EntityFactory<T> factory, MobCategory spawnGroup, boolean saveable, boolean summonable, boolean fireImmune, boolean spawnableFarFromPlayer, TagKey<Block> canSpawnBlocks, EntityDimensions entityDimensions, int maxTrackDistance, int trackTickInterval, String translationKey, Optional<ResourceKey<LootTable>> lootTable, Boolean alwaysUpdateVelocity) {
-        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, 5, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_FLAGS, spawnGroup.isFriendly());
+        super((factory::create), spawnGroup, saveable, summonable, fireImmune, spawnableFarFromPlayer, canSpawnBlocks, entityDimensions, 5, maxTrackDistance, trackTickInterval, translationKey, lootTable, FeatureFlags.DEFAULT_FLAGS, spawnGroup.isFriendly(), alwaysUpdateVelocity == null || alwaysUpdateVelocity);
         this.alwaysUpdateVelocity = alwaysUpdateVelocity;
     }
 

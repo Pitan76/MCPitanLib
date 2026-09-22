@@ -116,7 +116,7 @@ public class CompatTextFieldWidget extends EditBox {
     @Deprecated
     @Override
     public boolean keyPressed(KeyEvent input) {
-        return callKeyPressed(input.key(), input.scancode(), input.modifiers());
+        return callKeyPressed(input.key(), input.keycode(), input.modifiers());
     }
 
     public boolean callKeyPressed(int keyCode, int scanCode, int modifiers) {
@@ -126,7 +126,7 @@ public class CompatTextFieldWidget extends EditBox {
     @Deprecated
     @Override
     public boolean keyReleased(KeyEvent input) {
-        return callKeyReleased(input.key(), input.scancode(), input.modifiers());
+        return callKeyReleased(input.key(), input.keycode(), input.modifiers());
     }
 
     public boolean callKeyReleased(int keyCode, int scanCode, int modifiers) {

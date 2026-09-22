@@ -240,7 +240,7 @@ public class CompatRegistryClient {
         ChunkSectionLayer blockRenderLayer = null;
         if (layer == RenderTypes.cutoutMovingBlock()) {
             blockRenderLayer = ChunkSectionLayer.CUTOUT;
-        } else if (layer == RenderTypes.glintTranslucent()) {
+        } else if (layer == RenderTypes.translucentMovingBlock()) {
             blockRenderLayer = ChunkSectionLayer.TRANSLUCENT;
         } else if (layer == RenderTypes.solidMovingBlock()) {
             blockRenderLayer = ChunkSectionLayer.SOLID;
@@ -255,7 +255,7 @@ public class CompatRegistryClient {
         ChunkSectionLayer blockRenderLayer = null;
         if (layer == RenderTypes.cutoutMovingBlock()) {
             blockRenderLayer = ChunkSectionLayer.CUTOUT;
-        } else if (layer == RenderTypes.glintTranslucent()) {
+        } else if (layer == RenderTypes.translucentMovingBlock()) {
             blockRenderLayer = ChunkSectionLayer.TRANSLUCENT;
         } else if (layer == RenderTypes.solidMovingBlock()) {
             blockRenderLayer = ChunkSectionLayer.SOLID;

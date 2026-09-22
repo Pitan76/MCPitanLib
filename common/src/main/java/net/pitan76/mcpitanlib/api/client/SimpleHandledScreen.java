@@ -212,13 +212,13 @@ public abstract class SimpleHandledScreen extends AbstractContainerScreen<Abstra
     @Deprecated
     @Override
     public boolean keyReleased(KeyEvent input) {
-        return this.keyReleased(new KeyEventArgs(input.key(), input.scancode(), input.modifiers()));
+        return this.keyReleased(new KeyEventArgs(input.key(), input.keycode(), input.modifiers()));
     }
 
     @Deprecated
     @Override
     public boolean keyPressed(KeyEvent input) {
-        return this.keyPressed(new KeyEventArgs(input.key(), input.scancode(), input.modifiers()));
+        return this.keyPressed(new KeyEventArgs(input.key(), input.keycode(), input.modifiers()));
     }
 
     @Deprecated

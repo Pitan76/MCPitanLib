@@ -7,12 +7,12 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 public class CompatRenderLayer {
     public static final CompatRenderLayer CUTOUT = new CompatRenderLayer(RenderTypes.cutoutMovingBlock());
     public static final CompatRenderLayer CUTOUT_MIPPED = new CompatRenderLayer(RenderTypes.cutoutMovingBlock());
-    public static final CompatRenderLayer TRANSLUCENT = new CompatRenderLayer(RenderTypes.glintTranslucent());
+    public static final CompatRenderLayer TRANSLUCENT = new CompatRenderLayer(RenderTypes.translucentMovingBlock());
     public static final CompatRenderLayer TRANSLUCENT_MOVING_BLOCK = new CompatRenderLayer(RenderTypes.translucentMovingBlock());
     public static final CompatRenderLayer SOLID = new CompatRenderLayer(RenderTypes.solidMovingBlock());
     public static final CompatRenderLayer LINES = new CompatRenderLayer(RenderTypes.lines());
     public static final CompatRenderLayer LINE_STRIP = new CompatRenderLayer(RenderTypes.linesTranslucent());
-    public static final CompatRenderLayer GLINT = new CompatRenderLayer(RenderTypes.glint());
+    public static final CompatRenderLayer GLINT = new CompatRenderLayer(RenderTypes.trimmedArmorGlint());
 
     public final RenderType layer;
 

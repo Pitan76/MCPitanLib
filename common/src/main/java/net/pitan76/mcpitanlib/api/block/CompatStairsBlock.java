@@ -101,14 +101,8 @@ public class CompatStairsBlock extends StairBlock implements CompatBlockProvider
         return CompatBlockProvider.super.getOutlineShape(event, options);
     }
 
-    @Deprecated
-    @Override
-    public MapCodec<? extends StairBlock> codec() {
-        return getCompatCodec().getCodec();
-    }
-
     public CompatMapCodec<? extends StairBlock> getCompatCodec() {
-        return CompatMapCodec.of(super.codec());
+        return CompatMapCodec.of();
     }
 
     @Deprecated

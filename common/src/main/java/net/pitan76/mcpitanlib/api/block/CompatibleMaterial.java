@@ -152,7 +152,7 @@ public final class CompatibleMaterial {
         private boolean blocksLight;
 
         public Builder(MapColor color) {
-            this.pistonBehavior = PushReaction.NORMAL;
+            this.pistonBehavior = PushReaction.PUSH_PULL;
             this.blocksMovement = true;
             this.solid = true;
             this.blocksLight = true;
@@ -190,12 +190,12 @@ public final class CompatibleMaterial {
         }
 
         protected Builder destroyedByPiston() {
-            this.pistonBehavior = PushReaction.DESTROY;
+            this.pistonBehavior = PushReaction.POPPED;
             return this;
         }
 
         protected Builder blocksPistons() {
-            this.pistonBehavior = PushReaction.BLOCK;
+            this.pistonBehavior = PushReaction.IMMOVEABLE;
             return this;
         }
 
