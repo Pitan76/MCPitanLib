@@ -39,8 +39,6 @@ subprojects {
                 artifactId = rootProject.info.archives_base_name + "-" + project.name + "-" + rootProject.minecraft_version
                 version = rootProject.info.mod_version
 
-                // withSourcesJar()/withJavadocJar() で作った jar も components.java に含まれるため
-                // artifact(sourcesJar) 等を重ねて書くと "already added" で publish が落ちる
                 from components.java
 
                 pom {
@@ -66,9 +64,6 @@ subprojects {
                         url = "https://github.com/pitan76/mcpitanlib"
                     }
 
-                    // Maven Central は SNAPSHOT 依存を含むリリースを拒否する。
-                    // ここに載るのは include() した jar-in-jar 依存 (compatdatapacks76 等) で、
-                    // 実際にはjarに同梱済み＝利用者側の解決は不要なので pom から落とす。
                     withXml {
                         def deps = asNode().dependencies
                         if (deps.isEmpty()) return
@@ -88,9 +83,6 @@ subprojects {
         repositories {
             maven {
                 name = "sonatype"
-                // Central Portal の /api/v1/publish はバンドルアップロードAPIであって
-                // Mavenリポジトリではないので maven-publish からは叩けない。
-                // OSSRH Staging API 互換エンドポイントに deploy し、Portal側で publish する。
                 url = uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
                 credentials {
                     username = project.findProperty("sonatype.user") ?: System.getenv("SONATYPE_USERNAME")
@@ -104,11 +96,8 @@ subprojects {
         def key = resolveSigningKey(project)
         def pass = project.findProperty("signing.password") ?: System.getenv("GPG_PASSPHRASE")
 
-        // Central へ上げるときだけ署名必須。ローカルの build / publishToMavenLocal は鍵無しでも通す
         required = { gradle.taskGraph.allTasks.any { it.name.toLowerCase().contains("sonatype") } }
 
-        // パスフレーズ無しで useInMemoryPgpKeys を呼ぶと秘密鍵の復号に失敗し
-        // signatory 生成時 (onlyIf評価中) に例外が飛ぶため、揃っているときだけ設定する
         if (key && pass) {
             useInMemoryPgpKeys(key, pass)
         } else if (!key) {
@@ -118,13 +107,53 @@ subprojects {
         sign publishing.publications[pubName]
     }
 
-    // pomからSNAPSHOT依存を削っても .module 側には残るため、
-    // 食い違ったメタデータを出さないようGradle Module Metadataは publish しない
     tasks.withType(GenerateModuleMetadata).configureEach {
         enabled = false
     }
 
     tasks.withType(Sign).configureEach {
         onlyIf { gradle.taskGraph.allTasks.any { it.name.toLowerCase().contains("sonatype") } }
+    }
+}
+
+tasks.register("publishToCentral") {
+    group = "publishing"
+    description = "全モジュールをstagingへdeployし、Central Portalへ引き渡すまで一括で行う"
+    dependsOn subprojects.collect { it.path + ":publishAllPublicationsToSonatypeRepository" }
+
+    doLast {
+        def user = project.findProperty("sonatype.user") ?: System.getenv("SONATYPE_USERNAME")
+        def pass = project.findProperty("sonatype.key") ?: System.getenv("SONATYPE_PASSWORD")
+        if (!user || !pass) throw new GradleException("sonatype credentials are not set")
+
+        def namespace = project.info.maven_group
+
+        def publishingType = project.findProperty("central.publishingType") ?: "automatic"
+        def api = "https://ossrh-staging-api.central.sonatype.com"
+        def token = Base64.encoder.encodeToString((user + ":" + pass).getBytes("UTF-8"))
+
+        def call = { String method, String url ->
+            def conn = URI.create(url).toURL().openConnection()
+            conn.requestMethod = method
+            conn.setRequestProperty("Authorization", "Bearer " + token)
+            def code = conn.responseCode
+            def body = (code < 400 ? conn.inputStream : conn.errorStream)?.text ?: ""
+            if (code >= 400) throw new GradleException("${method} ${url} -> HTTP ${code}\n${body}")
+            return body
+        }
+
+        def repos = new groovy.json.JsonSlurper()
+                .parseText(call("GET", "$api/manual/search/repositories?state=open"))
+                .repositories
+                .findAll { it.key.endsWith("/${namespace}--default-repository") }
+
+        if (repos.isEmpty()) throw new GradleException("no open staging repository for ${namespace}")
+
+        def warned = repos.findAll { it.warnings }
+        if (warned) throw new GradleException("staging repository has warnings: ${warned*.warnings}")
+
+        logger.lifecycle("promoting ${namespace} (publishing_type=${publishingType})")
+        call("POST", "$api/manual/upload/defaultRepository/${namespace}?publishing_type=${publishingType}")
+        logger.lifecycle("done. https://central.sonatype.com/publishing/deployments")
     }
 }

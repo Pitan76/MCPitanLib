@@ -80,23 +80,15 @@ jobs:
             --target "${GITHUB_SHA}" \
             $(cat artifacts.txt | tr '\n' ' ')
 
-      - name: Publish to Maven Central (Sonatype)
+      - name: Publish to Maven Central (deploy + Portalへ引き渡し)
         if: ${{ github.event_name == 'push' || !inputs.dry_run }}
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: ./gradlew publishAllPublicationsToSonatypeRepository
+        run: ./gradlew publishToCentral
 
-      - name: Promote to Central Portal
-        if: ${{ github.event_name == 'push' || !inputs.dry_run }}
-        env:
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: |
-          chmod +x .github/workflows/central-promote.sh
-          .github/workflows/central-promote.sh
 
       - name: Publish to CurseForge / Modrinth
         if: ${{ github.event_name == 'push' || !inputs.dry_run }}
