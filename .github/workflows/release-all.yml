@@ -8,7 +8,9 @@ name: Release All
 # "v*-*" 側にマッチしてしまい、一括のつもりが単一ブランチ扱いになる。
 # 一括リリースするバージョン番号にはハイフンを使わないこと。
 #
-# 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN
+# 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN,
+#               SONATYPE_USERNAME, SONATYPE_PASSWORD (Central PortalのUser Token),
+#               GPG_KEY (armoredの秘密鍵), GPG_PASSPHRASE
 on:
   push:
     tags:
@@ -27,7 +29,6 @@ on:
 
 permissions:
   contents: write
-  packages: write
 
 concurrency:
   group: release-all
@@ -105,12 +106,21 @@ jobs:
           path: out/*.jar
           if-no-files-found: error
 
-      - name: Publish to GitHub Packages
-        if: ${{ github.event_name == 'push' || !inputs.dry_run }}
+      # gradle/maven-publish.gradle が無い古いブランチでは publish タスク自体が存在しないのでスキップする
+      - name: Check maven publish support
+        id: mavenpub
+        run: |
+          if [ -f gradle/maven-publish.gradle ]; then echo "supported=true" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Publish to Maven Central (deploy + Portalへ引き渡し)
+        if: ${{ steps.mavenpub.outputs.supported == 'true' && (github.event_name == 'push' || !inputs.dry_run) }}
         env:
-          GITHUB_ACTOR: PTOM76
-          GITHUB_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: ./gradlew publishToCentral
+
 
       - name: Publish to CurseForge / Modrinth
         if: ${{ github.event_name == 'push' || !inputs.dry_run }}
