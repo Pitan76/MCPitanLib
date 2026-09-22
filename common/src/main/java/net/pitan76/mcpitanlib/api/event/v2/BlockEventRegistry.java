@@ -20,6 +20,7 @@ public class BlockEventRegistry {
      * BlockEventRegistry.ON_BREAK.register((event) -> {
      *     // Do something
      *     return new BlockBreakResult(event.state);
+     * });
      * }</pre>
      */
     public static OrderedEvent<BlockBreakTask> ON_BREAK = new OrderedEvent<>();
