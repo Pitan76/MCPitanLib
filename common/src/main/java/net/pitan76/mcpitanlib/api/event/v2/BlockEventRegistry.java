@@ -9,6 +9,7 @@ public class BlockEventRegistry {
      * <pre>{@code
      * BlockEventRegistry.ON_PLACED.register((event) -> {
      *     // Do something
+     * });
      * }</pre>
      */
     public static OrderedEvent<BlockPlacedTask> ON_PLACED = new OrderedEvent<>();
