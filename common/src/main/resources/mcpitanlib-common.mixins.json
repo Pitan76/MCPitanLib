@@ -15,7 +15,8 @@
     "ItemStackMixin",
     "PlayerEntityMixin",
     "MinecraftServerTimer",
-    "RecipeManagerMixin",
+    "RegistryDataLoaderMixin",
+    "RegistryLoadTaskMixin",
     "ResourceFinderMixin",
     "ServerLevelTimer",
     "UseOnContextMixin"
