@@ -76,7 +76,16 @@ allprojects {
 
     java {
         withSourcesJar()
+        withJavadocJar() // Maven Centralはjavadocが必要なため
+    }
+
+    // MCのマッピング済みクラスを参照するJavadocは軽微な警告で落ちやすいので緩める
+    tasks.withType(Javadoc).configureEach {
+        failOnError = false
+        options.encoding = "UTF-8"
+        options.addStringOption("Xdoclint:none", "-quiet")
     }
 }
 
 apply from: "$rootDir/gradle/publishing.gradle"
+apply from: "$rootDir/gradle/maven-publish.gradle"
