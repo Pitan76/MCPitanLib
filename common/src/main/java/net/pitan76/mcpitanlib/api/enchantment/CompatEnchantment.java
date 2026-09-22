@@ -50,7 +50,7 @@ public class CompatEnchantment {
     public Holder<Enchantment> getEntry(@Nullable Level world) {
         Optional<Holder.Reference<Enchantment>> optionalEntry;
         if (world == null) {
-            optionalEntry = VanillaRegistries.createLookup()
+            optionalEntry = VanillaRegistries.createWorldLookup()
                     .get(registryKey);
         } else {
             optionalEntry = world.registryAccess().get(registryKey);

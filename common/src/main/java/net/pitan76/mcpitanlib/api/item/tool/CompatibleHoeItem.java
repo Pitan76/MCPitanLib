@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.core.BlockPos;
@@ -13,17 +13,17 @@ import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 
-public class CompatibleHoeItem extends HoeItem implements CompatItemProvider {
+public class CompatibleHoeItem extends Item implements CompatItemProvider {
 
     public CompatibleItemSettings settings;
 
     public CompatibleHoeItem(CompatibleToolMaterial material, int attackDamage, float attackSpeed, CompatibleItemSettings settings) {
-        super(material.build(), attackDamage, attackSpeed, settings.build());
+        super(settings.build().hoe(material.build(), attackDamage, attackSpeed));
         this.settings = settings;
     }
 
     public CompatibleHoeItem(int attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+        super(settings.build().hoe(material, attackDamage, attackSpeed));
         this.settings = settings;
     }
 

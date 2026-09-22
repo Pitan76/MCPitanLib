@@ -1,6 +1,6 @@
 package net.pitan76.mcpitanlib.mixin;
 
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -65,9 +65,9 @@ public abstract class LevelRendererMixin {
     }
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void mcpitanlib$beforeRender(GraphicsResourceAllocator allocator, DeltaTracker tickCounter, boolean renderOutline, CameraRenderState cameraRenderState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, CallbackInfo ci) {
+    private void mcpitanlib$beforeRender(GraphicsResourceAllocator allocator, boolean renderOutline, CameraRenderState cameraRenderState, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, boolean consistentDepthRequired, CallbackInfo ci) {
         Minecraft minecraft = Minecraft.getInstance();
-        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, minecraft.level, tickCounter, renderOutline, minecraft.gameRenderer.mainCamera(), new Matrix4f(), new Matrix4f(), new Matrix4f());
+        mcpitanlib$contextCache.prepare(minecraft.gameRenderer, (LevelRenderer) (Object) this, minecraft.level, renderOutline, minecraft.gameRenderer.mainCamera(), new Matrix4f(), new Matrix4f(), new Matrix4f());
     }
 
 //    @ModifyExpressionValue(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;cullFrustum(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/renderer/culling/Frustum;"))

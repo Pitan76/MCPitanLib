@@ -47,7 +47,7 @@ public class CompatStatusEffect {
     public Holder<MobEffect> getEntry(@Nullable Level world) {
         Optional<Holder.Reference<MobEffect>> optionalEntry;
         if (world == null) {
-            optionalEntry = VanillaRegistries.createLookup()
+            optionalEntry = VanillaRegistries.createWorldLookup()
                     .get(registryKey);
         } else {
             optionalEntry = world.registryAccess().get(registryKey);

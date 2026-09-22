@@ -49,7 +49,7 @@ public class ServerPlayerUtil {
     }
 
     public static boolean teleport(ServerPlayer serverPlayerEntity, double x, double y, double z, boolean particleEffects) {
-        return serverPlayerEntity.randomTeleport(x, y, z, particleEffects);
+        return serverPlayerEntity.randomTeleport(x, y, z, particleEffects, (_) -> false);
     }
 
     public static boolean teleport(ServerPlayer serverPlayerEntity, double x, double y, double z) {

@@ -2,7 +2,7 @@ package net.pitan76.mcpitanlib.api.registry;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.result.RegistrySupplier;
@@ -37,7 +37,7 @@ public class WorldGenRegistry {
      * @param supplier The supplier of the configured feature
      * @return The result of the registration
      */
-    public RegistryResult<ConfiguredFeature<?, ?>> registerFeature(Identifier id, Supplier<ConfiguredFeature<?, ?>> supplier) {
+    public RegistryResult<Feature> registerFeature(Identifier id, Supplier<Feature> supplier) {
 //        RegistrySupplier<ConfiguredFeature<?, ?>> feature = CONFIGURED_FEATURE.register(id, supplier);
 //        ResourceKey<ConfiguredFeature<?, ?>> key = ResourceKey.create(Registries.CONFIGURED_FEATURE, id);
 //        return new RegistryResult<>(Registry.register(BuiltInRegistries.FEATURE, key, supplier.get()));

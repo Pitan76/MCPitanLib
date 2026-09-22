@@ -322,14 +322,8 @@ public class ExtendBlock extends Block implements ICompatBlock {
         super.attack(e.state, e.world, e.pos, e.player.getPlayerEntity());
     }
 
-    @Deprecated
-    @Override
-    protected MapCodec<? extends Block> codec() {
-        return getCompatCodec().getCodec();
-    }
-
     public CompatMapCodec<? extends Block> getCompatCodec() {
-        return CompatMapCodec.of(super.codec());
+        return CompatMapCodec.of();
     }
 
     @Deprecated

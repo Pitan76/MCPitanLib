@@ -3,7 +3,6 @@ package net.pitan76.mcpitanlib.api.potion;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.core.Holder;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.midohra.item.ItemWrapper;

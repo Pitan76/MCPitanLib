@@ -71,7 +71,7 @@ public class EntityUtil {
     }
 
     public static void setInvulnerable(Entity entity, boolean invulnerable) {
-        entity.setInvulnerable(invulnerable);
+        entity.setPermanentlyInvulnerable(invulnerable);
     }
 
     public static boolean isInvulnerable(Entity entity) {

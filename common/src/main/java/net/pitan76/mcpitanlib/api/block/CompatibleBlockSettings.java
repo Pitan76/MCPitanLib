@@ -103,7 +103,7 @@ public class CompatibleBlockSettings {
     }
 
     public CompatibleBlockSettings blockVision(BlockBehaviour.StatePredicate predicate) {
-        settings.isViewBlocking(predicate);
+        settings.isViewBlocking(((state, level, pos, _) -> predicate.test(state, level, pos)));
         return this;
     }
 

@@ -1,8 +1,8 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.core.BlockPos;
@@ -13,17 +13,17 @@ import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
-public class CompatibleAxeItem extends AxeItem implements CompatItemProvider {
+public class CompatibleAxeItem extends Item implements CompatItemProvider {
 
     public CompatibleItemSettings settings;
 
     public CompatibleAxeItem(CompatibleToolMaterial material, float attackDamage, float attackSpeed, CompatibleItemSettings settings) {
-        super(material.build(), attackDamage, attackSpeed, settings.build());
+        super(settings.build().axe(material.build(), attackDamage, attackSpeed));
         this.settings = settings;
     }
 
     public CompatibleAxeItem(float attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+        super(settings.build().axe(material, attackDamage, attackSpeed));
         this.settings = settings;
     }
 

@@ -2,6 +2,7 @@ package net.pitan76.mcpitanlib.api.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.CustomData;
@@ -176,7 +177,7 @@ public class Player {
     }
 
     public void offerOrDrop(ItemStack itemStack) {
-        getInv().placeItemBackInInventory(itemStack);
+        getInv().placeItemBackInInventory(itemStack, Prediction.PREDICTED);
     }
 
     public void giveStack(ItemStack stack) {
@@ -260,7 +261,8 @@ public class Player {
     }
 
     public void dropStack(ItemStack stack, boolean throwRandomly, boolean retainOwnership) {
-        getEntity().drop(stack, throwRandomly, retainOwnership);
+        if (isClient()) return;
+        this.getWorld().addFreshEntity(getEntity().createItemStackToDrop(stack, throwRandomly, retainOwnership));
     }
 
     public void dropStack(ItemStack stack, boolean retainOwnership) {
@@ -354,7 +356,7 @@ public class Player {
     }
 
     public void teleport(double x, double y, double z) {
-        getEntity().randomTeleport(x, y, z, false);
+        getEntity().randomTeleport(x, y, z, false, (_) -> false);
     }
 
     public ItemStack getMainHandStack() {

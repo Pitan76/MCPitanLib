@@ -1,9 +1,9 @@
 package net.pitan76.mcpitanlib.api.item.tool;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -13,16 +13,16 @@ import net.pitan76.mcpitanlib.api.item.v2.CompatItemProvider;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
-public class CompatibleShovelItem extends ShovelItem implements CompatItemProvider {
+public class CompatibleShovelItem extends Item implements CompatItemProvider {
 
     public CompatibleItemSettings settings;
 
     public CompatibleShovelItem(CompatibleToolMaterial material, float attackDamage, float attackSpeed, CompatibleItemSettings settings) {
-        super(material.build(), attackDamage, attackSpeed, settings.build());
+        super(settings.build().shovel(material.build(), attackDamage, attackSpeed));
     }
 
     public CompatibleShovelItem(float attackDamage, float attackSpeed, ToolMaterial material, CompatibleItemSettings settings) {
-        super(material, attackDamage, attackSpeed, settings.build());
+        super(settings.build().shovel(material, attackDamage, attackSpeed));
     }
 
     @Override

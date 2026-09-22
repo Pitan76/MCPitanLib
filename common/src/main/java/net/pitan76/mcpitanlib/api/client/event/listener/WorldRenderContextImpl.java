@@ -3,6 +3,7 @@ package net.pitan76.mcpitanlib.api.client.event.listener;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -95,7 +96,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
         return frustum;
     }
 
-    public void prepare(GameRenderer gameRenderer, LevelRenderer worldRenderer, @Nullable ClientLevel world, DeltaTracker tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix) {
+    public void prepare(GameRenderer gameRenderer, LevelRenderer worldRenderer, @Nullable ClientLevel world, boolean renderBlockOutline, Camera camera, Matrix4f positionMatrix, Matrix4f matrix4f, Matrix4f projectionMatrix) {
         this.consumers = null;
         this.gameRenderer = gameRenderer;
         this.worldRenderer = worldRenderer;
@@ -114,7 +115,7 @@ public class WorldRenderContextImpl implements WorldRenderContext {
         this.matrixStack.popPose();
 
         this.projectionMatrix = projectionMatrix;
-        this.tickDelta = tickCounter.getGameTimeDeltaTicks();
+        this.tickDelta = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaTicks();
         this.frustum = gameRenderer.mainCamera().getCapturedFrustum();
     }
 

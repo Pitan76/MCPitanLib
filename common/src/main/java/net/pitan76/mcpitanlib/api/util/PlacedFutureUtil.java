@@ -2,7 +2,7 @@ package net.pitan76.mcpitanlib.api.util;
 
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import java.util.List;
 
 public class PlacedFutureUtil {
-    public static PlacedFeature create(ConfiguredFeature<?, ?> configuredFeature, List<PlacementModifier> placementModifiers) {
+    public static PlacedFeature create(Feature configuredFeature, List<PlacementModifier> placementModifiers) {
         return new PlacedFeature(Holder.direct(configuredFeature), placementModifiers);
     }
 

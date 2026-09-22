@@ -3,7 +3,7 @@ package net.pitan76.mcpitanlib.api.gen;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.pitan76.mcpitanlib.api.registry.WorldGenRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
@@ -24,7 +24,7 @@ public class OreRegistry {
      */
     public static Identifier registerStoneOre(WorldGenRegistry registry, Block block, int size, int height, int count) {
         Identifier identifier = BlockUtil.toID(block).withSuffix("_ore_feature");
-        RegistryResult<ConfiguredFeature<?, ?>> configuredFuture = registry.registerFeature(identifier,
+        RegistryResult<Feature> configuredFuture = registry.registerFeature(identifier,
                 () -> FeatureConfigUtil.createConfiguredFeature(
                         FeatureConfigUtil.createStoneOreFeatureConfig(block.defaultBlockState(), size)
                 )

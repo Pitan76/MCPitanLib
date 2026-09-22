@@ -17,13 +17,13 @@ public class CompatRegistryLookup {
     }
 
     public CompatRegistryLookup() {
-        this.registryLookup = VanillaRegistries.createLookup();
+        this.registryLookup = VanillaRegistries.createWorldLookup();
     }
 
     @Deprecated
     public HolderLookup.Provider getRegistryLookup() {
         if (registryLookup == null)
-            return VanillaRegistries.createLookup();
+            return VanillaRegistries.createWorldLookup();
 
         return registryLookup;
     }

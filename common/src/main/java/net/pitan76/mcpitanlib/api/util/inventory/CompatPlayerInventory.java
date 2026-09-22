@@ -1,5 +1,6 @@
 package net.pitan76.mcpitanlib.api.util.inventory;
 
+import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -28,7 +29,7 @@ public class CompatPlayerInventory implements ICompatInventory {
     }
 
     public void offerOrDrop(ItemStack stack) {
-        inv.placeItemBackInInventory(stack);
+        inv.placeItemBackInInventory(stack, Prediction.PREDICTED);
     }
 
     public void offerOrDrop(net.pitan76.mcpitanlib.midohra.item.ItemStack stack) {
