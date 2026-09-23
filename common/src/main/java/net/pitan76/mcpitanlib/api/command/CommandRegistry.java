@@ -32,7 +32,8 @@ public class CommandRegistry {
             // 引数コマンド
             for (Map.Entry<String, ? extends AbstractCommand<?>> argCmd : absCmd.getArgumentCommands().entrySet()) {
                 ArgumentBuilder<ServerCommandSource, ?> nextBuilder = null;
-                argCmd.getValue().init(new CommandSettings());
+                CommandSettings settings = new CommandSettings();
+                argCmd.getValue().init(settings);
 
                 if (argCmd.getValue() instanceof LiteralCommand) {
                     LiteralCommand command = (LiteralCommand) argCmd.getValue();
@@ -97,6 +98,9 @@ public class CommandRegistry {
                                     }
                             );
                 }
+                if (nextBuilder == null) continue;
+
+                nextBuilder.requires(settings::requires);
                 forArgsCmd(argCmd.getValue(), nextBuilder);
                 builder.then(nextBuilder);
             }
