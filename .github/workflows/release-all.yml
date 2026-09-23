@@ -18,9 +18,18 @@ name: Release All
 # どちらの場合も、Maven Centralに既にあるバージョンは公開をスキップするので二重公開にはならない。
 # (CurseForge/Modrinthは判定できないため、そこまで成功していたブランチを対象に含めないこと)
 #
+# Mavenの公開先 (上から優先):
+#   1. 手動実行時の入力 maven_target
+#   2. リポジトリ変数 MAVEN_TARGET (Settings → Secrets and variables → Actions → Variables)
+#      … タグpushでのリリースの公開先を切り替えたいときはこれを変える
+#   3. 未指定なら central
+#   値: central / github / both / none
+#   github で -SNAPSHOT 付きにしたいときは maven_snapshot (手動) または変数 MAVEN_SNAPSHOT=true
+#
 # 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN,
 #               SONATYPE_USERNAME, SONATYPE_PASSWORD (Central PortalのUser Token),
-#               GPG_KEY (armoredの秘密鍵), GPG_PASSPHRASE
+#               GPG_KEY (armoredの秘密鍵), GPG_PASSPHRASE,
+#               GH_PACKAGE_TOKEN (PTOM76/maven に packages:write できるトークン。GitHub Packages用)
 on:
   push:
     tags:
@@ -44,6 +53,15 @@ on:
         description: "このrun IDで失敗したブランチだけを対象にする (branchesより優先)"
         type: string
         default: ""
+      maven_target:
+        description: "Mavenの公開先 (空ならリポジトリ変数 MAVEN_TARGET、それも無ければ central)"
+        type: choice
+        options: ["", central, github, both, none]
+        default: ""
+      maven_snapshot:
+        description: "GitHub Packagesへ -SNAPSHOT 付きで公開する (Maven Centralには使えない)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -149,16 +167,29 @@ jobs:
           if-no-files-found: error
 
       # gradle/maven-publish.gradle が無い古いブランチでは publish タスク自体が存在しないのでスキップする
+      # 公開先は 手動入力 maven_target → リポジトリ変数 MAVEN_TARGET → central の順に決める
       - name: Check maven publish support
         id: mavenpub
+        env:
+          TARGET: ${{ inputs.maven_target != '' && inputs.maven_target || vars.MAVEN_TARGET != '' && vars.MAVEN_TARGET || 'central' }}
+          DRY_RUN: ${{ github.event_name != 'push' && inputs.dry_run }}
         run: |
-          if [ -f gradle/maven-publish.gradle ]; then echo "supported=true" >> "$GITHUB_OUTPUT"; fi
+          echo "maven target: $TARGET (dry_run: $DRY_RUN)"
+          [ -f gradle/maven-publish.gradle ] || { echo "maven publish not supported on this branch"; exit 0; }
+          [ "$DRY_RUN" = "true" ] && exit 0
+          case "$TARGET" in
+            central) echo "central=true" >> "$GITHUB_OUTPUT" ;;
+            github)  echo "github=true" >> "$GITHUB_OUTPUT" ;;
+            both)    echo "central=true" >> "$GITHUB_OUTPUT"; echo "github=true" >> "$GITHUB_OUTPUT" ;;
+            none)    ;;
+            *)       echo "unknown maven target: $TARGET"; exit 1 ;;
+          esac
 
       # やり直し時の二重公開防止: 同じバージョンがCentralに既にあれば公開しない
       # (Centralは同一バージョンの再公開を受け付けないため、そのまま実行すると失敗する)
       - name: Check if already on Maven Central
         id: central
-        if: ${{ steps.mavenpub.outputs.supported == 'true' }}
+        if: ${{ steps.mavenpub.outputs.central == 'true' }}
         run: |
           ver="$(grep -E '^mod_version=' info.properties | cut -d= -f2- | tr -d '\r')"
           base="$(grep -E '^archives_base_name=' info.properties | cut -d= -f2- | tr -d '\r')"
@@ -172,13 +203,21 @@ jobs:
           fi
 
       - name: Publish to Maven Central (deploy + Portalへ引き渡し)
-        if: ${{ steps.mavenpub.outputs.supported == 'true' && steps.central.outputs.exists != 'true' && (github.event_name == 'push' || !inputs.dry_run) }}
+        if: ${{ steps.mavenpub.outputs.central == 'true' && steps.central.outputs.exists != 'true' }}
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: ./gradlew publishToCentral
+
+      - name: Publish to GitHub Packages
+        if: ${{ steps.mavenpub.outputs.github == 'true' }}
+        env:
+          GITHUB_ACTOR: PTOM76
+          GITHUB_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+          SNAPSHOT: ${{ inputs.maven_snapshot || vars.MAVEN_SNAPSHOT == 'true' }}
+        run: ./gradlew publishToGitHubPackages -Psnapshot=$SNAPSHOT
 
 
       - name: Publish to CurseForge / Modrinth
