@@ -3,9 +3,13 @@ name: Release
 # タグを打つとそのタグが指すブランチの内容でリリースする。
 # タグ名はMCバージョンを付けること。例: v3.7.3-26.2
 #
+# Mavenの公開先は Release All と同じ決め方 (手動入力 maven_target → リポジトリ変数 MAVEN_TARGET → central)
+#   値: central / github / both / none
+#
 # 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN,
 #               SONATYPE_USERNAME, SONATYPE_PASSWORD (Central PortalのUser Token),
-#               GPG_KEY (armoredの秘密鍵), GPG_PASSPHRASE
+#               GPG_KEY (armoredの秘密鍵), GPG_PASSPHRASE,
+#               GH_PACKAGE_TOKEN (PTOM76/maven に packages:write できるトークン。GitHub Packages用)
 on:
   push:
     tags:
@@ -13,13 +17,22 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "CurseForge/Modrinthへのアップロードを行わない"
+        description: "CurseForge/Modrinth/Mavenへのアップロードを行わない"
         type: boolean
         default: true
       release_tag:
         description: "GitHub Releaseを作る場合のタグ名 (空ならRelease作成なし)"
         type: string
         default: ""
+      maven_target:
+        description: "Mavenの公開先 (空ならリポジトリ変数 MAVEN_TARGET、それも無ければ central)"
+        type: choice
+        options: ["", central, github, both, none]
+        default: ""
+      maven_snapshot:
+        description: "GitHub Packagesへ -SNAPSHOT 付きで公開する (Maven Centralには使えない)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -80,14 +93,38 @@ jobs:
             --target "${GITHUB_SHA}" \
             $(cat artifacts.txt | tr '\n' ' ')
 
+      - name: Decide maven target
+        id: mavenpub
+        env:
+          TARGET: ${{ inputs.maven_target != '' && inputs.maven_target || vars.MAVEN_TARGET != '' && vars.MAVEN_TARGET || 'central' }}
+          DRY_RUN: ${{ github.event_name != 'push' && inputs.dry_run }}
+        run: |
+          echo "maven target: $TARGET (dry_run: $DRY_RUN)"
+          [ "$DRY_RUN" = "true" ] && exit 0
+          case "$TARGET" in
+            central) echo "central=true" >> "$GITHUB_OUTPUT" ;;
+            github)  echo "github=true" >> "$GITHUB_OUTPUT" ;;
+            both)    echo "central=true" >> "$GITHUB_OUTPUT"; echo "github=true" >> "$GITHUB_OUTPUT" ;;
+            none)    ;;
+            *)       echo "unknown maven target: $TARGET"; exit 1 ;;
+          esac
+
       - name: Publish to Maven Central (deploy + Portalへ引き渡し)
-        if: ${{ github.event_name == 'push' || !inputs.dry_run }}
+        if: ${{ steps.mavenpub.outputs.central == 'true' }}
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: ./gradlew publishToCentral
+
+      - name: Publish to GitHub Packages
+        if: ${{ steps.mavenpub.outputs.github == 'true' }}
+        env:
+          GITHUB_ACTOR: PTOM76
+          GITHUB_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+          SNAPSHOT: ${{ inputs.maven_snapshot || vars.MAVEN_SNAPSHOT == 'true' }}
+        run: ./gradlew publishToGitHubPackages -Psnapshot=$SNAPSHOT
 
 
       - name: Publish to CurseForge / Modrinth
