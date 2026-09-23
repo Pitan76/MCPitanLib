@@ -1,11 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.pitan76.mcpitanlib.forge.mixin",
+  "package": "net.pitan76.mcpitanlib.neoforge.mixin",
   "compatibilityLevel": "JAVA_9",
   "mixins": [
   ],
   "client": [
+    "ClientHooksMixin"
   ],
   "injectors": {
     "defaultRequire": 1
