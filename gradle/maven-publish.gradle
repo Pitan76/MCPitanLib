@@ -1,12 +1,22 @@
-// Maven Central (Sonatype) への publish 設定 (全サブプロジェクト共通)
+// Maven Central (Sonatype) / GitHub Packages への publish 設定 (全サブプロジェクト共通)
 //
 // 各サブプロジェクトの build.gradle に publishing ブロックを書くと
 // fabric だけ直して neoforge を忘れる、という事故が起きるためここに集約する。
 // プラットフォーム固有の差 (shadowJar を outgoing に差し替える等) は
 // 各 build.gradle の configurations {} 側で吸収済みなので、publish 設定に差分は不要。
 //
+// 公開先 (どちらも同じ publication を使う):
+//   ./gradlew publishToCentral         … Maven Central (stagingへdeploy → Portalへ引き渡し)
+//   ./gradlew publishToGitHubPackages  … GitHub Packages (maven.pkg.github.com/PTOM76/maven)
+// バージョン:
+//   通常は info.mod_version のまま。-Psnapshot=true を付けたときだけ末尾に -SNAPSHOT を付ける
+//   (GitHub Packages は同じ正式バージョンの上書きを拒否するため、何度も上げ直したいときに使う。
+//    Maven Central は SNAPSHOT を受け付けないので publishToCentral とは併用できない)
+//
 // 認証情報:
 //   sonatype.user / sonatype.key   (または env SONATYPE_USERNAME / SONATYPE_PASSWORD)
+//   gpr.user / gpr.key             (または env GITHUB_ACTOR / GITHUB_TOKEN) … GitHub Packages用
+//                                  gpr.key / GITHUB_TOKEN には packages:write 権限が必要
 // 署名鍵 (上から順に探す。いずれも無ければ gpg コマンドにフォールバック):
 //   env GPG_KEY             … armored秘密鍵そのもの。CI用
 //   signing.keyFile         … armored秘密鍵(.asc)のパス。マシン固有なので
@@ -26,6 +36,8 @@ def resolveSigningKey = { Project p ->
     return f.text
 }
 
+def isSnapshot = (project.findProperty("snapshot") ?: "false").toString().toBoolean()
+
 subprojects {
     apply plugin: "maven-publish"
     apply plugin: "signing"
@@ -37,7 +49,7 @@ subprojects {
         publications {
             create(pubName, MavenPublication) {
                 artifactId = rootProject.info.archives_base_name + "-" + project.name + "-" + rootProject.minecraft_version
-                version = rootProject.info.mod_version
+                version = rootProject.info.mod_version + (isSnapshot ? "-SNAPSHOT" : "")
 
                 from components.java
 
@@ -89,6 +101,14 @@ subprojects {
                     password = project.findProperty("sonatype.key") ?: System.getenv("SONATYPE_PASSWORD")
                 }
             }
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/PTOM76/maven")
+                credentials {
+                    username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                    password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+                }
+            }
         }
     }
 
@@ -114,6 +134,18 @@ subprojects {
     tasks.withType(Sign).configureEach {
         onlyIf { gradle.taskGraph.allTasks.any { it.name.toLowerCase().contains("sonatype") } }
     }
+}
+
+tasks.register("publishToGitHubPackages") {
+    group = "publishing"
+    description = "全モジュールを GitHub Packages へ公開する (-Psnapshot=true で -SNAPSHOT 付き)"
+    dependsOn subprojects.collect { it.path + ":publishAllPublicationsToGitHubPackagesRepository" }
+}
+
+// Maven Central は SNAPSHOT を受け付けないため、アップロードを始める前に止める
+gradle.taskGraph.whenReady { graph ->
+    if (isSnapshot && graph.allTasks.any { it.name.toLowerCase().contains("sonatype") })
+        throw new GradleException("-Psnapshot=true は Maven Central へは公開できません (publishToGitHubPackages を使ってください)")
 }
 
 tasks.register("publishToCentral") {
