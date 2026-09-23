@@ -6,6 +6,7 @@
   "mixins": [
   ],
   "client": [
+    "ForgeHooksClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
