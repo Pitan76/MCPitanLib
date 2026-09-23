@@ -8,9 +8,28 @@ name: Release All
 # "v*-*" 側にマッチしてしまい、一括のつもりが単一ブランチ扱いになる。
 # 一括リリースするバージョン番号にはハイフンを使わないこと。
 #
+# 失敗したブランチだけやり直す方法 (どちらでもよい):
+#   A. 失敗したrunの画面で "Re-run failed jobs"
+#   B. Actions → Release All → Run workflow で
+#        rerun_failed_of = 失敗したrunのID (URLの /runs/<ID>)  … そのrunで失敗したブランチだけ対象にする
+#        または branches = "1.20.4 1.21.1" のように直接指定
+#        release_tag     = 既存のタグ (例 v4.0.8)  … 既存のReleaseにjarを追加/上書きする
+#        dry_run         = false
+# どちらの場合も、Maven Centralに既にあるバージョンは公開をスキップするので二重公開にはならない。
+# (CurseForge/Modrinthは判定できないため、そこまで成功していたブランチを対象に含めないこと)
+#
+# Mavenの公開先 (上から優先):
+#   1. 手動実行時の入力 maven_target
+#   2. リポジトリ変数 MAVEN_TARGET (Settings → Secrets and variables → Actions → Variables)
+#      … タグpushでのリリースの公開先を切り替えたいときはこれを変える
+#   3. 未指定なら central
+#   値: central / github / both / none
+#   github で -SNAPSHOT 付きにしたいときは maven_snapshot (手動) または変数 MAVEN_SNAPSHOT=true
+#
 # 必要なシークレット: CURSEFORGE_TOKEN, MODRINTH_TOKEN,
 #               SONATYPE_USERNAME, SONATYPE_PASSWORD (Central PortalのUser Token),
-#               GPG_KEY (armoredの秘密鍵), GPG_PASSPHRASE
+#               GPG_KEY (armoredの秘密鍵), GPG_PASSPHRASE,
+#               GH_PACKAGE_TOKEN (PTOM76/maven に packages:write できるトークン。GitHub Packages用)
 on:
   push:
     tags:
@@ -19,16 +38,34 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "CurseForge/Modrinthへのアップロードを行わない"
+        description: "CurseForge/Modrinth/Maven Centralへのアップロードを行わない"
         type: boolean
         default: true
       release_tag:
-        description: "GitHub Releaseを作る場合のタグ名 (空ならRelease作成なし)"
+        description: "GitHub Releaseのタグ名 (空ならRelease作成なし / 既存のタグならそのReleaseにjarを追加・上書き)"
         type: string
         default: ""
+      branches:
+        description: "対象ブランチ (空なら全ブランチ。例: 1.20.4 1.21.1)"
+        type: string
+        default: ""
+      rerun_failed_of:
+        description: "このrun IDで失敗したブランチだけを対象にする (branchesより優先)"
+        type: string
+        default: ""
+      maven_target:
+        description: "Mavenの公開先 (空ならリポジトリ変数 MAVEN_TARGET、それも無ければ central)"
+        type: choice
+        options: ["", central, github, both, none]
+        default: ""
+      maven_snapshot:
+        description: "GitHub Packagesへ -SNAPSHOT 付きで公開する (Maven Centralには使えない)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
+  actions: read # rerun_failed_of で過去のrunのジョブ結果を読むため
 
 concurrency:
   group: release-all
@@ -46,11 +83,32 @@ jobs:
           fetch-depth: 0
 
       - id: build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCHES: ${{ inputs.branches }}
+          RERUN_FAILED_OF: ${{ inputs.rerun_failed_of }}
         run: |
           git fetch --quiet origin "+refs/heads/*:refs/remotes/origin/*"
+
+          # 対象を絞る場合のブランチ一覧 (空なら全ブランチ)
+          targets=""
+          if [ -n "$RERUN_FAILED_OF" ]; then
+            # ジョブ名は "<branch> (java <n>)"。成功以外 (failure/cancelled/skipped) を拾う
+            targets="$(gh api --paginate "repos/${{ github.repository }}/actions/runs/$RERUN_FAILED_OF/jobs?per_page=100" \
+                        --jq '.jobs[] | select(.conclusion != "success") | .name' \
+                        | grep -E '^1\.[^ ]+ \(java ' | cut -d' ' -f1 | sort -u | tr '\n' ' ')"
+            echo "failed branches in run $RERUN_FAILED_OF: ${targets:-(none)}"
+            [ -n "$targets" ] || { echo "no failed branches to rerun"; exit 1; }
+          elif [ -n "$BRANCHES" ]; then
+            targets="$(echo "$BRANCHES" | tr ',' ' ')"
+          fi
+
           entries=""
           for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin \
                         | grep -E '^origin/1\.' | sed 's|origin/||' | sort -Vr); do
+            if [ -n "$targets" ] && ! echo " $targets " | grep -q " $ref "; then
+              continue
+            fi
             props="$(git show "origin/$ref:gradle.properties" 2>/dev/null || true)"
             [ -n "$props" ] || { echo "skip $ref (no gradle.properties)"; continue; }
             get() { echo "$props" | grep -E "^$1=" | head -1 | cut -d= -f2- | tr -d '\r'; }
@@ -62,6 +120,7 @@ jobs:
             [ "$java" -lt 21 ] 2>/dev/null && java=21
             entries="${entries}{\"branch\":\"$ref\",\"java\":\"$java\",\"minecraft\":\"$(get minecraft_version)\"},"
           done
+          [ -n "$entries" ] || { echo "no target branches matched: $targets"; exit 1; }
           matrix="{\"include\":[${entries%,}]}"
           echo "$matrix" | tee /dev/stderr > matrix.json
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
@@ -71,7 +130,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # 1ブランチ失敗しても他は続行する
-      max-parallel: 4
+      # 同時に多くのジョブが依存を取りに行くとMaven Central側が一時的に404/制限を返すことがあるため抑える
+      max-parallel: 2
       matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
     name: ${{ matrix.branch }} (java ${{ matrix.java }})
     steps:
@@ -107,19 +167,57 @@ jobs:
           if-no-files-found: error
 
       # gradle/maven-publish.gradle が無い古いブランチでは publish タスク自体が存在しないのでスキップする
+      # 公開先は 手動入力 maven_target → リポジトリ変数 MAVEN_TARGET → central の順に決める
       - name: Check maven publish support
         id: mavenpub
+        env:
+          TARGET: ${{ inputs.maven_target != '' && inputs.maven_target || vars.MAVEN_TARGET != '' && vars.MAVEN_TARGET || 'central' }}
+          DRY_RUN: ${{ github.event_name != 'push' && inputs.dry_run }}
         run: |
-          if [ -f gradle/maven-publish.gradle ]; then echo "supported=true" >> "$GITHUB_OUTPUT"; fi
+          echo "maven target: $TARGET (dry_run: $DRY_RUN)"
+          [ -f gradle/maven-publish.gradle ] || { echo "maven publish not supported on this branch"; exit 0; }
+          [ "$DRY_RUN" = "true" ] && exit 0
+          case "$TARGET" in
+            central) echo "central=true" >> "$GITHUB_OUTPUT" ;;
+            github)  echo "github=true" >> "$GITHUB_OUTPUT" ;;
+            both)    echo "central=true" >> "$GITHUB_OUTPUT"; echo "github=true" >> "$GITHUB_OUTPUT" ;;
+            none)    ;;
+            *)       echo "unknown maven target: $TARGET"; exit 1 ;;
+          esac
+
+      # やり直し時の二重公開防止: 同じバージョンがCentralに既にあれば公開しない
+      # (Centralは同一バージョンの再公開を受け付けないため、そのまま実行すると失敗する)
+      - name: Check if already on Maven Central
+        id: central
+        if: ${{ steps.mavenpub.outputs.central == 'true' }}
+        run: |
+          ver="$(grep -E '^mod_version=' info.properties | cut -d= -f2- | tr -d '\r')"
+          base="$(grep -E '^archives_base_name=' info.properties | cut -d= -f2- | tr -d '\r')"
+          artifact="${base}-common-${{ matrix.minecraft }}"
+          url="https://repo1.maven.org/maven2/net/pitan76/${artifact}/${ver}/${artifact}-${ver}.pom"
+          if curl -sfI "$url" > /dev/null; then
+            echo "already published: $artifact:$ver (skip)"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "not published yet: $artifact:$ver"
+          fi
 
       - name: Publish to Maven Central (deploy + Portalへ引き渡し)
-        if: ${{ steps.mavenpub.outputs.supported == 'true' && (github.event_name == 'push' || !inputs.dry_run) }}
+        if: ${{ steps.mavenpub.outputs.central == 'true' && steps.central.outputs.exists != 'true' }}
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: ./gradlew publishToCentral
+
+      - name: Publish to GitHub Packages
+        if: ${{ steps.mavenpub.outputs.github == 'true' }}
+        env:
+          GITHUB_ACTOR: PTOM76
+          GITHUB_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
+          SNAPSHOT: ${{ inputs.maven_snapshot || vars.MAVEN_SNAPSHOT == 'true' }}
+        run: ./gradlew publishToGitHubPackages -Psnapshot=$SNAPSHOT
 
 
       - name: Publish to CurseForge / Modrinth
@@ -142,12 +240,27 @@ jobs:
           merge-multiple: true
           path: jars
 
-      - name: Create GitHub release
+      - name: Create or update GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           TAG: ${{ inputs.release_tag != '' && inputs.release_tag || github.ref_name }}
         run: |
+          shopt -s nullglob
+          jars=(jars/*.jar)
+          if [ ${#jars[@]} -eq 0 ]; then
+            echo "no jars to release (all builds failed?)"
+            exit 1
+          fi
           ls -la jars
-          notes=$(printf '%s\n' jars/*.jar | sed 's|jars/|- |')
-          gh release create "$TAG" --title "$TAG" --notes "$notes" jars/*.jar
+
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            # 既存のRelease (やり直し時) にはjarを追加/上書きし、ノートは全assetから作り直す
+            echo "release $TAG already exists: uploading ${#jars[@]} jar(s)"
+            gh release upload "$TAG" "${jars[@]}" --clobber
+            notes=$(gh release view "$TAG" --json assets --jq '.assets[].name' | grep '\.jar$' | sort | sed 's|^|- |')
+            gh release edit "$TAG" --notes "$notes"
+          else
+            notes=$(printf '%s\n' "${jars[@]}" | sed 's|jars/|- |')
+            gh release create "$TAG" --title "$TAG" --notes "$notes" "${jars[@]}"
+          fi
