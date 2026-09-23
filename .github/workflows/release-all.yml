@@ -112,7 +112,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # 1ブランチ失敗しても他は続行する
-      max-parallel: 4
+      # 同時に多くのジョブが依存を取りに行くとMaven Central側が一時的に404/制限を返すことがあるため抑える
+      max-parallel: 2
       matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
     name: ${{ matrix.branch }} (java ${{ matrix.java }})
     steps:
