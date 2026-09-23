@@ -94,5 +94,11 @@ public class KeyCodes {
             KEY_F21 = InputConstants.KEY_F21,
             KEY_F22 = InputConstants.KEY_F22,
             KEY_F23 = InputConstants.KEY_F23,
-            KEY_F24 = InputConstants.KEY_F24;
+            KEY_F24 = InputConstants.KEY_F24,
+            KEY_LEFT_SHIFT = InputConstants.KEY_LSHIFT,
+            KEY_RIGHT_SHIFT = InputConstants.KEY_RSHIFT,
+            KEY_LEFT_CONTROL = InputConstants.KEY_LCONTROL,
+            KEY_RIGHT_CONTROL = InputConstants.KEY_RCONTROL,
+            KEY_LEFT_ALT = InputConstants.KEY_LALT,
+            KEY_RIGHT_ALT = InputConstants.KEY_RALT;
 }
