@@ -40,6 +40,7 @@ subprojects {
         maven { url "https://maven.shedaniel.me/" }
         // Team Reborn Energy (Fabricには標準のエネルギーAPIが無いため)
         maven { url "https://maven.modmuss50.me/" }
+        maven { url "https://maven.pitan76.net/" }
     }
 
     dependencies {
