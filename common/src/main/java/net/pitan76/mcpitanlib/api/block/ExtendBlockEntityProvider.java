@@ -30,6 +30,7 @@ public interface ExtendBlockEntityProvider extends EntityBlock {
      * <pre>{@code
      * public BlockEntity createBlockEntity(TileCreateEvent e) {
      *    return new ExampleBlockEntity(e); // ExampleBlockEntity extends CompatBlockEntity
+     * }
      * }</pre>
      */
     @Nullable
