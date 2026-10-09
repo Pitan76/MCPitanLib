@@ -35,10 +35,7 @@ public class ServerNetworking {
         registerS2CPayloadType(identifier);
         BufPayload.Type<BufPayload> id = BufPayload.id(identifier);
 
-        ServerPlayNetworking.registerGlobalReceiver(id, (server, player, buf) -> {
-            handler.receive(server, player, buf);
-            buf.release();
-        });
+        ServerPlayNetworking.registerGlobalReceiver(id, handler);
     }
 
     private static final List<Identifier> registeredList = new ArrayList<>();

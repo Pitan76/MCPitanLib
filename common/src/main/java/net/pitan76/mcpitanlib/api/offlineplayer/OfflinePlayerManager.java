@@ -13,8 +13,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class OfflinePlayerManager {
-    public static OfflinePlayerManager INSTANCE = new OfflinePlayerManager();
     public static final File DEFAULT_FILE = new File(PlatformUtil.getConfigFolderAsFile(), "mcpitanlib/offlineplayer.json");
+    public static OfflinePlayerManager INSTANCE = new OfflinePlayerManager();
 
     private final List<OfflinePlayer> offlinePlayers = new ArrayList<>();
 

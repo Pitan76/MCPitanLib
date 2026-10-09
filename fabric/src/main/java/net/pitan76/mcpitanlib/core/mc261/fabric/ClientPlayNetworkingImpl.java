@@ -23,8 +23,11 @@ public class ClientPlayNetworkingImpl {
             if (context.player() instanceof LocalPlayer)
                 player = context.player();
 
-            handler.receive(Minecraft.getInstance(), player, buf);
-            buf.release();
+            try {
+                handler.receive(Minecraft.getInstance(), player, buf);
+            } finally {
+                buf.release();
+            }
         });
     }
 

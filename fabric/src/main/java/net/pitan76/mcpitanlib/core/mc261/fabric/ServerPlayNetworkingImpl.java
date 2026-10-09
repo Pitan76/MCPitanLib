@@ -18,8 +18,11 @@ public class ServerPlayNetworkingImpl {
     public static void registerGlobalReceiver(CustomPacketPayload.Type<BufPayload> id, ServerNetworking.ServerNetworkHandler handler) {
         ServerPlayNetworking.registerGlobalReceiver(id, (payload, context) -> {
             FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.getData()));
-            handler.receive(context.server(), context.player(), buf);
-            buf.release();
+            try {
+                handler.receive(context.server(), context.player(), buf);
+            } finally {
+                buf.release();
+            }
         });
     }
 

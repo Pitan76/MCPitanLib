@@ -28,9 +28,11 @@ public class ServerPlayNetworkingImpl {
                 server = serverPlayer.level().getServer();
             }
 
-            handler.receive(server, player, buf);
-
-            buf.release();
+            try {
+                handler.receive(server, player, buf);
+            } finally {
+                buf.release();
+            }
         });
     }
 
