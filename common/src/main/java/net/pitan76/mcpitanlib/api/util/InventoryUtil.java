@@ -117,8 +117,6 @@ public class InventoryUtil {
 
         NbtDataConverter.data2nbt(view, nbt);
 
-        System.out.println("writeNbt(): " + nbt);
-
         return nbt;
     }
 
