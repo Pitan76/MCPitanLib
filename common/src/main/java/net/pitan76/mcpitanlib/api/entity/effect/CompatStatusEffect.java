@@ -24,7 +24,7 @@ public class CompatStatusEffect {
     }
 
     public Identifier getId() {
-        return registryKey.registry();
+        return registryKey.identifier();
     }
 
     @Deprecated
@@ -41,6 +41,10 @@ public class CompatStatusEffect {
             return ((CompatStatusEffect) obj).getId().equals(getId());
         }
         return false;
+    }
+
+    public int hashCode() {
+        return getId().hashCode();
     }
 
     @Deprecated
