@@ -174,7 +174,10 @@ public class NbtDataConverter {
     }
 
     public static ValueOutput nbt2writeData(CompoundTag nbt, CompatRegistryLookup registryLookup) {
-        ValueOutput view = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
+        // without registry context, codecs that need it (enchantments) fail and the item is silently dropped
+        ValueOutput view = registryLookup == null
+                ? TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING)
+                : TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registryLookup.getRegistryLookup());
         nbt2writeData(nbt, view);
         return view;
     }

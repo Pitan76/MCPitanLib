@@ -5,6 +5,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.TypedEntityData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import net.pitan76.mcpitanlib.api.event.nbt.ReadNbtArgs;
 import net.pitan76.mcpitanlib.api.event.nbt.WriteNbtArgs;
 import net.pitan76.mcpitanlib.api.tile.CompatBlockEntity;
@@ -38,6 +39,15 @@ public class BlockEntityDataUtil {
     }
 
     public static void writeCompatBlockEntityNbtToStack(ItemStack stack, CompatBlockEntity blockEntity) {
+        Level level = blockEntity.callGetWorld();
+        if (level != null) {
+            // Store what the block entity's own save writes, so it reads back the same when placed. Writing into an
+            // empty tag through WriteNbtArgs left an empty "__all_keys__" list in the item, which won over the placed
+            // block entity's list, and data2nbt then read nothing back.
+            stack.set(DataComponents.BLOCK_ENTITY_DATA, TypedEntityData.of(blockEntity.getType(), blockEntity.saveCustomOnly(level.registryAccess())));
+            return;
+        }
+
         CompoundTag nbt = getBlockEntityNbt(stack);
         blockEntity.writeNbt(new WriteNbtArgs(nbt, RegistryLookupUtil.getRegistryLookup(blockEntity)));
         NbtUtil.putString(nbt, "id", BlockEntityTypeUtil.toCompatID(blockEntity.getType()).toString());
